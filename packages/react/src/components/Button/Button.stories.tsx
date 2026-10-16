@@ -37,5 +37,5 @@ export const Sizes: Story = {
 export const Disabled: Story = { args: { disabled: true } };
 export const AsLink: Story = {
   // biome-ignore lint/a11y/useAnchorContent: Base UI render injects children
-  args: { render: <a href="#docs" />, nativeButton: false, children: "Link" },
+  args: { render: <a href="#docs" />, nativeButton: false, role: "link", children: "Link" },
 };
