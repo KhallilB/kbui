@@ -3,7 +3,7 @@ import { basename, join } from "node:path";
 import { bundle, transform } from "lightningcss";
 
 const VAR = /var\(\s*(--kb-[a-z0-9-]+)/gi;
-const ALLOWED = /^--kb-(?:color|button|input|dialog|space|radius|size|font)-/;
+const PALETTE = /^--kb-(?:white|black|gray|blue|red)(?:-|$)/i;
 const RAW_COLOR = /#[0-9a-f]{3,8}\b|\b(?:rgba?|hsla?|oklch)\(/gi;
 
 export async function componentFiles(src: string): Promise<string[]> {
@@ -30,13 +30,13 @@ export async function anatomyRoots(src: string): Promise<string[]> {
   return roots;
 }
 
-// Allowlist: only semantic, component and scale tokens; no raw color literals.
+// Denylist: palette primitives and raw color literals; other token groups pass.
 export async function paletteRefs(src: string): Promise<string[]> {
   const hits: string[] = [];
   for (const file of [join(src, "reset.css"), ...(await componentFiles(src))]) {
     const css = await readFile(file, "utf8");
     for (const m of css.matchAll(VAR)) {
-      if (!ALLOWED.test((m[1] as string).toLowerCase())) hits.push(`${file}: ${m[0]}`);
+      if (PALETTE.test(m[1] as string)) hits.push(`${file}: ${m[0]}`);
     }
     for (const m of css.matchAll(RAW_COLOR)) hits.push(`${file}: ${m[0]}`);
   }

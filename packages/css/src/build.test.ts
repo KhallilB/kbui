@@ -69,9 +69,10 @@ describe("buildCss", () => {
     await rm(root, { recursive: true, force: true });
   });
 
-  test("paletteRefs scans reset.css and accepts allowlisted vars", async () => {
+  test("paletteRefs scans reset.css and accepts non-palette vars", async () => {
     const root = await fixture({
-      "ok.css": "/* Anatomy: .kb-ok */\n.kb-ok { a: var(--kb-color-fg); b: var(--kb-space-2); }\n",
+      "ok.css":
+        "/* Anatomy: .kb-ok */\n.kb-ok { a: var(--kb-color-fg); b: var(--kb-space-2); c: var(--kb-badge-radius); }\n",
     });
     expect(await paletteRefs(root)).toEqual([]);
     await writeFile(join(root, "reset.css"), "html { color: rgb(0 0 0); }");

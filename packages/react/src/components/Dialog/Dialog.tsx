@@ -60,8 +60,10 @@ function DialogContent({
     <Base.Portal container={container}>
       <Base.Backdrop className="kb-dialog-backdrop" />
       <Base.Popup {...props} className={clsx("kb-dialog-popup", className)}>
-        {title != null ? <DialogTitle>{title}</DialogTitle> : null}
-        {description != null ? <DialogDescription>{description}</DialogDescription> : null}
+        {title != null && title !== "" ? <DialogTitle>{title}</DialogTitle> : null}
+        {description != null && description !== "" ? (
+          <DialogDescription>{description}</DialogDescription>
+        ) : null}
         {children}
       </Base.Popup>
     </Base.Portal>

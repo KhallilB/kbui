@@ -33,10 +33,22 @@ Set `data-theme="light"` or `"dark"` on `<html>`; without it the system preferen
 ```bash
 mise install && bun install
 bun run storybook        # http://localhost:6006
-bun run check            # lint + typecheck + unit tests
-bun run test:stories     # story smoke + axe
+bun run check            # build + lint + typecheck + unit tests
+bun run test:stories     # story smoke + axe (runs after check or bun run build)
 bun run new Badge        # scaffold a component
 ```
+
+### Scripts
+
+| Script | What |
+|---|---|
+| `registry:up` / `down` / `logs` | Start, stop, tail the Verdaccio registry |
+| `registry:login` / `backup` / `nuke` | Create the publish user, tar the volume, back up then delete the volume |
+| `docs:up` / `docs:down` | Serve or stop the built Storybook |
+| `stack:up` / `stack:down` | Start or stop the whole Docker stack |
+| `lint` / `lint:fix` | Biome check, with or without writes |
+| `typecheck` | Package typecheck plus root `scripts/` |
+| `test` | Unit tests for packages and `scripts/` |
 
 ## Conventions
 
@@ -54,6 +66,8 @@ bun changeset            # describe the change
 bun run version          # bump + changelog
 bun run release          # build + publish
 ```
+
+Run registry:login right after the first registry:up; until then the single signup slot is open to anyone on the LAN.
 
 Internal deps between packages are plain versions, not workspace:*, because changeset publish does not rewrite the protocol; Changesets keeps them in sync on every bump.
 

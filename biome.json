@@ -5,7 +5,7 @@
     "includes": ["**", "!**/dist", "!**/storybook-static", "!**/*.snap", "!**/templates"]
   },
   "formatter": { "enabled": true, "indentStyle": "space", "lineWidth": 100 },
-  "linter": { "enabled": true, "rules": { "recommended": true } },
+  "linter": { "enabled": true, "rules": { "preset": "recommended" } },
   "css": { "formatter": { "enabled": true }, "linter": { "enabled": true } },
   "javascript": { "formatter": { "quoteStyle": "double" } }
 }
