@@ -10,8 +10,14 @@ beforeEach(async () => {
   root = await mkdtemp(join(tmpdir(), "kbui-gen-"));
   await mkdir(join(root, "packages/react/src/components"), { recursive: true });
   await mkdir(join(root, "packages/css/src/components"), { recursive: true });
-  await writeFile(join(root, "packages/react/src/index.ts"), 'export { kb } from "./utils/kb";\n');
-  await writeFile(join(root, "packages/css/src/styles.css"), '@import "./reset.css";\n');
+  await writeFile(
+    join(root, "packages/react/src/index.ts"),
+    'export { Zed, type ZedProps } from "./components/Zed/Zed";\nexport { kb } from "./utils/kb";\n',
+  );
+  await writeFile(
+    join(root, "packages/css/src/styles.css"),
+    '@import "./reset.css";\n@import "./components/zed.css";\n',
+  );
 });
 
 describe("newComponent", () => {
@@ -34,6 +40,21 @@ describe("newComponent", () => {
     expect(await readFile(join(root, "packages/css/src/styles.css"), "utf8")).toContain(
       '@import "./components/badge.css";',
     );
+  });
+
+  test("keeps exports and imports sorted", async () => {
+    await newComponent("Badge", root);
+    const index = await readFile(join(root, "packages/react/src/index.ts"), "utf8");
+    const badge = index.indexOf("components/Badge/Badge");
+    expect(badge).toBeGreaterThanOrEqual(0);
+    expect(badge).toBeLessThan(index.indexOf("components/Zed/Zed"));
+    expect(index.trimEnd().endsWith('from "./utils/kb";')).toBe(true);
+    const css = await readFile(join(root, "packages/css/src/styles.css"), "utf8");
+    expect(css.split("\n").slice(0, 3)).toEqual([
+      '@import "./reset.css";',
+      '@import "./components/badge.css";',
+      '@import "./components/zed.css";',
+    ]);
   });
 
   test("refuses to overwrite an existing component", async () => {
