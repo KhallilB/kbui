@@ -1,0 +1,55 @@
+import { render, screen } from "@testing-library/react";
+import { createRef } from "react";
+import { describe, expect, test } from "vitest";
+import { Input } from "./Input";
+
+describe("Input", () => {
+  test("labels the control and applies anatomy classes", () => {
+    const { container } = render(<Input label="Email" />);
+    const input = screen.getByLabelText("Email");
+    expect(input).toHaveClass("kb-input-control");
+    const root = container.querySelector(".kb-input");
+    expect(root).toHaveAttribute("data-size", "md");
+    expect(container.querySelector(".kb-input-label")).toHaveTextContent("Email");
+  });
+
+  test("description is wired via aria-describedby", () => {
+    render(<Input label="Name" description="Shown publicly" />);
+    expect(screen.getByLabelText("Name")).toHaveAccessibleDescription("Shown publicly");
+  });
+
+  test("error sets data-invalid, aria-invalid and describes the control", () => {
+    const { container } = render(<Input label="Email" error="Required" />);
+    const input = screen.getByLabelText("Email");
+    expect(container.querySelector(".kb-input")).toHaveAttribute("data-invalid");
+    expect(input).toHaveAttribute("aria-invalid", "true");
+    expect(input).toHaveAccessibleDescription("Required");
+    expect(container.querySelector(".kb-input-error")).toHaveTextContent("Required");
+  });
+
+  test("visuallyHidden label stays accessible", () => {
+    const { container } = render(<Input label="Search" visuallyHidden />);
+    expect(screen.getByLabelText("Search")).toBeInTheDocument();
+    expect(container.querySelector(".kb-input-label")).toHaveClass("kb-sr-only");
+  });
+
+  test("disabled marks the root and the control", () => {
+    const { container } = render(<Input label="X" disabled />);
+    expect(container.querySelector(".kb-input")).toHaveAttribute("data-disabled");
+    expect(screen.getByLabelText("X")).toBeDisabled();
+  });
+
+  test("passes native props and size prop wins over native size", () => {
+    render(<Input label="Age" type="number" placeholder="0" size="lg" />);
+    const input = screen.getByLabelText("Age");
+    expect(input).toHaveAttribute("type", "number");
+    expect(input).toHaveAttribute("placeholder", "0");
+    expect(input).not.toHaveAttribute("size");
+  });
+
+  test("forwards ref to the native input", () => {
+    const ref = createRef<HTMLInputElement>();
+    render(<Input label="R" ref={ref} />);
+    expect(ref.current).toBeInstanceOf(HTMLInputElement);
+  });
+});
