@@ -75,7 +75,7 @@ kbui/
         components/Input/
         components/Dialog/
         index.ts
-      vite.config.ts           lib mode, ESM only, vite-plugin-dts
+      vite.config.ts           lib mode, ESM only; tsconfig.build.json emits d.ts
       package.json             peer react/react-dom >=19, dep @base-ui/react, clsx
   apps/
     storybook/
@@ -115,8 +115,9 @@ Build emits:
 ```
 
 `data-theme` lives on `<html>`. Components reference semantic or component tier
-only; a vitest test in `@kbui/css` fails when component CSS references a
-primitive var (no stylelint).
+for color; scale primitives (`space`, `radius`, `font`, `size`) may be used
+directly. A test in `@kbui/css` fails when component CSS references a palette
+primitive (`--kb-gray-*`, `--kb-blue-*`, `--kb-red-*`, `--kb-white`, `--kb-black`).
 
 `tokens.ts` exports `const tokens = { color: { bg: "--kb-color-bg", ... } } as const`
 for TS consumers who style in JS.
@@ -179,7 +180,7 @@ Compound on Base UI `Dialog`:
 anatomy root for the CSS build test. Anatomy, verbatim:
 
 ```css
-/* Anatomy: .kb-dialog-backdrop [data-open], .kb-dialog-popup [data-open] > .kb-dialog-title, .kb-dialog-description, .kb-dialog-body */
+/* Anatomy: .kb-dialog-popup [data-open] > .kb-dialog-title, .kb-dialog-description, .kb-dialog-body; sibling .kb-dialog-backdrop [data-open] */
 ```
 
 `Dialog.Title`, `Dialog.Description`, `Dialog.Close` are
@@ -192,7 +193,9 @@ exported for custom layouts. Focus trap, escape, scroll lock come from Base UI.
 import { Button as Base } from "@base-ui/react/button";
 import { kb } from "../../utils/kb";
 
-export type ButtonProps = Base.Props & {
+export type ButtonProps = Omit<Base.Props, "className"> & {
+  /** Plain class string. */
+  className?: string;
   /** Visual weight. */
   variant?: "primary" | "secondary" | "ghost" | "danger";
   /** Height and padding scale. */
@@ -225,7 +228,7 @@ Single import path. No deep imports required; `sideEffects: false` on react,
 |---|---|---|
 | tokens | bun script | `dist/tokens.css`, `dist/tokens.ts` |
 | css | bun script + lightningcss | `dist/styles.css` (bundled, minified), `dist/reset.css`, `dist/components/*.css` |
-| react | Vite lib mode + vite-plugin-dts | `dist/index.js` (ESM), `dist/index.d.ts` |
+| react | Vite lib mode; `tsc --emitDeclarationOnly` for types | `dist/index.js` (ESM), `dist/index.d.ts` |
 
 `react` externalizes `react`, `react-dom`, `react/jsx-runtime`, `@base-ui/react/*`
 and excludes `*.stories.tsx` and `*.test.tsx` from the build and emitted types.
@@ -240,11 +243,11 @@ lightningcss `bundle` needs no custom resolver.
   `aria-describedby`).
 - **Story smoke + a11y**: Storybook `addon-vitest` runs every story in Chromium via
   Playwright; `addon-a11y` fails the story on axe violations.
-- **Story coverage**: one test in `packages/react` asserts every exported
-  component has at least one story (LiveLeague pattern).
+- **Story coverage**: one test in `packages/react` asserts every component
+  folder has a story and a test (LiveLeague pattern).
 - **Token build**: snapshot test of `tokens.css` output, in `packages/tokens`.
 - **CSS build**: tests in `packages/css` that `styles.css` contains every
-  component anatomy root class and that no component CSS references a primitive var.
+  component anatomy root class and that no component CSS references a palette primitive var.
 
 ## Publishing
 
