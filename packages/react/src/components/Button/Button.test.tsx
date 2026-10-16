@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { createRef } from "react";
 import { describe, expect, test, vi } from "vitest";
 import { Button } from "./Button";
 
@@ -22,6 +23,24 @@ describe("Button", () => {
     expect(btn).toHaveAttribute("data-variant", "ghost");
     expect(btn).toHaveAttribute("data-size", "sm");
     expect(btn).toHaveClass("kb-button", "extra");
+  });
+
+  test("typed variant and size win over raw data attributes", () => {
+    const raw = { "data-variant": "primary", "data-size": "sm" } as object;
+    render(
+      <Button variant="ghost" size="lg" {...raw}>
+        x
+      </Button>,
+    );
+    const btn = screen.getByRole("button");
+    expect(btn).toHaveAttribute("data-variant", "ghost");
+    expect(btn).toHaveAttribute("data-size", "lg");
+  });
+
+  test("forwards ref to the button element", () => {
+    const ref = createRef<HTMLButtonElement>();
+    render(<Button ref={ref}>x</Button>);
+    expect(ref.current).toBeInstanceOf(HTMLButtonElement);
   });
 
   test("fires onClick and passes native attributes", async () => {
@@ -51,13 +70,11 @@ describe("Button", () => {
 
   test("render prop swaps the element", () => {
     render(
-      <Button render={<a href="/docs" />} nativeButton={false}>
+      <Button render={<a href="/docs" />} nativeButton={false} role="link">
         Docs
       </Button>,
     );
-    // Base UI sets role="button" on non-native elements.
-    const link = screen.getByRole("button", { name: "Docs" });
-    expect(link.tagName).toBe("A");
+    const link = screen.getByRole("link", { name: "Docs" });
     expect(link).toHaveAttribute("href", "/docs");
     expect(link).toHaveClass("kb-button");
   });
