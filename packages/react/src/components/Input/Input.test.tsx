@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { createRef } from "react";
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 import { Input } from "./Input";
 
 describe("Input", () => {
@@ -51,5 +52,19 @@ describe("Input", () => {
     const ref = createRef<HTMLInputElement>();
     render(<Input label="R" ref={ref} />);
     expect(ref.current).toBeInstanceOf(HTMLInputElement);
+  });
+
+  test("description and error are both described, description first", () => {
+    render(<Input label="Email" description="Shown publicly" error="Required" />);
+    expect(screen.getByLabelText("Email")).toHaveAccessibleDescription("Shown publicly Required");
+  });
+
+  test("controlled value", async () => {
+    const onValueChange = vi.fn();
+    render(<Input label="Name" value="a" onValueChange={onValueChange} />);
+    const input = screen.getByLabelText("Name");
+    await userEvent.type(input, "b");
+    expect(onValueChange).toHaveBeenCalled();
+    expect(input).toHaveValue("a");
   });
 });
