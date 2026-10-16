@@ -6,3 +6,5 @@ coverage/
 .claude/worktrees/
 *.log
 .DS_Store
+.env*
+*.tsbuildinfo

@@ -12,6 +12,6 @@
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "types": ["bun-types"]
+    "types": []
   }
 }
