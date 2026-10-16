@@ -6,13 +6,23 @@ export type Token = {
 export type TokenTree = { [key: string]: Token | TokenTree };
 
 type Flat = { path: string[]; token: Token };
+type VarTree = { [key: string]: string | VarTree };
 
-const isToken = (node: Token | TokenTree): node is Token => typeof node.$value === "string";
+const KEY = /^[A-Za-z0-9_-]+$/;
 
 function flatten(tree: TokenTree, prefix: string[] = []): Flat[] {
-  return Object.entries(tree).flatMap(([key, node]) =>
-    isToken(node) ? [{ path: [...prefix, key], token: node }] : flatten(node, [...prefix, key]),
-  );
+  return Object.entries(tree).flatMap(([key, node]) => {
+    if (key.startsWith("$")) return [];
+    if (!KEY.test(key)) throw new Error(`Invalid token key "${key}"`);
+    const path = [...prefix, key];
+    if ("$value" in node) {
+      if (typeof node.$value !== "string") {
+        throw new Error(`Token ${path.join(".")} has non-string $value`);
+      }
+      return [{ path, token: node as Token }];
+    }
+    return flatten(node as TokenTree, path);
+  });
 }
 
 const varName = (path: string[]) => `--kb-${path.join("-")}`;
@@ -31,31 +41,60 @@ function block(selector: string, lines: string[], indent = ""): string {
   return `${indent}${selector} {\n${body}\n${indent}}`;
 }
 
-function tsTree(flat: Flat[]): string {
-  const out: Record<string, unknown> = {};
+function varTree(flat: Flat[]): VarTree {
+  const out: VarTree = {};
   for (const { path } of flat) {
     let node = out;
     for (const key of path.slice(0, -1)) {
       node[key] ??= {};
-      node = node[key] as Record<string, unknown>;
+      node = node[key] as VarTree;
     }
     node[path.at(-1) as string] = varName(path);
   }
-  return `export const tokens = ${JSON.stringify(out, null, 2)} as const;\n`;
+  return out;
 }
 
-export function buildTokens(tree: TokenTree): { css: string; ts: string } {
+function readonlyType(tree: VarTree, indent = ""): string {
+  const inner = `${indent}  `;
+  const props = Object.entries(tree).map(([key, value]) =>
+    typeof value === "string"
+      ? `${inner}readonly ${JSON.stringify(key)}: ${JSON.stringify(value)};`
+      : `${inner}readonly ${JSON.stringify(key)}: ${readonlyType(value, inner)};`,
+  );
+  return `{\n${props.join("\n")}\n${indent}}`;
+}
+
+export function buildTokens(tree: TokenTree): {
+  css: string;
+  ts: string;
+  js: string;
+  dts: string;
+} {
   const flat = flatten(tree);
-  const known = new Set(flat.map((f) => varName(f.path)));
-  const light = flat.map((f) => `${varName(f.path)}: ${resolve(f.token.$value, known)};`);
+  const seen = new Set<string>();
+  for (const { path } of flat) {
+    const name = varName(path);
+    if (seen.has(name)) throw new Error(`Duplicate token var ${name}`);
+    seen.add(name);
+  }
+  const light = flat.map((f) => `${varName(f.path)}: ${resolve(f.token.$value, seen)};`);
   const dark = flat.flatMap((f) => {
     const value = f.token.$extensions?.["kb.dark"];
-    return value ? [`${varName(f.path)}: ${resolve(value, known)};`] : [];
+    return value ? [`${varName(f.path)}: ${resolve(value, seen)};`] : [];
   });
-  const css = [
-    block(":root", light),
-    block('[data-theme="dark"]', dark),
-    `@media (prefers-color-scheme: dark) {\n${block(':root:not([data-theme="light"])', dark, "  ")}\n}`,
-  ].join("\n\n");
-  return { css: `${css}\n`, ts: tsTree(flat) };
+  const sections = [block(":root", light)];
+  if (dark.length > 0) {
+    sections.push(
+      block('[data-theme="dark"]', dark),
+      `@media (prefers-color-scheme: dark) {\n${block(':root:not([data-theme="light"])', dark, "  ")}\n}`,
+    );
+  }
+  const vars = varTree(flat);
+  const obj = JSON.stringify(vars, null, 2);
+  return {
+    css: `${sections.join("\n\n")}\n`,
+    ts: `export const tokens = ${obj} as const;\n`,
+    js: `export const tokens = ${obj};\n`,
+    dts: `export declare const tokens: ${readonlyType(vars)};\n`,
+  };
 }
