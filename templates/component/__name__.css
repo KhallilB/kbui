@@ -1,0 +1,4 @@
+/* Anatomy: .kb-__name__ [data-variant=default] */
+.kb-__name__ {
+  color: var(--kb-color-fg);
+}
