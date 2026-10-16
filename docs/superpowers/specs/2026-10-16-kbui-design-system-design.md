@@ -180,7 +180,7 @@ Compound on Base UI `Dialog`:
 anatomy root for the CSS build test. Anatomy, verbatim:
 
 ```css
-/* Anatomy: .kb-dialog-popup [data-open] > .kb-dialog-title, .kb-dialog-description, .kb-dialog-body; sibling .kb-dialog-backdrop [data-open] */
+/* Anatomy: .kb-dialog-popup [data-open] [data-starting-style] [data-ending-style] > .kb-dialog-title, .kb-dialog-description, .kb-dialog-body; sibling .kb-dialog-backdrop [data-open] [data-starting-style] [data-ending-style] */
 ```
 
 `Dialog.Title`, `Dialog.Description`, `Dialog.Close` are
@@ -247,7 +247,7 @@ lightningcss `bundle` needs no custom resolver.
   folder has a story and a test (LiveLeague pattern).
 - **Token build**: snapshot test of `tokens.css` output, in `packages/tokens`.
 - **CSS build**: tests in `packages/css` that `styles.css` contains every
-  component anatomy root class and that no component CSS references a palette primitive var.
+  component anatomy root class and that no component or reset CSS references a non-allowlisted var or a raw color literal.
 
 ## Publishing
 

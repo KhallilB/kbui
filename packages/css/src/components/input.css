@@ -13,6 +13,7 @@
 
 .kb-input-control {
   width: 100%;
+  height: var(--kb-input-height-md);
   padding: 0 var(--kb-space-3);
   border: 1px solid var(--kb-color-border);
   border-radius: var(--kb-input-radius);
@@ -34,10 +35,6 @@
 .kb-input[data-size="sm"] .kb-input-control {
   height: var(--kb-input-height-sm);
   font-size: var(--kb-size-sm);
-}
-
-.kb-input[data-size="md"] .kb-input-control {
-  height: var(--kb-input-height-md);
 }
 
 .kb-input[data-size="lg"] .kb-input-control {
