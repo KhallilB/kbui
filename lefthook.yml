@@ -5,3 +5,5 @@ pre-commit:
       glob: "*.{ts,tsx,js,json,css}"
       run: bunx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
       stage_fixed: true
+    typecheck:
+      run: bun run typecheck
