@@ -1,0 +1,24 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`buildTokens snapshot of css output 1`] = `
+":root {
+  --kb-blue-500: #2563eb;
+  --kb-gray-950: #0a0a0a;
+  --kb-white: #ffffff;
+  --kb-space-4: 1rem;
+  --kb-color-bg: var(--kb-white);
+  --kb-color-accent: var(--kb-blue-500);
+  --kb-button-radius: 0.5rem;
+}
+
+[data-theme="dark"] {
+  --kb-color-bg: var(--kb-gray-950);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --kb-color-bg: var(--kb-gray-950);
+  }
+}
+"
+`;
