@@ -1,0 +1,31 @@
+storage: /verdaccio/storage/data
+plugins: /verdaccio/plugins
+
+web:
+  title: kbui registry
+
+auth:
+  htpasswd:
+    file: /verdaccio/storage/htpasswd
+    # Set to -1 after creating the first user with `bun run registry:login`.
+    max_users: 1
+
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+
+packages:
+  "@kbui/*":
+    access: $all
+    publish: $authenticated
+    unpublish: $authenticated
+  "**":
+    access: $all
+    proxy: npmjs
+
+server:
+  keepAliveTimeout: 60
+
+listen: 0.0.0.0:4873
+
+log: { type: stdout, format: pretty, level: warn }
