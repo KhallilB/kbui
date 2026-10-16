@@ -1,57 +1,78 @@
 import { Dialog as Base } from "@base-ui/react/dialog";
 import { clsx } from "clsx";
-import type { ReactNode } from "react";
+import type { ComponentProps, ReactNode } from "react";
 
 export type DialogProps = Base.Root.Props;
 export type DialogTriggerProps = Base.Trigger.Props;
 export type DialogCloseProps = Base.Close.Props;
+export type DialogActionsProps = ComponentProps<"div">;
 
-export type DialogContentProps = Omit<Base.Popup.Props, "className"> & {
-  /** Accessible name; omit and compose Dialog.Title yourself. */
+export type DialogContentProps = Omit<Base.Popup.Props, "className" | "title"> & {
+  /** Accessible name; mutually exclusive with a composed Dialog.Title. */
   title?: ReactNode;
-  /** Accessible description; omit and compose Dialog.Description yourself. */
+  /** Accessible description; mutually exclusive with a composed Dialog.Description. */
   description?: ReactNode;
   /** Plain class string; Base UI's function form is not supported. */
   className?: string;
+  /** Portal target; defaults to document.body. */
+  container?: Base.Portal.Props["container"];
 };
 
-function Root(props: DialogProps) {
+function DialogRoot(props: DialogProps) {
   return <Base.Root {...props} />;
 }
 
-function Trigger(props: DialogTriggerProps) {
+function DialogTrigger(props: DialogTriggerProps) {
   return <Base.Trigger {...props} />;
 }
 
-function Close(props: DialogCloseProps) {
+function DialogClose(props: DialogCloseProps) {
   return <Base.Close {...props} />;
 }
 
-function Title({
+function DialogTitle({
   className,
   ...props
 }: Omit<Base.Title.Props, "className"> & { className?: string }) {
   return <Base.Title {...props} className={clsx("kb-dialog-title", className)} />;
 }
 
-function Description({
+function DialogDescription({
   className,
   ...props
 }: Omit<Base.Description.Props, "className"> & { className?: string }) {
   return <Base.Description {...props} className={clsx("kb-dialog-description", className)} />;
 }
 
-function Content({ title, description, children, className, ...props }: DialogContentProps) {
+function DialogActions({ className, ...props }: DialogActionsProps) {
+  return <div {...props} className={clsx("kb-dialog-actions", className)} />;
+}
+
+function DialogContent({
+  title,
+  description,
+  container,
+  children,
+  className,
+  ...props
+}: DialogContentProps) {
   return (
-    <Base.Portal>
+    <Base.Portal container={container}>
       <Base.Backdrop className="kb-dialog-backdrop" />
       <Base.Popup {...props} className={clsx("kb-dialog-popup", className)}>
-        {title ? <Title>{title}</Title> : null}
-        {description ? <Description>{description}</Description> : null}
-        <div className="kb-dialog-body">{children}</div>
+        {title != null ? <DialogTitle>{title}</DialogTitle> : null}
+        {description != null ? <DialogDescription>{description}</DialogDescription> : null}
+        {children}
       </Base.Popup>
     </Base.Portal>
   );
 }
 
-export const Dialog = Object.assign(Root, { Trigger, Content, Title, Description, Close });
+export const Dialog = Object.assign(DialogRoot, {
+  Trigger: DialogTrigger,
+  Content: DialogContent,
+  Title: DialogTitle,
+  Description: DialogDescription,
+  Close: DialogClose,
+  Actions: DialogActions,
+});

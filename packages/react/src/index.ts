@@ -6,6 +6,7 @@ export {
 } from "./components/Button/Button";
 export {
   Dialog,
+  type DialogActionsProps,
   type DialogCloseProps,
   type DialogContentProps,
   type DialogProps,

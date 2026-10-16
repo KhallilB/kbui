@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 import { Button } from "../Button/Button";
 import { Dialog } from "./Dialog";
 
@@ -9,8 +9,10 @@ function Example() {
     <Dialog>
       <Dialog.Trigger render={<Button />}>Open</Dialog.Trigger>
       <Dialog.Content title="Delete project" description="Cannot be undone.">
-        <Dialog.Close render={<Button variant="ghost" />}>Cancel</Dialog.Close>
-        <Button variant="danger">Delete</Button>
+        <Dialog.Actions>
+          <Dialog.Close render={<Button variant="ghost" />}>Cancel</Dialog.Close>
+          <Button variant="danger">Delete</Button>
+        </Dialog.Actions>
       </Dialog.Content>
     </Dialog>
   );
@@ -26,7 +28,7 @@ describe("Dialog", () => {
     expect(dialog).toHaveAttribute("data-open");
     expect(dialog).toHaveAccessibleDescription("Cannot be undone.");
     expect(document.querySelector(".kb-dialog-backdrop")).toBeInTheDocument();
-    expect(document.querySelector(".kb-dialog-body")).toContainElement(
+    expect(document.querySelector(".kb-dialog-actions")).toContainElement(
       screen.getByRole("button", { name: "Delete" }),
     );
   });
@@ -59,6 +61,41 @@ describe("Dialog", () => {
     const dialog = await screen.findByRole("dialog", { name: "Custom" });
     expect(dialog.querySelector(".kb-dialog-title")).toHaveTextContent("Custom");
     expect(dialog.querySelector(".kb-dialog-description")).toHaveTextContent("Body");
+    expect(dialog).toHaveAccessibleDescription("Body");
+  });
+
+  test("controlled open stays open until the parent updates", async () => {
+    const onOpenChange = vi.fn();
+    render(
+      <Dialog open onOpenChange={onOpenChange}>
+        <Dialog.Content title="T">
+          <Dialog.Close render={<Button />}>Close</Dialog.Close>
+        </Dialog.Content>
+      </Dialog>,
+    );
+    await userEvent.click(await screen.findByRole("button", { name: "Close" }));
+    expect(onOpenChange).toHaveBeenCalled();
+    expect(onOpenChange.mock.calls[0]?.[0]).toBe(false);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
+  test("className merges with the anatomy class", async () => {
+    render(
+      <Dialog defaultOpen>
+        <Dialog.Content title="T" className="extra" />
+      </Dialog>,
+    );
+    const dialog = await screen.findByRole("dialog");
+    expect(dialog).toHaveClass("kb-dialog-popup", "extra");
+  });
+
+  test("accepts a ReactNode title", async () => {
+    render(
+      <Dialog defaultOpen>
+        <Dialog.Content title={<span>Rich</span>} />
+      </Dialog>,
+    );
+    expect(await screen.findByRole("dialog", { name: "Rich" })).toBeInTheDocument();
   });
 
   test("trigger via render={<Button />} keeps kb-button and announces a dialog", () => {
