@@ -5,7 +5,8 @@
     "emitDeclarationOnly": true,
     "outDir": "dist",
     "rootDir": "src",
-    "noEmit": false
+    "noEmit": false,
+    "types": []
   },
   "include": ["src"],
   "exclude": ["src/**/*.test.*", "src/**/*.stories.*"]
