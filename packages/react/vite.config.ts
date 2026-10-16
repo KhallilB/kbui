@@ -7,7 +7,7 @@ export default defineConfig({
     lib: { entry: "src/index.ts", formats: ["es"], fileName: () => "index.js" },
     sourcemap: true,
     rollupOptions: {
-      external: [/^react($|\/)/, /^react-dom($|\/)/, /^@base-ui\/react/, "clsx"],
+      external: [/^react($|\/)/, /^react-dom($|\/)/, /^@base-ui\/react(\/|$)/, "clsx"],
     },
   },
 });

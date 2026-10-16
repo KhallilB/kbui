@@ -3,7 +3,7 @@ import { kb } from "./kb";
 
 describe("kb", () => {
   test("prefixes the class and maps attrs to data-*", () => {
-    expect(kb("button", { variant: "primary", size: "md" })).toEqual({
+    expect(kb("button", { variant: "primary", size: "md" })).toStrictEqual({
       className: "kb-button",
       "data-variant": "primary",
       "data-size": "md",
@@ -11,10 +11,12 @@ describe("kb", () => {
   });
 
   test("drops undefined and false, renders true as empty attribute", () => {
-    expect(kb("x", { a: undefined, b: false, c: true })).toEqual({
+    const out = kb("x", { a: undefined, b: false, c: true });
+    expect(out).toStrictEqual({
       className: "kb-x",
       "data-c": "",
     });
+    expect(Object.keys(out)).toStrictEqual(["className", "data-c"]);
   });
 
   test("appends consumer className", () => {
