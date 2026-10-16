@@ -1,5 +1,5 @@
-import { beforeEach, describe, expect, test } from "bun:test";
-import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
+import { afterEach, beforeEach, describe, expect, test } from "bun:test";
+import { mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { newComponent } from "./new-component";
@@ -12,13 +12,15 @@ beforeEach(async () => {
   await mkdir(join(root, "packages/css/src/components"), { recursive: true });
   await writeFile(
     join(root, "packages/react/src/index.ts"),
-    'export { Zed, type ZedProps } from "./components/Zed/Zed";\nexport { kb } from "./utils/kb";\n',
+    'export {\n  Zed,\n  type ZedProps,\n} from "./components/Zed/Zed";\nexport { kb } from "./utils/kb";\n',
   );
   await writeFile(
     join(root, "packages/css/src/styles.css"),
     '@import "./reset.css";\n@import "./components/zed.css";\n',
   );
 });
+
+afterEach(() => rm(root, { recursive: true, force: true }));
 
 describe("newComponent", () => {
   test("stamps four files and registers exports", async () => {
@@ -45,16 +47,49 @@ describe("newComponent", () => {
   test("keeps exports and imports sorted", async () => {
     await newComponent("Badge", root);
     const index = await readFile(join(root, "packages/react/src/index.ts"), "utf8");
-    const badge = index.indexOf("components/Badge/Badge");
-    expect(badge).toBeGreaterThanOrEqual(0);
-    expect(badge).toBeLessThan(index.indexOf("components/Zed/Zed"));
-    expect(index.trimEnd().endsWith('from "./utils/kb";')).toBe(true);
+    expect(index).toBe(
+      [
+        'export { Badge, type BadgeProps } from "./components/Badge/Badge";',
+        "export {",
+        "  Zed,",
+        "  type ZedProps,",
+        '} from "./components/Zed/Zed";',
+        'export { kb } from "./utils/kb";',
+        "",
+      ].join("\n"),
+    );
     const css = await readFile(join(root, "packages/css/src/styles.css"), "utf8");
     expect(css.split("\n").slice(0, 3)).toEqual([
       '@import "./reset.css";',
       '@import "./components/badge.css";',
       '@import "./components/zed.css";',
     ]);
+  });
+
+  test("leaves no placeholders in generated files", async () => {
+    await newComponent("Badge", root);
+    const dir = join(root, "packages/react/src/components/Badge");
+    const files = [
+      ...(await readdir(dir)).map((f) => join(dir, f)),
+      join(root, "packages/css/src/components/badge.css"),
+    ];
+    expect(files).toHaveLength(4);
+    for (const f of files) {
+      expect(f).not.toMatch(/__[Nn]ame__/);
+      expect(await readFile(f, "utf8")).not.toMatch(/__[Nn]ame__/);
+    }
+  });
+
+  test("writes nothing when a registry file is missing", async () => {
+    await rm(join(root, "packages/css/src/styles.css"));
+    await expect(newComponent("Badge", root)).rejects.toThrow();
+    await expect(readdir(join(root, "packages/react/src/components/Badge"))).rejects.toThrow();
+  });
+
+  test("rejects an unterminated statement and writes nothing", async () => {
+    await writeFile(join(root, "packages/react/src/index.ts"), "export {\n  Zed,\n");
+    await expect(newComponent("Badge", root)).rejects.toThrow(/Unterminated statement/);
+    await expect(readdir(join(root, "packages/react/src/components/Badge"))).rejects.toThrow();
   });
 
   test("refuses to overwrite an existing component", async () => {
