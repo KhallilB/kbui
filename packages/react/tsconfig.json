@@ -1,4 +1,5 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["src", "scripts", "*.ts", "*.tsx", ".storybook"]
+  "compilerOptions": { "types": ["node", "vitest/globals"] },
+  "include": ["src", "*.ts"]
 }
