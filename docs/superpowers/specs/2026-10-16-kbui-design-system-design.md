@@ -175,15 +175,15 @@ Compound on Base UI `Dialog`:
 
 `title` and `description` are optional; omit them and compose `Dialog.Title` /
 `Dialog.Description` in children instead. `Dialog.Content` renders portal, backdrop `.kb-dialog-backdrop`, popup
-`.kb-dialog-popup[data-open]`, `.kb-dialog-title`, `.kb-dialog-description`,
-`.kb-dialog-body`. `Dialog.Root` renders no DOM, so `.kb-dialog-popup` is the
+`.kb-dialog-popup[data-open]`, `.kb-dialog-title`, `.kb-dialog-description`. Children render directly in the popup;
+`Dialog.Actions` (`.kb-dialog-actions`) is the right-aligned actions row. `Dialog.Root` renders no DOM, so `.kb-dialog-popup` is the
 anatomy root for the CSS build test. Anatomy, verbatim:
 
 ```css
-/* Anatomy: .kb-dialog-popup [data-open] [data-starting-style] [data-ending-style] > .kb-dialog-title, .kb-dialog-description, .kb-dialog-body; sibling .kb-dialog-backdrop [data-open] [data-starting-style] [data-ending-style] */
+/* Anatomy: .kb-dialog-popup [data-open] [data-starting-style] [data-ending-style] > .kb-dialog-title, .kb-dialog-description, .kb-dialog-actions; sibling .kb-dialog-backdrop [data-open] [data-starting-style] [data-ending-style] */
 ```
 
-`Dialog.Title`, `Dialog.Description`, `Dialog.Close` are
+`Dialog.Title`, `Dialog.Description`, `Dialog.Close`, `Dialog.Actions` are
 exported for custom layouts. Focus trap, escape, scroll lock come from Base UI.
 
 ## React authoring pattern

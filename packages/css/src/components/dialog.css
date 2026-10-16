@@ -1,4 +1,4 @@
-/* Anatomy: .kb-dialog-popup [data-open] [data-starting-style] [data-ending-style] > .kb-dialog-title, .kb-dialog-description, .kb-dialog-body; sibling .kb-dialog-backdrop [data-open] [data-starting-style] [data-ending-style] */
+/* Anatomy: .kb-dialog-popup [data-open] [data-starting-style] [data-ending-style] > .kb-dialog-title, .kb-dialog-description, .kb-dialog-actions; sibling .kb-dialog-backdrop [data-open] [data-starting-style] [data-ending-style] */
 .kb-dialog-backdrop {
   position: fixed;
   inset: 0;
@@ -52,7 +52,8 @@
   color: var(--kb-color-muted);
 }
 
-.kb-dialog-body {
+.kb-dialog-actions {
+  margin-top: var(--kb-space-4);
   display: flex;
   flex-wrap: wrap;
   gap: var(--kb-space-2);
