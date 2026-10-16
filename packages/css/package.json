@@ -25,5 +25,8 @@
   },
   "dependencies": {
     "@kbui/tokens": "0.0.0"
+  },
+  "devDependencies": {
+    "lightningcss": "1.33.0"
   }
 }
