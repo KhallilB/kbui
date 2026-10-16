@@ -1,0 +1,45 @@
+{
+  "name": "kbui",
+  "private": true,
+  "packageManager": "bun@1.3.11",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "engines": {
+    "bun": ">=1.3.0",
+    "node": ">=22"
+  },
+  "scripts": {
+    "prepare": "lefthook install",
+    "build": "bun run --filter @kbui/tokens build && bun run --filter @kbui/css build && bun run --filter @kbui/react build",
+    "test": "bun run --filter './packages/*' test",
+    "test:stories": "bun run --filter @kbui/storybook test",
+    "typecheck": "bun run --filter '@kbui/*' typecheck",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "check": "bun run build && bun run lint && bun run typecheck && bun run test",
+    "storybook": "bun run build && bun run --filter @kbui/storybook dev",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "bun run build && changeset publish",
+    "registry:up": "docker compose -f docker/compose.yml up -d registry",
+    "registry:down": "docker compose -f docker/compose.yml stop registry",
+    "registry:logs": "docker compose -f docker/compose.yml logs -f registry",
+    "registry:login": "npm adduser --registry http://localhost:4873 --auth-type=legacy",
+    "registry:backup": "sh scripts/registry-backup.sh",
+    "registry:nuke": "docker compose -f docker/compose.yml down -v",
+    "docs:up": "docker compose -f docker/compose.yml up -d --build docs",
+    "docs:down": "docker compose -f docker/compose.yml stop docs",
+    "stack:up": "docker compose -f docker/compose.yml up -d --build",
+    "stack:down": "docker compose -f docker/compose.yml down",
+    "new": "bun scripts/new-component.ts"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.15",
+    "@changesets/cli": "3.0.3",
+    "bun-types": "^1.4.3",
+    "lefthook": "2.2.2",
+    "typescript": "7.0.2"
+  }
+}

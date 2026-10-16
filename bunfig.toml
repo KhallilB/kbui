@@ -1,0 +1,2 @@
+[install.scopes]
+"@kbui" = { url = "http://localhost:4873" }

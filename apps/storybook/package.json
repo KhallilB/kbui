@@ -1,0 +1,16 @@
+{
+  "name": "@kbui/storybook",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "storybook dev -p 6006 --no-open --disable-telemetry",
+    "build-storybook": "storybook build --quiet --disable-telemetry",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@kbui/css": "workspace:*",
+    "@kbui/react": "workspace:*"
+  }
+}
