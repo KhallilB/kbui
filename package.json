@@ -13,7 +13,7 @@
   "scripts": {
     "prepare": "lefthook install",
     "build": "bun run --filter @kbui/tokens build && bun run --filter @kbui/css build && bun run --filter @kbui/react build",
-    "test": "bun run --filter './packages/*' test",
+    "test": "bun run --filter './packages/*' test && bun test scripts",
     "test:stories": "bun run --filter @kbui/storybook test",
     "typecheck": "bun run --filter '@kbui/*' typecheck",
     "lint": "biome check .",
