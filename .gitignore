@@ -1,10 +1,10 @@
 node_modules/
 dist/
 storybook-static/
-backups/
 coverage/
 .claude/worktrees/
 *.log
 .DS_Store
 .env*
 *.tsbuildinfo
+.infigraph/
