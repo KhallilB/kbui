@@ -6,14 +6,14 @@ Status: approved in conversation, pending spec review
 ## Goal
 
 One shared design system, `kbui`, consumed by every project (LiveLeague, loupe,
-hearthstone-deck-workshop, future apps). Published to a self-hosted Verdaccio
-registry running in Docker on the owner's PC. Styling must survive a change of
+hearthstone-deck-workshop, future apps). Consumed straight from this checkout by
+projects on the same machine; no registry. Styling must survive a change of
 frontend framework; only behavior adapters are framework-bound.
 
 ## Non-goals
 
 - Shipping more than three components in the skeleton.
-- Public npm or GitHub Packages publishing.
+- Publishing anywhere: public npm, GitHub Packages, or a local registry.
 - Non-React adapters now. The structure makes them cheap later; none is built.
 - Tailwind preset, Swift/Kotlin token output. Token source supports them; not emitted yet.
 
@@ -23,11 +23,11 @@ frontend framework; only behavior adapters are framework-bound.
 |---|---|---|
 | Styling | CSS custom properties + plain CSS with `kb-` prefixed classes and `data-*` attributes | Framework-free, zero runtime, works beside Tailwind |
 | Behavior | `@base-ui/react` | Accessible headless primitives, React 19 native, emits `data-open`/`data-disabled` that match the CSS contract |
-| Repo shape | Bun workspaces, three publishable packages + private Storybook app | Styling packages reusable by a future non-React adapter without restructure |
-| Versioning | Changesets, `fixed` version group | One version across packages, one changelog story |
-| Registry | Verdaccio 6 in Docker Compose, named volume | Up/down in one command, packages survive restarts |
-| Docs | Storybook 10 (react-vite), static build served by nginx container | Design docs on LAN beside registry |
-| Toolchain | bun 1.3.x + node 22 via mise (npm needed by `changeset publish`), TypeScript strict, biome, lefthook, vitest | Matches existing projects |
+| Repo shape | Bun workspaces, three packages + private Storybook app | Styling packages reusable by a future non-React adapter without restructure |
+| Versioning | None; no Changesets, no version bumps | Nothing is published; consumers track the checkout and `git log` is the history |
+| Registry | None; consumers add `link:../kbui/packages/*` deps that symlink to this checkout | Zero infrastructure; `bun run build` here is the whole release |
+| Docs | Storybook 10 (react-vite), static build served by nginx container | Design docs on LAN |
+| Toolchain | bun 1.3.x + node 22 via mise, TypeScript strict, biome, lefthook, vitest | Matches existing projects |
 
 ## Package graph
 
@@ -46,13 +46,10 @@ implement the same anatomy contract. Nothing in tokens or css changes.
 ```
 kbui/
   package.json                 workspaces, root scripts
-  bunfig.toml                  registry for @kbui scope
-  .npmrc                       @kbui:registry=http://localhost:4873
   mise.toml                    bun + node pin
   tsconfig.base.json
   biome.json
   lefthook.yml
-  .changeset/config.json       fixed: [["@kbui/*"]]
   .github/workflows/ci.yml     lint, typecheck, test, build
   packages/
     tokens/
@@ -83,8 +80,7 @@ kbui/
       .storybook/preview.ts    imports @kbui/css/styles.css, theme toolbar toggles data-theme
       stories pulled from packages/react/src/**/*.stories.tsx
   docker/
-    compose.yml                services: registry, docs
-    verdaccio/config.yaml
+    compose.yml                service: docs
     docs/Dockerfile            multi-stage: oven/bun builds storybook, nginx:alpine serves
   scripts/
     new-component.ts           stamps Button-shaped folder for a new name
@@ -249,34 +245,43 @@ lightningcss `bundle` needs no custom resolver.
 - **CSS build**: tests in `packages/css` that `styles.css` contains every
   component anatomy root class and that no component or reset CSS references a non-allowlisted var or a raw color literal.
 
-## Publishing
+## Local consumption
+
+No publishing. `bun run build` in kbui writes each package's `dist/`, which the
+package `exports` point at. A consumer on the same machine runs
 
 ```
-bun changeset          write change description
-bun run version        changeset version: bump, CHANGELOG
-bun run release        build all, changeset publish to Verdaccio
+bun add link:../kbui/packages/react link:../kbui/packages/css
 ```
 
-`.npmrc` in repo root: `@kbui:registry=http://localhost:4873`. First-time
-`bun run registry:login` wraps `npm adduser --registry`. Consumers copy the same
-`.npmrc` line and `bun add @kbui/react @kbui/css`.
+with the path relative to the consumer. `link:` symlinks `node_modules/@kbui/*`
+to the checkout, so a rebuild in kbui is picked up without reinstalling.
+`bun link` in each package plus `bun link @kbui/react @kbui/css --save` in the
+consumer is equivalent but goes through Bun's global link table.
+
+`file:` deps are not an option: Bun resolves a path package's own dependencies
+against npm, and `@kbui/react -> @kbui/css -> @kbui/tokens` are not on npm.
+Internal deps therefore stay `workspace:*`.
+
+Consumer requirements, verified against a scratch Vite app:
+
+- `resolve.dedupe: ["react", "react-dom"]` in Vite. The symlinked package resolves
+  Base UI from kbui's `node_modules`, which carries kbui's own React; without
+  dedupe the bundle holds two Reacts and hooks throw.
+- `declare module "*.css";` in the consumer program (`vite/client` provides it);
+  TypeScript 7 rejects the bare side-effect import of `@kbui/css/styles.css` otherwise.
+- `react` and `react-dom` 19 installed in the consumer (peer deps).
 
 ## Docker
 
-`docker/compose.yml`:
+`docker/compose.yml` has one service, and Docker is optional:
 
-- `registry`: `verdaccio/verdaccio:6`, port `4873`, config bind-mounted read-only,
-  storage in named volume `kbui-registry`. Config: `@kbui/*` publish requires auth,
-  all else proxies npmjs, `listen: 0.0.0.0:4873`, `max_users: -1` after first user.
 - `docs`: built from `docker/docs/Dockerfile` with build context at repo root
   (workspaces need the whole tree). Stage 1 `oven/bun` installs and
   runs `build-storybook`; stage 2 `nginx:alpine` serves `storybook-static` on
   port `6007`.
 
-Root scripts: `registry:up`, `registry:down`, `registry:logs`, `docs:up`
-(`compose up -d --build docs`), `docs:down`, `stack:up`, `stack:down`,
-`registry:backup` (tars the named volume to `backups/`).
-`down` never passes `-v`; a documented `registry:nuke` does.
+Root scripts: `docs:up` (`compose up -d --build docs`) and `docs:down`.
 
 ## Generator
 
@@ -287,27 +292,26 @@ and import to `packages/css/src/styles.css`. Refuses if the folder exists.
 ## CI
 
 `.github/workflows/ci.yml` on push and PR: mise install, `bun install --frozen-lockfile`,
-`bun run check` (biome, typecheck, test), `bun run build`, and on PRs
-`changeset status --since=origin/main` so a change under `packages/*` without a
-changeset fails. Playwright Chromium is installed for the Storybook vitest run.
-No publish step; the registry is local.
+`bun run check` (build, biome, typecheck, test) and `bun run test:stories`.
+Playwright Chromium is installed for the Storybook vitest run. No publish step.
 
 ## Git hygiene
 
 lefthook pre-commit: biome check on staged files, `tsc --noEmit` per package.
-Commits SSH-signed. Changeset required on PRs that touch `packages/*` (enforced in CI).
+Commits SSH-signed.
 
 ## Build order
 
 Phased so each step is verifiable alone: tokens, css, react + tests, storybook,
-docker, generator + CI. Generator, `registry:backup`, and the docs container are
+docker, generator + CI. Generator and the docs container are
 the first candidates to defer if the plan runs long.
 
 ## Risks
 
 - Base UI 1.x is young; API changes may land in minors. Pinned exact version,
-  bumped via changeset with tests as guard.
-- Verdaccio on a single PC is a single point of failure. Named volume plus a
-  `registry:backup` script that tars the volume mitigates loss.
+  bumped with tests as guard.
+- Symlinked consumption resolves Base UI from kbui's `node_modules`, so a consumer
+  without React dedupe ships two Reacts. Documented in README; a future copy-based
+  install would remove the footgun.
 - `prefers-color-scheme` fallback plus explicit `data-theme` can surprise; documented
   in README and Storybook theme toolbar.
