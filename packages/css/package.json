@@ -14,10 +14,6 @@
     "./reset.css": "./dist/reset.css",
     "./components/*.css": "./dist/components/*.css"
   },
-  "publishConfig": {
-    "registry": "http://localhost:4873",
-    "access": "public"
-  },
   "scripts": {
     "build": "bun scripts/build.ts",
     "test": "bun test",
