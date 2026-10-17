@@ -19,9 +19,6 @@
     "test": "bun test",
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
-  "dependencies": {
-    "@kbui/tokens": "workspace:*"
-  },
   "devDependencies": {
     "lightningcss": "1.33.0"
   }

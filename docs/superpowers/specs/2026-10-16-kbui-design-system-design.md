@@ -33,12 +33,12 @@ frontend framework; only behavior adapters are framework-bound.
 
 ```
 @kbui/tokens   tokens.json -> tokens.css, tokens.ts        (agnostic)
-@kbui/css      component stylesheets, depends on tokens    (agnostic)
-@kbui/react    Base UI + class/attr mapping, depends on css (React 19)
+@kbui/css      component stylesheets; bundles tokens at build (agnostic)
+@kbui/react    Base UI + class/attr mapping; styled by css   (React 19)
 apps/storybook private, depends on react                   (docs + story tests)
 ```
 
-Future `@kbui/vue`, `@kbui/svelte`, `@kbui/wc` depend on `@kbui/css` and
+Future `@kbui/vue`, `@kbui/svelte`, `@kbui/wc` pair with `@kbui/css` and
 implement the same anatomy contract. Nothing in tokens or css changes.
 
 ## Repository layout
@@ -251,26 +251,26 @@ No publishing. `bun run build` in kbui writes each package's `dist/`, which the
 package `exports` point at. A consumer on the same machine runs
 
 ```
-bun add link:../kbui/packages/react link:../kbui/packages/css
+bun add ../kbui/packages/react ../kbui/packages/css
 ```
 
-with the path relative to the consumer. `link:` symlinks `node_modules/@kbui/*`
-to the checkout, so a rebuild in kbui is picked up without reinstalling.
-`bun link` in each package plus `bun link @kbui/react @kbui/css --save` in the
-consumer is equivalent but goes through Bun's global link table.
+with the path relative to the consumer. Bun stores a path dependency and symlinks
+each file under `dist/` into the consumer's `node_modules/@kbui/*`, so a rebuild
+in kbui is picked up without reinstalling; only new files need `bun install` again.
 
-`file:` deps are not an option: Bun resolves a path package's own dependencies
-against npm, and `@kbui/react -> @kbui/css -> @kbui/tokens` are not on npm.
-Internal deps therefore stay `workspace:*`.
+Bun resolves a path package's own dependencies, including devDependencies,
+against npm, so publishable packages declare no dependency on each other:
+`@kbui/css` bundles tokens at build time by relative import and the root `build`
+script orders tokens, css, react. `@base-ui/react` and `clsx` install from npm
+into the consumer, giving a single React.
 
-Consumer requirements, verified against a scratch Vite app:
+`link:` is not a path protocol in Bun (`bun add link:../x` fails to resolve);
+`bun link` via the global link table works but is unnecessary.
 
-- `resolve.dedupe: ["react", "react-dom"]` in Vite. The symlinked package resolves
-  Base UI from kbui's `node_modules`, which carries kbui's own React; without
-  dedupe the bundle holds two Reacts and hooks throw.
-- `declare module "*.css";` in the consumer program (`vite/client` provides it);
-  TypeScript 7 rejects the bare side-effect import of `@kbui/css/styles.css` otherwise.
+Consumer requirements, verified against a scratch consumer with `tsc`:
+
 - `react` and `react-dom` 19 installed in the consumer (peer deps).
+- `declare module "*.css";` in the consumer program (`vite/client` provides it).
 
 ## Docker
 

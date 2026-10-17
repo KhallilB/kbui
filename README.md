@@ -18,10 +18,10 @@ Build here first; package exports point at `dist/`, which is gitignored.
 bun run build            # in kbui
 ```
 
-Then, in the consumer, add both packages as `link:` deps (path relative to the consumer):
+Then, in the consumer, add both packages by path (relative to the consumer):
 
 ```bash
-bun add link:../kbui/packages/react link:../kbui/packages/css
+bun add ../kbui/packages/react ../kbui/packages/css
 ```
 
 ```tsx
@@ -29,17 +29,16 @@ import "@kbui/css/styles.css";
 import { Button, Input, Dialog } from "@kbui/react";
 ```
 
-`link:` symlinks `node_modules/@kbui/*` to this checkout. After changing kbui, `bun run build` here is enough; the consumer needs no reinstall.
+Bun records them as path deps and symlinks each file of `dist/` into the consumer's `node_modules/@kbui/*`, so after changing kbui, `bun run build` here is enough. Only a new file in `dist/` (a new component's `.d.ts`) needs `bun install` in the consumer again. `@base-ui/react` and `clsx` install from npm into the consumer, so there is one React.
 
-Alternative: `bun link` inside `packages/react` and `packages/css`, then `bun link @kbui/react @kbui/css --save` in the consumer. Without `--save` nothing is written to `package.json`. This goes through Bun's global link table, so prefer the path form.
+For this to work, `@kbui/react` declares no dependency on `@kbui/css` and `@kbui/css` none on `@kbui/tokens`: Bun resolves a path package's dependencies (dev ones too) against npm, and `workspace:*` is unresolvable there. `styles.css` bundles the tokens at build time; the root `build` script orders tokens, css, react.
 
-`file:` deps do not work: Bun resolves a path package's own dependencies against npm, and `@kbui/react` depends on `@kbui/css`, which is not on npm.
+Consumer requirements:
 
-Consumer setup:
+- `react` and `react-dom` 19 installed in the consumer (peer deps).
+- `declare module "*.css";` in the consumer program (`vite/client` types provide it); TypeScript rejects the bare side-effect import otherwise.
 
-- Vite: `resolve: { dedupe: ["react", "react-dom"] }`. The linked package resolves Base UI from kbui's `node_modules`, which drags in kbui's own React; without dedupe the app ships two copies and hooks throw.
-- TypeScript: `declare module "*.css";` somewhere in the program (`vite/client` types provide it). TypeScript 7 rejects the bare side-effect import otherwise.
-- `react` and `react-dom` 19 are peer deps; install them in the consumer.
+`link:` is not a path protocol in Bun; `bun add link:../kbui/...` fails with "failed to resolve". `bun link` (global link table) works but is not needed.
 
 Set `data-theme="light"` or `"dark"` on `<html>`; without it the system preference applies.
 
@@ -71,7 +70,7 @@ bun run new Badge        # scaffold a component
 
 ## Versioning
 
-None. Nothing is published, so Changesets was removed: no version bumps, no CHANGELOG. Consumers track whatever is built in this checkout; `git log` is the history. Internal deps use `workspace:*`.
+None. Nothing is published, so Changesets was removed: no version bumps, no CHANGELOG. Consumers track whatever is built in this checkout; `git log` is the history. Publishable packages declare no dependency on each other (see Use in a project).
 
 ## Adding a framework adapter
 

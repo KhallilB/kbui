@@ -25,7 +25,6 @@
   },
   "dependencies": {
     "@base-ui/react": "1.9.0",
-    "@kbui/css": "workspace:*",
     "clsx": "^2.1.1"
   },
   "devDependencies": {
