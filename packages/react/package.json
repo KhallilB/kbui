@@ -13,10 +13,6 @@
       "default": "./dist/index.js"
     }
   },
-  "publishConfig": {
-    "registry": "http://localhost:4873",
-    "access": "public"
-  },
   "scripts": {
     "build": "vite build && tsc -p tsconfig.build.json",
     "test": "vitest run",

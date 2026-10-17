@@ -24,16 +24,8 @@
     "changeset": "changeset",
     "version": "changeset version",
     "release": "bun run build && changeset publish",
-    "registry:up": "docker compose -f docker/compose.yml up -d registry",
-    "registry:down": "docker compose -f docker/compose.yml stop registry",
-    "registry:logs": "docker compose -f docker/compose.yml logs -f registry",
-    "registry:login": "npm adduser --registry http://localhost:4873 --auth-type=legacy",
-    "registry:backup": "sh scripts/registry-backup.sh",
-    "registry:nuke": "sh scripts/registry-backup.sh && docker compose -f docker/compose.yml down -v",
     "docs:up": "docker compose -f docker/compose.yml up -d --build docs",
     "docs:down": "docker compose -f docker/compose.yml stop docs",
-    "stack:up": "docker compose -f docker/compose.yml up -d --build",
-    "stack:down": "docker compose -f docker/compose.yml down",
     "new": "bun scripts/new-component.ts"
   },
   "devDependencies": {

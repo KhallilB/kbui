@@ -1,16 +1,6 @@
 name: kbui
 
 services:
-  registry:
-    image: verdaccio/verdaccio:6
-    container_name: kbui-registry
-    ports:
-      - "4873:4873"
-    volumes:
-      - ./verdaccio/config.yaml:/verdaccio/conf/config.yaml:ro
-      - kbui-registry:/verdaccio/storage
-    restart: unless-stopped
-
   docs:
     build:
       context: ..
@@ -19,7 +9,3 @@ services:
     ports:
       - "6007:80"
     restart: unless-stopped
-
-volumes:
-  kbui-registry:
-    name: kbui-registry

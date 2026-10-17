@@ -3,6 +3,5 @@
 **/storybook-static
 .git
 .claude
-backups
 docs
 .env*
