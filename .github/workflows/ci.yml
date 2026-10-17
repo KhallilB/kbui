@@ -15,5 +15,3 @@ jobs:
       - run: bunx playwright install --with-deps chromium
       - run: bun run check
       - run: bun run test:stories
-      - if: github.event_name == 'pull_request'
-        run: bunx changeset status --since=origin/main
