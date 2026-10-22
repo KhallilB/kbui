@@ -6,13 +6,13 @@ Accepted on 2026-10-22.
 
 ## Context
 
-The first consumer runs in a desktop window where operators watch long-running work, mostly in dark. Its look, the faceted skin, is a set of `--kb-facet-*` and `--kb-status-*` overrides. kbui itself must remain neutral and keep working in both themes for any other consumer.
+The first consumer runs in a desktop window where operators watch long-running work, mostly in dark. Its look, a product skin, is a set of `--kb-facet-*` and `--kb-status-*` overrides. kbui itself must remain neutral and keep working in both themes for any other consumer.
 
 Two questions followed. Where does the skin live, and which theme is the one we design for first?
 
 ## Decision
 
-The skin is not part of `packages/`. It is a scoped set of custom property overrides that a consumer sets on a wrapper element, using only the component tokens documented in `tokens.json`. Storybook holds a fixture copy in `apps/storybook/stories/faceted-skin-values.ts` with a decorator that applies it; a test proves the fixture sets documented `--kb-facet-*` and `--kb-status-*` properties only, uses no `.kb-*` selectors and no `!important`.
+The skin is not part of `packages/`. It is a scoped set of custom property overrides that a consumer sets on a wrapper element, using only the component tokens documented in `tokens.json`. Storybook holds a neutral fixture in `apps/storybook/stories/skin-fixture-values.ts` with a decorator that applies it; a test proves the fixture sets documented `--kb-facet-*` and `--kb-status-*` properties only, uses no `.kb-*` selectors and no `!important`.
 
 The product is designed and reviewed in dark first. Light is validated, not designed: every `Facet` and `Status` story and every showcase story also renders in light and must pass the accessibility scan there. Both themes must pass with and without the skin, and the story suite also runs with the reduced-motion preference on.
 
@@ -46,17 +46,17 @@ Guards against product styling leaking into `packages/` and against a skin that 
 
 ## Revisit if
 
-- A second consumer wants the faceted skin itself; it could then move to a `@kbui/skin-faceted` package.
+- A second consumer wants the same product skin; it could then move to a `@kbui/skin-<name>` package.
 - A skin needs structure, not values. That is a component change, not a skin.
 
 ## Adoption
 
-The showcase stories under "Showcase / Faceted Control Room — Foundation" render idle, running, blocked and long-content states with and without the decorator, in light and dark.
+The showcase stories under "Showcase / Skins" render idle, running, blocked and long-content states with and without the decorator, in light and dark.
 
 ## Validation
 
-- Done: `apps/storybook/stories/faceted-skin.test.ts` proves the fixture's shape, on branch `feat-faceted-foundation`.
-- Done: `bun run test:stories` passes every story in default and reduced-motion Chromium, on branch `feat-faceted-foundation`.
+- Done: `apps/storybook/stories/skin-fixture.test.ts` proves the fixture's shape, in pull request #2.
+- Done: `bun run test:stories` passes every story in default and reduced-motion Chromium, in pull request #2.
 
 ## Links
 
