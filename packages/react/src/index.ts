@@ -12,5 +12,17 @@ export {
   type DialogProps,
   type DialogTriggerProps,
 } from "./components/Dialog/Dialog";
+export {
+  Facet,
+  type FacetBodyProps,
+  type FacetCut,
+  type FacetDensity,
+  type FacetFooterProps,
+  type FacetHeaderProps,
+  type FacetProps,
+  type FacetRail,
+  type FacetTone,
+} from "./components/Facet/Facet";
 export { Input, type InputProps, type InputSize } from "./components/Input/Input";
+export { Status, type StatusProps, type StatusTone } from "./components/Status/Status";
 export { kb } from "./utils/kb";

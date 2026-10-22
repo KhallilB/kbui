@@ -6,10 +6,11 @@ Every kbui value is defined in one file, `packages/tokens/tokens.json`. The file
 
 | Kind | Examples | Who uses it |
 |---|---|---|
-| Palette | `--kb-gray-500`, `--kb-blue-600`, `--kb-red-500`, `--kb-white`, `--kb-black` | Other tokens only. A component stylesheet that references one fails `bun run check`. |
+| Palette | `--kb-gray-500`, `--kb-blue-600`, `--kb-red-500`, `--kb-amber-700`, `--kb-green-700`, `--kb-teal-700`, `--kb-white`, `--kb-black` | Other tokens only. A component stylesheet that references one fails `bun run check`; the family list lives in `packages/css/src/build.ts`. |
 | Scale | `--kb-space-4`, `--kb-radius-md`, `--kb-size-sm`, `--kb-font-sans` | Components and apps, directly |
-| Semantic color | `--kb-color-bg`, `--kb-color-fg`, `--kb-color-accent`, `--kb-color-danger` | Components and apps. These are the values that change in dark mode. |
-| Component | `--kb-button-radius`, `--kb-input-height-md`, `--kb-dialog-width` | One component each. Override one to adjust that component without affecting others. |
+| Semantic color | `--kb-color-bg`, `--kb-color-fg`, `--kb-color-accent`, `--kb-color-danger`, `--kb-color-info`, `--kb-color-success`, `--kb-color-warning` | Components and apps. These are the values that change in dark mode. Each status color has a matching `-fg` for text placed on it. |
+| Motion | `--kb-motion-duration-fast`, `--kb-motion-duration-base`, `--kb-motion-duration-slow`, `--kb-motion-easing-standard`, `--kb-motion-easing-enter`, `--kb-motion-easing-exit` | Transitions that respond to a user action. Nothing in kbui animates on its own, and every transition is disabled under `prefers-reduced-motion`. |
+| Component | `--kb-button-radius`, `--kb-input-height-md`, `--kb-dialog-width`, `--kb-facet-cut`, `--kb-status-running` | One component each. Override one to adjust that component without affecting others. The `facet.*` and `status.*` groups are the surface a product skin may set; see [decision 0010](decisions/0010-dark-product-skin-light-validated.md). |
 
 ## Naming
 

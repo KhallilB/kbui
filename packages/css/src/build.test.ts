@@ -69,6 +69,24 @@ describe("buildCss", () => {
     await rm(root, { recursive: true, force: true });
   });
 
+  test("paletteRefs flags the amber, green and teal families", async () => {
+    const root = await fixture({
+      "fam.css": `/* Anatomy: .kb-fam */
+.kb-fam {
+  a: var(--kb-amber-500);
+  b: var(--kb-green-400);
+  c: var(--kb-teal-600);
+}
+`,
+    });
+    const hits = await paletteRefs(root);
+    expect(hits).toHaveLength(3);
+    for (const m of ["--kb-amber-500", "--kb-green-400", "--kb-teal-600"]) {
+      expect(hits.some((h) => h.includes(m))).toBe(true);
+    }
+    await rm(root, { recursive: true, force: true });
+  });
+
   test("paletteRefs scans reset.css and accepts non-palette vars", async () => {
     const root = await fixture({
       "ok.css":
@@ -78,6 +96,20 @@ describe("buildCss", () => {
     await writeFile(join(root, "reset.css"), "html { color: rgb(0 0 0); }");
     expect(await paletteRefs(root)).toHaveLength(1);
     await rm(root, { recursive: true, force: true });
+  });
+
+  test("facet clips only its decorative pseudo-element, never the root", async () => {
+    const css = await readFile(join(src, "components", "facet.css"), "utf8");
+    const rules = css
+      .split("}")
+      .map((r) => r.trim())
+      .filter((r) => r.includes("clip-path"));
+    expect(rules.length).toBeGreaterThan(0);
+    for (const rule of rules) {
+      const selector = rule.slice(0, rule.indexOf("{"));
+      expect(selector).toMatch(/::before\s*$/);
+    }
+    expect(css).toMatch(/\.kb-facet::before \{[^}]*pointer-events: none/);
   });
 
   test("anatomyRoots throws without an anatomy comment", async () => {

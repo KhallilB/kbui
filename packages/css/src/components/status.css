@@ -1,0 +1,54 @@
+/* Anatomy: .kb-status [data-tone=neutral|info|running|success|warning|blocked] [data-compact] > .kb-status-icon, .kb-status-text */
+.kb-status {
+  --_status-ink: var(--kb-status-neutral);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--kb-space-2);
+  font-size: var(--kb-size-sm);
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--_status-ink);
+}
+
+.kb-status[data-tone="info"] {
+  --_status-ink: var(--kb-status-info);
+}
+
+.kb-status[data-tone="running"] {
+  --_status-ink: var(--kb-status-running);
+}
+
+.kb-status[data-tone="success"] {
+  --_status-ink: var(--kb-status-success);
+}
+
+.kb-status[data-tone="warning"] {
+  --_status-ink: var(--kb-status-warning);
+}
+
+.kb-status[data-tone="blocked"] {
+  --_status-ink: var(--kb-status-blocked);
+}
+
+.kb-status[data-compact] {
+  gap: var(--kb-space-1);
+  font-size: 0.75rem;
+}
+
+/* Icon inherits the ink; it is decoration next to the text, never the only signal. */
+.kb-status-icon {
+  display: inline-flex;
+  flex: none;
+  width: 1em;
+  height: 1em;
+  color: inherit;
+}
+
+.kb-status-icon > * {
+  width: 100%;
+  height: 100%;
+}
+
+.kb-status-text {
+  white-space: nowrap;
+}
