@@ -127,8 +127,8 @@ export const Depth: Story = {
 
 export const DepthDark: Story = { ...Depth, globals: { theme: "dark" } };
 
-/** Turned-up skin: sheen, glass and tone-colored light. Decorative layers only; layout is unchanged. */
-const litRoom = {
+/** Optional tokens set on a wrapper: sheen, glass, tone-colored light, pill chips. Layout is unchanged. */
+const overrides = {
   "--kb-panel-radius": "24px",
   "--kb-panel-sheen": "color-mix(in oklab, var(--kb-color-fg) 6%, transparent)",
   "--kb-panel-backdrop": "blur(28px) saturate(150%)",
@@ -139,10 +139,10 @@ const litRoom = {
   "--kb-status-glow": "4px",
 } as object;
 
-export const LitRoom: Story = {
+export const TokenOverrides: Story = {
   globals: { theme: "dark" },
   render: (args) => (
-    <div style={{ ...row, ...litRoom, padding: 24 }}>
+    <div style={{ ...row, ...overrides, padding: 24 }}>
       {(["default", "active", "critical"] as const).map((tone) => (
         <Panel
           {...args}
@@ -184,7 +184,7 @@ export const LitRoom: Story = {
   },
 };
 
-export const LitRoomLight: Story = { ...LitRoom, globals: { theme: "light" } };
+export const TokenOverridesLight: Story = { ...TokenOverrides, globals: { theme: "light" } };
 
 export const Toolbar: Story = {
   render: (args) => (
