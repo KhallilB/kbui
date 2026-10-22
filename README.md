@@ -1,17 +1,19 @@
 # kbui
 
-kbui is a shared design system for the projects on this machine. Its look lives in framework-free CSS driven by design tokens; a thin React layer on [Base UI](https://base-ui.com) adds behavior. Projects consume it straight from this checkout. Nothing is published.
+kbui is the design system we share across our projects. The look is plain CSS built from design tokens, and a small React layer on top of [Base UI](https://base-ui.com) handles behavior. Other projects use it directly from this folder; nothing gets published.
 
-| Package | What it holds | Docs |
+It's split into three packages and a Storybook app:
+
+| Package | What's in it | Docs |
 |---|---|---|
-| `@kbui/tokens` | `tokens.json` source; builds `tokens.css` and a typed `tokens` object | [packages/tokens](packages/tokens/README.md) |
-| `@kbui/css` | All visual design: reset plus one stylesheet per component, bundled into `styles.css` | [packages/css](packages/css/README.md) |
-| `@kbui/react` | React 19 components: `Button`, `Input`, `Dialog` | [packages/react](packages/react/README.md) |
-| `apps/storybook` | Live component docs, accessibility checks and story tests | [apps/storybook](apps/storybook/README.md) |
+| `@kbui/tokens` | Colors, spacing, type and sizes, defined once in `tokens.json` | [packages/tokens](packages/tokens/README.md) |
+| `@kbui/css` | Every style, as one stylesheet per component | [packages/css](packages/css/README.md) |
+| `@kbui/react` | `Button`, `Input` and `Dialog` for React 19 | [packages/react](packages/react/README.md) |
+| `apps/storybook` | Live examples and the accessibility checks | [apps/storybook](apps/storybook/README.md) |
 
-## Quick start
+## Getting started
 
-Use kbui in another project:
+To use kbui in another project, build it here and add it by path from that project:
 
 ```bash
 cd ~/proj/kbui && bun run build
@@ -25,25 +27,24 @@ import { Button } from "@kbui/react";
 export const Save = () => <Button variant="primary">Save</Button>;
 ```
 
-The full setup, theming and update loop are in [Using kbui in a project](docs/guides/using-kbui.md).
+[Using kbui in a project](docs/guides/using-kbui.md) covers theming, updates and the errors you're likely to hit.
 
-Work on kbui itself:
+To work on kbui itself:
 
 ```bash
 mise install && bun install
 bun run storybook        # http://localhost:6006
-bun run check            # build, lint, typecheck, unit tests
+bun run check            # build, lint, typecheck and unit tests
 ```
 
-## Documentation
+## Further reading
 
-- [Architecture](docs/architecture.md): the three layers and the anatomy contract that joins them.
-- [Tokens](docs/tokens.md): tiers, naming, dark mode and how to add a token.
-- [Using kbui in a project](docs/guides/using-kbui.md): install, theme, update, troubleshoot.
-- [Adding a component](docs/guides/adding-a-component.md): generator, CSS rules, tests and stories.
-- [Contributing](CONTRIBUTING.md): checks, conventions and commit rules.
-- [Decision records](docs/decisions/README.md): why kbui is built this way.
-- [Design spec](docs/superpowers/specs/2026-10-16-kbui-design-system-design.md): the original design.
+- [Architecture](docs/architecture.md) explains how the three packages fit together.
+- [Tokens](docs/tokens.md) covers naming, dark mode and adding new values.
+- [Adding a component](docs/guides/adding-a-component.md) walks through the generator, styles, tests and stories.
+- [Contributing](CONTRIBUTING.md) lists the checks and conventions we follow.
+- [Decision records](docs/decisions/README.md) explain why things are built the way they are.
+- The [original design spec](docs/superpowers/specs/2026-10-16-kbui-design-system-design.md) has the full background. Its registry plan was later dropped; see [decision 0003](docs/decisions/0003-local-path-installs.md).
 
 ## License
 

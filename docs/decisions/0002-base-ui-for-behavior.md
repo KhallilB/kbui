@@ -1,59 +1,61 @@
-# 0002. Component behavior comes from Base UI
+# 0002. Use Base UI for component behavior
 
 ## Status
 
-Accepted, 2026-10-16. Under review: the owner has an open question on keeping Base UI versus hand-writing primitives.
+Accepted on 2026-10-16. We haven't settled yet whether to keep Base UI long term or write our own primitives.
 
 ## Context
 
-Dialogs, fields and menus need focus trapping, keyboard handling, ARIA wiring and portals. Getting these right by hand is slow and easy to break. kbui wants behavior that is unstyled, so its own CSS ([0001](0001-framework-free-css-contract.md)) stays in charge of the look. The premise that could fail: that Base UI's attributes and API stay compatible with kbui's contract across releases.
+Dialogs, form fields and menus need focus trapping, keyboard handling, ARIA attributes and portals. Getting those right by hand is slow, and they break easily. We also wanted the behavior to come without any styling of its own, so kbui's CSS ([0001](0001-framework-free-css-contract.md)) stays in charge of how things look.
+
+The risk is that a new Base UI release changes the attributes or API our CSS relies on.
 
 ## Decision
 
-`@kbui/react` builds components on `@base-ui/react`, pinned to an exact version (1.9.0). kbui relies on the `data-open`, `data-disabled`, `data-invalid`, `data-starting-style` and `data-ending-style` attributes Base UI emits, and narrows Base UI's `className` (string or function) to a string.
+`@kbui/react` builds its components on `@base-ui/react`, pinned to exactly version 1.9.0. Our styles rely on the attributes Base UI sets: `data-open`, `data-disabled`, `data-invalid`, `data-starting-style` and `data-ending-style`. Base UI also lets `className` be a function, and we narrow it to a plain string.
 
 ## Options considered
 
-| Option | Verdict |
-|---|---|
-| Base UI | Chosen: headless, React 19 native, emits state as `data-*` attributes that match the CSS contract |
-| Radix Primitives | Rejected: per-package installs, and several of its authors now build Base UI |
-| Hand-written behavior | Rejected for now: focus traps, portals and ARIA wiring cost more than three components justify; this is the option under review |
+- Base UI was accepted because it ships no styles, it's built for React 19, and it exposes state as `data-*` attributes that match how our CSS is written.
+- Radix Primitives were rejected. Each primitive is a separate install, and several of its authors have since moved on to build Base UI.
+- Writing our own behavior was ruled out for now. Focus traps, portals and ARIA wiring are more work than three components justify. We haven't closed this option off.
 
 ## Consequences
 
-- An external dependency with its own release cadence sits under every component. Upgrades need a deliberate bump and the full test run.
-- Some Base UI defaults leak through: an anchor rendered by `Button` is announced as a button unless the caller passes `role="link"`.
-- Consumers install Base UI from npm, which brings one more dependency into their tree.
+Every component depends on a library with its own release schedule, so upgrading means a deliberate version bump and a full test run.
+
+Some of Base UI's defaults show through. For example, a `Button` rendered as a link is announced as a button unless you pass `role="link"`.
+
+Projects using kbui also install Base UI from npm.
 
 ## Soundness boundary
 
-Component tests in jsdom cover the behavior kbui exercises: opening, closing, Escape, labelling, descriptions, refs. They do not prove Base UI's focus management in real browsers or with every assistive technology; the Storybook axe run covers static accessibility only.
+The component tests run in jsdom and cover what we use: opening, closing, Escape, labels, descriptions and refs. They don't prove that focus management works in real browsers or with every screen reader. The Storybook accessibility scan only checks the rendered markup.
 
 ## Threat model
 
-Guards against accessibility regressions in hand-rolled behavior. Does not guard against a Base UI release changing attributes or API; the exact pin is the defense.
+Leaning on Base UI keeps us from making our own accessibility mistakes in hand-written behavior. A Base UI release that changes attributes or its API is a different risk, and pinning the exact version is how we handle it.
 
 ## Non-goals
 
 - Wrapping every Base UI component.
-- Supporting Base UI's function-form `className`.
+- Supporting Base UI's function form of `className`.
 
 ## Revisit if
 
-- The owner decides to hand-write primitives.
-- A Base UI upgrade changes the `data-*` attributes kbui's CSS keys on.
-- A needed component is missing from Base UI.
+- We decide to write our own primitives.
+- A Base UI upgrade changes the `data-*` attributes our CSS depends on.
+- We need a component that Base UI doesn't have.
 
 ## Adoption
 
-`Button`, `Input` (Base UI `Field` and `Input`) and `Dialog` use it.
+`Button`, `Input` (through Base UI's `Field` and `Input`) and `Dialog` use it.
 
 ## Validation
 
-- Executed: `bun run --cwd packages/react test` passes 28 tests on commit 2a5fd82, including dialog open, close, Escape and controlled-state cases.
-- Executed: `bun run test:stories` passes 16 stories with axe in Chromium on the same commit.
-- Planned: a keyboard-only and screen-reader pass in a real browser before the first product ships.
+- Done: `bun run --cwd packages/react test` passed all 28 tests at commit 2a5fd82, including opening and closing the dialog, Escape, and controlled state.
+- Done: `bun run test:stories` passed all 16 stories with the accessibility scan in Chromium at the same commit.
+- Still to do: a keyboard-only and screen-reader check in a real browser before the first product ships.
 
 ## Links
 
