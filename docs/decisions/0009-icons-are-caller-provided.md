@@ -52,7 +52,7 @@ Guards against color-only or icon-only status and against an icon dependency in 
 
 ## Validation
 
-- Done: `packages/react/src/components/Status/Status.test.tsx` checks that the icon slot is `aria-hidden`, that it is absent without an icon, and that every tone renders its text, on branch `feat-faceted-foundation`.
+- Done: `packages/react/src/components/Status/Status.test.tsx` checks that the icon slot is `aria-hidden`, that it is absent without an icon, and that every tone renders its text, in pull request #2.
 
 ## Links
 
