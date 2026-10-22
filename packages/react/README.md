@@ -64,21 +64,21 @@ Other native input props, including `value` and `defaultValue`, pass through to 
 </Dialog>
 ```
 
-## Facet
+## Panel
 
-A rounded section plane with a lit rim, a lift and optional emitted light. Name it with `aria-labelledby` pointing at the heading in `Facet.Header`.
+A rounded section plane with a lit rim, a lift and optional emitted light. Name it with `aria-labelledby` pointing at the heading in `Panel.Header`.
 
 ```tsx
-<Facet tone="active" rail="status" aria-labelledby="queue-title">
-  <Facet.Header>
+<Panel tone="active" rail="status" aria-labelledby="queue-title">
+  <Panel.Header>
     <h2 id="queue-title">Queue</h2>
-    <Facet.Toolbar><Button size="sm">Retry</Button></Facet.Toolbar>
-  </Facet.Header>
-  <Facet.Body>
-    <Facet.Well>…</Facet.Well>
-  </Facet.Body>
-  <Facet.Footer>…</Facet.Footer>
-</Facet>
+    <Panel.Toolbar><Button size="sm">Retry</Button></Panel.Toolbar>
+  </Panel.Header>
+  <Panel.Body>
+    <Panel.Well>…</Panel.Well>
+  </Panel.Body>
+  <Panel.Footer>…</Panel.Footer>
+</Panel>
 ```
 
 | Prop | Values | Default |
@@ -86,9 +86,9 @@ A rounded section plane with a lit rim, a lift and optional emitted light. Name 
 | `tone` | `quiet` `default` `sunken` `active` `critical` | `default` |
 | `rail` | `none` `accent` `status` | `none` |
 | `density` | `compact` `standard` | `standard` |
-| `collapsible`, `open`, `defaultOpen`, `onOpenChange` | Body becomes a panel driven by `Facet.Toggle` | off |
+| `collapsible`, `open`, `defaultOpen`, `onOpenChange` | Body collapses and expands from `Panel.Toggle` | off |
 
-`quiet` draws no plane; `sunken` recesses onto the page color. `Facet.Well` is a recessed area for logs and output. Shape and light come from tokens: `--kb-facet-radius`, a rim from `--kb-facet-rim-top` through `--kb-facet-border` to `--kb-facet-rim-bottom`, `--kb-facet-shadow` and `--kb-facet-shadow-active` for the lift. `--kb-facet-sheen`, `--kb-facet-backdrop` and `--kb-facet-glow`, `-glow-active` and `-glow-critical` stay off until a skin turns them up. Active and critical recolor the top of the rim and the glow. The rail is clipped by the rounded plate.
+`quiet` draws no plane; `sunken` recesses onto the page color. `Panel.Well` is a recessed area for logs and output. Shape and light come from tokens: `--kb-panel-radius`, a rim from `--kb-panel-rim-top` through `--kb-panel-border` to `--kb-panel-rim-bottom`, `--kb-panel-shadow` and `--kb-panel-shadow-active` for the lift. `--kb-panel-sheen`, `--kb-panel-backdrop` and `--kb-panel-glow`, `-glow-active` and `-glow-critical` stay off until a skin turns them up. Active and critical recolor the top of the rim and the glow. The rail is clipped by the rounded plate.
 
 ## Status
 

@@ -98,8 +98,8 @@ describe("buildCss", () => {
     await rm(root, { recursive: true, force: true });
   });
 
-  test("facet never clips; only its decorative layers filter or blur", async () => {
-    const css = await readFile(join(src, "components", "facet.css"), "utf8");
+  test("panel never clips; only its decorative layers filter or blur", async () => {
+    const css = await readFile(join(src, "components", "panel.css"), "utf8");
     expect(css).not.toContain("clip-path");
     expect(css).not.toContain("polygon(");
     const rules = css.split("}").map((r) => r.trim());
@@ -107,60 +107,60 @@ describe("buildCss", () => {
       rules
         .filter((r) => new RegExp(`(^|[;{\\s])${prop}:`).test(r))
         .map((r) => r.slice(0, r.indexOf("{")).trim());
-    for (const sel of selectorsWith("filter")) expect(sel).toMatch(/\.kb-facet-glow$/);
-    for (const sel of selectorsWith("backdrop-filter")) expect(sel).toMatch(/\.kb-facet-plate$/);
-    const root = css.match(/\.kb-facet \{[^}]*\}/)?.[0] ?? "";
+    for (const sel of selectorsWith("filter")) expect(sel).toMatch(/\.kb-panel-glow$/);
+    for (const sel of selectorsWith("backdrop-filter")) expect(sel).toMatch(/\.kb-panel-plate$/);
+    const root = css.match(/\.kb-panel \{[^}]*\}/)?.[0] ?? "";
     expect(root).not.toMatch(/filter|overflow/);
-    expect(root).toContain("border-radius: var(--kb-facet-radius)");
+    expect(root).toContain("border-radius: var(--kb-panel-radius)");
   });
 
-  test("facet paints rim, sheen, glass, glow, shadow and well from tokens", async () => {
-    const css = await readFile(join(src, "components", "facet.css"), "utf8");
+  test("panel paints rim, sheen, glass, glow, shadow and well from tokens", async () => {
+    const css = await readFile(join(src, "components", "panel.css"), "utf8");
     const rule = (sel: RegExp) =>
       [...css.matchAll(new RegExp(sel, "g"))].map((m) => m[0]).join("\n");
-    const plate = rule(/\.kb-facet-plate \{[^}]*\}/);
-    expect(plate).toContain("var(--_facet-sheen)");
-    expect(plate).toContain("var(--_facet-bg)");
-    expect(plate).toContain("var(--_facet-shadow)");
-    expect(plate).toContain("var(--_facet-highlight)");
-    expect(plate).toContain("backdrop-filter: var(--kb-facet-backdrop)");
+    const plate = rule(/\.kb-panel-plate \{[^}]*\}/);
+    expect(plate).toContain("var(--_panel-sheen)");
+    expect(plate).toContain("var(--_panel-bg)");
+    expect(plate).toContain("var(--_panel-shadow)");
+    expect(plate).toContain("var(--_panel-highlight)");
+    expect(plate).toContain("backdrop-filter: var(--kb-panel-backdrop)");
     expect(plate).toContain("pointer-events: none");
-    const rim = rule(/\.kb-facet-plate::before \{[^}]*\}/);
-    expect(rim).toContain("var(--_facet-rim-top)");
-    expect(rim).toContain("var(--_facet-seam)");
-    expect(rim).toContain("var(--_facet-rim-bottom)");
+    const rim = rule(/\.kb-panel-plate::before \{[^}]*\}/);
+    expect(rim).toContain("var(--_panel-rim-top)");
+    expect(rim).toContain("var(--_panel-seam)");
+    expect(rim).toContain("var(--_panel-rim-bottom)");
     expect(rim).toMatch(/mask-composite: exclude/);
-    const glow = rule(/\.kb-facet-glow \{[^}]*\}/);
-    expect(glow).toContain("var(--_facet-glow)");
-    expect(glow).toContain("filter: blur(var(--kb-facet-glow-blur))");
+    const glow = rule(/\.kb-panel-glow \{[^}]*\}/);
+    expect(glow).toContain("var(--_panel-glow)");
+    expect(glow).toContain("filter: blur(var(--kb-panel-glow-blur))");
     expect(glow).toContain("pointer-events: none");
     expect(css).toMatch(
-      /\[data-tone="active"\] \{[^}]*--_facet-rim-top: var\(--kb-facet-border-active\)/,
+      /\[data-tone="active"\] \{[^}]*--_panel-rim-top: var\(--kb-panel-border-active\)/,
     );
     expect(css).toMatch(
-      /\[data-tone="active"\] \{[^}]*--_facet-glow: var\(--kb-facet-glow-active\)/,
+      /\[data-tone="active"\] \{[^}]*--_panel-glow: var\(--kb-panel-glow-active\)/,
     );
     expect(css).toMatch(
-      /\[data-tone="critical"\] \{[^}]*--_facet-rim-top: var\(--kb-facet-border-critical\)/,
+      /\[data-tone="critical"\] \{[^}]*--_panel-rim-top: var\(--kb-panel-border-critical\)/,
     );
     expect(css).toMatch(
-      /\[data-tone="critical"\] \{[^}]*--_facet-glow: var\(--kb-facet-glow-critical\)/,
+      /\[data-tone="critical"\] \{[^}]*--_panel-glow: var\(--kb-panel-glow-critical\)/,
     );
-    expect(css).toMatch(/\[data-tone="quiet"\] \{[^}]*--_facet-shadow: none/);
-    expect(css).toMatch(/\[data-nested\][^{]*\{[^}]*--_facet-shadow: none/);
+    expect(css).toMatch(/\[data-tone="quiet"\] \{[^}]*--_panel-shadow: none/);
+    expect(css).toMatch(/\[data-nested\][^{]*\{[^}]*--_panel-shadow: none/);
     expect(css).toMatch(
-      /\.kb-facet-header::after \{[^}]*var\(--kb-facet-divider\)[^}]*pointer-events: none/,
+      /\.kb-panel-header::after \{[^}]*var\(--kb-panel-divider\)[^}]*pointer-events: none/,
     );
-    const well = rule(/\.kb-facet-well \{[^}]*\}/);
-    expect(well).toContain("var(--kb-facet-well)");
-    expect(well).toContain("var(--kb-facet-well-shadow)");
-    expect(well).toContain("border-radius: var(--kb-facet-well-radius)");
+    const well = rule(/\.kb-panel-well \{[^}]*\}/);
+    expect(well).toContain("var(--kb-panel-well)");
+    expect(well).toContain("var(--kb-panel-well-shadow)");
+    expect(well).toContain("border-radius: var(--kb-panel-well-radius)");
   });
 
-  test("sunken facet recesses onto its own plane color", async () => {
-    const css = await readFile(join(src, "components", "facet.css"), "utf8");
+  test("sunken panel recesses onto its own plane color", async () => {
+    const css = await readFile(join(src, "components", "panel.css"), "utf8");
     expect(css).toMatch(
-      /\[data-tone="sunken"\] \{[^}]*--_facet-bg: var\(--kb-facet-background-sunken\)/,
+      /\[data-tone="sunken"\] \{[^}]*--_panel-bg: var\(--kb-panel-background-sunken\)/,
     );
   });
 
