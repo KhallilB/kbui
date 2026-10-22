@@ -98,47 +98,56 @@ describe("buildCss", () => {
     await rm(root, { recursive: true, force: true });
   });
 
-  test("facet clips only its decorative pseudo-elements, never the root", async () => {
+  test("facet clips and shadows only its decorative plate, never the root", async () => {
     const css = await readFile(join(src, "components", "facet.css"), "utf8");
-    const rules = css
-      .split("}")
-      .map((r) => r.trim())
-      .filter((r) => r.includes("clip-path"));
-    expect(rules.length).toBeGreaterThan(0);
-    for (const rule of rules) {
-      const selector = rule.slice(0, rule.indexOf("{"));
-      expect(selector).toMatch(/::(before|after)\s*$/);
-    }
-    expect(css).toMatch(/\.kb-facet::before,\s*\.kb-facet::after \{[^}]*pointer-events: none/);
-  });
-
-  test("facet rail starts and ends inside the cut corners", async () => {
-    const css = await readFile(join(src, "components", "facet.css"), "utf8");
-    const rail = css.match(/\.kb-facet-rail \{[^}]*\}/)?.[0] ?? "";
-    expect(rail).toContain("inset-block-start: var(--_facet-cut-start)");
-    expect(rail).not.toMatch(/inset-block:\s*0/);
-  });
-
-  test("facet paints its opt-in cut edge, highlight and header divider from tokens", async () => {
-    const css = await readFile(join(src, "components", "facet.css"), "utf8");
-    const rules = (sel: RegExp) => [...css.matchAll(sel)].map((m) => m[0]).join("\n");
-    const seam = rules(/\.kb-facet::before \{[^}]*\}/g);
-    expect(seam).toContain("var(--_facet-edge)");
-    expect(seam).toContain("var(--_facet-edge-start-depth)");
-    expect(seam).toContain("var(--_facet-edge-end-depth)");
+    const rules = css.split("}").map((r) => r.trim());
+    const selectorsWith = (prop: string) =>
+      rules
+        .filter((r) => new RegExp(`(^|[;{\\s])${prop}:`).test(r))
+        .map((r) => r.slice(0, r.indexOf("{")).trim());
+    const clipped = selectorsWith("clip-path");
+    expect(clipped.length).toBeGreaterThan(0);
+    for (const sel of clipped) expect(sel).toMatch(/\.kb-facet-plate(::before)?$/);
+    const filtered = selectorsWith("filter");
+    expect(filtered.length).toBeGreaterThan(0);
+    for (const sel of filtered) expect(sel).toMatch(/\.kb-facet-frame$/);
+    expect(css).toMatch(/\.kb-facet-frame \{[^}]*pointer-events: none/);
     const root = css.match(/\.kb-facet \{[^}]*\}/)?.[0] ?? "";
+    expect(root).not.toMatch(/clip-path|filter/);
+  });
+
+  test("facet resolves cut depth at the element so a scoped --kb-facet-cut wins", async () => {
+    const css = await readFile(join(src, "components", "facet.css"), "utf8");
+    expect(css).toContain("var(--kb-facet-cut-start, var(--kb-facet-cut))");
+    expect(css).toContain("var(--kb-facet-cut-end, var(--kb-facet-cut))");
+  });
+
+  test("facet paints edge, highlight, divider, shadow and well from tokens", async () => {
+    const css = await readFile(join(src, "components", "facet.css"), "utf8");
+    const rule = (sel: RegExp) =>
+      [...css.matchAll(new RegExp(sel, "g"))].map((m) => m[0]).join("\n");
+    const plate = rule(/\.kb-facet-plate \{[^}]*\}/);
+    expect(plate).toContain("var(--_facet-edge)");
+    expect(plate).toContain("var(--_facet-seam)");
+    const fill = rule(/\.kb-facet-plate::before \{[^}]*\}/);
+    expect(fill).toContain("var(--_facet-highlight)");
+    expect(fill).toContain("var(--_facet-bg)");
+    expect(rule(/\.kb-facet-frame \{[^}]*\}/)).toContain("var(--_facet-shadow)");
+    const root = rule(/\.kb-facet \{[^}]*\}/);
     expect(root).toContain("--_facet-edge: var(--kb-facet-cut-edge)");
-    expect(css).toMatch(/\[data-cut="start"\][^{]*\{[^}]*--_facet-edge-start-depth:/);
-    expect(css).toMatch(/\[data-cut="end"\][^{]*\{[^}]*--_facet-edge-end-depth:/);
-    expect(css).toMatch(/\[data-tone="quiet"\] \{[^}]*--_facet-edge: transparent/);
+    expect(root).toContain("--_facet-shadow: var(--kb-facet-shadow)");
+    expect(root).toContain("--_facet-highlight: var(--kb-facet-highlight)");
     expect(css).toMatch(
-      /\[data-tone="critical"\] \{[^}]*--_facet-edge: var\(--kb-facet-border-critical\)/,
+      /\[data-tone="active"\] \{[^}]*--_facet-shadow: var\(--kb-facet-shadow-active\)/,
     );
-    const fill = rules(/\.kb-facet::after \{[^}]*\}/g);
-    expect(fill).toContain("var(--kb-facet-highlight)");
+    expect(css).toMatch(/\[data-tone="quiet"\] \{[^}]*--_facet-shadow: none/);
+    expect(css).toMatch(/\[data-nested\][^{]*\{[^}]*--_facet-shadow: none/);
     expect(css).toMatch(
       /\.kb-facet-header::after \{[^}]*var\(--kb-facet-divider\)[^}]*pointer-events: none/,
     );
+    const well = rule(/\.kb-facet-well \{[^}]*\}/);
+    expect(well).toContain("var(--kb-facet-well)");
+    expect(well).toContain("var(--kb-facet-well-shadow)");
   });
 
   test("sunken facet recesses onto its own plane color", async () => {

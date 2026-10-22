@@ -36,12 +36,31 @@ describe("Facet", () => {
     expect(container.querySelector(".kb-facet")).toHaveAttribute("data-tone", "sunken");
   });
 
-  test("renders a decorative rail only when rail is not none", () => {
+  test("renders a decorative frame and plate first, hidden from assistive tech", () => {
+    const { container } = render(<Facet>x</Facet>);
+    const root = container.querySelector(".kb-facet");
+    const frame = root?.firstElementChild;
+    expect(frame).toHaveClass("kb-facet-frame");
+    expect(frame).toHaveAttribute("aria-hidden", "true");
+    expect(frame?.querySelector(":scope > .kb-facet-plate")).not.toBeNull();
+  });
+
+  test("renders the rail inside the plate only when rail is not none", () => {
     const { container, rerender } = render(<Facet>x</Facet>);
     expect(container.querySelector(".kb-facet-rail")).toBeNull();
     rerender(<Facet rail="status">x</Facet>);
-    const rail = container.querySelector(".kb-facet-rail");
-    expect(rail).toHaveAttribute("aria-hidden", "true");
+    expect(container.querySelector(".kb-facet-plate > .kb-facet-rail")).not.toBeNull();
+  });
+
+  test("renders a recessed well part", () => {
+    const { container } = render(
+      <Facet>
+        <Facet.Body>
+          <Facet.Well>output</Facet.Well>
+        </Facet.Body>
+      </Facet>,
+    );
+    expect(container.querySelector(".kb-facet-body > .kb-facet-well")).toHaveTextContent("output");
   });
 
   test("renders header, body and footer parts", () => {

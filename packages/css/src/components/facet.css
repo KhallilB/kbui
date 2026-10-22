@@ -1,14 +1,19 @@
-/* Anatomy: .kb-facet [data-tone=quiet|default|sunken|active|critical] [data-cut=none|start|end|both] [data-rail=none|accent|status] [data-density=compact|standard] [data-nested] [data-collapsible] [data-open] [data-closed] > .kb-facet-header > .kb-facet-toolbar, .kb-facet-toggle [data-panel-open]; .kb-facet-body, .kb-facet-footer, .kb-facet-rail; sibling .kb-facet-group [data-direction=row|column] */
+/* Anatomy: .kb-facet [data-tone=quiet|default|sunken|active|critical] [data-cut=none|start|end|both] [data-rail=none|accent|status] [data-density=compact|standard] [data-nested] [data-collapsible] [data-open] [data-closed] > .kb-facet-frame > .kb-facet-plate > .kb-facet-rail; .kb-facet-header > .kb-facet-toolbar, .kb-facet-toggle [data-panel-open]; .kb-facet-body > .kb-facet-well; .kb-facet-footer; sibling .kb-facet-group [data-direction=row|column] */
 .kb-facet {
   --_facet-bg: var(--kb-facet-background);
   --_facet-seam: var(--kb-facet-border);
   --_facet-seam-width: var(--kb-facet-seam);
   --_facet-rail: var(--kb-facet-rail);
-  --_facet-cut-start: 0px;
-  --_facet-cut-end: 0px;
   --_facet-edge: var(--kb-facet-cut-edge);
-  --_facet-edge-start-depth: 0px;
-  --_facet-edge-end-depth: 0px;
+  --_facet-highlight: var(--kb-facet-highlight);
+  --_facet-shadow: var(--kb-facet-shadow);
+  --_facet-corner: var(--kb-facet-corner);
+  --_facet-cut-start: var(--_facet-corner);
+  --_facet-cut-end: var(--_facet-corner);
+  /* Band depth that lights a 45deg corner edge including its seam. */
+  --_facet-edge-start: calc((var(--_facet-cut-start) + 2 * var(--_facet-seam-width)) * 0.7071);
+  --_facet-edge-end: calc((var(--_facet-cut-end) + 2 * var(--_facet-seam-width)) * 0.7071);
+  --_facet-edge-corner: calc((var(--_facet-corner) + 2 * var(--_facet-seam-width)) * 0.7071);
   --_facet-gap: var(--kb-space-3);
   --_facet-pad: var(--kb-facet-padding);
   position: relative;
@@ -20,64 +25,74 @@
   color: var(--kb-color-fg);
 }
 
-/* Two clipped planes: seam below, fill inset by the seam width. The root is never clipped. */
-.kb-facet::before,
-.kb-facet::after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-  clip-path: polygon(
-    var(--_facet-cut-start) 0,
-    100% 0,
-    100% calc(100% - var(--_facet-cut-end)),
-    calc(100% - var(--_facet-cut-end)) 100%,
-    0 100%,
-    0 var(--_facet-cut-start)
-  );
-  transition: background-color var(--kb-motion-duration-base) var(--kb-motion-easing-standard);
-}
-
-/* 135deg/315deg bands of depth d cover exactly the corner triangle plus its diagonal seam. */
-.kb-facet::before {
-  inset: 0;
-  z-index: -2;
-  background:
-    linear-gradient(135deg, var(--_facet-edge) 0 var(--_facet-edge-start-depth), transparent 0),
-    linear-gradient(315deg, var(--_facet-edge) 0 var(--_facet-edge-end-depth), transparent 0),
-    var(--_facet-seam);
-}
-
-.kb-facet::after {
-  inset: var(--_facet-seam-width);
-  z-index: -1;
-  background: var(--_facet-bg);
-  box-shadow: inset 0 1px 0 var(--kb-facet-highlight);
-}
-
+/* Resolved here, not at :root, so a wrapper-scoped --kb-facet-cut still applies. */
 .kb-facet[data-cut="start"],
 .kb-facet[data-cut="both"] {
-  --_facet-cut-start: var(--kb-facet-cut-start);
-  --_facet-edge-start-depth: calc(
-    (var(--_facet-cut-start) + 2 * var(--_facet-seam-width)) *
-    0.7071
-  );
+  --_facet-cut-start: var(--kb-facet-cut-start, var(--kb-facet-cut));
 }
 
 .kb-facet[data-cut="end"],
 .kb-facet[data-cut="both"] {
-  --_facet-cut-end: var(--kb-facet-cut-end);
-  --_facet-edge-end-depth: calc((var(--_facet-cut-end) + 2 * var(--_facet-seam-width)) * 0.7071);
+  --_facet-cut-end: var(--kb-facet-cut-end, var(--kb-facet-cut));
+}
+
+/* Frame casts the shadow so it follows the cut; content stays outside the filter. */
+.kb-facet-frame {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  filter: var(--_facet-shadow);
+}
+
+.kb-facet-plate,
+.kb-facet-plate::before {
+  clip-path: polygon(
+    var(--_facet-cut-start) 0,
+    calc(100% - var(--_facet-corner)) 0,
+    100% var(--_facet-corner),
+    100% calc(100% - var(--_facet-cut-end)),
+    calc(100% - var(--_facet-cut-end)) 100%,
+    var(--_facet-corner) 100%,
+    0 calc(100% - var(--_facet-corner)),
+    0 var(--_facet-cut-start)
+  );
+}
+
+/* Seam plane with lit corner bands; the fill sits on top, inset by the seam width. */
+.kb-facet-plate {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, var(--_facet-edge) 0 var(--_facet-edge-start), transparent 0),
+    linear-gradient(225deg, var(--_facet-edge) 0 var(--_facet-edge-corner), transparent 0),
+    linear-gradient(315deg, var(--_facet-edge) 0 var(--_facet-edge-end), transparent 0),
+    linear-gradient(45deg, var(--_facet-edge) 0 var(--_facet-edge-corner), transparent 0),
+    var(--_facet-seam);
+}
+
+.kb-facet-plate::before {
+  content: "";
+  position: absolute;
+  inset: var(--_facet-seam-width);
+  background: var(--_facet-bg);
+  box-shadow: inset 0 1px 0 var(--_facet-highlight);
+  transition: background-color var(--kb-motion-duration-base) var(--kb-motion-easing-standard);
 }
 
 .kb-facet[data-tone="quiet"] {
   --_facet-bg: transparent;
   --_facet-seam: transparent;
   --_facet-edge: transparent;
+  --_facet-highlight: transparent;
+  --_facet-shadow: none;
 }
 
-/* Recessed well for output inside a plane: page color, same seam. */
+/* Recessed plane: no lift, no lit top edge. */
 .kb-facet[data-tone="sunken"] {
   --_facet-bg: var(--kb-facet-background-sunken);
+  --_facet-highlight: transparent;
+  --_facet-shadow: none;
 }
 
 .kb-facet[data-tone="active"] {
@@ -85,6 +100,7 @@
   --_facet-seam: var(--kb-facet-border-active);
   --_facet-seam-width: var(--kb-facet-seam-active);
   --_facet-rail: var(--kb-facet-rail-active);
+  --_facet-shadow: var(--kb-facet-shadow-active);
 }
 
 .kb-facet[data-tone="critical"] {
@@ -100,18 +116,21 @@
   --_facet-pad: calc(var(--kb-facet-padding) / 2);
 }
 
-/* Starts below the start cut so it never pokes through the chamfer. */
+/* One lift per stack: a facet inside a facet sits on its parent's plane. */
+.kb-facet[data-nested] {
+  --_facet-shadow: none;
+}
+
+/* Clipped with the plate, so it never pokes through a cut corner. */
 .kb-facet-rail {
   position: absolute;
-  inset-block-start: var(--_facet-cut-start);
-  inset-block-end: 0;
+  inset-block: 0;
   inset-inline-start: 0;
   width: 3px;
-  pointer-events: none;
   background: var(--_facet-rail);
 }
 
-.kb-facet[data-rail="accent"] > .kb-facet-rail {
+.kb-facet[data-rail="accent"] .kb-facet-rail {
   background: var(--kb-facet-rail-active);
 }
 
@@ -185,7 +204,18 @@
 }
 
 .kb-facet-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kb-space-2);
   min-width: 0;
+}
+
+/* Screen inside the bezel: recessed, for output and logs. */
+.kb-facet-well {
+  min-width: 0;
+  padding: var(--kb-space-3);
+  background: var(--kb-facet-well);
+  box-shadow: var(--kb-facet-well-shadow);
 }
 
 .kb-facet-footer {
@@ -213,8 +243,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .kb-facet::before,
-  .kb-facet::after {
+  .kb-facet-plate::before {
     transition: none;
   }
 }

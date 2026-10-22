@@ -116,7 +116,14 @@ const running: Pane[] = [
     title: "Worker B",
     tone: "active",
     status: { tone: "running", label: "Running" },
-    body: "Step 3 of 5: building. Output streams below the header without motion.",
+    body: (
+      <>
+        Step 3 of 5: building.
+        <Facet.Well>
+          <code>compiling package 2 of 4</code>
+        </Facet.Well>
+      </>
+    ),
     action: stop,
   },
   { ...(idle[2] as Pane) },
