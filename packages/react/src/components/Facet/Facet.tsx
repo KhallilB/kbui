@@ -4,7 +4,6 @@ import { type ComponentProps, createContext, type Ref, useContext } from "react"
 import { kb } from "../../utils/kb";
 
 export type FacetTone = "quiet" | "default" | "sunken" | "active" | "critical";
-export type FacetCut = "none" | "start" | "end" | "both";
 export type FacetRail = "none" | "accent" | "status";
 export type FacetDensity = "compact" | "standard";
 export type FacetGroupDirection = "row" | "column";
@@ -13,8 +12,6 @@ export type FacetGroupDirection = "row" | "column";
 export type FacetProps = ComponentProps<"section"> & {
   /** Plane weight: quiet has no seam, sunken recesses, active lifts, critical warns. */
   tone?: FacetTone;
-  /** Which corners the decorative clip removes; the root itself is never clipped. */
-  cut?: FacetCut;
   /** Inline-start rail: accent is always accent; status follows the tone. */
   rail?: FacetRail;
   /** Padding scale. */
@@ -47,7 +44,6 @@ const CollapsibleContext = createContext(false);
 
 function FacetRoot({
   tone = "default",
-  cut = "none",
   rail = "none",
   density = "standard",
   collapsible = false,
@@ -60,14 +56,13 @@ function FacetRoot({
   ...props
 }: FacetProps) {
   const nested = useContext(NestedContext);
-  const attrs = kb("facet", { tone, cut, rail, density, nested, collapsible }, className);
+  const attrs = kb("facet", { tone, rail, density, nested, collapsible }, className);
   const content = (
     <NestedContext value={true}>
       <CollapsibleContext value={collapsible}>
-        <span className="kb-facet-frame" aria-hidden="true">
-          <span className="kb-facet-plate">
-            {rail !== "none" ? <span className="kb-facet-rail" /> : null}
-          </span>
+        <span className="kb-facet-glow" aria-hidden="true" />
+        <span className="kb-facet-plate" aria-hidden="true">
+          {rail !== "none" ? <span className="kb-facet-rail" /> : null}
         </span>
         {children}
       </CollapsibleContext>

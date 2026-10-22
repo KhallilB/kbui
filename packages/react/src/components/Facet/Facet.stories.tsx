@@ -10,11 +10,10 @@ const meta = {
   tags: ["autodocs"],
   argTypes: {
     tone: { control: "select", options: ["quiet", "default", "sunken", "active", "critical"] },
-    cut: { control: "select", options: ["none", "start", "end", "both"] },
     rail: { control: "select", options: ["none", "accent", "status"] },
     density: { control: "select", options: ["compact", "standard"] },
   },
-  args: { tone: "default", cut: "none", rail: "none", density: "standard" },
+  args: { tone: "default", rail: "none", density: "standard" },
 } satisfies Meta<typeof Facet>;
 
 export default meta;
@@ -55,16 +54,6 @@ export const Tones: Story = {
   ),
 };
 
-export const Cuts: Story = {
-  render: (args) => (
-    <div style={row}>
-      {(["none", "start", "end", "both"] as const).map((cut) => (
-        <Sample {...args} key={cut} id={`cut-${cut}`} cut={cut} title={`Cut ${cut}`} />
-      ))}
-    </div>
-  ),
-};
-
 export const Rails: Story = {
   render: (args) => (
     <div style={row}>
@@ -81,31 +70,21 @@ export const Rails: Story = {
   ),
 };
 
-/** Optional hooks --kb-facet-cut-start and --kb-facet-cut-end override --kb-facet-cut per side; the seam follows the edge. */
-export const Geometry: Story = {
-  args: { cut: "both", tone: "active" },
-  render: (args) => (
-    <div style={row}>
-      <Sample {...args} id="geo-default" title="Token depth" />
-      <div style={{ "--kb-facet-cut-start": "2rem", "--kb-facet-cut-end": "0.5rem" } as object}>
-        <Sample {...args} id="geo-custom" title="Deep start, shallow end" />
-      </div>
-    </div>
-  ),
-};
-
 function expectDepth(canvas: HTMLElement) {
   const facets = [...canvas.querySelectorAll<HTMLElement>(".kb-facet:not([data-nested])")];
   expect(facets.length).toBeGreaterThan(0);
   for (const facet of facets) {
     expect(getComputedStyle(facet).clipPath).toBe("none");
     expect(getComputedStyle(facet).filter).toBe("none");
-    const frame = facet.querySelector<HTMLElement>(":scope > .kb-facet-frame");
-    const plate = frame?.querySelector<HTMLElement>(".kb-facet-plate");
-    expect(frame && getComputedStyle(frame).filter).toContain("drop-shadow");
-    expect(frame && getComputedStyle(frame).pointerEvents).toBe("none");
-    expect(plate && getComputedStyle(plate).backgroundImage).toContain("linear-gradient");
-    expect(plate && getComputedStyle(plate).clipPath).toContain("polygon");
+    const glow = facet.querySelector<HTMLElement>(":scope > .kb-facet-glow");
+    const plate = facet.querySelector<HTMLElement>(":scope > .kb-facet-plate");
+    expect(glow && getComputedStyle(glow).pointerEvents).toBe("none");
+    expect(plate && getComputedStyle(plate).pointerEvents).toBe("none");
+    expect(plate && getComputedStyle(plate).borderTopLeftRadius).toBe(
+      getComputedStyle(facet).borderTopLeftRadius,
+    );
+    expect(plate && getComputedStyle(plate).boxShadow).not.toBe("none");
+    expect(plate && getComputedStyle(plate, "::before").maskComposite).toContain("exclude");
     const header = facet.querySelector<HTMLElement>(".kb-facet-header");
     if (header) {
       expect(getComputedStyle(header, "::after").backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
@@ -113,9 +92,9 @@ function expectDepth(canvas: HTMLElement) {
   }
 }
 
-/** Default depth: lifted plate, lit top and bevel edges, divider, recessed well. */
+/** Default depth: rounded plate, lit rim and top edge, divider, lift and a recessed well. */
 export const Depth: Story = {
-  args: { cut: "start", rail: "status" },
+  args: { rail: "status" },
   render: (args) => (
     <div style={row}>
       {(["default", "active", "critical"] as const).map((tone) => (
@@ -148,17 +127,60 @@ export const Depth: Story = {
 
 export const DepthDark: Story = { ...Depth, globals: { theme: "dark" } };
 
-/** A wrapper-scoped --kb-facet-cut must reach the plate; per-side hooks stay optional. */
-export const ScopedCut: Story = {
-  args: { cut: "both" },
+/** Turned-up skin: sheen, glass and tone-colored light. Decorative layers only; layout is unchanged. */
+const litRoom = {
+  "--kb-facet-radius": "24px",
+  "--kb-facet-sheen": "rgb(255 255 255 / 0.06)",
+  "--kb-facet-backdrop": "blur(28px) saturate(150%)",
+  "--kb-facet-glow-active": "color-mix(in oklab, var(--kb-color-info) 45%, transparent)",
+  "--kb-facet-glow-critical": "color-mix(in oklab, var(--kb-color-danger) 45%, transparent)",
+  "--kb-facet-rim-top": "rgb(255 255 255 / 0.24)",
+  "--kb-status-radius": "999px",
+  "--kb-status-glow": "4px",
+} as object;
+
+export const LitRoom: Story = {
+  globals: { theme: "dark" },
   render: (args) => (
-    <div style={{ "--kb-facet-cut": "2rem" } as object}>
-      <Sample {...args} id="scoped-cut" title="Scoped cut" />
+    <div style={{ ...row, ...litRoom, padding: 24 }}>
+      {(["default", "active", "critical"] as const).map((tone) => (
+        <Facet
+          {...args}
+          key={tone}
+          tone={tone}
+          aria-labelledby={`lit-${tone}`}
+          style={{ width: 300 }}
+        >
+          <Facet.Header>
+            <h3 id={`lit-${tone}`}>{`Lit ${tone}`}</h3>
+            <Status
+              appearance="chip"
+              tone={tone === "critical" ? "blocked" : tone === "active" ? "running" : "neutral"}
+            >
+              {tone === "critical" ? "Blocked" : tone === "active" ? "Running" : "Idle"}
+            </Status>
+          </Facet.Header>
+          <Facet.Body>
+            <Facet.Well>
+              <code>step 3 of 5: checking</code>
+            </Facet.Well>
+          </Facet.Body>
+        </Facet>
+      ))}
     </div>
   ),
   play: async ({ canvasElement }) => {
+    expectDepth(canvasElement);
+    for (const tone of ["active", "critical"]) {
+      const glow = canvasElement.querySelector<HTMLElement>(
+        `[data-tone="${tone}"] > .kb-facet-glow`,
+      );
+      expect(glow && getComputedStyle(glow).backgroundImage).not.toContain(
+        "rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)",
+      );
+    }
     const plate = canvasElement.querySelector<HTMLElement>(".kb-facet-plate");
-    expect(plate && getComputedStyle(plate).clipPath).toContain("32px 0px");
+    expect(plate && getComputedStyle(plate).borderTopLeftRadius).toBe("24px");
   },
 };
 
@@ -182,7 +204,6 @@ export const Toolbar: Story = {
 };
 
 export const Collapsible: Story = {
-  args: { cut: "end" },
   render: (args) => (
     <Facet
       {...args}
@@ -215,7 +236,7 @@ export const Collapsible: Story = {
 
 export const Nested: Story = {
   render: (args) => (
-    <Facet {...args} cut="start" aria-labelledby="outer-title" style={{ width: 420 }}>
+    <Facet {...args} aria-labelledby="outer-title" style={{ width: 420 }}>
       <Facet.Header>
         <h3 id="outer-title">Outer</h3>
       </Facet.Header>
@@ -234,21 +255,21 @@ export const Nested: Story = {
 export const Group: Story = {
   render: (args) => (
     <Facet.Group direction="row" style={{ width: 720 }}>
-      <Sample {...args} id="g1" title="First" cut="start" />
+      <Sample {...args} id="g1" title="First" />
       <Sample {...args} id="g2" title="Second" tone="active" />
-      <Sample {...args} id="g3" title="Third" cut="end" />
+      <Sample {...args} id="g3" title="Third" />
     </Facet.Group>
   ),
 };
 
 export const Compact: Story = {
-  args: { density: "compact", cut: "end" },
+  args: { density: "compact" },
   render: (args) => <Sample {...args} id="compact" title="Compact facet" />,
 };
 
-/** The focus ring must stay whole: clip and shadow live on the decorative plate, never on the root. */
-export const FocusInsideCut: Story = {
-  args: { cut: "start", rail: "accent", tone: "active" },
+/** The focus ring must stay whole: the root never clips, filters or hides overflow. */
+export const FocusVisible: Story = {
+  args: { rail: "accent", tone: "active" },
   render: (args) => (
     <Facet {...args} aria-labelledby="focus-title" style={{ width: 320 }}>
       <Facet.Header>
@@ -266,11 +287,7 @@ export const FocusInsideCut: Story = {
     const root = canvasElement.querySelector(".kb-facet") as HTMLElement;
     expect(getComputedStyle(root).clipPath).toBe("none");
     expect(getComputedStyle(root).filter).toBe("none");
-    const plate = root.querySelector(".kb-facet-plate") as HTMLElement;
-    expect(getComputedStyle(plate).clipPath).not.toBe("none");
-    expect(
-      getComputedStyle(root.querySelector(".kb-facet-frame") as HTMLElement).pointerEvents,
-    ).toBe("none");
+    expect(getComputedStyle(root).overflow).toBe("visible");
     const outer = root.getBoundingClientRect();
     const inner = button.getBoundingClientRect();
     expect(inner.left).toBeGreaterThanOrEqual(outer.left);
@@ -285,7 +302,7 @@ export const Dark: Story = {
   render: (args) => (
     <div style={row}>
       {(["quiet", "default", "sunken", "active", "critical"] as const).map((tone) => (
-        <Sample {...args} key={tone} id={`dark-${tone}`} tone={tone} cut="both" title={tone} />
+        <Sample {...args} key={tone} id={`dark-${tone}`} tone={tone} title={tone} />
       ))}
     </div>
   ),

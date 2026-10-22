@@ -98,47 +98,53 @@ describe("buildCss", () => {
     await rm(root, { recursive: true, force: true });
   });
 
-  test("facet clips and shadows only its decorative plate, never the root", async () => {
+  test("facet never clips; only its decorative layers filter or blur", async () => {
     const css = await readFile(join(src, "components", "facet.css"), "utf8");
+    expect(css).not.toContain("clip-path");
+    expect(css).not.toContain("polygon(");
     const rules = css.split("}").map((r) => r.trim());
     const selectorsWith = (prop: string) =>
       rules
         .filter((r) => new RegExp(`(^|[;{\\s])${prop}:`).test(r))
         .map((r) => r.slice(0, r.indexOf("{")).trim());
-    const clipped = selectorsWith("clip-path");
-    expect(clipped.length).toBeGreaterThan(0);
-    for (const sel of clipped) expect(sel).toMatch(/\.kb-facet-plate(::before)?$/);
-    const filtered = selectorsWith("filter");
-    expect(filtered.length).toBeGreaterThan(0);
-    for (const sel of filtered) expect(sel).toMatch(/\.kb-facet-frame$/);
-    expect(css).toMatch(/\.kb-facet-frame \{[^}]*pointer-events: none/);
+    for (const sel of selectorsWith("filter")) expect(sel).toMatch(/\.kb-facet-glow$/);
+    for (const sel of selectorsWith("backdrop-filter")) expect(sel).toMatch(/\.kb-facet-plate$/);
     const root = css.match(/\.kb-facet \{[^}]*\}/)?.[0] ?? "";
-    expect(root).not.toMatch(/clip-path|filter/);
+    expect(root).not.toMatch(/filter|overflow/);
+    expect(root).toContain("border-radius: var(--kb-facet-radius)");
   });
 
-  test("facet resolves cut depth at the element so a scoped --kb-facet-cut wins", async () => {
-    const css = await readFile(join(src, "components", "facet.css"), "utf8");
-    expect(css).toContain("var(--kb-facet-cut-start, var(--kb-facet-cut))");
-    expect(css).toContain("var(--kb-facet-cut-end, var(--kb-facet-cut))");
-  });
-
-  test("facet paints edge, highlight, divider, shadow and well from tokens", async () => {
+  test("facet paints rim, sheen, glass, glow, shadow and well from tokens", async () => {
     const css = await readFile(join(src, "components", "facet.css"), "utf8");
     const rule = (sel: RegExp) =>
       [...css.matchAll(new RegExp(sel, "g"))].map((m) => m[0]).join("\n");
     const plate = rule(/\.kb-facet-plate \{[^}]*\}/);
-    expect(plate).toContain("var(--_facet-edge)");
-    expect(plate).toContain("var(--_facet-seam)");
-    const fill = rule(/\.kb-facet-plate::before \{[^}]*\}/);
-    expect(fill).toContain("var(--_facet-highlight)");
-    expect(fill).toContain("var(--_facet-bg)");
-    expect(rule(/\.kb-facet-frame \{[^}]*\}/)).toContain("var(--_facet-shadow)");
-    const root = rule(/\.kb-facet \{[^}]*\}/);
-    expect(root).toContain("--_facet-edge: var(--kb-facet-cut-edge)");
-    expect(root).toContain("--_facet-shadow: var(--kb-facet-shadow)");
-    expect(root).toContain("--_facet-highlight: var(--kb-facet-highlight)");
+    expect(plate).toContain("var(--_facet-sheen)");
+    expect(plate).toContain("var(--_facet-bg)");
+    expect(plate).toContain("var(--_facet-shadow)");
+    expect(plate).toContain("var(--_facet-highlight)");
+    expect(plate).toContain("backdrop-filter: var(--kb-facet-backdrop)");
+    expect(plate).toContain("pointer-events: none");
+    const rim = rule(/\.kb-facet-plate::before \{[^}]*\}/);
+    expect(rim).toContain("var(--_facet-rim-top)");
+    expect(rim).toContain("var(--_facet-seam)");
+    expect(rim).toContain("var(--_facet-rim-bottom)");
+    expect(rim).toMatch(/mask-composite: exclude/);
+    const glow = rule(/\.kb-facet-glow \{[^}]*\}/);
+    expect(glow).toContain("var(--_facet-glow)");
+    expect(glow).toContain("filter: blur(var(--kb-facet-glow-blur))");
+    expect(glow).toContain("pointer-events: none");
     expect(css).toMatch(
-      /\[data-tone="active"\] \{[^}]*--_facet-shadow: var\(--kb-facet-shadow-active\)/,
+      /\[data-tone="active"\] \{[^}]*--_facet-rim-top: var\(--kb-facet-border-active\)/,
+    );
+    expect(css).toMatch(
+      /\[data-tone="active"\] \{[^}]*--_facet-glow: var\(--kb-facet-glow-active\)/,
+    );
+    expect(css).toMatch(
+      /\[data-tone="critical"\] \{[^}]*--_facet-rim-top: var\(--kb-facet-border-critical\)/,
+    );
+    expect(css).toMatch(
+      /\[data-tone="critical"\] \{[^}]*--_facet-glow: var\(--kb-facet-glow-critical\)/,
     );
     expect(css).toMatch(/\[data-tone="quiet"\] \{[^}]*--_facet-shadow: none/);
     expect(css).toMatch(/\[data-nested\][^{]*\{[^}]*--_facet-shadow: none/);
@@ -148,6 +154,7 @@ describe("buildCss", () => {
     const well = rule(/\.kb-facet-well \{[^}]*\}/);
     expect(well).toContain("var(--kb-facet-well)");
     expect(well).toContain("var(--kb-facet-well-shadow)");
+    expect(well).toContain("border-radius: var(--kb-facet-well-radius)");
   });
 
   test("sunken facet recesses onto its own plane color", async () => {
@@ -162,6 +169,15 @@ describe("buildCss", () => {
     const chip = css.match(/\.kb-status\[data-appearance="chip"\] \{[^}]*\}/)?.[0] ?? "";
     expect(chip).toContain("var(--_status-ink)");
     expect(chip).toContain("color-mix(");
+  });
+
+  test("status chip rounds and glows from tokens", async () => {
+    const css = await readFile(join(src, "components", "status.css"), "utf8");
+    const chip = css.match(/\.kb-status\[data-appearance="chip"\] \{[^}]*\}/)?.[0] ?? "";
+    expect(chip).toContain("border-radius: var(--kb-status-radius)");
+    expect(css).toMatch(
+      /\[data-appearance="chip"\] > \.kb-status-icon \{[^}]*drop-shadow\(0 0 var\(--kb-status-glow\) var\(--_status-ink\)\)/,
+    );
   });
 
   test("anatomyRoots throws without an anatomy comment", async () => {

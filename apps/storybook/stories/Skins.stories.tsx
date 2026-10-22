@@ -25,17 +25,12 @@ const longText = Array.from(
   { length: 6 },
   (_, i) =>
     `Line ${i + 1}: the body grows with its content and the plane grows with it, so a long ` +
-    "transcript never spills past the seam or hides behind the cut corner.",
+    "transcript never spills past the rim or under the rounded corner.",
 ).join(" ");
 
 function Pane({ id, title, tone, status, body, action }: Pane) {
   return (
-    <Facet
-      tone={tone}
-      cut={tone === "active" ? "start" : "end"}
-      rail={tone === "quiet" ? "none" : "status"}
-      aria-labelledby={`${id}-title`}
-    >
+    <Facet tone={tone} rail={tone === "quiet" ? "none" : "status"} aria-labelledby={`${id}-title`}>
       <Facet.Header>
         <h2 id={`${id}-title`}>{title}</h2>
         <Status tone={status.tone} icon={<Dot />} live={status.tone === "running"}>

@@ -132,39 +132,49 @@ describe("tokens.json", () => {
     }
   });
 
-  test("keeps per-side cuts as optional hooks, not root tokens, so a scoped --kb-facet-cut works", () => {
-    expect(css).not.toContain("--kb-facet-cut-start:");
-    expect(css).not.toContain("--kb-facet-cut-end:");
-    expect(css).toMatch(/--kb-facet-cut: [\d.]+rem;/);
+  test("drops cut-corner geometry from facets", () => {
+    for (const name of ["cut", "cut-start", "cut-end", "corner", "cut-edge", "seam-active"]) {
+      expect(css).not.toContain(`--kb-facet-${name}:`);
+    }
   });
 
-  test("defines seam widths, a corner bevel and a critical border for facets", () => {
+  test("rounds facets and wells from the radius scale", () => {
+    expect(css).toContain("--kb-facet-radius: var(--kb-radius-lg);");
+    expect(css).toContain("--kb-facet-well-radius: var(--kb-radius-md);");
     expect(css).toMatch(/--kb-facet-seam: \d+px;/);
-    expect(css).toMatch(/--kb-facet-seam-active: \d+px;/);
-    expect(css).toMatch(/--kb-facet-corner: \d+px;/);
+  });
+
+  test("defines a lit rim that runs from rim-top through the border to rim-bottom", () => {
+    for (const name of ["rim-top", "rim-bottom"]) {
+      expect(css).toContain(`--kb-facet-${name}: `);
+      expect(dark).toContain(`--kb-facet-${name}: `);
+    }
     expect(css).toContain("--kb-facet-border-critical: var(--kb-color-danger);");
   });
 
-  test("defines a sunken facet plane on the page background", () => {
-    expect(css).toContain("--kb-facet-background-sunken: var(--kb-color-bg);");
+  test("keeps glass, sheen and emitted light off until a skin turns them up", () => {
+    expect(css).toContain("--kb-facet-backdrop: none;");
+    for (const name of ["sheen", "glow", "glow-active", "glow-critical"]) {
+      expect(css).toContain(`--kb-facet-${name}: transparent;`);
+    }
+    expect(css).toMatch(/--kb-facet-glow-blur: \d+px;/);
   });
 
-  test("gives facets depth by default: lit edge, top highlight, divider and a dark-tuned shadow", () => {
-    for (const name of ["cut-edge", "highlight", "divider"]) {
-      expect(css).not.toContain(`--kb-facet-${name}: transparent;`);
+  test("lifts facets with box-shadows tuned per theme", () => {
+    for (const name of ["shadow", "shadow-active"]) {
+      expect(css).toMatch(new RegExp(`--kb-facet-${name}: 0 \\d`));
+      expect(dark).toMatch(new RegExp(`--kb-facet-${name}: 0 \\d`));
+    }
+    expect(css).not.toContain("drop-shadow(");
+  });
+
+  test("defines a sunken plane, a highlight, a divider and a recessed well", () => {
+    expect(css).toContain("--kb-facet-background-sunken: var(--kb-color-bg);");
+    for (const name of ["highlight", "divider", "well"]) {
+      expect(css).toContain(`--kb-facet-${name}: `);
       expect(dark).toContain(`--kb-facet-${name}: `);
     }
-    for (const name of ["shadow", "shadow-active"]) {
-      expect(css).toMatch(new RegExp(`--kb-facet-${name}: drop-shadow\\(`));
-      expect(dark).toMatch(new RegExp(`--kb-facet-${name}: drop-shadow\\(`));
-    }
-  });
-
-  test("defines a recessed well for output inside a facet", () => {
-    expect(css).toContain("--kb-facet-well: ");
     expect(css).toMatch(/--kb-facet-well-shadow: inset /);
-    expect(dark).toContain("--kb-facet-well: ");
-    expect(dark).toMatch(/--kb-facet-well-shadow: inset /);
   });
 
   test("lifts active and critical facet planes in dark", () => {
@@ -179,13 +189,17 @@ describe("tokens.json", () => {
       "background-active",
       "border",
       "border-active",
-      "cut",
       "padding",
       "rail",
       "rail-active",
     ]) {
       expect(css).toContain(`--kb-facet-${name}: `);
     }
+  });
+
+  test("lets the status chip round into a pill and its icon glow", () => {
+    expect(css).toContain("--kb-status-radius: var(--kb-radius-sm);");
+    expect(css).toContain("--kb-status-glow: 0px;");
   });
 
   test("defines a status color per tone", () => {

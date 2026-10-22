@@ -18,4 +18,4 @@ Every record uses the same sections: Status, Context, Decision, Options consider
 | [0008](0008-visual-regression-with-vitest-browser-screenshots.md) | Catch visual regressions with Vitest browser screenshots | Accepted 2026-10-22; not written yet |
 | [0009](0009-icons-are-caller-provided.md) | Icons are caller-provided nodes | Accepted 2026-10-22 |
 | [0010](0010-dark-product-skin-light-validated.md) | Ship the product skin in dark, validate light in Storybook | Accepted 2026-10-22 |
-| [0011](0011-facet-depth-plate-and-well.md) | Give Facet depth with a shadowed plate and a recessed well | Accepted 2026-10-22 |
+| [0011](0011-facet-depth-plate-and-well.md) | Render Facet as a rounded, lit plane with skin-controlled glass and light | Accepted 2026-10-22 |

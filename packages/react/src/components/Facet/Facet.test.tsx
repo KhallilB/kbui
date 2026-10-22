@@ -5,26 +5,25 @@ import { describe, expect, test } from "vitest";
 import { Facet, type FacetTone } from "./Facet";
 
 describe("Facet", () => {
-  test("renders a section with default tone, cut, rail and density", () => {
+  test("renders a section with default tone, rail and density", () => {
     const { container } = render(<Facet>body</Facet>);
     const root = container.querySelector("section.kb-facet");
     expect(root).not.toBeNull();
     expect(root).toHaveAttribute("data-tone", "default");
-    expect(root).toHaveAttribute("data-cut", "none");
+    expect(root).not.toHaveAttribute("data-cut");
     expect(root).toHaveAttribute("data-rail", "none");
     expect(root).toHaveAttribute("data-density", "standard");
     expect(root).toHaveTextContent("body");
   });
 
-  test("applies tone, cut, rail, density and extra className", () => {
+  test("applies tone, rail, density and extra className", () => {
     const { container } = render(
-      <Facet tone="active" cut="start" rail="accent" density="compact" className="extra">
+      <Facet tone="active" rail="accent" density="compact" className="extra">
         x
       </Facet>,
     );
     const root = container.querySelector(".kb-facet");
     expect(root).toHaveAttribute("data-tone", "active");
-    expect(root).toHaveAttribute("data-cut", "start");
     expect(root).toHaveAttribute("data-rail", "accent");
     expect(root).toHaveAttribute("data-density", "compact");
     expect(root).toHaveClass("kb-facet", "extra");
@@ -36,13 +35,15 @@ describe("Facet", () => {
     expect(container.querySelector(".kb-facet")).toHaveAttribute("data-tone", "sunken");
   });
 
-  test("renders a decorative frame and plate first, hidden from assistive tech", () => {
+  test("renders decorative glow and plate layers first, hidden from assistive tech", () => {
     const { container } = render(<Facet>x</Facet>);
     const root = container.querySelector(".kb-facet");
-    const frame = root?.firstElementChild;
-    expect(frame).toHaveClass("kb-facet-frame");
-    expect(frame).toHaveAttribute("aria-hidden", "true");
-    expect(frame?.querySelector(":scope > .kb-facet-plate")).not.toBeNull();
+    const [glow, plate] = Array.from(root?.children ?? []);
+    expect(glow).toHaveClass("kb-facet-glow");
+    expect(glow).toHaveAttribute("aria-hidden", "true");
+    expect(plate).toHaveClass("kb-facet-plate");
+    expect(plate).toHaveAttribute("aria-hidden", "true");
+    expect(root?.querySelector(".kb-facet-frame")).toBeNull();
   });
 
   test("renders the rail inside the plate only when rail is not none", () => {
@@ -92,11 +93,6 @@ describe("Facet", () => {
     render(<Facet ref={ref}>x</Facet>);
     expect(ref.current).toBeInstanceOf(HTMLElement);
     expect(ref.current?.tagName).toBe("SECTION");
-  });
-
-  test("accepts cut=both", () => {
-    const { container } = render(<Facet cut="both">x</Facet>);
-    expect(container.querySelector(".kb-facet")).toHaveAttribute("data-cut", "both");
   });
 
   test("renders a toolbar part inside the header", () => {
@@ -168,7 +164,7 @@ describe("Facet", () => {
 
   test("keeps a focused child reachable and never clips the root itself", async () => {
     const { container } = render(
-      <Facet cut="start" rail="accent">
+      <Facet rail="accent">
         <Facet.Body>
           <button type="button">Act</button>
         </Facet.Body>

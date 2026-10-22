@@ -15,7 +15,6 @@ export {
 export {
   Facet,
   type FacetBodyProps,
-  type FacetCut,
   type FacetDensity,
   type FacetFooterProps,
   type FacetGroupDirection,
