@@ -2,4 +2,6 @@
 @import "./reset.css";
 @import "./components/button.css";
 @import "./components/dialog.css";
+@import "./components/facet.css";
 @import "./components/input.css";
+@import "./components/status.css";

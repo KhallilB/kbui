@@ -1,0 +1,113 @@
+/* Anatomy: .kb-facet [data-tone=quiet|default|active|critical] [data-cut=none|start|end] [data-rail=none|accent|status] [data-density=compact|standard] > .kb-facet-header, .kb-facet-body, .kb-facet-footer, .kb-facet-rail */
+.kb-facet {
+  --_facet-bg: var(--kb-facet-background);
+  --_facet-seam: var(--kb-facet-border);
+  --_facet-rail: var(--kb-facet-rail);
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  gap: var(--kb-space-3);
+  padding: var(--kb-facet-padding);
+  color: var(--kb-color-fg);
+}
+
+/* The plane carries the clip; the root never does, so focus rings stay whole. */
+.kb-facet::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--_facet-bg);
+  box-shadow: inset 0 0 0 1px var(--_facet-seam);
+  transition:
+    background-color var(--kb-motion-duration-base) var(--kb-motion-easing-standard),
+    box-shadow var(--kb-motion-duration-base) var(--kb-motion-easing-standard);
+}
+
+.kb-facet[data-cut="start"]::before {
+  clip-path: polygon(var(--kb-facet-cut) 0, 100% 0, 100% 100%, 0 100%, 0 var(--kb-facet-cut));
+}
+
+.kb-facet[data-cut="end"]::before {
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - var(--kb-facet-cut)),
+    calc(100% - var(--kb-facet-cut)) 100%,
+    0 100%
+  );
+}
+
+.kb-facet[data-tone="quiet"] {
+  --_facet-bg: transparent;
+  --_facet-seam: transparent;
+}
+
+.kb-facet[data-tone="active"] {
+  --_facet-bg: var(--kb-facet-background-active);
+  --_facet-seam: var(--kb-facet-border-active);
+  --_facet-rail: var(--kb-facet-rail-active);
+}
+
+.kb-facet[data-tone="critical"] {
+  --_facet-seam: var(--kb-color-danger);
+  --_facet-rail: var(--kb-color-danger);
+}
+
+.kb-facet[data-density="compact"] {
+  gap: var(--kb-space-2);
+  padding: calc(var(--kb-facet-padding) / 2);
+}
+
+.kb-facet-rail {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 3px;
+  pointer-events: none;
+  background: var(--_facet-rail);
+}
+
+.kb-facet[data-rail="accent"] > .kb-facet-rail {
+  background: var(--kb-facet-rail-active);
+}
+
+.kb-facet[data-rail="accent"],
+.kb-facet[data-rail="status"] {
+  padding-inline-start: calc(var(--kb-facet-padding) + 3px);
+}
+
+.kb-facet-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kb-space-2);
+  font-weight: 600;
+}
+
+.kb-facet-header :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  font-size: var(--kb-size-md);
+  font-weight: 600;
+}
+
+.kb-facet-body {
+  min-width: 0;
+}
+
+.kb-facet-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--kb-space-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-facet::before {
+    transition: none;
+  }
+}
