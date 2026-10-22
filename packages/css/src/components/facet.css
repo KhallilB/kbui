@@ -44,14 +44,15 @@
   background: var(--_facet-bg);
 }
 
+/* Resolved here, not at :root, so a wrapper-scoped --kb-facet-cut still applies. */
 .kb-facet[data-cut="start"],
 .kb-facet[data-cut="both"] {
-  --_facet-cut-start: var(--kb-facet-cut-start);
+  --_facet-cut-start: var(--kb-facet-cut-start, var(--kb-facet-cut));
 }
 
 .kb-facet[data-cut="end"],
 .kb-facet[data-cut="both"] {
-  --_facet-cut-end: var(--kb-facet-cut-end);
+  --_facet-cut-end: var(--kb-facet-cut-end, var(--kb-facet-cut));
 }
 
 .kb-facet[data-tone="quiet"] {

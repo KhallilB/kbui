@@ -111,8 +111,6 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-facet-border-active: var(--kb-color-accent);
   --kb-facet-border-critical: var(--kb-color-danger);
   --kb-facet-cut: 0.75rem;
-  --kb-facet-cut-start: var(--kb-facet-cut);
-  --kb-facet-cut-end: var(--kb-facet-cut);
   --kb-facet-seam: 1px;
   --kb-facet-seam-active: 2px;
   --kb-facet-padding: var(--kb-space-4);

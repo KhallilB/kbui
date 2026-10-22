@@ -133,8 +133,9 @@ describe("tokens.json", () => {
   });
 
   test("defines per-side cut depths, seam widths and a critical border for facets", () => {
-    expect(css).toContain("--kb-facet-cut-start: var(--kb-facet-cut);");
-    expect(css).toContain("--kb-facet-cut-end: var(--kb-facet-cut);");
+    // Root aliases would pin the cut at :root; per-side names stay optional hooks.
+    expect(css).not.toContain("--kb-facet-cut-start:");
+    expect(css).not.toContain("--kb-facet-cut-end:");
     expect(css).toMatch(/--kb-facet-seam: \d+px;/);
     expect(css).toMatch(/--kb-facet-seam-active: \d+px;/);
     expect(css).toContain("--kb-facet-border-critical: var(--kb-color-danger);");
