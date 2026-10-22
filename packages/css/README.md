@@ -1,34 +1,34 @@
 # @kbui/css
 
-All of kbui's styling lives here, as plain CSS. Components are styled through `kb-` classes and `data-*` attributes, so anything that renders the right markup gets the kbui look, whether that's React, another framework or hand-written HTML.
+All kbui styling, as plain CSS. Components are styled through `kb-` classes and `data-*` attributes, so any renderer that produces the right markup gets the kbui look: React, another framework or hand-written HTML.
 
 ## Importing
 
-Most apps import the full stylesheet once at their root. It contains the tokens, a small reset and every component:
+Most apps import the full stylesheet once at the root. It contains the tokens, a small reset and every component:
 
 ```ts
 import "@kbui/css/styles.css";
 ```
 
-You can also pull in pieces on their own, with `@kbui/css/reset.css` or a single component such as `@kbui/css/components/button.css`. A single component file doesn't include the tokens, so load those separately.
+Individual files are also available: `@kbui/css/reset.css`, or a single component such as `@kbui/css/components/button.css`. A single component file does not include the tokens, so load those separately.
 
-Plain HTML works too:
+Plain HTML works as well:
 
 ```html
 <button class="kb-button" data-variant="secondary" data-size="sm">Cancel</button>
 ```
 
-## The components
+## Components
 
-The first line of each stylesheet describes the markup it expects. Here's what's there today:
+The first line of each stylesheet describes the markup it expects.
 
-| File | Expects |
+| File | Expected markup |
 |---|---|
 | `button.css` | `.kb-button` with `data-variant` (`primary`, `secondary`, `ghost`, `danger`), `data-size` (`sm`, `md`, `lg`) and `data-disabled` |
 | `input.css` | `.kb-input` with `data-size`, `data-invalid` and `data-disabled`, wrapping `-label`, `-control`, `-description` and `-error` parts |
-| `dialog.css` | `.kb-dialog-popup` with `-title`, `-description` and `-actions` parts, next to a `.kb-dialog-backdrop`. Both use Base UI's open, starting and ending attributes for the animation |
+| `dialog.css` | `.kb-dialog-popup` with `-title`, `-description` and `-actions` parts, beside a `.kb-dialog-backdrop`. Both use Base UI's open, starting and ending attributes for animation |
 
-## Building and testing
+## Build and test
 
 The CSS bundles the token output, so build the tokens first:
 
@@ -38,6 +38,6 @@ bun run --cwd packages/css build
 bun run --cwd packages/css test
 ```
 
-The tests make sure each component file starts with its `Anatomy:` line and actually styles the root class it names. They also fail if component or reset CSS uses a palette color like `--kb-gray-500` or a raw color like `#fff`.
+The tests check that each component file starts with its `Anatomy:` line and styles the root class it names. They fail if component or reset CSS uses a palette color such as `--kb-gray-500` or a raw color such as `#fff`.
 
-[docs/architecture.md](../../docs/architecture.md) covers the contract in full.
+[docs/architecture.md](../../docs/architecture.md) describes the contract in full.
