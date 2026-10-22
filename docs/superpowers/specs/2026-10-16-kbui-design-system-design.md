@@ -25,7 +25,7 @@ frontend framework; only behavior adapters are framework-bound.
 | Behavior | `@base-ui/react` | Accessible headless primitives, React 19 native, emits `data-open`/`data-disabled` that match the CSS contract |
 | Repo shape | Bun workspaces, three packages + private Storybook app | Styling packages reusable by a future non-React adapter without restructure |
 | Versioning | None; no Changesets, no version bumps | Nothing is published; consumers track the checkout and `git log` is the history |
-| Registry | None; consumers add `link:../kbui/packages/*` deps that symlink to this checkout | Zero infrastructure; `bun run build` here is the whole release |
+| Registry | None; consumers `bun add ../kbui/packages/*` by path ([ADR 0003](../../decisions/0003-local-path-installs.md)) | Zero infrastructure; `bun run build` here is the whole release |
 | Docs | Storybook 10 (react-vite), static build served by nginx container | Design docs on LAN |
 | Toolchain | bun 1.3.x + node 22 via mise, TypeScript strict, biome, lefthook, vitest | Matches existing projects |
 
@@ -115,8 +115,8 @@ for color; scale primitives (`space`, `radius`, `font`, `size`) may be used
 directly. A test in `@kbui/css` fails when component CSS references a palette
 primitive (`--kb-gray-*`, `--kb-blue-*`, `--kb-red-*`, `--kb-white`, `--kb-black`).
 
-`tokens.ts` exports `const tokens = { color: { bg: "--kb-color-bg", ... } } as const`
-for TS consumers who style in JS.
+`tokens.js` with `tokens.d.ts` exports a readonly `tokens` object of variable names
+(`tokens.color.bg` is `"--kb-color-bg"`) for TS consumers who style in JS.
 
 ## Anatomy contract
 
