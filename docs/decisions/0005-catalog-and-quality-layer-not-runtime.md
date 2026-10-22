@@ -74,3 +74,4 @@ None yet. No catalog, lint or adapter exists at commit `c322d67`.
 - Builds on: [0001](0001-framework-free-css-contract.md), whose anatomy line becomes the catalog's source
 - Related: [0006](0006-canonical-tree-adapters-at-edge.md), which keeps formats at the edge
 - Related: [0003](0003-local-path-installs.md), since whether kbui is published affects how much the adapters are worth
+- Related: [0007](0007-lockstep-github-tarball-releases.md). Since 2026-10-22 the repository is public and releases tarballs, so the revisit condition "kbui stays private" no longer holds.

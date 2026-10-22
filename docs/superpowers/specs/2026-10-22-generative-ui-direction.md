@@ -228,7 +228,7 @@ These are working estimates. The `test:gen` suite will measure them.
 | Topic | Risk or question |
 |---|---|
 | Catalog size | Nothing here can be demonstrated with three components, so phase 0 comes first. |
-| Publishing | kbui is installed by local path ([0003](../../decisions/0003-local-path-installs.md)), and that record says to revisit the choice before Tideline starts on 2026-11-02. Whether kbui stays an in-house system or is published affects how much the adapters are worth. Still open. |
+| Publishing | Answered by [0007](../../decisions/0007-lockstep-github-tarball-releases.md) on 2026-10-22: the repository is public, and each release attaches one tarball per package to a GitHub Release. There is no registry. Planned packages join the lockstep version unless a new record says otherwise. |
 | Iframes | See point 6 above and [0001](../../decisions/0001-framework-free-css-contract.md). |
 | Token cost | JSON is verbose. If cost becomes a problem, add an OpenUI Lang adapter rather than inventing a new format. |
 | First user | Tideline is the likely first project to compose at runtime. Not yet confirmed. |
