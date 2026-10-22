@@ -175,3 +175,7 @@ Re-checked against `main` at `f89bfd3` on 2026-10-22, when this spec was impleme
 - Added at the owner's request on 2026-10-22: the `install` job (point 5 of the workflow) proves each
   release installs on Windows, macOS and Linux. The tarballs are platform-neutral, so no per-platform
   build exists.
+- Added 2026-10-22 after the first runs: GitHub's GraphQL API failed intermittently while release-please
+  fetched merge commits (4 of 7 attempts). The release-please job now runs the action twice, first to
+  create releases only and then to update the release PR only, and `assets` runs when a release was
+  created even if the PR update failed. A plain rerun then recovers either step.
