@@ -1,6 +1,6 @@
 # kbui Storybook
 
-kbui's live documentation and accessibility tests. Stories live next to each component in `packages/react/src/components/`. This folder holds the Storybook configuration and the standalone pages in `docs/`.
+kbui's live documentation and accessibility tests. Stories live next to each component in `packages/react/src/components/`. This folder holds the Storybook configuration, the standalone pages in `docs/`, and the composed showcase stories and fixtures in `stories/`. Files under `stories/` are not components, so the component coverage test does not apply to them.
 
 ## Running
 
@@ -23,7 +23,9 @@ This builds the packages and serves Storybook on port 6006. The theme switch in 
 bun run test:stories
 ```
 
-Every story is rendered in headless Chromium and scanned for accessibility violations. Any violation fails the run, so each story is also a test. The standalone pages are not tested.
+Every story is rendered in headless Chromium and scanned for accessibility violations. Any violation fails the run, so each story is also a test. The suite runs twice, once by default and once with the reduced-motion preference on (`vitest.config.ts`). Dark coverage comes from stories that set `globals: { theme: "dark" }`. The standalone pages are not tested.
+
+The fixture skin in `stories/faceted-skin-values.ts` is checked by `bun test apps/storybook/stories`, which runs inside `bun run check`.
 
 ## Pages
 
@@ -32,3 +34,4 @@ Every story is rendered in headless Chromium and scanned for accessibility viola
 | Introduction | `docs/Introduction.mdx` |
 | Foundations / Tokens | `docs/Tokens.mdx`. Reads its list from `@kbui/tokens`, so it always matches `tokens.json`. |
 | Each component | That component's `.stories.tsx` file |
+| Showcase / Faceted Control Room — Foundation | `stories/ControlRoom.stories.tsx`, composed from stock `Button`, `Dialog`, `Facet` and `Status`, with and without the skin decorator in `stories/faceted-skin.tsx` |
