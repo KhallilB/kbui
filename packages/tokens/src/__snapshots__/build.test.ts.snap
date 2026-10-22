@@ -112,13 +112,16 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-facet-border-active: var(--kb-color-accent);
   --kb-facet-border-critical: var(--kb-color-danger);
   --kb-facet-cut: 0.75rem;
-  --kb-facet-cut-start: var(--kb-facet-cut);
-  --kb-facet-cut-end: var(--kb-facet-cut);
   --kb-facet-seam: 1px;
-  --kb-facet-seam-active: 2px;
-  --kb-facet-cut-edge: transparent;
-  --kb-facet-highlight: transparent;
-  --kb-facet-divider: transparent;
+  --kb-facet-seam-active: 1px;
+  --kb-facet-corner: 3px;
+  --kb-facet-cut-edge: var(--kb-gray-300);
+  --kb-facet-highlight: rgb(255 255 255 / 0.9);
+  --kb-facet-divider: var(--kb-gray-200);
+  --kb-facet-shadow: drop-shadow(0 1px 1px rgb(0 0 0 / 0.06)) drop-shadow(0 4px 8px rgb(0 0 0 / 0.05));
+  --kb-facet-shadow-active: drop-shadow(0 1px 2px rgb(0 0 0 / 0.08)) drop-shadow(0 12px 24px rgb(0 0 0 / 0.1));
+  --kb-facet-well: var(--kb-gray-100);
+  --kb-facet-well-shadow: inset 0 1px 2px rgb(0 0 0 / 0.06), inset 0 0 0 1px rgb(0 0 0 / 0.06);
   --kb-facet-padding: var(--kb-space-4);
   --kb-facet-rail: var(--kb-color-border);
   --kb-facet-rail-active: var(--kb-color-accent);
@@ -153,6 +156,13 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-facet-background-active: var(--kb-gray-800);
   --kb-facet-border-active: var(--kb-blue-400);
   --kb-facet-border-critical: var(--kb-red-400);
+  --kb-facet-cut-edge: rgb(255 255 255 / 0.16);
+  --kb-facet-highlight: rgb(255 255 255 / 0.06);
+  --kb-facet-divider: rgb(255 255 255 / 0.06);
+  --kb-facet-shadow: drop-shadow(0 1px 1px rgb(0 0 0 / 0.7)) drop-shadow(0 8px 16px rgb(0 0 0 / 0.45));
+  --kb-facet-shadow-active: drop-shadow(0 1px 2px rgb(0 0 0 / 0.8)) drop-shadow(0 16px 32px rgb(0 0 0 / 0.6));
+  --kb-facet-well: rgb(0 0 0 / 0.45);
+  --kb-facet-well-shadow: inset 0 1px 3px rgb(0 0 0 / 0.6), inset 0 0 0 1px rgb(255 255 255 / 0.05);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -179,6 +189,13 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-facet-background-active: var(--kb-gray-800);
     --kb-facet-border-active: var(--kb-blue-400);
     --kb-facet-border-critical: var(--kb-red-400);
+    --kb-facet-cut-edge: rgb(255 255 255 / 0.16);
+    --kb-facet-highlight: rgb(255 255 255 / 0.06);
+    --kb-facet-divider: rgb(255 255 255 / 0.06);
+    --kb-facet-shadow: drop-shadow(0 1px 1px rgb(0 0 0 / 0.7)) drop-shadow(0 8px 16px rgb(0 0 0 / 0.45));
+    --kb-facet-shadow-active: drop-shadow(0 1px 2px rgb(0 0 0 / 0.8)) drop-shadow(0 16px 32px rgb(0 0 0 / 0.6));
+    --kb-facet-well: rgb(0 0 0 / 0.45);
+    --kb-facet-well-shadow: inset 0 1px 3px rgb(0 0 0 / 0.6), inset 0 0 0 1px rgb(255 255 255 / 0.05);
   }
 }
 "

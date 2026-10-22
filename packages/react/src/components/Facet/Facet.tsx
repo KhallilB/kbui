@@ -32,6 +32,7 @@ export type FacetHeaderProps = ComponentProps<"header">;
 export type FacetToolbarProps = ComponentProps<"div">;
 export type FacetBodyProps = ComponentProps<"div">;
 export type FacetFooterProps = ComponentProps<"footer">;
+export type FacetWellProps = ComponentProps<"div">;
 export type FacetToggleProps = Omit<Collapsible.Trigger.Props, "className"> & {
   /** Plain class string; Base UI's function form is not supported. */
   className?: string;
@@ -63,7 +64,11 @@ function FacetRoot({
   const content = (
     <NestedContext value={true}>
       <CollapsibleContext value={collapsible}>
-        {rail !== "none" ? <span className="kb-facet-rail" aria-hidden="true" /> : null}
+        <span className="kb-facet-frame" aria-hidden="true">
+          <span className="kb-facet-plate">
+            {rail !== "none" ? <span className="kb-facet-rail" /> : null}
+          </span>
+        </span>
         {children}
       </CollapsibleContext>
     </NestedContext>
@@ -110,6 +115,10 @@ function FacetFooter({ className, ...props }: FacetFooterProps) {
   return <footer {...props} className={clsx("kb-facet-footer", className)} />;
 }
 
+function FacetWell({ className, ...props }: FacetWellProps) {
+  return <div {...props} className={clsx("kb-facet-well", className)} />;
+}
+
 function FacetToggle({ className, ...props }: FacetToggleProps) {
   return <Collapsible.Trigger {...props} className={clsx("kb-facet-toggle", className)} />;
 }
@@ -123,6 +132,7 @@ export const Facet = Object.assign(FacetRoot, {
   Toolbar: FacetToolbar,
   Body: FacetBody,
   Footer: FacetFooter,
+  Well: FacetWell,
   Toggle: FacetToggle,
   Group: FacetGroup,
 });

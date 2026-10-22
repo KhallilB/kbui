@@ -26,6 +26,7 @@ export {
   type FacetToggleProps,
   type FacetTone,
   type FacetToolbarProps,
+  type FacetWellProps,
 } from "./components/Facet/Facet";
 export { Input, type InputProps, type InputSize } from "./components/Input/Input";
 export {

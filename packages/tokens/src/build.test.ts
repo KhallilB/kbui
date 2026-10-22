@@ -132,11 +132,16 @@ describe("tokens.json", () => {
     }
   });
 
-  test("defines per-side cut depths, seam widths and a critical border for facets", () => {
-    expect(css).toContain("--kb-facet-cut-start: var(--kb-facet-cut);");
-    expect(css).toContain("--kb-facet-cut-end: var(--kb-facet-cut);");
+  test("keeps per-side cuts as optional hooks, not root tokens, so a scoped --kb-facet-cut works", () => {
+    expect(css).not.toContain("--kb-facet-cut-start:");
+    expect(css).not.toContain("--kb-facet-cut-end:");
+    expect(css).toMatch(/--kb-facet-cut: [\d.]+rem;/);
+  });
+
+  test("defines seam widths, a corner bevel and a critical border for facets", () => {
     expect(css).toMatch(/--kb-facet-seam: \d+px;/);
     expect(css).toMatch(/--kb-facet-seam-active: \d+px;/);
+    expect(css).toMatch(/--kb-facet-corner: \d+px;/);
     expect(css).toContain("--kb-facet-border-critical: var(--kb-color-danger);");
   });
 
@@ -144,11 +149,22 @@ describe("tokens.json", () => {
     expect(css).toContain("--kb-facet-background-sunken: var(--kb-color-bg);");
   });
 
-  test("defines opt-in facet edge tokens that are transparent until a skin sets them", () => {
+  test("gives facets depth by default: lit edge, top highlight, divider and a dark-tuned shadow", () => {
     for (const name of ["cut-edge", "highlight", "divider"]) {
-      expect(css).toContain(`--kb-facet-${name}: transparent;`);
-      expect(dark).not.toContain(`--kb-facet-${name}:`);
+      expect(css).not.toContain(`--kb-facet-${name}: transparent;`);
+      expect(dark).toContain(`--kb-facet-${name}: `);
     }
+    for (const name of ["shadow", "shadow-active"]) {
+      expect(css).toMatch(new RegExp(`--kb-facet-${name}: drop-shadow\\(`));
+      expect(dark).toMatch(new RegExp(`--kb-facet-${name}: drop-shadow\\(`));
+    }
+  });
+
+  test("defines a recessed well for output inside a facet", () => {
+    expect(css).toContain("--kb-facet-well: ");
+    expect(css).toMatch(/--kb-facet-well-shadow: inset /);
+    expect(dark).toContain("--kb-facet-well: ");
+    expect(dark).toMatch(/--kb-facet-well-shadow: inset /);
   });
 
   test("lifts active and critical facet planes in dark", () => {

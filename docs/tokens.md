@@ -26,7 +26,7 @@ A path in braces makes one token refer to another:
 
 This builds to `--kb-color-accent: var(--kb-blue-600);`. The reference stays live, so changing `--kb-blue-600` changes every token that points at it. The build stops with an error if an alias points at a token that does not exist.
 
-The reference resolves where the alias is declared, which is `:root`. An override on `:root` flows through every alias. An override on a wrapper element does not: the alias already holds the root value there. A scoped skin must therefore set the leaf token it wants, such as `--kb-facet-cut-start`, not the token it aliases, such as `--kb-facet-cut`.
+The reference resolves where the alias is declared, which is `:root`. An override on `:root` flows through every alias. An override on a wrapper element does not: the alias already holds the root value there. For example, `--kb-facet-background` aliases `--kb-color-surface`, so a wrapper that sets `--kb-color-surface` leaves facets unchanged; set `--kb-facet-background` instead. Optional hooks with no root value, such as `--kb-facet-cut-start` and `--kb-facet-cut-end`, are read by the component itself, so they and the token they fall back to, `--kb-facet-cut`, work on any wrapper.
 
 ## Dark mode
 
