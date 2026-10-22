@@ -1,26 +1,21 @@
 # Using kbui in a project
 
-Projects install kbui directly from its folder on disk. There is no registry and no version number: when kbui is rebuilt, every project using it receives the change.
+Projects install kbui from a release: one tarball per package, attached to a [GitHub Release](https://github.com/KhallilB/kbui/releases). There is no registry. While you change kbui itself, a project can install it by path instead and receive every rebuild immediately.
 
 ## Installing
 
-1. Build kbui. Package exports point at `dist/` folders, which are not committed.
+1. Add `@kbui/react` and `@kbui/css` from the same release. Replace `0.1.0` with the version you want; every release lists its tarballs.
 
    ```bash
-   cd ~/proj/kbui && bun run build
+   bun add https://github.com/KhallilB/kbui/releases/download/v0.1.0/kbui-react-0.1.0.tgz \
+           https://github.com/KhallilB/kbui/releases/download/v0.1.0/kbui-css-0.1.0.tgz
    ```
 
-2. Add the packages from your project folder. The paths assume the project sits next to kbui, as in `~/proj/<your-app>`.
+   `@kbui/css` already includes the tokens. Add `kbui-tokens-<version>.tgz` from the same release only if you need the typed `tokens` object in TypeScript.
 
-   ```bash
-   bun add ../kbui/packages/react ../kbui/packages/css
-   ```
+2. Install `react` and `react-dom` 19 if the project does not have them. They are peer dependencies, so kbui does not install them.
 
-   Add `../kbui/packages/tokens` as well if you need the typed `tokens` object in TypeScript.
-
-3. Install `react` and `react-dom` 19 if the project does not have them. They are peer dependencies, so kbui does not install them.
-
-4. Import the stylesheet once, near the root of the app. The components can then be used anywhere.
+3. Import the stylesheet once, near the root of the app. The components can then be used anywhere.
 
    ```tsx
    import "@kbui/css/styles.css";
@@ -79,7 +74,25 @@ Semantic colors differ between themes, so override the dark value as well. Other
 
 Every prop is documented in the [React package README](../../packages/react/README.md) and on each component's **Docs** page in Storybook (`bun run storybook` in kbui).
 
-## Picking up changes
+## Upgrading
+
+Read the [release notes](https://github.com/KhallilB/kbui/releases), also kept in `CHANGELOG.md`, for the versions between yours and the new one. Before 1.0, a minor version can contain breaking changes. Then change both URLs to the new version in one `bun add` command, so the stylesheet and the components always come from the same release. kbui does not support mixing versions, and nothing detects a mix.
+
+## Installing by path while you work on kbui
+
+[Decision 0003](../decisions/0003-local-path-installs.md) describes this setup. It works only on a machine that has kbui checked out next to the project, so do not commit it to a project that builds in CI.
+
+1. Build kbui. Package exports point at `dist/` folders, which are not committed.
+
+   ```bash
+   cd ~/proj/kbui && bun run build
+   ```
+
+2. Add the packages from your project folder. The paths assume the project sits next to kbui, as in `~/proj/<your-app>`.
+
+   ```bash
+   bun add ../kbui/packages/react ../kbui/packages/css
+   ```
 
 | After you | Run |
 |---|---|
@@ -87,13 +100,16 @@ Every prop is documented in the [React package README](../../packages/react/READ
 | Add a component | `bun run build` in kbui, then `bun install` once in the project, so Bun links the new files. |
 | Pull kbui from git | `bun install && bun run build` in kbui |
 
+To return to a release, run the `bun add` command from [Installing](#installing) again.
+
 ## Troubleshooting
 
 | Symptom | Cause | Fix |
 |---|---|---|
 | `failed to resolve` after `bun add link:../kbui/...` | In Bun, `link:` refers to a package registered with `bun link`, not a folder | Drop the prefix: `bun add ../kbui/packages/react` |
 | `has a dependency loop` | `bun add` was run inside kbui | Run it from the project folder |
-| `Cannot find module '@kbui/react'`, or missing types | kbui has not been built | Run `bun run build` in kbui |
+| `Cannot find module '@kbui/react'`, or missing types, with a path install | kbui has not been built | Run `bun run build` in kbui |
 | Components render unstyled | The stylesheet is not imported | Import `@kbui/css/styles.css` once at the root |
 | Dark mode never applies | `data-theme` is on the wrong element | Put it on `<html>` |
-| CI or a deploy cannot find `@kbui/*` | `../kbui` exists only on this machine | Known limitation; see [decision 0003](../decisions/0003-local-path-installs.md) |
+| CI or a deploy cannot find `@kbui/*` | The project installs kbui by path, and `../kbui` exists only on this machine | Install from a release instead; see [Installing](#installing) |
+| Styles do not match the components | `@kbui/css` and `@kbui/react` come from different releases | Install both from the same version |
