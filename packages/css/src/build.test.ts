@@ -112,6 +112,12 @@ describe("buildCss", () => {
     expect(css).toMatch(/\.kb-facet::before,\s*\.kb-facet::after \{[^}]*pointer-events: none/);
   });
 
+  test("facet resolves cut depth at the element so a scoped --kb-facet-cut wins", async () => {
+    const css = await readFile(join(src, "components", "facet.css"), "utf8");
+    expect(css).toContain("var(--kb-facet-cut-start, var(--kb-facet-cut))");
+    expect(css).toContain("var(--kb-facet-cut-end, var(--kb-facet-cut))");
+  });
+
   test("anatomyRoots throws without an anatomy comment", async () => {
     const root = await fixture({ "x.css": ".kb-x { color: red; }\n" });
     await expect(anatomyRoots(root)).rejects.toThrow("first line must be an Anatomy comment");
