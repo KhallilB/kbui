@@ -1,7 +1,7 @@
 import { Button, Dialog, Facet, type FacetTone, Status, type StatusTone } from "@kbui/react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { ReactNode } from "react";
-import { withFacetedSkin } from "./faceted-skin";
+import { withSkinFixture } from "./skin-fixture";
 
 type Pane = {
   id: string;
@@ -160,8 +160,9 @@ const longContent: Pane[] = [
   { ...(idle[2] as Pane) },
 ];
 
+/** One composition, default tokens next to a fixture skin: only custom property values differ. */
 const meta = {
-  title: "Showcase/Faceted Control Room — Foundation",
+  title: "Showcase/Skins",
   component: Room,
   parameters: { layout: "fullscreen" },
 } satisfies Meta<typeof Room>;
@@ -174,10 +175,10 @@ export const Running: Story = { args: { panes: running } };
 export const Blocked: Story = { args: { panes: blocked } };
 export const LongContent: Story = { args: { panes: longContent } };
 
-export const IdleSkinned: Story = { ...Idle, decorators: [withFacetedSkin] };
-export const RunningSkinned: Story = { ...Running, decorators: [withFacetedSkin] };
-export const BlockedSkinned: Story = { ...Blocked, decorators: [withFacetedSkin] };
-export const LongContentSkinned: Story = { ...LongContent, decorators: [withFacetedSkin] };
+export const IdleSkinned: Story = { ...Idle, decorators: [withSkinFixture] };
+export const RunningSkinned: Story = { ...Running, decorators: [withSkinFixture] };
+export const BlockedSkinned: Story = { ...Blocked, decorators: [withSkinFixture] };
+export const LongContentSkinned: Story = { ...LongContent, decorators: [withSkinFixture] };
 
 export const RunningDark: Story = { ...Running, globals: { theme: "dark" } };
 export const BlockedSkinnedDark: Story = { ...BlockedSkinned, globals: { theme: "dark" } };
