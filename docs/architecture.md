@@ -57,6 +57,24 @@ On top of that, `bun run test:stories` renders every story in a real browser and
 
 The root `bun run build` runs them in that order. The CSS has to build after the tokens because it bundles their output; nothing else depends on the order.
 
+## Planned: generative UI layers
+
+None of this exists yet. The [direction spec](superpowers/specs/2026-10-22-generative-ui-direction.md) adds layers above the existing packages so that agents can compose kbui screens:
+
+```mermaid
+flowchart TD
+  contract["anatomy lines + tokens + prop types"] -->|generated, checked for drift| manifest["manifest<br/>catalog + canonical tree"]
+  manifest --> lint["lint<br/>grammar + design rules"]
+  manifest --> render["render-react<br/>tree to kbui React"]
+  manifest --> adapters["adapters<br/>A2UI, json-render, MCP Apps"]
+  lint -.->|also runs on| stories["hand-written stories"]
+```
+
+Two rules keep the layers in order:
+
+- **The manifest is generated from the anatomy contract, never written by hand** ([0005](decisions/0005-catalog-and-quality-layer-not-runtime.md)). A component and its catalog entry can't disagree without a test failing.
+- **Everything works on kbui's own tree format** ([0006](decisions/0006-canonical-tree-adapters-at-edge.md)). Outside formats only appear in adapters, so a change upstream touches one adapter and nothing else.
+
 ## Why it's built like this
 
 The [decision records](decisions/README.md) explain the bigger choices, including why there's no package registry.

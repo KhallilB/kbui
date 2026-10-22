@@ -11,6 +11,10 @@ It's split into three packages and a Storybook app:
 | `@kbui/react` | `Button`, `Input` and `Dialog` for React 19 | [packages/react](packages/react/README.md) |
 | `apps/storybook` | Live examples and the accessibility checks | [apps/storybook](apps/storybook/README.md) |
 
+## Where it's heading
+
+We want kbui screens to be composable in plain language, by developers asking an agent for code and by end users asking an app for a view. kbui will supply the catalog, the design rules and adapters for the agent runtimes that do the generating, and won't build a runtime of its own. None of this is built yet. The [generative UI direction](docs/superpowers/specs/2026-10-22-generative-ui-direction.md) has the plan, and decisions [0005](docs/decisions/0005-catalog-and-quality-layer-not-runtime.md) and [0006](docs/decisions/0006-canonical-tree-adapters-at-edge.md) explain why.
+
 ## Getting started
 
 To use kbui in another project, build it here and add it by path from that project:
@@ -44,6 +48,7 @@ bun run check            # build, lint, typecheck and unit tests
 - [Adding a component](docs/guides/adding-a-component.md) walks through the generator, styles, tests and stories.
 - [Contributing](CONTRIBUTING.md) lists the checks and conventions we follow.
 - [Decision records](docs/decisions/README.md) explain why things are built the way they are.
+- The [generative UI direction](docs/superpowers/specs/2026-10-22-generative-ui-direction.md) covers the plan for composing kbui in plain language, how it compares with other projects, and the roadmap.
 - The [original design spec](docs/superpowers/specs/2026-10-16-kbui-design-system-design.md) has the full background. Its registry plan was later dropped; see [decision 0003](docs/decisions/0003-local-path-installs.md).
 
 ## License
