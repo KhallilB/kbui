@@ -20,7 +20,8 @@ bun run storybook
 
 | Command | What it does |
 |---|---|
-| `bun run check` | Builds every package, then runs Biome, the typecheck and the unit tests. CI runs it. |
+| `bun run check` | Builds every package, then runs Biome, the typecheck, the unit tests and `test:pack`. CI runs it. |
+| `bun run test:pack` | Packs each published package and checks the tarball's name and contents. Needs built packages. |
 | `bun run test:stories` | Renders every story in headless Chromium and runs an accessibility scan on each. CI runs it. |
 | `bun run new <Name>` | Generates a new component. See [Adding a component](docs/guides/adding-a-component.md). |
 | `bun run lint:fix` | Applies Biome's fixes. |
@@ -68,6 +69,12 @@ Comments are one line. Write one only when the code cannot say it: a constraint,
 ## Commits
 
 Sign every commit with `git commit -S`; the repository uses SSH signing. Subjects follow Conventional Commits, for example `feat(react): add Badge` or `fix(css): keep focus ring on invalid inputs`. Each commit must pass `bun run check` on its own. Do not add AI attribution lines or trailers.
+
+## Releases
+
+Commit subjects on `main` set the next version: `fix` raises the patch, `feat` the minor, and a breaking change (`feat!:` or a `BREAKING CHANGE:` footer) the minor until 1.0. Merge pull requests by rebase, or squash with a conventional title, so subjects and footers reach `main` intact.
+
+release-please keeps a release PR open on `main`. Merging it releases: the release workflow checks the tag and attaches a tarball per package. Do not edit versions or `CHANGELOG.md` by hand. A new published package needs an `extra-files` entry in `release-please-config.json`; `bun run test` fails without it. [Decision 0007](docs/decisions/0007-lockstep-github-tarball-releases.md) explains the setup.
 
 ## Decision records
 
