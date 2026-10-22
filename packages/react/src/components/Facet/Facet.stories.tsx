@@ -81,7 +81,7 @@ export const Rails: Story = {
   ),
 };
 
-/** Per-side depth comes from --kb-facet-cut-start and --kb-facet-cut-end; the seam follows the edge. */
+/** Optional hooks --kb-facet-cut-start and --kb-facet-cut-end override --kb-facet-cut per side; the seam follows the edge. */
 export const Geometry: Story = {
   args: { cut: "both", tone: "active" },
   render: (args) => (
@@ -131,6 +131,20 @@ export const Edges: Story = {
 };
 
 export const EdgesDark: Story = { ...Edges, globals: { theme: "dark" } };
+
+/** A wrapper-scoped --kb-facet-cut must reach the facet; per-side names stay optional hooks. */
+export const ScopedCut: Story = {
+  args: { cut: "both" },
+  render: (args) => (
+    <div style={{ "--kb-facet-cut": "2rem" } as object}>
+      <Sample {...args} id="scoped-cut" title="Scoped cut" />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const facet = canvasElement.querySelector(".kb-facet") as HTMLElement;
+    expect(getComputedStyle(facet, "::before").clipPath).toContain("32px 0px");
+  },
+};
 
 export const Toolbar: Story = {
   render: (args) => (
