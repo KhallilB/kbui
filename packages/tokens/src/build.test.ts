@@ -140,6 +140,17 @@ describe("tokens.json", () => {
     expect(css).toContain("--kb-facet-border-critical: var(--kb-color-danger);");
   });
 
+  test("defines a sunken facet plane on the page background", () => {
+    expect(css).toContain("--kb-facet-background-sunken: var(--kb-color-bg);");
+  });
+
+  test("defines opt-in facet edge tokens that are transparent until a skin sets them", () => {
+    for (const name of ["cut-edge", "highlight", "divider"]) {
+      expect(css).toContain(`--kb-facet-${name}: transparent;`);
+      expect(dark).not.toContain(`--kb-facet-${name}:`);
+    }
+  });
+
   test("lifts active and critical facet planes in dark", () => {
     expect(dark).toContain("--kb-facet-background-active: var(--kb-gray-800);");
     expect(dark).toContain("--kb-facet-border-active: var(--kb-blue-400);");

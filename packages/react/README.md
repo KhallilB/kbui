@@ -64,6 +64,46 @@ Other native input props, including `value` and `defaultValue`, pass through to 
 </Dialog>
 ```
 
+## Facet
+
+A section plane with an optional clipped corner. Name it with `aria-labelledby` pointing at the heading in `Facet.Header`.
+
+```tsx
+<Facet tone="active" cut="both" rail="status" aria-labelledby="queue-title">
+  <Facet.Header>
+    <h2 id="queue-title">Queue</h2>
+    <Facet.Toolbar><Button size="sm">Retry</Button></Facet.Toolbar>
+  </Facet.Header>
+  <Facet.Body>…</Facet.Body>
+  <Facet.Footer>…</Facet.Footer>
+</Facet>
+```
+
+| Prop | Values | Default |
+|---|---|---|
+| `tone` | `quiet` `default` `sunken` `active` `critical` | `default` |
+| `cut` | `none` `start` `end` `both` | `none` |
+| `rail` | `none` `accent` `status` | `none` |
+| `density` | `compact` `standard` | `standard` |
+| `collapsible`, `open`, `defaultOpen`, `onOpenChange` | Body becomes a panel driven by `Facet.Toggle` | off |
+
+`quiet` draws no plane; `sunken` recesses onto the page color, for output wells inside another facet. Geometry and edges come from tokens: `--kb-facet-cut-start` and `--kb-facet-cut-end` set depth; `--kb-facet-cut-edge`, `--kb-facet-highlight` and `--kb-facet-divider` are transparent until a skin sets them, and light the chamfers, the top edge and the line under the header. The rail starts below the start cut.
+
+## Status
+
+Text plus an optional caller-provided icon; the text is mandatory.
+
+```tsx
+<Status tone="running" appearance="chip" icon={<PlayIcon />} live>Running</Status>
+```
+
+| Prop | Values | Default |
+|---|---|---|
+| `tone` | `neutral` `info` `running` `success` `warning` `blocked` | `neutral` |
+| `appearance` | `plain` `chip` (tinted from the tone's own color) | `plain` |
+| `live` | adds `role="status"` only | `false` |
+| `compact` | tighter spacing, smaller text | `false` |
+
 ## `kb()`
 
 `kb(name, attrs, className)` builds the class and `data-*` props for a component's root element. It omits values that are `false` or `undefined` and renders `true` as an empty attribute. It is mainly used when writing a new component; see [Adding a component](../../docs/guides/adding-a-component.md).

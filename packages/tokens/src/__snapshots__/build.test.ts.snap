@@ -107,6 +107,7 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-dialog-width: 28rem;
   --kb-facet-background: var(--kb-color-surface);
   --kb-facet-background-active: var(--kb-color-bg);
+  --kb-facet-background-sunken: var(--kb-color-bg);
   --kb-facet-border: var(--kb-color-border);
   --kb-facet-border-active: var(--kb-color-accent);
   --kb-facet-border-critical: var(--kb-color-danger);
@@ -115,6 +116,9 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-facet-cut-end: var(--kb-facet-cut);
   --kb-facet-seam: 1px;
   --kb-facet-seam-active: 2px;
+  --kb-facet-cut-edge: transparent;
+  --kb-facet-highlight: transparent;
+  --kb-facet-divider: transparent;
   --kb-facet-padding: var(--kb-space-4);
   --kb-facet-rail: var(--kb-color-border);
   --kb-facet-rail-active: var(--kb-color-accent);

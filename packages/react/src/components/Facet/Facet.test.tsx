@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createRef } from "react";
 import { describe, expect, test } from "vitest";
-import { Facet } from "./Facet";
+import { Facet, type FacetTone } from "./Facet";
 
 describe("Facet", () => {
   test("renders a section with default tone, cut, rail and density", () => {
@@ -28,6 +28,12 @@ describe("Facet", () => {
     expect(root).toHaveAttribute("data-rail", "accent");
     expect(root).toHaveAttribute("data-density", "compact");
     expect(root).toHaveClass("kb-facet", "extra");
+  });
+
+  test("accepts the sunken tone for recessed planes", () => {
+    const tone: FacetTone = "sunken";
+    const { container } = render(<Facet tone={tone}>x</Facet>);
+    expect(container.querySelector(".kb-facet")).toHaveAttribute("data-tone", "sunken");
   });
 
   test("renders a decorative rail only when rail is not none", () => {

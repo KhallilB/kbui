@@ -9,7 +9,7 @@ const meta = {
   component: Facet,
   tags: ["autodocs"],
   argTypes: {
-    tone: { control: "select", options: ["quiet", "default", "active", "critical"] },
+    tone: { control: "select", options: ["quiet", "default", "sunken", "active", "critical"] },
     cut: { control: "select", options: ["none", "start", "end", "both"] },
     rail: { control: "select", options: ["none", "accent", "status"] },
     density: { control: "select", options: ["compact", "standard"] },
@@ -48,7 +48,7 @@ export const Default: Story = {
 export const Tones: Story = {
   render: (args) => (
     <div style={row}>
-      {(["quiet", "default", "active", "critical"] as const).map((tone) => (
+      {(["quiet", "default", "sunken", "active", "critical"] as const).map((tone) => (
         <Sample {...args} key={tone} id={tone} tone={tone} title={`Tone ${tone}`} />
       ))}
     </div>
@@ -93,6 +93,44 @@ export const Geometry: Story = {
     </div>
   ),
 };
+
+const litEdges = {
+  "--kb-facet-cut-start": "1rem",
+  "--kb-facet-cut-end": "1rem",
+  "--kb-facet-cut-edge": "var(--kb-color-accent)",
+  "--kb-facet-highlight": "var(--kb-color-border)",
+  "--kb-facet-divider": "var(--kb-color-border)",
+} as object;
+
+function expectLitGeometry(canvas: HTMLElement) {
+  const facets = [...canvas.querySelectorAll<HTMLElement>(".kb-facet")];
+  expect(facets.length).toBeGreaterThan(0);
+  for (const facet of facets) {
+    expect(getComputedStyle(facet).clipPath).toBe("none");
+    expect(getComputedStyle(facet, "::before").backgroundImage).toContain("linear-gradient");
+    const rail = facet.querySelector<HTMLElement>(".kb-facet-rail");
+    if (rail) expect(rail.getBoundingClientRect().top - facet.getBoundingClientRect().top).toBe(16);
+    const header = facet.querySelector<HTMLElement>(".kb-facet-header");
+    if (header) {
+      expect(getComputedStyle(header, "::after").backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
+    }
+  }
+}
+
+/** Opt-in edges: lit chamfers, a top highlight and a header divider; the rail starts below the cut. */
+export const Edges: Story = {
+  args: { cut: "both", rail: "status" },
+  render: (args) => (
+    <div style={{ ...row, ...litEdges }}>
+      {(["default", "active", "critical"] as const).map((tone) => (
+        <Sample {...args} key={tone} id={`edge-${tone}`} tone={tone} title={`Edges ${tone}`} />
+      ))}
+    </div>
+  ),
+  play: async ({ canvasElement }) => expectLitGeometry(canvasElement),
+};
+
+export const EdgesDark: Story = { ...Edges, globals: { theme: "dark" } };
 
 export const Toolbar: Story = {
   render: (args) => (
@@ -212,7 +250,7 @@ export const Dark: Story = {
   globals: { theme: "dark" },
   render: (args) => (
     <div style={row}>
-      {(["quiet", "default", "active", "critical"] as const).map((tone) => (
+      {(["quiet", "default", "sunken", "active", "critical"] as const).map((tone) => (
         <Sample {...args} key={tone} id={`dark-${tone}`} tone={tone} cut="both" title={tone} />
       ))}
     </div>

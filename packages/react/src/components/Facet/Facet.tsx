@@ -3,7 +3,7 @@ import { clsx } from "clsx";
 import { type ComponentProps, createContext, type Ref, useContext } from "react";
 import { kb } from "../../utils/kb";
 
-export type FacetTone = "quiet" | "default" | "active" | "critical";
+export type FacetTone = "quiet" | "default" | "sunken" | "active" | "critical";
 export type FacetCut = "none" | "start" | "end" | "both";
 export type FacetRail = "none" | "accent" | "status";
 export type FacetDensity = "compact" | "standard";
@@ -11,7 +11,7 @@ export type FacetGroupDirection = "row" | "column";
 
 /** Name the region with aria-labelledby pointing at the heading inside Facet.Header. */
 export type FacetProps = ComponentProps<"section"> & {
-  /** Plane weight: quiet has no seam, active lifts, critical warns. */
+  /** Plane weight: quiet has no seam, sunken recesses, active lifts, critical warns. */
   tone?: FacetTone;
   /** Which corners the decorative clip removes; the root itself is never clipped. */
   cut?: FacetCut;
