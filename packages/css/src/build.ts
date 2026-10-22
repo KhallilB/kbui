@@ -3,7 +3,7 @@ import { basename, join } from "node:path";
 import { bundle, transform } from "lightningcss";
 
 const VAR = /var\(\s*(--kb-[a-z0-9-]+)/gi;
-const PALETTE = /^--kb-(?:white|black|gray|blue|red)(?:-|$)/i;
+const PALETTE = /^--kb-(?:white|black|gray|blue|red|amber|green|teal)(?:-|$)/i;
 const RAW_COLOR = /#[0-9a-f]{3,8}\b|\b(?:rgba?|hsla?|oklch)\(/gi;
 
 export async function componentFiles(src: string): Promise<string[]> {

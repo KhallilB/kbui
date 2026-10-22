@@ -69,6 +69,24 @@ describe("buildCss", () => {
     await rm(root, { recursive: true, force: true });
   });
 
+  test("paletteRefs flags the amber, green and teal families", async () => {
+    const root = await fixture({
+      "fam.css": `/* Anatomy: .kb-fam */
+.kb-fam {
+  a: var(--kb-amber-500);
+  b: var(--kb-green-400);
+  c: var(--kb-teal-600);
+}
+`,
+    });
+    const hits = await paletteRefs(root);
+    expect(hits).toHaveLength(3);
+    for (const m of ["--kb-amber-500", "--kb-green-400", "--kb-teal-600"]) {
+      expect(hits.some((h) => h.includes(m))).toBe(true);
+    }
+    await rm(root, { recursive: true, force: true });
+  });
+
   test("paletteRefs scans reset.css and accepts non-palette vars", async () => {
     const root = await fixture({
       "ok.css":
