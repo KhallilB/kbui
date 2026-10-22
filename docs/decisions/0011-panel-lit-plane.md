@@ -70,13 +70,13 @@ Guards against clipped focus, decorative layers that intercept clicks, and produ
 
 ## Adoption
 
-`Panel` in `@kbui/react`, `panel.css` and `status.css` follow this record. The Storybook skin fixture and the `LitRoom` story turn the light up.
+`Panel` in `@kbui/react`, `panel.css` and `status.css` follow this record. The Storybook skin fixture and the `TokenOverrides` story turn the light up.
 
 ## Validation
 
 - Done: `packages/css/src/build.test.ts` checks that no rule clips, that only the glow filters and only the plate blurs its backdrop, and that the rim, sheen, glass, glow, shadow, well and chip all come from tokens.
 - Done: `packages/tokens/src/build.test.ts` checks that the cut tokens are gone, that the light tokens default to off, and that both themes have shadows.
-- Done: the `Depth`, `DepthDark`, `LitRoom` and `FocusVisible` stories run as play tests in `bun run test:stories`.
+- Done: the `Depth`, `DepthDark`, `TokenOverrides` and `FocusVisible` stories run as play tests in `bun run test:stories`.
 
 ## Links
 
