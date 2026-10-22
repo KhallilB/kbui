@@ -132,58 +132,58 @@ describe("tokens.json", () => {
     }
   });
 
-  test("drops cut-corner geometry from facets", () => {
+  test("drops cut-corner geometry from panels", () => {
     for (const name of ["cut", "cut-start", "cut-end", "corner", "cut-edge", "seam-active"]) {
-      expect(css).not.toContain(`--kb-facet-${name}:`);
+      expect(css).not.toContain(`--kb-panel-${name}:`);
     }
   });
 
-  test("rounds facets and wells from the radius scale", () => {
-    expect(css).toContain("--kb-facet-radius: var(--kb-radius-lg);");
-    expect(css).toContain("--kb-facet-well-radius: var(--kb-radius-md);");
-    expect(css).toMatch(/--kb-facet-seam: \d+px;/);
+  test("rounds panels and wells from the radius scale", () => {
+    expect(css).toContain("--kb-panel-radius: var(--kb-radius-lg);");
+    expect(css).toContain("--kb-panel-well-radius: var(--kb-radius-md);");
+    expect(css).toMatch(/--kb-panel-seam: \d+px;/);
   });
 
   test("defines a lit rim that runs from rim-top through the border to rim-bottom", () => {
     for (const name of ["rim-top", "rim-bottom"]) {
-      expect(css).toContain(`--kb-facet-${name}: `);
-      expect(dark).toContain(`--kb-facet-${name}: `);
+      expect(css).toContain(`--kb-panel-${name}: `);
+      expect(dark).toContain(`--kb-panel-${name}: `);
     }
-    expect(css).toContain("--kb-facet-border-critical: var(--kb-color-danger);");
+    expect(css).toContain("--kb-panel-border-critical: var(--kb-color-danger);");
   });
 
   test("keeps glass, sheen and emitted light off until a skin turns them up", () => {
-    expect(css).toContain("--kb-facet-backdrop: none;");
+    expect(css).toContain("--kb-panel-backdrop: none;");
     for (const name of ["sheen", "glow", "glow-active", "glow-critical"]) {
-      expect(css).toContain(`--kb-facet-${name}: transparent;`);
+      expect(css).toContain(`--kb-panel-${name}: transparent;`);
     }
-    expect(css).toMatch(/--kb-facet-glow-blur: \d+px;/);
+    expect(css).toMatch(/--kb-panel-glow-blur: \d+px;/);
   });
 
-  test("lifts facets with box-shadows tuned per theme", () => {
+  test("lifts panels with box-shadows tuned per theme", () => {
     for (const name of ["shadow", "shadow-active"]) {
-      expect(css).toMatch(new RegExp(`--kb-facet-${name}: 0 \\d`));
-      expect(dark).toMatch(new RegExp(`--kb-facet-${name}: 0 \\d`));
+      expect(css).toMatch(new RegExp(`--kb-panel-${name}: 0 \\d`));
+      expect(dark).toMatch(new RegExp(`--kb-panel-${name}: 0 \\d`));
     }
     expect(css).not.toContain("drop-shadow(");
   });
 
   test("defines a sunken plane, a highlight, a divider and a recessed well", () => {
-    expect(css).toContain("--kb-facet-background-sunken: var(--kb-color-bg);");
+    expect(css).toContain("--kb-panel-background-sunken: var(--kb-color-bg);");
     for (const name of ["highlight", "divider", "well"]) {
-      expect(css).toContain(`--kb-facet-${name}: `);
-      expect(dark).toContain(`--kb-facet-${name}: `);
+      expect(css).toContain(`--kb-panel-${name}: `);
+      expect(dark).toContain(`--kb-panel-${name}: `);
     }
-    expect(css).toMatch(/--kb-facet-well-shadow: inset /);
+    expect(css).toMatch(/--kb-panel-well-shadow: inset /);
   });
 
-  test("lifts active and critical facet planes in dark", () => {
-    expect(dark).toContain("--kb-facet-background-active: var(--kb-gray-800);");
-    expect(dark).toContain("--kb-facet-border-active: var(--kb-blue-400);");
-    expect(dark).toContain("--kb-facet-border-critical: var(--kb-red-400);");
+  test("lifts active and critical panel planes in dark", () => {
+    expect(dark).toContain("--kb-panel-background-active: var(--kb-gray-800);");
+    expect(dark).toContain("--kb-panel-border-active: var(--kb-blue-400);");
+    expect(dark).toContain("--kb-panel-border-critical: var(--kb-red-400);");
   });
 
-  test("defines facet component tokens", () => {
+  test("defines panel component tokens", () => {
     for (const name of [
       "background",
       "background-active",
@@ -193,7 +193,7 @@ describe("tokens.json", () => {
       "rail",
       "rail-active",
     ]) {
-      expect(css).toContain(`--kb-facet-${name}: `);
+      expect(css).toContain(`--kb-panel-${name}: `);
     }
   });
 

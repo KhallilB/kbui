@@ -34,4 +34,4 @@ The fixture skin in `stories/skin-fixture-values.ts` is checked by `bun test app
 | Introduction | `docs/Introduction.mdx` |
 | Foundations / Tokens | `docs/Tokens.mdx`. Reads its list from `@kbui/tokens`, so it always matches `tokens.json`. |
 | Each component | That component's `.stories.tsx` file |
-| Showcase / Skins | `stories/Skins.stories.tsx`, one composition from stock `Button`, `Dialog`, `Facet` and `Status`, rendered with default tokens and with the fixture skin from `stories/skin-fixture.tsx` |
+| Showcase / Skins | `stories/Skins.stories.tsx`, one composition from stock `Button`, `Dialog`, `Panel` and `Status`, rendered with default tokens and with the fixture skin from `stories/skin-fixture.tsx` |

@@ -48,7 +48,7 @@ Guards against color-only or icon-only status and against an icon dependency in 
 
 ## Adoption
 
-`Status` follows this record. The `Facet` rail is a colored plane, not an icon, so it is unaffected.
+`Status` follows this record. The `Panel` rail is a colored plane, not an icon, so it is unaffected.
 
 ## Validation
 

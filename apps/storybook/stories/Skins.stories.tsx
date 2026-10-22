@@ -1,4 +1,4 @@
-import { Button, Dialog, Facet, type FacetTone, Status, type StatusTone } from "@kbui/react";
+import { Button, Dialog, Panel, type PanelTone, Status, type StatusTone } from "@kbui/react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { ReactNode } from "react";
 import { withSkinFixture } from "./skin-fixture";
@@ -6,7 +6,7 @@ import { withSkinFixture } from "./skin-fixture";
 type Pane = {
   id: string;
   title: string;
-  tone: FacetTone;
+  tone: PanelTone;
   status: { tone: StatusTone; label: string };
   body: ReactNode;
   action?: ReactNode;
@@ -30,16 +30,16 @@ const longText = Array.from(
 
 function Pane({ id, title, tone, status, body, action }: Pane) {
   return (
-    <Facet tone={tone} rail={tone === "quiet" ? "none" : "status"} aria-labelledby={`${id}-title`}>
-      <Facet.Header>
+    <Panel tone={tone} rail={tone === "quiet" ? "none" : "status"} aria-labelledby={`${id}-title`}>
+      <Panel.Header>
         <h2 id={`${id}-title`}>{title}</h2>
         <Status tone={status.tone} icon={<Dot />} live={status.tone === "running"}>
           {status.label}
         </Status>
-      </Facet.Header>
-      <Facet.Body>{body}</Facet.Body>
-      {action ? <Facet.Footer>{action}</Facet.Footer> : null}
-    </Facet>
+      </Panel.Header>
+      <Panel.Body>{body}</Panel.Body>
+      {action ? <Panel.Footer>{action}</Panel.Footer> : null}
+    </Panel>
   );
 }
 
@@ -114,9 +114,9 @@ const running: Pane[] = [
     body: (
       <>
         Step 3 of 5: building.
-        <Facet.Well>
+        <Panel.Well>
           <code>compiling package 2 of 4</code>
-        </Facet.Well>
+        </Panel.Well>
       </>
     ),
     action: stop,
