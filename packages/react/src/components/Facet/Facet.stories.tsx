@@ -81,7 +81,7 @@ export const Rails: Story = {
   ),
 };
 
-/** Per-side depth comes from --kb-facet-cut-start and --kb-facet-cut-end; the seam follows the edge. */
+/** Optional hooks --kb-facet-cut-start and --kb-facet-cut-end override --kb-facet-cut per side; the seam follows the edge. */
 export const Geometry: Story = {
   args: { cut: "both", tone: "active" },
   render: (args) => (
