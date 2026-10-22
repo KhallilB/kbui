@@ -4,9 +4,11 @@ import { Meta } from "@storybook/addon-docs/blocks";
 
 # kbui
 
-kbui is the shared design system for our projects. Its look lives in framework-free CSS driven by design tokens; a thin React layer on Base UI adds behavior.
+kbui is the design system we share across our projects. The look is plain CSS built from design tokens, and a small React layer on Base UI handles behavior.
 
-## Use it in a project
+## Using it in a project
+
+Build kbui, then add it by path from your project:
 
 ```bash
 cd ~/proj/kbui && bun run build
@@ -18,22 +20,20 @@ import "@kbui/css/styles.css";
 import { Button, Dialog, Input } from "@kbui/react";
 ```
 
-Set `data-theme="light"` or `"dark"` on `<html>`. Without it, the system setting decides.
+Set `data-theme="light"` or `"dark"` on `<html>` to pick a theme. If you leave it off, kbui follows the system setting.
 
-## Reading these docs
+## Finding your way around
 
-- **Foundations / Tokens** lists every color, space, radius and type token, generated from `tokens.json`.
-- **Components** has a Docs page per component, with a props table and live examples. The toolbar's theme switch changes a story between light and dark.
-- Every story is also an accessibility test: CI fails if axe finds a violation.
+**Foundations / Tokens** lists every color, spacing, radius and type token, read from `tokens.json`.
 
-## How it is built
+Under **Components**, each component has a Docs page with its props and live examples. Use the theme switch in the toolbar to see a story in light or dark.
 
-| Layer | Package | Owns |
-|---|---|---|
-| Tokens | `@kbui/tokens` | Every value, light and dark |
-| Styles | `@kbui/css` | Every visual rule, keyed on `kb-` classes and `data-*` attributes |
-| Behavior | `@kbui/react` | Base UI behavior and prop-to-attribute mapping |
+Every story is also an accessibility test. If the scan finds a problem, CI fails.
 
-Each component stylesheet opens with an `Anatomy:` line that names its classes and attributes. That line is the contract between the CSS and any framework layer.
+## How it's put together
 
-More in the repository: `README.md`, `docs/architecture.md`, `docs/tokens.md`, `docs/guides/` and `docs/decisions/`.
+The tokens package holds every value. The CSS package turns them into styles, keyed on `kb-` classes and `data-*` attributes. The React package adds behavior from Base UI and maps props onto those classes and attributes.
+
+Each component's stylesheet starts with an `Anatomy:` line listing the classes and attributes it expects. That line is the agreement between the CSS and whatever renders it.
+
+The repository has more: `README.md`, `docs/architecture.md`, `docs/tokens.md`, the guides in `docs/guides/` and the decision records in `docs/decisions/`.

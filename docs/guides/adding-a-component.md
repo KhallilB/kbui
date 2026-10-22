@@ -1,59 +1,57 @@
 # Adding a component
 
-A component is four files: a stylesheet in `@kbui/css` and a component, test and story in `@kbui/react`. The generator creates all four and registers them.
+A component lives in two places: a stylesheet in `@kbui/css`, and a component file with its test and story in `@kbui/react`. The generator creates all four files for you.
 
-## 1. Generate
+## Generate the files
 
 ```bash
 bun run new Badge
 bun run lint:fix
 ```
 
-The name must be PascalCase. The generator refuses names that already exist and writes nothing if it cannot update the registries. It creates:
+The second command formats the generated files. The name has to be PascalCase. The generator won't overwrite a component that already exists, and if it can't update `index.ts` and `styles.css` it stops before writing anything.
 
-| File | Starts as |
-|---|---|
-| `packages/css/src/components/badge.css` | An `Anatomy:` line and a `.kb-badge` rule |
-| `packages/react/src/components/Badge/Badge.tsx` | A `div` that spreads props, then `kb("badge", { variant }, className)` |
-| `packages/react/src/components/Badge/Badge.test.tsx` | A test that the root class and default variant render |
-| `packages/react/src/components/Badge/Badge.stories.tsx` | A `Default` story with autodocs |
+You'll get a stylesheet at `packages/css/src/components/badge.css` with an `Anatomy:` line and a starter `.kb-badge` rule. In `packages/react/src/components/Badge/` you'll find `Badge.tsx`, which renders a `div` and applies `kb("badge", { variant }, className)`, along with a test that checks the class and default variant, and a story with a docs page.
 
-It also adds the export to `packages/react/src/index.ts` and the import to `packages/css/src/styles.css`, both in sorted order.
+The generator also adds the new export to `packages/react/src/index.ts` and the new import to `packages/css/src/styles.css`, keeping both lists sorted.
 
-## 2. Write the contract first
+## Describe the markup before you style it
 
-Edit the first line of the stylesheet to describe the full anatomy before styling anything:
+Start by rewriting the first line of the stylesheet so it describes the whole component:
 
 ```css
 /* Anatomy: .kb-badge [data-tone=neutral|success|danger] [data-size=sm|md] > .kb-badge-icon */
 ```
 
-The React component must emit exactly these classes and attributes, and any future adapter will too.
+That line is the contract. The React component has to render exactly these classes and attributes, and so would any other framework that used kbui's CSS later.
 
-## 3. Style
+## Write the styles
 
-- Use semantic tokens (`--kb-color-*`), scale tokens (`--kb-space-*`, `--kb-radius-*`, `--kb-size-*`) and your component's own tokens. Palette primitives and raw colors fail the check.
-- Need a component-specific value? Add a group to `tokens.json`, such as `badge.radius`, and reference `--kb-badge-radius`.
-- Key variants and states on `data-*` attributes, not extra classes.
-- Make `md` the base rule and override other sizes, so a missing attribute still renders correctly.
-- Add a `prefers-reduced-motion` block for any transition.
+Use semantic colors (`--kb-color-*`), scale tokens (`--kb-space-*`, `--kb-radius-*`, `--kb-size-*`) and the component's own tokens. Palette colors and raw values like `#fff` fail the check.
 
-## 4. Build the React component, test first
+If the component needs a value of its own, add a group for it to `tokens.json`, such as `badge.radius`, and use `--kb-badge-radius`.
 
-1. Write the behavior you want in `Badge.test.tsx` and run it red: `bun run --cwd packages/react test -- Badge`.
-2. Build on a Base UI primitive when one exists; otherwise render the plain element.
-3. Follow the conventions in [CONTRIBUTING.md](../../CONTRIBUTING.md#component-conventions): props spread first then `kb()`, a `ref` test, one-line JSDoc on every prop.
-4. Run the test green.
+Hang variants and states off `data-*` attributes instead of adding classes. Make the `md` size the base style and write overrides for the others, so the component still looks right if the size attribute is missing. If anything animates, add a `prefers-reduced-motion` block that turns it off.
 
-## 5. Document with stories
+## Build the React side, test first
 
-Add a story per variant, size and notable state. Each prop's JSDoc becomes the props table on the Docs page. Every story is also an accessibility test, so a story that fails axe fails CI.
+Describe what the component should do in `Badge.test.tsx` and run it to see it fail:
 
-## 6. Check
+```bash
+bun run --cwd packages/react test -- Badge
+```
+
+Build on a Base UI primitive if there's one for the job; otherwise render a plain element. Follow the [component habits in CONTRIBUTING](../../CONTRIBUTING.md#how-components-are-written): spread props first and `kb()` last, test that the `ref` works, and give each prop a one-line JSDoc comment. Then make the test pass.
+
+## Add stories
+
+Write a story for each variant, size and interesting state. Storybook builds the props table from your JSDoc comments. Each story also runs through the accessibility scan, so a story with a contrast or labeling problem will fail CI.
+
+## Check it
 
 ```bash
 bun run check
 bun run test:stories
 ```
 
-Then look at the component in Storybook in light and dark themes.
+Then open the component in Storybook and look at it in both light and dark.

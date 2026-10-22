@@ -1,57 +1,63 @@
 # Using kbui in a project
 
-kbui is consumed from this checkout by path. There is no registry: building kbui is the whole release, and consumers see the new build immediately.
+Projects pick up kbui directly from its folder on disk. There's no registry and no version number: when you rebuild kbui, every project using it sees the change.
 
-## Install
+## Installing
 
-1. Build kbui. Package exports point at `dist/`, which is not committed.
+First, build kbui. The packages point at their `dist/` folders, which aren't committed.
 
-   ```bash
-   cd ~/proj/kbui && bun run build
-   ```
+```bash
+cd ~/proj/kbui && bun run build
+```
 
-2. In the consumer, add the packages by path, relative to the consumer:
+Then add the packages from your project's folder. These paths assume your project sits next to kbui, as in `~/proj/<your-app>`:
 
-   ```bash
-   bun add ../kbui/packages/react ../kbui/packages/css
-   ```
+```bash
+bun add ../kbui/packages/react ../kbui/packages/css
+```
 
-   Add `../kbui/packages/tokens` as well if you want the typed `tokens` object in TypeScript.
+If you want the typed `tokens` object in TypeScript, add `../kbui/packages/tokens` too. Your project also needs `react` and `react-dom` 19. They're peer dependencies, so kbui doesn't install them for you.
 
-3. Make sure the consumer has `react` and `react-dom` 19; they are peer dependencies.
+Import the stylesheet once, near the root of your app, and then use the components anywhere:
 
-4. Import the stylesheet once, at the app root, then use components:
+```tsx
+import "@kbui/css/styles.css";
+import { Button, Dialog, Input } from "@kbui/react";
+```
 
-   ```tsx
-   import "@kbui/css/styles.css";
-   import { Button, Dialog, Input } from "@kbui/react";
-   ```
-
-If TypeScript rejects the CSS import, declare CSS modules once in the consumer. Vite projects already get this from `vite/client` types.
+If TypeScript complains about importing a `.css` file, add this declaration somewhere in your project. Vite projects usually have it already through `vite/client`.
 
 ```ts
 declare module "*.css";
 ```
 
-## Theme
+## Light and dark
 
-Set the theme on `<html>`:
+Set the theme on the `<html>` element:
 
 ```html
 <html data-theme="dark">
 ```
 
-Use `"light"` or `"dark"`. Without the attribute, the visitor's system setting decides. All colors switch through CSS variables, so no React provider is needed.
+It accepts `"light"` or `"dark"`. Without it, kbui follows the visitor's system setting. Everything switches through CSS variables, so you don't need a provider component.
 
-To adjust a value for one app, override the variable after importing `styles.css`:
+To tweak a value for your app, override its variable after the kbui import. Scale and component tokens are the same in both themes, so one rule is enough:
 
 ```css
 :root { --kb-button-radius: var(--kb-radius-full); }
 ```
 
-Override semantic and component tokens, not palette primitives, so dark mode keeps working.
+Semantic colors change between themes, so set them for dark mode too. A plain `:root` override would otherwise win in dark mode as well:
 
-## Components at a glance
+```css
+:root { --kb-color-accent: oklch(55% 0.2 150); }
+:root[data-theme="dark"] { --kb-color-accent: oklch(72% 0.17 150); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --kb-color-accent: oklch(72% 0.17 150); }
+}
+```
+
+## A quick tour of the components
 
 ```tsx
 <Button variant="secondary" size="sm" onClick={save}>Save</Button>
@@ -69,23 +75,23 @@ Override semantic and component tokens, not palette primitives, so dark mode kee
 </Dialog>
 ```
 
-Every prop is documented in Storybook (`bun run storybook` in kbui, then the **Docs** page of each component) and in [packages/react](../../packages/react/README.md).
+Every prop is documented in Storybook (run `bun run storybook` in kbui and open a component's **Docs** page) and in the [React package README](../../packages/react/README.md).
 
-## Updating
+## Picking up changes
 
-| You changed in kbui | Do in kbui | Do in the consumer |
+Bun links each of kbui's built files into your project one by one. So after changing a token, a style or an existing component, run `bun run build` in kbui and your project sees the change immediately.
+
+A new component adds new files, and those only show up in your project after you run `bun install` there once.
+
+After pulling kbui from git, run `bun install && bun run build` in kbui.
+
+## When things go wrong
+
+| What you see | Why | What to do |
 |---|---|---|
-| A token, CSS or an existing component | `bun run build` | Nothing; the files are symlinked |
-| Added a component or a new file in `dist/` | `bun run build` | `bun install` |
-| Pulled kbui changes from git | `bun install && bun run build` | Nothing, unless new files appeared |
-
-## Troubleshooting
-
-| Symptom | Cause | Fix |
-|---|---|---|
-| `failed to resolve` on `bun add link:../kbui/...` | `link:` in Bun means a name registered with `bun link`, not a path | Use the plain path: `bun add ../kbui/packages/react` |
-| `has a dependency loop` | The command ran inside kbui itself | Run it in the consumer's folder |
-| `Cannot find module '@kbui/react'` or missing types | kbui was not built | `bun run build` in kbui |
-| Components render unstyled | `styles.css` not imported | Import `@kbui/css/styles.css` once at the app root |
-| Dark mode never applies | `data-theme` set on an element other than `<html>` | Put it on `<html>` |
-| CI or a deploy cannot find `@kbui/*` | The path `../kbui` exists only on this machine | Known limit; see [decision 0003](../decisions/0003-local-path-installs.md) |
+| `failed to resolve` after `bun add link:../kbui/...` | In Bun, `link:` refers to a package registered with `bun link`, not a folder | Drop the prefix: `bun add ../kbui/packages/react` |
+| `has a dependency loop` | You ran `bun add` inside kbui itself | Run it from your project's folder |
+| `Cannot find module '@kbui/react'`, or no types | kbui hasn't been built | Run `bun run build` in kbui |
+| Components show up unstyled | The stylesheet isn't imported | Import `@kbui/css/styles.css` once at the root |
+| Dark mode never kicks in | `data-theme` is on the wrong element | Put it on `<html>` |
+| CI or a deploy can't find `@kbui/*` | `../kbui` only exists on this machine | A known limit for now; see [decision 0003](../decisions/0003-local-path-installs.md) |

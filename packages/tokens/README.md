@@ -1,16 +1,8 @@
 # @kbui/tokens
 
-The single source of every kbui value. `tokens.json` is written in the W3C Design Tokens format; the build turns it into CSS custom properties and a typed object of their names.
+This package is where every kbui value is defined. You edit `tokens.json`, and the build produces the CSS variables plus a typed list of their names.
 
-## Outputs
-
-| Import | File | Contents |
-|---|---|---|
-| `@kbui/tokens/tokens.css` | `dist/tokens.css` | `:root` light values, `[data-theme="dark"]` overrides, a `prefers-color-scheme` fallback |
-| `@kbui/tokens` | `dist/tokens.js`, `dist/tokens.d.ts` | `tokens`, a nested readonly object of variable names |
-| `@kbui/tokens/tokens.json` | `tokens.json` | The source |
-
-Most consumers never import this package: `@kbui/css/styles.css` already bundles `tokens.css`.
+Most projects never import it directly, because `@kbui/css/styles.css` already includes the CSS it generates. You only need it for the typed names, or to load the variables on their own.
 
 ```ts
 import { tokens } from "@kbui/tokens";
@@ -18,18 +10,21 @@ import { tokens } from "@kbui/tokens";
 tokens.color.accent; // "--kb-color-accent"
 ```
 
-## Commands
+## What it exports
+
+| Import | File | What you get |
+|---|---|---|
+| `@kbui/tokens/tokens.css` | `dist/tokens.css` | The variables: light values on `:root`, dark ones under `[data-theme="dark"]`, and a fallback for the system setting |
+| `@kbui/tokens` | `dist/tokens.js`, `dist/tokens.d.ts` | `tokens`, a nested read-only object of variable names |
+| `@kbui/tokens/tokens.json` | `tokens.json` | The source file |
+
+## Building and testing
 
 ```bash
-bun run --cwd packages/tokens build   # writes dist/
-bun run --cwd packages/tokens test    # alias, collision and key checks
+bun run --cwd packages/tokens build
+bun run --cwd packages/tokens test
 ```
 
-## Rules the build enforces
+The build refuses a token file with mistakes in it. An alias like `{blue.600}` has to point at a real token, two paths can't produce the same variable name, keys can only use letters, digits, `_` and `-`, and every `$value` has to be a string.
 
-- An alias such as `{blue.600}` must point at an existing token.
-- Two paths may not produce the same variable name.
-- Keys use only letters, digits, `_` and `-`.
-- `$value` must be a string.
-
-Tiers, naming and dark mode are explained in [docs/tokens.md](../../docs/tokens.md).
+[docs/tokens.md](../../docs/tokens.md) explains the token kinds, naming and dark mode in more detail.
