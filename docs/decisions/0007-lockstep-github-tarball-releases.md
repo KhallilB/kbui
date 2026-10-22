@@ -17,6 +17,7 @@ Commit subjects already follow Conventional Commits, and the repository is publi
 - **One version for every published package.** `@kbui/tokens`, `@kbui/css` and `@kbui/react` always carry the root version. Private workspaces, such as `apps/storybook`, are not versioned.
 - **release-please decides the version.** On every push to `main`, release-please opens or updates a release PR from the conventional commits since the last release. Merging that PR bumps every version, updates `CHANGELOG.md` and creates the tag `v<version>` with a GitHub Release.
 - **Tarballs on the Release are the distribution.** When a release is created, the workflow checks out the tag, runs `bun run check` and `bun run test:stories`, packs each published package with `bun pm pack` and uploads the `.tgz` files to the Release. There is no registry.
+- **Every release is installed on Ubuntu, macOS and Windows.** After the upload, a matrix job installs `@kbui/react` and `@kbui/css` from the release URLs into the consumer project in `.github/consumer`, then runs `tsc` and a runtime import on each system. The tarballs hold only JavaScript, CSS and type declarations, so nothing is built per platform.
 - **Pre-1.0, a breaking change bumps the minor version** (`bump-minor-pre-major`).
 - **The first version is `0.1.0`,** set by a `Release-As: 0.1.0` footer on the commit that adds release-please, so no configuration has to be removed afterwards.
 
@@ -44,7 +45,7 @@ The GitHub Release exists a few minutes before its tarballs. If the release job 
 
 ## Soundness boundary
 
-Verified on 2026-10-22, before the first release: the release tests, the pack check, `actionlint` on the workflow, a frozen install after bumping every version to `0.1.0`, and a temporary project that installed locally packed tarballs, passed `tsc --noEmit` on a file using `Button`, `Dialog` and `Input`, and imported them at runtime. Not verified until the first release runs: release-please opening the PR, the tag, the uploaded assets and an install from the release URLs.
+Verified on 2026-10-22, before the first release: the release tests, the pack check, `actionlint` on the workflow, a frozen install after bumping every version to `0.1.0`, and a temporary project that installed locally packed tarballs, passed `tsc --noEmit` on a file using `Button`, `Dialog` and `Input`, and imported them at runtime. The consumer check in `.github/consumer` passed on macOS against locally packed tarballs, and failed when given a wrong prop or a missing export. Not verified until the first release runs: release-please opening the PR, the tag, the uploaded assets, and installs from the release URLs on Ubuntu, macOS and Windows.
 
 ## Threat model
 
@@ -71,7 +72,7 @@ None yet. kcb.pro is the first planned consumer.
 - Done: `scripts/release.test.ts` failed before the configuration existed and passes with it.
 - Done: `bun run test:pack` failed when a stray `LICENSE` file entered a tarball and when `dist/` was missing.
 - Still to do: the first release produces tag `v0.1.0` with three tarballs attached.
-- Still to do: a temporary project installs the two `v0.1.0` URLs, then `bun install --frozen-lockfile` and `tsc --noEmit` pass.
+- Still to do: the release workflow's `install` job passes on Ubuntu, macOS and Windows for `v0.1.0`.
 
 ## Links
 

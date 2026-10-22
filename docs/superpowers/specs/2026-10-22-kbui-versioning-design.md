@@ -73,6 +73,9 @@ New `.github/workflows/release.yml`, on push to `main`, `permissions: contents: 
    install Playwright chromium, `bun run check`, `bun run test:stories`.
 3. `bun pm pack --destination "$GITHUB_WORKSPACE/release"` in every non-private package under `packages/`.
 4. `gh release upload <tag> release/*.tgz`.
+5. `install` job, on `ubuntu-latest`, `macos-latest` and `windows-latest`: copy `.github/consumer` out of
+   the checkout, `bun add` the react and css release URLs, `bun install --frozen-lockfile`, `tsc`, and
+   `bun smoke.ts` for the runtime import.
 
 Asset names (checked with `bun pm pack` on 2026-10-22): `kbui-tokens-<v>.tgz`,
 `kbui-css-<v>.tgz`, `kbui-react-<v>.tgz`. Contents: `package.json`, `README.md`, plus each
@@ -145,8 +148,10 @@ Separate script `test:pack` (needs built `dist/`), appended to root `check` afte
 - `KhallilB/kbui` exists, public, `main` pushed, Actions may open PRs, CI green.
 - Merging a commit with `Release-As: 0.1.0` produces release PR → merged → tag `v0.1.0` with
   three tarballs attached.
-- A fresh temp project installs the two v0.1.0 URLs, then `bun install --frozen-lockfile` passes,
-  `tsc --noEmit` passes on a file using `Button`, `Input`, `Dialog`, and the runtime import works.
+- On Ubuntu, macOS and Windows, a fresh project installs the two v0.1.0 URLs, then
+  `bun install --frozen-lockfile` passes, `tsc --noEmit` passes on a file using `Button`, `Input`,
+  `Dialog`, and the runtime import works. The release workflow's `install` job runs this on every
+  release.
 
 ## Known limits
 
@@ -167,3 +172,6 @@ Re-checked against `main` at `f89bfd3` on 2026-10-22, when this spec was impleme
   is created. The tag reaches shell steps through an environment variable.
 - Re-verified: bumping all four versions to `0.1.0` keeps `bun install --frozen-lockfile` passing.
 - Decisions 0008 to 0010 are reserved by the faceted foundation work, so this record stays 0007.
+- Added at the owner's request on 2026-10-22: the `install` job (point 5 of the workflow) proves each
+  release installs on Windows, macOS and Linux. The tarballs are platform-neutral, so no per-platform
+  build exists.

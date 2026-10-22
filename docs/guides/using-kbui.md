@@ -11,7 +11,7 @@ Projects install kbui from a release: one tarball per package, attached to a [Gi
            https://github.com/KhallilB/kbui/releases/download/v0.1.0/kbui-css-0.1.0.tgz
    ```
 
-   `@kbui/css` already includes the tokens. Add `kbui-tokens-<version>.tgz` from the same release only if you need the typed `tokens` object in TypeScript.
+   This works the same on Windows, macOS and Linux. The release workflow installs every release on all three; a failed install shows as a failed `install` job on that release's workflow run. `@kbui/css` already includes the tokens. Add `kbui-tokens-<version>.tgz` from the same release only if you need the typed `tokens` object in TypeScript.
 
 2. Install `react` and `react-dom` 19 if the project does not have them. They are peer dependencies, so kbui does not install them.
 
