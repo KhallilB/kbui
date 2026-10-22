@@ -10,7 +10,15 @@ export default defineConfig({
       enabled: true,
       headless: true,
       provider: playwright(),
-      instances: [{ browser: "chromium" }],
+      // Same stories twice: default, then with the reduced-motion preference on.
+      instances: [
+        { browser: "chromium" },
+        {
+          browser: "chromium",
+          name: "chromium-reduced-motion",
+          provider: playwright({ contextOptions: { reducedMotion: "reduce" } }),
+        },
+      ],
     },
   },
 });
