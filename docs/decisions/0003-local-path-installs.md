@@ -4,6 +4,8 @@
 
 Accepted on 2026-10-18. This replaces the original plan in the design spec (2026-10-16), which was to publish to a self-hosted Verdaccio registry and version releases with Changesets.
 
+Partly superseded by [0007](0007-lockstep-github-tarball-releases.md) on 2026-10-22 for remote installs: a project that builds in CI or deploys installs a release tarball. Path installs remain for local work.
+
 ## Context
 
 Every project that uses kbui lives on the same machine, under `~/proj`. A registry would add a server, logins, version bumps and a publishing step, all for one developer.
@@ -61,5 +63,6 @@ loupe installed `@kbui/react` and `@kbui/css` by path on 2026-10-16.
 
 ## Links
 
+- Partly superseded by: [0007](0007-lockstep-github-tarball-releases.md)
 - [Using kbui in a project](../guides/using-kbui.md)
 - [Design spec: Local consumption](../superpowers/specs/2026-10-16-kbui-design-system-design.md#local-consumption)
