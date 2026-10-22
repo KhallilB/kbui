@@ -1,0 +1,91 @@
+import { ColorItem, ColorPalette, Meta } from "@storybook/addon-docs/blocks";
+import { tokens } from "@kbui/tokens";
+
+<Meta title="Foundations/Tokens" />
+
+# Tokens
+
+Every value comes from `packages/tokens/tokens.json`. This page reads the generated token names, so it never drifts from the source. Swatches follow your system's light or dark setting.
+
+Components use semantic colors and scale tokens. Palette colors are building blocks for other tokens only.
+
+## Semantic colors
+
+<ColorPalette>
+  {Object.entries(tokens.color).map(([name, variable]) => (
+    <ColorItem key={name} title={`color.${name}`} subtitle={variable} colors={{ [name]: `var(${variable})` }} />
+  ))}
+</ColorPalette>
+
+## Palette
+
+<ColorPalette>
+  <ColorItem title="white, black" subtitle="--kb-white, --kb-black" colors={{ white: `var(${tokens.white})`, black: `var(${tokens.black})` }} />
+  {["gray", "blue", "red"].map((family) => (
+    <ColorItem
+      key={family}
+      title={family}
+      subtitle={`--kb-${family}-*`}
+      colors={Object.fromEntries(Object.entries(tokens[family]).map(([step, variable]) => [step, `var(${variable})`]))}
+    />
+  ))}
+</ColorPalette>
+
+## Space
+
+<table>
+  <tbody>
+    {Object.entries(tokens.space).map(([step, variable]) => (
+      <tr key={step}>
+        <td><code>{variable}</code></td>
+        <td style={{ width: "70%" }}>
+          <div style={{ width: `var(${variable})`, height: 12, background: "var(--kb-color-accent)" }} />
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+## Radius
+
+<div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+  {Object.entries(tokens.radius).map(([step, variable]) => (
+    <div key={step} style={{ textAlign: "center" }}>
+      <div style={{ width: 64, height: 64, borderRadius: `var(${variable})`, border: "2px solid var(--kb-color-border)", background: "var(--kb-color-surface)" }} />
+      <code>{variable}</code>
+    </div>
+  ))}
+</div>
+
+## Type
+
+<table>
+  <tbody>
+    {Object.entries(tokens.size).map(([step, variable]) => (
+      <tr key={step}>
+        <td><code>{variable}</code></td>
+        <td style={{ fontSize: `var(${variable})`, fontFamily: "var(--kb-font-sans)" }}>The quick brown fox jumps over the lazy dog</td>
+      </tr>
+    ))}
+    {Object.entries(tokens.font).map(([name, variable]) => (
+      <tr key={name}>
+        <td><code>{variable}</code></td>
+        <td style={{ fontFamily: `var(${variable})` }}>The quick brown fox jumps over the lazy dog</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+## Component tokens
+
+<table>
+  <tbody>
+    {["button", "input", "dialog"].flatMap((component) =>
+      Object.entries(tokens[component]).flatMap(([key, value]) =>
+        typeof value === "string"
+          ? [<tr key={value}><td><code>{value}</code></td></tr>]
+          : Object.values(value).map((variable) => <tr key={variable}><td><code>{variable}</code></td></tr>),
+      ),
+    )}
+  </tbody>
+</table>
