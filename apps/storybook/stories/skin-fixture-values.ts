@@ -1,5 +1,5 @@
 /** Fixture skin: documented facet and status custom properties only, scoped to a wrapper. */
-export const facetedSkin = {
+export const skinFixture = {
   "--kb-facet-background": "var(--kb-color-bg)",
   "--kb-facet-background-active": "var(--kb-color-surface)",
   "--kb-facet-border": "var(--kb-color-border)",
