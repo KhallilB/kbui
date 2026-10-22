@@ -1,8 +1,10 @@
 # Decision records
 
-These records explain the bigger choices behind kbui: what we picked, what we turned down, what it costs us, and what would make us look at it again. Write a new one when a change affects who owns what, breaks compatibility, or adds a significant dependency. Day-to-day work doesn't need one.
+Each record explains one of kbui's larger choices: what was chosen, what was rejected, what it costs, and what would cause us to reconsider it. Write a new record when a change affects ownership between packages, breaks compatibility, or adds a significant dependency. Routine work does not need one.
 
-Number new records after the highest existing number, and never renumber old ones.
+Number a new record after the highest existing number. Never renumber existing records.
+
+Every record uses the same sections: Status, Context, Decision, Options considered, Consequences, Soundness boundary, Threat model, Non-goals, Revisit if, Adoption, Validation and Links.
 
 | # | Decision | Status |
 |---|---|---|

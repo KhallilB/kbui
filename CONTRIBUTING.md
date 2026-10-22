@@ -1,73 +1,74 @@
 # Contributing
 
-## Setting up
+## Setup
 
 ```bash
-mise install          # installs bun 1.3.11 and node 22 from mise.toml
-bun install           # also sets up the pre-commit hook
+mise install          # bun 1.3.11 and node 22, from mise.toml
+bun install           # also installs the pre-commit hook
 bun run build
 ```
 
-If mise complains that `mise.toml` isn't trusted, run `mise trust` once and try again.
+If mise reports that `mise.toml` is not trusted, run `mise trust` once and retry.
 
-## Day to day
+## Commands
 
-Most of the time you'll want Storybook running while you work:
+Run Storybook while you work. It builds the packages first and serves at http://localhost:6006.
 
 ```bash
 bun run storybook
 ```
 
-It builds the packages first, then serves at http://localhost:6006.
-
-These are the other commands you'll use:
-
 | Command | What it does |
 |---|---|
-| `bun run check` | Builds everything, then runs Biome, the typecheck and the unit tests. CI runs this. |
-| `bun run test:stories` | Renders every story in headless Chromium and runs an accessibility scan on each. CI runs this too. |
-| `bun run new <Name>` | Creates a new component. See [Adding a component](docs/guides/adding-a-component.md). |
+| `bun run check` | Builds every package, then runs Biome, the typecheck and the unit tests. CI runs it. |
+| `bun run test:stories` | Renders every story in headless Chromium and runs an accessibility scan on each. CI runs it. |
+| `bun run new <Name>` | Generates a new component. See [Adding a component](docs/guides/adding-a-component.md). |
 | `bun run lint:fix` | Applies Biome's fixes. |
-| `bun run docs:up` | Serves a static Storybook build from Docker at http://localhost:6007. `docs:down` stops it. |
+| `bun run docs:up` | Serves a static Storybook build from Docker at http://localhost:6007. `bun run docs:down` stops it. |
 
-`test:stories` needs a browser. On a new machine, install it once with `bunx playwright install chromium`, and run `bun run build` before your first `test:stories` run.
+`test:stories` needs Chromium and built packages. On a new machine, run `bunx playwright install chromium` and `bun run build` once before the first run.
 
-## Before you commit
+## Before you push
 
-The pre-commit hook lints your staged files and typechecks the whole repo, but it doesn't run the tests. Before you push, run the same two commands CI runs:
+The pre-commit hook lints staged files and typechecks the repository. It does not run tests. Run what CI runs before you push:
 
 ```bash
 bun run check && bun run test:stories
 ```
 
-For any change in behavior, write the test first and watch it fail before you write the code that makes it pass.
+Behavior changes are test-first: write the test, see it fail, then write the code that makes it pass.
 
-## How components are written
+## Component conventions
 
-A few habits keep the components consistent. The existing ones follow all of them, so they're a good reference.
+The existing components follow every rule below and are the best reference.
 
-Spread the caller's props first and the result of `kb()` last. That way the component's own class and `data-*` attributes always win, and a stray `data-variant` from a caller can't contradict the `variant` prop.
+- Each component has four files: the `.tsx`, `.test.tsx` and `.stories.tsx` in `packages/react`, and a stylesheet in `packages/css`. A test fails the build if the story or the test is missing.
+- Write the stylesheet's first line before anything else. It is the `Anatomy:` comment listing the component's classes and attributes, and every renderer must follow it.
+- Stylesheets use semantic, scale and component tokens only. Palette colors and raw values such as `#fff` fail the check.
+- Spread the caller's props first and the result of `kb()` last, so the component's own class and `data-*` attributes win over anything the caller passes.
+- `className` accepts a string only. Base UI also accepts a function, but `kb()` needs a string to merge classes.
+- Test that each component forwards its `ref` to the underlying DOM element.
+- A component rendered as a link through `render={<a href="…" />}` needs `nativeButton={false}` and `role="link"`. Without the role, Base UI announces it as a button.
+- Give every prop a one-line JSDoc comment. Storybook builds the props table from them.
 
-Every component has four files: the `.tsx`, a `.test.tsx` and a `.stories.tsx` in `packages/react`, and a stylesheet in `packages/css`. A test fails the build if the story or the test is missing.
+## Code comments
 
-Write the first line of the stylesheet before anything else. It's the `Anatomy:` comment that lists the component's classes and attributes, and it's what any other framework would have to follow. In that stylesheet, stick to semantic, scale and component tokens. Palette colors and raw hex values fail the check.
+Comments are one line. Write one only when the code cannot say it: a constraint, an invariant, or why a surprising choice is correct.
 
-`className` only accepts a string. Base UI also allows a function there, but `kb()` needs a string to merge classes, so we narrow the type.
+## Writing documentation
 
-Each component gets a test that its `ref` reaches the underlying DOM element.
-
-If a component renders a link through `render={<a href="…" />}`, pass `nativeButton={false}` and `role="link"`. Without the role, Base UI announces it as a button.
-
-Give every prop a one-line JSDoc comment. Storybook turns them into the props table.
-
-## Comments in code
-
-Keep comments to a single line, and only write one when the code can't say it for itself, for example to record a constraint or explain why odd-looking code is correct.
+- Start each section with what the reader needs to do or know.
+- Use plain, professional language. Avoid contractions, filler ("simply", "just", "really") and promotional words ("powerful", "seamless", "robust").
+- State facts directly. Avoid rhetorical setups such as "Here's the thing", "The gap:" or slogans of the form "X, not Y".
+- Use tables for reference material and prose for reasoning. Use bold sparingly.
+- Put commands, file paths and identifiers in backticks, and make every command copyable as written.
+- Date any claim that can go stale, such as test counts, versions or external projects.
+- Give each topic one home and link to it instead of repeating it.
 
 ## Commits
 
-Sign every commit with `git commit -S`; the repo uses SSH signing. Subjects follow Conventional Commits, for example `feat(react): add Badge` or `fix(css): keep focus ring on invalid inputs`. Keep each commit small enough that it passes `bun run check` on its own. Don't add AI attribution lines or trailers.
+Sign every commit with `git commit -S`; the repository uses SSH signing. Subjects follow Conventional Commits, for example `feat(react): add Badge` or `fix(css): keep focus ring on invalid inputs`. Each commit must pass `bun run check` on its own. Do not add AI attribution lines or trailers.
 
-## Recording decisions
+## Decision records
 
-Bigger choices get a decision record. [docs/decisions](docs/decisions/README.md) explains when a change needs one.
+Larger choices get a decision record. [docs/decisions](docs/decisions/README.md) explains when a change needs one.

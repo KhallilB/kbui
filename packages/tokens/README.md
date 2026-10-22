@@ -1,8 +1,8 @@
 # @kbui/tokens
 
-This package is where every kbui value is defined. You edit `tokens.json`, and the build produces the CSS variables plus a typed list of their names.
+Defines every kbui value. You edit `tokens.json`; the build produces the CSS variables and a typed object of their names.
 
-Most projects never import it directly, because `@kbui/css/styles.css` already includes the CSS it generates. You only need it for the typed names, or to load the variables on their own.
+Most projects do not import this package directly, because `@kbui/css/styles.css` already includes the generated CSS. Install it when you need the typed names, or the variables without the rest of the stylesheet.
 
 ```ts
 import { tokens } from "@kbui/tokens";
@@ -10,21 +10,26 @@ import { tokens } from "@kbui/tokens";
 tokens.color.accent; // "--kb-color-accent"
 ```
 
-## What it exports
+## Exports
 
-| Import | File | What you get |
+| Import | File | Contents |
 |---|---|---|
-| `@kbui/tokens/tokens.css` | `dist/tokens.css` | The variables: light values on `:root`, dark ones under `[data-theme="dark"]`, and a fallback for the system setting |
+| `@kbui/tokens/tokens.css` | `dist/tokens.css` | The variables: light values on `:root`, dark values under `[data-theme="dark"]`, and a system-setting fallback |
 | `@kbui/tokens` | `dist/tokens.js`, `dist/tokens.d.ts` | `tokens`, a nested read-only object of variable names |
 | `@kbui/tokens/tokens.json` | `tokens.json` | The source file |
 
-## Building and testing
+## Build and test
 
 ```bash
 bun run --cwd packages/tokens build
 bun run --cwd packages/tokens test
 ```
 
-The build refuses a token file with mistakes in it. An alias like `{blue.600}` has to point at a real token, two paths can't produce the same variable name, keys can only use letters, digits, `_` and `-`, and every `$value` has to be a string.
+The build rejects a token file that:
 
-[docs/tokens.md](../../docs/tokens.md) explains the token kinds, naming and dark mode in more detail.
+- contains an alias, such as `{blue.600}`, pointing at a token that does not exist
+- has two paths that produce the same variable name
+- uses a key with characters other than letters, digits, `_` and `-`
+- has a `$value` that is not a string
+
+[docs/tokens.md](../../docs/tokens.md) explains token kinds, naming and dark mode.

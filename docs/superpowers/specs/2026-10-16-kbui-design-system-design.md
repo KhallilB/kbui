@@ -1,7 +1,7 @@
 # kbui design system — skeleton design
 
 Date: 2026-10-16
-Status: approved in conversation, pending spec review
+Status: approved and implemented. The registry and versioning rows were updated to match [decision 0003](../../decisions/0003-local-path-installs.md), accepted 2026-10-18.
 
 ## Goal
 

@@ -4,9 +4,9 @@ import { Meta } from "@storybook/addon-docs/blocks";
 
 # kbui
 
-kbui is the design system we share across our projects. The look is plain CSS built from design tokens, and a small React layer on Base UI handles behavior.
+kbui is the design system shared across our projects. Design tokens define every value, plain CSS defines every style, and a thin React layer built on Base UI provides behavior.
 
-## Using it in a project
+## Using kbui in a project
 
 Build kbui, then add it by path from your project:
 
@@ -20,24 +20,24 @@ import "@kbui/css/styles.css";
 import { Button, Dialog, Input } from "@kbui/react";
 ```
 
-Set `data-theme="light"` or `"dark"` on `<html>` to pick a theme. If you leave it off, kbui follows the system setting.
+Set `data-theme="light"` or `"dark"` on `<html>` to choose a theme. Without it, kbui follows the system setting.
 
-## Finding your way around
+## Navigating this Storybook
 
 **Foundations / Tokens** lists every color, spacing, radius and type token, read from `tokens.json`.
 
-Under **Components**, each component has a Docs page with its props and live examples. Use the theme switch in the toolbar to see a story in light or dark.
+Under **Components**, each component has a Docs page with its props and live examples. Use the theme switch in the toolbar to view a story in light or dark.
 
-Every story is also an accessibility test. If the scan finds a problem, CI fails.
+Every story is also an accessibility test. A violation fails CI.
 
-## How it's put together
+## Structure
 
-The tokens package holds every value. The CSS package turns them into styles, keyed on `kb-` classes and `data-*` attributes. The React package adds behavior from Base UI and maps props onto those classes and attributes.
+The tokens package holds every value. The CSS package turns those values into styles keyed on `kb-` classes and `data-*` attributes. The React package adds behavior from Base UI and maps props onto those classes and attributes.
 
-Each component's stylesheet starts with an `Anatomy:` line listing the classes and attributes it expects. That line is the agreement between the CSS and whatever renders it.
+Each component stylesheet starts with an `Anatomy:` line that lists the classes and attributes it expects. That line is the contract between the CSS and any renderer.
 
-## Where it's heading
+## Direction
 
-The plan is for kbui screens to be composable in plain language, with a catalog generated from these anatomy lines and design rules that every screen has to pass. None of it is built yet. The plan is in `docs/superpowers/specs/2026-10-22-generative-ui-direction.md`.
+The next stage makes kbui screens composable in plain language, using a catalog generated from the anatomy lines and design rules that every screen must pass. None of it is built yet. The plan is in `docs/superpowers/specs/2026-10-22-generative-ui-direction.md`.
 
-The repository has more: `README.md`, `docs/architecture.md`, `docs/tokens.md`, the guides in `docs/guides/` and the decision records in `docs/decisions/`.
+The repository also contains `README.md`, `docs/architecture.md`, `docs/tokens.md`, the guides in `docs/guides/` and the decision records in `docs/decisions/`.
