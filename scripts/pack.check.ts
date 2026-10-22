@@ -1,0 +1,44 @@
+// Needs built dist/. Run through `bun run test:pack`, not `bun run test`.
+import { afterAll, describe, expect, test } from "bun:test";
+import { mkdtemp, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { basename, dirname, join } from "node:path";
+import { publishedPackages } from "./release";
+
+const root = join(import.meta.dir, "..");
+const out = await mkdtemp(join(tmpdir(), "kbui-pack-"));
+afterAll(() => rm(out, { recursive: true, force: true }));
+
+const packages = (await publishedPackages(root)).map(({ path, pkg }) => ({
+  dir: dirname(join(root, path)),
+  pkg,
+}));
+
+function run(cmd: string[], cwd: string): string {
+  const result = Bun.spawnSync(cmd, { cwd, stderr: "pipe" });
+  if (result.exitCode !== 0) throw new Error(`${cmd.join(" ")}: ${result.stderr.toString()}`);
+  return result.stdout.toString().trim();
+}
+
+describe.each(packages)("$pkg.name tarball", ({ dir, pkg }) => {
+  const tarball = run(["bun", "pm", "pack", "--quiet", "--destination", out], dir);
+  const entries = run(["tar", "-tzf", tarball], dir)
+    .split("\n")
+    .map((e) => e.replace(/^package\//, ""));
+
+  test("is named as the release asset consumers install", () => {
+    expect(basename(tarball)).toBe(`${pkg.name.slice(1).replace("/", "-")}-${pkg.version}.tgz`);
+  });
+
+  test("ships only package.json, README.md and the files field", () => {
+    const allowed = (e: string) =>
+      e === "package.json" ||
+      e === "README.md" ||
+      (pkg.files ?? []).some((f) => e === f || e.startsWith(`${f}/`));
+    expect(entries.filter((e) => !allowed(e))).toEqual([]);
+  });
+
+  test("ships built output", () => {
+    expect(entries.some((e) => e.startsWith("dist/"))).toBe(true);
+  });
+});

@@ -83,4 +83,4 @@ Two rules keep these layers in order:
 
 ## Background
 
-The [decision records](decisions/README.md) explain the larger choices, including why kbui has no package registry.
+The [decision records](decisions/README.md) explain the larger choices, including why kbui has no package registry and releases tarballs on GitHub instead.
