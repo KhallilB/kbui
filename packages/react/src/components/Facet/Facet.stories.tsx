@@ -130,11 +130,11 @@ export const DepthDark: Story = { ...Depth, globals: { theme: "dark" } };
 /** Turned-up skin: sheen, glass and tone-colored light. Decorative layers only; layout is unchanged. */
 const litRoom = {
   "--kb-facet-radius": "24px",
-  "--kb-facet-sheen": "rgb(255 255 255 / 0.06)",
+  "--kb-facet-sheen": "color-mix(in oklab, var(--kb-color-fg) 6%, transparent)",
   "--kb-facet-backdrop": "blur(28px) saturate(150%)",
   "--kb-facet-glow-active": "color-mix(in oklab, var(--kb-color-info) 45%, transparent)",
   "--kb-facet-glow-critical": "color-mix(in oklab, var(--kb-color-danger) 45%, transparent)",
-  "--kb-facet-rim-top": "rgb(255 255 255 / 0.24)",
+  "--kb-facet-rim-top": "color-mix(in oklab, var(--kb-color-fg) 24%, transparent)",
   "--kb-status-radius": "999px",
   "--kb-status-glow": "4px",
 } as object;
@@ -183,6 +183,8 @@ export const LitRoom: Story = {
     expect(plate && getComputedStyle(plate).borderTopLeftRadius).toBe("24px");
   },
 };
+
+export const LitRoomLight: Story = { ...LitRoom, globals: { theme: "light" } };
 
 export const Toolbar: Story = {
   render: (args) => (
