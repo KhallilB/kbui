@@ -14,3 +14,7 @@ Every record uses the same sections: Status, Context, Decision, Options consider
 | [0004](0004-dtcg-tokens-with-dark-extension.md) | Write tokens in the W3C format, with dark values in an extension | Accepted 2026-10-16 |
 | [0005](0005-catalog-and-quality-layer-not-runtime.md) | Be the catalog and quality layer for generative UI, not a runtime | Accepted 2026-10-22; not built yet |
 | [0006](0006-canonical-tree-adapters-at-edge.md) | Keep one tree format of our own, and translate outside formats at the edge | Accepted 2026-10-22; not built yet |
+| 0007 | Reserved for the versioning record from other work | Reserved |
+| [0008](0008-visual-regression-with-vitest-browser-screenshots.md) | Catch visual regressions with Vitest browser screenshots | Accepted 2026-10-22; not written yet |
+| [0009](0009-icons-are-caller-provided.md) | Icons are caller-provided nodes | Accepted 2026-10-22 |
+| [0010](0010-dark-product-skin-light-validated.md) | Ship the product skin in dark, validate light in Storybook | Accepted 2026-10-22 |
