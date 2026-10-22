@@ -6,7 +6,7 @@ Accepted on 2026-10-22; the first screenshot assertions are still to be written.
 
 ## Context
 
-The faceted language (0008 to 0010 introduce it) puts meaning into geometry: a clipped corner, a 1px seam, a 3px rail. The accessibility scan in `bun run test:stories` cannot see any of that. A regression that removes the cut or moves the rail passes every current check.
+The facet vocabulary (`Facet`, `Status`, and decisions 0009 and 0010) puts meaning into geometry: a clipped corner, a 1px seam, a 3px rail. The accessibility scan in `bun run test:stories` cannot see any of that. A regression that removes the cut or moves the rail passes every current check.
 
 The story test runner is already Vitest in browser mode, driving headless Chromium through Playwright. Vitest 4 added `expect(locator).toMatchScreenshot()` with a comparator and per-platform reference images; the installed `@vitest/browser-playwright` 5.0.5 exposes it.
 
@@ -21,7 +21,7 @@ Scope: the showcase stories, `Facet` tones and cuts, and any component whose mea
 - Vitest browser `toMatchScreenshot`: accepted. No new runner, no new service, references live in the repository, and the same Chromium that runs the accessibility scan takes the pictures.
 - Chromatic or Percy: rejected for now. A hosted service adds an account, a secret in CI and a per-snapshot bill for a repository that so far has one consumer. Revisit if review needs a visual diff UI.
 - Playwright test with `toHaveScreenshot`: rejected. It would be a second runner next to Vitest with its own configuration and reporters.
-- Storyshots style DOM snapshots: rejected. They do not see CSS, which is where the faceted language lives.
+- Storyshots style DOM snapshots: rejected. They do not see CSS, which is where the facet geometry lives.
 
 ## Consequences
 
