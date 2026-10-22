@@ -1,6 +1,6 @@
 # Architecture
 
-kbui has three packages. Tokens hold the values, the CSS turns those values into styles, and the React package adds behavior on top. Each package builds on the one below it, and React only meets the CSS through the class and attribute names it renders. A one-line comment at the top of every component stylesheet, which we call the anatomy contract, keeps the two in agreement.
+kbui has three packages. `@kbui/tokens` holds the values, `@kbui/css` turns them into styles, and `@kbui/react` adds behavior. Each package builds on the one below it. The React package meets the CSS only through the class and attribute names it renders, and a one-line comment at the top of each component stylesheet, the anatomy contract, keeps the two in agreement.
 
 ```mermaid
 flowchart TD
@@ -12,42 +12,47 @@ flowchart TD
   css --> apps
 ```
 
-## What each package owns
+## Package responsibilities
 
-`@kbui/tokens` owns every value: colors, spacing, radii, type sizes and the few sizes specific to components, in both light and dark. It knows nothing about components.
+| Package | Owns | Does not own |
+|---|---|---|
+| `@kbui/tokens` | Every value: colors, spacing, radii, type sizes and component sizes, in light and dark | Anything about components |
+| `@kbui/css` | Every visual rule, keyed on `kb-` classes and `data-*` attributes | JavaScript; it works with any renderer |
+| `@kbui/react` | Behavior: focus, keyboard support and ARIA from Base UI, and the `kb()` helper that maps props to classes and attributes | CSS; it imports none |
 
-`@kbui/css` owns every visual rule. Styles hang off `kb-` classes and `data-*` attributes. There's no JavaScript in it, so it doesn't care which framework renders the markup.
-
-`@kbui/react` owns behavior. Focus handling, keyboard support and ARIA come from Base UI, and the `kb()` helper turns props into the right classes and attributes. It doesn't import any CSS.
-
-Because none of the styling depends on React, supporting another framework later means writing a new adapter that renders the same markup. The tokens and CSS wouldn't change.
+Because the styling does not depend on React, supporting another framework means writing an adapter that renders the same markup. Tokens and CSS stay unchanged.
 
 ## The anatomy contract
 
-Every file in `packages/css/src/components/` opens with a comment describing the component's markup. Here's the one from `button.css`:
+Every file in `packages/css/src/components/` opens with a comment describing the component's markup. From `button.css`:
 
 ```css
 /* Anatomy: .kb-button [data-variant=primary|secondary|ghost|danger] [data-size=sm|md|lg] [data-disabled] */
 ```
 
-Each component has one root class, `kb-<name>`, and its parts are named `kb-<name>-<part>`. Variants and sizes are `data-*` attributes with string values. On/off states like `data-disabled`, `data-open` and `data-invalid` are attributes without a value, which is also how Base UI writes them. Selectors never reach into another component, so specificity stays flat and overrides stay predictable.
+The rules:
 
-On the React side, `kb(name, attrs, className)` produces the matching props. It returns `{ className: "kb-<name> …", "data-<key>": value }` and leaves out anything that's `false` or `undefined`.
+- Each component has one root class, `kb-<name>`. Its parts are `kb-<name>-<part>`.
+- Variants and sizes are `data-*` attributes with string values.
+- On/off states such as `data-disabled`, `data-open` and `data-invalid` are attributes without a value, which matches how Base UI writes them.
+- Selectors never reach into another component, so specificity stays flat and overrides stay predictable.
 
-## What keeps it honest
+On the React side, `kb(name, attrs, className)` produces the matching props. It returns `{ className: "kb-<name> …", "data-<key>": value }` and omits any attribute whose value is `false` or `undefined`.
 
-We don't rely on people remembering the contract. `bun run check` fails if:
+## Enforcement
+
+The contract is checked by tests, not by review alone. `bun run check` fails when:
 
 | Problem | Caught by |
 |---|---|
-| A token points at one that doesn't exist, two tokens end up with the same name, or a key has odd characters | `packages/tokens/src/build.test.ts` |
-| A stylesheet is missing its `Anatomy:` line, or never actually styles the root class it names | `packages/css/src/build.test.ts` |
-| Component or reset CSS uses a palette color like `--kb-gray-500`, or a raw color like `#fff` | `packages/css/src/build.test.ts` |
-| A component folder is missing its story or its test | `packages/react/src/story-coverage.test.ts` |
+| A token aliases one that does not exist, two tokens produce the same name, or a key contains invalid characters | `packages/tokens/src/build.test.ts` |
+| A stylesheet lacks its `Anatomy:` line, or never styles the root class it names | `packages/css/src/build.test.ts` |
+| Component or reset CSS uses a palette color such as `--kb-gray-500`, or a raw color such as `#fff` | `packages/css/src/build.test.ts` |
+| A component folder lacks its story or its test | `packages/react/src/story-coverage.test.ts` |
 
-On top of that, `bun run test:stories` renders every story in a real browser and fails if the accessibility scan finds anything.
+In addition, `bun run test:stories` renders every story in a real browser and fails on any accessibility violation.
 
-## What the build produces
+## Build output
 
 | Package | Built with | Output in `dist/` |
 |---|---|---|
@@ -55,7 +60,7 @@ On top of that, `bun run test:stories` renders every story in a real browser and
 | css | `bun scripts/build.ts`, using lightningcss | `styles.css` (tokens, reset and every component, minified), `reset.css`, `components/*.css` |
 | react | `vite build`, then `tsc -p tsconfig.build.json` | `index.js` and type declarations |
 
-The root `bun run build` runs them in that order. The CSS has to build after the tokens because it bundles their output; nothing else depends on the order.
+The root `bun run build` runs them in that order. The CSS must build after the tokens because it bundles their output. Nothing else depends on the order.
 
 ## Planned: generative UI layers
 
@@ -67,14 +72,15 @@ flowchart TD
   manifest --> lint["lint<br/>grammar + design rules"]
   manifest --> render["render-react<br/>tree to kbui React"]
   manifest --> adapters["adapters<br/>A2UI, json-render, MCP Apps"]
+  manifest --> mcp["mcp<br/>server for coding agents"]
   lint -.->|also runs on| stories["hand-written stories"]
 ```
 
-Two rules keep the layers in order:
+Two rules keep these layers in order:
 
-- **The manifest is generated from the anatomy contract, never written by hand** ([0005](decisions/0005-catalog-and-quality-layer-not-runtime.md)). A component and its catalog entry can't disagree without a test failing.
-- **Everything works on kbui's own tree format** ([0006](decisions/0006-canonical-tree-adapters-at-edge.md)). Outside formats only appear in adapters, so a change upstream touches one adapter and nothing else.
+- The manifest is generated from the anatomy contract and is never written by hand ([0005](decisions/0005-catalog-and-quality-layer-not-runtime.md)). A test fails if a component and its catalog entry disagree.
+- Every layer works on kbui's own tree format ([0006](decisions/0006-canonical-tree-adapters-at-edge.md)). Outside formats appear only in adapters, so an upstream change touches one adapter.
 
-## Why it's built like this
+## Background
 
-The [decision records](decisions/README.md) explain the bigger choices, including why there's no package registry.
+The [decision records](decisions/README.md) explain the larger choices, including why kbui has no package registry.
