@@ -118,6 +118,11 @@ describe("tokens.json", () => {
     }
   });
 
+  test("gives accent and danger foregrounds a dark value for contrast on the lighter dark fills", () => {
+    expect(dark).toContain("--kb-color-accent-fg: var(--kb-gray-950);");
+    expect(dark).toContain("--kb-color-danger-fg: var(--kb-gray-950);");
+  });
+
   test("defines motion durations and easings", () => {
     for (const name of ["fast", "base", "slow"]) {
       expect(css).toMatch(new RegExp(`--kb-motion-duration-${name}: \\d+ms;`));

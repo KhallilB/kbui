@@ -129,8 +129,10 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-color-border: var(--kb-gray-800);
   --kb-color-accent: var(--kb-blue-500);
   --kb-color-accent-hover: var(--kb-blue-400);
+  --kb-color-accent-fg: var(--kb-gray-950);
   --kb-color-danger: var(--kb-red-500);
   --kb-color-danger-hover: var(--kb-red-400);
+  --kb-color-danger-fg: var(--kb-gray-950);
   --kb-color-info: var(--kb-teal-400);
   --kb-color-info-fg: var(--kb-gray-950);
   --kb-color-success: var(--kb-green-400);
@@ -150,8 +152,10 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-color-border: var(--kb-gray-800);
     --kb-color-accent: var(--kb-blue-500);
     --kb-color-accent-hover: var(--kb-blue-400);
+    --kb-color-accent-fg: var(--kb-gray-950);
     --kb-color-danger: var(--kb-red-500);
     --kb-color-danger-hover: var(--kb-red-400);
+    --kb-color-danger-fg: var(--kb-gray-950);
     --kb-color-info: var(--kb-teal-400);
     --kb-color-info-fg: var(--kb-gray-950);
     --kb-color-success: var(--kb-green-400);
