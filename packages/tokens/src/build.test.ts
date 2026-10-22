@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import real from "../tokens.json";
 import { buildTokens, type TokenTree } from "./build";
 
 const tree: TokenTree = {
@@ -95,5 +96,59 @@ describe("buildTokens", () => {
 
   test("snapshot of css output", () => {
     expect(buildTokens(tree).css).toMatchSnapshot();
+  });
+});
+
+describe("tokens.json", () => {
+  const { css } = buildTokens(real as TokenTree);
+  const dark = css.slice(css.indexOf('[data-theme="dark"]'));
+
+  test("defines amber, green and teal primitives", () => {
+    for (const name of ["amber", "green", "teal"]) {
+      for (const step of ["400", "500", "600"]) expect(css).toContain(`--kb-${name}-${step}: #`);
+    }
+  });
+
+  test("defines info, success and warning semantic colors with dark values", () => {
+    for (const name of ["info", "success", "warning"]) {
+      expect(css).toContain(`--kb-color-${name}: var(`);
+      expect(css).toContain(`--kb-color-${name}-fg: var(`);
+      expect(dark).toContain(`--kb-color-${name}: var(`);
+      expect(dark).toContain(`--kb-color-${name}-fg: var(`);
+    }
+  });
+
+  test("defines motion durations and easings", () => {
+    for (const name of ["fast", "base", "slow"]) {
+      expect(css).toMatch(new RegExp(`--kb-motion-duration-${name}: \\d+ms;`));
+    }
+    for (const name of ["standard", "enter", "exit"]) {
+      expect(css).toMatch(new RegExp(`--kb-motion-easing-${name}: cubic-bezier\\(`));
+    }
+  });
+
+  test("defines facet component tokens", () => {
+    for (const name of [
+      "background",
+      "background-active",
+      "border",
+      "border-active",
+      "cut",
+      "padding",
+      "rail",
+      "rail-active",
+    ]) {
+      expect(css).toContain(`--kb-facet-${name}: `);
+    }
+  });
+
+  test("defines a status color per tone", () => {
+    for (const tone of ["neutral", "info", "running", "success", "warning", "blocked"]) {
+      expect(css).toContain(`--kb-status-${tone}: var(--kb-color-`);
+    }
+  });
+
+  test("snapshot of the shipped css", () => {
+    expect(css).toMatchSnapshot();
   });
 });
