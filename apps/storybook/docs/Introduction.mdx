@@ -1,0 +1,39 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Introduction" />
+
+# kbui
+
+kbui is the shared design system for our projects. Its look lives in framework-free CSS driven by design tokens; a thin React layer on Base UI adds behavior.
+
+## Use it in a project
+
+```bash
+cd ~/proj/kbui && bun run build
+cd ~/proj/<your-app> && bun add ../kbui/packages/react ../kbui/packages/css
+```
+
+```tsx
+import "@kbui/css/styles.css";
+import { Button, Dialog, Input } from "@kbui/react";
+```
+
+Set `data-theme="light"` or `"dark"` on `<html>`. Without it, the system setting decides.
+
+## Reading these docs
+
+- **Foundations / Tokens** lists every color, space, radius and type token, generated from `tokens.json`.
+- **Components** has a Docs page per component, with a props table and live examples. The toolbar's theme switch changes a story between light and dark.
+- Every story is also an accessibility test: CI fails if axe finds a violation.
+
+## How it is built
+
+| Layer | Package | Owns |
+|---|---|---|
+| Tokens | `@kbui/tokens` | Every value, light and dark |
+| Styles | `@kbui/css` | Every visual rule, keyed on `kb-` classes and `data-*` attributes |
+| Behavior | `@kbui/react` | Base UI behavior and prop-to-attribute mapping |
+
+Each component stylesheet opens with an `Anatomy:` line that names its classes and attributes. That line is the contract between the CSS and any framework layer.
+
+More in the repository: `README.md`, `docs/architecture.md`, `docs/tokens.md`, `docs/guides/` and `docs/decisions/`.
