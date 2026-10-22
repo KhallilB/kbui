@@ -34,7 +34,7 @@
 .kb-status[data-appearance="chip"] {
   padding: 0.125rem var(--kb-space-2);
   border: 1px solid color-mix(in oklab, var(--_status-ink) 45%, transparent);
-  border-radius: var(--kb-radius-sm);
+  border-radius: var(--kb-status-radius);
   background: color-mix(in oklab, var(--_status-ink) 12%, transparent);
   /* Pulled toward fg: the tint alone drops tone ink under 4.5:1 in light. */
   color: color-mix(in oklab, var(--_status-ink) 70%, var(--kb-color-fg));
@@ -58,8 +58,10 @@
   color: inherit;
 }
 
+/* Glow is a blur length; 0px default keeps the icon flat. */
 .kb-status[data-appearance="chip"] > .kb-status-icon {
   color: var(--_status-ink);
+  filter: drop-shadow(0 0 var(--kb-status-glow) var(--_status-ink));
 }
 
 .kb-status-icon > * {
