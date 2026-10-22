@@ -1,7 +1,7 @@
 # kbui design system — skeleton design
 
 Date: 2026-10-16
-Status: approved and implemented. The registry and versioning rows were updated to match [decision 0003](../../decisions/0003-local-path-installs.md), accepted 2026-10-18.
+Status: approved and implemented. The registry and versioning rows were updated to match [decision 0003](../../decisions/0003-local-path-installs.md), accepted 2026-10-18, and again for [decision 0007](../../decisions/0007-lockstep-github-tarball-releases.md), accepted 2026-10-22.
 
 ## Goal
 
@@ -24,8 +24,8 @@ frontend framework; only behavior adapters are framework-bound.
 | Styling | CSS custom properties + plain CSS with `kb-` prefixed classes and `data-*` attributes | Framework-free, zero runtime, works beside Tailwind |
 | Behavior | `@base-ui/react` | Accessible headless primitives, React 19 native, emits `data-open`/`data-disabled` that match the CSS contract |
 | Repo shape | Bun workspaces, three packages + private Storybook app | Styling packages reusable by a future non-React adapter without restructure |
-| Versioning | None; no Changesets, no version bumps | Nothing is published; consumers track the checkout and `git log` is the history |
-| Registry | None; consumers `bun add ../kbui/packages/*` by path ([ADR 0003](../../decisions/0003-local-path-installs.md)) | Zero infrastructure; `bun run build` here is the whole release |
+| Versioning | One version for all packages, bumped by release-please ([ADR 0007](../../decisions/0007-lockstep-github-tarball-releases.md)) | CSS anatomy and React markup are one contract; conventional commits already exist |
+| Registry | None. CI and deploys install `.tgz` files from GitHub Releases ([ADR 0007](../../decisions/0007-lockstep-github-tarball-releases.md)); local work installs by path ([ADR 0003](../../decisions/0003-local-path-installs.md)) | No account or server; tarball URLs pin an exact version |
 | Docs | Storybook 10 (react-vite), static build served by nginx container | Design docs on LAN |
 | Toolchain | bun 1.3.x + node 22 via mise, TypeScript strict, biome, lefthook, vitest | Matches existing projects |
 
