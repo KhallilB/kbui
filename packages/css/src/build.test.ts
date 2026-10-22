@@ -98,6 +98,20 @@ describe("buildCss", () => {
     await rm(root, { recursive: true, force: true });
   });
 
+  test("facet clips only its decorative pseudo-element, never the root", async () => {
+    const css = await readFile(join(src, "components", "facet.css"), "utf8");
+    const rules = css
+      .split("}")
+      .map((r) => r.trim())
+      .filter((r) => r.includes("clip-path"));
+    expect(rules.length).toBeGreaterThan(0);
+    for (const rule of rules) {
+      const selector = rule.slice(0, rule.indexOf("{"));
+      expect(selector).toMatch(/::before\s*$/);
+    }
+    expect(css).toMatch(/\.kb-facet::before \{[^}]*pointer-events: none/);
+  });
+
   test("anatomyRoots throws without an anatomy comment", async () => {
     const root = await fixture({ "x.css": ".kb-x { color: red; }\n" });
     await expect(anatomyRoots(root)).rejects.toThrow("first line must be an Anatomy comment");
