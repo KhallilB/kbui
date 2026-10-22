@@ -16,12 +16,16 @@ jobs:
       tag_name: ${{ steps.release.outputs.tag_name }}
       version: ${{ steps.release.outputs.version }}
     steps:
+      # Releases first and alone: a flaky PR update must not hide a created release.
       - id: release
         uses: googleapis/release-please-action@v4
+        with: { skip-github-pull-request: true }
+      - uses: googleapis/release-please-action@v4
+        with: { skip-github-release: true }
 
   assets:
     needs: release-please
-    if: needs.release-please.outputs.release_created == 'true'
+    if: ${{ !cancelled() && needs.release-please.outputs.release_created == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -51,6 +55,7 @@ jobs:
 
   install:
     needs: [release-please, assets]
+    if: ${{ !cancelled() && needs.assets.result == 'success' }}
     strategy:
       fail-fast: false
       matrix:
