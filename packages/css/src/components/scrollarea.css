@@ -1,0 +1,41 @@
+/* Anatomy: .kb-scrollarea > .kb-scrollarea-viewport, .kb-scrollarea-scrollbar [data-orientation=vertical] [data-scrolling] > .kb-scrollarea-thumb */
+.kb-scrollarea {
+  position: relative;
+  min-width: 0;
+}
+
+.kb-scrollarea-viewport {
+  max-height: var(--_scrollarea-max-height, none);
+  overscroll-behavior: contain;
+  border-radius: inherit;
+}
+
+.kb-scrollarea-viewport:focus-visible {
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: 2px;
+}
+
+.kb-scrollarea-scrollbar {
+  display: flex;
+  width: var(--kb-space-2);
+  padding: 2px;
+  opacity: 0;
+  transition: opacity var(--kb-motion-duration-base) var(--kb-motion-easing-standard);
+}
+
+.kb-scrollarea:hover .kb-scrollarea-scrollbar,
+.kb-scrollarea-scrollbar[data-scrolling] {
+  opacity: 1;
+}
+
+.kb-scrollarea-thumb {
+  flex: 1;
+  border-radius: var(--kb-radius-full);
+  background: var(--kb-color-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-scrollarea-scrollbar {
+    transition: none;
+  }
+}

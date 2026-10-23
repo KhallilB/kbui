@@ -1,4 +1,4 @@
-/* Anatomy: .kb-button [data-variant=primary|secondary|ghost|danger] [data-size=sm|md|lg] [data-disabled] */
+/* Anatomy: .kb-button [data-variant=primary|secondary|ghost|danger] [data-size=sm|md|lg|icon] [data-disabled] */
 .kb-button {
   display: inline-flex;
   align-items: center;
@@ -28,6 +28,18 @@
   height: 2rem;
   padding: 0 var(--kb-space-3);
   font-size: var(--kb-size-sm);
+}
+
+/* Square for a lone icon; the name comes from aria-label. */
+.kb-button[data-size="icon"] {
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+}
+
+.kb-button[data-size="icon"] > svg {
+  width: 1.125rem;
+  height: 1.125rem;
 }
 
 .kb-button[data-size="lg"] {
