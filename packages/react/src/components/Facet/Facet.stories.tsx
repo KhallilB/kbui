@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect, within } from "storybook/test";
+import { expect, userEvent, within } from "storybook/test";
 import { Button } from "../Button/Button";
 import { Status } from "../Status/Status";
 import { Facet, type FacetProps } from "./Facet";
@@ -10,7 +10,7 @@ const meta = {
   tags: ["autodocs"],
   argTypes: {
     tone: { control: "select", options: ["quiet", "default", "active", "critical"] },
-    cut: { control: "select", options: ["none", "start", "end"] },
+    cut: { control: "select", options: ["none", "start", "end", "both"] },
     rail: { control: "select", options: ["none", "accent", "status"] },
     density: { control: "select", options: ["compact", "standard"] },
   },
@@ -58,7 +58,7 @@ export const Tones: Story = {
 export const Cuts: Story = {
   render: (args) => (
     <div style={row}>
-      {(["none", "start", "end"] as const).map((cut) => (
+      {(["none", "start", "end", "both"] as const).map((cut) => (
         <Sample {...args} key={cut} id={`cut-${cut}`} cut={cut} title={`Cut ${cut}`} />
       ))}
     </div>
@@ -78,6 +78,112 @@ export const Rails: Story = {
         title="Rail status, critical"
       />
     </div>
+  ),
+};
+
+/** Optional hooks --kb-facet-cut-start and --kb-facet-cut-end override --kb-facet-cut per side; the seam follows the edge. */
+export const Geometry: Story = {
+  args: { cut: "both", tone: "active" },
+  render: (args) => (
+    <div style={row}>
+      <Sample {...args} id="geo-default" title="Token depth" />
+      <div style={{ "--kb-facet-cut-start": "2rem", "--kb-facet-cut-end": "0.5rem" } as object}>
+        <Sample {...args} id="geo-custom" title="Deep start, shallow end" />
+      </div>
+    </div>
+  ),
+};
+
+/** A wrapper-scoped --kb-facet-cut must reach the facet; per-side names stay optional hooks. */
+export const ScopedCut: Story = {
+  args: { cut: "both" },
+  render: (args) => (
+    <div style={{ "--kb-facet-cut": "2rem" } as object}>
+      <Sample {...args} id="scoped-cut" title="Scoped cut" />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const facet = canvasElement.querySelector(".kb-facet") as HTMLElement;
+    expect(getComputedStyle(facet, "::before").clipPath).toContain("32px 0px");
+  },
+};
+
+export const Toolbar: Story = {
+  render: (args) => (
+    <Facet {...args} aria-labelledby="toolbar-title" style={{ width: 360 }}>
+      <Facet.Header>
+        <h3 id="toolbar-title">With toolbar</h3>
+        <Facet.Toolbar>
+          <Button variant="ghost" size="sm">
+            Filter
+          </Button>
+          <Button variant="secondary" size="sm">
+            Export
+          </Button>
+        </Facet.Toolbar>
+      </Facet.Header>
+      <Facet.Body>Header actions sit in a toolbar at the inline end.</Facet.Body>
+    </Facet>
+  ),
+};
+
+export const Collapsible: Story = {
+  args: { cut: "end" },
+  render: (args) => (
+    <Facet
+      {...args}
+      collapsible
+      defaultOpen
+      aria-labelledby="collapse-title"
+      style={{ width: 360 }}
+    >
+      <Facet.Header>
+        <h3 id="collapse-title">Collapsible body</h3>
+        <Facet.Toggle>Toggle</Facet.Toggle>
+      </Facet.Header>
+      <Facet.Body>Only the body collapses; header and footer stay.</Facet.Body>
+      <Facet.Footer>
+        <Status>Idle</Status>
+      </Facet.Footer>
+    </Facet>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const toggle = canvas.getByRole("button", { name: "Toggle" });
+    await expect(toggle).toHaveAttribute("aria-expanded", "true");
+    await userEvent.click(toggle);
+    await expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(canvas.queryByText(/Only the body/)).toBeNull();
+    await userEvent.click(toggle);
+    await expect(canvas.getByText(/Only the body/)).toBeVisible();
+  },
+};
+
+export const Nested: Story = {
+  render: (args) => (
+    <Facet {...args} cut="start" aria-labelledby="outer-title" style={{ width: 420 }}>
+      <Facet.Header>
+        <h3 id="outer-title">Outer</h3>
+      </Facet.Header>
+      <Facet.Body>
+        <Facet tone="quiet" aria-labelledby="inner-a">
+          <Facet.Header>
+            <h4 id="inner-a">Inner, quiet</h4>
+          </Facet.Header>
+          <Facet.Body>Nested facets tighten their padding.</Facet.Body>
+        </Facet>
+      </Facet.Body>
+    </Facet>
+  ),
+};
+
+export const Group: Story = {
+  render: (args) => (
+    <Facet.Group direction="row" style={{ width: 720 }}>
+      <Sample {...args} id="g1" title="First" cut="start" />
+      <Sample {...args} id="g2" title="Second" tone="active" />
+      <Sample {...args} id="g3" title="Third" cut="end" />
+    </Facet.Group>
   ),
 };
 
@@ -121,7 +227,7 @@ export const Dark: Story = {
   render: (args) => (
     <div style={row}>
       {(["quiet", "default", "active", "critical"] as const).map((tone) => (
-        <Sample {...args} key={tone} id={`dark-${tone}`} tone={tone} cut="start" title={tone} />
+        <Sample {...args} key={tone} id={`dark-${tone}`} tone={tone} cut="both" title={tone} />
       ))}
     </div>
   ),

@@ -132,6 +132,21 @@ describe("tokens.json", () => {
     }
   });
 
+  test("defines per-side cut depths, seam widths and a critical border for facets", () => {
+    // Root aliases would pin the cut at :root; per-side names stay optional hooks.
+    expect(css).not.toContain("--kb-facet-cut-start:");
+    expect(css).not.toContain("--kb-facet-cut-end:");
+    expect(css).toMatch(/--kb-facet-seam: \d+px;/);
+    expect(css).toMatch(/--kb-facet-seam-active: \d+px;/);
+    expect(css).toContain("--kb-facet-border-critical: var(--kb-color-danger);");
+  });
+
+  test("lifts active and critical facet planes in dark", () => {
+    expect(dark).toContain("--kb-facet-background-active: var(--kb-gray-800);");
+    expect(dark).toContain("--kb-facet-border-active: var(--kb-blue-400);");
+    expect(dark).toContain("--kb-facet-border-critical: var(--kb-red-400);");
+  });
+
   test("defines facet component tokens", () => {
     for (const name of [
       "background",

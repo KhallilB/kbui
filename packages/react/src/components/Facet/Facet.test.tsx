@@ -69,6 +69,78 @@ describe("Facet", () => {
     expect(ref.current?.tagName).toBe("SECTION");
   });
 
+  test("accepts cut=both", () => {
+    const { container } = render(<Facet cut="both">x</Facet>);
+    expect(container.querySelector(".kb-facet")).toHaveAttribute("data-cut", "both");
+  });
+
+  test("renders a toolbar part inside the header", () => {
+    const { container } = render(
+      <Facet>
+        <Facet.Header>
+          <h2>Title</h2>
+          <Facet.Toolbar>
+            <button type="button">A</button>
+          </Facet.Toolbar>
+        </Facet.Header>
+      </Facet>,
+    );
+    const toolbar = container.querySelector(".kb-facet-header > .kb-facet-toolbar");
+    expect(toolbar).not.toBeNull();
+    expect(toolbar?.querySelector("button")).toHaveTextContent("A");
+  });
+
+  test("marks a facet nested inside another facet", () => {
+    const { container } = render(
+      <Facet>
+        <Facet.Body>
+          <Facet>
+            <Facet.Body>inner</Facet.Body>
+          </Facet>
+        </Facet.Body>
+      </Facet>,
+    );
+    const [outer, inner] = Array.from(container.querySelectorAll(".kb-facet"));
+    expect(outer).not.toHaveAttribute("data-nested");
+    expect(inner).toHaveAttribute("data-nested", "");
+  });
+
+  test("groups facets with a direction", () => {
+    const { container } = render(
+      <Facet.Group direction="row">
+        <Facet>a</Facet>
+        <Facet>b</Facet>
+      </Facet.Group>,
+    );
+    const group = container.querySelector(".kb-facet-group");
+    expect(group).toHaveAttribute("data-direction", "row");
+    expect(group?.querySelectorAll(":scope > .kb-facet")).toHaveLength(2);
+  });
+
+  test("collapsible facet toggles its body from the toggle", async () => {
+    render(
+      <Facet collapsible defaultOpen aria-labelledby="c-title">
+        <Facet.Header>
+          <h2 id="c-title">Log</h2>
+          <Facet.Toggle>Toggle</Facet.Toggle>
+        </Facet.Header>
+        <Facet.Body>lines</Facet.Body>
+      </Facet>,
+    );
+    const root = screen.getByRole("region", { name: "Log" });
+    expect(root.tagName).toBe("SECTION");
+    expect(root).toHaveAttribute("data-collapsible", "");
+    expect(root).toHaveAttribute("data-open");
+    const toggle = screen.getByRole("button", { name: "Toggle" });
+    expect(toggle).toHaveClass("kb-facet-toggle");
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByText("lines")).toBeVisible();
+    await userEvent.click(toggle);
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(root).not.toHaveAttribute("data-open");
+    expect(screen.queryByText("lines")).toBeNull();
+  });
+
   test("keeps a focused child reachable and never clips the root itself", async () => {
     const { container } = render(
       <Facet cut="start" rail="accent">

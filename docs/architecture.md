@@ -49,7 +49,7 @@ The contract is checked by tests, not by review alone. `bun run check` fails whe
 | A stylesheet lacks its `Anatomy:` line, or never styles the root class it names | `packages/css/src/build.test.ts` |
 | Component or reset CSS uses a palette color such as `--kb-gray-500`, or a raw color such as `#fff` | `packages/css/src/build.test.ts` |
 | A component folder lacks its story or its test | `packages/react/src/story-coverage.test.ts` |
-| `facet.css` puts `clip-path` on anything but the decorative `::before` plane | `packages/css/src/build.test.ts` |
+| `facet.css` puts `clip-path` on anything but its decorative pseudo-element planes | `packages/css/src/build.test.ts` |
 | The Storybook skin fixture sets a property outside `--kb-facet-*` and `--kb-status-*`, or uses a `.kb-*` selector or `!important` | `apps/storybook/stories/skin-fixture.test.ts` |
 
 In addition, `bun run test:stories` renders every story in a real browser and fails on any accessibility violation.
