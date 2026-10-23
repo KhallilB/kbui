@@ -27,6 +27,7 @@ const meta = {
   args: { children: "Idle", tone: "neutral" },
   argTypes: {
     tone: { control: "select", options: tones },
+    appearance: { control: "select", options: ["plain", "chip"] },
     icon: { control: false },
   },
 } satisfies Meta<typeof Status>;
@@ -75,6 +76,22 @@ export const Compact: Story = {
 };
 
 /** live only adds role="status"; assistive tech announces changes to the text. */
+/** Chip tints each tone from its own ink; text and icon stay the signal. */
+export const Chip: Story = {
+  args: { appearance: "chip" },
+  render: (args) => (
+    <div style={row}>
+      {tones.map((tone) => (
+        <Status {...args} key={tone} tone={tone} icon={<Dot />}>
+          {labels[tone]}
+        </Status>
+      ))}
+    </div>
+  ),
+};
+
+export const ChipDark: Story = { ...Chip, globals: { theme: "dark" } };
+
 export const Live: Story = {
   args: { live: true, tone: "running", children: "Running", icon: <Dot /> },
 };

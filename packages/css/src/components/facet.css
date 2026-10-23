@@ -1,4 +1,4 @@
-/* Anatomy: .kb-facet [data-tone=quiet|default|active|critical] [data-cut=none|start|end|both] [data-rail=none|accent|status] [data-density=compact|standard] [data-nested] [data-collapsible] [data-open] [data-closed] > .kb-facet-header > .kb-facet-toolbar, .kb-facet-toggle [data-panel-open]; .kb-facet-body, .kb-facet-footer, .kb-facet-rail; sibling .kb-facet-group [data-direction=row|column] */
+/* Anatomy: .kb-facet [data-tone=quiet|default|sunken|active|critical] [data-cut=none|start|end|both] [data-rail=none|accent|status] [data-density=compact|standard] [data-nested] [data-collapsible] [data-open] [data-closed] > .kb-facet-header > .kb-facet-toolbar, .kb-facet-toggle [data-panel-open]; .kb-facet-body, .kb-facet-footer, .kb-facet-rail; sibling .kb-facet-group [data-direction=row|column] */
 .kb-facet {
   --_facet-bg: var(--kb-facet-background);
   --_facet-seam: var(--kb-facet-border);
@@ -6,12 +6,17 @@
   --_facet-rail: var(--kb-facet-rail);
   --_facet-cut-start: 0px;
   --_facet-cut-end: 0px;
+  --_facet-edge: var(--kb-facet-cut-edge);
+  --_facet-edge-start-depth: 0px;
+  --_facet-edge-end-depth: 0px;
+  --_facet-gap: var(--kb-space-3);
+  --_facet-pad: var(--kb-facet-padding);
   position: relative;
   isolation: isolate;
   display: flex;
   flex-direction: column;
-  gap: var(--kb-space-3);
-  padding: var(--kb-facet-padding);
+  gap: var(--_facet-gap);
+  padding: var(--_facet-pad);
   color: var(--kb-color-fg);
 }
 
@@ -32,32 +37,48 @@
   transition: background-color var(--kb-motion-duration-base) var(--kb-motion-easing-standard);
 }
 
+/* 135deg/315deg bands of depth d cover exactly the corner triangle plus its diagonal seam. */
 .kb-facet::before {
   inset: 0;
   z-index: -2;
-  background: var(--_facet-seam);
+  background:
+    linear-gradient(135deg, var(--_facet-edge) 0 var(--_facet-edge-start-depth), transparent 0),
+    linear-gradient(315deg, var(--_facet-edge) 0 var(--_facet-edge-end-depth), transparent 0),
+    var(--_facet-seam);
 }
 
 .kb-facet::after {
   inset: var(--_facet-seam-width);
   z-index: -1;
   background: var(--_facet-bg);
+  box-shadow: inset 0 1px 0 var(--kb-facet-highlight);
 }
 
 /* Resolved here, not at :root, so a wrapper-scoped --kb-facet-cut still applies. */
 .kb-facet[data-cut="start"],
 .kb-facet[data-cut="both"] {
   --_facet-cut-start: var(--kb-facet-cut-start, var(--kb-facet-cut));
+  --_facet-edge-start-depth: calc(
+    (var(--_facet-cut-start) + 2 * var(--_facet-seam-width)) *
+    0.7071
+  );
 }
 
 .kb-facet[data-cut="end"],
 .kb-facet[data-cut="both"] {
   --_facet-cut-end: var(--kb-facet-cut-end, var(--kb-facet-cut));
+  --_facet-edge-end-depth: calc((var(--_facet-cut-end) + 2 * var(--_facet-seam-width)) * 0.7071);
 }
 
 .kb-facet[data-tone="quiet"] {
   --_facet-bg: transparent;
   --_facet-seam: transparent;
+  --_facet-edge: transparent;
+}
+
+/* Recessed well for output inside a plane: page color, same seam. */
+.kb-facet[data-tone="sunken"] {
+  --_facet-bg: var(--kb-facet-background-sunken);
 }
 
 .kb-facet[data-tone="active"] {
@@ -69,19 +90,22 @@
 
 .kb-facet[data-tone="critical"] {
   --_facet-seam: var(--kb-facet-border-critical);
+  --_facet-edge: var(--kb-facet-border-critical);
   --_facet-seam-width: var(--kb-facet-seam-active);
   --_facet-rail: var(--kb-facet-border-critical);
 }
 
 .kb-facet[data-density="compact"],
 .kb-facet[data-nested] {
-  gap: var(--kb-space-2);
-  padding: calc(var(--kb-facet-padding) / 2);
+  --_facet-gap: var(--kb-space-2);
+  --_facet-pad: calc(var(--kb-facet-padding) / 2);
 }
 
+/* Starts below the start cut so it never pokes through the chamfer. */
 .kb-facet-rail {
   position: absolute;
-  inset-block: 0;
+  inset-block-start: var(--_facet-cut-start);
+  inset-block-end: 0;
   inset-inline-start: 0;
   width: 3px;
   pointer-events: none;
@@ -94,16 +118,32 @@
 
 .kb-facet[data-rail="accent"],
 .kb-facet[data-rail="status"] {
-  padding-inline-start: calc(var(--kb-facet-padding) + 3px);
+  padding-inline-start: calc(var(--_facet-pad) + 3px);
 }
 
 .kb-facet-header {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--kb-space-2);
   font-weight: 600;
+}
+
+/* Full-bleed hairline centered in the gap below the header; no layout cost. */
+.kb-facet-header::after {
+  content: "";
+  position: absolute;
+  inset-inline: calc(var(--kb-facet-seam) - var(--_facet-pad));
+  inset-block-end: calc(var(--_facet-gap) / -2);
+  height: 1px;
+  background: var(--kb-facet-divider);
+  pointer-events: none;
+}
+
+.kb-facet[data-closed] > .kb-facet-header::after {
+  display: none;
 }
 
 .kb-facet-header :is(h1, h2, h3, h4, h5, h6) {

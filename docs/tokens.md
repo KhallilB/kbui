@@ -26,6 +26,8 @@ A path in braces makes one token refer to another:
 
 This builds to `--kb-color-accent: var(--kb-blue-600);`. The reference stays live, so changing `--kb-blue-600` changes every token that points at it. The build stops with an error if an alias points at a token that does not exist.
 
+The reference resolves where the alias is declared, which is `:root`. An override on `:root` flows through every alias. An override on a wrapper element does not: the alias already holds the root value there. For example, `--kb-facet-background` aliases `--kb-color-surface`, so a wrapper that sets `--kb-color-surface` leaves facets unchanged; set `--kb-facet-background` instead. Optional hooks with no root value, such as `--kb-facet-cut-start` and `--kb-facet-cut-end`, are read by the component itself, so they and the token they fall back to, `--kb-facet-cut`, work on any wrapper.
+
 ## Dark mode
 
 The W3C format has no concept of themes, so each semantic color stores its dark value in an extension next to its light value:
