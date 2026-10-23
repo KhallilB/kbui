@@ -118,6 +118,49 @@ describe("buildCss", () => {
     expect(css).toContain("var(--kb-facet-cut-end, var(--kb-facet-cut))");
   });
 
+  test("facet rail starts and ends inside the cut corners", async () => {
+    const css = await readFile(join(src, "components", "facet.css"), "utf8");
+    const rail = css.match(/\.kb-facet-rail \{[^}]*\}/)?.[0] ?? "";
+    expect(rail).toContain("inset-block-start: var(--_facet-cut-start)");
+    expect(rail).not.toMatch(/inset-block:\s*0/);
+  });
+
+  test("facet paints its opt-in cut edge, highlight and header divider from tokens", async () => {
+    const css = await readFile(join(src, "components", "facet.css"), "utf8");
+    const rules = (sel: RegExp) => [...css.matchAll(sel)].map((m) => m[0]).join("\n");
+    const seam = rules(/\.kb-facet::before \{[^}]*\}/g);
+    expect(seam).toContain("var(--_facet-edge)");
+    expect(seam).toContain("var(--_facet-edge-start-depth)");
+    expect(seam).toContain("var(--_facet-edge-end-depth)");
+    const root = css.match(/\.kb-facet \{[^}]*\}/)?.[0] ?? "";
+    expect(root).toContain("--_facet-edge: var(--kb-facet-cut-edge)");
+    expect(css).toMatch(/\[data-cut="start"\][^{]*\{[^}]*--_facet-edge-start-depth:/);
+    expect(css).toMatch(/\[data-cut="end"\][^{]*\{[^}]*--_facet-edge-end-depth:/);
+    expect(css).toMatch(/\[data-tone="quiet"\] \{[^}]*--_facet-edge: transparent/);
+    expect(css).toMatch(
+      /\[data-tone="critical"\] \{[^}]*--_facet-edge: var\(--kb-facet-border-critical\)/,
+    );
+    const fill = rules(/\.kb-facet::after \{[^}]*\}/g);
+    expect(fill).toContain("var(--kb-facet-highlight)");
+    expect(css).toMatch(
+      /\.kb-facet-header::after \{[^}]*var\(--kb-facet-divider\)[^}]*pointer-events: none/,
+    );
+  });
+
+  test("sunken facet recesses onto its own plane color", async () => {
+    const css = await readFile(join(src, "components", "facet.css"), "utf8");
+    expect(css).toMatch(
+      /\[data-tone="sunken"\] \{[^}]*--_facet-bg: var\(--kb-facet-background-sunken\)/,
+    );
+  });
+
+  test("status chip tints from its own ink, never a palette color", async () => {
+    const css = await readFile(join(src, "components", "status.css"), "utf8");
+    const chip = css.match(/\.kb-status\[data-appearance="chip"\] \{[^}]*\}/)?.[0] ?? "";
+    expect(chip).toContain("var(--_status-ink)");
+    expect(chip).toContain("color-mix(");
+  });
+
   test("anatomyRoots throws without an anatomy comment", async () => {
     const root = await fixture({ "x.css": ".kb-x { color: red; }\n" });
     await expect(anatomyRoots(root)).rejects.toThrow("first line must be an Anatomy comment");

@@ -1,4 +1,4 @@
-/* Anatomy: .kb-status [data-tone=neutral|info|running|success|warning|blocked] [data-compact] > .kb-status-icon, .kb-status-text */
+/* Anatomy: .kb-status [data-tone=neutral|info|running|success|warning|blocked] [data-appearance=plain|chip] [data-compact] > .kb-status-icon, .kb-status-text */
 .kb-status {
   --_status-ink: var(--kb-status-neutral);
   display: inline-flex;
@@ -30,6 +30,20 @@
   --_status-ink: var(--kb-status-blocked);
 }
 
+/* Chip tints from the ink so every tone stays in its own hue. */
+.kb-status[data-appearance="chip"] {
+  padding: 0.125rem var(--kb-space-2);
+  border: 1px solid color-mix(in oklab, var(--_status-ink) 45%, transparent);
+  border-radius: var(--kb-radius-sm);
+  background: color-mix(in oklab, var(--_status-ink) 12%, transparent);
+  /* Pulled toward fg: the tint alone drops tone ink under 4.5:1 in light. */
+  color: color-mix(in oklab, var(--_status-ink) 70%, var(--kb-color-fg));
+}
+
+.kb-status[data-appearance="chip"][data-compact] {
+  padding: 0 var(--kb-space-1);
+}
+
 .kb-status[data-compact] {
   gap: var(--kb-space-1);
   font-size: 0.75rem;
@@ -42,6 +56,10 @@
   width: 1em;
   height: 1em;
   color: inherit;
+}
+
+.kb-status[data-appearance="chip"] > .kb-status-icon {
+  color: var(--_status-ink);
 }
 
 .kb-status-icon > * {

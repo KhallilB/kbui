@@ -47,6 +47,15 @@ describe("Status", () => {
     expect(root).not.toHaveAttribute("aria-atomic");
   });
 
+  test("appearance defaults to plain and chip sets data-appearance", () => {
+    const { container, rerender } = render(<Status>Idle</Status>);
+    const root = () => container.querySelector(".kb-status");
+    expect(root()).toHaveAttribute("data-appearance", "plain");
+    rerender(<Status appearance="chip">Idle</Status>);
+    expect(root()).toHaveAttribute("data-appearance", "chip");
+    expect(screen.getByText("Idle")).toHaveClass("kb-status-text");
+  });
+
   test("compact sets data-compact and keeps the text", () => {
     const { container } = render(
       <Status compact tone="blocked">

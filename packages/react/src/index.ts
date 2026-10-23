@@ -28,5 +28,10 @@ export {
   type FacetToolbarProps,
 } from "./components/Facet/Facet";
 export { Input, type InputProps, type InputSize } from "./components/Input/Input";
-export { Status, type StatusProps, type StatusTone } from "./components/Status/Status";
+export {
+  Status,
+  type StatusAppearance,
+  type StatusProps,
+  type StatusTone,
+} from "./components/Status/Status";
 export { kb } from "./utils/kb";
