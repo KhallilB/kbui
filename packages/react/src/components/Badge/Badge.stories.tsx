@@ -30,3 +30,6 @@ export const Tones: Story = {
   ),
 };
 export const TonesDark: Story = { ...Tones, globals: { theme: "dark" } };
+export const PlainMono: Story = {
+  args: { appearance: "plain", mono: true, children: "Primary · Codex · writes" },
+};

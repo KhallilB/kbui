@@ -1,4 +1,9 @@
-export { Badge, type BadgeProps, type BadgeTone } from "./components/Badge/Badge";
+export {
+  Badge,
+  type BadgeAppearance,
+  type BadgeProps,
+  type BadgeTone,
+} from "./components/Badge/Badge";
 export {
   Button,
   type ButtonProps,
