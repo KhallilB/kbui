@@ -109,7 +109,10 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-facet-background-active: var(--kb-color-bg);
   --kb-facet-border: var(--kb-color-border);
   --kb-facet-border-active: var(--kb-color-accent);
+  --kb-facet-border-critical: var(--kb-color-danger);
   --kb-facet-cut: 0.75rem;
+  --kb-facet-seam: 1px;
+  --kb-facet-seam-active: 2px;
   --kb-facet-padding: var(--kb-space-4);
   --kb-facet-rail: var(--kb-color-border);
   --kb-facet-rail-active: var(--kb-color-accent);
@@ -141,6 +144,9 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-color-warning-fg: var(--kb-gray-950);
   --kb-color-ring: var(--kb-blue-400);
   --kb-color-overlay: rgb(0 0 0 / 0.7);
+  --kb-facet-background-active: var(--kb-gray-800);
+  --kb-facet-border-active: var(--kb-blue-400);
+  --kb-facet-border-critical: var(--kb-red-400);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -164,6 +170,9 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-color-warning-fg: var(--kb-gray-950);
     --kb-color-ring: var(--kb-blue-400);
     --kb-color-overlay: rgb(0 0 0 / 0.7);
+    --kb-facet-background-active: var(--kb-gray-800);
+    --kb-facet-border-active: var(--kb-blue-400);
+    --kb-facet-border-critical: var(--kb-red-400);
   }
 }
 "

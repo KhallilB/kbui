@@ -98,7 +98,7 @@ describe("buildCss", () => {
     await rm(root, { recursive: true, force: true });
   });
 
-  test("facet clips only its decorative pseudo-element, never the root", async () => {
+  test("facet clips only its decorative pseudo-elements, never the root", async () => {
     const css = await readFile(join(src, "components", "facet.css"), "utf8");
     const rules = css
       .split("}")
@@ -107,9 +107,15 @@ describe("buildCss", () => {
     expect(rules.length).toBeGreaterThan(0);
     for (const rule of rules) {
       const selector = rule.slice(0, rule.indexOf("{"));
-      expect(selector).toMatch(/::before\s*$/);
+      expect(selector).toMatch(/::(before|after)\s*$/);
     }
-    expect(css).toMatch(/\.kb-facet::before \{[^}]*pointer-events: none/);
+    expect(css).toMatch(/\.kb-facet::before,\s*\.kb-facet::after \{[^}]*pointer-events: none/);
+  });
+
+  test("facet resolves cut depth at the element so a scoped --kb-facet-cut wins", async () => {
+    const css = await readFile(join(src, "components", "facet.css"), "utf8");
+    expect(css).toContain("var(--kb-facet-cut-start, var(--kb-facet-cut))");
+    expect(css).toContain("var(--kb-facet-cut-end, var(--kb-facet-cut))");
   });
 
   test("anatomyRoots throws without an anatomy comment", async () => {

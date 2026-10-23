@@ -1,8 +1,11 @@
-/* Anatomy: .kb-facet [data-tone=quiet|default|active|critical] [data-cut=none|start|end] [data-rail=none|accent|status] [data-density=compact|standard] > .kb-facet-header, .kb-facet-body, .kb-facet-footer, .kb-facet-rail */
+/* Anatomy: .kb-facet [data-tone=quiet|default|active|critical] [data-cut=none|start|end|both] [data-rail=none|accent|status] [data-density=compact|standard] [data-nested] [data-collapsible] [data-open] [data-closed] > .kb-facet-header > .kb-facet-toolbar, .kb-facet-toggle [data-panel-open]; .kb-facet-body, .kb-facet-footer, .kb-facet-rail; sibling .kb-facet-group [data-direction=row|column] */
 .kb-facet {
   --_facet-bg: var(--kb-facet-background);
   --_facet-seam: var(--kb-facet-border);
+  --_facet-seam-width: var(--kb-facet-seam);
   --_facet-rail: var(--kb-facet-rail);
+  --_facet-cut-start: 0px;
+  --_facet-cut-end: 0px;
   position: relative;
   isolation: isolate;
   display: flex;
@@ -12,32 +15,44 @@
   color: var(--kb-color-fg);
 }
 
-/* The plane carries the clip; the root never does, so focus rings stay whole. */
-.kb-facet::before {
+/* Two clipped planes: seam below, fill inset by the seam width. The root is never clipped. */
+.kb-facet::before,
+.kb-facet::after {
   content: "";
   position: absolute;
-  inset: 0;
-  z-index: -1;
   pointer-events: none;
-  background: var(--_facet-bg);
-  box-shadow: inset 0 0 0 1px var(--_facet-seam);
-  transition:
-    background-color var(--kb-motion-duration-base) var(--kb-motion-easing-standard),
-    box-shadow var(--kb-motion-duration-base) var(--kb-motion-easing-standard);
-}
-
-.kb-facet[data-cut="start"]::before {
-  clip-path: polygon(var(--kb-facet-cut) 0, 100% 0, 100% 100%, 0 100%, 0 var(--kb-facet-cut));
-}
-
-.kb-facet[data-cut="end"]::before {
   clip-path: polygon(
-    0 0,
+    var(--_facet-cut-start) 0,
     100% 0,
-    100% calc(100% - var(--kb-facet-cut)),
-    calc(100% - var(--kb-facet-cut)) 100%,
-    0 100%
+    100% calc(100% - var(--_facet-cut-end)),
+    calc(100% - var(--_facet-cut-end)) 100%,
+    0 100%,
+    0 var(--_facet-cut-start)
   );
+  transition: background-color var(--kb-motion-duration-base) var(--kb-motion-easing-standard);
+}
+
+.kb-facet::before {
+  inset: 0;
+  z-index: -2;
+  background: var(--_facet-seam);
+}
+
+.kb-facet::after {
+  inset: var(--_facet-seam-width);
+  z-index: -1;
+  background: var(--_facet-bg);
+}
+
+/* Resolved here, not at :root, so a wrapper-scoped --kb-facet-cut still applies. */
+.kb-facet[data-cut="start"],
+.kb-facet[data-cut="both"] {
+  --_facet-cut-start: var(--kb-facet-cut-start, var(--kb-facet-cut));
+}
+
+.kb-facet[data-cut="end"],
+.kb-facet[data-cut="both"] {
+  --_facet-cut-end: var(--kb-facet-cut-end, var(--kb-facet-cut));
 }
 
 .kb-facet[data-tone="quiet"] {
@@ -48,15 +63,18 @@
 .kb-facet[data-tone="active"] {
   --_facet-bg: var(--kb-facet-background-active);
   --_facet-seam: var(--kb-facet-border-active);
+  --_facet-seam-width: var(--kb-facet-seam-active);
   --_facet-rail: var(--kb-facet-rail-active);
 }
 
 .kb-facet[data-tone="critical"] {
-  --_facet-seam: var(--kb-color-danger);
-  --_facet-rail: var(--kb-color-danger);
+  --_facet-seam: var(--kb-facet-border-critical);
+  --_facet-seam-width: var(--kb-facet-seam-active);
+  --_facet-rail: var(--kb-facet-border-critical);
 }
 
-.kb-facet[data-density="compact"] {
+.kb-facet[data-density="compact"],
+.kb-facet[data-nested] {
   gap: var(--kb-space-2);
   padding: calc(var(--kb-facet-padding) / 2);
 }
@@ -94,6 +112,39 @@
   font-weight: 600;
 }
 
+.kb-facet-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--kb-space-1);
+  margin-inline-start: auto;
+}
+
+.kb-facet-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--kb-space-1);
+  height: 2rem;
+  padding: 0 var(--kb-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--kb-button-radius);
+  background: transparent;
+  color: var(--kb-color-fg);
+  font: inherit;
+  font-size: var(--kb-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.kb-facet-toggle:hover {
+  border-color: var(--kb-color-border);
+}
+
+.kb-facet-toggle:focus-visible {
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: 2px;
+}
+
 .kb-facet-body {
   min-width: 0;
 }
@@ -106,8 +157,25 @@
   gap: var(--kb-space-2);
 }
 
+.kb-facet-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kb-space-3);
+}
+
+.kb-facet-group[data-direction="row"] {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.kb-facet-group[data-direction="row"] > .kb-facet {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .kb-facet::before {
+  .kb-facet::before,
+  .kb-facet::after {
     transition: none;
   }
 }
