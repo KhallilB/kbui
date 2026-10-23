@@ -109,7 +109,7 @@ Text plus an optional caller-provided icon; the text is mandatory.
 
 | Component | Use | Key props |
 |---|---|---|
-| `Badge` | Static metadata such as a role or provider. Use `Status` for a state that changes. | `tone` (`neutral` `info` `success` `warning` `danger`), `mono` |
+| `Badge` | Static metadata such as a role or provider. Use `Status` for a state that changes. | `tone` (`neutral` `info` `success` `warning` `danger`), `appearance` (`chip` `plain`), `mono` (small uppercase monospace), `preserveCase` (keeps the case of branches and paths) |
 | `Stat` | A labelled number. The label is read first, and figures are tabular. | `label`, `value`, `size` (`md` `display`) |
 | `Progress` | Determinate progress with a visible label. | `label`, `value`, `max`, `valueText` (for example `"3 of 5"`, shown and announced) |
 | `Callout` | An inline message that may need an answer. | `tone`, `title`, `icon`, `actions`, `live` |

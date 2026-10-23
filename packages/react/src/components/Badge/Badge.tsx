@@ -12,14 +12,22 @@ export type BadgeProps = ComponentProps<"span"> & {
   appearance?: BadgeAppearance;
   /** Small uppercase monospace, for identifiers and roles. */
   mono?: boolean;
+  /** Keep the text's case and spacing, for case-sensitive values such as branches and paths. */
+  preserveCase?: boolean;
 };
 
 export function Badge({
   tone = "neutral",
   appearance = "chip",
   mono = false,
+  preserveCase = false,
   className,
   ...props
 }: BadgeProps) {
-  return <span {...props} {...kb("badge", { tone, appearance, mono }, className)} />;
+  return (
+    <span
+      {...props}
+      {...kb("badge", { tone, appearance, mono, "preserve-case": preserveCase }, className)}
+    />
+  );
 }
