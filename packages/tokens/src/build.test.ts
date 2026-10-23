@@ -208,6 +208,18 @@ describe("tokens.json", () => {
     }
   });
 
+  test("adds an extra-small and a display text size", () => {
+    expect(css).toMatch(/--kb-size-xs: [\d.]+rem;/);
+    expect(css).toMatch(/--kb-size-display: [\d.]+rem;/);
+  });
+
+  test("defines shared popup tokens for menus and tooltips", () => {
+    for (const name of ["background", "border", "radius", "shadow"]) {
+      expect(css).toContain(`--kb-popup-${name}: `);
+    }
+    expect(dark).toContain("--kb-popup-shadow: ");
+  });
+
   test("snapshot of the shipped css", () => {
     expect(css).toMatchSnapshot();
   });
