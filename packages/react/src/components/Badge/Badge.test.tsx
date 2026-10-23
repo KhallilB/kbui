@@ -23,4 +23,15 @@ describe("Badge", () => {
     expect(ref.current).toHaveAttribute("data-mono", "");
     expect(ref.current).toHaveClass("kb-badge", "extra");
   });
+
+  test("appearance defaults to chip and plain drops the chip", () => {
+    const { rerender } = render(<Badge>meta</Badge>);
+    expect(screen.getByText("meta")).toHaveAttribute("data-appearance", "chip");
+    rerender(
+      <Badge appearance="plain" mono>
+        meta
+      </Badge>,
+    );
+    expect(screen.getByText("meta")).toHaveAttribute("data-appearance", "plain");
+  });
 });

@@ -180,6 +180,19 @@ describe("buildCss", () => {
     );
   });
 
+  test("progress, stat and badge read their themable values from tokens", async () => {
+    const read = (f: string) => readFile(join(src, "components", f), "utf8");
+    const progress = await read("progress.css");
+    for (const t of ["track", "fill", "fill-complete", "height", "glow"]) {
+      expect(progress).toContain(`var(--kb-progress-${t})`);
+    }
+    const stat = await read("stat.css");
+    expect(stat).toContain("var(--kb-stat-display-size)");
+    expect(stat).toContain("var(--kb-stat-display-weight)");
+    const badge = await read("badge.css");
+    expect(badge).toMatch(/\.kb-badge\[data-appearance="plain"\] \{[^}]*background: none/);
+  });
+
   test("anatomyRoots throws without an anatomy comment", async () => {
     const root = await fixture({ "x.css": ".kb-x { color: red; }\n" });
     await expect(anatomyRoots(root)).rejects.toThrow("first line must be an Anatomy comment");

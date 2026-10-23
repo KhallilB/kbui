@@ -23,21 +23,23 @@
 }
 
 .kb-progress-track {
-  height: var(--kb-space-1);
-  overflow: hidden;
+  height: var(--kb-progress-height);
   border-radius: var(--kb-radius-full);
-  background: var(--kb-color-border);
+  background: var(--kb-progress-track);
 }
 
+/* Glow is a blur length; 0px default keeps the fill flat. */
 .kb-progress-indicator {
+  --_progress-fill: var(--kb-progress-fill);
   height: 100%;
   border-radius: inherit;
-  background: var(--kb-color-accent);
+  background: var(--_progress-fill);
+  box-shadow: 0 0 var(--kb-progress-glow) var(--_progress-fill);
   transition: width var(--kb-motion-duration-base) var(--kb-motion-easing-standard);
 }
 
 .kb-progress[data-complete] .kb-progress-indicator {
-  background: var(--kb-color-success);
+  --_progress-fill: var(--kb-progress-fill-complete);
 }
 
 @media (prefers-reduced-motion: reduce) {

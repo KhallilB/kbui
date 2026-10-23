@@ -220,6 +220,19 @@ describe("tokens.json", () => {
     expect(dark).toContain("--kb-popup-shadow: ");
   });
 
+  test("lets a theme tune progress color, height and glow", () => {
+    expect(css).toContain("--kb-progress-track: var(--kb-color-border);");
+    expect(css).toContain("--kb-progress-fill: var(--kb-color-accent);");
+    expect(css).toContain("--kb-progress-fill-complete: var(--kb-color-success);");
+    expect(css).toContain("--kb-progress-height: var(--kb-space-1);");
+    expect(css).toContain("--kb-progress-glow: 0px;");
+  });
+
+  test("lets a theme tune the display stat without touching the size scale", () => {
+    expect(css).toContain("--kb-stat-display-size: var(--kb-size-display);");
+    expect(css).toMatch(/--kb-stat-display-weight: \d00;/);
+  });
+
   test("snapshot of the shipped css", () => {
     expect(css).toMatchSnapshot();
   });

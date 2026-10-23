@@ -22,7 +22,7 @@
 }
 
 .kb-stat[data-size="display"] .kb-stat-value {
-  font-size: var(--kb-size-display);
-  font-weight: 500;
+  font-size: var(--kb-stat-display-size);
+  font-weight: var(--kb-stat-display-weight);
   letter-spacing: -0.02em;
 }
