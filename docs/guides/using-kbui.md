@@ -113,3 +113,5 @@ To return to a release, run the `bun add` command from [Installing](#installing)
 | Dark mode never applies | `data-theme` is on the wrong element | Put it on `<html>` |
 | CI or a deploy cannot find `@kbui/*` | The project installs kbui by path, and `../kbui` exists only on this machine | Install from a release instead; see [Installing](#installing) |
 | Styles do not match the components | `@kbui/css` and `@kbui/react` come from different releases | Install both from the same version |
+| `Invalid hook call` in jsdom tests, while the browser build works | Bun symlinks each path-installed file into `../kbui`, so Node resolves kbui's own `react` and `@base-ui/react` next to the project's copies | In the test config set `resolve: { preserveSymlinks: true, dedupe: ["react", "react-dom"] }` and inline `/@kbui\//` for jsdom; the Vite build needs nothing |
+| `Element type is invalid` in Vitest browser tests after rebuilding kbui | Vite keeps the previous build of `@kbui/*` in its prebundled dependency cache | Delete `node_modules/.vite` in the project and rerun the tests |
