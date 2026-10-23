@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { expect } from "storybook/test";
 import { Badge } from "./Badge";
 
 const meta = {
@@ -17,7 +18,23 @@ type Story = StoryObj<typeof meta>;
 const row = { display: "flex", flexWrap: "wrap", gap: 8 } as const;
 
 export const Default: Story = {};
-export const Mono: Story = { args: { mono: true, children: "writes" } };
+export const Mono: Story = {
+  args: { mono: true, children: "writes" },
+  play: async ({ canvasElement }) => {
+    const badge = canvasElement.querySelector<HTMLElement>(".kb-badge");
+    expect(badge?.innerText).toBe("WRITES");
+  },
+};
+
+// Branch names and paths are case-sensitive; uppercasing would change them.
+export const PlainMonoPreserveCase: Story = {
+  args: { appearance: "plain", mono: true, preserveCase: true, children: "feat/control-room" },
+  play: async ({ canvasElement }) => {
+    const badge = canvasElement.querySelector<HTMLElement>(".kb-badge");
+    expect(badge?.innerText).toBe("feat/control-room");
+    expect(badge && getComputedStyle(badge).fontFamily).toMatch(/mono/i);
+  },
+};
 export const Tones: Story = {
   render: (args) => (
     <div style={row}>
