@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.5.0](https://github.com/KhallilB/kbui/compare/v0.4.0...v0.5.0) (2026-10-23)
+
+
+### Features
+
+* add neutral Card and Grid with consumer version guard ([64c499a](https://github.com/KhallilB/kbui/commit/64c499a65f81f27b5d696880ce27f2d5f2fc2125))
+
+
+### Bug Fixes
+
+* validate consumer versions through symlinked CLI paths ([7d77277](https://github.com/KhallilB/kbui/commit/7d772774e010b1b4f6f63d1879ee93ca5a24b209))
+
 ## [0.4.0](https://github.com/KhallilB/kbui/compare/v0.3.0...v0.4.0) (2026-10-23)
 
 
