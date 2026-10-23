@@ -6,7 +6,7 @@ kbui is the design system shared across our projects. Design tokens define every
 |---|---|---|
 | `@kbui/tokens` | Colors, spacing, type and component sizes, defined once in `tokens.json` | [packages/tokens](packages/tokens/README.md) |
 | `@kbui/css` | All styling, one stylesheet per component | [packages/css](packages/css/README.md) |
-| `@kbui/react` | `Button`, `Input` and `Dialog` for React 19 | [packages/react](packages/react/README.md) |
+| `@kbui/react` | 13 components for React 19, from `Button` to `Panel` and `Toolbar` | [packages/react](packages/react/README.md) |
 | `apps/storybook` | Live component docs and accessibility tests | [apps/storybook](apps/storybook/README.md) |
 
 ## Using kbui in a project
@@ -43,18 +43,21 @@ bun run check            # build, lint, typecheck and unit tests
 
 ## Direction
 
-The next stage makes kbui screens composable in plain language, both by developers asking an agent for code and by end users asking an app for a view. kbui will provide the component catalog, the design rules every screen must pass, and adapters to existing agent runtimes. It will not build a runtime of its own. None of this exists yet. The [generative UI direction](docs/superpowers/specs/2026-10-22-generative-ui-direction.md) sets out the plan, and decisions [0005](docs/decisions/0005-catalog-and-quality-layer-not-runtime.md) and [0006](docs/decisions/0006-canonical-tree-adapters-at-edge.md) record the reasoning.
+The next stage makes kbui the design judgment layer for generated UI: one contract that checks and fixes a screen the same way whether a person, a coding agent or a model inside a product wrote it. kbui will provide the component catalog, the rules every screen must pass, the fixes, and adapters to existing agent runtimes. It will not build a runtime of its own. None of this exists yet. The [product document](docs/product.md) describes every feature and differentiator, the [roadmap](docs/roadmap.md) orders them into milestones with pass marks, and decisions [0005](docs/decisions/0005-catalog-and-quality-layer-not-runtime.md) and [0006](docs/decisions/0006-canonical-tree-adapters-at-edge.md) record the reasoning. Progress is recorded in [`progress.json`](progress.json).
 
 ## Documentation
 
 | Document | Covers |
 |---|---|
+| [Product](docs/product.md) | What kbui is for, every feature with its status, the differentiators and the non-goals |
+| [Roadmap](docs/roadmap.md) | Milestones, pass marks and gates, recorded in `progress.json` |
 | [Architecture](docs/architecture.md) | How the packages fit together and what the build checks |
 | [Tokens](docs/tokens.md) | Token kinds, naming, aliases and dark mode |
 | [Using kbui in a project](docs/guides/using-kbui.md) | Installing, theming, updating and troubleshooting |
 | [Adding a component](docs/guides/adding-a-component.md) | The generator, styles, tests and stories |
 | [Decision records](docs/decisions/README.md) | Why the larger choices were made |
-| [Generative UI direction](docs/superpowers/specs/2026-10-22-generative-ui-direction.md) | Plan, field survey and roadmap for composing kbui in plain language |
+| [Generative UI direction](docs/superpowers/specs/2026-10-22-generative-ui-direction.md) | The first generative UI direction, kept as the 2026-10-22 record |
+| [Evidence report](docs/superpowers/specs/2026-10-22-generative-ui-evidence.md) | The research behind the differentiators, with sources |
 | [Original design spec](docs/superpowers/specs/2026-10-16-kbui-design-system-design.md) | The 2026-10-16 design. Its registry plan was replaced by decisions [0003](docs/decisions/0003-local-path-installs.md) and [0007](docs/decisions/0007-lockstep-github-tarball-releases.md) |
 | [Versioning design spec](docs/superpowers/specs/2026-10-22-kbui-versioning-design.md) | How releases are versioned, built and installed |
 

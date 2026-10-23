@@ -1,7 +1,7 @@
 # kbui generative UI direction
 
 Date: 2026-10-22
-Status: direction adopted by the owner on 2026-10-22. No phase has started.
+Status: direction adopted by the owner on 2026-10-22. Replaced as the home of the plan on 2026-10-22 by the [product document](../../product.md) and the [roadmap](../../roadmap.md), which fold in the [evidence report](2026-10-22-generative-ui-evidence.md). Kept as the record of the first direction; its phases map to milestones M3 to M10.
 
 ## Goal
 
