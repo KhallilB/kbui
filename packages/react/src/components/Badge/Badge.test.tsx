@@ -24,6 +24,17 @@ describe("Badge", () => {
     expect(ref.current).toHaveClass("kb-badge", "extra");
   });
 
+  test("preserveCase marks mono text that must keep its case", () => {
+    const { rerender } = render(<Badge mono>Reviewer</Badge>);
+    expect(screen.getByText("Reviewer")).not.toHaveAttribute("data-preserve-case");
+    rerender(
+      <Badge mono preserveCase>
+        feat/control-room
+      </Badge>,
+    );
+    expect(screen.getByText("feat/control-room")).toHaveAttribute("data-preserve-case", "");
+  });
+
   test("appearance defaults to chip and plain drops the chip", () => {
     const { rerender } = render(<Badge>meta</Badge>);
     expect(screen.getByText("meta")).toHaveAttribute("data-appearance", "chip");

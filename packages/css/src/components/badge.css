@@ -1,4 +1,4 @@
-/* Anatomy: .kb-badge [data-tone=neutral|info|success|warning|danger] [data-appearance=chip|plain] [data-mono] */
+/* Anatomy: .kb-badge [data-tone=neutral|info|success|warning|danger] [data-appearance=chip|plain] [data-mono] [data-preserve-case] */
 .kb-badge {
   --_badge-ink: var(--kb-color-muted);
   display: inline-flex;
@@ -35,6 +35,12 @@
   font-family: var(--kb-font-mono);
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+/* Case-sensitive values: uppercasing a branch or path changes what it names. */
+.kb-badge[data-preserve-case] {
+  letter-spacing: normal;
+  text-transform: none;
 }
 
 /* Plain: inline metadata text, no chip. */
