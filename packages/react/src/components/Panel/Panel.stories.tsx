@@ -52,6 +52,13 @@ export const Tones: Story = {
       ))}
     </div>
   ),
+  play: async ({ canvasElement }) => {
+    // Every tone keeps a hairline edge; quiet only drops fill, lift and light.
+    const quiet = canvasElement.querySelector<HTMLElement>('.kb-panel[data-tone="quiet"]');
+    expect(quiet && getComputedStyle(quiet).getPropertyValue("--_panel-seam").trim()).not.toBe(
+      "transparent",
+    );
+  },
 };
 
 export const Rails: Story = {
@@ -68,6 +75,11 @@ export const Rails: Story = {
       />
     </div>
   ),
+  play: async ({ canvasElement }) => {
+    const rails = canvasElement.querySelectorAll<HTMLElement>(".kb-panel-rail");
+    expect(rails.length).toBeGreaterThan(0);
+    for (const rail of rails) expect(rail.getBoundingClientRect().width).toBeLessThanOrEqual(2);
+  },
 };
 
 function expectDepth(canvas: HTMLElement) {
@@ -178,6 +190,20 @@ export const TokenOverrides: Story = {
       expect(glow && getComputedStyle(glow).backgroundImage).not.toContain(
         "rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)",
       );
+      // Light hugs the plane: blurred spill past any edge stays within 32px.
+      const panel = canvasElement.querySelector<HTMLElement>(`.kb-panel[data-tone="${tone}"]`);
+      if (!glow || !panel) throw new Error(`no ${tone} panel glow`);
+      const blur = Number(/blur\(([\d.]+)px\)/.exec(getComputedStyle(glow).filter)?.[1] ?? 0);
+      const p = panel.getBoundingClientRect();
+      const g = glow.getBoundingClientRect();
+      const edge = Math.max(
+        g.bottom - p.bottom,
+        p.top - g.top,
+        p.left - g.left,
+        g.right - p.right,
+        0,
+      );
+      expect(edge + 2 * blur).toBeLessThanOrEqual(32);
     }
     const plate = canvasElement.querySelector<HTMLElement>(".kb-panel-plate");
     expect(plate && getComputedStyle(plate).borderTopLeftRadius).toBe("24px");

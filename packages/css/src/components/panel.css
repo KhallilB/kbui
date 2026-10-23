@@ -21,10 +21,10 @@
   color: var(--kb-color-fg);
 }
 
-/* Emitted light behind the plate; static, decorative, off until a skin sets a glow color. */
+/* Emitted light behind the plate; stays inside its footprint so only the blur spills. */
 .kb-panel-glow {
   position: absolute;
-  inset: 8% 6% -18%;
+  inset: 15% 4% 0;
   z-index: -2;
   border-radius: 50%;
   background: radial-gradient(closest-side, var(--_panel-glow), transparent);
@@ -70,11 +70,12 @@
   mask-composite: exclude;
 }
 
+/* Quiet drops fill, lift and light but keeps a faint hairline edge. */
 .kb-panel[data-tone="quiet"] {
   --_panel-bg: transparent;
-  --_panel-seam: transparent;
-  --_panel-rim-top: transparent;
-  --_panel-rim-bottom: transparent;
+  --_panel-seam: color-mix(in oklab, var(--kb-panel-border) 60%, transparent);
+  --_panel-rim-top: var(--_panel-seam);
+  --_panel-rim-bottom: var(--_panel-seam);
   --_panel-highlight: transparent;
   --_panel-sheen: transparent;
   --_panel-shadow: none;
@@ -92,6 +93,7 @@
 .kb-panel[data-tone="active"] {
   --_panel-bg: var(--kb-panel-background-active);
   --_panel-rim-top: var(--kb-panel-border-active);
+  --_panel-seam: color-mix(in oklab, var(--kb-panel-border-active) 35%, var(--kb-panel-border));
   --_panel-rail: var(--kb-panel-rail-active);
   --_panel-shadow: var(--kb-panel-shadow-active);
   --_panel-glow: var(--kb-panel-glow-active);
@@ -99,7 +101,7 @@
 
 .kb-panel[data-tone="critical"] {
   --_panel-rim-top: var(--kb-panel-border-critical);
-  --_panel-seam: color-mix(in oklab, var(--kb-panel-border-critical) 40%, var(--kb-panel-border));
+  --_panel-seam: color-mix(in oklab, var(--kb-panel-border-critical) 35%, var(--kb-panel-border));
   --_panel-rail: var(--kb-panel-border-critical);
   --_panel-glow: var(--kb-panel-glow-critical);
 }
@@ -121,7 +123,7 @@
   position: absolute;
   inset-block: 0;
   inset-inline-start: 0;
-  width: 3px;
+  width: 2px;
   background: var(--_panel-rail);
 }
 
@@ -131,7 +133,7 @@
 
 .kb-panel[data-rail="accent"],
 .kb-panel[data-rail="status"] {
-  padding-inline-start: calc(var(--_panel-pad) + 3px);
+  padding-inline-start: calc(var(--_panel-pad) + 2px);
 }
 
 .kb-panel-header {

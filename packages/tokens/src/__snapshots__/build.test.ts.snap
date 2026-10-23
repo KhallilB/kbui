@@ -122,9 +122,9 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-panel-glow: transparent;
   --kb-panel-glow-active: transparent;
   --kb-panel-glow-critical: transparent;
-  --kb-panel-glow-blur: 48px;
+  --kb-panel-glow-blur: 12px;
   --kb-panel-shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 4px 12px -4px rgb(0 0 0 / 0.08);
-  --kb-panel-shadow-active: 0 1px 2px rgb(0 0 0 / 0.08), 0 16px 40px -12px rgb(0 0 0 / 0.16);
+  --kb-panel-shadow-active: 0 1px 2px rgb(0 0 0 / 0.06), 0 8px 24px -12px rgb(0 0 0 / 0.18);
   --kb-panel-well: var(--kb-gray-100);
   --kb-panel-well-radius: var(--kb-radius-md);
   --kb-panel-well-shadow: inset 0 1px 2px rgb(0 0 0 / 0.06), inset 0 0 0 1px rgb(0 0 0 / 0.06);
