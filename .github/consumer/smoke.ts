@@ -2,7 +2,9 @@
 import { fileURLToPath } from "node:url";
 import * as kbui from "@kbui/react";
 
-const missing = ["Button", "Dialog", "Input", "kb"].filter((name) => !(name in kbui));
+const missing = ["Button", "Dialog", "Input", "Status", "Card", "Grid", "kb"].filter(
+  (name) => !(name in kbui),
+);
 if (missing.length) throw new Error(`@kbui/react is missing ${missing.join(", ")}`);
 
 const styles = fileURLToPath(import.meta.resolve("@kbui/css/styles.css"));

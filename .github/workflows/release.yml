@@ -81,5 +81,6 @@ jobs:
         run: |
           bun add "$URL/kbui-react-$VERSION.tgz" "$URL/kbui-css-$VERSION.tgz"
           bun install --frozen-lockfile
+          bun node_modules/@kbui/react/dist/check-versions.js
           bunx tsc -p .
           bun smoke.ts

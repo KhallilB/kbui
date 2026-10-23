@@ -11,6 +11,7 @@ export {
   type ButtonVariant,
 } from "./components/Button/Button";
 export { Callout, type CalloutProps, type CalloutTone } from "./components/Callout/Callout";
+export { Card, type CardProps } from "./components/Card/Card";
 export {
   Dialog,
   type DialogActionsProps,
@@ -19,6 +20,7 @@ export {
   type DialogProps,
   type DialogTriggerProps,
 } from "./components/Dialog/Dialog";
+export { Grid, type GridProps } from "./components/Grid/Grid";
 export { Input, type InputProps, type InputSize } from "./components/Input/Input";
 export {
   Menu,

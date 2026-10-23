@@ -35,7 +35,7 @@ Two tests in `scripts/release.test.ts` enforce the decision: every published pac
 
 Projects that use a release receive changes only when they change the URLs, and `CHANGELOG.md` shows breaking changes before they do.
 
-A consumer installs `@kbui/css` and `@kbui/react` from two URLs that must name the same version. Mixed versions are unsupported and nothing detects them in the consumer.
+A consumer installs `@kbui/css` and `@kbui/react` from two URLs that must name the same version. Mixed versions are unsupported. Consumers can now reject installed mismatches with the [version guard](../guides/using-kbui.md#upgrading).
 
 Every commit subject on `main` now affects the next version. A pull request must merge in a way that keeps conventional subjects and footers on `main`: rebase, or squash with a conventional title.
 
@@ -49,7 +49,7 @@ Verified on 2026-10-22, before the first release: the release tests, the pack ch
 
 ## Threat model
 
-This prevents a project from receiving an unannounced breaking change and lets CI install kbui without access to this machine. It does not detect mixed versions in a consumer, and it does not sign tarballs beyond the integrity hash the consumer's lockfile records.
+This prevents a project from receiving an unannounced breaking change and lets CI install kbui without access to this machine. The opt-in consumer guard detects mixed top-level installed versions; it does not inspect nested dependency trees or sign tarballs beyond the integrity hash the consumer's lockfile records.
 
 ## Non-goals
 

@@ -1,0 +1,15 @@
+/* Anatomy: .kb-card [data-appearance=outlined|plain] */
+.kb-card {
+  position: relative;
+  min-inline-size: 0;
+}
+
+.kb-card[data-appearance="outlined"] {
+  display: flex;
+  flex-direction: column;
+  padding: var(--kb-card-padding);
+  border: var(--kb-card-border-width) solid var(--kb-card-border);
+  border-radius: var(--kb-card-radius);
+  background: var(--kb-card-background);
+  color: var(--kb-card-color);
+}

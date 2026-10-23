@@ -138,3 +138,17 @@ bun run --cwd packages/react typecheck
 ```
 
 Tests use Vitest and Testing Library in jsdom.
+
+## Card and Grid
+
+`Card` is a neutral article surface with caller-owned content and navigation. It adds no link, button, keyboard handler or tab stop. Use `as="li"` inside lists and `appearance="plain"` for ruled rows. Keep a stretched link and its focus styling in the consumer; do not nest other controls inside a whole-card link.
+
+`Grid` is CSS layout, with no ARIA grid role or keyboard model. It fits equal columns to available width; `layout="stack"` keeps one column. `as="ul"` or `as="ol"` preserves native list semantics.
+
+```tsx
+<Grid>
+  <Card><h2><a href="/project">Project</a></h2><p>Summary</p></Card>
+</Grid>
+```
+
+Skin with `--kb-card-background`, `--kb-card-color`, `--kb-card-border`, `--kb-card-border-width`, `--kb-card-radius`, `--kb-card-padding`, `--kb-grid-gap` and `--kb-grid-min-item-width`. Defaults use semantic tokens in both themes.
