@@ -66,7 +66,7 @@ The root `bun run build` runs them in that order. The CSS must build after the t
 
 ## Planned: generative UI layers
 
-None of this exists yet. The [direction spec](superpowers/specs/2026-10-22-generative-ui-direction.md) adds layers above the existing packages so that agents can compose kbui screens:
+None of this exists yet. The [product document](product.md) and the [roadmap](roadmap.md) add layers above the existing packages so that agents can compose kbui screens:
 
 ```mermaid
 flowchart TD
