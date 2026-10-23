@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.2.0](https://github.com/KhallilB/kbui/compare/v0.1.0...v0.2.0) (2026-10-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* **react,css,tokens:** Facet and every Facet* type are now Panel and Panel*; .kb-facet-* classes are .kb-panel-*; --kb-facet-* tokens are --kb-panel-*. v0.1.0 shipped Facet.
+* **react,css:** the cut prop and FacetCut type are removed, along with the facet.cut, facet.cut-start, facet.cut-end, facet.corner, facet.cut-edge and facet.seam-active tokens. Shadows use box-shadow syntax.
+
+### Features
+
+* **react,css:** give Facet depth with a shadowed plate and a recessed well ([b5ac1fa](https://github.com/KhallilB/kbui/commit/b5ac1fa00a945939f6d375cd0201a437bdcfb6e3))
+* **react,css:** lit facet edges, sunken tone and status chips ([693905a](https://github.com/KhallilB/kbui/commit/693905a05197fff2860cc2815a907a959f9809d3))
+* **react,css:** lit facet edges, sunken tone and status chips ([b3e99dd](https://github.com/KhallilB/kbui/commit/b3e99ddec1c492b7d271b7d289e3e8f9921647c1))
+* **react,css:** render Facet as a rounded, lit plane with skin-controlled light ([937c062](https://github.com/KhallilB/kbui/commit/937c0624ba61ba298d9a59440b28906dd96dabe4))
+* **react,css:** richer Facet geometry, parts and dark contrast ([29b6d76](https://github.com/KhallilB/kbui/commit/29b6d76581add86b7b093e8818ec496515021bc5))
+* **react,css:** richer Facet geometry, parts and dark contrast ([e096475](https://github.com/KhallilB/kbui/commit/e0964751ae0515ea6a8563aaec5dd0e53318c38b))
+
+
+### Bug Fixes
+
+* **css,tokens:** keep Panel glow close to the card and refine its edges ([de66416](https://github.com/KhallilB/kbui/commit/de66416813ef9dda2345cb3aaecbaaddaa016c88))
+* **tokens,css:** let a wrapper-scoped --kb-facet-cut change the facet cut ([c7577f8](https://github.com/KhallilB/kbui/commit/c7577f8df3b0f16752e26beb48d1b1f265d6c84c))
+
+
+### Code Refactoring
+
+* **react,css,tokens:** rename Facet to Panel ([9fea33c](https://github.com/KhallilB/kbui/commit/9fea33c3b93eb7bf0d2ab77562578f8b6105b7c6))
+
 ## 0.1.0 (2026-10-22)
 
 
