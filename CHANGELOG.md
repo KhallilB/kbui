@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.0](https://github.com/KhallilB/kbui/compare/v0.3.0...v0.4.0) (2026-10-23)
+
+
+### Features
+
+* **react,css:** let mono Badge keep the case of branches and paths ([25768a2](https://github.com/KhallilB/kbui/commit/25768a2a2cd6ab173a1aaf35ac72352e033e1949))
+* **react,css:** let mono Badge keep the case of branches and paths ([be49a31](https://github.com/KhallilB/kbui/commit/be49a3181644df6accedee21077606c5ad93d106))
+
 ## [0.3.0](https://github.com/KhallilB/kbui/compare/v0.2.0...v0.3.0) (2026-10-23)
 
 
