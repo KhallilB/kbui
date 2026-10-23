@@ -1,5 +1,5 @@
 import { afterEach, expect, test } from "bun:test";
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { checkVersions } from "../packages/react/scripts/check-versions";
@@ -68,4 +68,27 @@ test("CLI exits nonzero for mixed versions and passes synchronized installs", as
   const good = Bun.spawnSync(["bun", cli, root]);
   expect(good.exitCode).toBe(0);
   expect(good.stdout.toString()).toContain("KBUI 0.4.0: synchronized");
+});
+
+test.each(["0.4.0-.", "0.4.0-01", "0.4.0+", "00.4.0"])(
+  "rejects malformed SemVer %s",
+  async (version) => {
+    await expect(checkVersions(await fixture({ react: version, css: version }))).rejects.toThrow(
+      "Invalid KBUI manifest",
+    );
+  },
+);
+test("accepts valid prerelease and build identifiers", async () => {
+  const version = "0.5.0-rc.1+build.2";
+  await expect(checkVersions(await fixture({ react: version, css: version }))).resolves.toBe(
+    version,
+  );
+});
+test("Node CLI checks installed versions through a symlink", async () => {
+  const root = await fixture({ react: "0.4.0", css: "0.3.0" });
+  const cli = join(root, "check-versions.mjs");
+  await symlink(new URL("../packages/react/dist/check-versions.js", import.meta.url).pathname, cli);
+  const result = Bun.spawnSync(["node", cli, root]);
+  expect(result.exitCode).toBe(1);
+  expect(result.stderr.toString()).toContain("Mixed KBUI versions");
 });

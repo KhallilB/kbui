@@ -1,6 +1,7 @@
+import { realpathSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath } from "node:url";
 
 // Inspect installed manifests: URL pins alone cannot prove resolved package versions.
 export async function checkVersions(root: string): Promise<string> {
@@ -19,7 +20,7 @@ export async function checkVersions(root: string): Promise<string> {
         pkg.name !== `@kbui/${name}` ||
         !("version" in pkg) ||
         typeof pkg.version !== "string" ||
-        !/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/.test(
+        !/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*)(?:\.(?:0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/.test(
           pkg.version,
         )
       ) {
@@ -37,7 +38,10 @@ export async function checkVersions(root: string): Promise<string> {
   return version;
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+if (
+  process.argv[1] &&
+  realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url))
+) {
   try {
     console.log(
       `KBUI ${await checkVersions(resolve(process.argv[2] ?? process.cwd()))}: synchronized`,
