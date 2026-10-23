@@ -105,27 +105,40 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-input-height-lg: 3rem;
   --kb-dialog-radius: var(--kb-radius-lg);
   --kb-dialog-width: 28rem;
-  --kb-facet-background: var(--kb-color-surface);
-  --kb-facet-background-active: var(--kb-color-bg);
-  --kb-facet-background-sunken: var(--kb-color-bg);
-  --kb-facet-border: var(--kb-color-border);
-  --kb-facet-border-active: var(--kb-color-accent);
-  --kb-facet-border-critical: var(--kb-color-danger);
-  --kb-facet-cut: 0.75rem;
-  --kb-facet-seam: 1px;
-  --kb-facet-seam-active: 2px;
-  --kb-facet-cut-edge: transparent;
-  --kb-facet-highlight: transparent;
-  --kb-facet-divider: transparent;
-  --kb-facet-padding: var(--kb-space-4);
-  --kb-facet-rail: var(--kb-color-border);
-  --kb-facet-rail-active: var(--kb-color-accent);
+  --kb-panel-background: var(--kb-color-surface);
+  --kb-panel-background-active: var(--kb-color-bg);
+  --kb-panel-background-sunken: var(--kb-color-bg);
+  --kb-panel-border: var(--kb-color-border);
+  --kb-panel-border-active: var(--kb-color-accent);
+  --kb-panel-border-critical: var(--kb-color-danger);
+  --kb-panel-rim-top: var(--kb-color-border);
+  --kb-panel-rim-bottom: var(--kb-color-border);
+  --kb-panel-seam: 1px;
+  --kb-panel-radius: var(--kb-radius-lg);
+  --kb-panel-highlight: rgb(255 255 255 / 0.9);
+  --kb-panel-divider: var(--kb-gray-200);
+  --kb-panel-sheen: transparent;
+  --kb-panel-backdrop: none;
+  --kb-panel-glow: transparent;
+  --kb-panel-glow-active: transparent;
+  --kb-panel-glow-critical: transparent;
+  --kb-panel-glow-blur: 12px;
+  --kb-panel-shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 4px 12px -4px rgb(0 0 0 / 0.08);
+  --kb-panel-shadow-active: 0 1px 2px rgb(0 0 0 / 0.06), 0 8px 24px -12px rgb(0 0 0 / 0.18);
+  --kb-panel-well: var(--kb-gray-100);
+  --kb-panel-well-radius: var(--kb-radius-md);
+  --kb-panel-well-shadow: inset 0 1px 2px rgb(0 0 0 / 0.06), inset 0 0 0 1px rgb(0 0 0 / 0.06);
+  --kb-panel-padding: var(--kb-space-4);
+  --kb-panel-rail: var(--kb-color-border);
+  --kb-panel-rail-active: var(--kb-color-accent);
   --kb-status-neutral: var(--kb-color-muted);
   --kb-status-info: var(--kb-color-info);
   --kb-status-running: var(--kb-color-accent);
   --kb-status-success: var(--kb-color-success);
   --kb-status-warning: var(--kb-color-warning);
   --kb-status-blocked: var(--kb-color-danger);
+  --kb-status-radius: var(--kb-radius-sm);
+  --kb-status-glow: 0px;
 }
 
 [data-theme="dark"] {
@@ -148,9 +161,17 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-color-warning-fg: var(--kb-gray-950);
   --kb-color-ring: var(--kb-blue-400);
   --kb-color-overlay: rgb(0 0 0 / 0.7);
-  --kb-facet-background-active: var(--kb-gray-800);
-  --kb-facet-border-active: var(--kb-blue-400);
-  --kb-facet-border-critical: var(--kb-red-400);
+  --kb-panel-background-active: var(--kb-gray-800);
+  --kb-panel-border-active: var(--kb-blue-400);
+  --kb-panel-border-critical: var(--kb-red-400);
+  --kb-panel-rim-top: rgb(255 255 255 / 0.14);
+  --kb-panel-rim-bottom: rgb(255 255 255 / 0.04);
+  --kb-panel-highlight: rgb(255 255 255 / 0.08);
+  --kb-panel-divider: rgb(255 255 255 / 0.06);
+  --kb-panel-shadow: 0 1px 2px rgb(0 0 0 / 0.6), 0 12px 32px -12px rgb(0 0 0 / 0.7);
+  --kb-panel-shadow-active: 0 1px 2px rgb(0 0 0 / 0.7), 0 32px 64px -24px rgb(0 0 0 / 0.9);
+  --kb-panel-well: rgb(0 0 0 / 0.45);
+  --kb-panel-well-shadow: inset 0 1px 3px rgb(0 0 0 / 0.6), inset 0 0 0 1px rgb(255 255 255 / 0.05);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -174,9 +195,17 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-color-warning-fg: var(--kb-gray-950);
     --kb-color-ring: var(--kb-blue-400);
     --kb-color-overlay: rgb(0 0 0 / 0.7);
-    --kb-facet-background-active: var(--kb-gray-800);
-    --kb-facet-border-active: var(--kb-blue-400);
-    --kb-facet-border-critical: var(--kb-red-400);
+    --kb-panel-background-active: var(--kb-gray-800);
+    --kb-panel-border-active: var(--kb-blue-400);
+    --kb-panel-border-critical: var(--kb-red-400);
+    --kb-panel-rim-top: rgb(255 255 255 / 0.14);
+    --kb-panel-rim-bottom: rgb(255 255 255 / 0.04);
+    --kb-panel-highlight: rgb(255 255 255 / 0.08);
+    --kb-panel-divider: rgb(255 255 255 / 0.06);
+    --kb-panel-shadow: 0 1px 2px rgb(0 0 0 / 0.6), 0 12px 32px -12px rgb(0 0 0 / 0.7);
+    --kb-panel-shadow-active: 0 1px 2px rgb(0 0 0 / 0.7), 0 32px 64px -24px rgb(0 0 0 / 0.9);
+    --kb-panel-well: rgb(0 0 0 / 0.45);
+    --kb-panel-well-shadow: inset 0 1px 3px rgb(0 0 0 / 0.6), inset 0 0 0 1px rgb(255 255 255 / 0.05);
   }
 }
 "

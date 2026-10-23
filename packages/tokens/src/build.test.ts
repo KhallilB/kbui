@@ -132,45 +132,74 @@ describe("tokens.json", () => {
     }
   });
 
-  test("defines per-side cut depths, seam widths and a critical border for facets", () => {
-    // Root aliases would pin the cut at :root; per-side names stay optional hooks.
-    expect(css).not.toContain("--kb-facet-cut-start:");
-    expect(css).not.toContain("--kb-facet-cut-end:");
-    expect(css).toMatch(/--kb-facet-seam: \d+px;/);
-    expect(css).toMatch(/--kb-facet-seam-active: \d+px;/);
-    expect(css).toContain("--kb-facet-border-critical: var(--kb-color-danger);");
-  });
-
-  test("defines a sunken facet plane on the page background", () => {
-    expect(css).toContain("--kb-facet-background-sunken: var(--kb-color-bg);");
-  });
-
-  test("defines opt-in facet edge tokens that are transparent until a skin sets them", () => {
-    for (const name of ["cut-edge", "highlight", "divider"]) {
-      expect(css).toContain(`--kb-facet-${name}: transparent;`);
-      expect(dark).not.toContain(`--kb-facet-${name}:`);
+  test("drops cut-corner geometry from panels", () => {
+    for (const name of ["cut", "cut-start", "cut-end", "corner", "cut-edge", "seam-active"]) {
+      expect(css).not.toContain(`--kb-panel-${name}:`);
     }
   });
 
-  test("lifts active and critical facet planes in dark", () => {
-    expect(dark).toContain("--kb-facet-background-active: var(--kb-gray-800);");
-    expect(dark).toContain("--kb-facet-border-active: var(--kb-blue-400);");
-    expect(dark).toContain("--kb-facet-border-critical: var(--kb-red-400);");
+  test("rounds panels and wells from the radius scale", () => {
+    expect(css).toContain("--kb-panel-radius: var(--kb-radius-lg);");
+    expect(css).toContain("--kb-panel-well-radius: var(--kb-radius-md);");
+    expect(css).toMatch(/--kb-panel-seam: \d+px;/);
   });
 
-  test("defines facet component tokens", () => {
+  test("defines a lit rim that runs from rim-top through the border to rim-bottom", () => {
+    for (const name of ["rim-top", "rim-bottom"]) {
+      expect(css).toContain(`--kb-panel-${name}: `);
+      expect(dark).toContain(`--kb-panel-${name}: `);
+    }
+    expect(css).toContain("--kb-panel-border-critical: var(--kb-color-danger);");
+  });
+
+  test("keeps glass, sheen and emitted light off until a skin turns them up", () => {
+    expect(css).toContain("--kb-panel-backdrop: none;");
+    for (const name of ["sheen", "glow", "glow-active", "glow-critical"]) {
+      expect(css).toContain(`--kb-panel-${name}: transparent;`);
+    }
+    expect(css).toMatch(/--kb-panel-glow-blur: \d+px;/);
+  });
+
+  test("lifts panels with box-shadows tuned per theme", () => {
+    for (const name of ["shadow", "shadow-active"]) {
+      expect(css).toMatch(new RegExp(`--kb-panel-${name}: 0 \\d`));
+      expect(dark).toMatch(new RegExp(`--kb-panel-${name}: 0 \\d`));
+    }
+    expect(css).not.toContain("drop-shadow(");
+  });
+
+  test("defines a sunken plane, a highlight, a divider and a recessed well", () => {
+    expect(css).toContain("--kb-panel-background-sunken: var(--kb-color-bg);");
+    for (const name of ["highlight", "divider", "well"]) {
+      expect(css).toContain(`--kb-panel-${name}: `);
+      expect(dark).toContain(`--kb-panel-${name}: `);
+    }
+    expect(css).toMatch(/--kb-panel-well-shadow: inset /);
+  });
+
+  test("lifts active and critical panel planes in dark", () => {
+    expect(dark).toContain("--kb-panel-background-active: var(--kb-gray-800);");
+    expect(dark).toContain("--kb-panel-border-active: var(--kb-blue-400);");
+    expect(dark).toContain("--kb-panel-border-critical: var(--kb-red-400);");
+  });
+
+  test("defines panel component tokens", () => {
     for (const name of [
       "background",
       "background-active",
       "border",
       "border-active",
-      "cut",
       "padding",
       "rail",
       "rail-active",
     ]) {
-      expect(css).toContain(`--kb-facet-${name}: `);
+      expect(css).toContain(`--kb-panel-${name}: `);
     }
+  });
+
+  test("lets the status chip round into a pill and its icon glow", () => {
+    expect(css).toContain("--kb-status-radius: var(--kb-radius-sm);");
+    expect(css).toContain("--kb-status-glow: 0px;");
   });
 
   test("defines a status color per tone", () => {

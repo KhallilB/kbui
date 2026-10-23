@@ -64,30 +64,31 @@ Other native input props, including `value` and `defaultValue`, pass through to 
 </Dialog>
 ```
 
-## Facet
+## Panel
 
-A section plane with an optional clipped corner. Name it with `aria-labelledby` pointing at the heading in `Facet.Header`.
+A rounded section plane with a lit rim, a lift and optional emitted light. Name it with `aria-labelledby` pointing at the heading in `Panel.Header`.
 
 ```tsx
-<Facet tone="active" cut="both" rail="status" aria-labelledby="queue-title">
-  <Facet.Header>
+<Panel tone="active" rail="status" aria-labelledby="queue-title">
+  <Panel.Header>
     <h2 id="queue-title">Queue</h2>
-    <Facet.Toolbar><Button size="sm">Retry</Button></Facet.Toolbar>
-  </Facet.Header>
-  <Facet.Body>…</Facet.Body>
-  <Facet.Footer>…</Facet.Footer>
-</Facet>
+    <Panel.Toolbar><Button size="sm">Retry</Button></Panel.Toolbar>
+  </Panel.Header>
+  <Panel.Body>
+    <Panel.Well>…</Panel.Well>
+  </Panel.Body>
+  <Panel.Footer>…</Panel.Footer>
+</Panel>
 ```
 
 | Prop | Values | Default |
 |---|---|---|
 | `tone` | `quiet` `default` `sunken` `active` `critical` | `default` |
-| `cut` | `none` `start` `end` `both` | `none` |
 | `rail` | `none` `accent` `status` | `none` |
 | `density` | `compact` `standard` | `standard` |
-| `collapsible`, `open`, `defaultOpen`, `onOpenChange` | Body becomes a panel driven by `Facet.Toggle` | off |
+| `collapsible`, `open`, `defaultOpen`, `onOpenChange` | Body collapses and expands from `Panel.Toggle` | off |
 
-`quiet` draws no plane; `sunken` recesses onto the page color, for output wells inside another facet. Geometry and edges come from tokens: `--kb-facet-cut-start` and `--kb-facet-cut-end` set depth; `--kb-facet-cut-edge`, `--kb-facet-highlight` and `--kb-facet-divider` are transparent until a skin sets them, and light the chamfers, the top edge and the line under the header. The rail starts below the start cut.
+`quiet` draws no plane; `sunken` recesses onto the page color. `Panel.Well` is a recessed area for logs and output. Shape and light come from tokens: `--kb-panel-radius`, a rim from `--kb-panel-rim-top` through `--kb-panel-border` to `--kb-panel-rim-bottom`, `--kb-panel-shadow` and `--kb-panel-shadow-active` for the lift. `--kb-panel-sheen`, `--kb-panel-backdrop` and `--kb-panel-glow`, `-glow-active` and `-glow-critical` stay off until a skin turns them up. Active and critical recolor the top of the rim and the glow. The rail is clipped by the rounded plate.
 
 ## Status
 
@@ -100,7 +101,7 @@ Text plus an optional caller-provided icon; the text is mandatory.
 | Prop | Values | Default |
 |---|---|---|
 | `tone` | `neutral` `info` `running` `success` `warning` `blocked` | `neutral` |
-| `appearance` | `plain` `chip` (tinted from the tone's own color) | `plain` |
+| `appearance` | `plain` `chip` (tinted from the tone's own color; `--kb-status-radius` rounds it, `--kb-status-glow` makes the icon glow) | `plain` |
 | `live` | adds `role="status"` only | `false` |
 | `compact` | tighter spacing, smaller text | `false` |
 
