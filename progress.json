@@ -58,6 +58,242 @@
           "url": "https://github.com/KhallilB/kbui/actions/runs/39820058876"
         }
       ]
+    },
+    {
+      "id": "2026-10-22-m0-foundation",
+      "subject": "m0-foundation",
+      "date": "2026-10-22",
+      "kind": "milestone",
+      "title": "M0: foundation",
+      "passMark": "Every package builds, every component has an anatomy line, story and test, every story passes the accessibility scan, a release installs on three operating systems, and CI passes on main",
+      "result": "pass",
+      "summary": "Tokens, CSS and 13 React components ship in lockstep releases, with every check passing.",
+      "measured": [
+        {
+          "label": "Components",
+          "value": "13, each with an anatomy line, story and test"
+        },
+        {
+          "label": "Unit tests at d812777",
+          "value": "31 tokens, 16 css, 72 react, 18 scripts; all passed"
+        },
+        {
+          "label": "Pack checks",
+          "value": "9 of 9 passed"
+        },
+        {
+          "label": "Storybook tests",
+          "value": "150 of 150 passed, accessibility scan clean"
+        },
+        {
+          "label": "Releases",
+          "value": "0.1.0 to 0.4.0"
+        }
+      ],
+      "evidence": [
+        {
+          "label": "Roadmap",
+          "path": "docs/roadmap.md"
+        },
+        {
+          "label": "CI run on main",
+          "url": "https://github.com/KhallilB/kbui/actions/runs/39897373925"
+        },
+        {
+          "label": "Release 0.4.0",
+          "url": "https://github.com/KhallilB/kbui/releases/tag/v0.4.0"
+        }
+      ],
+      "commit": "a1bde87"
+    },
+    {
+      "id": "2026-10-22-m1-first-product-screen",
+      "subject": "m1-first-product-screen",
+      "date": "2026-10-22",
+      "kind": "milestone",
+      "title": "M1: first product screen",
+      "passMark": "One real product screen built on kbui is merged in its own repository with its checks passing, by 2026-11-02",
+      "result": "partial",
+      "summary": "A real product screen is built on kbui 0.4.0 and passes its checks; it is not merged yet.",
+      "measured": [
+        {
+          "label": "Product screen",
+          "value": "Built on kbui 0.4.0 components, in review"
+        }
+      ],
+      "evidence": [
+        {
+          "label": "Roadmap",
+          "path": "docs/roadmap.md"
+        },
+        {
+          "label": "Product pull request",
+          "url": "https://github.com/KhallilB/bezl/pull/3"
+        }
+      ],
+      "commit": "a1bde87"
+    },
+    {
+      "id": "2026-10-22-m2-field-test",
+      "subject": "m2-field-test",
+      "date": "2026-10-22",
+      "kind": "experiment",
+      "title": "M2: field test",
+      "passMark": "Violation shares by rule family, a speed baseline and per-rule precision on 50 labeled screens are recorded for 30 prompts on json-render with the shadcn catalog",
+      "result": "not-run",
+      "summary": "Will check whether screens from today's catalog-based generators still break design and safety rules.",
+      "measured": [],
+      "evidence": [
+        {
+          "label": "Roadmap",
+          "path": "docs/roadmap.md"
+        }
+      ],
+      "commit": "a1bde87"
+    },
+    {
+      "id": "2026-10-22-m3-catalog",
+      "subject": "m3-catalog",
+      "date": "2026-10-22",
+      "kind": "milestone",
+      "title": "M3: catalog breadth and layout",
+      "passMark": "At least 30 catalog entries, each with an anatomy line, story, test and screenshot; layout intents collapse correctly at three widths; accessibility scan clean in light and dark",
+      "result": "not-run",
+      "summary": "Will add about 20 components, layout primitives and layout intents, enough to compose real screens.",
+      "measured": [],
+      "evidence": [
+        {
+          "label": "Roadmap",
+          "path": "docs/roadmap.md"
+        }
+      ],
+      "commit": "a1bde87"
+    },
+    {
+      "id": "2026-10-22-m4-contract-catalog",
+      "subject": "m4-contract-catalog",
+      "date": "2026-10-22",
+      "kind": "milestone",
+      "title": "M4: contract and catalog",
+      "passMark": "The manifest regenerates byte for byte, a deliberate component and entry mismatch fails the drift test, and the exported schema accepts every catalog example and rejects a seeded invalid tree",
+      "result": "not-run",
+      "summary": "Will generate the catalog agents read from the same contract the components use.",
+      "measured": [],
+      "evidence": [
+        {
+          "label": "Roadmap",
+          "path": "docs/roadmap.md"
+        }
+      ],
+      "commit": "a1bde87"
+    },
+    {
+      "id": "2026-10-22-m5-rule-engine",
+      "subject": "m5-rule-engine",
+      "date": "2026-10-22",
+      "kind": "milestone",
+      "title": "M5: rule engine",
+      "passMark": "A deliberately bad screen is flagged and fixed with no model call, every story passes the rules, each rule scores at least 0.7 precision, and seeded violations are caught",
+      "result": "not-run",
+      "summary": "Will check and fix screens for safety, structure, design, arrangement and data fit.",
+      "measured": [],
+      "evidence": [
+        {
+          "label": "Roadmap",
+          "path": "docs/roadmap.md"
+        }
+      ],
+      "commit": "a1bde87"
+    },
+    {
+      "id": "2026-10-22-m6-render-measure",
+      "subject": "m6-render-measure",
+      "date": "2026-10-22",
+      "kind": "milestone",
+      "title": "M6: render and measure",
+      "passMark": "test:gen results are committed and reproduce with one command, every component has selection prompts with a recorded pass rate, and every stage reports its catch rate and cost",
+      "result": "not-run",
+      "summary": "Will render generated screens and measure quality, speed and cost at every stage.",
+      "measured": [],
+      "evidence": [
+        {
+          "label": "Roadmap",
+          "path": "docs/roadmap.md"
+        }
+      ],
+      "commit": "a1bde87"
+    },
+    {
+      "id": "2026-10-22-m7-preference",
+      "subject": "m7-preference",
+      "date": "2026-10-22",
+      "kind": "experiment",
+      "title": "M7: preference comparison",
+      "passMark": "At least 37 wins in 60 blind pairs against json-render with the shadcn catalog",
+      "result": "not-run",
+      "summary": "Will test whether people prefer screens checked and fixed by kbui over a leading alternative.",
+      "measured": [],
+      "evidence": [
+        {
+          "label": "Roadmap",
+          "path": "docs/roadmap.md"
+        }
+      ],
+      "commit": "a1bde87"
+    },
+    {
+      "id": "2026-10-22-m8-one-bar",
+      "subject": "m8-one-bar",
+      "date": "2026-10-22",
+      "kind": "milestone",
+      "title": "M8: one bar everywhere",
+      "passMark": "One screen as a story, agent TSX, an A2UI tree and a json-render tree gets the same lint result; adapter fixtures validate upstream; the canary is green two weeks running",
+      "result": "not-run",
+      "summary": "Will apply the same rules to hand-written code, coding agents and other generators' formats.",
+      "measured": [],
+      "evidence": [
+        {
+          "label": "Roadmap",
+          "path": "docs/roadmap.md"
+        }
+      ],
+      "commit": "a1bde87"
+    },
+    {
+      "id": "2026-10-22-m9-edits-nesting",
+      "subject": "m9-edits-nesting",
+      "date": "2026-10-22",
+      "kind": "milestone",
+      "title": "M9: edits and nested surfaces",
+      "passMark": "At least 80% of edit prompts apply as patches without regenerating, and lint rejects a foreign surface in a slot that does not allow one",
+      "result": "not-run",
+      "summary": "Will let people change one part of a screen without regenerating it, and nest other apps safely.",
+      "measured": [],
+      "evidence": [
+        {
+          "label": "Roadmap",
+          "path": "docs/roadmap.md"
+        }
+      ],
+      "commit": "a1bde87"
+    },
+    {
+      "id": "2026-10-22-m10-promotion",
+      "subject": "m10-promotion",
+      "date": "2026-10-22",
+      "kind": "milestone",
+      "title": "M10: promotion from use",
+      "passMark": "A saved composition becomes a manifest pattern the model reuses, and promoting it generates a component, story and test that pass every check",
+      "result": "not-run",
+      "summary": "Will turn screens people save into reusable patterns and real components.",
+      "measured": [],
+      "evidence": [
+        {
+          "label": "Roadmap",
+          "path": "docs/roadmap.md"
+        }
+      ],
+      "commit": "a1bde87"
     }
   ]
 }
