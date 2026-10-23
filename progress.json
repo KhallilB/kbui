@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "project": "kbui",
+  "entries": [
+    {
+      "id": "2026-10-16-first-components",
+      "subject": "first-components",
+      "date": "2026-10-16",
+      "kind": "milestone",
+      "title": "Button, Input and Dialog",
+      "result": "pass",
+      "measured": [],
+      "evidence": [{ "label": "Components", "path": "packages/react/src/components" }],
+      "commit": "2a5fd82"
+    },
+    {
+      "id": "2026-10-22-release-0-1-0",
+      "subject": "release",
+      "date": "2026-10-22",
+      "kind": "release",
+      "title": "Release 0.1.0",
+      "passMark": "@kbui/react and @kbui/css install from their release tarballs, type-check and pass a smoke run on Ubuntu, macOS and Windows",
+      "result": "pass",
+      "measured": [],
+      "evidence": [
+        {
+          "label": "Release notes",
+          "url": "https://github.com/KhallilB/kbui/releases/tag/v0.1.0"
+        },
+        {
+          "label": "Install check",
+          "url": "https://github.com/KhallilB/kbui/actions/runs/39819320387"
+        }
+      ]
+    },
+    {
+      "id": "2026-10-22-ci-main",
+      "subject": "ci-main",
+      "date": "2026-10-22",
+      "kind": "tests",
+      "title": "CI on main",
+      "passMark": "Every step of the ci workflow passes on main",
+      "result": "pass",
+      "measured": [
+        {
+          "label": "Unit tests",
+          "value": "19 tokens, 11 css, 48 react, 18 scripts and fixtures; all passed"
+        },
+        { "label": "Pack checks", "value": "9 of 9 passed" },
+        { "label": "Storybook tests", "value": "78 of 78 passed" }
+      ],
+      "evidence": [
+        {
+          "label": "CI run",
+          "url": "https://github.com/KhallilB/kbui/actions/runs/39820058876"
+        }
+      ]
+    }
+  ]
+}
