@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.3.0](https://github.com/KhallilB/kbui/compare/v0.2.0...v0.3.0) (2026-10-23)
+
+
+### Features
+
+* **react,css:** add Badge, Stat, Progress, Callout, Tooltip, Menu, ScrollArea and Toolbar ([a0fa265](https://github.com/KhallilB/kbui/commit/a0fa265146fd781a35fa65e5467751b44b3718ab))
+* **react,css:** add the Task screen primitives ([34d3c75](https://github.com/KhallilB/kbui/commit/34d3c75f648c4db00197b165086d0dd5740ad5e2))
+* **tokens,css,react:** let themes tune Progress and Stat, add plain Badge ([5e5c4a5](https://github.com/KhallilB/kbui/commit/5e5c4a5a93674c0037abb373233aaedb1e083712))
+* **tokens:** add xs and display text sizes and shared popup tokens ([4e9fb27](https://github.com/KhallilB/kbui/commit/4e9fb27c01b3e000dc9bf70a3180f6646eaaa1fd))
+
 ## [0.2.0](https://github.com/KhallilB/kbui/compare/v0.1.0...v0.2.0) (2026-10-23)
 
 
