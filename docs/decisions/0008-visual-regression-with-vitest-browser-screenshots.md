@@ -6,7 +6,7 @@ Accepted on 2026-10-22; the first screenshot assertions are still to be written.
 
 ## Context
 
-The facet vocabulary (`Facet`, `Status`, and decisions 0009 and 0010) puts meaning into geometry: a clipped corner, a 1px seam, a 3px rail. The accessibility scan in `bun run test:stories` cannot see any of that. A regression that removes the cut or moves the rail passes every current check.
+The panel vocabulary (`Panel`, `Status`, and decisions 0009 and 0010) puts meaning into rendering: a lit rim, a lift, a 3px rail and tone-colored light. The accessibility scan in `bun run test:stories` cannot see any of that. A regression that drops the rim or moves the rail passes every current check.
 
 The story test runner is already Vitest in browser mode, driving headless Chromium through Playwright. Vitest 4 added `expect(locator).toMatchScreenshot()` with a comparator and per-platform reference images; the installed `@vitest/browser-playwright` 5.0.5 exposes it.
 
@@ -14,14 +14,14 @@ The story test runner is already Vitest in browser mode, driving headless Chromi
 
 Visual regression tests use Vitest browser mode's `toMatchScreenshot` inside story play functions or dedicated `*.visual.test.tsx` files under `apps/storybook`. Reference images are committed under `apps/storybook/__screenshots__/`, one set per platform, and CI runs on the same Linux image that generates them. A failing comparison is a review conversation, not an automatic update: the `--update` flag runs only by hand.
 
-Scope: the showcase stories, `Facet` tones and cuts, and any component whose meaning depends on geometry. Plain components such as `Button` are not screenshotted unless a regression has happened.
+Scope: the showcase stories, `Panel` tones and skins, and any component whose meaning depends on geometry. Plain components such as `Button` are not screenshotted unless a regression has happened.
 
 ## Options considered
 
 - Vitest browser `toMatchScreenshot`: accepted. No new runner, no new service, references live in the repository, and the same Chromium that runs the accessibility scan takes the pictures.
 - Chromatic or Percy: rejected for now. A hosted service adds an account, a secret in CI and a per-snapshot bill for a repository that so far has one consumer. Revisit if review needs a visual diff UI.
 - Playwright test with `toHaveScreenshot`: rejected. It would be a second runner next to Vitest with its own configuration and reporters.
-- Storyshots style DOM snapshots: rejected. They do not see CSS, which is where the facet geometry lives.
+- Storyshots style DOM snapshots: rejected. They do not see CSS, which is where the panel geometry lives.
 
 ## Consequences
 
@@ -54,7 +54,7 @@ None yet. The story runner is configured; the first `toMatchScreenshot` call is 
 
 ## Validation
 
-- Still to do: a screenshot assertion for each showcase story, and a deliberately broken cut that fails it.
+- Still to do: a screenshot assertion for each showcase story, and a deliberately broken rim that fails it.
 - Nothing has run yet.
 
 ## Links

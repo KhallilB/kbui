@@ -5,12 +5,12 @@ import { skinFixture } from "./skin-fixture-values";
 
 const documented = new Set(
   Object.entries(tokens)
-    .filter(([group]) => group === "facet" || group === "status")
+    .filter(([group]) => group === "panel" || group === "status")
     .flatMap(([group, node]) => Object.keys(node).map((key) => `--kb-${group}-${key}`)),
 );
 
 describe("skin fixture", () => {
-  test("sets documented --kb-facet-* and --kb-status-* properties only", () => {
+  test("sets documented --kb-panel-* and --kb-status-* properties only", () => {
     const keys = Object.keys(skinFixture);
     expect(keys.length).toBeGreaterThan(0);
     for (const key of keys) expect(documented.has(key), key).toBe(true);

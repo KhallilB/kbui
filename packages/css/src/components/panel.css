@@ -1,0 +1,247 @@
+/* Anatomy: .kb-panel [data-tone=quiet|default|sunken|active|critical] [data-rail=none|accent|status] [data-density=compact|standard] [data-nested] [data-collapsible] [data-open] [data-closed] > .kb-panel-glow, .kb-panel-plate > .kb-panel-rail; .kb-panel-header > .kb-panel-toolbar, .kb-panel-toggle [data-panel-open]; .kb-panel-body > .kb-panel-well; .kb-panel-footer; sibling .kb-panel-group [data-direction=row|column] */
+.kb-panel {
+  --_panel-bg: var(--kb-panel-background);
+  --_panel-seam: var(--kb-panel-border);
+  --_panel-rim-top: var(--kb-panel-rim-top);
+  --_panel-rim-bottom: var(--kb-panel-rim-bottom);
+  --_panel-highlight: var(--kb-panel-highlight);
+  --_panel-sheen: var(--kb-panel-sheen);
+  --_panel-shadow: var(--kb-panel-shadow);
+  --_panel-glow: var(--kb-panel-glow);
+  --_panel-rail: var(--kb-panel-rail);
+  --_panel-gap: var(--kb-space-3);
+  --_panel-pad: var(--kb-panel-padding);
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  gap: var(--_panel-gap);
+  padding: var(--_panel-pad);
+  border-radius: var(--kb-panel-radius);
+  color: var(--kb-color-fg);
+}
+
+/* Emitted light behind the plate; stays inside its footprint so only the blur spills. */
+.kb-panel-glow {
+  position: absolute;
+  inset: 15% 4% 0;
+  z-index: -2;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--_panel-glow), transparent);
+  filter: blur(var(--kb-panel-glow-blur));
+  pointer-events: none;
+}
+
+/* Fill, sheen, lift and glass; content stays outside so the root never clips focus. */
+.kb-panel-plate {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  border-radius: inherit;
+  background: linear-gradient(to bottom, var(--_panel-sheen), transparent 55%), var(--_panel-bg);
+  box-shadow:
+    inset 0 1px 0 var(--_panel-highlight),
+    var(--_panel-shadow);
+  backdrop-filter: var(--kb-panel-backdrop);
+  pointer-events: none;
+  transition: background-color var(--kb-motion-duration-base) var(--kb-motion-easing-standard);
+}
+
+/* Rim: a masked ring, lit at the top and fading down through the border. */
+.kb-panel-plate::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: var(--kb-panel-seam);
+  border-radius: inherit;
+  background: linear-gradient(
+    to bottom,
+    var(--_panel-rim-top),
+    var(--_panel-seam) 40%,
+    var(--_panel-seam) 70%,
+    var(--_panel-rim-bottom)
+  );
+  /* Mask reads alpha only; the color keyword is irrelevant. */
+  mask:
+    linear-gradient(black 0 0) content-box,
+    linear-gradient(black 0 0);
+  mask-composite: exclude;
+}
+
+/* Quiet drops fill, lift and light but keeps a faint hairline edge. */
+.kb-panel[data-tone="quiet"] {
+  --_panel-bg: transparent;
+  --_panel-seam: color-mix(in oklab, var(--kb-panel-border) 60%, transparent);
+  --_panel-rim-top: var(--_panel-seam);
+  --_panel-rim-bottom: var(--_panel-seam);
+  --_panel-highlight: transparent;
+  --_panel-sheen: transparent;
+  --_panel-shadow: none;
+  --_panel-glow: transparent;
+}
+
+/* Recessed plane: no lift, no lit top edge. */
+.kb-panel[data-tone="sunken"] {
+  --_panel-bg: var(--kb-panel-background-sunken);
+  --_panel-rim-top: var(--kb-panel-border);
+  --_panel-highlight: transparent;
+  --_panel-shadow: none;
+}
+
+.kb-panel[data-tone="active"] {
+  --_panel-bg: var(--kb-panel-background-active);
+  --_panel-rim-top: var(--kb-panel-border-active);
+  --_panel-seam: color-mix(in oklab, var(--kb-panel-border-active) 35%, var(--kb-panel-border));
+  --_panel-rail: var(--kb-panel-rail-active);
+  --_panel-shadow: var(--kb-panel-shadow-active);
+  --_panel-glow: var(--kb-panel-glow-active);
+}
+
+.kb-panel[data-tone="critical"] {
+  --_panel-rim-top: var(--kb-panel-border-critical);
+  --_panel-seam: color-mix(in oklab, var(--kb-panel-border-critical) 35%, var(--kb-panel-border));
+  --_panel-rail: var(--kb-panel-border-critical);
+  --_panel-glow: var(--kb-panel-glow-critical);
+}
+
+.kb-panel[data-density="compact"],
+.kb-panel[data-nested] {
+  --_panel-gap: var(--kb-space-2);
+  --_panel-pad: calc(var(--kb-panel-padding) / 2);
+}
+
+/* One lift and one light per stack: a nested panel sits on its parent's plane. */
+.kb-panel[data-nested] {
+  --_panel-shadow: none;
+  --_panel-glow: transparent;
+}
+
+/* Inside the plate, so its rounded corners clip the rail. */
+.kb-panel-rail {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 2px;
+  background: var(--_panel-rail);
+}
+
+.kb-panel[data-rail="accent"] .kb-panel-rail {
+  background: var(--kb-panel-rail-active);
+}
+
+.kb-panel[data-rail="accent"],
+.kb-panel[data-rail="status"] {
+  padding-inline-start: calc(var(--_panel-pad) + 2px);
+}
+
+.kb-panel-header {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kb-space-2);
+  font-weight: 600;
+}
+
+/* Full-bleed hairline centered in the gap below the header; no layout cost. */
+.kb-panel-header::after {
+  content: "";
+  position: absolute;
+  inset-inline: calc(var(--kb-panel-seam) - var(--_panel-pad));
+  inset-block-end: calc(var(--_panel-gap) / -2);
+  height: 1px;
+  background: var(--kb-panel-divider);
+  pointer-events: none;
+}
+
+.kb-panel[data-closed] > .kb-panel-header::after {
+  display: none;
+}
+
+.kb-panel-header :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  font-size: var(--kb-size-md);
+  font-weight: 600;
+}
+
+.kb-panel-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--kb-space-1);
+  margin-inline-start: auto;
+}
+
+.kb-panel-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--kb-space-1);
+  height: 2rem;
+  padding: 0 var(--kb-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--kb-button-radius);
+  background: transparent;
+  color: var(--kb-color-fg);
+  font: inherit;
+  font-size: var(--kb-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.kb-panel-toggle:hover {
+  border-color: var(--kb-color-border);
+}
+
+.kb-panel-toggle:focus-visible {
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: 2px;
+}
+
+.kb-panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kb-space-2);
+  min-width: 0;
+}
+
+/* Screen inside the bezel: recessed, for output and logs. */
+.kb-panel-well {
+  min-width: 0;
+  padding: var(--kb-space-3);
+  border-radius: var(--kb-panel-well-radius);
+  background: var(--kb-panel-well);
+  box-shadow: var(--kb-panel-well-shadow);
+}
+
+.kb-panel-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--kb-space-2);
+}
+
+.kb-panel-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kb-space-3);
+}
+
+.kb-panel-group[data-direction="row"] {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.kb-panel-group[data-direction="row"] > .kb-panel {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-panel-plate {
+    transition: none;
+  }
+}

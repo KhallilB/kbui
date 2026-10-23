@@ -12,22 +12,22 @@ export {
   type DialogProps,
   type DialogTriggerProps,
 } from "./components/Dialog/Dialog";
-export {
-  Facet,
-  type FacetBodyProps,
-  type FacetCut,
-  type FacetDensity,
-  type FacetFooterProps,
-  type FacetGroupDirection,
-  type FacetGroupProps,
-  type FacetHeaderProps,
-  type FacetProps,
-  type FacetRail,
-  type FacetToggleProps,
-  type FacetTone,
-  type FacetToolbarProps,
-} from "./components/Facet/Facet";
 export { Input, type InputProps, type InputSize } from "./components/Input/Input";
+export {
+  Panel,
+  type PanelBodyProps,
+  type PanelDensity,
+  type PanelFooterProps,
+  type PanelGroupDirection,
+  type PanelGroupProps,
+  type PanelHeaderProps,
+  type PanelProps,
+  type PanelRail,
+  type PanelToggleProps,
+  type PanelTone,
+  type PanelToolbarProps,
+  type PanelWellProps,
+} from "./components/Panel/Panel";
 export {
   Status,
   type StatusAppearance,
