@@ -76,7 +76,13 @@ Every prop is documented in the [React package README](../../packages/react/READ
 
 ## Upgrading
 
-Read the [release notes](https://github.com/KhallilB/kbui/releases), also kept in `CHANGELOG.md`, for the versions between yours and the new one. Before 1.0, a minor version can contain breaking changes. Then change both URLs to the new version in one `bun add` command, so the stylesheet and the components always come from the same release. kbui does not support mixing versions, and nothing detects a mix.
+Read the [release notes](https://github.com/KhallilB/kbui/releases), also kept in `CHANGELOG.md`, for the versions between yours and the new one. Before 1.0, a minor version can contain breaking changes. Then change both URLs to the new version in one `bun add` command, so the stylesheet and the components always come from the same release. kbui does not support mixing versions. Run the installed-version guard after installing and before building:
+
+```bash
+bun node_modules/@kbui/react/dist/check-versions.js
+```
+
+Add this command to the consumer build or check script. It requires installed React/CSS packages, compares every top-level `node_modules/@kbui/*/package.json` (including optional tokens), and exits nonzero on mismatches, missing required packages, unreadable files or malformed manifests. It does not inspect nested dependency trees. There are no package exemptions.
 
 ## Installing by path while you work on kbui
 

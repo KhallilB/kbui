@@ -100,6 +100,14 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-color-warning-fg: var(--kb-white);
   --kb-color-ring: var(--kb-blue-500);
   --kb-color-overlay: rgb(0 0 0 / 0.5);
+  --kb-card-background: var(--kb-color-bg);
+  --kb-card-color: var(--kb-color-fg);
+  --kb-card-border: var(--kb-color-border);
+  --kb-card-border-width: 1px;
+  --kb-card-radius: var(--kb-radius-md);
+  --kb-card-padding: var(--kb-space-4);
+  --kb-grid-gap: var(--kb-space-6);
+  --kb-grid-min-item-width: 18.75rem;
   --kb-button-radius: var(--kb-radius-md);
   --kb-input-radius: var(--kb-radius-md);
   --kb-input-height-sm: 2rem;

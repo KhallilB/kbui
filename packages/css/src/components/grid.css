@@ -1,0 +1,11 @@
+/* Anatomy: .kb-grid [data-layout=auto|stack] */
+.kb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--kb-grid-min-item-width)), 1fr));
+  gap: var(--kb-grid-gap);
+  min-inline-size: 0;
+}
+
+.kb-grid[data-layout="stack"] {
+  grid-template-columns: minmax(0, 1fr);
+}
