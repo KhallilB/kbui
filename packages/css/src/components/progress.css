@@ -1,0 +1,47 @@
+/* Anatomy: .kb-progress [data-complete] [data-progressing] > .kb-progress-head > .kb-progress-label, .kb-progress-value; .kb-progress-track > .kb-progress-indicator */
+.kb-progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kb-space-1);
+  min-width: 0;
+}
+
+.kb-progress-head {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--kb-space-2);
+  font-size: var(--kb-size-sm);
+}
+
+.kb-progress-label {
+  color: var(--kb-color-fg);
+}
+
+.kb-progress-value {
+  color: var(--kb-color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.kb-progress-track {
+  height: var(--kb-space-1);
+  overflow: hidden;
+  border-radius: var(--kb-radius-full);
+  background: var(--kb-color-border);
+}
+
+.kb-progress-indicator {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--kb-color-accent);
+  transition: width var(--kb-motion-duration-base) var(--kb-motion-easing-standard);
+}
+
+.kb-progress[data-complete] .kb-progress-indicator {
+  background: var(--kb-color-success);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-progress-indicator {
+    transition: none;
+  }
+}

@@ -1,0 +1,38 @@
+/* Anatomy: .kb-badge [data-tone=neutral|info|success|warning|danger] [data-mono] */
+.kb-badge {
+  --_badge-ink: var(--kb-color-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--kb-space-1);
+  padding: 0.125rem var(--kb-space-2);
+  border-radius: var(--kb-radius-sm);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--_badge-ink) 35%, transparent);
+  background: color-mix(in oklab, var(--_badge-ink) 10%, transparent);
+  color: color-mix(in oklab, var(--_badge-ink) 70%, var(--kb-color-fg));
+  font-size: var(--kb-size-xs);
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.kb-badge[data-tone="info"] {
+  --_badge-ink: var(--kb-color-info);
+}
+
+.kb-badge[data-tone="success"] {
+  --_badge-ink: var(--kb-color-success);
+}
+
+.kb-badge[data-tone="warning"] {
+  --_badge-ink: var(--kb-color-warning);
+}
+
+.kb-badge[data-tone="danger"] {
+  --_badge-ink: var(--kb-color-danger);
+}
+
+.kb-badge[data-mono] {
+  font-family: var(--kb-font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}

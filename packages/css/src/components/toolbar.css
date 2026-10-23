@@ -1,0 +1,30 @@
+/* Anatomy: .kb-toolbar [data-orientation=horizontal|vertical] > .kb-toolbar-group, .kb-toolbar-separator */
+.kb-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--kb-space-1);
+}
+
+.kb-toolbar[data-orientation="vertical"] {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.kb-toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: var(--kb-space-1);
+}
+
+.kb-toolbar-separator {
+  align-self: stretch;
+  width: 1px;
+  margin: var(--kb-space-1) var(--kb-space-1);
+  background: var(--kb-color-border);
+}
+
+.kb-toolbar[data-orientation="vertical"] .kb-toolbar-separator {
+  width: auto;
+  height: 1px;
+}
