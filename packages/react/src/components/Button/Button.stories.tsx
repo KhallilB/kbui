@@ -8,7 +8,7 @@ const meta = {
   args: { children: "Button" },
   argTypes: {
     variant: { control: "select", options: ["primary", "secondary", "ghost", "danger"] },
-    size: { control: "select", options: ["sm", "md", "lg"] },
+    size: { control: "select", options: ["sm", "md", "lg", "icon"] },
   },
 } satisfies Meta<typeof Button>;
 
@@ -38,4 +38,16 @@ export const Disabled: Story = { args: { disabled: true } };
 export const AsLink: Story = {
   // biome-ignore lint/a11y/useAnchorContent: Base UI render injects children
   args: { render: <a href="#docs" />, nativeButton: false, role: "link", children: "Link" },
+};
+export const IconOnly: Story = {
+  args: {
+    size: "icon",
+    variant: "secondary",
+    "aria-label": "Stop",
+    children: (
+      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <rect x="4" y="4" width="8" height="8" rx="1" />
+      </svg>
+    ),
+  },
 };

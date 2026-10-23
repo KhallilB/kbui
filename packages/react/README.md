@@ -105,6 +105,26 @@ Text plus an optional caller-provided icon; the text is mandatory.
 | `live` | adds `role="status"` only | `false` |
 | `compact` | tighter spacing, smaller text | `false` |
 
+## Display and layout helpers
+
+| Component | Use | Key props |
+|---|---|---|
+| `Badge` | Static metadata such as a role or provider. Use `Status` for a state that changes. | `tone` (`neutral` `info` `success` `warning` `danger`), `mono` |
+| `Stat` | A labelled number. The label is read first, and figures are tabular. | `label`, `value`, `size` (`md` `display`) |
+| `Progress` | Determinate progress with a visible label. | `label`, `value`, `max`, `valueText` (for example `"3 of 5"`, shown and announced) |
+| `Callout` | An inline message that may need an answer. | `tone`, `title`, `icon`, `actions`, `live` |
+| `ScrollArea` | Long content in a named region that keyboard users can focus. | `label`, `maxHeight` |
+
+## Overlays and actions
+
+| Component | Use | Key props |
+|---|---|---|
+| `Tooltip` | A visual hint on hover and focus. The trigger still needs its own accessible name. | `content`, `side`, `delay` |
+| `Menu` | Overflow actions: `Menu.Trigger`, `Menu.Content`, `Menu.Item`, `Menu.Separator`. | `side`, `align` on `Menu.Content` |
+| `Toolbar` | A row of actions with one tab stop, moved through with the arrow keys. Name it with `aria-label`. | `Toolbar.Group`, `Toolbar.Button` (`variant`, ghost by default), `Toolbar.Separator` |
+
+`Button size="icon"` is a square button for a lone icon. Its type requires `aria-label`.
+
 ## `kb()`
 
 `kb(name, attrs, className)` builds the class and `data-*` props for a component's root element. It omits values that are `false` or `undefined` and renders `true` as an empty attribute. It is mainly used when writing a new component; see [Adding a component](../../docs/guides/adding-a-component.md).

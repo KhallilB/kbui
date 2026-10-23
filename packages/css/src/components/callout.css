@@ -1,0 +1,61 @@
+/* Anatomy: .kb-callout [data-tone=neutral|info|success|warning|danger] > .kb-callout-icon, .kb-callout-content > .kb-callout-title, .kb-callout-body, .kb-callout-actions */
+.kb-callout {
+  --_callout-ink: var(--kb-color-muted);
+  display: flex;
+  gap: var(--kb-space-3);
+  padding: var(--kb-space-3) var(--kb-space-4);
+  border-radius: var(--kb-radius-md);
+  background: color-mix(in oklab, var(--_callout-ink) 8%, transparent);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--_callout-ink) 30%, transparent),
+    inset 3px 0 0 var(--_callout-ink);
+  color: var(--kb-color-fg);
+  font-size: var(--kb-size-sm);
+}
+
+.kb-callout[data-tone="info"] {
+  --_callout-ink: var(--kb-color-info);
+}
+
+.kb-callout[data-tone="success"] {
+  --_callout-ink: var(--kb-color-success);
+}
+
+.kb-callout[data-tone="warning"] {
+  --_callout-ink: var(--kb-color-warning);
+}
+
+.kb-callout[data-tone="danger"] {
+  --_callout-ink: var(--kb-color-danger);
+}
+
+.kb-callout-icon {
+  display: inline-flex;
+  flex: none;
+  width: 1.25em;
+  height: 1.25em;
+  color: var(--_callout-ink);
+}
+
+.kb-callout-icon > * {
+  width: 100%;
+  height: 100%;
+}
+
+.kb-callout-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kb-space-1);
+  min-width: 0;
+}
+
+.kb-callout-title {
+  font-weight: 600;
+}
+
+.kb-callout-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kb-space-2);
+  margin-top: var(--kb-space-2);
+}

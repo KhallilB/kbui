@@ -78,4 +78,19 @@ describe("Button", () => {
     expect(link).toHaveAttribute("href", "/docs");
     expect(link).toHaveClass("kb-button");
   });
+
+  test("icon size renders a square button named by aria-label", () => {
+    render(
+      <Button size="icon" aria-label="Stop">
+        <svg aria-hidden="true" />
+      </Button>,
+    );
+    expect(screen.getByRole("button", { name: "Stop" })).toHaveAttribute("data-size", "icon");
+  });
+
+  test("icon size requires aria-label at the type level", () => {
+    // @ts-expect-error icon-only buttons need an accessible name
+    const el = <Button size="icon">x</Button>;
+    expect(el).toBeTruthy();
+  });
 });
