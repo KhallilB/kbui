@@ -9,6 +9,7 @@
       "kind": "milestone",
       "title": "Button, Input and Dialog",
       "result": "pass",
+      "summary": "The first three components, Button, Input and Dialog, are in the library.",
       "measured": [],
       "evidence": [{ "label": "Components", "path": "packages/react/src/components" }],
       "commit": "2a5fd82"
@@ -21,6 +22,7 @@
       "title": "Release 0.1.0",
       "passMark": "@kbui/react and @kbui/css install from their release tarballs, type-check and pass a smoke run on Ubuntu, macOS and Windows",
       "result": "pass",
+      "summary": "The first release installs and passes a quick check on Ubuntu, macOS and Windows.",
       "measured": [],
       "evidence": [
         {
@@ -41,6 +43,7 @@
       "title": "CI on main",
       "passMark": "Every step of the ci workflow passes on main",
       "result": "pass",
+      "summary": "Every automated check on the main branch passes, including unit, packaging and component tests.",
       "measured": [
         {
           "label": "Unit tests",
