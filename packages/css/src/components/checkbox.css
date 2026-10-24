@@ -1,0 +1,47 @@
+/* Anatomy: .kb-checkbox [data-disabled] [data-invalid] > .kb-checkbox-control, .kb-checkbox-label, .kb-checkbox-description, .kb-checkbox-error */
+.kb-checkbox {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  column-gap: var(--kb-space-2);
+  row-gap: var(--kb-space-1);
+}
+.kb-checkbox-control {
+  width: var(--kb-checkbox-size);
+  height: var(--kb-checkbox-size);
+  margin: var(--kb-space-1) 0 0;
+  accent-color: var(--kb-color-accent);
+  cursor: pointer;
+}
+.kb-checkbox-control:focus-visible {
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: 3px;
+}
+.kb-checkbox-label {
+  color: var(--kb-color-fg);
+  font-size: var(--kb-size-sm);
+  cursor: pointer;
+}
+.kb-checkbox-description,
+.kb-checkbox-error {
+  margin: 0;
+  grid-column: 2;
+  font-size: var(--kb-size-sm);
+}
+.kb-checkbox-description {
+  color: var(--kb-color-muted);
+}
+.kb-checkbox-error {
+  color: var(--kb-color-danger);
+}
+.kb-checkbox[data-disabled] .kb-checkbox-control {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.kb-checkbox[data-disabled] .kb-checkbox-label {
+  color: var(--kb-color-muted);
+  cursor: not-allowed;
+}
+.kb-checkbox[data-invalid] .kb-checkbox-control {
+  outline: 1px solid var(--kb-color-danger);
+}
