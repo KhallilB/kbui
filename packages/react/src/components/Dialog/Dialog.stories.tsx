@@ -50,3 +50,35 @@ export const CustomLayout: Story = {
     </Dialog>
   ),
 };
+
+export const ExtensibleSurface: Story = {
+  render: () => (
+    <Dialog defaultOpen>
+      <Dialog.Content
+        title="Review selection"
+        description="Surface tokens preserve behavior."
+        style={
+          {
+            "--kb-dialog-background": "rgb(255, 242, 223)",
+            "--kb-dialog-color": "rgb(38, 27, 34)",
+            "--kb-dialog-description-color": "rgb(80, 60, 64)",
+            "--kb-dialog-shadow": "8px 8px 0 rgb(38 27 34 / .3)",
+            "--kb-dialog-motion-duration": "210ms",
+          } as import("react").CSSProperties
+        }
+      >
+        <Dialog.Actions>
+          <Dialog.Close render={<Button />}>Return</Dialog.Close>
+        </Dialog.Actions>
+      </Dialog.Content>
+    </Dialog>
+  ),
+  play: async () => {
+    const { expect, within } = await import("storybook/test");
+    const popup = within(document.body).getByRole("dialog");
+    await expect(getComputedStyle(popup).backgroundColor).toBe("rgb(255, 242, 223)");
+    await expect(getComputedStyle(popup).boxShadow).not.toBe("none");
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    await expect(getComputedStyle(popup).transitionDuration).toBe(reduced ? "0s" : "0.21s, 0.21s");
+  },
+};

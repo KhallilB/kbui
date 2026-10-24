@@ -105,3 +105,34 @@ describe("Dialog", () => {
     expect(trigger).toHaveAttribute("aria-haspopup", "dialog");
   });
 });
+
+test("section slots preserve native refs, semantics and caller classes", async () => {
+  const { createRef } = await import("react");
+  const body = createRef<HTMLDivElement>();
+  render(
+    <Dialog defaultOpen>
+      <Dialog.Content>
+        <Dialog.Header className="surface-heading">
+          <Dialog.Title>Review draft</Dialog.Title>
+          <Dialog.Description>Local preview.</Dialog.Description>
+        </Dialog.Header>
+        <Dialog.Body ref={body} role="region" aria-label="Draft">
+          Retained selection
+        </Dialog.Body>
+        <Dialog.Footer>
+          <Dialog.Actions>
+            <Dialog.Close render={<Button />}>Return</Dialog.Close>
+          </Dialog.Actions>
+        </Dialog.Footer>
+      </Dialog.Content>
+    </Dialog>,
+  );
+  const dialog = await screen.findByRole("dialog", { name: "Review draft" });
+  expect(dialog).toHaveAccessibleDescription("Local preview.");
+  expect(body.current).toBe(screen.getByRole("region", { name: "Draft" }));
+  expect(body.current).toHaveClass("kb-dialog-body");
+  expect(dialog.querySelector(".kb-dialog-header")).toHaveClass("surface-heading");
+  expect(dialog.querySelector(".kb-dialog-footer")).toContainElement(
+    screen.getByRole("button", { name: "Return" }),
+  );
+});
