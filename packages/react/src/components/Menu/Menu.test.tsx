@@ -29,4 +29,19 @@ describe("Menu", () => {
     expect(onCopy).toHaveBeenCalledOnce();
     expect(onOpenChange).toHaveBeenCalledWith(false, expect.any(Object));
   });
+  test("keeps popup in caller's theme host", async () => {
+    const host = document.createElement("div");
+    document.body.append(host);
+    render(
+      <Menu>
+        <Menu.Trigger>Theme actions</Menu.Trigger>
+        <Menu.Content container={host}>
+          <Menu.Item>Copy</Menu.Item>
+        </Menu.Content>
+      </Menu>,
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Theme actions" }));
+    expect(host).toContainElement(await screen.findByRole("menu"));
+    host.remove();
+  });
 });

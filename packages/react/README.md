@@ -81,6 +81,7 @@ The labelled field owns its accessible name, description and error. Give actions
 | `Dialog.Trigger` | Opens the dialog. Use `render={<Button />}` to style it as a button. |
 | `Dialog.Content` | The dialog. `title` and `description` set its accessible name and description; `container` changes where it mounts. |
 | `Dialog.Title`, `Dialog.Description` | For custom layouts. Use these or the `Dialog.Content` props in a given dialog, not both, or it gets two titles. |
+| `Dialog.Header`, `Dialog.Body`, `Dialog.Footer` | Optional structured sections; accept native `div` props and refs. Padding follows `--kb-dialog-{header,body,footer}-padding`. |
 | `Dialog.Actions` | Aligns buttons along the bottom right. |
 | `Dialog.Close` | Closes the dialog. |
 
@@ -152,11 +153,13 @@ Text plus an optional caller-provided icon; the text is mandatory.
 
 | Component | Use | Key props |
 |---|---|---|
-| `Tooltip` | A visual hint on hover and focus. The trigger still needs its own accessible name. | `content`, `side`, `delay` |
-| `Menu` | Overflow actions: `Menu.Trigger`, `Menu.Content`, `Menu.Item`, `Menu.Separator`. | `side`, `align` on `Menu.Content` |
+| `Tooltip` | A visual hint on hover and focus. The trigger still needs its own accessible name. | `content`, `side`, `delay`, `container`, `className` |
+| `Menu` | Overflow actions: `Menu.Trigger`, `Menu.Content`, `Menu.Item`, `Menu.Separator`. | `side`, `align`, `container` on `Menu.Content` |
 | `Toolbar` | A row of actions with one tab stop, moved through with the arrow keys. Name it with `aria-label`. | `Toolbar.Group`, `Toolbar.Button` (`variant`, ghost by default), `Toolbar.Separator` |
 
 `Button size="icon"` is a square button for a lone icon. Its type requires `aria-label`.
+
+Pass a themed element as `container` to keep a portaled Menu, Tooltip or Dialog inside a nested theme scope; the default mounts on `document.body`.
 
 ## `kb()`
 

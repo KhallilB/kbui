@@ -120,3 +120,36 @@ export const TokenOverrides: Story = {
     }
   },
 };
+
+export const Sections: Story = {
+  render: () => (
+    <Dialog defaultOpen>
+      <Dialog.Content
+        style={{ "--kb-dialog-body-padding": "8px 0" } as CSSProperties}
+        aria-labelledby="sections-title"
+      >
+        <Dialog.Header>
+          <Dialog.Title id="sections-title">Review changes</Dialog.Title>
+          <Dialog.Description>Three files changed.</Dialog.Description>
+        </Dialog.Header>
+        <Dialog.Body>Summary of the draft.</Dialog.Body>
+        <Dialog.Footer>
+          <Dialog.Actions>
+            <Dialog.Close render={<Button />}>Done</Dialog.Close>
+          </Dialog.Actions>
+        </Dialog.Footer>
+      </Dialog.Content>
+    </Dialog>
+  ),
+  play: async ({ canvasElement }) => {
+    const popup = await waitFor(() => {
+      const node = canvasElement.ownerDocument.querySelector<HTMLElement>(".kb-dialog-popup");
+      if (!node) throw new Error("dialog not open");
+      return node;
+    });
+    const section = (name: string) => popup.querySelector<HTMLElement>(`.kb-dialog-${name}`);
+    expect(getComputedStyle(section("body") as HTMLElement).padding).toBe("8px 0px");
+    expect(getComputedStyle(section("header") as HTMLElement).padding).toBe("0px");
+    expect(getComputedStyle(section("footer") as HTMLElement).padding).toBe("0px");
+  },
+};

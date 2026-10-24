@@ -158,6 +158,9 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-dialog-title-size: 23px;
   --kb-dialog-title-family: inherit;
   --kb-dialog-title-weight: 600;
+  --kb-dialog-header-padding: 0px;
+  --kb-dialog-body-padding: 0px;
+  --kb-dialog-footer-padding: 0px;
   --kb-panel-background: var(--kb-material-surface-bg);
   --kb-panel-background-active: var(--kb-material-surface-bg);
   --kb-panel-background-sunken: var(--kb-material-field-bg);
@@ -377,6 +380,9 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-dialog-title-size: 23px;
   --kb-dialog-title-family: inherit;
   --kb-dialog-title-weight: 600;
+  --kb-dialog-header-padding: 0px;
+  --kb-dialog-body-padding: 0px;
+  --kb-dialog-footer-padding: 0px;
   --kb-panel-background: var(--kb-material-surface-bg);
   --kb-panel-background-active: var(--kb-material-surface-bg);
   --kb-panel-background-sunken: var(--kb-material-field-bg);
@@ -597,6 +603,9 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-dialog-title-size: 23px;
     --kb-dialog-title-family: inherit;
     --kb-dialog-title-weight: 600;
+    --kb-dialog-header-padding: 0px;
+    --kb-dialog-body-padding: 0px;
+    --kb-dialog-footer-padding: 0px;
     --kb-panel-background: var(--kb-material-surface-bg);
     --kb-panel-background-active: var(--kb-material-surface-bg);
     --kb-panel-background-sunken: var(--kb-material-field-bg);

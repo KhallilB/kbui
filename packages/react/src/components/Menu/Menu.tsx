@@ -14,6 +14,8 @@ export type MenuItemProps = Omit<Base.Item.Props, "className"> & {
 export type MenuContentProps = Omit<Base.Popup.Props, "className"> & {
   /** Plain class string; Base UI's function form is not supported. */
   className?: string;
+  /** Portal target; pass the consumer theme host for nested themes. */
+  container?: Base.Portal.Props["container"];
   /** Side of the trigger the popup prefers. */
   side?: Base.Positioner.Props["side"];
   /** Alignment along that side. */
@@ -56,9 +58,15 @@ function MenuTrigger(props: MenuTriggerProps) {
   );
 }
 
-function MenuContent({ side = "bottom", align = "start", className, ...props }: MenuContentProps) {
+function MenuContent({
+  side = "bottom",
+  align = "start",
+  className,
+  container,
+  ...props
+}: MenuContentProps) {
   return (
-    <Base.Portal>
+    <Base.Portal container={container}>
       <Base.Positioner side={side} align={align} sideOffset={6}>
         <Base.Popup {...props} className={clsx("kb-menu", className)} />
       </Base.Positioner>

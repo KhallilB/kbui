@@ -19,6 +19,7 @@ Dialog, Button and popup (Menu, Tooltip) expose material, typography and motion 
 | Surface | Tokens |
 |---|---|
 | Dialog | `--kb-dialog-background`, `-color`, `-border`, `-border-width`, `-padding`, `-shadow`, `-description-color`, `-overlay-background`, `-title-size`, `-title-family`, `-title-weight` |
+| Dialog sections | `--kb-dialog-header-padding`, `-body-padding`, `-footer-padding` (default `0px`) |
 | Dialog motion | `--kb-dialog-motion-duration`, `-motion-easing`, `-enter-scale`, `-enter-offset` |
 | Button | `--kb-button-motion-duration`, `-motion-easing`, `-press-offset` |
 | Popup | `--kb-popup-motion-duration`, `-motion-easing` |
