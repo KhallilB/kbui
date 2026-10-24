@@ -171,6 +171,9 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-checkbox-size: 1rem;
   --kb-radiogroup-gap: var(--kb-space-2);
   --kb-radiogroup-size: 1rem;
+  --kb-select-popup-min-width: 10rem;
+  --kb-select-max-height: 20rem;
+  --kb-select-layer: 50;
   --kb-progress-track: var(--kb-color-border);
   --kb-progress-fill: var(--kb-color-accent);
   --kb-progress-fill-complete: var(--kb-color-success);
