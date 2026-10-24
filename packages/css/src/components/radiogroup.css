@@ -1,0 +1,90 @@
+/* Anatomy: .kb-radiogroup [data-disabled] [data-invalid] > .kb-radiogroup-label, .kb-radiogroup-item > .kb-radiogroup-control [data-checked] [data-disabled] > .kb-radiogroup-indicator; .kb-radiogroup-content, .kb-radiogroup-description, .kb-radiogroup-error */
+.kb-radiogroup {
+  color: var(--kb-color-fg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--kb-radiogroup-gap);
+}
+.kb-radiogroup-label {
+  color: var(--kb-color-fg);
+  font-size: var(--kb-size-sm);
+  font-weight: 500;
+}
+.kb-radiogroup-item {
+  display: flex;
+  align-items: start;
+  gap: var(--kb-space-2);
+  cursor: pointer;
+}
+.kb-radiogroup-control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--kb-radiogroup-size);
+  height: var(--kb-radiogroup-size);
+  border: 1px solid var(--kb-color-border);
+  border-radius: var(--kb-radius-full);
+  background: var(--kb-color-bg);
+  color: inherit;
+  margin-top: var(--kb-space-1);
+}
+.kb-radiogroup-control[data-checked] {
+  color: var(--kb-color-accent-fg);
+  background: var(--kb-color-accent);
+  border-color: var(--kb-color-accent);
+}
+.kb-radiogroup-control:focus-visible {
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: 3px;
+}
+.kb-radiogroup-indicator {
+  width: var(--kb-space-1);
+  height: var(--kb-space-1);
+  border-radius: var(--kb-radius-full);
+  background: currentColor;
+}
+.kb-radiogroup-control[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.kb-radiogroup-item:has(.kb-radiogroup-control[data-disabled]) {
+  cursor: not-allowed;
+}
+.kb-radiogroup-content {
+  color: inherit;
+  font-size: var(--kb-size-sm);
+}
+.kb-radiogroup-description,
+.kb-radiogroup-error {
+  margin: 0;
+  font-size: var(--kb-size-sm);
+}
+.kb-radiogroup-description {
+  color: var(--kb-color-muted);
+}
+.kb-radiogroup-error {
+  color: var(--kb-color-danger);
+}
+
+@media (forced-colors: active) {
+  .kb-radiogroup-control {
+    border-color: CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
+  .kb-radiogroup-control[data-checked] {
+    border-color: Highlight;
+    background: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+  .kb-radiogroup-indicator {
+    background: currentColor;
+    forced-color-adjust: none;
+  }
+  .kb-radiogroup-control[data-disabled] {
+    border-color: GrayText;
+    color: GrayText;
+  }
+}

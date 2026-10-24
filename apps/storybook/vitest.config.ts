@@ -4,6 +4,9 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   plugins: [storybookTest({ configDir: ".storybook" })],
+  optimizeDeps: {
+    include: ["@kbui/react > @base-ui/react/radio", "@kbui/react > @base-ui/react/radio-group"],
+  },
   test: {
     name: "storybook",
     browser: {

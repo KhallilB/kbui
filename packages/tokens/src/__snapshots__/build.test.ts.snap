@@ -169,6 +169,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-popup-radius: var(--kb-radius-md);
   --kb-popup-shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 8px 24px -8px rgb(0 0 0 / 0.16);
   --kb-checkbox-size: 1rem;
+  --kb-radiogroup-gap: var(--kb-space-2);
+  --kb-radiogroup-size: 1rem;
   --kb-progress-track: var(--kb-color-border);
   --kb-progress-fill: var(--kb-color-accent);
   --kb-progress-fill-complete: var(--kb-color-success);
