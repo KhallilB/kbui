@@ -14,9 +14,15 @@
   cursor: pointer;
   text-decoration: none;
   transition:
-    background-color 120ms ease,
-    border-color 120ms ease,
-    color 120ms ease;
+    background-color var(--kb-button-motion-duration) var(--kb-button-motion-easing),
+    border-color var(--kb-button-motion-duration) var(--kb-button-motion-easing),
+    color var(--kb-button-motion-duration) var(--kb-button-motion-easing),
+    opacity var(--kb-button-motion-duration) var(--kb-button-motion-easing),
+    transform var(--kb-button-motion-duration) var(--kb-button-motion-easing);
+}
+
+.kb-button:active:not([data-disabled]) {
+  transform: translateY(var(--kb-button-press-offset));
 }
 
 .kb-button:focus-visible {
@@ -93,5 +99,20 @@
 @media (prefers-reduced-motion: reduce) {
   .kb-button {
     transition: none;
+  }
+  .kb-button:active:not([data-disabled]) {
+    transform: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .kb-button {
+    background: ButtonFace;
+    color: ButtonText;
+    border-color: ButtonText;
+  }
+  .kb-button[data-disabled] {
+    color: GrayText;
+    border-color: GrayText;
   }
 }

@@ -11,7 +11,7 @@
   font-size: var(--kb-size-xs);
   line-height: 1.4;
   opacity: 1;
-  transition: opacity var(--kb-motion-duration-fast) var(--kb-motion-easing-standard);
+  transition: opacity var(--kb-popup-motion-duration) var(--kb-popup-motion-easing);
 }
 
 .kb-tooltip[data-starting-style],

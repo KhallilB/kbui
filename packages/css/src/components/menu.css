@@ -10,7 +10,7 @@
   color: var(--kb-color-fg);
   outline: none;
   opacity: 1;
-  transition: opacity var(--kb-motion-duration-fast) var(--kb-motion-easing-standard);
+  transition: opacity var(--kb-popup-motion-duration) var(--kb-popup-motion-easing);
 }
 
 .kb-menu[data-starting-style],
