@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { type CSSProperties, useRef } from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Button } from "../Button/Button";
 import { Tooltip } from "./Tooltip";
@@ -37,3 +38,33 @@ export const OnHover: Story = {
   },
 };
 export const OnHoverDark: Story = { ...OnHover, globals: { theme: "dark" } };
+
+export const NestedTheme: Story = {
+  render: function NestedTheme(args) {
+    const host = useRef<HTMLDivElement>(null);
+    return (
+      <div
+        ref={host}
+        style={
+          {
+            "--kb-popup-background": "#fff2df",
+            "--kb-color-fg": "#261b22",
+            "--kb-popup-border": "#261b22",
+            "--kb-popup-motion-duration": "180ms",
+          } as CSSProperties
+        }
+      >
+        <Tooltip {...args} container={host} className="surface-hint" />
+      </div>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    await userEvent.hover(within(canvasElement).getByRole("button", { name: "Stop" }));
+    const hint = await within(canvasElement).findByText("Stop worker");
+    await waitFor(() => expect(hint).toBeVisible());
+    await expect(getComputedStyle(hint).backgroundColor).toBe("rgb(255, 242, 223)");
+    await expect(getComputedStyle(hint).transitionDuration).toBe(
+      matchMedia("(prefers-reduced-motion: reduce)").matches ? "0s" : "0.18s",
+    );
+  },
+};

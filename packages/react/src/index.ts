@@ -18,6 +18,7 @@ export {
   type DialogCloseProps,
   type DialogContentProps,
   type DialogProps,
+  type DialogSectionProps,
   type DialogTriggerProps,
 } from "./components/Dialog/Dialog";
 export { Grid, type GridProps } from "./components/Grid/Grid";
