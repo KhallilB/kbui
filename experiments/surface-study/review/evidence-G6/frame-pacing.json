@@ -1,0 +1,41 @@
+[
+  {
+    "surface": "commerce",
+    "result": {
+      "samples": 120,
+      "medianMs": 8.3,
+      "p95Ms": 10,
+      "maxMs": 10.3,
+      "intervalsAbove1_5xMedian": 0,
+      "reducedMotion": false,
+      "previewReducedMotion": false,
+      "scope": "Local browser frame pacing only; not a hardware or refresh-rate guarantee."
+    }
+  },
+  {
+    "surface": "operations",
+    "result": {
+      "samples": 120,
+      "medianMs": 8.3,
+      "p95Ms": 9.8,
+      "maxMs": 10.3,
+      "intervalsAbove1_5xMedian": 0,
+      "reducedMotion": false,
+      "previewReducedMotion": false,
+      "scope": "Local browser frame pacing only; not a hardware or refresh-rate guarantee."
+    }
+  },
+  {
+    "surface": "culture",
+    "result": {
+      "samples": 120,
+      "medianMs": 8.3,
+      "p95Ms": 10.1,
+      "maxMs": 10.4,
+      "intervalsAbove1_5xMedian": 0,
+      "reducedMotion": false,
+      "previewReducedMotion": false,
+      "scope": "Local browser frame pacing only; not a hardware or refresh-rate guarantee."
+    }
+  }
+]

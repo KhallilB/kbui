@@ -1,0 +1,145 @@
+$ vitest run Menu Tooltip
+
+ RUN  v5.0.5 /Users/khallil/proj/kbui/.claude/worktrees/study-catalog-growth/packages/react
+
+ ❯ src/components/Menu/Menu.test.tsx (2 tests | 1 failed) 239ms
+   ❯ Menu (2)
+     × keeps popup in caller's theme host 47ms
+ ❯ src/components/Tooltip/Tooltip.test.tsx (2 tests | 1 failed) 1150ms
+   ❯ Tooltip (2)
+     × supports a themed portal host and popup class 1024ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/components/Menu/Menu.test.tsx > Menu > keeps popup in caller's theme host
+Error: expect(element).toContainElement(element)
+
+<div
+  data-base-ui-inert=""
+/> does not contain: <div
+  aria-labelledby="base-ui-_r_b_"
+  class="kb-menu"
+  container="[object HTMLDivElement]"
+  data-align="start"
+  data-base-ui-focusable=""
+  data-open=""
+  data-rootownerid="base-ui-_r_8_"
+  data-side="bottom"
+  data-starting-style=""
+  id="base-ui-_r_9_"
+  role="menu"
+  style="transition: none;"
+  tabindex="-1"
+/>
+        
+ ❯ src/components/Menu/Menu.test.tsx:33:18
+     31|     render(<Menu><Menu.Trigger>Theme actions</Menu.Trigger><Menu.Conte…
+     32|     await userEvent.click(screen.getByRole("button", {name:"Theme acti…
+     33|     expect(host).toContainElement(await screen.findByRole("menu"));
+       |                  ^
+     34|     host.remove();
+     35|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/components/Tooltip/Tooltip.test.tsx > Tooltip > supports a themed portal host and popup class
+TestingLibraryElementError: Unable to find role="tooltip"
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div />[39m
+  [36m<div>[39m
+    [36m<button[39m
+      [33mdata-base-ui-tooltip-trigger[39m=[32m""[39m
+      [33mdata-popup-open[39m=[32m""[39m
+      [33mid[39m=[32m"base-ui-_r_4_"[39m
+      [33mtype[39m=[32m"button"[39m
+    [36m>[39m
+      [0mHint[0m
+    [36m</button>[39m
+  [36m</div>[39m
+  [36m<div[39m
+    [33mdata-base-ui-portal[39m=[32m""[39m
+    [33mid[39m=[32m"_r_5_"[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mdata-align[39m=[32m"center"[39m
+      [33mdata-anchor-hidden[39m=[32m""[39m
+      [33mdata-open[39m=[32m""[39m
+      [33mdata-side[39m=[32m"top"[39m
+      [33mrole[39m=[32m"presentation"[39m
+      [33mstyle[39m=[32m"position: absolute; top: 0px; left: 0px; --available-width: -10px; --available-height: -11px; --anchor-width: 0px; --anchor-height: 0px; --transform-origin: 0px calc(100% + 6px); transform: translate(0px, -6px);"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"kb-tooltip"[39m
+        [33mdata-align[39m=[32m"center"[39m
+        [33mdata-base-ui-focusable[39m=[32m""[39m
+        [33mdata-open[39m=[32m""[39m
+        [33mdata-side[39m=[32m"top"[39m
+        [33mstyle[39m=[32m""[39m
+        [33mtabindex[39m=[32m"-1"[39m
+      [36m>[39m
+        [0mTheme hint[0m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div />[39m
+  [36m<div>[39m
+    [36m<button[39m
+      [33mdata-base-ui-tooltip-trigger[39m=[32m""[39m
+      [33mdata-popup-open[39m=[32m""[39m
+      [33mid[39m=[32m"base-ui-_r_4_"[39m
+      [33mtype[39m=[32m"button"[39m
+    [36m>[39m
+      [0mHint[0m
+    [36m</button>[39m
+  [36m</div>[39m
+  [36m<div[39m
+    [33mdata-base-ui-portal[39m=[32m""[39m
+    [33mid[39m=[32m"_r_5_"[39m
+  [36m>[39m
+    [36m<div[39m
+      [33mdata-align[39m=[32m"center"[39m
+      [33mdata-anchor-hidden[39m=[32m""[39m
+      [33mdata-open[39m=[32m""[39m
+      [33mdata-side[39m=[32m"top"[39m
+      [33mrole[39m=[32m"presentation"[39m
+      [33mstyle[39m=[32m"position: absolute; top: 0px; left: 0px; --available-width: -10px; --available-height: -11px; --anchor-width: 0px; --anchor-height: 0px; --transform-origin: 0px calc(100% + 6px); transform: translate(0px, -6px);"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"kb-tooltip"[39m
+        [33mdata-align[39m=[32m"center"[39m
+        [33mdata-base-ui-focusable[39m=[32m""[39m
+        [33mdata-open[39m=[32m""[39m
+        [33mdata-side[39m=[32m"top"[39m
+        [33mstyle[39m=[32m""[39m
+        [33mtabindex[39m=[32m"-1"[39m
+      [36m>[39m
+        [0mTheme hint[0m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ waitForWrapper ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/components/Tooltip/Tooltip.test.tsx:24:29
+     22|     render(<Tooltip content="Theme hint" delay={0} container={host} cl…
+     23|     await userEvent.hover(screen.getByRole("button",{name:"Hint"}));
+     24|     const hint=await screen.findByRole("tooltip"); expect(host).toCont…
+       |                             ^
+     25|   });
+     26|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 2 passed (4)
+   Start at  14:44:55
+   Duration  1.96s (tests 49%, environment 30%, import 12%, setup 7%, transform 2%)
+
+error: script "test" exited with code 1

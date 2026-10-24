@@ -1,0 +1,78 @@
+{
+  "commerce": {
+    "violations": [],
+    "paintWitness": [
+      {
+        "text": "Local fixture only. No order placed.",
+        "foreground": "rgb(51, 45, 36)",
+        "background": "rgb(251, 246, 236)",
+        "ratio": 12.646272578820904,
+        "required": 4.5,
+        "glyphs": 31,
+        "obscured": 0,
+        "outside": 0,
+        "constraints": [],
+        "pass": true
+      },
+      {
+        "text": "Review preview only. Continue browsing to adjust your selection.",
+        "foreground": "rgb(51, 45, 36)",
+        "background": "rgb(251, 246, 236)",
+        "ratio": 12.646272578820904,
+        "required": 4.5,
+        "glyphs": 56,
+        "obscured": 0,
+        "outside": 0,
+        "constraints": [],
+        "pass": true
+      }
+    ],
+    "witnessScope": "Opaque plain-text modal notes: computed colors, threshold and glyph-center hit tests. Unsupported paint stays unverified; raw axe incomplete results retained.",
+    "incomplete": [],
+    "incompleteDetails": []
+  },
+  "culture": {
+    "violations": [],
+    "paintWitness": [
+      {
+        "text": "Fixture preview only. No booking or payment.",
+        "foreground": "rgb(98, 87, 70)",
+        "background": "rgb(255, 242, 223)",
+        "ratio": 6.401233965715632,
+        "required": 4.5,
+        "glyphs": 38,
+        "obscured": 0,
+        "outside": 0,
+        "constraints": [],
+        "pass": true
+      },
+      {
+        "text": "Materials included · step-free entrance.",
+        "foreground": "rgb(38, 27, 34)",
+        "background": "rgb(255, 242, 223)",
+        "ratio": 15.066633446676612,
+        "required": 4.5,
+        "glyphs": 36,
+        "obscured": 0,
+        "outside": 0,
+        "constraints": [],
+        "pass": true
+      },
+      {
+        "text": "Your ticket draft is retained when you return to the program.",
+        "foreground": "rgb(38, 27, 34)",
+        "background": "rgb(255, 242, 223)",
+        "ratio": 15.066633446676612,
+        "required": 4.5,
+        "glyphs": 51,
+        "obscured": 0,
+        "outside": 0,
+        "constraints": [],
+        "pass": true
+      }
+    ],
+    "witnessScope": "Opaque plain-text modal notes: computed colors, threshold and glyph-center hit tests. Unsupported paint stays unverified; raw axe incomplete results retained.",
+    "incomplete": [],
+    "incompleteDetails": []
+  }
+}

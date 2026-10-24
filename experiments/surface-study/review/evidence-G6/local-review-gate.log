@@ -1,0 +1,26 @@
+
+## Local Review · BLOCKED
+
+> `unresolved` · PR unresolved · round unresolved
+
+| Signal | Evidence |
+| --- | --- |
+| Findings | unknown |
+| Admission | unmeasured — the gate stopped before reading the bar |
+| Unit size | unchecked |
+| Risk tier | unresolved |
+| Confidence evidence | Clean forecast: not recorded · Evidence checks: not measured · Forecast error: not measured · Why: not measured |
+| Probes | unrecorded |
+| Lenses | unrecorded |
+| Validation | not run |
+| Gates | unrecorded — the gate stopped before any typed gate ran |
+| Quality bar | not read — the gate stopped before reading the bar |
+| Stack | single PR |
+| Class closure | local ledger checked; remote analytics separate |
+| Defense | unmeasured — the gate stopped before reading the class ledger |
+| Overrides | none |
+
+### Decision
+
+`blocked: no open round for branch worktree/study-catalog-growth; nothing to do`
+review_loop_round: no open round for branch worktree/study-catalog-growth; nothing to do

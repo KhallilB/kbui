@@ -1,0 +1,265 @@
+$ vitest run Select Checkbox RadioGroup
+
+ RUN  v5.0.5 /Users/khallil/proj/kbui/.claude/worktrees/study-catalog-growth/packages/react
+
+ ❯ src/components/RadioGroup/RadioGroup.test.tsx (3 tests | 3 failed) 17ms
+   ❯ RadioGroup (3)
+     × uses arrow navigation, skips disabled items and checks only one 13ms
+     × supports null, named group, errors and root ref 1ms
+     × blocks disabled group changes 1ms
+stderr | src/components/Checkbox/Checkbox.test.tsx > Checkbox > resolves mixed state to checked with Space
+Received `true` for a non-boolean attribute `indeterminate`.
+
+If you want to write it to the DOM, pass a string instead: indeterminate="true" or indeterminate={value.toString()}.
+Unknown event handler property `onCheckedChange`. It will be ignored.
+
+stderr | src/components/Select/Select.test.tsx > Select > selects enabled options, shows labels and restores trigger focus
+Unknown event handler property `onValueChange`. It will be ignored.
+
+ ❯ src/components/Checkbox/Checkbox.test.tsx (3 tests | 3 failed) 91ms
+   ❯ Checkbox (3)
+     × resolves mixed state to checked with Space 80ms
+     × names and describes errors, forwards input ref and serializes checked value 7ms
+     × blocks disabled and read-only updates 3ms
+ ❯ src/components/Select/Select.test.tsx (4 tests | 4 failed) 97ms
+   ❯ Select (4)
+     × selects enabled options, shows labels and restores trigger focus 84ms
+     × associates helper/error text and forwards root ref 5ms
+     × exposes empty collection without action-menu semantics 4ms
+     × blocks disabled trigger 4ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 10 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/components/Checkbox/Checkbox.test.tsx > Checkbox > resolves mixed state to checked with Space
+TestingLibraryElementError: Unable to find an accessible element with the role "checkbox" and name "Select task"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"kb-checkbox"[39m
+      [33mdata-variant[39m=[32m"default"[39m
+      [33mlabel[39m=[32m"Select task"[39m
+    [36m/>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/components/Checkbox/Checkbox.test.tsx:8:103
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/10]⎯
+
+ FAIL  src/components/Checkbox/Checkbox.test.tsx > Checkbox > names and describes errors, forwards input ref and serializes checked value
+TestingLibraryElementError: Unable to find an accessible element with the role "checkbox"
+
+Here are the accessible roles:
+
+  form:
+
+  Name "Preferences":
+  [36m<form[39m
+    [33maria-label[39m=[32m"Preferences"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<form[39m
+      [33maria-label[39m=[32m"Preferences"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"kb-checkbox"[39m
+        [33mdata-variant[39m=[32m"default"[39m
+        [33mdescription[39m=[32m"Email updates"[39m
+        [33merror[39m=[32m"Choose a channel"[39m
+        [33mlabel[39m=[32m"Notify"[39m
+        [33mname[39m=[32m"notify"[39m
+        [33mvalue[39m=[32m"yes"[39m
+      [36m/>[39m
+    [36m</form>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/components/Checkbox/Checkbox.test.tsx:9:347
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/10]⎯
+
+ FAIL  src/components/Checkbox/Checkbox.test.tsx > Checkbox > blocks disabled and read-only updates
+TestingLibraryElementError: Unable to find an element with the text: Locked. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"kb-checkbox"[39m
+      [33mdata-variant[39m=[32m"default"[39m
+      [33mdisabled[39m=[32m""[39m
+      [33mlabel[39m=[32m"Locked"[39m
+    [36m/>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/components/Checkbox/Checkbox.test.tsx:10:213
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/10]⎯
+
+ FAIL  src/components/RadioGroup/RadioGroup.test.tsx > RadioGroup > uses arrow navigation, skips disabled items and checks only one
+Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+
+Check the render method of `Example`.
+ ❯ createFiberFromTypeAndProps ../../node_modules/.bun/react-dom@19.3.1+0441d6f8f57aca1e/node_modules/react-dom/cjs/react-dom-client.development.js:5330:28
+ ❯ createFiberFromElement ../../node_modules/.bun/react-dom@19.3.1+0441d6f8f57aca1e/node_modules/react-dom/cjs/react-dom-client.development.js:5344:14
+ ❯ createChild ../../node_modules/.bun/react-dom@19.3.1+0441d6f8f57aca1e/node_modules/react-dom/cjs/react-dom-client.development.js:6701:26
+ ❯ reconcileChildrenArray ../../node_modules/.bun/react-dom@19.3.1+0441d6f8f57aca1e/node_modules/react-dom/cjs/react-dom-client.development.js:7033:25
+ ❯ reconcileChildFibersImpl ../../node_modules/.bun/react-dom@19.3.1+0441d6f8f57aca1e/node_modules/react-dom/cjs/react-dom-client.development.js:7357:20
+ ❯ ../../node_modules/.bun/react-dom@19.3.1+0441d6f8f57aca1e/node_modules/react-dom/cjs/react-dom-client.development.js:7456:33
+ ❯ reconcileChildren ../../node_modules/.bun/react-dom@19.3.1+0441d6f8f57aca1e/node_modules/react-dom/cjs/react-dom-client.development.js:10096:13
+ ❯ beginWork ../../node_modules/.bun/react-dom@19.3.1+0441d6f8f57aca1e/node_modules/react-dom/cjs/react-dom-client.development.js:12468:13
+ ❯ runWithFiberInDEV ../../node_modules/.bun/react-dom@19.3.1+0441d6f8f57aca1e/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13
+ ❯ performUnitOfWork ../../node_modules/.bun/react-dom@19.3.1+0441d6f8f57aca1e/node_modules/react-dom/cjs/react-dom-client.development.js:19176:22
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/10]⎯
+
+ FAIL  src/components/RadioGroup/RadioGroup.test.tsx > RadioGroup > supports null, named group, errors and root ref
+ FAIL  src/components/RadioGroup/RadioGroup.test.tsx > RadioGroup > blocks disabled group changes
+Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: undefined. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
+ ❯ createFiberFromTypeAndProps ../../node_modules/.bun/react-dom@19.3.1+0441d6f8f57aca1e/node_modules/react-dom/cjs/react-dom-client.development.js:5330:28
+ ❯ createFiberFromElement ../../node_modules/.bun/react-dom@19.3.1+0441d6f8f57aca1e/node_modules/react-dom/cjs/react-dom-client.development.js:5344:14
+ ❯ reconcileChildFibersImpl ../../node_modules/.bun/react-dom@19.3.1+0441d6f8f57aca1e/node_modules/react-dom/cjs/react-dom-client.development.js:7286:31
+ ❯ ../../node_modules/.bun/react-dom@19.3.1+0441d6f8f57aca1e/node_modules/react-dom/cjs/react-dom-client.development.js:7456:33
+ ❯ reconcileChildren ../../node_modules/.bun/react-dom@19.3.1+0441d6f8f57aca1e/node_modules/react-dom/cjs/react-dom-client.development.js:10096:13
+ ❯ beginWork ../../node_modules/.bun/react-dom@19.3.1+0441d6f8f57aca1e/node_modules/react-dom/cjs/react-dom-client.development.js:12468:13
+ ❯ runWithFiberInDEV ../../node_modules/.bun/react-dom@19.3.1+0441d6f8f57aca1e/node_modules/react-dom/cjs/react-dom-client.development.js:1048:13
+ ❯ performUnitOfWork ../../node_modules/.bun/react-dom@19.3.1+0441d6f8f57aca1e/node_modules/react-dom/cjs/react-dom-client.development.js:19176:22
+ ❯ workLoopSync ../../node_modules/.bun/react-dom@19.3.1+0441d6f8f57aca1e/node_modules/react-dom/cjs/react-dom-client.development.js:19004:41
+ ❯ renderRootSync ../../node_modules/.bun/react-dom@19.3.1+0441d6f8f57aca1e/node_modules/react-dom/cjs/react-dom-client.development.js:18985:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/10]⎯
+
+ FAIL  src/components/Select/Select.test.tsx > Select > selects enabled options, shows labels and restores trigger focus
+TestingLibraryElementError: Unable to find an accessible element with the role "combobox" and name "Task status"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"kb-select"[39m
+      [33mdata-variant[39m=[32m"default"[39m
+      [33mlabel[39m=[32m"Task status"[39m
+      [33moptions[39m=[32m"[object Object],[object Object],[object Object]"[39m
+      [33mplaceholder[39m=[32m"Choose status"[39m
+    [36m/>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/components/Select/Select.test.tsx:9:122
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/10]⎯
+
+ FAIL  src/components/Select/Select.test.tsx > Select > associates helper/error text and forwards root ref
+TestingLibraryElementError: Unable to find an accessible element with the role "combobox"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"kb-select"[39m
+      [33mdata-variant[39m=[32m"default"[39m
+      [33mdescription[39m=[32m"Choose one"[39m
+      [33merror[39m=[32m"Unavailable date"[39m
+      [33mlabel[39m=[32m"Class"[39m
+      [33moptions[39m=[32m"[object Object],[object Object],[object Object]"[39m
+      [33mvalue[39m=[32m"review"[39m
+    [36m/>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/components/Select/Select.test.tsx:10:270
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/10]⎯
+
+ FAIL  src/components/Select/Select.test.tsx > Select > exposes empty collection without action-menu semantics
+TestingLibraryElementError: Unable to find an accessible element with the role "combobox"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"kb-select"[39m
+      [33mdata-variant[39m=[32m"default"[39m
+      [33mlabel[39m=[32m"Empty"[39m
+      [33moptions[39m=[32m""[39m
+    [36m/>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/components/Select/Select.test.tsx:11:182
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/10]⎯
+
+ FAIL  src/components/Select/Select.test.tsx > Select > blocks disabled trigger
+TestingLibraryElementError: Unable to find an accessible element with the role "combobox"
+
+There are no accessible roles. But there might be some inaccessible roles. If you wish to access them, then set the `hidden` option to `true`. Learn more about this here: https://testing-library.com/docs/dom-testing-library/api-queries#byrole
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"kb-select"[39m
+      [33mdata-variant[39m=[32m"default"[39m
+      [33mdisabled[39m=[32m""[39m
+      [33mlabel[39m=[32m"Locked"[39m
+      [33moptions[39m=[32m"[object Object],[object Object],[object Object]"[39m
+    [36m/>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../../node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/components/Select/Select.test.tsx:12:172
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/10]⎯
+
+
+ Test Files  3 failed (3)
+      Tests  10 failed (10)
+   Start at  14:41:32
+   Duration  868ms (environment 61%, setup 16%, tests 10%, transform 7%, import 5%)
+
+error: script "test" exited with code 1

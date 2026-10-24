@@ -1,0 +1,9 @@
+
+ RUN  v5.0.5 /Users/khallil/proj/kbui/.claude/worktrees/study-catalog-growth
+
+
+ Test Files  7 passed (7)
+      Tests  47 passed (47)
+   Start at  15:23:35
+   Duration  1.32s (environment 37%, tests 27%, import 23%, setup 10%, transform 4%)
+

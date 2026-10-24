@@ -1,0 +1,1514 @@
+[
+  {
+    "surface": "commerce",
+    "state": "ready",
+    "body": 390,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1637.2726821899414,
+      "height": 1537.20166015625,
+      "left": 11.99573802947998,
+      "right": 378.00425243377686,
+      "top": 100.0710220336914,
+      "width": 366.0085144042969,
+      "x": 11.99573802947998,
+      "y": 100.0710220336914
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/commerce/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 390,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "commerce",
+    "state": "loading",
+    "body": 390,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 750.0710220336914,
+      "height": 650,
+      "left": 11.99573802947998,
+      "right": 378.00425243377686,
+      "top": 100.0710220336914,
+      "width": 366.0085144042969,
+      "x": 11.99573802947998,
+      "y": 100.0710220336914
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/commerce/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 390,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "commerce",
+    "state": "empty",
+    "body": 390,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 750.0710220336914,
+      "height": 650,
+      "left": 11.99573802947998,
+      "right": 378.00425243377686,
+      "top": 100.0710220336914,
+      "width": 366.0085144042969,
+      "x": 11.99573802947998,
+      "y": 100.0710220336914
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/commerce/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 390,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "commerce",
+    "state": "error",
+    "body": 390,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 750.0710220336914,
+      "height": 650,
+      "left": 11.99573802947998,
+      "right": 378.00425243377686,
+      "top": 100.0710220336914,
+      "width": 366.0085144042969,
+      "x": 11.99573802947998,
+      "y": 100.0710220336914
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/commerce/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 390,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "commerce",
+    "state": "long",
+    "body": 390,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1766.626319885254,
+      "height": 1666.5552978515625,
+      "left": 11.99573802947998,
+      "right": 378.00425243377686,
+      "top": 100.0710220336914,
+      "width": 366.0085144042969,
+      "x": 11.99573802947998,
+      "y": 100.0710220336914
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/commerce/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 390,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "commerce",
+    "state": "action-error",
+    "body": 390,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1637.2726821899414,
+      "height": 1537.20166015625,
+      "left": 11.99573802947998,
+      "right": 378.00425243377686,
+      "top": 100.0710220336914,
+      "width": 366.0085144042969,
+      "x": 11.99573802947998,
+      "y": 100.0710220336914
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/commerce/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 390,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "operations",
+    "state": "ready",
+    "body": 390,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1623.891944885254,
+      "height": 1523.8209228515625,
+      "left": 11.99573802947998,
+      "right": 378.00425243377686,
+      "top": 100.0710220336914,
+      "width": 366.0085144042969,
+      "x": 11.99573802947998,
+      "y": 100.0710220336914
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/operations/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 390,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "operations",
+    "state": "loading",
+    "body": 390,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 850.0070571899414,
+      "height": 749.93603515625,
+      "left": 11.99573802947998,
+      "right": 378.00425243377686,
+      "top": 100.0710220336914,
+      "width": 366.0085144042969,
+      "x": 11.99573802947998,
+      "y": 100.0710220336914
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/operations/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 390,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "operations",
+    "state": "empty",
+    "body": 390,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 820.0496597290039,
+      "height": 719.9786376953125,
+      "left": 11.99573802947998,
+      "right": 378.00425243377686,
+      "top": 100.0710220336914,
+      "width": 366.0085144042969,
+      "x": 11.99573802947998,
+      "y": 100.0710220336914
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/operations/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 390,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "operations",
+    "state": "error",
+    "body": 390,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 820.0496597290039,
+      "height": 719.9786376953125,
+      "left": 11.99573802947998,
+      "right": 378.00425243377686,
+      "top": 100.0710220336914,
+      "width": 366.0085144042969,
+      "x": 11.99573802947998,
+      "y": 100.0710220336914
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/operations/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 390,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "operations",
+    "state": "long",
+    "body": 390,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1763.877784729004,
+      "height": 1663.8067626953125,
+      "left": 11.99573802947998,
+      "right": 378.00425243377686,
+      "top": 100.0710220336914,
+      "width": 366.0085144042969,
+      "x": 11.99573802947998,
+      "y": 100.0710220336914
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/operations/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 390,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "operations",
+    "state": "action-error",
+    "body": 390,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1623.891944885254,
+      "height": 1523.8209228515625,
+      "left": 11.99573802947998,
+      "right": 378.00425243377686,
+      "top": 100.0710220336914,
+      "width": 366.0085144042969,
+      "x": 11.99573802947998,
+      "y": 100.0710220336914
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/operations/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 390,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "culture",
+    "state": "ready",
+    "body": 390,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1753.5937271118164,
+      "height": 1653.522705078125,
+      "left": 11.99573802947998,
+      "right": 378.00425243377686,
+      "top": 100.0710220336914,
+      "width": 366.0085144042969,
+      "x": 11.99573802947998,
+      "y": 100.0710220336914
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/culture/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 390,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "culture",
+    "state": "loading",
+    "body": 390,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1020.5397109985352,
+      "height": 920.4686889648438,
+      "left": 11.99573802947998,
+      "right": 378.00425243377686,
+      "top": 100.0710220336914,
+      "width": 366.0085144042969,
+      "x": 11.99573802947998,
+      "y": 100.0710220336914
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/culture/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 390,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "culture",
+    "state": "empty",
+    "body": 390,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 990.582374572754,
+      "height": 890.5113525390625,
+      "left": 11.99573802947998,
+      "right": 378.00425243377686,
+      "top": 100.0710220336914,
+      "width": 366.0085144042969,
+      "x": 11.99573802947998,
+      "y": 100.0710220336914
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/culture/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 390,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "culture",
+    "state": "error",
+    "body": 390,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 990.582374572754,
+      "height": 890.5113525390625,
+      "left": 11.99573802947998,
+      "right": 378.00425243377686,
+      "top": 100.0710220336914,
+      "width": 366.0085144042969,
+      "x": 11.99573802947998,
+      "y": 100.0710220336914
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/culture/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 390,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "culture",
+    "state": "long",
+    "body": 390,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 2097.386329650879,
+      "height": 1997.3153076171875,
+      "left": 11.99573802947998,
+      "right": 378.00425243377686,
+      "top": 100.0710220336914,
+      "width": 366.0085144042969,
+      "x": 11.99573802947998,
+      "y": 100.0710220336914
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/culture/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 390,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "culture",
+    "state": "action-error",
+    "body": 390,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1753.5937271118164,
+      "height": 1653.522705078125,
+      "left": 11.99573802947998,
+      "right": 378.00425243377686,
+      "top": 100.0710220336914,
+      "width": 366.0085144042969,
+      "x": 11.99573802947998,
+      "y": 100.0710220336914
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/culture/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 390,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "commerce",
+    "state": "ready",
+    "body": 768,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1113.5369033813477,
+      "height": 1029.460205078125,
+      "left": 25,
+      "right": 743.1817626953125,
+      "top": 84.07669830322266,
+      "width": 718.1817626953125,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/commerce/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 768,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "commerce",
+    "state": "loading",
+    "body": 768,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 734.0766983032227,
+      "height": 650,
+      "left": 25,
+      "right": 743.1817626953125,
+      "top": 84.07669830322266,
+      "width": 718.1817626953125,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/commerce/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 768,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "commerce",
+    "state": "empty",
+    "body": 768,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 734.0766983032227,
+      "height": 650,
+      "left": 25,
+      "right": 743.1817626953125,
+      "top": 84.07669830322266,
+      "width": 718.1817626953125,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/commerce/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 768,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "commerce",
+    "state": "error",
+    "body": 768,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 734.0766983032227,
+      "height": 650,
+      "left": 25,
+      "right": 743.1817626953125,
+      "top": 84.07669830322266,
+      "width": 718.1817626953125,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/commerce/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 768,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "commerce",
+    "state": "long",
+    "body": 768,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1266.4132461547852,
+      "height": 1182.3365478515625,
+      "left": 25,
+      "right": 743.1817626953125,
+      "top": 84.07669830322266,
+      "width": 718.1817626953125,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/commerce/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 768,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "commerce",
+    "state": "action-error",
+    "body": 768,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1113.5369033813477,
+      "height": 1029.460205078125,
+      "left": 25,
+      "right": 743.1817626953125,
+      "top": 84.07669830322266,
+      "width": 718.1817626953125,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/commerce/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 768,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "operations",
+    "state": "ready",
+    "body": 768,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1194.0340957641602,
+      "height": 1109.9573974609375,
+      "left": 25,
+      "right": 743.1817626953125,
+      "top": 84.07669830322266,
+      "width": 718.1817626953125,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/operations/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 768,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "operations",
+    "state": "loading",
+    "body": 768,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 734.0766983032227,
+      "height": 650,
+      "left": 25,
+      "right": 743.1817626953125,
+      "top": 84.07669830322266,
+      "width": 718.1817626953125,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/operations/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 768,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "operations",
+    "state": "empty",
+    "body": 768,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 734.0766983032227,
+      "height": 650,
+      "left": 25,
+      "right": 743.1817626953125,
+      "top": 84.07669830322266,
+      "width": 718.1817626953125,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/operations/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 768,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "operations",
+    "state": "error",
+    "body": 768,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 734.0766983032227,
+      "height": 650,
+      "left": 25,
+      "right": 743.1817626953125,
+      "top": 84.07669830322266,
+      "width": 718.1817626953125,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/operations/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 768,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "operations",
+    "state": "long",
+    "body": 768,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1264.0268936157229,
+      "height": 1179.9501953125,
+      "left": 25,
+      "right": 743.1817626953125,
+      "top": 84.07669830322266,
+      "width": 718.1817626953125,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/operations/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 768,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "operations",
+    "state": "action-error",
+    "body": 768,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1194.0340957641602,
+      "height": 1109.9573974609375,
+      "left": 25,
+      "right": 743.1817626953125,
+      "top": 84.07669830322266,
+      "width": 718.1817626953125,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/operations/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 768,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "culture",
+    "state": "ready",
+    "body": 768,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1192.7342910766602,
+      "height": 1108.6575927734375,
+      "left": 25,
+      "right": 743.1817626953125,
+      "top": 84.07669830322266,
+      "width": 718.1817626953125,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/culture/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 768,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "culture",
+    "state": "loading",
+    "body": 768,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 852.4857559204102,
+      "height": 768.4090576171875,
+      "left": 25,
+      "right": 743.1817626953125,
+      "top": 84.07669830322266,
+      "width": 718.1817626953125,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/culture/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 768,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "culture",
+    "state": "empty",
+    "body": 768,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 835.0994033813477,
+      "height": 751.022705078125,
+      "left": 25,
+      "right": 743.1817626953125,
+      "top": 84.07669830322266,
+      "width": 718.1817626953125,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/culture/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 768,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "culture",
+    "state": "error",
+    "body": 768,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 835.0994033813477,
+      "height": 751.022705078125,
+      "left": 25,
+      "right": 743.1817626953125,
+      "top": 84.07669830322266,
+      "width": 718.1817626953125,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/culture/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 768,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "culture",
+    "state": "long",
+    "body": 768,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1602.6846084594729,
+      "height": 1518.60791015625,
+      "left": 25,
+      "right": 743.1817626953125,
+      "top": 84.07669830322266,
+      "width": 718.1817626953125,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/culture/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 768,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "culture",
+    "state": "action-error",
+    "body": 768,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1192.7342910766602,
+      "height": 1108.6575927734375,
+      "left": 25,
+      "right": 743.1817626953125,
+      "top": 84.07669830322266,
+      "width": 718.1817626953125,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/culture/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 768,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "commerce",
+    "state": "ready",
+    "body": 1440,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1038.785499572754,
+      "height": 954.7088012695312,
+      "left": 25,
+      "right": 1415,
+      "top": 84.07669830322266,
+      "width": 1390,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/commerce/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 1440,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "commerce",
+    "state": "loading",
+    "body": 1440,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 734.0766983032227,
+      "height": 650,
+      "left": 25,
+      "right": 1415,
+      "top": 84.07669830322266,
+      "width": 1390,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/commerce/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 1440,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "commerce",
+    "state": "empty",
+    "body": 1440,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 734.0766983032227,
+      "height": 650,
+      "left": 25,
+      "right": 1415,
+      "top": 84.07669830322266,
+      "width": 1390,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/commerce/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 1440,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "commerce",
+    "state": "error",
+    "body": 1440,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 734.0766983032227,
+      "height": 650,
+      "left": 25,
+      "right": 1415,
+      "top": 84.07669830322266,
+      "width": 1390,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/commerce/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 1440,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "commerce",
+    "state": "long",
+    "body": 1440,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1089.7443008422852,
+      "height": 1005.6676025390624,
+      "left": 25,
+      "right": 1415,
+      "top": 84.07669830322266,
+      "width": 1390,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/commerce/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 1440,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "commerce",
+    "state": "action-error",
+    "body": 1440,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1038.785499572754,
+      "height": 954.7088012695312,
+      "left": 25,
+      "right": 1415,
+      "top": 84.07669830322266,
+      "width": 1390,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/commerce/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 1440,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "operations",
+    "state": "ready",
+    "body": 1440,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 806.2854995727539,
+      "height": 722.2088012695312,
+      "left": 25,
+      "right": 1415,
+      "top": 84.07669830322266,
+      "width": 1390,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/operations/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 1440,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "operations",
+    "state": "loading",
+    "body": 1440,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 734.0766983032227,
+      "height": 650,
+      "left": 25,
+      "right": 1415,
+      "top": 84.07669830322266,
+      "width": 1390,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/operations/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 1440,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "operations",
+    "state": "empty",
+    "body": 1440,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 734.0766983032227,
+      "height": 650,
+      "left": 25,
+      "right": 1415,
+      "top": 84.07669830322266,
+      "width": 1390,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/operations/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 1440,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "operations",
+    "state": "error",
+    "body": 1440,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 734.0766983032227,
+      "height": 650,
+      "left": 25,
+      "right": 1415,
+      "top": 84.07669830322266,
+      "width": 1390,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/operations/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 1440,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "operations",
+    "state": "long",
+    "body": 1440,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 824.2897109985352,
+      "height": 740.2130126953125,
+      "left": 25,
+      "right": 1415,
+      "top": 84.07669830322266,
+      "width": 1390,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/operations/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 1440,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "operations",
+    "state": "action-error",
+    "body": 1440,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 806.2854995727539,
+      "height": 722.2088012695312,
+      "left": 25,
+      "right": 1415,
+      "top": 84.07669830322266,
+      "width": 1390,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/operations/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 1440,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "culture",
+    "state": "ready",
+    "body": 1440,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1173.2385635375977,
+      "height": 1089.161865234375,
+      "left": 25,
+      "right": 1415,
+      "top": 84.07669830322266,
+      "width": 1390,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/culture/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 1440,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "culture",
+    "state": "loading",
+    "body": 1440,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 915.1704483032228,
+      "height": 831.09375,
+      "left": 25,
+      "right": 1415,
+      "top": 84.07669830322266,
+      "width": 1390,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/culture/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 1440,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "culture",
+    "state": "empty",
+    "body": 1440,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 839.1832046508789,
+      "height": 755.1065063476562,
+      "left": 25,
+      "right": 1415,
+      "top": 84.07669830322266,
+      "width": 1390,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/culture/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 1440,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "culture",
+    "state": "error",
+    "body": 1440,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 839.1832046508789,
+      "height": 755.1065063476562,
+      "left": 25,
+      "right": 1415,
+      "top": 84.07669830322266,
+      "width": 1390,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/culture/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 1440,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "culture",
+    "state": "long",
+    "body": 1440,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1257.2300186157229,
+      "height": 1173.1533203125,
+      "left": 25,
+      "right": 1415,
+      "top": 84.07669830322266,
+      "width": 1390,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/culture/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 1440,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "culture",
+    "state": "action-error",
+    "body": 1440,
+    "brokenImages": [],
+    "concept": {
+      "bottom": 1173.2385635375977,
+      "height": 1089.161865234375,
+      "left": 25,
+      "right": 1415,
+      "top": 84.07669830322266,
+      "width": 1390,
+      "x": 25,
+      "y": 84.07669830322266
+    },
+    "height": 900,
+    "stylesheets": [
+      "http://127.0.0.1:43427/packages/css/dist/styles.css?v=32538c9623a1",
+      "http://127.0.0.1:43427/experiments/surface-study/culture/blueprint/theme.css",
+      "http://127.0.0.1:43427/experiments/surface-study/runtime/ui.css?v=f75fa3f5629a"
+    ],
+    "width": 1440,
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  }
+]

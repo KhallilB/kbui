@@ -1,0 +1,10 @@
+$ vitest run --config vitest.accessibility.config.ts
+
+ RUN  v5.0.5 /Users/khallil/proj/kbui/.claude/worktrees/study-catalog-growth/apps/storybook
+
+
+ Test Files  2 passed | 19 skipped (21)
+      Tests  10 passed | 106 skipped (116)
+   Start at  17:09:00
+   Duration  5.10s (worker 63%, setup 23%, tests 9%, import 5%)
+

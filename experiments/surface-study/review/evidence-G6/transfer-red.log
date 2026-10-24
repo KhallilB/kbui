@@ -1,0 +1,51 @@
+
+ RUN  v5.0.5 /Users/khallil/proj/kbui/.claude/worktrees/study-catalog-growth
+
+ ❯ experiments/surface-study/transfer/AssignmentPreferences.test.tsx (1 test | 1 failed) 82ms
+   ❯ fresh assignment preferences region (1)
+     × reviews a draft and applies locally only after confirmation 81ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  experiments/surface-study/transfer/AssignmentPreferences.test.tsx > fresh assignment preferences region > reviews a draft and applies locally only after confirmation
+TestingLibraryElementError: Unable to find an accessible element with the role "radio" and name "Manual assignment"
+
+Here are the accessible roles:
+
+  region:
+
+  Name "Assignment preferences":
+  [36m<section[39m
+    [33maria-label[39m=[32m"Assignment preferences"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<section[39m
+      [33maria-label[39m=[32m"Assignment preferences"[39m
+    [36m/>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/.bun/@testing-library+dom@10.4.2/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ experiments/surface-study/transfer/AssignmentPreferences.test.tsx:9:29
+      7|     const user = userEvent.setup();
+      8|     render(<AssignmentPreferences />);
+      9|     await user.click(screen.getByRole("radio", { name: "Manual assignm…
+       |                             ^
+     10|     await user.click(screen.getByRole("combobox", { name: "Default tea…
+     11|     await user.click(await screen.findByRole("option", { name: "West t…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  14:54:50
+   Duration  717ms (environment 62%, setup 15%, tests 13%, transform 5%, import 4%, worker 1%)
+

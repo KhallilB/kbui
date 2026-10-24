@@ -1,0 +1,5 @@
+# Preserve raw tool output; collapse generated study records in code review.
+experiments/surface-study/review/evidence-*/* linguist-generated=true
+experiments/surface-study/review/evidence-*/*.log -whitespace
+experiments/surface-study/review/delivery/*.log linguist-generated=true -whitespace
+experiments/surface-study/review/goal6*.json linguist-generated=true

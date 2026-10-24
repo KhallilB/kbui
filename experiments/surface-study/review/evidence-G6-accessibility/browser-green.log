@@ -1,0 +1,10 @@
+$ vitest run Accessibility.stories.tsx SurfaceAccessibility.stories.tsx Select.stories.tsx
+
+ RUN  v5.0.5 /Users/khallil/proj/kbui/.claude/worktrees/study-catalog-growth/apps/storybook
+
+
+ Test Files  6 passed (6)
+      Tests  34 passed (34)
+   Start at  16:59:39
+   Duration  6.06s (tests 66%, setup 22%, import 7%, worker 5%)
+

@@ -1,0 +1,59 @@
+$ vitest run Checkbox
+
+ RUN  v5.0.5 /Users/khallil/proj/kbui/.claude/worktrees/study-catalog-growth/packages/react
+
+ ❯ src/components/Checkbox/Checkbox.test.tsx (5 tests | 2 failed) 197ms
+   × resolves checked mixed input to checked and retains controlled projection when declined 19ms
+   × preserves read-only mixed DOM state and announces read-only 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/components/Checkbox/Checkbox.test.tsx > resolves checked mixed input to checked and retains controlled projection when declined
+AssertionError: expected "vi.fn()" to be called with arguments: [ true ]
+
+Received:
+
+  1st vi.fn() call:
+
+  [
+-   true,
++   false,
+  ]
+
+
+Number of calls: 1
+
+ ❯ src/components/Checkbox/Checkbox.test.tsx:68:18
+     66|   const box = screen.getByRole("checkbox", {name: "Aggregate"});
+     67|   await userEvent.click(box);
+     68|   expect(change).toHaveBeenCalledWith(true);
+       |                  ^
+     69|   expect((box as HTMLInputElement).indeterminate).toBe(true);
+     70|   expect(box).toBeChecked();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/components/Checkbox/Checkbox.test.tsx > preserves read-only mixed DOM state and announces read-only
+Error: expect(element).toHaveAttribute("aria-readonly", "true") // element.getAttribute("aria-readonly") === "true"
+
+Expected the element to have attribute:
+  aria-readonly="true"
+Received:
+  null
+ ❯ src/components/Checkbox/Checkbox.test.tsx:76:15
+     74|   render(<Checkbox label="Read-only aggregate" checked={false} indeter…
+     75|   const box = screen.getByRole("checkbox", {name: "Read-only aggregate…
+     76|   expect(box).toHaveAttribute("aria-readonly", "true");
+       |               ^
+     77|   await userEvent.click(box);
+     78|   expect((box as HTMLInputElement).indeterminate).toBe(true);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 3 passed (5)
+   Start at  16:48:04
+   Duration  1.09s (environment 58%, tests 21%, setup 12%, import 4%, transform 4%)
+
+error: script "test" exited with code 1

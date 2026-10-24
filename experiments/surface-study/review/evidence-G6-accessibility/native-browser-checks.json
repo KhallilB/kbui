@@ -1,0 +1,297 @@
+[
+  {
+    "surface": "commerce",
+    "scene": "ready",
+    "audit": {
+      "violations": [],
+      "paintWitness": [],
+      "witnessScope": "Opaque plain-text modal notes: computed colors, threshold and glyph-center hit tests. Unsupported paint stays unverified; raw axe incomplete results retained.",
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "commerce",
+    "scene": "modal",
+    "keyboard": [
+      {
+        "inside": true,
+        "name": "Continue browsing"
+      },
+      {
+        "inside": true,
+        "name": "×"
+      },
+      {
+        "inside": true,
+        "name": "Continue browsing"
+      },
+      {
+        "inside": true,
+        "name": "×"
+      },
+      {
+        "inside": true,
+        "name": "Continue browsing"
+      },
+      {
+        "inside": true,
+        "name": "×"
+      },
+      {
+        "inside": true,
+        "name": "Continue browsing"
+      },
+      {
+        "inside": true,
+        "name": "×"
+      }
+    ],
+    "audit": {
+      "violations": [],
+      "paintWitness": [
+        {
+          "text": "Local fixture only. No order placed.",
+          "foreground": "rgb(51, 45, 36)",
+          "background": "rgb(251, 246, 236)",
+          "ratio": 12.646272578820904,
+          "required": 4.5,
+          "glyphs": 31,
+          "obscured": 0,
+          "outside": 0,
+          "constraints": [],
+          "pass": true
+        },
+        {
+          "text": "Review preview only. Continue browsing to adjust your selection.",
+          "foreground": "rgb(51, 45, 36)",
+          "background": "rgb(251, 246, 236)",
+          "ratio": 12.646272578820904,
+          "required": 4.5,
+          "glyphs": 56,
+          "obscured": 0,
+          "outside": 0,
+          "constraints": [],
+          "pass": true
+        }
+      ],
+      "witnessScope": "Opaque plain-text modal notes: computed colors, threshold and glyph-center hit tests. Unsupported paint stays unverified; raw axe incomplete results retained.",
+      "incomplete": ["color-contrast", "label-content-name-mismatch"],
+      "incompleteDetails": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [".overlay-note"],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            }
+          ]
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "nodes": [
+            {
+              "target": [".overlay-close"],
+              "summary": "Fix any of the following:\n  Unable to determine if the visible text is part of the accessible name"
+            }
+          ]
+        }
+      ]
+    },
+    "viewport": {
+      "height": 720,
+      "width": 1280
+    }
+  },
+  {
+    "surface": "operations",
+    "scene": "ready",
+    "audit": {
+      "violations": [],
+      "paintWitness": [],
+      "witnessScope": "Opaque plain-text modal notes: computed colors, threshold and glyph-center hit tests. Unsupported paint stays unverified; raw axe incomplete results retained.",
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "culture",
+    "scene": "ready",
+    "audit": {
+      "violations": [],
+      "paintWitness": [],
+      "witnessScope": "Opaque plain-text modal notes: computed colors, threshold and glyph-center hit tests. Unsupported paint stays unverified; raw axe incomplete results retained.",
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "culture",
+    "scene": "modal",
+    "keyboard": [
+      {
+        "inside": true,
+        "name": "Back to program"
+      },
+      {
+        "inside": true,
+        "name": "×"
+      },
+      {
+        "inside": true,
+        "name": "Back to program"
+      },
+      {
+        "inside": true,
+        "name": "×"
+      },
+      {
+        "inside": true,
+        "name": "Back to program"
+      },
+      {
+        "inside": true,
+        "name": "×"
+      },
+      {
+        "inside": true,
+        "name": "Back to program"
+      },
+      {
+        "inside": true,
+        "name": "×"
+      }
+    ],
+    "audit": {
+      "violations": [],
+      "paintWitness": [
+        {
+          "text": "Fixture preview only. No booking or payment.",
+          "foreground": "rgb(98, 87, 70)",
+          "background": "rgb(255, 242, 223)",
+          "ratio": 6.401233965715632,
+          "required": 4.5,
+          "glyphs": 38,
+          "obscured": 0,
+          "outside": 0,
+          "constraints": [],
+          "pass": true
+        },
+        {
+          "text": "Materials included · step-free entrance.",
+          "foreground": "rgb(38, 27, 34)",
+          "background": "rgb(255, 242, 223)",
+          "ratio": 15.066633446676612,
+          "required": 4.5,
+          "glyphs": 36,
+          "obscured": 0,
+          "outside": 0,
+          "constraints": [],
+          "pass": true
+        },
+        {
+          "text": "Your ticket draft is retained when you return to the program.",
+          "foreground": "rgb(38, 27, 34)",
+          "background": "rgb(255, 242, 223)",
+          "ratio": 15.066633446676612,
+          "required": 4.5,
+          "glyphs": 51,
+          "obscured": 0,
+          "outside": 0,
+          "constraints": [],
+          "pass": true
+        }
+      ],
+      "witnessScope": "Opaque plain-text modal notes: computed colors, threshold and glyph-center hit tests. Unsupported paint stays unverified; raw axe incomplete results retained.",
+      "incomplete": ["label-content-name-mismatch"],
+      "incompleteDetails": [
+        {
+          "id": "label-content-name-mismatch",
+          "nodes": [
+            {
+              "target": [".overlay-close"],
+              "summary": "Fix any of the following:\n  Unable to determine if the visible text is part of the accessible name"
+            }
+          ]
+        }
+      ]
+    },
+    "viewport": {
+      "height": 720,
+      "width": 1280
+    }
+  },
+  {
+    "surface": "transfer",
+    "scene": "ready",
+    "audit": {
+      "violations": [],
+      "paintWitness": [],
+      "witnessScope": "Opaque plain-text modal notes: computed colors, threshold and glyph-center hit tests. Unsupported paint stays unverified; raw axe incomplete results retained.",
+      "incomplete": [],
+      "incompleteDetails": []
+    }
+  },
+  {
+    "surface": "transfer",
+    "scene": "modal",
+    "keyboard": [
+      {
+        "inside": true,
+        "name": "Apply locally"
+      },
+      {
+        "inside": true,
+        "name": "Keep editing"
+      },
+      {
+        "inside": true,
+        "name": "Apply locally"
+      },
+      {
+        "inside": true,
+        "name": "Keep editing"
+      },
+      {
+        "inside": true,
+        "name": "Apply locally"
+      },
+      {
+        "inside": true,
+        "name": "Keep editing"
+      },
+      {
+        "inside": true,
+        "name": "Apply locally"
+      },
+      {
+        "inside": true,
+        "name": "Keep editing"
+      }
+    ],
+    "audit": {
+      "violations": [],
+      "paintWitness": [
+        {
+          "text": "Check defaults before applying to this local fixture.",
+          "foreground": "rgb(189, 205, 200)",
+          "background": "rgb(21, 43, 43)",
+          "ratio": 9.013761507884734,
+          "required": 4.5,
+          "glyphs": 46,
+          "obscured": 0,
+          "outside": 0,
+          "constraints": [],
+          "pass": true
+        }
+      ],
+      "witnessScope": "Opaque plain-text modal notes: computed colors, threshold and glyph-center hit tests. Unsupported paint stays unverified; raw axe incomplete results retained.",
+      "incomplete": [],
+      "incompleteDetails": []
+    },
+    "viewport": {
+      "height": 720,
+      "width": 1280
+    }
+  }
+]

@@ -1,0 +1,10 @@
+$ vitest run --config vitest.accessibility.config.ts
+
+ RUN  v5.0.5 /Users/khallil/proj/kbui/.claude/worktrees/pr-surface-foundations/apps/storybook
+
+
+ Test Files  1 passed | 19 skipped (20)
+      Tests  4 passed | 105 skipped (109)
+   Start at  18:22:50
+   Duration  3.56s (worker 70%, setup 23%, import 4%, tests 3%)
+
