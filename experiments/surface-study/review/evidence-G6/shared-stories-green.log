@@ -1,0 +1,11 @@
+$ bun run --filter @kbui/storybook test
+@kbui/storybook test: 
+@kbui/storybook test:  RUN  v5.0.5 /Users/khallil/proj/kbui/.claude/worktrees/study-catalog-growth/apps/storybook
+@kbui/storybook test: 
+@kbui/storybook test: 
+@kbui/storybook test:  Test Files  38 passed (38)
+@kbui/storybook test:       Tests  210 passed (210)
+@kbui/storybook test:    Start at  15:31:42
+@kbui/storybook test:    Duration  5.68s (worker 77%, tests 12%, setup 8%, import 3%)
+@kbui/storybook test: 
+@kbui/storybook test: Exited with code 0

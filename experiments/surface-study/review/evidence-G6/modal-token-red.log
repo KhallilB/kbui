@@ -1,0 +1,68 @@
+$ vitest run Dialog.stories.tsx
+
+ RUN  v5.0.5 /Users/khallil/proj/kbui/.claude/worktrees/study-catalog-growth/apps/storybook
+
+ ❯ |chromium-reduced-motion| ../../packages/react/src/components/Dialog/Dialog.stories.tsx (4 tests | 1 failed) 548ms
+   × Extensible Surface 15ms
+ ❯ |storybook (chromium)| ../../packages/react/src/components/Dialog/Dialog.stories.tsx (4 tests | 1 failed) 562ms
+   × Extensible Surface 14ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |storybook (chromium)| ../../packages/react/src/components/Dialog/Dialog.stories.tsx > Extensible Surface
+AssertionError: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-dialog--extensible-surface&addonPanel=storybook/interactions/panel[39m
+
+expected 'rgb(255, 255, 255)' to be 'rgb(255, 242, 223)' // Object.is equality
+
+Expected: [32m"rgb(255, 2[7m42, 223[27m)"[39m
+Received: [31m"rgb(255, 2[7m55, 255[27m)"[39m
+
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=71023137:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=71023137:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=71023137:2445:83
+ ❯ Proxy.toBe node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=71023137:2423:151
+ ❯ toBe ../../packages/react/src/components/Dialog/Dialog.stories.tsx:31:7
+     29|   render: () => (
+     30|     <Dialog defaultOpen>
+     31|       <Dialog.Content title="Already open" description="Rendered open …
+       |       ^
+     32|         <Dialog.Actions>
+     33|           <Dialog.Close render={<Button />}>Close</Dialog.Close>
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/csf-B9cb9AQv.js?v=71023137:6876:6
+ ❯ node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/plugins.DPQHVT0p-Dt4lnc_t.js?v=71023137:5242:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |chromium-reduced-motion| ../../packages/react/src/components/Dialog/Dialog.stories.tsx > Extensible Surface
+AssertionError: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-dialog--extensible-surface&addonPanel=storybook/interactions/panel[39m
+
+expected 'rgb(255, 255, 255)' to be 'rgb(255, 242, 223)' // Object.is equality
+
+Expected: [32m"rgb(255, 2[7m42, 223[27m)"[39m
+Received: [31m"rgb(255, 2[7m55, 255[27m)"[39m
+
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=71023137:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=71023137:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=71023137:2445:83
+ ❯ Proxy.toBe node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=71023137:2423:151
+ ❯ toBe ../../packages/react/src/components/Dialog/Dialog.stories.tsx:31:7
+     29|   render: () => (
+     30|     <Dialog defaultOpen>
+     31|       <Dialog.Content title="Already open" description="Rendered open …
+       |       ^
+     32|         <Dialog.Actions>
+     33|           <Dialog.Close render={<Button />}>Close</Dialog.Close>
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/csf-B9cb9AQv.js?v=71023137:6876:6
+ ❯ node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/plugins.DPQHVT0p-Dt4lnc_t.js?v=71023137:5242:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 6 passed (8)
+   Start at  14:44:55
+   Duration  2.22s (setup 51%, tests 38%, worker 9%, import 2%)
+
+error: script "test" exited with code 1

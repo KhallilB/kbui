@@ -1,0 +1,1144 @@
+$ vitest run --config vitest.accessibility.config.ts
+Warning: Starting in Storybook 8.5.0-alpha.18, the "test.include" option in Vitest is discouraged in favor of just using the "stories" field in your Storybook configuration.
+
+The values you passed to "test.include" will be ignored, please remove them from your Vitest configuration where the Storybook plugin is applied.
+
+More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#addon-test-indexing-behavior-of-storybookaddon-test-is-changed
+
+ RUN  v5.0.5 /Users/khallil/proj/kbui/.claude/worktrees/study-catalog-growth/apps/storybook
+
+ ❯ |chromium-forced-colors| ../../packages/react/src/components/Dialog/Dialog.stories.tsx (4 tests | 1 failed) 1175ms
+   × Extensible Surface 21ms
+ ❯ |chromium-forced-colors| ../../packages/react/src/components/Panel/Panel.stories.tsx (14 tests | 4 failed) 2174ms
+   × Depth 18ms
+   × Depth Dark 19ms
+   × Token Overrides 16ms
+   × Token Overrides Light 16ms
+ ❯ |chromium-forced-colors| stories/Accessibility.stories.tsx (3 tests | 1 failed) 2267ms
+   × Forced Colors 668ms
+ ❯ |chromium-forced-colors| ../../packages/react/src/components/Grid/Grid.stories.tsx (4 tests | 1 failed) 3532ms
+   × Dark 409ms
+ ❯ |chromium-forced-colors| ../../packages/react/src/components/Status/Status.stories.tsx (8 tests | 2 failed) 2989ms
+   × Chip Dark 1548ms
+   × Dark 29ms
+ ❯ |chromium-forced-colors| ../../packages/react/src/components/Menu/Menu.stories.tsx (3 tests | 2 failed) 2899ms
+   × Default Dark 1140ms
+   × Nested Theme 55ms
+ ❯ |chromium-forced-colors| ../../packages/react/src/components/RadioGroup/RadioGroup.stories.tsx (7 tests | 2 failed) 3157ms
+   × Dark 181ms
+   × Selected Material 18ms
+ ❯ |chromium-forced-colors| ../../packages/react/src/components/Select/Select.stories.tsx (6 tests | 2 failed) 3112ms
+   × Dark 565ms
+   × Empty 82ms
+ ❯ |chromium-forced-colors| ../../packages/react/src/components/Tooltip/Tooltip.stories.tsx (3 tests | 2 failed) 2908ms
+   × On Hover Dark 428ms
+   × Nested Theme 34ms
+ ❯ |chromium-forced-colors| ../../packages/react/src/components/Checkbox/Checkbox.stories.tsx (6 tests | 1 failed) 3142ms
+   × Dark 1756ms
+ ❯ |chromium-forced-colors| ../../packages/react/src/components/Card/Card.stories.tsx (4 tests | 1 failed) 698ms
+   × Dark 188ms
+ ❯ |chromium-forced-colors| ../../packages/react/src/components/Toolbar/Toolbar.stories.tsx (2 tests | 1 failed) 821ms
+   × Default Dark 402ms
+ ❯ |chromium-forced-colors| ../../packages/react/src/components/Badge/Badge.stories.tsx (6 tests | 1 failed) 1083ms
+   × Tones Dark 425ms
+ ❯ |chromium-forced-colors| ../../packages/react/src/components/Callout/Callout.stories.tsx (4 tests | 1 failed) 990ms
+   × With Actions Dark 457ms
+ ❯ |chromium-forced-colors| ../../packages/react/src/components/Progress/Progress.stories.tsx (4 tests | 1 failed) 977ms
+   × Steps Dark 303ms
+ ❯ |chromium-forced-colors| ../../packages/react/src/components/ScrollArea/ScrollArea.stories.tsx (2 tests | 1 failed) 964ms
+   × Default Dark 293ms
+ ❯ |chromium-forced-colors| ../../packages/react/src/components/Stat/Stat.stories.tsx (4 tests | 1 failed) 992ms
+   × Display Dark 272ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 25 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |chromium-forced-colors| stories/Accessibility.stories.tsx > Forced Colors
+AssertionError: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/validation-accessible-selection--forced-colors&addonPanel=storybook/interactions/panel[39m
+
+expected 'rgb(255, 255, 255)' not to be 'rgb(255, 255, 255)' // Object.is equality
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toBe node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ toBe stories/Accessibility.stories.tsx:8:54
+      6| type Story = StoryObj<typeof meta>;
+      7| export const ForcedColors: Story = {
+      8|   render: () => <RadioGroup label="Assignment" value="manual" onValueC…
+       |                                                      ^
+      9|     <RadioGroup.Item value="manual">Manual assignment</RadioGroup.Item>
+     10|     <RadioGroup.Item value="automatic">Automatic assignment</RadioGrou…
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6876:12
+ ❯ node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/plugins.DPQHVT0p-Dt4lnc_t.js?v=41713327:5242:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/Badge/Badge.stories.tsx > Tones Dark
+Error: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-badge--tones-dark&addonPanel=storybook/interactions/panel[39m
+
+[2mexpect([22m[31mreceived[39m[2m).toHaveNoViolations([22m[32mexpected[39m[2m)[22m
+
+Expected the HTML found at $('span[data-tone="neutral"]') to have no violations:
+
+[90m<span class="kb-badge" data-tone="neutral" data-appearance="chip">neutral</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.91 (foreground color: #bbbbc1, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('span[data-tone="info"]') to have no violations:
+
+[90m<span class="kb-badge" data-tone="info" data-appearance="chip">info</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.55 (foreground color: #83e0d0, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('span[data-tone="success"]') to have no violations:
+
+[90m<span class="kb-badge" data-tone="success" data-appearance="chip">success</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.47 (foreground color: #8de8a6, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('span[data-tone="warning"]') to have no violations:
+
+[90m<span class="kb-badge" data-tone="warning" data-appearance="chip">warning</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.43 (foreground color: #fbd27c, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('span[data-tone="danger"]') to have no violations:
+
+[90m<span class="kb-badge" data-tone="danger" data-appearance="chip">danger</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 2.44 (foreground color: #fa837b, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+ ❯ Proxy.expectWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25981:49
+ ❯ Proxy.<anonymous> node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25523:101
+ ❯ Proxy.methodWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:21126:23
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toHaveNoViolations node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ Object.applyAfterEach node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6560:4
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6878:100
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/Callout/Callout.stories.tsx > With Actions Dark
+Error: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-callout--with-actions-dark&addonPanel=storybook/interactions/panel[39m
+
+[2mexpect([22m[31mreceived[39m[2m).toHaveNoViolations([22m[32mexpected[39m[2m)[22m
+
+Expected the HTML found at $('.kb-callout-title') to have no violations:
+
+[90m<div class="kb-callout-title">Needs an answer</div>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('.kb-callout-body') to have no violations:
+
+[90m<div class="kb-callout-body">Overwrite src/policy.rs?</div>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('button[data-variant="ghost"]') to have no violations:
+
+[90m<button type="button" tabindex="0" data-variant="ghost" data-size="sm" class="kb-button">Skip</button>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+ ❯ Proxy.expectWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25981:49
+ ❯ Proxy.<anonymous> node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25523:101
+ ❯ Proxy.methodWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:21126:23
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toHaveNoViolations node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ Object.applyAfterEach node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6560:4
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6878:100
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/Checkbox/Checkbox.stories.tsx > Dark
+Error: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-checkbox--dark&addonPanel=storybook/interactions/panel[39m
+
+[2mexpect([22m[31mreceived[39m[2m).toHaveNoViolations([22m[32mexpected[39m[2m)[22m
+
+Expected the HTML found at $('label') to have no violations:
+
+[90m<label for="_r_2_" class="kb-checkbox-label">Include selected records</label>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+ ❯ Proxy.expectWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25981:49
+ ❯ Proxy.<anonymous> node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25523:101
+ ❯ Proxy.methodWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:21126:23
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toHaveNoViolations node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ Object.applyAfterEach node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6560:4
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6878:100
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/Card/Card.stories.tsx > Dark
+Error: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-card--dark&addonPanel=storybook/interactions/panel[39m
+
+[2mexpect([22m[31mreceived[39m[2m).toHaveNoViolations([22m[32mexpected[39m[2m)[22m
+
+Expected the HTML found at $('h2') to have no violations:
+
+[90m<h2>Project</h2>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 18.0pt (24px), font weight: bold). Expected contrast ratio of 3:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('article > p') to have no violations:
+
+[90m<p>A neutral content surface.</p>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+ ❯ Proxy.expectWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25981:49
+ ❯ Proxy.<anonymous> node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25523:101
+ ❯ Proxy.methodWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:21126:23
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toHaveNoViolations node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ Object.applyAfterEach node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6560:4
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6878:100
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/Dialog/Dialog.stories.tsx > Extensible Surface
+AssertionError: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-dialog--extensible-surface&addonPanel=storybook/interactions/panel[39m
+
+expected 'rgb(255, 255, 255)' to be 'rgb(255, 242, 223)' // Object.is equality
+
+Expected: [32m"rgb(255, 2[7m42, 223[27m)"[39m
+Received: [31m"rgb(255, 2[7m55, 255[27m)"[39m
+
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toBe node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ toBe ../../packages/react/src/components/Dialog/Dialog.stories.tsx:31:29
+     29|   render: () => (
+     30|     <Dialog defaultOpen>
+     31|       <Dialog.Content title="Already open" description="Rendered open …
+       |                             ^
+     32|         <Dialog.Actions>
+     33|           <Dialog.Close render={<Button />}>Close</Dialog.Close>
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6876:6
+ ❯ node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/plugins.DPQHVT0p-Dt4lnc_t.js?v=41713327:5242:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/Grid/Grid.stories.tsx > Dark
+Error: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/layout-grid--dark&addonPanel=storybook/interactions/panel[39m
+
+[2mexpect([22m[31mreceived[39m[2m).toHaveNoViolations([22m[32mexpected[39m[2m)[22m
+
+Expected the HTML found at $('article:nth-child(1) > h2') to have no violations:
+
+[90m<h2>First</h2>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 18.0pt (24px), font weight: bold). Expected contrast ratio of 3:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('article:nth-child(1) > p') to have no violations:
+
+[90m<p>Content in equal columns.</p>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('article:nth-child(2) > h2') to have no violations:
+
+[90m<h2>Second</h2>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 18.0pt (24px), font weight: bold). Expected contrast ratio of 3:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('article:nth-child(2) > p') to have no violations:
+
+[90m<p>Content in equal columns.</p>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('article:nth-child(3) > h2') to have no violations:
+
+[90m<h2>Third</h2>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 18.0pt (24px), font weight: bold). Expected contrast ratio of 3:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('article:nth-child(3) > p') to have no violations:
+
+[90m<p>Content in equal columns.</p>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+ ❯ Proxy.expectWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25981:49
+ ❯ Proxy.<anonymous> node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25523:101
+ ❯ Proxy.methodWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:21126:23
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toHaveNoViolations node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ Object.applyAfterEach node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6560:4
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6878:100
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/Progress/Progress.stories.tsx > Steps Dark
+Error: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-progress--steps-dark&addonPanel=storybook/interactions/panel[39m
+
+[2mexpect([22m[31mreceived[39m[2m).toHaveNoViolations([22m[32mexpected[39m[2m)[22m
+
+Expected the HTML found at $('#base-ui-_r_3_') to have no violations:
+
+[90m<span data-progressing="" id="base-ui-_r_3_" role="presentation" class="kb-progress-label">Step 3: cargo check</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('.kb-progress-value') to have no violations:
+
+[90m<span data-progressing="" aria-hidden="true" class="kb-progress-value">3 of 5</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 2.56 (foreground color: #a1a1aa, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+ ❯ Proxy.expectWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25981:49
+ ❯ Proxy.<anonymous> node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25523:101
+ ❯ Proxy.methodWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:21126:23
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toHaveNoViolations node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ Object.applyAfterEach node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6560:4
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6878:100
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/RadioGroup/RadioGroup.stories.tsx > Dark
+Error: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-radiogroup--dark&addonPanel=storybook/interactions/panel[39m
+
+[2mexpect([22m[31mreceived[39m[2m).toHaveNoViolations([22m[32mexpected[39m[2m)[22m
+
+Expected the HTML found at $('#_r_b_-label') to have no violations:
+
+[90m<div class="kb-radiogroup-label" id="_r_b_-label">Display</div>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('#base-ui-_r_e_-label > .kb-radiogroup-content') to have no violations:
+
+[90m<span class="kb-radiogroup-content">Compact</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('#base-ui-_r_k_-label > .kb-radiogroup-content') to have no violations:
+
+[90m<span class="kb-radiogroup-content">Roomy</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+ ❯ Proxy.expectWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25981:49
+ ❯ Proxy.<anonymous> node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25523:101
+ ❯ Proxy.methodWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:21126:23
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toHaveNoViolations node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ Object.applyAfterEach node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6560:4
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6878:100
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/RadioGroup/RadioGroup.stories.tsx > Selected Material
+AssertionError: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-radiogroup--selected-material&addonPanel=storybook/interactions/panel[39m
+
+expected 'rgb(0, 0, 0)' to be 'rgb(255, 242, 223)' // Object.is equality
+
+Expected: [32m"rgb([7m255, 242, 223[27m)"[39m
+Received: [31m"rgb([7m0, 0, 0[27m)"[39m
+
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toBe node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ getByRole ../../packages/react/src/components/RadioGroup/RadioGroup.stories.tsx:29:7
+     27|   play: async ({ canvasElement }) => {
+     28|     const c = within(canvasElement);
+     29|     c.getByRole("radio", { name: "Compact" }).focus();
+       |       ^
+     30|     await userEvent.keyboard("{ArrowRight}");
+     31|     await expect(c.getByRole("radio", { name: "Roomy" })).toBeChecked(…
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6876:12
+ ❯ node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/plugins.DPQHVT0p-Dt4lnc_t.js?v=41713327:5242:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/Panel/Panel.stories.tsx > Depth
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/Panel/Panel.stories.tsx > Depth Dark
+AssertionError: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-panel--depth&addonPanel=storybook/interactions/panel[39m
+
+expected 'none' not to be 'none' // Object.is equality
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toBe node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ toBe ../../packages/react/src/components/Panel/Panel.stories.tsx:43:31
+     41| const row = { display: "flex", flexWrap: "wrap", gap: 16 } as const;
+     42|
+     43| export const Default: Story = {
+       |                               ^
+     44|   render: (args) => <Sample {...args} id="default" title="Default pane…
+     45| };
+ ❯ expectDepth ../../packages/react/src/components/Panel/Panel.stories.tsx:62:1
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6876:12
+ ❯ node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/plugins.DPQHVT0p-Dt4lnc_t.js?v=41713327:5242:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/Panel/Panel.stories.tsx > Token Overrides
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/Panel/Panel.stories.tsx > Token Overrides Light
+AssertionError: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-panel--token-overrides&addonPanel=storybook/interactions/panel[39m
+
+expected 'none' not to be 'none' // Object.is equality
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toBe node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ toBe ../../packages/react/src/components/Panel/Panel.stories.tsx:43:31
+     41| const row = { display: "flex", flexWrap: "wrap", gap: 16 } as const;
+     42|
+     43| export const Default: Story = {
+       |                               ^
+     44|   render: (args) => <Sample {...args} id="default" title="Default pane…
+     45| };
+ ❯ expectDepth ../../packages/react/src/components/Panel/Panel.stories.tsx:86:3
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6876:12
+ ❯ node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/plugins.DPQHVT0p-Dt4lnc_t.js?v=41713327:5242:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/Menu/Menu.stories.tsx > Default Dark
+Error: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-menu--default-dark&addonPanel=storybook/interactions/panel[39m
+
+[2mexpect([22m[31mreceived[39m[2m).toHaveNoViolations([22m[32mexpected[39m[2m)[22m
+
+Expected the HTML found at $('#base-ui-_r_c_') to have no violations:
+
+[90m<button type="button" tabindex="0" aria-haspopup="menu" aria-expanded="true" id="base-ui-_r_c_" data-variant="secondary" data-size="sm" class="kb-button" data-popup-open="" data-pressed="" aria-controls="base-ui-_r_a_">Actions</button>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('#base-ui-_r_f_') to have no violations:
+
+[90m<div role="menuitem" id="base-ui-_r_f_" tabindex="-1" class="kb-menu-item">Copy output</div>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('#base-ui-_r_g_') to have no violations:
+
+[90m<div role="menuitem" id="base-ui-_r_g_" tabindex="-1" class="kb-menu-item">Open log</div>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+ ❯ Proxy.expectWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25981:49
+ ❯ Proxy.<anonymous> node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25523:101
+ ❯ Proxy.methodWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:21126:23
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toHaveNoViolations node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ Object.applyAfterEach node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6560:4
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6878:100
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/Menu/Menu.stories.tsx > Nested Theme
+AssertionError: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-menu--nested-theme&addonPanel=storybook/interactions/panel[39m
+
+expected 'rgb(255, 255, 255)' to be 'rgb(21, 43, 43)' // Object.is equality
+
+Expected: [32m"rgb(2[7m1, 43, 43[27m)"[39m
+Received: [31m"rgb(2[7m55, 255, 255[27m)"[39m
+
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toBe node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ canvasElement ../../packages/react/src/components/Menu/Menu.stories.tsx:28:18
+     26|     </Menu>
+     27|   ),
+     28|   play: async ({ canvasElement }) => {
+       |                  ^
+     29|     await userEvent.click(within(canvasElement).getByRole("button", { …
+     30|     const menu = await within(document.body).findByRole("menu");
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6876:6
+ ❯ node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/plugins.DPQHVT0p-Dt4lnc_t.js?v=41713327:5242:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/Select/Select.stories.tsx > Dark
+Error: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-select--dark&addonPanel=storybook/interactions/panel[39m
+
+[2mexpect([22m[31mreceived[39m[2m).toHaveNoViolations([22m[32mexpected[39m[2m)[22m
+
+Expected the HTML found at $('#base-ui-_r_7_-label') to have no violations:
+
+[90m<div id="base-ui-_r_7_-label" class="kb-select-label">View</div>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('span[data-placeholder=""]') to have no violations:
+
+[90m<span data-placeholder="">Choose an option</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+ ❯ Proxy.expectWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25981:49
+ ❯ Proxy.<anonymous> node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25523:101
+ ❯ Proxy.methodWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:21126:23
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toHaveNoViolations node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ Object.applyAfterEach node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6560:4
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6878:100
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/Select/Select.stories.tsx > Empty
+Error: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-select--empty&addonPanel=storybook/interactions/panel[39m
+
+[2mexpect([22m[31mreceived[39m[2m).toHaveNoViolations([22m[32mexpected[39m[2m)[22m
+
+Expected the HTML found at $('#base-ui-_r_h_-list') to have no violations:
+
+[90m<div id="base-ui-_r_h_-list" role="listbox" class="kb-select-list"><div class="kb-select-empty" role="status">No options available</div></div>[39m
+
+Received:
+
+[31m"Certain ARIA roles must contain particular children (aria-required-children)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has children which are not allowed: [role=status][39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/aria-required-children?application=axeAPI[39m
+ ❯ Proxy.expectWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25981:49
+ ❯ Proxy.<anonymous> node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25523:101
+ ❯ Proxy.methodWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:21126:23
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toHaveNoViolations node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ Object.applyAfterEach node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6560:4
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6878:100
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/ScrollArea/ScrollArea.stories.tsx > Default Dark
+Error: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-scrollarea--default-dark&addonPanel=storybook/interactions/panel[39m
+
+[2mexpect([22m[31mreceived[39m[2m).toHaveNoViolations([22m[32mexpected[39m[2m)[22m
+
+Expected the HTML found at $('div[role="presentation"][data-has-overflow-y=""][data-overflow-y-end=""] > pre') to have no violations:
+
+[90m<pre style="margin: 0px; font-family: var(--kb-font-mono); font-size: 12px;">[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+ ❯ Proxy.expectWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25981:49
+ ❯ Proxy.<anonymous> node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25523:101
+ ❯ Proxy.methodWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:21126:23
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toHaveNoViolations node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ Object.applyAfterEach node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6560:4
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6878:100
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[17/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/Status/Status.stories.tsx > Chip Dark
+Error: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-status--chip-dark&addonPanel=storybook/interactions/panel[39m
+
+[2mexpect([22m[31mreceived[39m[2m).toHaveNoViolations([22m[32mexpected[39m[2m)[22m
+
+Expected the HTML found at $('span[data-tone="neutral"] > .kb-status-text') to have no violations:
+
+[90m<span class="kb-status-text">Idle</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.91 (foreground color: #bbbbc1, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('span[data-tone="info"] > .kb-status-text') to have no violations:
+
+[90m<span class="kb-status-text">Queued</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.55 (foreground color: #83e0d0, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('span[data-tone="running"] > .kb-status-text') to have no violations:
+
+[90m<span class="kb-status-text">Running</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 2.39 (foreground color: #76a8fa, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('span[data-tone="success"] > .kb-status-text') to have no violations:
+
+[90m<span class="kb-status-text">Passed</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.47 (foreground color: #8de8a6, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('span[data-tone="warning"] > .kb-status-text') to have no violations:
+
+[90m<span class="kb-status-text">Degraded</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.43 (foreground color: #fbd27c, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('span[data-tone="blocked"] > .kb-status-text') to have no violations:
+
+[90m<span class="kb-status-text">Blocked</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 2.44 (foreground color: #fa837b, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+ ❯ Proxy.expectWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25981:49
+ ❯ Proxy.<anonymous> node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25523:101
+ ❯ Proxy.methodWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:21126:23
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toHaveNoViolations node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ Object.applyAfterEach node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6560:4
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6878:100
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[18/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/Status/Status.stories.tsx > Dark
+Error: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-status--dark&addonPanel=storybook/interactions/panel[39m
+
+[2mexpect([22m[31mreceived[39m[2m).toHaveNoViolations([22m[32mexpected[39m[2m)[22m
+
+Expected the HTML found at $('span[data-tone="neutral"] > .kb-status-text') to have no violations:
+
+[90m<span class="kb-status-text">Idle</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 2.56 (foreground color: #a1a1aa, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('span[data-tone="info"] > .kb-status-text') to have no violations:
+
+[90m<span class="kb-status-text">Queued</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.86 (foreground color: #2dd4bf, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('span[data-tone="running"] > .kb-status-text') to have no violations:
+
+[90m<span class="kb-status-text">Running</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 3.67 (foreground color: #3b82f6, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('span[data-tone="success"] > .kb-status-text') to have no violations:
+
+[90m<span class="kb-status-text">Passed</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.74 (foreground color: #4ade80, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('span[data-tone="warning"] > .kb-status-text') to have no violations:
+
+[90m<span class="kb-status-text">Degraded</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.66 (foreground color: #fbbf24, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('span[data-tone="blocked"] > .kb-status-text') to have no violations:
+
+[90m<span class="kb-status-text">Blocked</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 3.76 (foreground color: #ef4444, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+ ❯ Proxy.expectWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25981:49
+ ❯ Proxy.<anonymous> node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25523:101
+ ❯ Proxy.methodWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:21126:23
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toHaveNoViolations node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ Object.applyAfterEach node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6560:4
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6878:100
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[19/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/Stat/Stat.stories.tsx > Display Dark
+Error: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-stat--display-dark&addonPanel=storybook/interactions/panel[39m
+
+[2mexpect([22m[31mreceived[39m[2m).toHaveNoViolations([22m[32mexpected[39m[2m)[22m
+
+Expected the HTML found at $('.kb-stat-label') to have no violations:
+
+[90m<span class="kb-stat-label">Elapsed</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 2.56 (foreground color: #a1a1aa, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('.kb-stat-value') to have no violations:
+
+[90m<span class="kb-stat-value">04:12</span>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 27.0pt (36px), font weight: normal). Expected contrast ratio of 3:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+ ❯ Proxy.expectWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25981:49
+ ❯ Proxy.<anonymous> node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25523:101
+ ❯ Proxy.methodWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:21126:23
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toHaveNoViolations node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ Object.applyAfterEach node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6560:4
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6878:100
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[20/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/Toolbar/Toolbar.stories.tsx > Default Dark
+Error: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-toolbar--default-dark&addonPanel=storybook/interactions/panel[39m
+
+[2mexpect([22m[31mreceived[39m[2m).toHaveNoViolations([22m[32mexpected[39m[2m)[22m
+
+Expected the HTML found at $('.kb-button[data-variant="ghost"][type="button"]:nth-child(1)') to have no violations:
+
+[90m<button type="button" data-orientation="horizontal" data-focusable="" aria-disabled="false" tabindex="0" data-variant="ghost" data-size="sm" class="kb-button">Copy</button>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+
+Expected the HTML found at $('.kb-button[data-variant="ghost"][type="button"]:nth-child(2)') to have no violations:
+
+[90m<button type="button" data-orientation="horizontal" data-focusable="" aria-disabled="false" tabindex="-1" data-variant="ghost" data-size="sm" class="kb-button">Open log</button>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+ ❯ Proxy.expectWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25981:49
+ ❯ Proxy.<anonymous> node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25523:101
+ ❯ Proxy.methodWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:21126:23
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toHaveNoViolations node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ Object.applyAfterEach node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6560:4
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6878:100
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[21/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/Tooltip/Tooltip.stories.tsx > On Hover Dark
+Error: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-tooltip--on-hover-dark&addonPanel=storybook/interactions/panel[39m
+
+[2mexpect([22m[31mreceived[39m[2m).toHaveNoViolations([22m[32mexpected[39m[2m)[22m
+
+Expected the HTML found at $('.kb-tooltip') to have no violations:
+
+[90m<div data-open="" data-side="bottom" data-align="center" tabindex="-1" data-base-ui-focusable="" class="kb-tooltip" style="">Stop worker</div>[39m
+
+Received:
+
+[31m"Elements must meet minimum color contrast ratio thresholds (color-contrast)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has insufficient color contrast of 1.04 (foreground color: #fafafa, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1[39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI[39m
+ ❯ Proxy.expectWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25981:49
+ ❯ Proxy.<anonymous> node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:25523:101
+ ❯ Proxy.methodWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:21126:23
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toHaveNoViolations node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ Object.applyAfterEach node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6560:4
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6878:100
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[22/25]⎯
+
+ FAIL  |chromium-forced-colors| ../../packages/react/src/components/Tooltip/Tooltip.stories.tsx > Nested Theme
+AssertionError: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-tooltip--nested-theme&addonPanel=storybook/interactions/panel[39m
+
+expected 'rgb(255, 255, 255)' to be 'rgb(255, 242, 223)' // Object.is equality
+
+Expected: [32m"rgb(255, 2[7m42, 223[27m)"[39m
+Received: [31m"rgb(255, 2[7m55, 255[27m)"[39m
+
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2445:83
+ ❯ Proxy.toBe node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/test-CpeVbjhK.js?v=41713327:2423:151
+ ❯ toBe ../../packages/react/src/components/Tooltip/Tooltip.stories.tsx:39:1
+     37|     await waitFor(() => expect(popup).toBeVisible());
+     38|   },
+     39| };
+       | ^
+     40| export const OnHoverDark: Story = { ...OnHover, globals: { theme: "dar…
+     41|
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/csf-B9cb9AQv.js?v=41713327:6876:6
+ ❯ node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/da39a3ee5e6b4b0d3255bfef95601890afd80709/deps/plugins.DPQHVT0p-Dt4lnc_t.js?v=41713327:5242:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[23/25]⎯
+
+
+ Test Files  17 failed | 3 passed (20)
+      Tests  25 failed | 83 passed (108)
+   Start at  16:50:56
+   Duration  10.11s (worker 56%, tests 28%, setup 12%, import 3%)
+
+error: script "test" exited with code 1

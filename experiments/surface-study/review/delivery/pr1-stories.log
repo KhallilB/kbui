@@ -1,0 +1,11 @@
+$ bun run --filter @kbui/storybook test
+@kbui/storybook test: 
+@kbui/storybook test:  RUN  v5.0.5 /Users/khallil/proj/kbui/.claude/worktrees/pr-surface-foundations/apps/storybook
+@kbui/storybook test: 
+@kbui/storybook test: 
+@kbui/storybook test:  Test Files  32 passed (32)
+@kbui/storybook test:       Tests  166 passed (166)
+@kbui/storybook test:    Start at  18:18:55
+@kbui/storybook test:    Duration  4.79s (worker 76%, tests 13%, setup 9%, import 2%)
+@kbui/storybook test: 
+@kbui/storybook test: Exited with code 0

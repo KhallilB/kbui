@@ -1,0 +1,80 @@
+$ vitest run Select.stories.tsx
+
+ RUN  v5.0.5 /Users/khallil/proj/kbui/.claude/worktrees/study-catalog-growth/apps/storybook
+
+ ❯ |chromium-reduced-motion| ../../packages/react/src/components/Select/Select.stories.tsx (6 tests | 1 failed) 1019ms
+   × Empty 99ms
+ ❯ |storybook (chromium)| ../../packages/react/src/components/Select/Select.stories.tsx (6 tests | 1 failed) 1033ms
+   × Empty 128ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |chromium-reduced-motion| ../../packages/react/src/components/Select/Select.stories.tsx > Empty
+Error: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-select--empty&addonPanel=storybook/interactions/panel[39m
+
+[2mexpect([22m[31mreceived[39m[2m).toHaveNoViolations([22m[32mexpected[39m[2m)[22m
+
+Expected the HTML found at $('#base-ui-_r_h_-list') to have no violations:
+
+[90m<div id="base-ui-_r_h_-list" role="listbox" class="kb-select-list"><div class="kb-select-empty" role="status">No options available</div></div>[39m
+
+Received:
+
+[31m"Certain ARIA roles must contain particular children (aria-required-children)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has children which are not allowed: [role=status][39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/aria-required-children?application=axeAPI[39m
+ ❯ Proxy.expectWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:25981:49
+ ❯ Proxy.<anonymous> node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:25523:101
+ ❯ Proxy.methodWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:21126:23
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2445:83
+ ❯ Proxy.toHaveNoViolations node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2423:151
+ ❯ Object.applyAfterEach node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/csf-B9cb9AQv.js?v=cd7a7853:6560:4
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/csf-B9cb9AQv.js?v=cd7a7853:6878:100
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |storybook (chromium)| ../../packages/react/src/components/Select/Select.stories.tsx > Empty
+Error: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-select--empty&addonPanel=storybook/interactions/panel[39m
+
+[2mexpect([22m[31mreceived[39m[2m).toHaveNoViolations([22m[32mexpected[39m[2m)[22m
+
+Expected the HTML found at $('#base-ui-_r_h_-list') to have no violations:
+
+[90m<div id="base-ui-_r_h_-list" role="listbox" class="kb-select-list"><div class="kb-select-empty" role="status">No options available</div></div>[39m
+
+Received:
+
+[31m"Certain ARIA roles must contain particular children (aria-required-children)"[39m
+
+[33mFix any of the following:[39m
+[33m  Element has children which are not allowed: [role=status][39m
+
+You can find more information on this issue here: 
+[34mhttps://dequeuniversity.com/rules/axe/4.14/aria-required-children?application=axeAPI[39m
+ ❯ Proxy.expectWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:25981:49
+ ❯ Proxy.<anonymous> node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:25523:101
+ ❯ Proxy.methodWrapper node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:21126:23
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2445:83
+ ❯ Proxy.toHaveNoViolations node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2423:151
+ ❯ Object.applyAfterEach node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/csf-B9cb9AQv.js?v=cd7a7853:6560:4
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/csf-B9cb9AQv.js?v=cd7a7853:6878:100
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 10 passed (12)
+   Start at  16:50:28
+   Duration  3.52s (tests 53%, setup 30%, worker 11%, import 6%)
+
+error: script "test" exited with code 1

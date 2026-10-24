@@ -69,3 +69,7 @@ const style = { color: `var(${tokens.color.muted})` };
 3. Check the result in Storybook under **Foundations / Tokens**. The swatches follow your system theme; to compare both themes, open a component story and use the theme switch in the toolbar.
 
 Components should reference semantic or component tokens, never palette colors. A new component can define its own group, such as `badge.radius`, without further setup.
+
+## Surface controls and overlay motion
+
+Unreleased after 0.5.0: `button.motion-duration`, `button.motion-easing` and `button.press-offset`; `popup.motion-duration/easing`; `checkbox.size`; `radiogroup.size/gap`; `select.popup-min-width/max-height/layer`. Dialog adds material, section spacing, typography, elevation and entry tokens. Full names, defaults and portal inheritance guidance live in [forms and overlays](guides/forms-and-overlays.md). Reduced-motion media removes shared component transitions even when consumers customize durations.

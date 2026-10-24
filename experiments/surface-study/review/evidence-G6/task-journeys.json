@@ -1,0 +1,360 @@
+[
+  {
+    "surface": "commerce",
+    "width": 390,
+    "reduced": false,
+    "error": "Bag update failed. Your quantity is retained; try again.",
+    "modal": {
+      "background": "rgb(251, 246, 236)",
+      "duration": "0.2s, 0.2s",
+      "height": 900,
+      "rect": {
+        "bottom": 730.6949005126953,
+        "height": 560.7073974609375,
+        "left": 16.154104232788086,
+        "right": 373.84584617614746,
+        "top": 169.9875030517578,
+        "width": 357.6917419433594,
+        "x": 16.154104232788086,
+        "y": 169.9875030517578
+      },
+      "shadow": "rgba(15, 18, 16, 0.24) 0px 24px 72px 0px, rgba(15, 18, 16, 0.12) 0px 4px 16px 0px",
+      "text": "EDITION / YOUR SELECTIONBag reviewLocal fixture only. No order placed.×012 × Arc task lampFired clay · Lighting collection 004Quantity2Unit price$180Dispatch3 working daysBag total$360Review preview only. Continue browsing to adjust your selection.Continue browsing",
+      "width": 390
+    },
+    "audit": {
+      "violations": [],
+      "incomplete": ["color-contrast"],
+      "incompleteDetails": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [".overlay-note"],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            }
+          ]
+        }
+      ]
+    },
+    "focus": "Add to bag · $360"
+  },
+  {
+    "surface": "commerce",
+    "width": 390,
+    "reduced": true,
+    "error": "Bag update failed. Your quantity is retained; try again.",
+    "modal": {
+      "background": "rgb(251, 246, 236)",
+      "duration": "0s",
+      "height": 900,
+      "rect": {
+        "bottom": 730.5929870605469,
+        "height": 561.18603515625,
+        "left": 16.001419067382812,
+        "right": 373.99855041503906,
+        "top": 169.40695190429688,
+        "width": 357.99713134765625,
+        "x": 16.001419067382812,
+        "y": 169.40695190429688
+      },
+      "shadow": "rgba(15, 18, 16, 0.24) 0px 24px 72px 0px, rgba(15, 18, 16, 0.12) 0px 4px 16px 0px",
+      "text": "EDITION / YOUR SELECTIONBag reviewLocal fixture only. No order placed.×012 × Arc task lampFired clay · Lighting collection 004Quantity2Unit price$180Dispatch3 working daysBag total$360Review preview only. Continue browsing to adjust your selection.Continue browsing",
+      "width": 390
+    },
+    "audit": {
+      "violations": [],
+      "incomplete": ["color-contrast"],
+      "incompleteDetails": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [".overlay-note"],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            }
+          ]
+        }
+      ]
+    },
+    "focus": "Add to bag · $360"
+  },
+  {
+    "surface": "commerce",
+    "width": 1440,
+    "reduced": false,
+    "error": "Bag update failed. Your quantity is retained; try again.",
+    "modal": {
+      "background": "rgb(251, 246, 236)",
+      "duration": "0.2s, 0.2s",
+      "height": 900,
+      "rect": {
+        "bottom": 747.853759765625,
+        "height": 593.6650390625,
+        "left": 440.7148742675781,
+        "right": 999.2850646972656,
+        "top": 154.188720703125,
+        "width": 558.5701904296875,
+        "x": 440.7148742675781,
+        "y": 154.188720703125
+      },
+      "shadow": "rgba(15, 18, 16, 0.24) 0px 24px 72px 0px, rgba(15, 18, 16, 0.12) 0px 4px 16px 0px",
+      "text": "EDITION / YOUR SELECTIONBag reviewLocal fixture only. No order placed.×012 × Arc task lampFired clay · Lighting collection 004Quantity2Unit price$180Dispatch3 working daysBag total$360Review preview only. Continue browsing to adjust your selection.Continue browsing",
+      "width": 1440
+    },
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    },
+    "focus": "Add to bag · $360"
+  },
+  {
+    "surface": "commerce",
+    "width": 1440,
+    "reduced": true,
+    "error": "Bag update failed. Your quantity is retained; try again.",
+    "modal": {
+      "background": "rgb(251, 246, 236)",
+      "duration": "0s",
+      "height": 900,
+      "rect": {
+        "bottom": 747.5923004150391,
+        "height": 595.1846313476562,
+        "left": 439.9999694824219,
+        "right": 999.999969482422,
+        "top": 152.4076690673828,
+        "width": 560,
+        "x": 439.9999694824219,
+        "y": 152.4076690673828
+      },
+      "shadow": "rgba(15, 18, 16, 0.24) 0px 24px 72px 0px, rgba(15, 18, 16, 0.12) 0px 4px 16px 0px",
+      "text": "EDITION / YOUR SELECTIONBag reviewLocal fixture only. No order placed.×012 × Arc task lampFired clay · Lighting collection 004Quantity2Unit price$180Dispatch3 working daysBag total$360Review preview only. Continue browsing to adjust your selection.Continue browsing",
+      "width": 1440
+    },
+    "audit": {
+      "violations": [],
+      "incomplete": ["color-contrast"],
+      "incompleteDetails": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [".overlay-note"],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            }
+          ]
+        }
+      ]
+    },
+    "focus": "Add to bag · $360"
+  },
+  {
+    "surface": "operations",
+    "width": 390,
+    "reduced": false,
+    "mixed": "mixed",
+    "error": "Assignment failed. Selection retained; retry assignment.",
+    "result": "Assigned 1 task to Mira.",
+    "focus": "Assigned 1 task to Mira."
+  },
+  {
+    "surface": "operations",
+    "width": 390,
+    "reduced": true,
+    "mixed": "mixed",
+    "error": "Assignment failed. Selection retained; retry assignment.",
+    "result": "Assigned 1 task to Mira.",
+    "focus": "Assigned 1 task to Mira."
+  },
+  {
+    "surface": "operations",
+    "width": 1440,
+    "reduced": false,
+    "mixed": "mixed",
+    "error": "Assignment failed. Selection retained; retry assignment.",
+    "result": "Assigned 1 task to Mira.",
+    "focus": "Assigned 1 task to Mira."
+  },
+  {
+    "surface": "operations",
+    "width": 1440,
+    "reduced": true,
+    "mixed": "mixed",
+    "error": "Assignment failed. Selection retained; retry assignment.",
+    "result": "Assigned 1 task to Mira.",
+    "focus": "Assigned 1 task to Mira."
+  },
+  {
+    "surface": "culture",
+    "width": 390,
+    "reduced": false,
+    "soldout": "Sold out · choose another evening.",
+    "error": "Reservation preview failed. Your draft is retained; retry.",
+    "modal": {
+      "background": "rgb(255, 242, 223)",
+      "duration": "0.18s, 0.18s",
+      "height": 900,
+      "rect": {
+        "bottom": 808.2427062988281,
+        "height": 716.4739379882812,
+        "left": 16.004013061523438,
+        "right": 373.9959564208984,
+        "top": 91.76876831054688,
+        "width": 357.991943359375,
+        "x": 16.004013061523438,
+        "y": 91.76876831054688
+      },
+      "shadow": "rgba(38, 27, 34, 0.28) 8px 8px 0px 0px, rgba(38, 27, 34, 0.18) 0px 24px 72px 0px",
+      "text": "NIGHT SCHOOL / ISSUE 07Reservation reviewFixture preview only. No booking or payment.×Workshop / OAKLANDPrint after darkDate06 November 2026Time19:00–20:30VenueStudio 22 student tickets · $32Bring student ID for the student ticket rate.Reservation total$32Your ticket draft is retained when you return to the program.Back to program",
+      "width": 390
+    },
+    "audit": {
+      "violations": [],
+      "incomplete": ["color-contrast"],
+      "incompleteDetails": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": ["#base-ui-_r_13_"],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            },
+            {
+              "target": [".kb-dialog-footer > .overlay-note"],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            }
+          ]
+        }
+      ]
+    },
+    "focus": "Review reservation"
+  },
+  {
+    "surface": "culture",
+    "width": 390,
+    "reduced": true,
+    "soldout": "Sold out · choose another evening.",
+    "error": "Reservation preview failed. Your draft is retained; retry.",
+    "modal": {
+      "background": "rgb(255, 242, 223)",
+      "duration": "0s",
+      "height": 900,
+      "rect": {
+        "bottom": 808.2421875,
+        "height": 716.484375,
+        "left": 16.001419067382812,
+        "right": 373.99855041503906,
+        "top": 91.7578125,
+        "width": 357.99713134765625,
+        "x": 16.001419067382812,
+        "y": 91.7578125
+      },
+      "shadow": "rgba(38, 27, 34, 0.28) 8px 8px 0px 0px, rgba(38, 27, 34, 0.18) 0px 24px 72px 0px",
+      "text": "NIGHT SCHOOL / ISSUE 07Reservation reviewFixture preview only. No booking or payment.×Workshop / OAKLANDPrint after darkDate06 November 2026Time19:00–20:30VenueStudio 22 student tickets · $32Bring student ID for the student ticket rate.Reservation total$32Your ticket draft is retained when you return to the program.Back to program",
+      "width": 390
+    },
+    "audit": {
+      "violations": [],
+      "incomplete": ["color-contrast"],
+      "incompleteDetails": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": ["#base-ui-_r_13_"],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            },
+            {
+              "target": [".kb-dialog-footer > .overlay-note"],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            }
+          ]
+        }
+      ]
+    },
+    "focus": "Review reservation"
+  },
+  {
+    "surface": "culture",
+    "width": 1440,
+    "reduced": false,
+    "soldout": "Sold out · choose another evening.",
+    "error": "Reservation preview failed. Your draft is retained; retry.",
+    "modal": {
+      "background": "rgb(255, 242, 223)",
+      "duration": "0.18s, 0.18s",
+      "height": 900,
+      "rect": {
+        "bottom": 818.8606033325195,
+        "height": 737.6165161132812,
+        "left": 440.03662109375,
+        "right": 999.96337890625,
+        "top": 81.24408721923828,
+        "width": 559.9267578125,
+        "x": 440.03662109375,
+        "y": 81.24408721923828
+      },
+      "shadow": "rgba(38, 27, 34, 0.28) 8px 8px 0px 0px, rgba(38, 27, 34, 0.18) 0px 24px 72px 0px",
+      "text": "NIGHT SCHOOL / ISSUE 07Reservation reviewFixture preview only. No booking or payment.×Workshop / OAKLANDPrint after darkDate06 November 2026Time19:00–20:30VenueStudio 22 student tickets · $32Bring student ID for the student ticket rate.Reservation total$32Your ticket draft is retained when you return to the program.Back to program",
+      "width": 1440
+    },
+    "audit": {
+      "violations": [],
+      "incomplete": ["color-contrast"],
+      "incompleteDetails": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [".kb-dialog-footer > .overlay-note"],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            }
+          ]
+        }
+      ]
+    },
+    "focus": "Review reservation"
+  },
+  {
+    "surface": "culture",
+    "width": 1440,
+    "reduced": true,
+    "soldout": "Sold out · choose another evening.",
+    "error": "Reservation preview failed. Your draft is retained; retry.",
+    "modal": {
+      "background": "rgb(255, 242, 223)",
+      "duration": "0s",
+      "height": 900,
+      "rect": {
+        "bottom": 818.8564758300781,
+        "height": 737.7130126953125,
+        "left": 439.9999694824219,
+        "right": 999.999969482422,
+        "top": 81.14346313476562,
+        "width": 560,
+        "x": 439.9999694824219,
+        "y": 81.14346313476562
+      },
+      "shadow": "rgba(38, 27, 34, 0.28) 8px 8px 0px 0px, rgba(38, 27, 34, 0.18) 0px 24px 72px 0px",
+      "text": "NIGHT SCHOOL / ISSUE 07Reservation reviewFixture preview only. No booking or payment.×Workshop / OAKLANDPrint after darkDate06 November 2026Time19:00–20:30VenueStudio 22 student tickets · $32Bring student ID for the student ticket rate.Reservation total$32Your ticket draft is retained when you return to the program.Back to program",
+      "width": 1440
+    },
+    "audit": {
+      "violations": [],
+      "incomplete": ["color-contrast"],
+      "incompleteDetails": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [".kb-dialog-footer > .overlay-note"],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            }
+          ]
+        }
+      ]
+    },
+    "focus": "Review reservation"
+  }
+]

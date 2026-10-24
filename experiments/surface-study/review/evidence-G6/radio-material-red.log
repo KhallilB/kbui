@@ -1,0 +1,68 @@
+$ vitest run RadioGroup.stories.tsx
+
+ RUN  v5.0.5 /Users/khallil/proj/kbui/.claude/worktrees/study-catalog-growth/apps/storybook
+
+ ❯ |storybook (chromium)| ../../packages/react/src/components/RadioGroup/RadioGroup.stories.tsx (7 tests | 1 failed) 621ms
+   × Selected Material 10ms
+ ❯ |chromium-reduced-motion| ../../packages/react/src/components/RadioGroup/RadioGroup.stories.tsx (7 tests | 1 failed) 643ms
+   × Selected Material 10ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |storybook (chromium)| ../../packages/react/src/components/RadioGroup/RadioGroup.stories.tsx > Selected Material
+AssertionError: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-radiogroup--selected-material&addonPanel=storybook/interactions/panel[39m
+
+expected 'rgb(24, 24, 27)' to be 'rgb(255, 242, 223)' // Object.is equality
+
+Expected: [32m"rgb(2[7m55[27m, 24[7m2[27m, 2[7m23[27m)"[39m
+Received: [31m"rgb(2[7m4[27m, 24, 2[7m7[27m)"[39m
+
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2445:83
+ ❯ Proxy.toBe node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2423:151
+ ❯ getByRole ../../packages/react/src/components/RadioGroup/RadioGroup.stories.tsx:29:7
+     27|   play: async ({ canvasElement }) => {
+     28|     const c = within(canvasElement);
+     29|     c.getByRole("radio", { name: "Compact" }).focus();
+       |       ^
+     30|     await userEvent.keyboard("{ArrowRight}");
+     31|     await expect(c.getByRole("radio", { name: "Roomy" })).toBeChecked(…
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/csf-B9cb9AQv.js?v=cd7a7853:6876:12
+ ❯ node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/plugins.DPQHVT0p-Dt4lnc_t.js?v=cd7a7853:5242:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |chromium-reduced-motion| ../../packages/react/src/components/RadioGroup/RadioGroup.stories.tsx > Selected Material
+AssertionError: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/components-radiogroup--selected-material&addonPanel=storybook/interactions/panel[39m
+
+expected 'rgb(24, 24, 27)' to be 'rgb(255, 242, 223)' // Object.is equality
+
+Expected: [32m"rgb(2[7m55[27m, 24[7m2[27m, 2[7m23[27m)"[39m
+Received: [31m"rgb(2[7m4[27m, 24, 2[7m7[27m)"[39m
+
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2445:83
+ ❯ Proxy.toBe node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2423:151
+ ❯ getByRole ../../packages/react/src/components/RadioGroup/RadioGroup.stories.tsx:29:7
+     27|   play: async ({ canvasElement }) => {
+     28|     const c = within(canvasElement);
+     29|     c.getByRole("radio", { name: "Compact" }).focus();
+       |       ^
+     30|     await userEvent.keyboard("{ArrowRight}");
+     31|     await expect(c.getByRole("radio", { name: "Roomy" })).toBeChecked(…
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/csf-B9cb9AQv.js?v=cd7a7853:6876:12
+ ❯ node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/plugins.DPQHVT0p-Dt4lnc_t.js?v=cd7a7853:5242:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 12 passed (14)
+   Start at  14:58:51
+   Duration  2.27s (tests 56%, setup 30%, worker 12%, import 3%)
+
+error: script "test" exited with code 1

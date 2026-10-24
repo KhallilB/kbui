@@ -1,0 +1,10 @@
+$ vitest run Dialog.stories.tsx
+
+ RUN  v5.0.5 /Users/khallil/proj/kbui/.claude/worktrees/study-catalog-growth/apps/storybook
+
+
+ Test Files  2 passed (2)
+      Tests  8 passed (8)
+   Start at  14:54:01
+   Duration  2.23s (setup 51%, tests 38%, worker 8%, import 3%)
+

@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-23",
+  "committedSlices": [
+    {
+      "slice": 1,
+      "branch": "khallil/surface-material-motion",
+      "base": "origin/main",
+      "sha": "351eb7bef020aa6f96be555e22d3c849ff9b3ad1",
+      "rootCheck": "pass",
+      "browserTests": 166
+    },
+    {
+      "slice": 2,
+      "branch": "khallil/surface-overlay-composition",
+      "base": "khallil/surface-material-motion",
+      "sha": "1fdbd47a74bb79f119d2768fc815d61127d58e7d",
+      "rootCheck": "pass",
+      "browserTests": 172
+    },
+    {
+      "slice": 3,
+      "branch": "khallil/surface-checkbox",
+      "base": "khallil/surface-overlay-composition",
+      "sha": "75d2957a232d87bab637a27eaa46aed6b451cf17",
+      "rootCheck": "pass",
+      "browserTests": 184
+    },
+    {
+      "slice": 4,
+      "branch": "khallil/surface-radio-group",
+      "base": "khallil/surface-checkbox",
+      "sha": "74836cf51f9ebf247eabe83e168a3615ea7b5067",
+      "rootCheck": "pass",
+      "browserTests": 198
+    },
+    {
+      "slice": 5,
+      "branch": "khallil/surface-select",
+      "base": "khallil/surface-radio-group",
+      "sha": "bd40764d177b6cd3ff867aab6382c2b2b8d5187a",
+      "rootCheck": "pass",
+      "browserTests": 210
+    }
+  ],
+  "finalSlice": {
+    "branch": "khallil/surface-accessibility-evidence",
+    "browserTests": 218,
+    "targetedForcedColorTests": 4
+  },
+  "voiceOver": "pending by owner instruction",
+  "formalGate": "blocked without existing PR round"
+}

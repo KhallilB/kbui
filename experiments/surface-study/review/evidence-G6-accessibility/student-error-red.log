@@ -1,0 +1,31 @@
+
+ RUN  v5.0.5 /Users/khallil/proj/kbui/.claude/worktrees/study-catalog-growth
+
+ ❯ experiments/surface-study/culture/Screen.test.tsx (14 tests | 1 failed) 1384ms
+   × associates student validation with acknowledgement and clears corrected error 156ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  experiments/surface-study/culture/Screen.test.tsx > associates student validation with acknowledgement and clears corrected error
+Error: expect(element).toHaveAccessibleDescription()
+
+Expected element to have accessible description:
+  Confirm student ID before reviewing student tickets.
+Received:
+
+ ❯ experiments/surface-study/culture/Screen.test.tsx:101:19
+     99|   fireEvent.click(screen.getByRole("button", {name: "Review reservatio…
+    100|   const student = screen.getByRole("checkbox", {name: "I will bring st…
+    101|   expect(student).toHaveAccessibleDescription("Confirm student ID befo…
+       |                   ^
+    102|   expect(student).toHaveAttribute("aria-invalid", "true");
+    103|   expect(student).toHaveFocus();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 13 passed (14)
+   Start at  16:49:20
+   Duration  2.80s (tests 52%, environment 21%, import 18%, setup 5%, transform 3%)
+

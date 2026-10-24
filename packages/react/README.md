@@ -152,3 +152,9 @@ Tests use Vitest and Testing Library in jsdom.
 ```
 
 Skin with `--kb-card-background`, `--kb-card-color`, `--kb-card-border`, `--kb-card-border-width`, `--kb-card-radius`, `--kb-card-padding`, `--kb-grid-gap` and `--kb-grid-min-item-width`. Defaults use semantic tokens in both themes.
+
+## Controlled fields and themed overlays
+
+`Select`, `Checkbox` and `RadioGroup` add named, controlled selection fields. Select exposes options, placeholder, disabled/read-only and error states; Checkbox supports mixed selection and native input refs; RadioGroup.Item supports arbitrary label content and disabled choices. Use domain callbacks in the consumer rather than embedding product rules in fields.
+
+`Dialog.Header`, `.Body` and `.Footer` support structured compositions. Dialog material, typography, elevation and motion use public tokens. Menu.Content and Tooltip accept a `container` portal host; Select defaults its host to its root for theme inheritance. See [forms and overlays](../../docs/guides/forms-and-overlays.md) for contracts, keyboard behavior, tokens, nested theme caveats and contrasting examples. These source additions are unreleased after 0.5.0.

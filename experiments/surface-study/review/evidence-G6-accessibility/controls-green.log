@@ -1,0 +1,10 @@
+$ vitest run Checkbox Select
+
+ RUN  v5.0.5 /Users/khallil/proj/kbui/.claude/worktrees/study-catalog-growth/packages/react
+
+
+ Test Files  2 passed (2)
+      Tests  11 passed (11)
+   Start at  16:51:31
+   Duration  867ms (environment 46%, tests 27%, setup 12%, import 11%, transform 3%)
+

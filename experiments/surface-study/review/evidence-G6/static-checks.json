@@ -1,0 +1,87 @@
+{
+  "baselineArchiveMembersVerified": 163,
+  "authorizedCurrentSourceChanges": [
+    "apps/storybook/vitest.config.ts",
+    "docs/tokens.md",
+    "packages/css/src/components/button.css",
+    "packages/css/src/components/dialog.css",
+    "packages/css/src/components/menu.css",
+    "packages/css/src/components/tooltip.css",
+    "packages/css/src/styles.css",
+    "packages/react/README.md",
+    "packages/react/src/components/Dialog/Dialog.stories.tsx",
+    "packages/react/src/components/Dialog/Dialog.test.tsx",
+    "packages/react/src/components/Dialog/Dialog.tsx",
+    "packages/react/src/components/Menu/Menu.stories.tsx",
+    "packages/react/src/components/Menu/Menu.test.tsx",
+    "packages/react/src/components/Menu/Menu.tsx",
+    "packages/react/src/components/Tooltip/Tooltip.stories.tsx",
+    "packages/react/src/components/Tooltip/Tooltip.test.tsx",
+    "packages/react/src/components/Tooltip/Tooltip.tsx",
+    "packages/react/src/index.ts",
+    "packages/tokens/src/__snapshots__/build.test.ts.snap",
+    "packages/tokens/tokens.json"
+  ],
+  "sourceArchiveVerified": true,
+  "uniqueIds": true,
+  "allSevenLinksResolveToFilesOrIds": true,
+  "whitespace": "pass including untracked deliverables",
+  "contrast": [
+    {
+      "fg": "#18211d",
+      "bg": "#ebece9",
+      "ratio": 13.9
+    },
+    {
+      "fg": "#332d24",
+      "bg": "#f3ecde",
+      "ratio": 11.59
+    },
+    {
+      "fg": "#fff5e6",
+      "bg": "#332d24",
+      "ratio": 12.62
+    },
+    {
+      "fg": "#e5eeeb",
+      "bg": "#152b2b",
+      "ratio": 12.58
+    },
+    {
+      "fg": "#bdcdc8",
+      "bg": "#152b2b",
+      "ratio": 9.01
+    },
+    {
+      "fg": "#d7ec75",
+      "bg": "#152b2b",
+      "ratio": 11.43
+    },
+    {
+      "fg": "#172b29",
+      "bg": "#d7ec75",
+      "ratio": 11.42
+    },
+    {
+      "fg": "#261b22",
+      "bg": "#fa532f",
+      "ratio": 5.03
+    },
+    {
+      "fg": "#261b22",
+      "bg": "#fff2df",
+      "ratio": 15.07
+    },
+    {
+      "fg": "#fff2df",
+      "bg": "#261b22",
+      "ratio": 15.07
+    },
+    {
+      "fg": "#bdcdc8",
+      "bg": "#203a38",
+      "ratio": 7.39
+    }
+  ],
+  "limits": "Selected authored text/background pairs only; not full automated accessibility scan or assistive-technology proof. Shell localhost HTTP probe denied by sandbox; real board browser navigation succeeds."
+}

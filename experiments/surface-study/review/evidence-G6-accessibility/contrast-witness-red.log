@@ -1,0 +1,68 @@
+$ vitest run SurfaceAccessibility.stories.tsx --testNamePattern "Witness Rejects Failures"
+
+ RUN  v5.0.5 /Users/khallil/proj/kbui/.claude/worktrees/study-catalog-growth/apps/storybook
+
+ ❯ |chromium-reduced-motion| stories/SurfaceAccessibility.stories.tsx (7 tests | 1 failed | 6 skipped) 160ms
+   × Witness Rejects Failures 159ms
+ ❯ |storybook (chromium)| stories/SurfaceAccessibility.stories.tsx (7 tests | 1 failed | 6 skipped) 170ms
+   × Witness Rejects Failures 169ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  |chromium-reduced-motion| stories/SurfaceAccessibility.stories.tsx > Witness Rejects Failures
+AssertionError: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/validation-surface-accessibility--witness-rejects-failures&addonPanel=storybook/interactions/panel[39m
+
+expected true to be false // Object.is equality
+
+Expected: [32m"[7mfals[27me"[39m
+Received: [31m"[7mtru[27me"[39m
+
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2445:83
+ ❯ Proxy.toBe node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2423:151
+ ❯ canvasElement stories/SurfaceAccessibility.stories.tsx:60:18
+     58| export const SurfacePreferences: Story = {
+     59|   render: () => shell(<AssignmentPreferences />),
+     60|   play: async ({ canvasElement }) =>
+       |                  ^
+     61|     modalWitness(within(canvasElement).getByRole("button", { name: "Re…
+     62| };
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/csf-B9cb9AQv.js?v=cd7a7853:6876:12
+ ❯ node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/plugins.DPQHVT0p-Dt4lnc_t.js?v=cd7a7853:5242:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  |storybook (chromium)| stories/SurfaceAccessibility.stories.tsx > Witness Rejects Failures
+AssertionError: 
+[34mClick to debug the error directly in Storybook: http://localhost:6006/?path=/story/validation-surface-accessibility--witness-rejects-failures&addonPanel=storybook/interactions/panel[39m
+
+expected true to be false // Object.is equality
+
+Expected: [32m"[7mfals[27me"[39m
+Received: [31m"[7mtru[27me"[39m
+
+ ❯ Instrumenter.invoke node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2551:20
+ ❯ Instrumenter.intercept node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2454:138
+ ❯ Instrumenter.track node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2445:83
+ ❯ Proxy.toBe node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/test-CpeVbjhK.js?v=cd7a7853:2423:151
+ ❯ canvasElement stories/SurfaceAccessibility.stories.tsx:60:18
+     58| export const SurfacePreferences: Story = {
+     59|   render: () => shell(<AssignmentPreferences />),
+     60|   play: async ({ canvasElement }) =>
+       |                  ^
+     61|     modalWitness(within(canvasElement).getByRole("button", { name: "Re…
+     62| };
+ ❯ runStory node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/csf-B9cb9AQv.js?v=cd7a7853:6876:12
+ ❯ node_modules/.cache/storybook/10.6.2/ea4d2a2329f98eea61dd543d11ebef15e25b74fe10ae197808ab5e044a82dd6c/sb-vitest/vitest/f8437193862b78daa12ee0660971b8b868a1e776/deps/plugins.DPQHVT0p-Dt4lnc_t.js?v=cd7a7853:5242:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 12 skipped (14)
+   Start at  16:58:35
+   Duration  1.53s (setup 48%, tests 26%, worker 15%, import 12%)
+
+error: script "test" exited with code 1

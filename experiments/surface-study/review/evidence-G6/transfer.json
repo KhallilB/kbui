@@ -1,0 +1,92 @@
+[
+  {
+    "width": 390,
+    "popup": {
+      "background": "rgb(21, 43, 43)",
+      "rect": {
+        "bottom": 588.6008224487305,
+        "height": 110.96590423583984,
+        "left": 40.362213134765625,
+        "right": 349.63775634765625,
+        "top": 477.6349182128906,
+        "width": 309.2755432128906,
+        "x": 40.362213134765625,
+        "y": 477.6349182128906
+      }
+    },
+    "modal": {
+      "background": "rgb(21, 43, 43)",
+      "height": 900,
+      "rect": {
+        "bottom": 600.8948669433594,
+        "height": 301.7897644042969,
+        "left": 16.001419067382812,
+        "right": 373.99855041503906,
+        "top": 299.1051025390625,
+        "width": 357.99713134765625,
+        "x": 16.001419067382812,
+        "y": 299.1051025390625
+      },
+      "text": "Review preferencesCheck defaults before applying to this local fixture.West team · Manual assignment · Notifications offKeep editingApply locally",
+      "width": 390
+    },
+    "audit": {
+      "violations": [],
+      "incomplete": ["color-contrast"],
+      "incompleteDetails": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": ["#base-ui-_r_j_"],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            },
+            {
+              "target": [".kb-dialog-body"],
+              "summary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            }
+          ]
+        }
+      ]
+    },
+    "result": "Preferences applied locally."
+  },
+  {
+    "width": 1440,
+    "popup": {
+      "background": "rgb(21, 43, 43)",
+      "rect": {
+        "bottom": 562.2372055053711,
+        "height": 110.96590423583984,
+        "left": 412.1803894042969,
+        "right": 1027.8195495605469,
+        "top": 451.2713012695313,
+        "width": 615.63916015625,
+        "x": 412.1803894042969,
+        "y": 451.2713012695313
+      }
+    },
+    "modal": {
+      "background": "rgb(21, 43, 43)",
+      "height": 900,
+      "rect": {
+        "bottom": 576.8962707519531,
+        "height": 253.7926025390625,
+        "left": 464.0021057128906,
+        "right": 975.9978332519532,
+        "top": 323.1036682128906,
+        "width": 511.9957275390625,
+        "x": 464.0021057128906,
+        "y": 323.1036682128906
+      },
+      "text": "Review preferencesCheck defaults before applying to this local fixture.West team · Manual assignment · Notifications offKeep editingApply locally",
+      "width": 1440
+    },
+    "audit": {
+      "violations": [],
+      "incomplete": [],
+      "incompleteDetails": []
+    },
+    "result": "Preferences applied locally."
+  }
+]

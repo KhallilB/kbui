@@ -1,0 +1,586 @@
+$ bun run build && bun run lint && bun run typecheck && bun run test && bun run test:pack
+$ bun run --filter @kbui/tokens build && bun run --filter @kbui/css build && bun run --filter @kbui/react build
+@kbui/tokens build: tokens: built dist/tokens.{css,js,d.ts}
+@kbui/tokens build: Exited with code 0
+@kbui/css build: css: built dist/styles.css
+@kbui/css build: Exited with code 0
+@kbui/react build: vite v8.3.4 building client environment for production...
+@kbui/react build: transforming...
+@kbui/react build: ✓ 21 modules transformed.
+@kbui/react build: rendering chunks...
+@kbui/react build: computing gzip size...
+@kbui/react build: dist/index.js  18.19 kB │ gzip: 4.53 kB │ map: 51.05 kB
+@kbui/react build: 
+@kbui/react build: ✓ built in 17ms
+@kbui/react build: Bundled 1 module in 2ms
+@kbui/react build: 
+@kbui/react build:   check-versions.js  1.73 KB  (entry point)
+@kbui/react build: 
+@kbui/react build: Exited with code 0
+$ biome check .
+experiments/surface-study/culture/Screen.tsx:48:9 lint/complexity/useOptionalChain  FIXABLE  ━━━━━━━━━━
+
+  ! Change to an optional chain.
+  
+    46 │   function reserve(e: FormEvent<HTMLFormElement>): void {
+    47 │     e.preventDefault();
+  > 48 │     if (!event || !event.capacity) return;
+       │         ^^^^^^^^^^^^^^^^^^^^^^^^^
+    49 │     if (!/^\d+$/.test(quantity) || Number(quantity) < 1 || Number(quantity) > event.capacity) {
+    50 │       setError(`Choose a whole quantity from 1 to ${event.capacity}.`);
+  
+  i Unsafe fix: Change to an optional chain.
+  
+     46  46 │     function reserve(e: FormEvent<HTMLFormElement>): void {
+     47  47 │       e.preventDefault();
+     48     │ - ····if·(!event·||·!event.capacity)·return;
+         48 │ + ····if·(!event?.capacity)·return;
+     49  49 │       if (!/^\d+$/.test(quantity) || Number(quantity) < 1 || Number(quantity) > event.capacity) {
+     50  50 │         setError(`Choose a whole quantity from 1 to ${event.capacity}.`);
+  
+
+experiments/surface-study/directions/board.css:730:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 1)
+  
+    728 │ .program-date b,
+    729 │ .program-date span,
+  > 730 │ .program-date small {
+        │ ^^^^^^^^^^^^^^^^^^^
+    731 │   display: block;
+    732 │ }
+  
+  i This selector specificity is (0, 1, 2)
+  
+    470 │   margin: 7px 0 20px;
+    471 │ }
+  > 472 │ .workspace-title h3 small {
+        │ ^^^^^^^^^^^^^^^^^^^^^^^^^
+    473 │   font:
+    474 │     14px ui-monospace,
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+experiments/surface-study/directions/board.css:744:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 1)
+  
+    742 │   margin: 7px 0;
+    743 │ }
+  > 744 │ .program-date small {
+        │ ^^^^^^^^^^^^^^^^^^^
+    745 │   font-size: 10px;
+    746 │ }
+  
+  i This selector specificity is (0, 1, 2)
+  
+    470 │   margin: 7px 0 20px;
+    471 │ }
+  > 472 │ .workspace-title h3 small {
+        │ ^^^^^^^^^^^^^^^^^^^^^^^^^
+    473 │   font:
+    474 │     14px ui-monospace,
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+experiments/surface-study/directions/board.css:810:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 1)
+  
+    808 │   align-items: center;
+    809 │ }
+  > 810 │ .ticket-class small,
+        │ ^^^^^^^^^^^^^^^^^^^
+    811 │ .ticket-total small {
+    812 │   display: block;
+  
+  i This selector specificity is (0, 1, 2)
+  
+    470 │   margin: 7px 0 20px;
+    471 │ }
+  > 472 │ .workspace-title h3 small {
+        │ ^^^^^^^^^^^^^^^^^^^^^^^^^
+    473 │   font:
+    474 │     14px ui-monospace,
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+experiments/surface-study/directions/board.css:811:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 1)
+  
+    809 │ }
+    810 │ .ticket-class small,
+  > 811 │ .ticket-total small {
+        │ ^^^^^^^^^^^^^^^^^^^
+    812 │   display: block;
+    813 │   font-size: 10px;
+  
+  i This selector specificity is (0, 1, 2)
+  
+    470 │   margin: 7px 0 20px;
+    471 │ }
+  > 472 │ .workspace-title h3 small {
+        │ ^^^^^^^^^^^^^^^^^^^^^^^^^
+    473 │   font:
+    474 │     14px ui-monospace,
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+experiments/surface-study/directions/board.css:831:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 1)
+  
+    829 │   text-underline-offset: 5px;
+    830 │ }
+  > 831 │ .ticket-preview > small {
+        │ ^^^^^^^^^^^^^^^^^^^^^^^
+    832 │   font-size: 10px;
+    833 │ }
+  
+  i This selector specificity is (0, 1, 2)
+  
+    470 │   margin: 7px 0 20px;
+    471 │ }
+  > 472 │ .workspace-title h3 small {
+        │ ^^^^^^^^^^^^^^^^^^^^^^^^^
+    473 │   font:
+    474 │     14px ui-monospace,
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+experiments/surface-study/directions/board.css:873:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 0, 2)
+  
+    871 │   font-size: 13px;
+    872 │ }
+  > 873 │ details p {
+        │ ^^^^^^^^^
+    874 │   font-size: 13px;
+    875 │ }
+  
+  i This selector specificity is (0, 1, 1)
+  
+    49 │   margin: 18px 0 24px;
+    50 │ }
+  > 51 │ .board-header p {
+       │ ^^^^^^^^^^^^^^^
+    52 │   max-width: 650px;
+    53 │   margin: 0;
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+experiments/surface-study/directions/board.css:924:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 1)
+  
+    922 │   line-height: 1.1;
+    923 │ }
+  > 924 │ .mini small {
+        │ ^^^^^^^^^^^
+    925 │   font:
+    926 │     10px ui-monospace,
+  
+  i This selector specificity is (0, 1, 2)
+  
+    470 │   margin: 7px 0 20px;
+    471 │ }
+  > 472 │ .workspace-title h3 small {
+        │ ^^^^^^^^^^^^^^^^^^^^^^^^^
+    473 │   font:
+    474 │     14px ui-monospace,
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+experiments/surface-study/directions/board.css:969:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 0, 2)
+  
+    967 │   font-size: 12px;
+    968 │ }
+  > 969 │ footer a {
+        │ ^^^^^^^^
+    970 │   display: inline-block;
+    971 │   margin: 0 20px 12px 0;
+  
+  i This selector specificity is (0, 1, 1)
+  
+     97 │ }
+     98 │ .silhouette p,
+   > 99 │ .silhouette a {
+        │ ^^^^^^^^^^^^^
+    100 │   font-size: 13px;
+    101 │ }
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+experiments/surface-study/review/review.css:148:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 0, 2)
+  
+    146 │   margin-top: 45px;
+    147 │ }
+  > 148 │ section h2 {
+        │ ^^^^^^^^^^
+    149 │   font-size: 27px;
+    150 │   line-height: 1.2;
+  
+  i This selector specificity is (0, 1, 1)
+  
+     98 │   object-position: top;
+     99 │ }
+  > 100 │ .screen h2 {
+        │ ^^^^^^^^^^
+    101 │   font-size: 25px;
+    102 │   font-weight: 500;
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+experiments/surface-study/review/review.css:166:1 lint/style/noDescendingSpecificity ━━━━━━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 0, 2)
+  
+    164 │   padding: 12px 0;
+    165 │ }
+  > 166 │ details p {
+        │ ^^^^^^^^^
+    167 │   font-size: 13px;
+    168 │ }
+  
+  i This selector specificity is (0, 1, 1)
+  
+    104 │   letter-spacing: -0.03em;
+    105 │ }
+  > 106 │ .screen p {
+        │ ^^^^^^^^^
+    107 │   font-size: 13px;
+    108 │ }
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+experiments/surface-study/runtime/main.tsx:78:7 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    76 │   function frame(now: number): void {
+    77 │     if (document.hidden) {
+  > 78 │       output!.textContent = "Sampling stopped: tab is hidden. Keep preview visible and retry.";
+       │       ^^^^^^^
+    79 │       control!.disabled = false;
+    80 │       return;
+  
+
+experiments/surface-study/runtime/main.tsx:79:7 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    77 │     if (document.hidden) {
+    78 │       output!.textContent = "Sampling stopped: tab is hidden. Keep preview visible and retry.";
+  > 79 │       control!.disabled = false;
+       │       ^^^^^^^^
+    80 │       return;
+    81 │     }
+  
+
+experiments/surface-study/runtime/main.tsx:90:5 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    88 │     const sorted = [...intervals].sort((a, b) => a - b);
+    89 │     const median = sorted[Math.floor(sorted.length / 2)] ?? 0;
+  > 90 │     output!.textContent = JSON.stringify(
+       │     ^^^^^^^
+    91 │       {
+    92 │         samples: sorted.length,
+  
+
+experiments/surface-study/runtime/main.tsx:104:5 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    102 │       2,
+    103 │     );
+  > 104 │     control!.disabled = false;
+        │     ^^^^^^^^
+    105 │   }
+    106 │   requestAnimationFrame(frame);
+  
+
+experiments/surface-study/shared/direction-baseline.css:730:1 lint/style/noDescendingSpecificity ━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 1)
+  
+    728 │ .program-date b,
+    729 │ .program-date span,
+  > 730 │ .program-date small {
+        │ ^^^^^^^^^^^^^^^^^^^
+    731 │   display: block;
+    732 │ }
+  
+  i This selector specificity is (0, 1, 2)
+  
+    470 │   margin: 7px 0 20px;
+    471 │ }
+  > 472 │ .workspace-title h3 small {
+        │ ^^^^^^^^^^^^^^^^^^^^^^^^^
+    473 │   font:
+    474 │     14px ui-monospace,
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+experiments/surface-study/shared/direction-baseline.css:744:1 lint/style/noDescendingSpecificity ━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 1)
+  
+    742 │   margin: 7px 0;
+    743 │ }
+  > 744 │ .program-date small {
+        │ ^^^^^^^^^^^^^^^^^^^
+    745 │   font-size: 10px;
+    746 │ }
+  
+  i This selector specificity is (0, 1, 2)
+  
+    470 │   margin: 7px 0 20px;
+    471 │ }
+  > 472 │ .workspace-title h3 small {
+        │ ^^^^^^^^^^^^^^^^^^^^^^^^^
+    473 │   font:
+    474 │     14px ui-monospace,
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+experiments/surface-study/shared/direction-baseline.css:810:1 lint/style/noDescendingSpecificity ━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 1)
+  
+    808 │   align-items: center;
+    809 │ }
+  > 810 │ .ticket-class small,
+        │ ^^^^^^^^^^^^^^^^^^^
+    811 │ .ticket-total small {
+    812 │   display: block;
+  
+  i This selector specificity is (0, 1, 2)
+  
+    470 │   margin: 7px 0 20px;
+    471 │ }
+  > 472 │ .workspace-title h3 small {
+        │ ^^^^^^^^^^^^^^^^^^^^^^^^^
+    473 │   font:
+    474 │     14px ui-monospace,
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+experiments/surface-study/shared/direction-baseline.css:811:1 lint/style/noDescendingSpecificity ━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 1)
+  
+    809 │ }
+    810 │ .ticket-class small,
+  > 811 │ .ticket-total small {
+        │ ^^^^^^^^^^^^^^^^^^^
+    812 │   display: block;
+    813 │   font-size: 10px;
+  
+  i This selector specificity is (0, 1, 2)
+  
+    470 │   margin: 7px 0 20px;
+    471 │ }
+  > 472 │ .workspace-title h3 small {
+        │ ^^^^^^^^^^^^^^^^^^^^^^^^^
+    473 │   font:
+    474 │     14px ui-monospace,
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+experiments/surface-study/shared/direction-baseline.css:831:1 lint/style/noDescendingSpecificity ━━━━━━━━━━
+
+  ! Descending specificity selector found. This selector specificity is (0, 1, 1)
+  
+    829 │   text-underline-offset: 5px;
+    830 │ }
+  > 831 │ .ticket-preview > small {
+        │ ^^^^^^^^^^^^^^^^^^^^^^^
+    832 │   font-size: 10px;
+    833 │ }
+  
+  i This selector specificity is (0, 1, 2)
+  
+    470 │   margin: 7px 0 20px;
+    471 │ }
+  > 472 │ .workspace-title h3 small {
+        │ ^^^^^^^^^^^^^^^^^^^^^^^^^
+    473 │   font:
+    474 │     14px ui-monospace,
+  
+  i Descending specificity selector may not be applied. Consider rearranging the order of the selectors. See MDN web docs for more details.
+  
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 24.
+Checked 227 files in 48ms. No fixes applied.
+Found 44 warnings.
+$ bun run --filter '@kbui/*' typecheck && tsc --noEmit -p tsconfig.json
+@kbui/tokens typecheck: Exited with code 0
+@kbui/css typecheck: Exited with code 0
+@kbui/react typecheck: Exited with code 0
+@kbui/storybook typecheck: Exited with code 0
+$ bun run --filter './packages/*' test && bun test scripts apps/storybook/stories
+@kbui/css test: bun test v1.3.11 (af24e281)
+@kbui/tokens test: bun test v1.3.11 (af24e281)
+@kbui/tokens test: 
+@kbui/tokens test: src/build.test.ts:
+@kbui/css test: 
+@kbui/css test: src/build.test.ts:
+@kbui/tokens test: (pass) buildTokens > emits every token as a --kb var in :root [0.11ms]
+@kbui/tokens test: (pass) buildTokens > resolves aliases to var() references [0.04ms]
+@kbui/tokens test: (pass) buildTokens > emits kb.dark values in both dark blocks only [0.05ms]
+@kbui/tokens test: (pass) buildTokens > emits a typed nested object of var names [0.06ms]
+@kbui/tokens test: (pass) buildTokens > throws on unknown alias [0.06ms]
+@kbui/tokens test: (pass) buildTokens > throws when two paths map to the same var [0.06ms]
+@kbui/tokens test: (pass) buildTokens > throws on invalid key [0.02ms]
+@kbui/tokens test: (pass) buildTokens > throws when $value is not a string [0.02ms]
+@kbui/tokens test: (pass) buildTokens > ignores $-prefixed group metadata [0.03ms]
+@kbui/tokens test: (pass) buildTokens > emits readonly js and dts [0.05ms]
+@kbui/tokens test: (pass) buildTokens > omits dark blocks when no token has kb.dark [0.04ms]
+@kbui/tokens test: (pass) buildTokens > snapshot of css output [0.20ms]
+@kbui/tokens test: (pass) tokens.json > defines amber, green and teal primitives [0.04ms]
+@kbui/tokens test: (pass) tokens.json > defines info, success and warning semantic colors with dark values [0.03ms]
+@kbui/tokens test: (pass) tokens.json > gives accent and danger foregrounds a dark value for contrast on the lighter dark fills [0.01ms]
+@kbui/tokens test: (pass) tokens.json > defines motion durations and easings [0.08ms]
+@kbui/tokens test: (pass) tokens.json > drops cut-corner geometry from panels [0.07ms]
+@kbui/tokens test: (pass) tokens.json > rounds panels and wells from the radius scale [0.03ms]
+@kbui/tokens test: (pass) tokens.json > defines a lit rim that runs from rim-top through the border to rim-bottom [0.03ms]
+@kbui/tokens test: (pass) tokens.json > keeps glass, sheen and emitted light off until a skin turns them up [0.04ms]
+@kbui/tokens test: (pass) tokens.json > lifts panels with box-shadows tuned per theme [0.04ms]
+@kbui/tokens test: (pass) tokens.json > defines a sunken plane, a highlight, a divider and a recessed well [0.03ms]
+@kbui/tokens test: (pass) tokens.json > lifts active and critical panel planes in dark [0.03ms]
+@kbui/tokens test: (pass) tokens.json > defines panel component tokens [0.05ms]
+@kbui/tokens test: (pass) tokens.json > lets the status chip round into a pill and its icon glow [0.02ms]
+@kbui/tokens test: (pass) tokens.json > defines a status color per tone [0.02ms]
+@kbui/tokens test: (pass) tokens.json > adds an extra-small and a display text size [0.05ms]
+@kbui/tokens test: (pass) tokens.json > defines shared popup tokens for menus and tooltips [0.03ms]
+@kbui/tokens test: (pass) tokens.json > lets a theme tune progress color, height and glow [0.03ms]
+@kbui/tokens test: (pass) tokens.json > lets a theme tune the display stat without touching the size scale [0.03ms]
+@kbui/tokens test: (pass) tokens.json > snapshot of the shipped css [0.01ms]
+@kbui/tokens test: 
+@kbui/tokens test:  31 pass
+@kbui/tokens test:  0 fail
+@kbui/tokens test:  2 snapshots, 120 expect() calls
+@kbui/tokens test: Ran 31 tests across 1 file. [10.00ms]
+@kbui/tokens test: Exited with code 0
+@kbui/css test: (pass) buildCss > bundles tokens, reset and every component into styles.css [1.22ms]
+@kbui/css test: (pass) buildCss > emits standalone reset and component files [0.18ms]
+@kbui/css test: (pass) buildCss > every component file declares an anatomy root [0.75ms]
+@kbui/css test: (pass) buildCss > component css never references a palette primitive [1.57ms]
+@kbui/css test: (pass) buildCss > paletteRefs flags palette vars (fallback, spaced) and raw literals [1.05ms]
+@kbui/css test: (pass) buildCss > paletteRefs flags the amber, green and teal families [0.81ms]
+@kbui/css test: (pass) buildCss > paletteRefs scans reset.css and accepts non-palette vars [0.86ms]
+@kbui/css test: (pass) buildCss > panel never clips; only its decorative layers filter or blur [0.31ms]
+@kbui/css test: (pass) buildCss > panel paints rim, sheen, glass, glow, shadow and well from tokens [0.17ms]
+@kbui/css test: (pass) buildCss > sunken panel recesses onto its own plane color [0.06ms]
+@kbui/css test: (pass) buildCss > status chip tints from its own ink, never a palette color [0.09ms]
+@kbui/css test: (pass) buildCss > status chip rounds and glows from tokens [0.06ms]
+@kbui/css test: (pass) buildCss > progress, stat and badge read their themable values from tokens [0.24ms]
+@kbui/css test: (pass) buildCss > anatomyRoots throws without an anatomy comment [0.74ms]
+@kbui/css test: (pass) buildCss > anatomyRoots throws when the root is not a selector in the body [0.68ms]
+@kbui/css test: (pass) buildCss > buildCss removes stale files from dist [7.62ms]
+@kbui/css test: 
+@kbui/css test:  16 pass
+@kbui/css test:  0 fail
+@kbui/css test:  79 expect() calls
+@kbui/css test: Ran 16 tests across 1 file. [39.00ms]
+@kbui/css test: Exited with code 0
+@kbui/react test: 
+@kbui/react test:  RUN  v5.0.5 /Users/khallil/proj/kbui/.claude/worktrees/study-catalog-growth/packages/react
+@kbui/react test: 
+@kbui/react test: 
+@kbui/react test:  Test Files  20 passed (20)
+@kbui/react test:       Tests  95 passed (95)
+@kbui/react test:    Start at  17:11:48
+@kbui/react test:    Duration  2.11s (environment 56%, tests 20%, setup 14%, import 8%, transform 2%)
+@kbui/react test: 
+@kbui/react test: Environment  jsdom was created 20 times · 10.61s total, 56% of tracked time
+@kbui/react test:              create it once per worker with pool: 'vmThreads' (keeps per-file isolation) or isolate: false (shares it across files)
+@kbui/react test:              learn more: https://vitest.dev/guide/improving-performance#test-environments
+@kbui/react test: 
+@kbui/react test: Exited with code 0
+bun test v1.3.11 (af24e281)
+
+scripts/release.test.ts:
+(pass) releaseProblems > accepts packages in lockstep and covered by release-please [3.65ms]
+(pass) releaseProblems > reports a package whose version drifts from the root [1.94ms]
+(pass) releaseProblems > reports a manifest that drifts from the root [1.61ms]
+(pass) releaseProblems > reports a published package release-please would not bump [1.72ms]
+(pass) releaseProblems > does not count an entry that bumps the wrong field [1.94ms]
+(pass) releaseProblems > reports an entry that points at a missing file [1.77ms]
+(pass) releaseProblems > ignores private packages [1.80ms]
+(pass) this repository releases in lockstep [1.58ms]
+
+scripts/neutrality.test.ts:
+(pass) domain neutrality > no product naming in packages, Storybook or published docs [19.51ms]
+
+scripts/new-component.test.ts:
+(pass) newComponent > stamps four files and registers exports [3.81ms]
+(pass) newComponent > keeps exports and imports sorted [3.00ms]
+(pass) newComponent > leaves no placeholders in generated files [3.22ms]
+(pass) newComponent > writes nothing when a registry file is missing [1.50ms]
+(pass) newComponent > rejects an unterminated statement and writes nothing [1.53ms]
+(pass) newComponent > refuses to overwrite an existing component [3.06ms]
+(pass) newComponent > rejects non-PascalCase names [1.54ms]
+
+scripts/consumer-versions.test.ts:
+(pass) accepts synchronized React/CSS with optional tokens [3.49ms]
+(pass) rejects mixed installed versions, including optional packages [2.56ms]
+(pass) rejects missing required packages and malformed manifests [3.34ms]
+(pass) rejects mismatched identity or invalid version instead of skipping it [1.61ms]
+(pass) CLI exits nonzero for mixed versions and passes synchronized installs [39.81ms]
+(pass) rejects malformed SemVer 0.4.0-. [1.48ms]
+(pass) rejects malformed SemVer 0.4.0-01 [1.16ms]
+(pass) rejects malformed SemVer 0.4.0+ [1.11ms]
+(pass) rejects malformed SemVer 00.4.0 [1.28ms]
+(pass) accepts valid prerelease and build identifiers [1.18ms]
+(pass) Node CLI checks installed versions through a symlink [37.60ms]
+
+apps/storybook/stories/skin-fixture.test.ts:
+(pass) skin fixture > sets documented --kb-panel-* and --kb-status-* properties only
+(pass) skin fixture > uses no .kb-* selectors and no !important [0.41ms]
+
+ 29 pass
+ 0 fail
+ 86 expect() calls
+Ran 29 tests across 5 files. [168.00ms]
+$ bun test ./scripts/pack.check.ts
+bun test v1.3.11 (af24e281)
+
+scripts/pack.check.ts:
+(pass) @kbui/css tarball > is named as the release asset consumers install
+(pass) @kbui/css tarball > ships only package.json, README.md and the files field
+(pass) @kbui/css tarball > ships built output
+(pass) @kbui/react tarball > is named as the release asset consumers install
+(pass) @kbui/react tarball > ships only package.json, README.md and the files field [0.33ms]
+(pass) @kbui/react tarball > ships built output
+(pass) @kbui/tokens tarball > is named as the release asset consumers install
+(pass) @kbui/tokens tarball > ships only package.json, README.md and the files field
+(pass) @kbui/tokens tarball > ships built output
+
+ 9 pass
+ 0 fail
+ 9 expect() calls
+Ran 9 tests across 1 file. [52.00ms]

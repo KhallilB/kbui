@@ -1,0 +1,169 @@
+$ bun run build && bun run lint && bun run typecheck && bun run test && bun run test:pack
+$ bun run --filter @kbui/tokens build && bun run --filter @kbui/css build && bun run --filter @kbui/react build
+@kbui/tokens build: tokens: built dist/tokens.{css,js,d.ts}
+@kbui/tokens build: Exited with code 0
+@kbui/css build: css: built dist/styles.css
+@kbui/css build: Exited with code 0
+@kbui/react build: vite v8.3.4 building client environment for production...
+@kbui/react build: transforming...
+@kbui/react build: ✓ 18 modules transformed.
+@kbui/react build: rendering chunks...
+@kbui/react build: computing gzip size...
+@kbui/react build: dist/index.js  11.36 kB │ gzip: 2.94 kB │ map: 33.72 kB
+@kbui/react build: 
+@kbui/react build: ✓ built in 14ms
+@kbui/react build: Bundled 1 module in 2ms
+@kbui/react build: 
+@kbui/react build:   check-versions.js  1.73 KB  (entry point)
+@kbui/react build: 
+@kbui/react build: Exited with code 0
+$ biome check .
+Checked 112 files in 19ms. No fixes applied.
+$ bun run --filter '@kbui/*' typecheck && tsc --noEmit -p tsconfig.json
+@kbui/css typecheck: Exited with code 0
+@kbui/tokens typecheck: Exited with code 0
+@kbui/react typecheck: Exited with code 0
+@kbui/storybook typecheck: Exited with code 0
+$ bun run --filter './packages/*' test && bun test scripts apps/storybook/stories
+@kbui/tokens test: bun test v1.3.11 (af24e281)
+@kbui/css test: bun test v1.3.11 (af24e281)
+@kbui/tokens test: 
+@kbui/tokens test: src/build.test.ts:
+@kbui/css test: 
+@kbui/css test: src/build.test.ts:
+@kbui/tokens test: (pass) buildTokens > emits every token as a --kb var in :root [0.16ms]
+@kbui/tokens test: (pass) buildTokens > resolves aliases to var() references [0.08ms]
+@kbui/tokens test: (pass) buildTokens > emits kb.dark values in both dark blocks only [0.02ms]
+@kbui/tokens test: (pass) buildTokens > emits a typed nested object of var names [0.07ms]
+@kbui/tokens test: (pass) buildTokens > throws on unknown alias [0.02ms]
+@kbui/tokens test: (pass) buildTokens > throws when two paths map to the same var [0.05ms]
+@kbui/tokens test: (pass) buildTokens > throws on invalid key [0.07ms]
+@kbui/tokens test: (pass) buildTokens > throws when $value is not a string [0.02ms]
+@kbui/tokens test: (pass) buildTokens > ignores $-prefixed group metadata [0.03ms]
+@kbui/tokens test: (pass) buildTokens > emits readonly js and dts [0.05ms]
+@kbui/tokens test: (pass) buildTokens > omits dark blocks when no token has kb.dark [0.06ms]
+@kbui/tokens test: (pass) buildTokens > snapshot of css output [0.03ms]
+@kbui/tokens test: (pass) tokens.json > defines amber, green and teal primitives [0.19ms]
+@kbui/tokens test: (pass) tokens.json > defines info, success and warning semantic colors with dark values [0.06ms]
+@kbui/tokens test: (pass) tokens.json > gives accent and danger foregrounds a dark value for contrast on the lighter dark fills
+@kbui/tokens test: (pass) tokens.json > defines motion durations and easings [0.09ms]
+@kbui/tokens test: (pass) tokens.json > drops cut-corner geometry from panels [0.02ms]
+@kbui/tokens test: (pass) tokens.json > rounds panels and wells from the radius scale [0.07ms]
+@kbui/tokens test: (pass) tokens.json > defines a lit rim that runs from rim-top through the border to rim-bottom [0.03ms]
+@kbui/tokens test: (pass) tokens.json > keeps glass, sheen and emitted light off until a skin turns them up [0.03ms]
+@kbui/tokens test: (pass) tokens.json > lifts panels with box-shadows tuned per theme [0.06ms]
+@kbui/tokens test: (pass) tokens.json > defines a sunken plane, a highlight, a divider and a recessed well [0.03ms]
+@kbui/tokens test: (pass) tokens.json > lifts active and critical panel planes in dark [0.04ms]
+@kbui/tokens test: (pass) tokens.json > defines panel component tokens [0.02ms]
+@kbui/tokens test: (pass) tokens.json > lets the status chip round into a pill and its icon glow [0.04ms]
+@kbui/tokens test: (pass) tokens.json > defines a status color per tone [0.03ms]
+@kbui/tokens test: (pass) tokens.json > adds an extra-small and a display text size [0.04ms]
+@kbui/tokens test: (pass) tokens.json > defines shared popup tokens for menus and tooltips [0.02ms]
+@kbui/tokens test: (pass) tokens.json > lets a theme tune progress color, height and glow [0.05ms]
+@kbui/tokens test: (pass) tokens.json > lets a theme tune the display stat without touching the size scale [0.02ms]
+@kbui/tokens test: (pass) tokens.json > snapshot of the shipped css [0.01ms]
+@kbui/tokens test: 
+@kbui/tokens test:  31 pass
+@kbui/tokens test:  0 fail
+@kbui/tokens test:  2 snapshots, 120 expect() calls
+@kbui/tokens test: Ran 31 tests across 1 file. [9.00ms]
+@kbui/tokens test: Exited with code 0
+@kbui/css test: (pass) buildCss > bundles tokens, reset and every component into styles.css [1.34ms]
+@kbui/css test: (pass) buildCss > emits standalone reset and component files [0.16ms]
+@kbui/css test: (pass) buildCss > every component file declares an anatomy root [0.56ms]
+@kbui/css test: (pass) buildCss > component css never references a palette primitive [1.01ms]
+@kbui/css test: (pass) buildCss > paletteRefs flags palette vars (fallback, spaced) and raw literals [0.96ms]
+@kbui/css test: (pass) buildCss > paletteRefs flags the amber, green and teal families [0.70ms]
+@kbui/css test: (pass) buildCss > paletteRefs scans reset.css and accepts non-palette vars [0.85ms]
+@kbui/css test: (pass) buildCss > panel never clips; only its decorative layers filter or blur [0.30ms]
+@kbui/css test: (pass) buildCss > panel paints rim, sheen, glass, glow, shadow and well from tokens [0.25ms]
+@kbui/css test: (pass) buildCss > sunken panel recesses onto its own plane color [0.15ms]
+@kbui/css test: (pass) buildCss > status chip tints from its own ink, never a palette color [0.08ms]
+@kbui/css test: (pass) buildCss > status chip rounds and glows from tokens [0.07ms]
+@kbui/css test: (pass) buildCss > progress, stat and badge read their themable values from tokens [0.24ms]
+@kbui/css test: (pass) buildCss > anatomyRoots throws without an anatomy comment [0.74ms]
+@kbui/css test: (pass) buildCss > anatomyRoots throws when the root is not a selector in the body [1.10ms]
+@kbui/css test: (pass) buildCss > buildCss removes stale files from dist [5.49ms]
+@kbui/css test: 
+@kbui/css test:  16 pass
+@kbui/css test:  0 fail
+@kbui/css test:  76 expect() calls
+@kbui/css test: Ran 16 tests across 1 file. [33.00ms]
+@kbui/css test: Exited with code 0
+@kbui/react test: 
+@kbui/react test:  RUN  v5.0.5 /Users/khallil/proj/kbui/.claude/worktrees/pr-surface-foundations/packages/react
+@kbui/react test: 
+@kbui/react test: 
+@kbui/react test:  Test Files  17 passed (17)
+@kbui/react test:       Tests  78 passed (78)
+@kbui/react test:    Start at  18:18:52
+@kbui/react test:    Duration  1.57s (environment 59%, tests 17%, setup 14%, import 7%, transform 2%)
+@kbui/react test: 
+@kbui/react test: Environment  jsdom was created 17 times · 7.80s total, 59% of tracked time
+@kbui/react test:              create it once per worker with pool: 'vmThreads' (keeps per-file isolation) or isolate: false (shares it across files)
+@kbui/react test:              learn more: https://vitest.dev/guide/improving-performance#test-environments
+@kbui/react test: 
+@kbui/react test: Exited with code 0
+bun test v1.3.11 (af24e281)
+
+scripts/release.test.ts:
+(pass) releaseProblems > accepts packages in lockstep and covered by release-please [3.10ms]
+(pass) releaseProblems > reports a package whose version drifts from the root [1.73ms]
+(pass) releaseProblems > reports a manifest that drifts from the root [1.59ms]
+(pass) releaseProblems > reports a published package release-please would not bump [1.74ms]
+(pass) releaseProblems > does not count an entry that bumps the wrong field [1.50ms]
+(pass) releaseProblems > reports an entry that points at a missing file [1.49ms]
+(pass) releaseProblems > ignores private packages [1.84ms]
+(pass) this repository releases in lockstep [1.61ms]
+
+scripts/neutrality.test.ts:
+(pass) domain neutrality > no product naming in packages, Storybook or published docs [18.71ms]
+
+scripts/new-component.test.ts:
+(pass) newComponent > stamps four files and registers exports [3.76ms]
+(pass) newComponent > keeps exports and imports sorted [3.05ms]
+(pass) newComponent > leaves no placeholders in generated files [2.69ms]
+(pass) newComponent > writes nothing when a registry file is missing [1.53ms]
+(pass) newComponent > rejects an unterminated statement and writes nothing [1.50ms]
+(pass) newComponent > refuses to overwrite an existing component [2.65ms]
+(pass) newComponent > rejects non-PascalCase names [1.33ms]
+
+scripts/consumer-versions.test.ts:
+(pass) accepts synchronized React/CSS with optional tokens [3.74ms]
+(pass) rejects mixed installed versions, including optional packages [2.48ms]
+(pass) rejects missing required packages and malformed manifests [2.68ms]
+(pass) rejects mismatched identity or invalid version instead of skipping it [1.16ms]
+(pass) CLI exits nonzero for mixed versions and passes synchronized installs [40.71ms]
+(pass) rejects malformed SemVer 0.4.0-. [1.34ms]
+(pass) rejects malformed SemVer 0.4.0-01 [1.11ms]
+(pass) rejects malformed SemVer 0.4.0+ [1.04ms]
+(pass) rejects malformed SemVer 00.4.0 [0.99ms]
+(pass) accepts valid prerelease and build identifiers [1.08ms]
+(pass) Node CLI checks installed versions through a symlink [32.70ms]
+
+apps/storybook/stories/skin-fixture.test.ts:
+(pass) skin fixture > sets documented --kb-panel-* and --kb-status-* properties only
+(pass) skin fixture > uses no .kb-* selectors and no !important [0.32ms]
+
+ 29 pass
+ 0 fail
+ 86 expect() calls
+Ran 29 tests across 5 files. [158.00ms]
+$ bun test ./scripts/pack.check.ts
+bun test v1.3.11 (af24e281)
+
+scripts/pack.check.ts:
+(pass) @kbui/css tarball > is named as the release asset consumers install [0.04ms]
+(pass) @kbui/css tarball > ships only package.json, README.md and the files field [0.18ms]
+(pass) @kbui/css tarball > ships built output
+(pass) @kbui/react tarball > is named as the release asset consumers install
+(pass) @kbui/react tarball > ships only package.json, README.md and the files field [0.08ms]
+(pass) @kbui/react tarball > ships built output
+(pass) @kbui/tokens tarball > is named as the release asset consumers install
+(pass) @kbui/tokens tarball > ships only package.json, README.md and the files field
+(pass) @kbui/tokens tarball > ships built output
+
+ 9 pass
+ 0 fail
+ 9 expect() calls
+Ran 9 tests across 1 file. [44.00ms]

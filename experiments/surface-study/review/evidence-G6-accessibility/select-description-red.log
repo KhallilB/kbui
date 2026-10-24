@@ -1,0 +1,33 @@
+$ vitest run Select
+
+ RUN  v5.0.5 /Users/khallil/proj/kbui/.claude/worktrees/study-catalog-growth/packages/react
+
+ ❯ src/components/Select/Select.test.tsx (6 tests | 1 failed) 413ms
+   × combines caller helper IDs with component descriptions on the combobox 13ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/components/Select/Select.test.tsx > combines caller helper IDs with component descriptions on the combobox
+Error: expect(element).toHaveAccessibleDescription()
+
+Expected element to have accessible description:
+  Choose view Caller helper
+Received:
+  Choose view
+ ❯ src/components/Select/Select.test.tsx:105:56
+    103| it("combines caller helper IDs with component descriptions on the comb…
+    104|   render(<><p id="consumer-help">Caller helper</p><Select label="View"…
+    105|   expect(screen.getByRole("combobox", {name: "View"})).toHaveAccessibl…
+       |                                                        ^
+    106| });
+    107|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  16:48:22
+   Duration  1.93s (environment 45%, tests 24%, import 18%, setup 10%, transform 3%)
+
+error: script "test" exited with code 1
