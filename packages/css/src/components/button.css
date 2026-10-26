@@ -25,7 +25,15 @@
 
 .kb-button:focus-visible {
   outline: 2px solid var(--kb-color-ring);
-  outline-offset: 2px;
+  outline-offset: -2px;
+}
+
+.kb-button[data-variant="primary"]:focus-visible {
+  outline-color: var(--kb-color-accent-fg);
+}
+
+.kb-button[data-variant="danger"]:focus-visible {
+  outline-color: var(--kb-color-danger-fg);
 }
 
 .kb-button[data-size="sm"] {

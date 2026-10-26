@@ -55,7 +55,10 @@
 }
 .kb-checkbox-control:focus-visible + .kb-checkbox-mark {
   outline: 2px solid var(--kb-color-ring);
-  outline-offset: 2px;
+  outline-offset: -2px;
+}
+.kb-checkbox-control:is(:checked, :indeterminate):focus-visible + .kb-checkbox-mark {
+  outline-color: var(--kb-color-accent-fg);
 }
 .kb-checkbox-label {
   min-block-size: var(--kb-input-height-md);
