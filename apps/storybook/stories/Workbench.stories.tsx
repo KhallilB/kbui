@@ -32,7 +32,15 @@ export const Playground: Story = {
       : undefined;
     const preview = canvas.getByTestId("playground-preview");
     const previewHeight = preview.getBoundingClientRect().height;
-    const entrance = panel.getAnimations()[0];
+    const entranceAnimation = () =>
+      panel
+        .getAnimations()
+        .find(
+          (animation) =>
+            "animationName" in animation && animation.animationName === "kbui-poster-arrive",
+        );
+    const entrance = entranceAnimation();
+    if (!reduced) expect(entrance).toBeDefined();
     expect(getComputedStyle(preview).transitionDuration).toContain(reduced ? "0s" : "0.22s");
     expect(canvas.getByTestId("playground-preview")).toHaveAttribute("data-theme", "light");
     if (window.innerWidth <= 800)
@@ -57,7 +65,7 @@ export const Playground: Story = {
     await userEvent.click(await within(document.body).findByRole("option", { name: "Large" }));
     expect(canvas.getByTestId("working-code")).toHaveTextContent('size="lg" disabled');
     expect(preview.getBoundingClientRect().height).toBeCloseTo(previewHeight, 0);
-    expect(panel.getAnimations()[0]).toBe(entrance);
+    expect(entranceAnimation()).toBe(entrance);
     await userEvent.click(canvas.getByRole("button", { name: "Dark theme" }));
     expect(canvas.getByTestId("playground-preview")).toHaveAttribute("data-theme", "dark");
     expect(canvas.getByTestId("working-code")).toHaveTextContent('data-theme="dark"');
