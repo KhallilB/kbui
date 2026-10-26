@@ -203,6 +203,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-text-control-size: 14px;
   --kb-text-leading-body: 1.6;
   --kb-text-leading-control: 1.4;
+  --kb-radiogroup-gap: var(--kb-space-2);
+  --kb-radiogroup-size: 1.5rem;
 }
 
 [data-theme="dark"] {
@@ -372,6 +374,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-text-control-size: 14px;
   --kb-text-leading-body: 1.6;
   --kb-text-leading-control: 1.4;
+  --kb-radiogroup-gap: var(--kb-space-2);
+  --kb-radiogroup-size: 1.5rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -542,6 +546,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-text-control-size: 14px;
     --kb-text-leading-body: 1.6;
     --kb-text-leading-control: 1.4;
+    --kb-radiogroup-gap: var(--kb-space-2);
+    --kb-radiogroup-size: 1.5rem;
   }
 }
 "

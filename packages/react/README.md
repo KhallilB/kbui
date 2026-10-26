@@ -209,3 +209,29 @@ A controlled native checkbox with a tactile mark, associated label, helper and e
 ```
 
 Label activation and Space request changes. A declined controlled update preserves checked and mixed DOM state. Native input props remain supported. `style` applies to the native input; custom CSS properties also scope the decorative mark. Override `--kb-checkbox-size` for a different mark size. Forced colors retain the native checkbox and its focus outline.
+## RadioGroup
+
+A controlled single choice. The group supplies its label, error and form name; each item supplies its own label and unique string value. Arrow keys move selection and skip disabled items.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `label` | `string` | required | Visible accessible group label |
+| `value` | `string \| null` | required | Controlled choice; null means no choice |
+| `onValueChange` | `(value: string) => void` | required | Next choice request |
+| `appearance` | `"standard" \| "segmented"` | `"standard"` | Segmented tray for compact single-choice controls |
+| `disabled` | `boolean` | `false` | Disable every item |
+| `name` | `string` | | Native form field name |
+| `description` / `error` | `string` | | Associated help and invalid-state text |
+| `visuallyHidden` | `boolean` | `false` | Hide group label visually |
+| `ref` | `Ref<HTMLDivElement>` | | Group root |
+
+```tsx
+<RadioGroup label="Density" name="density" value={density} onValueChange={setDensity}>
+  <RadioGroup.Item value="compact">Compact</RadioGroup.Item>
+  <RadioGroup.Item value="comfortable">Comfortable</RadioGroup.Item>
+</RadioGroup>
+```
+
+`RadioGroup.Item` forwards Base UI Radio props, including `value`, `disabled` and the native control ref. `className` styles the item label; `controlClassName` styles its radio slot. The group inherits semantic colors and material depth; `--kb-radiogroup-size` and `--kb-radiogroup-gap` adjust geometry.
+
+Set `appearance="segmented"` for compact view, density or filter choices. Native radio semantics, keyboard navigation and form behavior stay shared; this is not tab/panel navigation. Caller controls value and form reset. Item `required` participates in native form validation. Changing appearance preserves control identity and focus.
