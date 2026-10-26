@@ -3,6 +3,7 @@ import { Badge, Button, Card, Progress, Stat, Status } from "@kbui/react";
 import { useState } from "react";
 import { Geometry } from "./Brand";
 import { CodePanel } from "./CodePanel";
+import { LinkArrow } from "./LinkArrow";
 import { SiteFrame } from "./SiteFrame";
 import "./examples.css";
 
@@ -39,7 +40,7 @@ function CompositionView({
         <div className="sample-bottom">
           <span>Card + Badge</span>
           <a href={docs("Card", storybookRoot)}>
-            Explore Card <span className="link-arrow">↗</span>
+            Explore Card <LinkArrow />
           </a>
         </div>
       </Card>
@@ -63,7 +64,7 @@ function CompositionView({
         <div className="sample-bottom">
           <span>Sample data</span>
           <a href={docs("Progress", storybookRoot)}>
-            Explore Progress <span className="link-arrow">↗</span>
+            Explore Progress <LinkArrow />
           </a>
         </div>
       </Card>
@@ -171,7 +172,7 @@ export function Examples({
         </div>
         <nav className="example-index" aria-label="Example navigation">
           <a href={`${siteRoot}compare/`}>
-            Try the workspace <span className="link-arrow">↗</span>
+            Try the workspace <LinkArrow />
           </a>
           {examples.map(({ id, title }) => (
             <a key={id} href={`#${id}`}>

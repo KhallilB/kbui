@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { chromium, type Page, webkit } from "playwright";
+import { chooseRadio, radioChoice } from "./native-controls.ts";
 import { loadCatalogSources } from "./source.ts";
 
 const origin = process.env.CATALOG_PREVIEW_URL ?? "http://127.0.0.1:4174";
@@ -55,47 +56,56 @@ for (const profile of profiles) {
     await page.goto(
       `${origin}/components/?component=input&state=components-input--with-description#main`,
     );
-    const state = (name: string) => page.getByRole("button", { name, exact: true });
-    assert.equal(await state("With Description").getAttribute("aria-pressed"), "true");
+    const state = (name: string) => radioChoice(page, "Example state", name);
+    assert.equal(await state("With Description").getAttribute("aria-checked"), "true");
     await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
     const initialHistory = await page.evaluate(() => history.length);
     await page
-      .locator("iframe")
+      .locator('iframe[data-current="true"]')
       .evaluate((frame) => frame.setAttribute("data-history-instance", "retained"));
-    await state("With Error").click();
+    await chooseRadio(page, "Example state", "With Error");
     await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
-    await state("Disabled").click();
+    await chooseRadio(page, "Example state", "Disabled");
     await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
     assert.equal(
       await page.evaluate(() => history.length),
       initialHistory + 2,
       "Preview navigation added browser history entries",
     );
-    assert.equal(await page.locator("iframe").getAttribute("data-history-instance"), "retained");
+    assert.equal(
+      await page
+        .locator('iframe[title="Input — With Description live example"]')
+        .getAttribute("data-history-instance"),
+      "retained",
+    );
     await page.goBack();
     await state("With Error").waitFor();
     await page.waitForFunction(
-      () => document.querySelector("iframe")?.title === "Input — With Error live example",
+      () =>
+        document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]')?.title ===
+        "Input — With Error live example",
     );
     assert.match(page.url(), /state=components-input--with-error/);
     await page.goForward();
     await page.waitForFunction(
-      () => document.querySelector("iframe")?.title === "Input — Disabled live example",
+      () =>
+        document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]')?.title ===
+        "Input — Disabled live example",
     );
     await page.reload();
-    assert.equal(await state("Disabled").getAttribute("aria-pressed"), "true");
-    await state("View code").click();
+    assert.equal(await state("Disabled").getAttribute("aria-checked"), "true");
+    await page.getByRole("button", { name: "View code", exact: true }).click();
     assert.match(
       await page.getByRole("region", { name: "Example code", exact: true }).innerText(),
       /disabled/,
     );
-    await state("With Description").click();
+    await chooseRadio(page, "Example state", "With Description");
     await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
-    await state("Disabled").click();
+    await chooseRadio(page, "Example state", "Disabled");
     await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
     assert.match(
       await page
-        .frameLocator("iframe")
+        .frameLocator('iframe[data-current="true"]')
         .locator("html")
         .evaluate(() => document.URL),
       /components-input--disabled/,
@@ -118,7 +128,9 @@ for (const profile of profiles) {
     );
     await page.goto(`${origin}/components/?component=input`);
     await page.waitForFunction(
-      () => document.querySelector("iframe")?.contentDocument?.readyState === "complete",
+      () =>
+        document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]')?.contentDocument
+          ?.readyState === "complete",
     );
     await page.evaluate(
       () =>
@@ -128,7 +140,7 @@ for (const profile of profiles) {
     );
     await page.getByText("Loading live example…", { exact: true }).waitFor();
     await page
-      .frameLocator("iframe")
+      .frameLocator('iframe[data-current="true"]')
       .locator("#storybook-root")
       .evaluate((root) => {
         const button = root.ownerDocument.createElement("button");
@@ -150,7 +162,10 @@ for (const profile of profiles) {
     );
     await page.goto(`${origin}/components/?component=input`);
     await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
-    await page.frameLocator("iframe").getByRole("button", { name: "Ready fixture" }).click();
+    await page
+      .frameLocator('iframe[data-current="true"]')
+      .getByRole("button", { name: "Ready fixture" })
+      .click();
   });
   await check("slow-retry", async (page) => {
     await page.route("**/storybook/iframe.html?*", (route) =>
@@ -169,7 +184,7 @@ for (const profile of profiles) {
     await page.unroute("**/storybook/iframe.html?*");
     await page.getByRole("button", { name: "Reload preview", exact: true }).click();
     await page
-      .frameLocator("iframe")
+      .frameLocator('iframe[data-current="true"]')
       .getByRole("textbox", { name: "Email", exact: true })
       .waitFor();
     await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
@@ -208,15 +223,13 @@ for (const profile of profiles) {
       true,
     );
     await page.getByRole("link", { name: "Choose your theme" }).click();
-    await page.getByRole("combobox", { name: "Theme", exact: true }).click();
-    await page.getByRole("option", { name: "Dark", exact: true }).click();
+    await chooseRadio(page, "Theme", "Dark");
     assert.equal(await page.locator(".setup-preview").getAttribute("data-theme"), "dark");
     assert.match(
       await page.getByRole("region", { name: "Theme code", exact: true }).innerText(),
       /data-theme="dark"/,
     );
-    await page.getByRole("combobox", { name: "Theme", exact: true }).click();
-    await page.getByRole("option", { name: "System", exact: true }).click();
+    await chooseRadio(page, "Theme", "System");
     await page.emulateMedia({ colorScheme: "dark" });
     await page.waitForFunction(
       () => document.querySelector(".setup-preview")?.getAttribute("data-theme") === "dark",
@@ -373,14 +386,16 @@ for (const profile of profiles) {
       await page.goto(`${origin}/components/?component=input`);
       await page.waitForFunction(
         () =>
-          document.querySelector("iframe")?.getAttribute("aria-busy") === "false" &&
           document
-            .querySelector("iframe")
+            .querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
+            ?.getAttribute("aria-busy") === "false" &&
+          document
+            .querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
             ?.getAnimations()
             .every((animation) => animation.playState !== "running"),
       );
       await page.getByRole("button", { name: "View code", exact: true }).click();
-      const iframe = page.locator("iframe");
+      const iframe = page.locator('iframe[data-visible="true"]');
       const stage = page.locator(".catalog-preview-frame");
       const identity = await stage.elementHandle();
       assert.ok(identity);
@@ -399,7 +414,7 @@ for (const profile of profiles) {
         await route.continue();
       });
       try {
-        await page.getByRole("button", { name: "With Error", exact: true }).click();
+        await chooseRadio(page, "Example state", "With Error");
         await page.getByText("Loading live example…", { exact: true }).waitFor();
         assert.equal(
           await stage.evaluate((element, previous) => element === previous, identity),
@@ -420,14 +435,16 @@ for (const profile of profiles) {
         );
         release();
         await page
-          .frameLocator("iframe")
+          .frameLocator('iframe[data-current="true"]')
           .getByText("Email is required.", { exact: true })
           .waitFor();
         await page.waitForFunction(
           () =>
-            document.querySelector("iframe")?.getAttribute("aria-busy") === "false" &&
             document
-              .querySelector("iframe")
+              .querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
+              ?.getAttribute("aria-busy") === "false" &&
+            document
+              .querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
               ?.getAnimations()
               .every((animation) => animation.playState !== "running"),
         );
@@ -438,7 +455,7 @@ for (const profile of profiles) {
       await page.getByRole("button", { name: "Expand preview", exact: true }).click();
       await page.waitForFunction(() =>
         document
-          .querySelector("iframe")
+          .querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
           ?.getAnimations()
           .every((animation) => animation.playState !== "running"),
       );
@@ -451,7 +468,7 @@ for (const profile of profiles) {
       const defaultHandled = new Promise<void>((resolve) => {
         finishDefault = resolve;
       });
-      const defaultPattern = "**/storybook/iframe.html?id=components-input--default*";
+      const defaultPattern = "**/storybook/iframe.html?id=components-input--with-description*";
       await page.route(defaultPattern, async (route) => {
         try {
           await delayedDefault;
@@ -461,11 +478,11 @@ for (const profile of profiles) {
         }
       });
       try {
-        await page.getByRole("button", { name: "Default", exact: true }).click();
+        await chooseRadio(page, "Example state", "With Description");
         await page.getByText("Loading live example…", { exact: true }).waitFor();
         await page.waitForFunction(() =>
           document
-            .querySelector("iframe")
+            .querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
             ?.getAnimations()
             .every((animation) => animation.playState !== "running"),
         );
@@ -481,13 +498,16 @@ for (const profile of profiles) {
         await page.unroute(defaultPattern);
       }
       await page.waitForFunction(
-        () => document.querySelector("iframe")?.getAttribute("aria-busy") === "false",
+        () =>
+          document
+            .querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
+            ?.getAttribute("aria-busy") === "false",
       );
       for (const name of ["With Description", "Disabled", "Default"]) {
-        await page.getByRole("button", { name, exact: true }).click();
+        await chooseRadio(page, "Example state", name);
       }
       await page.waitForFunction(() => {
-        const iframe = document.querySelector("iframe");
+        const iframe = document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]');
         return (
           iframe?.getAttribute("aria-busy") === "false" &&
           iframe.contentDocument?.URL.includes("components-input--default") &&
@@ -527,7 +547,7 @@ for (const profile of profiles) {
         await button.evaluate((element, previous) => element === previous, buttonIdentity),
         true,
       );
-      await page.getByRole("button", { name: "Dark theme", exact: true }).click();
+      await chooseRadio(page, "Preview theme", "Dark");
       await page.waitForFunction(
         () =>
           getComputedStyle(document.querySelector(".playground-preview") as Element)
@@ -556,13 +576,15 @@ for (const profile of profiles) {
       for (const [route, surface] of [
         ["/playground/", ".playground-section"],
         ["/examples/", ".example-section"],
-        ["/components/", ".catalog-grid"],
-        ["/components/?component=input", ".catalog-live"],
+        ["/components/?view=directory", ".catalog-grid"],
+        ["/components/", ".catalog-browser"],
+        ["/components/?component=input&view=directory", ".catalog-live"],
       ] as const) {
         await page.goto(`${origin}${route}`);
         assert.equal(
           await page
             .locator(".page-heading")
+            .first()
             .evaluate((element) => getComputedStyle(element).animationName),
           reduced ? "none" : "kbui-poster-rise",
         );
@@ -598,12 +620,14 @@ for (const profile of profiles) {
     for (const entry of loadCatalogSources()) {
       await page.goto(`${origin}/components/?component=${entry.id}`);
       await page.waitForFunction(() => {
-        const doc = document.querySelector("iframe")?.contentDocument;
+        const doc = document.querySelector<HTMLIFrameElement>(
+          'iframe[data-current="true"]',
+        )?.contentDocument;
         return doc?.querySelector("#storybook-root > *, [role=dialog]");
       });
       assert.equal(
         await page.evaluate(() => {
-          const iframe = document.querySelector("iframe");
+          const iframe = document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]');
           return (
             document.documentElement.scrollWidth <= innerWidth &&
             (iframe?.contentDocument?.documentElement.scrollWidth ?? Infinity) <=

@@ -1,6 +1,9 @@
 import { Menu as Base } from "@base-ui/react/menu";
 import { Separator } from "@base-ui/react/separator";
 import { clsx } from "clsx";
+import { createContext, useContext, useEffect, useState } from "react";
+
+const PointerFocus = createContext(false);
 
 export type MenuProps = Base.Root.Props;
 export type MenuTriggerProps = Base.Trigger.Props;
@@ -17,12 +20,40 @@ export type MenuContentProps = Omit<Base.Popup.Props, "className"> & {
   align?: Base.Positioner.Props["align"];
 };
 
-function MenuRoot(props: MenuProps) {
-  return <Base.Root {...props} />;
+function MenuRoot({ onOpenChange, ...props }: MenuProps) {
+  const [pointerFocus, setPointerFocus] = useState(false);
+  useEffect(() => {
+    if (!pointerFocus) return;
+    const keyboard = () => setPointerFocus(false);
+    document.addEventListener("keydown", keyboard, { capture: true, once: true });
+    return () => document.removeEventListener("keydown", keyboard, true);
+  }, [pointerFocus]);
+  return (
+    <PointerFocus.Provider value={pointerFocus}>
+      <Base.Root
+        {...props}
+        onOpenChange={(open, details) => {
+          const event = details.event;
+          setPointerFocus(
+            /^(pointer|mouse|touch|click)/.test(event.type) &&
+              !(event.type === "click" && "detail" in event && event.detail === 0),
+          );
+          onOpenChange?.(open, details);
+        }}
+      />
+    </PointerFocus.Provider>
+  );
 }
 
 function MenuTrigger(props: MenuTriggerProps) {
-  return <Base.Trigger {...props} />;
+  const pointerFocus = useContext(PointerFocus);
+  return (
+    <Base.Trigger
+      {...props}
+      data-kb-menu-trigger=""
+      data-pointer-focus={pointerFocus || undefined}
+    />
+  );
 }
 
 function MenuContent({ side = "bottom", align = "start", className, ...props }: MenuContentProps) {

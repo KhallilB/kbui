@@ -1,4 +1,4 @@
-import { Button, Callout, Card, Input, Status } from "@kbui/react";
+import { Button, Callout, Card, Checkbox, Input, Status } from "@kbui/react";
 import { useEffect, useId, useRef, useState } from "react";
 import { ControlSelect } from "./ControlSelect";
 
@@ -163,17 +163,15 @@ export function SettingsScreen({
               ["news", "Product news", "Occasional updates from the workspace."],
             ] as const
           ).map(([key, title, description]) => (
-            <label className="preference-row" key={key}>
-              <span>
-                <strong>{title}</strong>
-                <small>{description}</small>
-              </span>
-              <input
-                type="checkbox"
+            <div className="preference-row" key={key}>
+              <Checkbox
+                label={title}
+                description={description}
                 checked={draft[key]}
-                onChange={(event) => update({ [key]: event.target.checked })}
+                disabled={phase === "saving"}
+                onCheckedChange={(checked) => update({ [key]: checked })}
               />
-            </label>
+            </div>
           ))}
         </Card>
         <Card className="workspace-context">
