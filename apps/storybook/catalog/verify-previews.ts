@@ -513,7 +513,7 @@ try {
     }));
     if (
       keyboardRing.width !== "2px" ||
-      keyboardRing.offset !== "2px" ||
+      keyboardRing.offset !== "-2px" ||
       keyboardRing.label?.trim() !== "Danger"
     )
       throw new Error(`Keyboard select/focus failed: ${JSON.stringify(keyboardRing)}`);
@@ -526,7 +526,7 @@ try {
     await page.getByRole("option", { name: "Large", exact: true }).click();
     await page.getByLabel("Disabled", { exact: true }).check();
     await page.getByLabel("Reduce motion", { exact: true }).check();
-    await page.getByRole("button", { name: "Dark theme", exact: true }).click();
+    await chooseRadio(page, "Preview theme", "Dark");
     await checkPanel(
       page.locator(".example-code"),
       samples.playground[
