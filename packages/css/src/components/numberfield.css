@@ -1,0 +1,109 @@
+/* Anatomy: .kb-numberfield [data-size=sm|md|lg] [data-disabled] [data-readonly] [data-invalid] > .kb-numberfield-label, .kb-numberfield-editor > .kb-numberfield-group > .kb-numberfield-decrement, .kb-numberfield-input, .kb-numberfield-increment; .kb-numberfield-description, .kb-numberfield-error */
+.kb-numberfield {
+  display: grid;
+  gap: var(--kb-space-1);
+  min-width: 0;
+}
+.kb-numberfield-label {
+  color: var(--kb-color-fg);
+  font-size: var(--kb-size-sm);
+  font-weight: 500;
+}
+.kb-numberfield-editor {
+  min-width: 0;
+}
+.kb-numberfield-group {
+  display: grid;
+  grid-template-columns: var(--kb-numberfield-step-width) minmax(0, 1fr) var(
+      --kb-numberfield-step-width
+    );
+  align-items: stretch;
+  border: var(--kb-numberfield-border-width) solid var(--kb-numberfield-border);
+  border-radius: var(--kb-numberfield-radius);
+  background: var(--kb-numberfield-background);
+  color: var(--kb-numberfield-color);
+  min-width: 0;
+}
+.kb-numberfield-input,
+.kb-numberfield-decrement,
+.kb-numberfield-increment {
+  height: calc(var(--kb-numberfield-height-md) - 2 * var(--kb-numberfield-border-width));
+  border: 0;
+  background: transparent;
+  color: inherit;
+  min-width: 0;
+  font-size: var(--kb-numberfield-font-size);
+  font-family: inherit;
+}
+.kb-numberfield-input {
+  width: 100%;
+  text-align: center;
+  padding: 0 var(--kb-space-1);
+  font-variant-numeric: tabular-nums;
+}
+.kb-numberfield-decrement,
+.kb-numberfield-increment {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  cursor: pointer;
+  border-radius: var(--kb-numberfield-radius);
+}
+.kb-numberfield-decrement,
+.kb-numberfield-increment {
+  font-size: var(--kb-size-lg);
+}
+.kb-numberfield-input:focus-visible,
+.kb-numberfield-decrement:focus-visible,
+.kb-numberfield-increment:focus-visible {
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: -2px;
+}
+.kb-numberfield-decrement[data-disabled],
+.kb-numberfield-increment[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.kb-numberfield-description,
+.kb-numberfield-error {
+  margin: 0;
+  font-size: var(--kb-size-sm);
+  overflow-wrap: anywhere;
+}
+.kb-numberfield-description {
+  color: var(--kb-color-muted);
+}
+.kb-numberfield-error {
+  color: var(--kb-color-danger);
+}
+.kb-numberfield[data-invalid] .kb-numberfield-group {
+  border-color: var(--kb-color-danger);
+}
+.kb-numberfield[data-disabled] {
+  opacity: 0.5;
+}
+.kb-numberfield[data-disabled] .kb-numberfield-input {
+  cursor: not-allowed;
+}
+.kb-numberfield[data-size="sm"] .kb-numberfield-input,
+.kb-numberfield[data-size="sm"] .kb-numberfield-decrement,
+.kb-numberfield[data-size="sm"] .kb-numberfield-increment {
+  height: calc(var(--kb-numberfield-height-sm) - 2 * var(--kb-numberfield-border-width));
+}
+.kb-numberfield[data-size="lg"] .kb-numberfield-input,
+.kb-numberfield[data-size="lg"] .kb-numberfield-decrement,
+.kb-numberfield[data-size="lg"] .kb-numberfield-increment {
+  height: calc(var(--kb-numberfield-height-lg) - 2 * var(--kb-numberfield-border-width));
+}
+@media (forced-colors: active) {
+  .kb-numberfield-group {
+    background: Canvas;
+    color: CanvasText;
+    border-color: CanvasText;
+  }
+  .kb-numberfield-decrement[data-disabled],
+  .kb-numberfield-increment[data-disabled] {
+    color: GrayText;
+  }
+}

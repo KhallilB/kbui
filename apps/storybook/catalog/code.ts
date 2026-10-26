@@ -89,6 +89,7 @@ export function exampleCode(
         : `${key}={${extractSource(value)}}`;
   const attributes = Object.entries(resolved.args).map(([key, value]) => attribute(key, value));
   let usage: string;
+  let rendersFunction = false;
   if (
     render &&
     (render.type === "ArrowFunctionExpression" || render.type === "FunctionExpression")
@@ -159,6 +160,7 @@ export function exampleCode(
       declaration?.type === "VariableDeclaration" ? declaration.declarations[0]?.init : undefined;
     if (!fn || (fn.type !== "ArrowFunctionExpression" && fn.type !== "FunctionExpression"))
       throw new Error(`Unsupported snippet render: ${component}/${localName}`);
+    rendersFunction = fn.body.type === "BlockStatement";
     usage =
       fn.body.type === "BlockStatement"
         ? `function Example() ${extractSource(fn.body)}`
@@ -179,7 +181,12 @@ export function exampleCode(
     usage = children ? `<${tag}>${child}</${component}>` : `<${tag} />`;
   }
   const publicImport = `import { ${[...imports].sort().join(", ")} } from "@kbui/react";`;
-  const themedUsage = theme === "dark" ? `<div data-theme="dark">\n${usage}\n</div>` : usage;
+  const themedUsage =
+    theme === "dark"
+      ? rendersFunction
+        ? `${usage}\n\n<div data-theme="dark"><Example /></div>`
+        : `<div data-theme="dark">\n${usage}\n</div>`
+      : usage;
   const snippet = `${publicImport}\n${setup ? `${setup}\n` : ""}\n${themedUsage}`;
   const code = `import "@kbui/css/styles.css";
 import { ${[...imports].sort().join(", ")} } from "@kbui/react";

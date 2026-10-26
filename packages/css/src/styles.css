@@ -5,9 +5,11 @@
 @import "./components/callout.css";
 @import "./components/card.css";
 @import "./components/dialog.css";
+@import "./components/fileinput.css";
 @import "./components/grid.css";
 @import "./components/input.css";
 @import "./components/menu.css";
+@import "./components/numberfield.css";
 @import "./components/panel.css";
 @import "./components/progress.css";
 @import "./components/scrollarea.css";

@@ -286,3 +286,47 @@ function Preference() {
 ```
 
 Import `useState` from React and `Switch` from `@kbui/react`. Space and pointer actions request the same boolean change. Unchecked/disabled controls submit no value; a checked control submits its native value (`"on"` unless supplied). For controlled reset, set checked state in the form's `onReset` handler. Dark/light surfaces use shared recessed and raised materials through the `switch` token group; reduced motion removes thumb travel animation.
+
+## NumberField
+
+Controlled numeric editing and stepping; callers own ranges and validation. See [Numeric fields](../../docs/guides/number-fields.md) for examples, keyboard behavior, styling and limits. Prepared locally after 0.5.0; unreleased.
+
+| Prop | Default | Responsibility |
+|---|---|---|
+| label, value, onValueChange | required | Accessible name and controlled number/null |
+| min, max | unbounded | Clamp stepping; permit direct drafts outside bounds |
+| step | 1 | Positive numeric step and alignment |
+| locale | runtime | Intl numeric editing/display locale |
+| name, form, required | unset/false | Native form behavior |
+| disabled, readOnly | false | Prevent changes; disabled also prevents submission |
+| size | md | sm 32px, md 40px, lg 48px; prefer lg for touch |
+| description, error |unset | Associated help/error; error sets invalid state |
+| visuallyHidden | false | Keep label accessible without visible label |
+| decrementLabel, incrementLabel |Decrease/Increase + label | Localized step action names |
+| className, groupClassName, inputClassName |unset | Stable root/group/input styling seams |
+| inputRef, inputProps |unset | Visible input ref and native event/ARIA extensions |
+
+Root native div props/ref pass through. `aria-describedby` from root and inputProps is merged after helper/error IDs. Native input value/type/disabled/readOnly/name/required/ref are controlled by explicit props and cannot be replaced through inputProps. Native events can prevent defaults deliberately; preserve keyboard semantics when extending them.
+
+## FileInput
+
+Controlled retained-file selection; callers own acceptance, metadata and uploads. See [Retained file selection](../../docs/guides/file-inputs.md) for examples, keyboard behavior, styling and limits. Prepared locally after 0.5.0; unreleased.
+
+| Prop | Default | Responsibility |
+|---|---|---|
+| label, items, onFiles, onRemove | required | Accessible field name and controlled lifecycle |
+| accept |unset | Native file-type hint |
+| multiple | true | Permit native multiple selection |
+| disabled, readOnly | false | Block mutations; keep list visible |
+| description, error |unset | Associated help/rejection text |
+| visuallyHidden | false | Accessible field label without visible label |
+| chooseLabel |Choose files | Localized picker action; use singular text for single mode |
+| emptyMessage |No files added. | Localized empty state |
+| removeLabel(item) |Remove + name | Localized accessible remove action |
+| removedMessage(item) |name + removed. | Localized confirmed-removal announcement |
+| selectionMessage(count) |count + files selected. | Localized native-selection announcement |
+| renderItem(item) |name + description | Caller content; preserve visible file identity |
+| triggerClassName, listClassName, itemClassName |unset | Stable styling seams |
+| inputRef, triggerRef |unset | Native hidden input and visible picker refs |
+
+Root native div props/ref and className pass through. Root aria-describedby merges after helper/error. Item button refs remain internal to preserve focus; use public item/content classes and renderItem for presentation. No imperative item API is promised. The `×` mark is decorative; removal has a full accessible filename label.

@@ -1,6 +1,7 @@
 import { expect, test } from "bun:test";
 import * as publicApi from "@kbui/react";
-import { babelParse } from "storybook/internal/csf-tools";
+import { babelParse, loadCsf } from "storybook/internal/csf-tools";
+import { exampleCode } from "../catalog/code";
 import { highlightCode } from "../catalog/highlight";
 import { loadSiteSamples } from "../catalog/site-samples";
 import { loadCatalogSources, parseApiSection } from "../catalog/source";
@@ -242,4 +243,34 @@ test("search stays an Input icons and actions composition with complete generate
   expect(recipe?.code).toContain("control.current?.focus()");
   expect(recipe?.snippet).toContain("useRef");
   expect(recipe?.snippet).not.toContain("SearchInput");
+});
+
+test("quantity and retained-file components are public and discoverable with runnable states", () => {
+  expect(publicApi).toHaveProperty("NumberField");
+  expect(publicApi).toHaveProperty("FileInput");
+  const entries = loadCatalogSources();
+  for (const name of ["NumberField", "FileInput"]) {
+    const entry = entries.find((candidate) => candidate.name === name);
+    expect(entry?.group).toBe("Forms");
+    expect(entry?.stories.some((story) => story.id.endsWith("--default"))).toBe(true);
+    expect(entry?.stories.some((story) => story.id.endsWith("--dark"))).toBe(true);
+    expect(entry?.stories.some((story) => story.id.endsWith("--read-only"))).toBe(true);
+  }
+});
+
+test("dark stateful render declarations stay outside the theme wrapper", () => {
+  const csf = loadCsf(
+    `import { useState } from "react";
+    import { Button } from "./Button";
+    export default { title: "Components/Button", component: Button,
+      render: function Example() {
+        const [count, setCount] = useState(0);
+        return <Button onClick={() => setCount(count + 1)}>{count}</Button>;
+      } };
+    export const Dark = { globals: { theme: "dark" } };`,
+    { fileName: "Button.stories.tsx", makeTitle: (title) => title },
+  ).parse();
+  const sample = exampleCode(csf, "Dark", "Button");
+  expect(() => babelParse(sample.snippet)).not.toThrow();
+  expect(sample.snippet).toContain('<div data-theme="dark"><Example /></div>');
 });
