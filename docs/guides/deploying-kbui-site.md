@@ -2,7 +2,7 @@
 
 Destination: **https://kbui.kcb.pro/**. A separate Cloudflare Workers Static Assets deployment owns this hostname; the portfolio keeps its current deployment. Landing, setup, catalog, playground, examples and Storybook ship together.
 
-Production and preview Workers were provisioned on 2026-10-26. GitHub environment `kbui-production` has a `main`-only deployment policy and both required secrets. The [deployment workflow](../../.github/workflows/deploy-site.yml) activates when these changes reach GitHub `main`. Production uses a dedicated custom domain; preview lives at https://kbui-site-preview.khallilbailey.workers.dev/.
+Production and preview Workers were provisioned on 2026-10-26. GitHub environment `kbui-production` has a `main`-only deployment policy and both required secrets. The [deployment workflow](../../.github/workflows/deploy-site.yml) is active on GitHub `main`. Production uses a dedicated custom domain; preview lives at https://kbui-site-preview.khallilbailey.workers.dev/.
 
 ## What happens on a push
 

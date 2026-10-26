@@ -153,7 +153,7 @@ export const Clipboard: Story = {
         "Copy unavailable. Select the code below to copy.",
       );
       expect(copy).toHaveTextContent("Copy failed");
-      expect(canvas.getByTestId("working-code")).toHaveFocus();
+      await waitFor(() => expect(canvas.getByTestId("working-code")).toHaveFocus());
       expect(panel.getBoundingClientRect().height).toBe(height);
     } finally {
       if (original) Object.defineProperty(navigator, "clipboard", original);
