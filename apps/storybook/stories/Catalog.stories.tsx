@@ -106,6 +106,18 @@ export const ThemeExamples: Story = {
     expect(canvas.getByRole("radio", { name: "Depth" })).toBeChecked();
   },
 };
+export const LegacyInputRecipe: Story = {
+  args: { componentId: "input", stateId: "components-input--with-adornments" },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.getByRole("radio", { name: "Icons and actions" })).toBeChecked();
+    expect(canvas.getByTitle("Input — Icons and actions live example")).toHaveAttribute(
+      "data-preview-src",
+      "./iframe.html?id=components-input--with-icons-and-actions&viewMode=story&globals=previewTheme:light&embed=true",
+    );
+    expect(canvas.queryByText(/no longer exists/)).toBeNull();
+  },
+};
 export const ButtonStates: Story = {
   args: { componentId: "button" },
   play: async ({ canvasElement }) => {

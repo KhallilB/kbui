@@ -228,6 +228,23 @@ for (const engine of [chromium, webkit]) {
   try {
     const page = await recipeBrowser.newPage({ viewport: { width: 567, height: 900 } });
     await page.goto(
+      `${origin}/components/?component=input&state=components-input--with-adornments`,
+    );
+    await expect(page.getByRole("radio", { name: "Icons and actions", exact: true })).toBeChecked();
+    await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute(
+      "data-preview-src",
+      /id=components-input--with-icons-and-actions&/,
+    );
+    await expect(page.getByText(/no longer exists/)).toHaveCount(0);
+    assert.equal(
+      new URL(page.url()).searchParams.get("state"),
+      "components-input--with-adornments",
+      "Legacy recipe navigation rewrote its shareable URL",
+    );
+    console.log(
+      `${engine.name()}: legacy Input recipe URL selects canonical icons/actions without recovery.`,
+    );
+    await page.goto(
       `${origin}/components/?component=input&state=components-input--with-icons-and-actions`,
     );
     await page.waitForFunction(() => {

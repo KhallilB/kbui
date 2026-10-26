@@ -417,10 +417,14 @@ function CatalogDetail({
   }, []);
   const markSlow = useCallback(() => setSlow(true), []);
   const stories = browsableStories(entry);
-  const requested = entry.stories.find((story) => story.id === stateId);
+  const requestedId =
+    stateId === "components-input--with-adornments"
+      ? "components-input--with-icons-and-actions"
+      : stateId;
+  const requested = entry.stories.find((story) => story.id === requestedId);
   const alias = requested?.name.replace(/(?:^|\s)(?:Dark|Light)$/, "").trim();
   const selected =
-    stories.find((story) => story.id === stateId) ??
+    stories.find((story) => story.id === requestedId) ??
     stories.find((story) => story.name === alias) ??
     stories.find((story) => story.id === entry.defaultStoryId);
   if (!selected) throw new Error(`Missing default catalog story: ${entry.name}`);
