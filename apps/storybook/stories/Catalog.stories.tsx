@@ -23,9 +23,9 @@ export const Directory: Story = {
     if (!heading || !panel) throw new Error("Missing catalog entrance surfaces");
     expect(getComputedStyle(heading).animationName).toBe(reduced ? "none" : "kbui-poster-rise");
     expect(getComputedStyle(panel).animationName).toBe(reduced ? "none" : "kbui-poster-arrive");
-    expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent("15 of 15");
+    expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent("16 of 16");
     await userEvent.click(canvas.getByRole("button", { name: "Forms" }));
-    expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent("1 of 15");
+    expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent("2 of 16");
     expect(canvas.getByRole("link", { name: /Input.*Labelled fields/ })).toHaveAttribute(
       "href",
       "./?component=input",
@@ -39,7 +39,7 @@ export const Directory: Story = {
     ).toBeVisible();
     await userEvent.click(canvas.getByRole("button", { name: "Clear filters" }));
     expect(canvas.getByRole("searchbox", { name: "Search components" })).toHaveFocus();
-    expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent("15 of 15");
+    expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent("16 of 16");
   },
 };
 export const ButtonStates: Story = {

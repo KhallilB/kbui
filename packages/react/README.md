@@ -9,6 +9,33 @@ import { Button, Dialog, Input } from "@kbui/react";
 
 Requires `react` and `react-dom` 19 in the consuming project.
 
+## SearchInput
+
+A controlled search query. The component renders a native `type="search"` input using Input field styling, a decorative search icon and a KBUI Button clear action. Filtering, submission, debounce and result announcements belong to the consumer.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `label` | `string` | required | Visible label and accessible name |
+| `value` | `string` | required | Controlled query; empty string means no query |
+| `onValueChange` | `(value: string) => void` | required | Receives typing and clear requests |
+| `clearLabel` | `string` | `"Clear search"` | Localizable accessible name |
+| `disabled` / `readOnly` | `boolean` | `false` | Prevent edits and hide clear action |
+| `description` / `error` | `string` | | Associated helper and validation text |
+| `visuallyHidden` | `boolean` | `false` | Hide label visually |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Input height |
+| `name` / `form` / `required` | native input props | | Native form submission and constraint validation |
+| `ref` | `Ref<HTMLInputElement>` | | Native search input |
+| `className` | `string` | | Field wrapper class |
+
+```tsx
+function SearchExample() {
+  const [query, setQuery] = useState("");
+  return <SearchInput label="Search components" name="q" value={query} onValueChange={setQuery} />;
+}
+```
+
+Import `useState` from React and `SearchInput` from `@kbui/react`. Clear requests an empty query and restores input focus without submitting the form. Empty, disabled and read-only fields expose no clear button. As a controlled field, form reset belongs to its owner; update the query in the form reset handler. SearchInput inherits Input tokens and light/dark themes.
+
 ## Button
 
 | Prop | Type | Default | Notes |
@@ -29,6 +56,7 @@ All props accepted by a native button or Base UI's `Button` also work. To render
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
+| `startAdornment` / `endAdornment` | `ReactNode` | | Optional control content; provide accessible names on actions |
 | `label` | `string` | required | Visible label and accessible name |
 | `visuallyHidden` | `boolean` | | Hides the label visually but keeps it for screen readers |
 | `description` | `string` | | Help text below the field |

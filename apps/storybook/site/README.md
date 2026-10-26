@@ -53,7 +53,7 @@ Spacing has three local foundations: `--page-gutter` for shared page edges, `--s
 
 ## Catalog source contract
 
-The catalog covers all 15 public components. `catalog/source.ts` uses Storybook's own CSF parser to derive the 73 example names and IDs from colocated component stories. It reads API tables and usage blocks from `packages/react/README.md`; `catalog/definitions.ts` holds only grouping, short descriptions and API section mapping. The source test compares the catalog against public exports and rejects malformed API rows or missing guide entries.
+The catalog covers all 16 public components. `catalog/source.ts` uses Storybook's own CSF parser to derive the 82 example names and IDs from colocated component stories. It reads API tables and usage blocks from `packages/react/README.md`; `catalog/definitions.ts` holds only grouping, short descriptions and API section mapping. The source test compares the catalog against public exports and rejects malformed API rows or missing guide entries.
 
 A build-time virtual module supplies that data to the site and Storybook without bundling the Node parser into the browser. Guide and component-story changes invalidate the module during development. `build:site` ends with `verify:catalog`, which checks every story and documentation ID against the built Storybook index. An ID mismatch fails the build.
 
@@ -71,7 +71,7 @@ Catalog, playground and curated surfaces use one `CodePanel.tsx` and `code-panel
 
 Highlighting uses escaped React spans and build-time Shiki/Oniguruma token ranges; the display and clipboard text remain identical, with no browser parser. Automatic soft wrapping and viewport-bounded height keep long examples contained. Changing the displayed snippet resets its scroll to the start while preserving the open disclosure. A ResizeObserver measures the preformatted content; its clamped numeric height settles over 200ms, so shorter snippets shrink without a layout jump. Only syntax ink remounts for a brief update fade; the code region, focus target, toolbar and disclosure stay mounted. The toolbar contains a Code disclosure pill with code icon and rotating chevron, plus Copy; no wrapping control. Enter and Space toggle the disclosure without moving focus. Mobile controls share one row with 44px targets; redundant captions disappear. System colors override syntax colors in forced-color mode. Multiple curated panels have distinct accessible region names.
 
-`bun run --filter @kbui/storybook verify:code` compiles 173 complete modules **and** their concise snippets against installed component types and Vite CSS declarations. The count comprises 73 catalog states, 96 playground combinations and four curated states. `build:site` runs this gate before building. Source tests cover inheritance, JSX override precedence, syntax ranges and state mapping. Unsupported source configuration fails generation or compilation rather than producing partial code.
+`bun run --filter @kbui/storybook verify:code` compiles 182 complete modules **and** their concise snippets against installed component types and Vite CSS declarations. The count comprises 82 catalog states, 96 playground combinations and four curated states. `build:site` runs this gate before building. Source tests cover inheritance, JSX override precedence, syntax ranges and state mapping. Unsupported source configuration fails generation or compilation rather than producing partial code.
 
 ## Verify
 

@@ -1,4 +1,4 @@
-/* Anatomy: .kb-input [data-size=sm|md|lg] [data-invalid] [data-disabled] > .kb-input-label, .kb-input-control, .kb-input-description, .kb-input-error */
+/* Anatomy: .kb-input [data-size=sm|md|lg] [data-invalid] [data-disabled] [data-start-adornment] [data-end-adornment] > .kb-input-label, .kb-input-shell > .kb-input-start, .kb-input-control, .kb-input-end; .kb-input-description, .kb-input-error */
 .kb-input {
   display: flex;
   flex-direction: column;
@@ -62,4 +62,36 @@
 .kb-input-error {
   font-size: var(--kb-size-sm);
   color: var(--kb-color-danger);
+}
+
+.kb-input-shell {
+  position: relative;
+  display: flex;
+  min-inline-size: 0;
+}
+.kb-input-start,
+.kb-input-end {
+  position: absolute;
+  inset-block: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: calc(var(--kb-space-8) + var(--kb-space-2));
+}
+.kb-input-start {
+  inset-inline-start: 0;
+  pointer-events: none;
+}
+.kb-input-end {
+  inset-inline-end: var(--kb-space-1);
+  inline-size: auto;
+}
+.kb-input[data-start-adornment] .kb-input-control {
+  padding-inline-start: calc(var(--kb-space-8) + var(--kb-space-2));
+}
+.kb-input[data-end-adornment] .kb-input-control {
+  padding-inline-end: calc(var(--kb-input-height-lg) + var(--kb-space-1));
+}
+.kb-input[data-end-adornment] .kb-input-control[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
 }
