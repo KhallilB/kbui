@@ -61,11 +61,14 @@ export const Navigation: Story = {
       "../setup/",
     );
     expect(canvas.getByRole("region", { name: "Install kbui" })).toBeVisible();
-    for (const link of canvas
+    const arrowLinks = canvas
       .getAllByRole("link")
-      .filter((item) => item.textContent?.includes("↗"))) {
+      .filter((item) => item.querySelector(".link-arrow"));
+    expect(arrowLinks.length).toBeGreaterThan(0);
+    for (const link of arrowLinks) {
       const arrow = link.querySelector(".link-arrow");
       expect(arrow).not.toBeNull();
+      expect(arrow).toHaveAttribute("aria-hidden", "true");
       if (!arrow) throw new Error("Missing isolated link arrow");
       expect(getComputedStyle(arrow).display).not.toBe("inline");
       expect(getComputedStyle(arrow).textDecorationLine).toBe("none");
@@ -133,5 +136,22 @@ export const Choreography: Story = {
     section.scrollIntoView({ block: "center", behavior: "instant" });
     expect(title.getAnimations()[0]).toBe(entrance);
     if (reduced) expect(getComputedStyle(title).animationName).toBe("none");
+  },
+};
+
+export const StickyNavigation: Story = {
+  play: async ({ canvasElement }) => {
+    const header = within(canvasElement).getByRole("banner");
+    const about = within(canvasElement).getByRole("heading", {
+      name: /A few parts.*A lot of uses/,
+    });
+    about.scrollIntoView({ block: "start", behavior: "instant" });
+    await waitFor(() => expect(header.getBoundingClientRect().top).toBeCloseTo(0, 0));
+    const bounds = about.getBoundingClientRect();
+    expect(bounds.top).toBeGreaterThanOrEqual(header.getBoundingClientRect().bottom);
+    const firstLink = within(header).getByRole("link", { name: "Playground" });
+    await userEvent.click(within(header).getByLabelText("Dark mode"));
+    expect(firstLink).toBeVisible();
+    window.scrollTo({ top: 0, behavior: "instant" });
   },
 };
