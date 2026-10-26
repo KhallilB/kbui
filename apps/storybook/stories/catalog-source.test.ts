@@ -228,13 +228,14 @@ test("default playground example is a direct import and Button", () => {
   );
 });
 
-test("search stays an Input adornment composition with complete generated dependencies", () => {
+test("search stays an Input icons and actions composition with complete generated dependencies", () => {
   const entries = loadCatalogSources();
   expect(entries.find((entry) => entry.name === "SearchInput")).toBeUndefined();
   const recipe = entries
     .find((entry) => entry.name === "Input")
-    ?.stories.find((story) => story.id === "components-input--with-adornments");
+    ?.stories.find((story) => story.id === "components-input--with-icons-and-actions");
   expect(recipe).toBeDefined();
+  expect(recipe?.name).toBe("Icons and actions");
   expect(recipe?.code).toContain("function SearchExample(");
   expect(recipe?.code).toContain('type="search"');
   expect(recipe?.code).toContain('aria-label="Clear search"');

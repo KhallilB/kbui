@@ -5,7 +5,7 @@ import { describe, expect, test, vi } from "vitest";
 import { Input } from "./Input";
 
 describe("Input", () => {
-  test("preserves native control, draft and focus when adornments appear and disappear", async () => {
+  test("preserves native control, draft and focus when content slots appear and disappear", async () => {
     const { rerender } = render(<Input label="Query" defaultValue="draft" />);
     const input = screen.getByRole("textbox", { name: "Query" });
     await userEvent.clear(input);
@@ -14,7 +14,7 @@ describe("Input", () => {
       <Input
         label="Query"
         defaultValue="draft"
-        endAdornment={<button type="button">Clear query</button>}
+        endContent={<button type="button">Clear query</button>}
       />,
     );
     expect(screen.getByRole("textbox", { name: "Query" })).toBe(input);
@@ -30,8 +30,8 @@ describe("Input", () => {
       <Input
         label="Query"
         description="Search names"
-        startAdornment={<span aria-hidden="true">Search icon</span>}
-        endAdornment={<button type="button">Clear query</button>}
+        startContent={<span aria-hidden="true">Search icon</span>}
+        endContent={<button type="button">Clear query</button>}
       />,
     );
     expect(screen.getByRole("button", { name: "Clear query" })).toBeInTheDocument();

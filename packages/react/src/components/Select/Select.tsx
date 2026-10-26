@@ -115,7 +115,7 @@ export function Select({
             </svg>
           </Base.Icon>
         </Base.Trigger>
-        <Base.Portal container={container ?? root}>
+        <Base.Portal container={container ?? root} className="kb-select-portal">
           <Base.Positioner
             className="kb-select-positioner"
             sideOffset={6}

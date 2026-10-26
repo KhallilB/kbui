@@ -76,6 +76,10 @@ export const definitions: Record<string, Definition> = {
     group: "Feedback",
     description: "States with visible text and optional icons.",
   },
+  Switch: {
+    group: "Forms",
+    description: "Immediate on/off preferences with native form behavior.",
+  },
   Toolbar: {
     group: "Actions",
     description: "Related actions in one keyboard group.",

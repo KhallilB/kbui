@@ -12,7 +12,7 @@
     color: var(--rust);
     text-decoration: underline;
     text-underline-offset: 5px;
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
   }
   .example-section {
     display: grid;
@@ -52,7 +52,7 @@
     gap: 24px;
     position: relative;
     border: 1px solid #b8bda8;
-    border-radius: 24px;
+    border-radius: var(--site-radius-surface, 24px);
     color: var(--ink);
   }
   .composition a {
