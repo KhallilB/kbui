@@ -157,6 +157,7 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-popup-border: var(--kb-color-border);
   --kb-popup-radius: 0.625rem;
   --kb-popup-shadow: var(--kb-material-float-shadow);
+  --kb-checkbox-size: 1.5rem;
   --kb-progress-track: var(--kb-material-recessed-face);
   --kb-progress-fill: var(--kb-color-accent);
   --kb-progress-fill-complete: var(--kb-color-success);
@@ -325,6 +326,7 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-popup-border: var(--kb-color-border);
   --kb-popup-radius: 0.625rem;
   --kb-popup-shadow: var(--kb-material-float-shadow);
+  --kb-checkbox-size: 1.5rem;
   --kb-progress-track: var(--kb-material-recessed-face);
   --kb-progress-fill: var(--kb-color-accent);
   --kb-progress-fill-complete: var(--kb-color-success);
@@ -494,6 +496,7 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-popup-border: var(--kb-color-border);
     --kb-popup-radius: 0.625rem;
     --kb-popup-shadow: var(--kb-material-float-shadow);
+    --kb-checkbox-size: 1.5rem;
     --kb-progress-track: var(--kb-material-recessed-face);
     --kb-progress-fill: var(--kb-color-accent);
     --kb-progress-fill-complete: var(--kb-color-success);

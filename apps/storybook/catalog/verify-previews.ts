@@ -24,7 +24,7 @@ try {
         () => {
           const frames = [...document.querySelectorAll("iframe")];
           return (
-            frames.length === 15 &&
+            frames.length === 16 &&
             frames.every((frame) => frame.contentDocument?.querySelector("#storybook-root > *"))
           );
         },

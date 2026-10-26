@@ -185,3 +185,27 @@ Tests use Vitest and Testing Library in jsdom.
 ```
 
 Skin with `--kb-card-background`, `--kb-card-color`, `--kb-card-border`, `--kb-card-border-width`, `--kb-card-radius`, `--kb-card-padding`, `--kb-grid-gap` and `--kb-grid-min-item-width`. Defaults use semantic tokens in both themes.
+
+## Checkbox
+
+A controlled native checkbox with a tactile mark, associated label, helper and error text. The caller owns checked state; a mixed checkbox requests checked when activated.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `label` | `string` | required | Visible accessible label |
+| `checked` | `boolean` | required | Controlled native checked state |
+| `onCheckedChange` | `(checked: boolean) => void` | required | Next checked-state request |
+| `indeterminate` | `boolean` | `false` | Announces mixed state; activation requests checked |
+| `disabled` / `readOnly` | `boolean` | `false` | Block changes; disabled also leaves keyboard order |
+| `description` / `error` | `string` | | Associated helper and invalid-state text |
+| `visuallyHidden` | `boolean` | `false` | Hide label visually |
+| `controlClassName` | `string` | | Added to the native checkbox |
+| `ref` | `Ref<HTMLInputElement>` | | Native checkbox, including form and indeterminate state |
+| `name` / `value` / `required` | native input props | | Form serialization and validation |
+| `className` | `string` | | Root class |
+
+```tsx
+<Checkbox label="Receive release updates" name="updates" checked={updates} onCheckedChange={setUpdates} />
+```
+
+Label activation and Space request changes. A declined controlled update preserves checked and mixed DOM state. Native input props remain supported. `style` applies to the native input; custom CSS properties also scope the decorative mark. Override `--kb-checkbox-size` for a different mark size. Forced colors retain the native checkbox and its focus outline.

@@ -12,6 +12,7 @@ export {
 } from "./components/Button/Button";
 export { Callout, type CalloutProps, type CalloutTone } from "./components/Callout/Callout";
 export { Card, type CardProps } from "./components/Card/Card";
+export { Checkbox, type CheckboxProps } from "./components/Checkbox/Checkbox";
 export {
   Dialog,
   type DialogActionsProps,

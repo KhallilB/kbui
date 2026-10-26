@@ -7,6 +7,7 @@ type Definition = {
   row?: boolean;
 };
 export const definitions: Record<string, Definition> = {
+  Checkbox: { group: "Forms", description: "Labelled binary and mixed selections." },
   Badge: {
     group: "Feedback",
     description: "Static labels and metadata.",
