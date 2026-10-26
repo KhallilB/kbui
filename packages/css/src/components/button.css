@@ -4,12 +4,12 @@
   align-items: center;
   justify-content: center;
   gap: var(--kb-space-2);
-  height: 2.5rem;
+  height: 40px;
   padding: 0 var(--kb-space-4);
-  font-size: var(--kb-size-md);
+  font-size: var(--kb-text-control-size);
   border: 1px solid transparent;
   border-radius: var(--kb-button-radius);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1;
   cursor: pointer;
   text-decoration: none;
@@ -17,23 +17,37 @@
     background-color 120ms ease,
     border-color 120ms ease,
     color 120ms ease;
+
+  padding-inline: 15px;
+
+  letter-spacing: -0.01em;
 }
 
 .kb-button:focus-visible {
   outline: 2px solid var(--kb-color-ring);
-  outline-offset: 2px;
+  outline-offset: -2px;
+}
+
+.kb-button[data-variant="primary"]:focus-visible {
+  outline-color: var(--kb-color-accent-fg);
+}
+
+.kb-button[data-variant="danger"]:focus-visible {
+  outline-color: var(--kb-color-danger-fg);
 }
 
 .kb-button[data-size="sm"] {
-  height: 2rem;
+  height: 34px;
   padding: 0 var(--kb-space-3);
-  font-size: var(--kb-size-sm);
+  font-size: var(--kb-text-small-size);
+
+  padding-inline: 11px;
 }
 
 /* Square for a lone icon; the name comes from aria-label. */
 .kb-button[data-size="icon"] {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 40px;
+  height: 40px;
   padding: 0;
 }
 
@@ -43,9 +57,11 @@
 }
 
 .kb-button[data-size="lg"] {
-  height: 3rem;
+  height: 46px;
   padding: 0 var(--kb-space-5);
-  font-size: var(--kb-size-lg);
+  font-size: 15px;
+
+  padding-inline: 20px;
 }
 
 .kb-button[data-variant="primary"] {
@@ -54,13 +70,15 @@
 }
 
 .kb-button[data-variant="primary"]:hover:not([data-disabled]) {
-  background: var(--kb-color-accent-hover);
+  background-color: var(--kb-color-accent-hover);
 }
 
 .kb-button[data-variant="secondary"] {
-  background: var(--kb-color-surface);
-  border-color: var(--kb-color-border);
+  background: var(--kb-material-raised-face);
+  border-color: var(--kb-material-raised-border);
   color: var(--kb-color-fg);
+
+  box-shadow: var(--kb-material-raised-shadow);
 }
 
 .kb-button[data-variant="secondary"]:hover:not([data-disabled]) {
@@ -69,7 +87,7 @@
 
 .kb-button[data-variant="ghost"] {
   background: transparent;
-  color: var(--kb-color-fg);
+  color: var(--kb-color-muted);
 }
 
 .kb-button[data-variant="ghost"]:hover:not([data-disabled]) {
@@ -79,19 +97,93 @@
 .kb-button[data-variant="danger"] {
   background: var(--kb-color-danger);
   color: var(--kb-color-danger-fg);
+
+  border-color: color-mix(in srgb, var(--kb-color-danger) 85%, var(--kb-color-fg));
 }
 
 .kb-button[data-variant="danger"]:hover:not([data-disabled]) {
-  background: var(--kb-color-danger-hover);
-}
-
-.kb-button[data-disabled] {
-  opacity: 0.5;
-  cursor: not-allowed;
+  background-color: var(--kb-color-danger-hover);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .kb-button {
     transition: none;
   }
+}
+
+.kb-button:is([data-variant="primary"], [data-variant="danger"]) {
+  background-image: linear-gradient(180deg, var(--kb-material-action-sheen), transparent);
+  border-color: color-mix(in srgb, var(--kb-color-accent) 85%, var(--kb-color-fg));
+  box-shadow: var(--kb-material-accent-shadow);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .kb-button[data-variant="secondary"]:hover:not([data-disabled]) {
+    border-color: var(--kb-material-control-border);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .kb-button[data-variant="ghost"]:not([aria-pressed="true"]):hover:not([data-disabled]) {
+    background: color-mix(in srgb, var(--kb-color-accent) 7%, var(--kb-color-bg));
+    color: var(--kb-color-fg);
+  }
+}
+
+.kb-button:not([data-variant="ghost"]):active:not([data-disabled]) {
+  box-shadow: var(--kb-material-pressed-shadow);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .kb-button {
+    transition:
+      background-color 140ms ease,
+      border-color 140ms ease,
+      box-shadow 140ms ease,
+      color 140ms ease;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .kb-button:active:not([data-disabled]) {
+    transform: translateY(1px);
+  }
+}
+
+@media (max-width: 580px) {
+  .kb-button {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 580px) {
+  .kb-button[data-size="icon"] {
+    min-width: 44px;
+  }
+}
+
+@media (forced-colors: active) {
+  .kb-button {
+    box-shadow: none;
+    background-image: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .kb-button[data-variant="primary"] {
+    background-image: none;
+  }
+}
+
+.kb-button[data-variant="danger"] {
+  border-color: color-mix(in srgb, var(--kb-color-danger) 85%, var(--kb-color-fg));
+}
+
+.kb-button[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+
+  background-image: none;
+
+  box-shadow: none;
 }

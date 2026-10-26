@@ -24,6 +24,7 @@ function fixture() {
     "index.html",
     "setup/index.html",
     "setup/themes/index.html",
+    "compare/index.html",
     "components/index.html",
     "examples/index.html",
     "playground/index.html",
@@ -65,4 +66,13 @@ test("staging cannot overwrite its own source", () => {
   expect(() => stageSite(source, join(source, "public"))).toThrow(
     "Staging destination overlaps source",
   );
+});
+
+test("missing workspace fails before replacing previous artifact", () => {
+  const { source, destination } = fixture();
+  mkdirSync(destination);
+  writeFileSync(join(destination, "previous"), "keep");
+  rmSync(join(source, "compare/index.html"));
+  expect(() => stageSite(source, destination)).toThrow("Missing site entry: compare/index.html");
+  expect(readFileSync(join(destination, "previous"), "utf8")).toBe("keep");
 });

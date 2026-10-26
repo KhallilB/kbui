@@ -39,12 +39,12 @@ The W3C format has no concept of themes, so each semantic color stores its dark 
 From this, the build writes three blocks:
 
 ```css
-:root { /* every token, light values */ }
-[data-theme="dark"] { /* dark values only */ }
+:root, [data-theme="light"] { /* every token, light values */ }
+[data-theme="dark"] { /* every token, dark values where defined */ }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { /* the same dark values */ } }
 ```
 
-Set `data-theme="light"` or `data-theme="dark"` on `<html>` to force a theme. Without the attribute, the visitor's system setting applies.
+Set `data-theme="light"` or `data-theme="dark"` on `<html>` to force a theme. Without the attribute, the visitor's system setting applies. Explicit containers rebind every alias, allowing light inside dark and dark inside light without inheriting resolved ancestor colors.
 
 ## Using tokens
 

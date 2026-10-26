@@ -1,0 +1,244 @@
+/* Shared site chrome follows the navigation theme. */
+.kbui-site {
+  --review-paper: #fffdf5;
+  --review-plane: #f2eddb;
+  --review-line: #cbcdb8;
+  --review-control: #829078;
+  --review-hover: #e6eccf;
+  --review-selected: #34664e;
+  --review-selected-top: #465343;
+  --review-selected-edge: #29372a;
+  --review-selected-fg: #fffdf5;
+  --review-good: #34664e;
+  --review-well-top: #e9e7d6;
+  --review-well-bottom: #f3efdf;
+  --review-highlight: rgb(255 255 255 / 0.7);
+  --review-shadow: rgb(48 59 49 / 0.14);
+  --review-code-hover: #e8e4d4;
+  line-height: 1.65;
+  color-scheme: light;
+  .site-footer > span,
+  .site-footer > div {
+    font-size: var(--kb-text-small-size);
+  }
+  .comparison-intro a,
+  .comparison-note,
+  .comparison-note > span,
+  .preview-caption,
+  .comparison-foot,
+  .comparison-foot button {
+    font-size: var(--kb-text-small-size);
+    line-height: 1.5;
+  }
+  .site-header nav {
+    font-size: var(--kb-text-control-size);
+  }
+  .catalog-card p,
+  .catalog-specimen header p:last-child {
+    font-size: var(--kb-text-body-size);
+    line-height: var(--kb-text-leading-body);
+  }
+  .catalog-card h2,
+  .catalog-specimen h2 {
+    font-weight: 600;
+    letter-spacing: -0.035em;
+  }
+  :is(
+      .catalog-card-group,
+      .catalog-source,
+      .catalog-preview-status,
+      .catalog-card-count,
+      .catalog-review-controls p,
+      .catalog-example-picker
+    ) {
+    font-size: var(--kb-text-small-size);
+    line-height: 1.5;
+  }
+}
+
+.kbui-site[data-theme="dark"] {
+  --cream: #171e19;
+  --ink: #e8ebdf;
+  --muted: #b3bdae;
+  --review-paper: #263129;
+  --review-plane: #202a23;
+  --review-line: #4f5e50;
+  --review-control: #81917e;
+  --review-hover: #303e32;
+  --review-selected: #bed0ad;
+  --review-selected-top: #cbdcbb;
+  --review-selected-edge: #b3c6a1;
+  --review-selected-fg: #1c281d;
+  --review-good: #a7c9a4;
+  --review-well-top: #131a15;
+  --review-well-bottom: #1a241c;
+  --review-highlight: rgb(255 255 255 / 0.07);
+  --review-shadow: rgb(0 0 0 / 0.3);
+  --review-code-hover: #303e32;
+  color-scheme: dark;
+  .brand-symbol img {
+    filter: brightness(0) invert(0.94) sepia(0.12);
+  }
+  .example-code [data-syntax="keyword"] {
+    color: #f1aa91;
+  }
+  .example-code [data-syntax="string"] {
+    color: #b1cea0;
+  }
+  .example-code [data-syntax="comment"] {
+    color: #aebaaa;
+  }
+  .example-code [data-syntax="number"] {
+    color: #e6c180;
+  }
+  .example-code [data-syntax="tag"] {
+    color: #9dc9cd;
+  }
+  .example-code [data-syntax="attribute"] {
+    color: #d3baa4;
+  }
+  .example-code [data-syntax="type"] {
+    color: #d0b5d7;
+  }
+  .example-code [data-syntax="function"] {
+    color: #9fc9bc;
+  }
+}
+
+.kbui-catalog {
+  .catalog-foundations {
+    margin-block: 24px;
+    border-block: 1px solid var(--review-line);
+  }
+  .catalog-foundations > summary {
+    padding-block: 16px;
+    min-height: 44px;
+    cursor: pointer;
+    font-size: var(--kb-text-control-size);
+    font-weight: 500;
+  }
+  .type-specimen {
+    padding: clamp(20px, 3vw, 36px);
+    border: 1px solid var(--kb-color-border);
+    border-radius: 16px;
+    color: var(--kb-color-fg);
+  }
+  .type-specimen-copy {
+    max-width: 62ch;
+  }
+  .type-eyebrow {
+    display: block;
+    margin-bottom: 12px;
+    color: var(--kb-color-muted);
+    font-size: var(--kb-text-small-size);
+    font-weight: 500;
+  }
+  .type-specimen-copy h2 {
+    font-size: clamp(24px, 3vw, 32px);
+  }
+  .type-specimen-copy small {
+    display: block;
+    margin-top: 16px;
+    color: var(--kb-color-muted);
+  }
+  .type-sample-meta {
+    margin-top: 20px;
+    font-size: var(--kb-text-small-size);
+    font-variant-numeric: tabular-nums;
+  }
+  .type-surface-map {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 28px;
+    font-size: var(--kb-text-small-size);
+  }
+  .type-surface-map span {
+    min-height: 72px;
+    padding: 14px;
+    border: 1px solid var(--kb-color-border);
+    border-radius: 10px;
+    display: flex;
+    align-items: end;
+  }
+  .type-surface-map span:nth-child(1) {
+    background: var(--kb-color-surface);
+  }
+  .type-surface-map span:nth-child(2) {
+    background: var(--kb-color-bg);
+    box-shadow: var(--kb-material-panel-shadow, none);
+  }
+  .type-surface-map span:nth-child(3) {
+    background: var(--kb-material-raised-face, var(--kb-color-bg));
+    box-shadow: var(--kb-material-raised-shadow, none);
+  }
+  .type-surface-map span:nth-child(4) {
+    background: var(--kb-material-field-bg, var(--kb-color-surface));
+    box-shadow: var(--kb-material-field-shadow, none);
+  }
+  .catalog-foundations-note {
+    margin-block: 16px;
+    font-size: var(--kb-text-small-size);
+    color: var(--muted);
+    max-width: 72ch;
+  }
+  @media (max-width: 600px) {
+    .type-surface-map {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+}
+
+@media (forced-colors: active) {
+  .kbui-site .brand-symbol img {
+    filter: none;
+  }
+}
+
+.kbui-site[data-theme="dark"] {
+  .hero-example::before {
+    background: #6c5935;
+  }
+  .day-demo,
+  .day-dialog {
+    --kb-color-fg: #f6f2e6;
+    --kb-color-muted: #b8c1ae;
+    --kb-color-bg: #202920;
+    --kb-color-surface: #161c17;
+    --kb-color-border: #4d5c4a;
+    --kb-color-accent: #f2a184;
+    --kb-color-accent-hover: #ffc0a6;
+    --kb-color-accent-fg: #291a12;
+    --kb-color-ring: #c1d7a6;
+    --kb-status-neutral: #b8c1ae;
+    --kb-status-success: #a0d0a6;
+  }
+  .day-card {
+    --kb-card-background: #202920;
+    --kb-card-color: #f6f2e6;
+    --kb-card-border: #81917e;
+  }
+  .day-progress .kb-progress {
+    --kb-color-muted: #b8c1ae;
+    --kb-color-fg: #f6f2e6;
+    --kb-progress-track: #4d5c4a;
+    --kb-progress-fill: #a0d0a6;
+    --kb-progress-fill-complete: #a0d0a6;
+  }
+  .day-dialog {
+    background: #202920;
+    color: #f6f2e6;
+    border-color: #81917e;
+  }
+  .day-dialog .kb-dialog-description {
+    color: #b8c1ae;
+  }
+}
+
+.kbui-catalog .type-specimen code {
+  font-size: var(--kb-text-small-size);
+}
+
+.kbui-site:not(.control-select-positioner) {
+  min-height: 100svh;
+}

@@ -1,13 +1,15 @@
-/* Anatomy: .kb-input [data-size=sm|md|lg] [data-invalid] [data-disabled] > .kb-input-label, .kb-input-control, .kb-input-description, .kb-input-error */
+/* Anatomy: .kb-input [data-size=sm|md|lg] [data-invalid] [data-disabled] [data-start-adornment] [data-end-adornment] > .kb-input-label, .kb-input-shell > .kb-input-start, .kb-input-control, .kb-input-end; .kb-input-description, .kb-input-error */
 .kb-input {
   display: flex;
+  min-inline-size: 0;
   flex-direction: column;
-  gap: var(--kb-space-1);
+  gap: 7px;
 }
 
 .kb-input-label {
-  font-size: var(--kb-size-sm);
-  font-weight: 500;
+  overflow-wrap: anywhere;
+  font-size: var(--kb-text-small-size);
+  font-weight: 600;
   color: var(--kb-color-fg);
 }
 
@@ -17,9 +19,17 @@
   padding: 0 var(--kb-space-3);
   border: 1px solid var(--kb-color-border);
   border-radius: var(--kb-input-radius);
-  background: var(--kb-color-bg);
+  background: var(--kb-material-recessed-face);
   color: var(--kb-color-fg);
-  font-size: var(--kb-size-md);
+  font-size: var(--kb-text-control-size);
+
+  font-weight: 400;
+
+  border-color: var(--kb-material-control-border);
+
+  box-shadow: var(--kb-material-field-shadow);
+
+  letter-spacing: -0.01em;
 }
 
 .kb-input-control::placeholder {
@@ -28,8 +38,10 @@
 
 .kb-input-control:focus-visible {
   outline: 2px solid var(--kb-color-ring);
-  outline-offset: 0;
+  outline-offset: -2px;
   border-color: var(--kb-color-ring);
+
+  background: var(--kb-color-bg);
 }
 
 .kb-input[data-size="sm"] .kb-input-control {
@@ -52,14 +64,60 @@
 
 .kb-input[data-disabled] .kb-input-control {
   cursor: not-allowed;
+
+  box-shadow: none;
 }
 
 .kb-input-description {
-  font-size: var(--kb-size-sm);
+  overflow-wrap: anywhere;
+  font-size: var(--kb-text-small-size);
   color: var(--kb-color-muted);
+
+  line-height: 1.5;
 }
 
 .kb-input-error {
-  font-size: var(--kb-size-sm);
+  overflow-wrap: anywhere;
+  font-size: var(--kb-text-small-size);
   color: var(--kb-color-danger);
+
+  line-height: 1.5;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .kb-input:not([data-invalid]) .kb-input-control:hover:not(:disabled) {
+    border-color: var(--kb-color-muted);
+  }
+}
+
+.kb-input-shell {
+  position: relative;
+  display: flex;
+  min-inline-size: 0;
+}
+.kb-input-start,
+.kb-input-end {
+  position: absolute;
+  inset-block: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: calc(var(--kb-space-8) + var(--kb-space-2));
+}
+.kb-input-start {
+  inset-inline-start: 0;
+  pointer-events: none;
+}
+.kb-input-end {
+  inset-inline-end: var(--kb-space-1);
+  inline-size: auto;
+}
+.kb-input[data-start-adornment] .kb-input-control {
+  padding-inline-start: calc(var(--kb-space-8) + var(--kb-space-2));
+}
+.kb-input[data-end-adornment] .kb-input-control {
+  padding-inline-end: calc(var(--kb-input-height-lg) + var(--kb-space-1));
+}
+.kb-input[data-end-adornment] .kb-input-control[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
 }

@@ -1,6 +1,7 @@
 import { Field } from "@base-ui/react/field";
 import { Input as BaseInput } from "@base-ui/react/input";
 import { clsx } from "clsx";
+import type { ReactNode } from "react";
 import { kb } from "../../utils/kb";
 
 export type InputSize = "sm" | "md" | "lg";
@@ -18,6 +19,10 @@ export type InputProps = Omit<BaseInput.Props, "size" | "className"> & {
   error?: string;
   /** Control height scale. */
   size?: InputSize;
+  /** Content before control text, such as icons. */
+  startContent?: ReactNode;
+  /** Content after control text, such as a named action. */
+  endContent?: ReactNode;
 };
 
 export function Input({
@@ -28,19 +33,33 @@ export function Input({
   size = "md",
   disabled,
   className,
+  startContent,
+  endContent,
   ...props
 }: InputProps) {
   const invalid = Boolean(error);
   return (
     <Field.Root
-      {...kb("input", { size }, className)}
+      {...kb(
+        "input",
+        {
+          size,
+          "start-adornment": Boolean(startContent),
+          "end-adornment": Boolean(endContent),
+        },
+        className,
+      )}
       invalid={invalid}
       disabled={Boolean(disabled)}
     >
       <Field.Label className={clsx("kb-input-label", visuallyHidden && "kb-sr-only")}>
         {label}
       </Field.Label>
-      <BaseInput {...props} className="kb-input-control" />
+      <div className="kb-input-shell">
+        {startContent && <span className="kb-input-start">{startContent}</span>}
+        <BaseInput {...props} className="kb-input-control" />
+        {endContent && <span className="kb-input-end">{endContent}</span>}
+      </div>
       {description ? (
         <Field.Description className="kb-input-description">{description}</Field.Description>
       ) : null}

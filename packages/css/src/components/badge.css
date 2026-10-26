@@ -5,11 +5,11 @@
   align-items: center;
   gap: var(--kb-space-1);
   padding: 0.125rem var(--kb-space-2);
-  border-radius: var(--kb-radius-sm);
+  border-radius: 5px;
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--_badge-ink) 35%, transparent);
   background: color-mix(in oklab, var(--_badge-ink) 10%, transparent);
   color: color-mix(in oklab, var(--_badge-ink) 70%, var(--kb-color-fg));
-  font-size: var(--kb-size-xs);
+  font-size: 12px;
   font-weight: 500;
   line-height: 1.4;
   white-space: nowrap;
@@ -48,4 +48,10 @@
   padding: 0;
   background: none;
   box-shadow: none;
+}
+
+.kb-badge:not([data-appearance="plain"]) {
+  border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  box-shadow: var(--kb-material-inlay-shadow);
+  background-image: linear-gradient(180deg, var(--kb-material-soft-sheen), transparent);
 }

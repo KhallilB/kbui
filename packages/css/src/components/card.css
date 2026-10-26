@@ -12,4 +12,24 @@
   border-radius: var(--kb-card-radius);
   background: var(--kb-card-background);
   color: var(--kb-card-color);
+
+  box-shadow: var(--kb-material-panel-shadow);
+}
+
+.kb-card > :where(p) {
+  font-size: var(--kb-text-body-size);
+  line-height: var(--kb-text-leading-body);
+}
+
+@media (max-width: 580px) {
+  .kb-card {
+    --kb-card-padding: 20px;
+  }
+}
+
+@media (forced-colors: active) {
+  .kb-card {
+    box-shadow: none;
+    background-image: none;
+  }
 }

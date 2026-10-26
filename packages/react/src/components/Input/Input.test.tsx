@@ -5,6 +5,41 @@ import { describe, expect, test, vi } from "vitest";
 import { Input } from "./Input";
 
 describe("Input", () => {
+  test("preserves native control, draft and focus when content slots appear and disappear", async () => {
+    const { rerender } = render(<Input label="Query" defaultValue="draft" />);
+    const input = screen.getByRole("textbox", { name: "Query" });
+    await userEvent.clear(input);
+    await userEvent.type(input, "user draft");
+    rerender(
+      <Input
+        label="Query"
+        defaultValue="draft"
+        endContent={<button type="button">Clear query</button>}
+      />,
+    );
+    expect(screen.getByRole("textbox", { name: "Query" })).toBe(input);
+    expect(input).toHaveValue("user draft");
+    expect(input).toHaveFocus();
+    rerender(<Input label="Query" defaultValue="draft" />);
+    expect(screen.getByRole("textbox", { name: "Query" })).toBe(input);
+    expect(input).toHaveValue("user draft");
+    expect(input).toHaveFocus();
+  });
+  test("keeps labelled control and helper when start and end content are supplied", () => {
+    render(
+      <Input
+        label="Query"
+        description="Search names"
+        startContent={<span aria-hidden="true">Search icon</span>}
+        endContent={<button type="button">Clear query</button>}
+      />,
+    );
+    expect(screen.getByRole("button", { name: "Clear query" })).toBeInTheDocument();
+    expect(screen.getByText("Search icon")).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: "Query" })).toHaveAccessibleDescription(
+      "Search names",
+    );
+  });
   test("labels the control and applies anatomy classes", () => {
     const { container } = render(<Input label="Email" />);
     const input = screen.getByLabelText("Email");

@@ -10,12 +10,16 @@
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "dev:site": "vite --config vite.site.config.ts --host 127.0.0.1 --port 4173",
     "build:site": "bun catalog/verify-code.ts && vite build --config vite.site.config.ts && storybook build --quiet --disable-telemetry --output-dir dist/storybook && bun catalog/verify.ts",
-    "test:site": "vitest run --config vitest.site.config.ts stories/Home.stories.tsx stories/Compositions.stories.tsx stories/Workbench.stories.tsx stories/PlanDemo.stories.tsx stories/Examples.stories.tsx stories/Catalog.stories.tsx stories/Setup.stories.tsx",
+    "test:site": "vitest run --config vitest.site.config.ts stories/Home.stories.tsx stories/Compositions.stories.tsx stories/Workbench.stories.tsx stories/PlanDemo.stories.tsx stories/Examples.stories.tsx stories/Catalog.stories.tsx stories/Setup.stories.tsx stories/SkinComparison.stories.tsx",
     "preview:site": "vite preview --config vite.site.config.ts --host 127.0.0.1 --port 4174 --strictPort",
     "verify:catalog": "bun catalog/verify.ts",
     "verify:previews": "node --experimental-strip-types catalog/verify-previews.ts",
     "verify:release": "node --experimental-strip-types catalog/verify-release.ts",
-    "verify:code": "bun catalog/verify-code.ts"
+    "verify:controls": "node --experimental-strip-types catalog/verify-control-edges.ts",
+    "verify:code": "bun catalog/verify-code.ts",
+    "test:themes": "vitest run --config vitest.themes.config.ts ../../packages/react/src/components",
+    "verify:theme": "bun catalog/verify-theme.ts",
+    "verify:depth": "bun catalog/verify-depth.ts"
   },
   "dependencies": {
     "@kbui/css": "workspace:*",
