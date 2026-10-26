@@ -1,0 +1,391 @@
+.kbui-catalog {
+  .catalog-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 24px 40px;
+    padding: 28px;
+    border: 1px solid #d5d9c5;
+    border-radius: 24px;
+    background: #f2eddb;
+  }
+  .catalog-search {
+    flex: 1 1 280px;
+    font-size: 13px;
+  }
+  & :is(input, select) {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    margin-top: 8px;
+    border: 1px solid #8d9983;
+    border-radius: 10px;
+    padding: 10px 12px;
+    color: var(--ink);
+    background: #fffdf5;
+    font-size: 14px;
+  }
+  & select {
+    cursor: pointer;
+  }
+  .catalog-groups {
+    flex: 1 1 420px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+  }
+  .catalog-groups legend {
+    padding: 0 0 8px;
+    font-size: 13px;
+  }
+  .catalog-groups > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .catalog-groups button {
+    border: 1px solid #a4b49a;
+    border-radius: 999px;
+    padding: 8px 16px;
+    min-height: 44px;
+    background: #fffdf5;
+    color: var(--ink);
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .catalog-groups button[aria-pressed="true"] {
+    background: #34664e;
+    border-color: #34664e;
+    color: #fff;
+  }
+  .catalog-results {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 72px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .catalog-text-button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    border: 0;
+    background: transparent;
+    color: var(--rust);
+    padding: 8px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .catalog-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+    padding: 28px;
+    border: 1px solid #d5d9c5;
+    background: #fffdf5;
+    border-radius: 24px;
+  }
+  & .catalog-card:hover {
+    background: #e6eccf;
+    text-decoration: none;
+  }
+  .catalog-card-group {
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .catalog-card h2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -1px;
+  }
+  .catalog-card h2 > span {
+    color: var(--rust);
+    font-size: 20px;
+  }
+  .catalog-card p {
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .catalog-card-count {
+    font-size: 12px;
+    color: #4d6350;
+    margin-top: auto;
+    padding-top: 12px;
+  }
+  .catalog-empty {
+    padding-block: 40px;
+    color: var(--muted);
+  }
+  .catalog-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+  }
+  & .plain-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .catalog-detail-heading {
+    padding-block: 12px 16px;
+  }
+  .catalog-detail-heading h1 {
+    font-size: clamp(42px, 5vw, 64px);
+  }
+  .catalog-detail-heading .page-kicker {
+    margin-bottom: 12px;
+  }
+  .catalog-detail-heading > p:last-child {
+    margin-top: 16px;
+  }
+  .catalog-switcher {
+    margin-bottom: 24px;
+  }
+  .catalog-switcher summary {
+    width: fit-content;
+    min-height: 44px;
+    padding: 12px 18px;
+    border: 1px solid #a4b49a;
+    border-radius: 24px;
+    background: #f2eddb;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .catalog-switcher nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px;
+    padding: 16px 0 0;
+  }
+  .catalog-switcher a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 10px 16px;
+    border: 1px solid #d5d9c5;
+    border-radius: 12px;
+    background: #fffdf5;
+    font-size: 14px;
+  }
+  .catalog-switcher a[aria-current] {
+    background: #e6eccf;
+    border-color: #34664e;
+  }
+  .catalog-live,
+  .catalog-api {
+    padding-block: 28px;
+    border-top: 1px solid #d5d9c5;
+  }
+  .catalog-section-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .catalog-section-heading h2 {
+    font-size: 34px;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -1px;
+  }
+  .catalog-section-heading .page-kicker {
+    margin-bottom: 12px;
+  }
+  .catalog-source {
+    font-size: 12px;
+    color: #4d6350;
+  }
+  .catalog-states {
+    border: 0;
+    padding: 0;
+    margin: 0 0 20px;
+    min-width: 0;
+  }
+  .catalog-states legend {
+    font-size: 12px;
+    color: var(--muted);
+    padding: 0 0 10px;
+  }
+  .catalog-states > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .catalog-states button {
+    min-height: 44px;
+    padding: 10px 16px;
+    border: 1px solid #b8bda8;
+    border-radius: 999px;
+    background: #fffdf5;
+    color: var(--ink);
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .catalog-states button:hover {
+    border-color: #34664e;
+    background: #e6eccf;
+  }
+  .catalog-states button[aria-pressed="true"] {
+    background: #34664e;
+    border-color: #34664e;
+    color: #fff;
+  }
+  .catalog-preview-frame {
+    position: relative;
+    --preview-inset: clamp(12px, 2vw, 24px);
+    margin-inline: auto;
+    border: 1px solid #b8bda8;
+    border-radius: 24px;
+    overflow: hidden;
+    background: #f2eddb;
+    display: grid;
+    place-items: center;
+    padding: var(--preview-inset);
+  }
+  .catalog-preview-frame iframe {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    background: #fff;
+    border-radius: 12px;
+  }
+  .catalog-preview-tools {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .catalog-preview-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    padding-top: 12px;
+  }
+  .catalog-preview-status {
+    position: absolute;
+    inset-inline: var(--preview-inset);
+    bottom: var(--preview-inset);
+    margin: 0;
+    padding: 6px 10px;
+    border: 1px solid #d5d9c5;
+    border-radius: 8px;
+    background: #fffdf5;
+    color: var(--ink);
+    font-size: 12px;
+    line-height: 1.4;
+    pointer-events: none;
+  }
+  .catalog-preview-status:empty {
+    display: none;
+  }
+  .catalog-table-scroll {
+    overflow-x: auto;
+    margin-block: 24px;
+    border: 1px solid #d5d9c5;
+    border-radius: 18px;
+    background: #fffdf5;
+  }
+  & table {
+    width: 100%;
+    min-width: 620px;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+  }
+  & caption {
+    text-align: left;
+    padding: 20px;
+    font-weight: 550;
+  }
+  & th {
+    background: #f2eddb;
+    font-size: 13px;
+    font-weight: 550;
+  }
+  & :is(th, td) {
+    padding: 16px 20px;
+    border-top: 1px solid #d5d9c5;
+    vertical-align: top;
+  }
+  & td {
+    min-width: 120px;
+  }
+  & code {
+    font:
+      12px / 1.8 ui-monospace,
+      monospace;
+    overflow-wrap: anywhere;
+  }
+  .catalog-notes {
+    margin-top: 24px;
+    border-block: 1px solid #d5d9c5;
+  }
+  .catalog-notes summary {
+    padding-block: 16px;
+    min-height: 44px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .catalog-notes > div {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 24px;
+    font-size: 14px;
+  }
+  .catalog-notes pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    background: #fffdf5;
+    padding: 20px;
+    border-radius: 16px;
+  }
+  & :is(select, .catalog-table-scroll):focus-visible {
+    outline: 2px solid #34664e;
+    outline-offset: 2px;
+  }
+  @media (max-width: 1000px) {
+    .catalog-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 600px) {
+    .catalog-grid {
+      grid-template-columns: 1fr;
+    }
+    .catalog-filters,
+    .catalog-card {
+      padding: 20px;
+    }
+    .catalog-filters {
+      gap: 24px;
+    }
+    .catalog-live,
+    .catalog-api {
+      padding-block: 32px;
+    }
+    .catalog-preview-frame {
+      --preview-inset: 12px;
+    }
+  }
+}

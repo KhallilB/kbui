@@ -14,7 +14,7 @@ Requires `react` and `react-dom` 19 in the consuming project.
 | Prop | Type | Default | Notes |
 |---|---|---|---|
 | `variant` | `"primary" \| "secondary" \| "ghost" \| "danger"` | `"primary"` | Visual weight |
-| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Height and padding |
+| `size` | `"sm" \| "md" \| "lg" \| "icon"` | `"md"` | Height and padding; icon-only buttons require `aria-label` |
 | `className` | `string` | | Added after `kb-button` |
 | `render` | element | | Renders a different element, such as a link |
 | `disabled` | `boolean` | | Dims the button and blocks interaction |

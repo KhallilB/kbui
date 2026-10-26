@@ -51,6 +51,7 @@ The next stage makes kbui the design judgment layer for generated UI: one contra
 |---|---|
 | [Product](docs/product.md) | What kbui is for, every feature with its status, the differentiators and the non-goals |
 | [Roadmap](docs/roadmap.md) | Milestones, pass marks and gates, recorded in `progress.json` |
+| [Maintained features](docs/features.md) | Implementation, canonical docs, examples and current limits |
 | [Architecture](docs/architecture.md) | How the packages fit together and what the build checks |
 | [Tokens](docs/tokens.md) | Token kinds, naming, aliases and dark mode |
 | [Using kbui in a project](docs/guides/using-kbui.md) | Installing, theming, updating and troubleshooting |

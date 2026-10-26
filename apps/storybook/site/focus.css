@@ -1,0 +1,21 @@
+/* Low specificity lets component-specific rings keep their contrast and inset. */
+:where(.kbui-site) :focus-visible {
+  outline: 2px solid var(--kb-color-ring, #34664e);
+  outline-offset: 2px;
+}
+:where(.kbui-site) :focus:not(:focus-visible) {
+  outline: none;
+}
+.kbui-site .search:has(input:focus-visible) {
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: 2px;
+}
+.kbui-site .search input:focus-visible {
+  outline: none;
+}
+@media (forced-colors: active) {
+  :where(.kbui-site) :focus-visible,
+  .kbui-site .search:has(input:focus-visible) {
+    outline-color: Highlight;
+  }
+}

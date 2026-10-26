@@ -4,11 +4,11 @@ Projects install kbui from a release: one tarball per package, attached to a [Gi
 
 ## Installing
 
-1. Add `@kbui/react` and `@kbui/css` from the same release. Replace `0.1.0` with the version you want; every release lists its tarballs.
+1. Add `@kbui/react` and `@kbui/css` from the same release. The on-site setup page pins a verified release. Replace `0.5.0` with the version you want; every release lists its tarballs.
 
    ```bash
-   bun add https://github.com/KhallilB/kbui/releases/download/v0.1.0/kbui-react-0.1.0.tgz \
-           https://github.com/KhallilB/kbui/releases/download/v0.1.0/kbui-css-0.1.0.tgz
+   bun add https://github.com/KhallilB/kbui/releases/download/v0.5.0/kbui-react-0.5.0.tgz \
+           https://github.com/KhallilB/kbui/releases/download/v0.5.0/kbui-css-0.5.0.tgz
    ```
 
    This works the same on Windows, macOS and Linux. The release workflow installs every release on all three; a failed install shows as a failed `install` job on that release's workflow run. `@kbui/css` already includes the tokens. Add `kbui-tokens-<version>.tgz` from the same release only if you need the typed `tokens` object in TypeScript.

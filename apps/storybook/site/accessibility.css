@@ -1,0 +1,40 @@
+@media (forced-colors: active) {
+  .kbui-site {
+    &,
+    & * {
+      /* biome-ignore lint/complexity/noImportantStyles: System palette overrides consumer skins. */
+      color: CanvasText !important;
+      /* biome-ignore lint/complexity/noImportantStyles: Keep computed contrast aligned with system rendering. */
+      background-color: Canvas !important;
+      border-color: CanvasText;
+    }
+    & a {
+      /* biome-ignore lint/complexity/noImportantStyles: Preserve system link distinction. */
+      color: LinkText !important;
+    }
+    .composition,
+    .day-card,
+    .primary-link,
+    .playground-grid {
+      border: 1px solid CanvasText;
+    }
+    .segmented button[aria-pressed="true"],
+    .day-choice input:checked + .choice-box {
+      outline: 2px solid Highlight;
+    }
+    .kb-progress-track {
+      border: 1px solid CanvasText;
+    }
+    .kb-progress-indicator {
+      /* biome-ignore lint/complexity/noImportantStyles: Preserve visible progress under system colors. */
+      background-color: Highlight !important;
+    }
+    .day-bloom,
+    .geometry {
+      forced-color-adjust: none;
+    }
+    .hero-example::before {
+      display: none;
+    }
+  }
+}

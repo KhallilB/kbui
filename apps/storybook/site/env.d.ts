@@ -1,0 +1,22 @@
+/// <reference types="vite/client" />
+
+declare module "virtual:kbui-catalog" {
+  const entries: import("../catalog/types").CatalogEntry[];
+  export default entries;
+}
+
+declare module "virtual:kbui-site-samples" {
+  const samples: {
+    playground: Record<string, import("../catalog/types").CodeSample>;
+    surfaces: Record<string, import("../catalog/types").CodeSample>;
+  };
+  export default samples;
+}
+
+declare module "virtual:kbui-setup-samples" {
+  const samples: Record<
+    "usage" | "system" | "light" | "dark" | "styling",
+    import("../catalog/types").CodeSample
+  >;
+  export default samples;
+}

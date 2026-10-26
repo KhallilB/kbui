@@ -79,3 +79,7 @@ release-please keeps a release PR open on `main`. Merging it releases: the relea
 ## Decision records
 
 Larger choices get a decision record. [docs/decisions](docs/decisions/README.md) explains when a change needs one.
+
+## Feature documentation
+
+When a capability changes, update its canonical documentation and the [maintained feature map](docs/features.md). The `kbui-docs-features` skill supports this workflow. Link shared examples rather than copying them; distinguish local implementation from publication. `bun test scripts/feature-docs.test.ts` checks the register's local file destinations and runs inside `bun run check`.

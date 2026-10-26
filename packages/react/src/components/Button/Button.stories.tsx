@@ -21,7 +21,7 @@ export const Ghost: Story = { args: { variant: "ghost" } };
 export const Danger: Story = { args: { variant: "danger" } };
 export const Sizes: Story = {
   render: (args) => (
-    <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+    <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
       <Button {...args} size="sm">
         Small
       </Button>

@@ -21,7 +21,11 @@ type Story = StoryObj<typeof meta>;
 
 function Sample({ id, title, ...args }: PanelProps & { id: string; title: string }) {
   return (
-    <Panel {...args} aria-labelledby={`${id}-title`} style={{ width: 320 }}>
+    <Panel
+      {...args}
+      aria-labelledby={`${id}-title`}
+      style={{ width: "100%", flex: "1 1 280px", minWidth: 0 }}
+    >
       <Panel.Header>
         <h3 id={`${id}-title`}>{title}</h3>
         <Status tone={args.tone === "critical" ? "blocked" : "neutral"}>
@@ -115,7 +119,7 @@ export const Depth: Story = {
           key={tone}
           tone={tone}
           aria-labelledby={`depth-${tone}`}
-          style={{ width: 320 }}
+          style={{ width: "100%", flex: "1 1 280px", minWidth: 0 }}
         >
           <Panel.Header>
             <h3 id={`depth-${tone}`}>{`Depth ${tone}`}</h3>
@@ -161,7 +165,7 @@ export const TokenOverrides: Story = {
           key={tone}
           tone={tone}
           aria-labelledby={`lit-${tone}`}
-          style={{ width: 300 }}
+          style={{ width: "100%", flex: "1 1 280px", minWidth: 0 }}
         >
           <Panel.Header>
             <h3 id={`lit-${tone}`}>{`Lit ${tone}`}</h3>
@@ -214,7 +218,11 @@ export const TokenOverridesLight: Story = { ...TokenOverrides, globals: { theme:
 
 export const Toolbar: Story = {
   render: (args) => (
-    <Panel {...args} aria-labelledby="toolbar-title" style={{ width: 360 }}>
+    <Panel
+      {...args}
+      aria-labelledby="toolbar-title"
+      style={{ width: "100%", flex: "1 1 280px", minWidth: 0 }}
+    >
       <Panel.Header>
         <h3 id="toolbar-title">With toolbar</h3>
         <Panel.Toolbar>
@@ -238,7 +246,7 @@ export const Collapsible: Story = {
       collapsible
       defaultOpen
       aria-labelledby="collapse-title"
-      style={{ width: 360 }}
+      style={{ width: "100%", flex: "1 1 280px", minWidth: 0 }}
     >
       <Panel.Header>
         <h3 id="collapse-title">Collapsible body</h3>
@@ -264,7 +272,11 @@ export const Collapsible: Story = {
 
 export const Nested: Story = {
   render: (args) => (
-    <Panel {...args} aria-labelledby="outer-title" style={{ width: 420 }}>
+    <Panel
+      {...args}
+      aria-labelledby="outer-title"
+      style={{ width: "100%", flex: "1 1 280px", minWidth: 0 }}
+    >
       <Panel.Header>
         <h3 id="outer-title">Outer</h3>
       </Panel.Header>
@@ -282,7 +294,7 @@ export const Nested: Story = {
 
 export const Group: Story = {
   render: (args) => (
-    <Panel.Group direction="row" style={{ width: 720 }}>
+    <Panel.Group direction="row" style={{ width: "100%" }}>
       <Sample {...args} id="g1" title="First" />
       <Sample {...args} id="g2" title="Second" tone="active" />
       <Sample {...args} id="g3" title="Third" />
@@ -299,7 +311,11 @@ export const Compact: Story = {
 export const FocusVisible: Story = {
   args: { rail: "accent", tone: "active" },
   render: (args) => (
-    <Panel {...args} aria-labelledby="focus-title" style={{ width: 320 }}>
+    <Panel
+      {...args}
+      aria-labelledby="focus-title"
+      style={{ width: "100%", flex: "1 1 280px", minWidth: 0 }}
+    >
       <Panel.Header>
         <h3 id="focus-title">Focus stays visible</h3>
       </Panel.Header>

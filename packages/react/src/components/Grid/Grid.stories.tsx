@@ -44,7 +44,7 @@ export const StackedList: Story = {
 };
 export const Responsive: Story = {
   render: () => (
-    <div style={{ display: "grid", gap: "1rem" }}>
+    <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: "1rem" }}>
       {[280, 720, 1040].map((width) => (
         <div key={width} style={{ width, maxWidth: "100%" }}>
           <Grid data-testid={`grid-${width}`}>

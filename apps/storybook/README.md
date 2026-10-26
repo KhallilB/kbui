@@ -2,6 +2,10 @@
 
 kbui's live documentation and accessibility tests. Stories live next to each component in `packages/react/src/components/`. This folder holds the Storybook configuration, the standalone pages in `docs/`, and the composed showcase stories and fixtures in `stories/`. Files under `stories/` are not components, so the component coverage test does not apply to them.
 
+## Maintained home
+
+[The maintained home](site/README.md) introduces kbui through a live day-off composition. The site also serves a matching playground, searchable featured entries, curated examples, and a component catalog. Storybook and the site render the same demo source; Catalog previews embed the actual component stories and its API summaries come from the React guide; full typed API documentation stays in Storybook. Build both with `bun run --filter @kbui/storybook build:site`; serve `dist/` as one static site.
+
 ## Running
 
 From the repository root:

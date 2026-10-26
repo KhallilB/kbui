@@ -21,7 +21,7 @@ export const HiddenLabel: Story = {
 };
 export const Sizes: Story = {
   render: (args) => (
-    <div style={{ display: "grid", gap: 16, maxWidth: 320 }}>
+    <div style={{ display: "grid", gap: 16, width: "100%" }}>
       <Input {...args} label="Small" size="sm" />
       <Input {...args} label="Medium" size="md" />
       <Input {...args} label="Large" size="lg" />

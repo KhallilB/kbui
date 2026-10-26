@@ -23,7 +23,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: (args) => (
-    <div style={{ width: 360 }}>
+    <div style={{ width: "100%" }}>
       <ScrollArea {...args} />
     </div>
   ),

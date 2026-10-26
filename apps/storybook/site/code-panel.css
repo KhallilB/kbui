@@ -1,0 +1,185 @@
+.kbui-site {
+  .example-code {
+    min-width: 0;
+    margin-top: 16px;
+    border: 1px solid #b8bda8;
+    border-radius: 18px;
+    background: #fffdf5;
+    overflow: hidden;
+  }
+  .example-code-bar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    padding: 8px 16px;
+    background: #f2eddb;
+  }
+  .example-code-bar button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 44px;
+    min-width: 44px;
+    padding: 8px 4px;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    font-size: 13px;
+    border-radius: 6px;
+    transition-property: color, background-color, transform;
+    transition-duration: 140ms;
+    transition-timing-function: ease;
+  }
+  .example-code-bar button:hover {
+    background: #e8e4d4;
+  }
+  .example-code-bar button:active {
+    transform: translateY(1px);
+  }
+  .example-code-caption {
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .example-code-bar .example-copy {
+    margin-left: auto;
+    min-width: 110px;
+    color: var(--rust);
+  }
+  .example-code-bar .example-copy[data-copy-state="copied"] {
+    color: #34664e;
+  }
+  .example-code pre {
+    margin: 0;
+    padding: 20px;
+    tab-size: 2;
+  }
+  .example-code-content {
+    --code-max-height: min(440px, 60svh);
+    max-height: var(--code-max-height);
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+  .example-code-content:not([hidden]) {
+    animation: kbui-code-reveal 160ms ease-out both;
+  }
+  .example-code-content:focus-visible {
+    outline: 2px solid #34664e;
+    outline-offset: -2px;
+  }
+  .example-code-bar .example-code-toggle {
+    gap: 8px;
+    padding-inline: 12px;
+    border: 1px solid #a5af99;
+    border-radius: 999px;
+    background: #fffdf5;
+    color: var(--ink);
+  }
+  .example-code-bar .example-code-toggle[aria-expanded="true"] {
+    border-color: #34664e;
+    background: #34664e;
+    color: #fffdf5;
+  }
+  .example-code-toggle svg {
+    flex: none;
+  }
+  .example-code-chevron {
+    transition: transform 140ms ease;
+  }
+  .example-code-toggle[aria-expanded="true"] .example-code-chevron {
+    transform: rotate(180deg);
+  }
+  .example-copy-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+  @media (max-width: 600px) {
+    .example-code-bar {
+      gap: 4px;
+      padding-inline: 8px;
+    }
+    .example-code-caption {
+      display: none;
+    }
+    .example-code-bar button {
+      font-size: 12px;
+      gap: 6px;
+      padding-inline: 2px;
+    }
+    .example-code-bar .example-copy[data-copy-state="copied"] {
+      color: #34664e;
+    }
+    .example-code pre {
+      padding: 14px;
+    }
+  }
+  .example-code code {
+    font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-size: 13px;
+    line-height: 1.65;
+  }
+  .example-code [data-syntax="keyword"] {
+    color: #9a402e;
+  }
+  .example-code [data-syntax="string"] {
+    color: #35614b;
+  }
+  .example-code [data-syntax="comment"] {
+    color: #62695b;
+    font-style: italic;
+  }
+  .example-code [data-syntax="number"] {
+    color: #8a4b15;
+  }
+  .example-code [data-syntax="tag"] {
+    color: #254f60;
+  }
+  .example-code [data-syntax="attribute"] {
+    color: #73513a;
+  }
+  .example-code [data-syntax="type"] {
+    color: #725074;
+  }
+  .example-code [data-syntax="function"] {
+    color: #285e6b;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .example-code-content:not([hidden]) {
+      animation: none;
+    }
+    .example-code-chevron {
+      transition: none;
+    }
+    .example-code-bar button {
+      transition: none;
+      transform: none;
+    }
+  }
+}
+
+@keyframes kbui-code-reveal {
+  from {
+    opacity: 0.6;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (forced-colors: active) {
+  .kbui-site .example-code-toggle[aria-expanded="true"] {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+}

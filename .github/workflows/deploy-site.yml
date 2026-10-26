@@ -1,0 +1,93 @@
+name: Deploy kbui site
+
+on:
+  push:
+    branches: [main]
+    paths: &site-paths
+      - 'apps/storybook/**'
+      - 'packages/**'
+      - 'deployment/site/**'
+      - 'scripts/site-stage*'
+      - '.github/workflows/deploy-site.yml'
+      - 'package.json'
+      - 'bun.lock'
+      - 'tsconfig*.json'
+      - 'mise.toml'
+  pull_request:
+    paths: *site-paths
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kbui-site-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  CF_SEND_TELEMETRY: 'false'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.23.0'
+      - run: bun install --frozen-lockfile
+      - run: npm ci --prefix deployment/site
+      - run: npm test --prefix deployment/site
+      - run: bunx playwright install --with-deps chromium webkit
+      - run: bun run check
+      - run: bun run test:stories
+      - run: bun run --cwd apps/storybook test:site
+      - run: bun run --cwd apps/storybook build:site
+      - run: bun scripts/site-stage.ts
+      - name: Test the public path
+        shell: bash
+        run: |
+          python3 -m http.server 4175 --bind 127.0.0.1 --directory deployment/site/public &
+          site_server_pid=$!
+          trap 'kill "$site_server_pid"' EXIT
+          curl --fail --retry 8 --retry-connrefused --retry-delay 1 http://127.0.0.1:4175/kbui/ > /dev/null
+          CATALOG_PREVIEW_URL=http://127.0.0.1:4175/kbui bun run --cwd apps/storybook verify:release
+      - run: npm run build --prefix deployment/site
+      - run: npm run check --prefix deployment/site
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kbui-site-${{ github.sha }}
+          path: deployment/site/.cloudflare/output/
+          include-hidden-files: true
+          retention-days: 14
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: kbui-production
+      url: https://kcb.pro/kbui/
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.23.0'
+      - run: npm ci --prefix deployment/site
+      - uses: actions/download-artifact@v4
+        with:
+          name: kbui-site-${{ github.sha }}
+          path: deployment/site/.cloudflare/output/
+      - name: Deploy the tested artifact
+        run: |
+          : "${CLOUDFLARE_API_TOKEN:?Set CLOUDFLARE_API_TOKEN in the kbui-production environment}"
+          : "${CLOUDFLARE_ACCOUNT_ID:?Set CLOUDFLARE_ACCOUNT_ID in the kbui-production environment}"
+          npm run deploy --prefix deployment/site -- --message "Site ${{ github.sha }}"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Check production setup page
+        run: curl --fail --retry 5 --retry-all-errors --silent --show-error https://kcb.pro/kbui/setup/ | grep -Fq '<title>Get started — kbui</title>'

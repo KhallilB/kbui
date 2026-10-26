@@ -11,7 +11,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const box = { width: 320 } as const;
+const box = { width: "100%" } as const;
 
 export const Default: Story = {
   render: (args) => (

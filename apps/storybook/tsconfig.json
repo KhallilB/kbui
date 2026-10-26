@@ -1,5 +1,8 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": [".storybook", "stories", "*.ts"],
-  "exclude": ["stories/**/*.test.ts"]
+  "include": [".storybook", "stories", "*.ts", "site", "catalog"],
+  "exclude": ["stories/**/*.test.ts"],
+  "compilerOptions": {
+    "allowImportingTsExtensions": true
+  }
 }
