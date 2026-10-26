@@ -65,7 +65,7 @@ try {
     if ((await primary.getAttribute("data-variant")) !== "danger")
       throw new Error("Dark navigation theme broke dropdown selection");
     for (const theme of ["light", "dark"]) {
-      await page.goto(`${origin}/components/?theme=${theme}&view=live`);
+      await page.goto(`${origin}/components/?theme=${theme}&view=overview`);
       const picker = page.getByRole("combobox", { name: "Button example", exact: true });
       await picker.click();
       const list = page.getByRole("listbox", { name: "Button example", exact: true });

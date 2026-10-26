@@ -13,50 +13,8 @@
     flex: 1 1 280px;
     font-size: 13px;
   }
-  & :is(input, select) {
-    display: block;
-    width: 100%;
-    min-height: 44px;
-    margin-top: 8px;
-    border: 1px solid var(--review-control);
-    border-radius: 10px;
-    padding: 10px 12px;
-    color: var(--ink);
-    background: var(--review-paper);
-    font-size: 14px;
-  }
-  & select {
-    cursor: pointer;
-  }
   .catalog-groups {
     flex: 1 1 420px;
-    padding: 0;
-    margin: 0;
-    border: 0;
-  }
-  .catalog-groups legend {
-    padding: 0 0 8px;
-    font-size: 13px;
-  }
-  .catalog-groups > div {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .catalog-groups button {
-    border: 1px solid var(--review-control);
-    border-radius: 999px;
-    padding: 8px 16px;
-    min-height: 44px;
-    background: var(--review-paper);
-    color: var(--ink);
-    cursor: pointer;
-    font-size: 13px;
-  }
-  .catalog-groups button[aria-pressed="true"] {
-    background: linear-gradient(180deg, var(--review-selected-top), var(--review-selected));
-    border-color: var(--review-selected);
-    color: var(--review-selected-fg);
   }
   .catalog-results {
     display: flex;
@@ -67,17 +25,6 @@
     min-height: 72px;
     color: var(--muted);
     font-size: 13px;
-  }
-  .catalog-text-button {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    border: 0;
-    background: transparent;
-    color: var(--rust);
-    padding: 8px;
-    font-size: 13px;
-    cursor: pointer;
   }
   .catalog-grid {
     display: grid;
@@ -145,7 +92,7 @@
   .catalog-detail-heading {
     padding-block: 12px 16px;
   }
-  .catalog-detail-heading h1 {
+  .catalog-detail-heading :is(h1, h2) {
     font-size: clamp(42px, 5vw, 64px);
   }
   .catalog-detail-heading .page-kicker {
@@ -214,39 +161,8 @@
     color: var(--review-good);
   }
   .catalog-states {
-    border: 0;
-    padding: 0;
     margin: 0 0 20px;
     min-width: 0;
-  }
-  .catalog-states legend {
-    font-size: 12px;
-    color: var(--muted);
-    padding: 0 0 10px;
-  }
-  .catalog-states > div {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .catalog-states button {
-    min-height: 44px;
-    padding: 10px 16px;
-    border: 1px solid var(--review-line);
-    border-radius: 999px;
-    background: var(--review-paper);
-    color: var(--ink);
-    font-size: 13px;
-    cursor: pointer;
-  }
-  .catalog-states button:hover {
-    border-color: var(--review-selected);
-    background: var(--review-hover);
-  }
-  .catalog-states button[aria-pressed="true"] {
-    background: linear-gradient(180deg, var(--review-selected-top), var(--review-selected));
-    border-color: var(--review-selected);
-    color: var(--review-selected-fg);
   }
   .catalog-preview-frame {
     position: relative;
@@ -399,48 +315,6 @@
     padding-block: 8px 24px;
     border-bottom: 1px solid var(--review-line);
   }
-  .catalog-review-controls fieldset {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    min-width: 0;
-  }
-  .catalog-review-controls legend {
-    font-size: 12px;
-    padding-bottom: 8px;
-  }
-  .catalog-review-controls fieldset > div {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    padding: 4px;
-    background: linear-gradient(180deg, var(--review-well-top), var(--review-well-bottom));
-    border: 1px solid var(--review-control);
-    border-radius: 12px;
-    box-shadow:
-      inset 0 1px 2px var(--review-shadow),
-      inset 0 -1px 0 var(--review-highlight);
-  }
-  .catalog-review-controls button {
-    min-height: 44px;
-    padding: 8px 14px;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    color: var(--ink);
-    background: transparent;
-    cursor: pointer;
-    font: inherit;
-    font-size: 13px;
-  }
-  .catalog-review-controls button[aria-pressed="true"] {
-    background: linear-gradient(180deg, var(--review-selected-top), var(--review-selected));
-    color: var(--review-selected-fg);
-    border-color: var(--review-selected-edge);
-    box-shadow:
-      inset 0 1px 0 var(--review-highlight),
-      inset 0 -1px 0 var(--review-shadow),
-      0 1px 3px var(--review-shadow);
-  }
   .catalog-review-controls p {
     font-size: 12px;
     color: var(--muted);
@@ -502,11 +376,6 @@
   .catalog-specimen > .plain-link {
     margin-top: 12px;
   }
-  @media (forced-colors: active) {
-    .catalog-review-controls button[aria-pressed="true"] {
-      outline: 2px solid Highlight;
-    }
-  }
 }
 
 .kbui-catalog .catalog-preview-frame iframe[data-visible="false"] {
@@ -516,4 +385,89 @@
   inline-size: calc(100% - 2 * var(--preview-inset));
   visibility: hidden;
   pointer-events: none;
+}
+
+.kbui-catalog {
+  .catalog-browser {
+    display: grid;
+    grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+    gap: clamp(20px, 3vw, 40px);
+    align-items: start;
+  }
+  .catalog-component-list {
+    display: grid;
+    gap: 4px;
+    max-block-size: 560px;
+    overflow: auto;
+    padding: 8px;
+    border: 1px solid var(--review-line);
+    border-radius: 16px;
+    background: var(--review-plane);
+  }
+  .catalog-component-list a {
+    display: grid;
+    gap: 4px;
+    min-block-size: 52px;
+    padding: 10px 12px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font-size: 14px;
+    text-decoration: none;
+  }
+  .catalog-component-list small {
+    color: var(--muted);
+    font-size: 11px;
+  }
+  .catalog-component-list a:hover {
+    background: var(--review-hover);
+  }
+  .catalog-component-list a[aria-current] {
+    border-color: var(--review-control);
+    background: var(--review-paper);
+    box-shadow:
+      inset 0 1px 0 var(--review-highlight),
+      0 2px 4px -2px var(--review-shadow);
+  }
+  .catalog-inspector {
+    min-inline-size: 0;
+  }
+  .catalog-inspector .catalog-detail-heading {
+    padding-block: 12px 24px;
+  }
+  .catalog-inspector .catalog-detail-heading h2 {
+    font-size: clamp(32px, 4vw, 48px);
+  }
+  .catalog-inspector .catalog-source {
+    display: none;
+  }
+  .catalog-search .kb-input-shell {
+    margin-block-start: 8px;
+  }
+  .catalog-search input::-webkit-search-cancel-button {
+    display: none;
+  }
+  .catalog-search .kb-input-end .kb-button {
+    min-inline-size: 28px;
+    padding-inline: 6px;
+  }
+  .catalog-card h2 > .link-arrow {
+    inline-size: 16px;
+    block-size: 16px;
+  }
+  .plain-link .link-arrow {
+    inline-size: 1em;
+    block-size: 1em;
+    margin-inline-start: 0.25em;
+    flex-shrink: 0;
+  }
+  @media (max-width: 720px) {
+    .catalog-browser {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+    }
+    .catalog-component-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      max-block-size: 200px;
+    }
+  }
 }
