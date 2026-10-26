@@ -87,7 +87,7 @@ Browser verifiers use Node 22.18+ with native TypeScript stripping. For the buil
 
 ### Syntax and interaction feedback
 
-Shiki 4.5 tokenizes TSX in the build adapter; the browser receives original strings and compact semantic ranges, including function names. CSS owns the warm paper palette. Oniguruma initializes once before synchronous generators run; the JavaScript regex engine failed a Bun TSX fixture. See the [dependency decision](../../../docs/decisions/0012-build-time-syntax-highlighting.md) for alternatives, measured payload and reversal conditions.
+Shiki 4.5 tokenizes TSX in the build adapter; the browser receives original strings and compact semantic ranges, including function names. CSS owns the warm paper palette. Oniguruma initializes once before synchronous generators run; the JavaScript regex engine failed a Bun TSX fixture.
 
 Shared panels use a 160ms opacity reveal and 140ms toolbar color/press feedback. Text remains visible throughout. Explicit state changes compose 140ms selection colors, 180ms Button shape/color changes, 200ms measured preview/code sizing, 220ms theme surfaces and a 160ms code-ink fade after 30ms. The playground reserves only the largest 48px Button height within its preview, keeping the surrounding canvas stable across size changes. Inputs and copied source update immediately; CSS transitions retarget naturally on rapid changes. Reduced-motion preferences disable both animation and transitions. Native CSS covers current interactions; consider Motion only when shared-layout, gesture or coordinated exit behavior creates a concrete need. Do not build a partial animation framework.
 

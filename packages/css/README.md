@@ -40,4 +40,4 @@ bun run --cwd packages/css test
 
 The tests check that each component file starts with its `Anatomy:` line and styles the root class it names. They fail if component or reset CSS uses a palette color such as `--kb-gray-500` or a raw color such as `#fff`.
 
-[docs/architecture.md](../../docs/architecture.md) describes the contract in full.
+[Adding a component](../../docs/guides/adding-a-component.md) describes the anatomy contract and its checks.

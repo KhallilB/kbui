@@ -74,11 +74,13 @@ Sign every commit with `git commit -S`; the repository uses SSH signing. Subject
 
 Commit subjects on `main` set the next version: `fix` raises the patch, `feat` the minor, and a breaking change (`feat!:` or a `BREAKING CHANGE:` footer) the minor until 1.0. Merge pull requests by rebase, or squash with a conventional title, so subjects and footers reach `main` intact.
 
-release-please keeps a release PR open on `main`. Merging it releases: the release workflow checks the tag and attaches a tarball per package. Do not edit versions or `CHANGELOG.md` by hand. A new published package needs an `extra-files` entry in `release-please-config.json`; `bun run test` fails without it. [Decision 0007](docs/decisions/0007-lockstep-github-tarball-releases.md) explains the setup.
+release-please keeps a release PR open on `main`. Merging it releases: the release workflow checks the tag and attaches a tarball per package. Do not edit versions or `CHANGELOG.md` by hand. A new published package needs an `extra-files` entry in `release-please-config.json`; `bun run test` fails without it.
 
-## Decision records
+## Private documentation
 
-Larger choices get a decision record. [docs/decisions](docs/decisions/README.md) explains when a change needs one.
+Keep product plans, roadmaps, architecture, decision records and research in `.internal/docs/`. This directory is ignored by Git and excluded from Docker builds. Keep installation, component, token and contribution guides in tracked documentation. Public documentation must not link to private files.
+
+Local instruction files and tool settings are ignored too. Ignored files have no Git backup; keep private documentation in access-controlled storage outside this repository before deleting or replacing a checkout.
 
 ## Feature documentation
 
