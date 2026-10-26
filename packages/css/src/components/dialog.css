@@ -5,6 +5,8 @@
   background: var(--kb-color-overlay);
   opacity: 1;
   transition: opacity 150ms ease;
+
+  backdrop-filter: blur(3px);
 }
 
 .kb-dialog-backdrop[data-starting-style],
@@ -22,13 +24,15 @@
   padding: var(--kb-space-6);
   border: 1px solid var(--kb-color-border);
   border-radius: var(--kb-dialog-radius);
-  background: var(--kb-color-bg);
+  background: var(--kb-material-surface-bg);
   color: var(--kb-color-fg);
   transform: translate(-50%, -50%) scale(1);
   opacity: 1;
   transition:
     opacity 150ms ease,
     transform 150ms ease;
+
+  box-shadow: var(--kb-material-float-shadow);
 }
 
 .kb-dialog-popup[data-starting-style],
@@ -43,13 +47,19 @@
 
 .kb-dialog-title {
   margin: 0 0 var(--kb-space-2);
-  font-size: var(--kb-size-lg);
+  font-size: 23px;
   font-weight: 600;
+
+  letter-spacing: -0.035em;
 }
 
 .kb-dialog-description {
   margin: 0 0 var(--kb-space-4);
   color: var(--kb-color-muted);
+
+  font-size: var(--kb-text-control-size);
+
+  line-height: 1.6;
 }
 
 .kb-dialog-actions {

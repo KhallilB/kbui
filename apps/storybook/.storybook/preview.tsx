@@ -1,5 +1,32 @@
 import type { Preview } from "@storybook/react-vite";
 import "@kbui/css/styles.css";
+import { type ReactNode, useEffect, useLayoutEffect, useState } from "react";
+import type { Theme } from "../site/site-theme";
+import "../site/workspace-skin.css";
+import "./component-preview.css";
+
+function ThemePreview({ theme, children }: { theme: Theme; children: ReactNode }) {
+  const [receivedTheme, setReceivedTheme] = useState<Theme | null>(null);
+  const activeTheme = receivedTheme ?? theme;
+  useLayoutEffect(() => {
+    // Root scope includes body portals.
+    document.documentElement.dataset.theme = activeTheme;
+    document.documentElement.style.colorScheme = activeTheme;
+  }, [activeTheme]);
+  useEffect(() => {
+    if (window.parent === window) return;
+    const receive = (event: MessageEvent) => {
+      if (event.source !== window.parent || event.origin !== location.origin) return;
+      if (event.data?.type !== "kbui:theme") return;
+      if (event.data.theme === "light" || event.data.theme === "dark")
+        setReceivedTheme(event.data.theme);
+    };
+    window.addEventListener("message", receive);
+    window.parent.postMessage({ type: "kbui:theme-ready" }, location.origin);
+    return () => window.removeEventListener("message", receive);
+  }, []);
+  return children;
+}
 
 const preview: Preview = {
   parameters: {
@@ -27,17 +54,49 @@ const preview: Preview = {
     controls: { matchers: { color: /(background|color)$/i } },
   },
   globalTypes: {
+    previewTheme: { description: "Catalog preview theme override" },
     theme: {
       description: "Color theme",
       toolbar: { icon: "mirror", items: ["light", "dark"], dynamicTitle: true },
     },
   },
-  initialGlobals: { theme: "light" },
+  initialGlobals: { theme: "light", previewTheme: "story" },
   decorators: [
-    (Story, { globals }) => {
-      // CSS keys theme off <html data-theme>, not a wrapper.
-      document.documentElement.dataset.theme = String(globals.theme ?? "light");
-      return <Story />;
+    (Story, { globals, title, viewMode }) => {
+      // Root scope includes portaled menus, hints and dialogs.
+      const theme =
+        globals.previewTheme === "light" || globals.previewTheme === "dark"
+          ? globals.previewTheme
+          : globals.theme === "dark"
+            ? "dark"
+            : "light";
+      const component =
+        title.startsWith("Components/") || title === "Layout/Grid"
+          ? title.split("/").at(-1)?.toLowerCase()
+          : undefined;
+      const layout = ["grid", "panel", "scrollarea"].includes(component ?? "")
+        ? "layout"
+        : ["input", "card", "callout", "progress"].includes(component ?? "")
+          ? "surface"
+          : "compact";
+      return (
+        <ThemePreview theme={theme}>
+          {component ? (
+            <div
+              className="component-preview"
+              data-component={component}
+              data-layout={layout}
+              data-viewport={viewMode === "story" || undefined}
+            >
+              <div className="component-preview-content">
+                <Story />
+              </div>
+            </div>
+          ) : (
+            <Story />
+          )}
+        </ThemePreview>
+      );
     },
   ],
 };

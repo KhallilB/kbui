@@ -63,7 +63,7 @@ export const Playground: Story = {
     expect(canvas.getByTestId("working-code")).toHaveTextContent('data-theme="dark"');
     await waitFor(() =>
       expect(canvas.getByTestId("playground-preview")).toHaveStyle({
-        backgroundColor: systemBackground ?? "rgb(9, 9, 11)",
+        backgroundColor: systemBackground ?? "rgb(32, 41, 32)",
       }),
     );
     await userEvent.click(canvas.getByRole("button", { name: "Light theme" }));
@@ -71,7 +71,7 @@ export const Playground: Story = {
     expect(canvas.getByTestId("working-code")).not.toHaveTextContent("data-theme");
     await waitFor(() =>
       expect(canvas.getByTestId("playground-preview")).toHaveStyle({
-        backgroundColor: systemBackground ?? "rgb(255, 255, 255)",
+        backgroundColor: systemBackground ?? "rgb(255, 253, 245)",
       }),
     );
     await userEvent.click(canvas.getByLabelText("Reduce motion"));

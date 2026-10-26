@@ -38,7 +38,9 @@ function CompositionView({
         <p>A reading layout using Card and Badge. Content stays in your app.</p>
         <div className="sample-bottom">
           <span>Card + Badge</span>
-          <a href={docs("Card", storybookRoot)}>Explore Card ↗</a>
+          <a href={docs("Card", storybookRoot)}>
+            Explore Card <span className="link-arrow">↗</span>
+          </a>
         </div>
       </Card>
     );
@@ -60,7 +62,9 @@ function CompositionView({
         <Progress label="Release readiness" value={84} />
         <div className="sample-bottom">
           <span>Sample data</span>
-          <a href={docs("Progress", storybookRoot)}>Explore Progress ↗</a>
+          <a href={docs("Progress", storybookRoot)}>
+            Explore Progress <span className="link-arrow">↗</span>
+          </a>
         </div>
       </Card>
     );
@@ -166,6 +170,9 @@ export function Examples({
           <p>Three small compositions. Same components, different jobs.</p>
         </div>
         <nav className="example-index" aria-label="Example navigation">
+          <a href={`${siteRoot}compare/`}>
+            Try the workspace <span className="link-arrow">↗</span>
+          </a>
           {examples.map(({ id, title }) => (
             <a key={id} href={`#${id}`}>
               {title}

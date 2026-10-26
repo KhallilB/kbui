@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { PlanDemo } from "./PlanDemo";
 import { InstallBuilder } from "./Setup";
-import { installation, SiteFrame } from "./SiteFrame";
+import { installation, SiteFrame, SiteLink } from "./SiteFrame";
 
 export function Home({
   storybookRoot = "./storybook/",
@@ -78,9 +78,12 @@ export function Home({
               into your own project.
             </p>
             <div className="hero-links">
-              <a className="primary-link" href={`${siteRoot}${installation}`}>
-                Start building <span aria-hidden="true">↗</span>
-              </a>
+              <SiteLink className="primary-link" href={`${siteRoot}${installation}`}>
+                Start building{" "}
+                <span aria-hidden="true" className="link-arrow">
+                  ↗
+                </span>
+              </SiteLink>
               <a className="plain-link" href={`${siteRoot}components/`}>
                 See the components
               </a>
@@ -124,17 +127,23 @@ export function Home({
             <a href={`${siteRoot}examples/#editorial`}>
               <span className="example-shape shape-reading" aria-hidden="true" />
               <span>Something to read</span>
-              <span aria-hidden="true">↗</span>
+              <span aria-hidden="true" className="link-arrow">
+                ↗
+              </span>
             </a>
             <a href={`${siteRoot}examples/#operations`}>
               <span className="example-shape shape-work" aria-hidden="true" />
               <span>Something to keep moving</span>
-              <span aria-hidden="true">↗</span>
+              <span aria-hidden="true" className="link-arrow">
+                ↗
+              </span>
             </a>
             <a href={`${siteRoot}examples/#creative`}>
               <span className="example-shape shape-color" aria-hidden="true" />
               <span>Something a little different</span>
-              <span aria-hidden="true">↗</span>
+              <span aria-hidden="true" className="link-arrow">
+                ↗
+              </span>
             </a>
           </div>
         </section>
@@ -145,7 +154,7 @@ export function Home({
             <p>
               Pick your package manager. Take the parts into your app.
               <a className="plain-link setup-continue" href={`${siteRoot}playground/`}>
-                Open the playground ↗
+                Open the playground <span className="link-arrow">↗</span>
               </a>
             </p>
           </div>

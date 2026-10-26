@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 import { Examples } from "./Examples";
 import { Home } from "./Home";
 import { Setup } from "./Setup";
+import { SkinComparison } from "./SkinComparison";
 import { Workbench } from "./Workbench";
 
 const root = document.getElementById("root");
@@ -17,6 +18,8 @@ createRoot(root).render(
         storybookRoot={root.dataset.page === "setup-theme" ? "../../storybook/" : "../storybook/"}
         search={window.location.search}
       />
+    ) : root.dataset.page === "compare" ? (
+      <SkinComparison />
     ) : root.dataset.page === "playground" ? (
       <Workbench />
     ) : root.dataset.page === "examples" ? (

@@ -59,7 +59,7 @@
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
     gap: 32px 64px;
     padding-block: 36px;
-    border-top: 1px solid #d5d9c5;
+    border-top: 1px solid var(--review-line);
   }
   .setup-step > *,
   .setup-work {
@@ -97,7 +97,7 @@
     font-size: 12px;
   }
   .setup-help {
-    border-block: 1px solid #d5d9c5;
+    border-block: 1px solid var(--review-line);
     padding-block: 20px;
   }
   .setup-help summary {

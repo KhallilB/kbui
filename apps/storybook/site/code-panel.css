@@ -2,9 +2,9 @@
   .example-code {
     min-width: 0;
     margin-top: 16px;
-    border: 1px solid #b8bda8;
+    border: 1px solid var(--review-line, #b8bda8);
     border-radius: 18px;
-    background: #fffdf5;
+    background: var(--review-paper, #fffdf5);
     overflow: hidden;
   }
   .example-code-bar {
@@ -13,7 +13,7 @@
     flex-wrap: wrap;
     gap: 4px 16px;
     padding: 8px 16px;
-    background: #f2eddb;
+    background: var(--review-plane, #f2eddb);
   }
   .example-code-bar button {
     display: inline-flex;
@@ -34,7 +34,7 @@
     transition-timing-function: ease;
   }
   .example-code-bar button:hover {
-    background: #e8e4d4;
+    background: var(--review-code-hover, #e8e4d4);
   }
   .example-code-bar button:active {
     transform: translateY(1px);
@@ -49,7 +49,7 @@
     color: var(--rust);
   }
   .example-code-bar .example-copy[data-copy-state="copied"] {
-    color: #34664e;
+    color: var(--review-good, #34664e);
   }
   .example-code pre {
     margin: 0;
@@ -66,21 +66,21 @@
     animation: kbui-code-reveal 160ms ease-out both;
   }
   .example-code-content:focus-visible {
-    outline: 2px solid #34664e;
+    outline: 2px solid var(--review-ring, #34664e);
     outline-offset: -2px;
   }
   .example-code-bar .example-code-toggle {
     gap: 8px;
     padding-inline: 12px;
-    border: 1px solid #a5af99;
+    border: 1px solid var(--review-control, #a5af99);
     border-radius: 999px;
-    background: #fffdf5;
+    background: var(--review-paper, #fffdf5);
     color: var(--ink);
   }
   .example-code-bar .example-code-toggle[aria-expanded="true"] {
-    border-color: #34664e;
-    background: #34664e;
-    color: #fffdf5;
+    border-color: var(--review-good, #34664e);
+    background: var(--review-selected, #34664e);
+    color: var(--review-selected-fg, #fffdf5);
   }
   .example-code-toggle svg {
     flex: none;
@@ -116,7 +116,7 @@
       padding-inline: 2px;
     }
     .example-code-bar .example-copy[data-copy-state="copied"] {
-      color: #34664e;
+      color: var(--review-good, #34664e);
     }
     .example-code pre {
       padding: 14px;

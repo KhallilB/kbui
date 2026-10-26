@@ -1,7 +1,7 @@
 .kbui-lab {
   .section {
     padding-block: 40px;
-    border-top: 1px solid #d5d9c5;
+    border-top: 1px solid var(--review-line);
     scroll-margin-top: 24px;
   }
   .section-heading {
@@ -28,8 +28,6 @@
     gap: 24px;
   }
   .playground-preview {
-    --kb-button-radius: var(--kb-radius-md);
-    --kb-color-ring: var(--kb-blue-500);
     min-width: 0;
     min-height: 0;
     position: relative;
@@ -39,22 +37,10 @@
     justify-content: space-between;
     gap: 24px;
     padding: 24px;
-    border: 1px solid #b8bda8;
+    border: 1px solid var(--review-control);
     border-radius: 24px;
     background: var(--kb-color-bg);
     color: var(--kb-color-fg);
-  }
-  .playground-preview[data-theme="light"] {
-    --kb-color-bg: var(--kb-white);
-    --kb-color-fg: var(--kb-gray-900);
-    --kb-color-surface: var(--kb-gray-50);
-    --kb-color-border: var(--kb-gray-200);
-    --kb-color-muted: var(--kb-gray-600);
-    --kb-color-accent: var(--kb-blue-600);
-    --kb-color-accent-fg: var(--kb-white);
-    --kb-color-accent-hover: var(--kb-blue-700);
-    --kb-color-danger: var(--kb-red-600);
-    --kb-color-danger-fg: var(--kb-white);
   }
   .preview-label {
     align-self: flex-start;
@@ -75,9 +61,9 @@
   .playground-controls {
     min-width: 0;
     padding: 24px;
-    background: #f2eddb;
+    background: var(--review-plane);
     border-radius: 24px;
-    border: 1px solid #d5d9c5;
+    border: 1px solid var(--review-line);
   }
   .panel-caption {
     display: flex;
@@ -143,7 +129,7 @@
     cursor: pointer;
   }
   .segmented button[aria-pressed="true"] {
-    background: #34664e;
+    background: var(--review-good);
     color: #fff;
   }
   .checks {
@@ -163,7 +149,7 @@
   .checks input {
     width: 20px;
     height: 20px;
-    accent-color: #34664e;
+    accent-color: var(--review-good);
     margin: 0;
   }
   .playground-grid > .example-code {
@@ -177,7 +163,7 @@
     max-width: 480px;
     margin-top: 24px;
     border: 1px solid #8d9983;
-    background: #fffdf5;
+    background: var(--kb-color-bg);
     border-radius: 12px;
     padding: 4px 12px;
   }
@@ -206,13 +192,13 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    border: 1px solid #d5d9c5;
+    border: 1px solid var(--review-line);
     border-radius: 18px;
     padding: 24px;
-    background: #fffdf5;
+    background: var(--kb-color-bg);
   }
   & .component-card:hover {
-    background: #e6eccf;
+    background: var(--review-hover);
     text-decoration: none;
   }
   .component-name {

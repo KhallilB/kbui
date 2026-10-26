@@ -57,8 +57,21 @@ for (const profile of profiles) {
     );
     const state = (name: string) => page.getByRole("button", { name, exact: true });
     assert.equal(await state("With Description").getAttribute("aria-pressed"), "true");
+    await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
+    const initialHistory = await page.evaluate(() => history.length);
+    await page
+      .locator("iframe")
+      .evaluate((frame) => frame.setAttribute("data-history-instance", "retained"));
     await state("With Error").click();
+    await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
     await state("Disabled").click();
+    await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
+    assert.equal(
+      await page.evaluate(() => history.length),
+      initialHistory + 2,
+      "Preview navigation added browser history entries",
+    );
+    assert.equal(await page.locator("iframe").getAttribute("data-history-instance"), "retained");
     await page.goBack();
     await state("With Error").waitFor();
     await page.waitForFunction(
@@ -75,6 +88,17 @@ for (const profile of profiles) {
     assert.match(
       await page.getByRole("region", { name: "Example code", exact: true }).innerText(),
       /disabled/,
+    );
+    await state("With Description").click();
+    await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
+    await state("Disabled").click();
+    await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
+    assert.match(
+      await page
+        .frameLocator("iframe")
+        .locator("html")
+        .evaluate(() => document.URL),
+      /components-input--disabled/,
     );
     await page.goto(`${origin}/components/?component=input&state=missing`);
     assert.match(
@@ -112,6 +136,21 @@ for (const profile of profiles) {
         root.append(button);
       });
     await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
+  });
+  await check("normalized-readiness", async (page) => {
+    await page.route("**/storybook/iframe.html?*", (route) =>
+      route.fulfill({
+        contentType: "text/html",
+        body: `<body><div id="storybook-root"><button>Ready fixture</button></div><script>
+          const url = new URL(location.href);
+          url.searchParams.sort();
+          history.replaceState(null, "", url);
+        </script></body>`,
+      }),
+    );
+    await page.goto(`${origin}/components/?component=input`);
+    await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
+    await page.frameLocator("iframe").getByRole("button", { name: "Ready fixture" }).click();
   });
   await check("slow-retry", async (page) => {
     await page.route("**/storybook/iframe.html?*", (route) =>
@@ -492,7 +531,7 @@ for (const profile of profiles) {
       await page.waitForFunction(
         () =>
           getComputedStyle(document.querySelector(".playground-preview") as Element)
-            .backgroundColor === "rgb(9, 9, 11)",
+            .backgroundColor === "rgb(32, 41, 32)",
       );
       await page.getByLabel("Reduce motion", { exact: true }).check();
       assert.equal(

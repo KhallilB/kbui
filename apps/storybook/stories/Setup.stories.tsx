@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect, userEvent, within } from "storybook/test";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Setup } from "../site/Setup";
 
 const meta = {
@@ -29,6 +29,7 @@ export const Installation: Story = {
     expect(command).not.toHaveTextContent("kbui-tokens");
     await userEvent.click(canvas.getByRole("combobox", { name: "Package manager" }));
     await userEvent.click(await within(document.body).findByRole("option", { name: "Bun" }));
+    await waitFor(() => expect(within(document.body).queryByRole("listbox")).toBeNull());
     expect(command).toHaveTextContent("bun add");
     expect(new URLSearchParams(location.search).get("manager")).toBe("bun");
     expect(canvas.getByRole("link", { name: "Choose your theme" })).toHaveAttribute(
@@ -53,7 +54,9 @@ export const Theming: Story = {
       '<html lang="en">',
     );
     await userEvent.click(canvas.getByRole("combobox", { name: "Theme" }));
+    await within(document.body).findByRole("listbox", { name: "Theme" });
     await userEvent.click(await within(document.body).findByRole("option", { name: "Dark" }));
+    await waitFor(() => expect(within(document.body).queryByRole("listbox")).toBeNull());
     expect(preview).toHaveAttribute("data-theme", "dark");
     expect(canvas.getByRole("region", { name: "Theme code" })).toHaveTextContent(
       'data-theme="dark"',

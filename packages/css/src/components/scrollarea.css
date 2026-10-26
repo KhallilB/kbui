@@ -2,12 +2,22 @@
 .kb-scrollarea {
   position: relative;
   min-width: 0;
+
+  border: 1px solid var(--kb-color-border);
+
+  border-radius: 10px;
+
+  background: var(--kb-material-recessed-face);
+
+  box-shadow: var(--kb-material-field-shadow);
 }
 
 .kb-scrollarea-viewport {
   max-height: var(--_scrollarea-max-height, none);
   overscroll-behavior: contain;
   border-radius: inherit;
+
+  padding: 12px;
 }
 
 .kb-scrollarea-viewport:focus-visible {
@@ -32,6 +42,8 @@
   flex: 1;
   border-radius: var(--kb-radius-full);
   background: var(--kb-color-muted);
+
+  box-shadow: var(--kb-material-scroll-thumb-shadow);
 }
 
 @media (prefers-reduced-motion: reduce) {

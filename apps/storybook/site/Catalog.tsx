@@ -1,9 +1,21 @@
 import entries from "virtual:kbui-catalog";
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import {
+  type ComponentProps,
+  type RefObject,
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from "react";
 import type { ApiBlock, CatalogEntry, CatalogGroup } from "../catalog/types";
 import { CodePanel } from "./CodePanel";
+import { ControlSelect } from "./ControlSelect";
 import { SiteFrame } from "./SiteFrame";
+import { readSiteTheme } from "./site-theme";
+import { type Theme, themeStyle } from "./theme-foundations";
 import "./catalog.css";
+import "./workspace-skin.css";
 
 const groups: ("All" | CatalogGroup)[] = ["All", "Actions", "Forms", "Feedback", "Layout"];
 
@@ -47,7 +59,129 @@ function ApiTable({ name, block }: { name: string; block: Extract<ApiBlock, { ki
   );
 }
 
-function CatalogIndex() {
+export type CatalogAppearance = { theme: Theme; live: boolean };
+
+function appearanceQuery({ theme, live }: CatalogAppearance) {
+  return theme === "light" && !live ? "" : `&theme=${theme}&view=${live ? "live" : "directory"}`;
+}
+function previewGlobals({ theme }: CatalogAppearance) {
+  return `&globals=previewTheme:${theme}`;
+}
+function storybookGlobals({ theme }: CatalogAppearance) {
+  return `&globals=theme:${theme}`;
+}
+
+function CatalogControls({
+  appearance,
+  showView,
+  onChange,
+}: {
+  appearance: CatalogAppearance;
+  showView: boolean;
+  onChange: (value: CatalogAppearance) => void;
+}) {
+  return (
+    <div className="catalog-review-controls">
+      {showView && (
+        <fieldset>
+          <legend>Catalog view</legend>
+          <div>
+            {(
+              [
+                [false, "Directory"],
+                [true, "Live catalog"],
+              ] as const
+            ).map(([live, label]) => (
+              <button
+                key={label}
+                type="button"
+                aria-pressed={appearance.live === live}
+                onClick={() => onChange({ ...appearance, live })}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </fieldset>
+      )}
+      <p>KBUI’s default design. Select any example to check its states.</p>
+    </div>
+  );
+}
+
+function CatalogSpecimen({
+  entry,
+  appearance,
+  storybookRoot,
+}: {
+  entry: CatalogEntry;
+  appearance: CatalogAppearance;
+  storybookRoot: string;
+}) {
+  const id = useId();
+  const [stateId, setStateId] = useState(entry.defaultStoryId);
+  const [failed, setFailed] = useState(false);
+  const markReady = useCallback(() => setFailed(false), []);
+  const selected = entry.stories.find((story) => story.id === stateId) ?? entry.stories[0];
+  if (!selected) return null;
+  return (
+    <section className="catalog-specimen" aria-labelledby={`${id}-title`}>
+      <header>
+        <div>
+          <p className="catalog-card-group">{entry.group}</p>
+          <h2 id={`${id}-title`}>{entry.name}</h2>
+          <p>{entry.description}</p>
+        </div>
+        <a className="plain-link" href={`./?component=${entry.id}${appearanceQuery(appearance)}`}>
+          {entry.name} API and code
+        </a>
+      </header>
+      <div className="catalog-example-picker">
+        <ControlSelect
+          id={`${id}-state`}
+          label={`${entry.name} example`}
+          value={stateId}
+          options={entry.stories.map((story) => ({ value: story.id, label: story.name }))}
+          onChange={(value) => {
+            setStateId(value);
+            setFailed(false);
+          }}
+        />
+      </div>
+      <div
+        className="catalog-specimen-stage"
+        data-theme={appearance.theme}
+        style={themeStyle(appearance.theme)}
+      >
+        <StoryPreview
+          key={`${stateId}`}
+          title={`${entry.name} — ${selected.name} live example`}
+          src={`${storybookRoot}iframe.html?id=${selected.id}&viewMode=story${previewGlobals(appearance)}&embed=true`}
+          layout={previewLayout(entry.id, selected.id)}
+          expanded={false}
+          appearance={appearance}
+          onLoad={markReady}
+          onError={() => setFailed(true)}
+        />
+      </div>
+      {failed && <p role="status">Preview unavailable. Open the example in Storybook.</p>}
+      <a
+        className="plain-link"
+        href={`${storybookRoot}?path=/story/${selected.id}${storybookGlobals(appearance)}`}
+      >
+        Open {entry.name} example in Storybook <span className="link-arrow">↗</span>
+      </a>
+    </section>
+  );
+}
+
+function CatalogIndex({
+  appearance,
+  storybookRoot,
+}: {
+  appearance: CatalogAppearance;
+  storybookRoot: string;
+}) {
   const id = useId();
   const input = useRef<HTMLInputElement>(null);
   const [search, setSearch] = useState("");
@@ -113,18 +247,33 @@ function CatalogIndex() {
           </button>
         )}
       </div>
-      <div className="catalog-grid">
-        {matches.map((entry) => (
-          <a key={entry.id} className="catalog-card" href={`./?component=${entry.id}`}>
-            <span className="catalog-card-group">{entry.group}</span>
-            <h2>
-              {entry.name}
-              <span aria-hidden="true">↗</span>
-            </h2>
-            <p>{entry.description}</p>
-            <span className="catalog-card-count">{entry.stories.length} live examples</span>
-          </a>
-        ))}
+      <div className={appearance.live ? "catalog-specimens" : "catalog-grid"}>
+        {matches.map((entry) =>
+          appearance.live ? (
+            <CatalogSpecimen
+              key={entry.id}
+              entry={entry}
+              appearance={appearance}
+              storybookRoot={storybookRoot}
+            />
+          ) : (
+            <a
+              key={entry.id}
+              className="catalog-card"
+              href={`./?component=${entry.id}${appearanceQuery(appearance)}`}
+            >
+              <span className="catalog-card-group">{entry.group}</span>
+              <h2>
+                {entry.name}
+                <span aria-hidden="true" className="link-arrow">
+                  ↗
+                </span>
+              </h2>
+              <p>{entry.description}</p>
+              <span className="catalog-card-count">{entry.stories.length} live examples</span>
+            </a>
+          ),
+        )}
       </div>
       {matches.length === 0 && (
         <p className="catalog-empty" role="status">
@@ -139,11 +288,30 @@ function previewLayout(component: string, _story: string) {
   if (component === "dialog") return { width: 800, minimum: 360 };
   if (component === "menu") return { width: 520, minimum: 240 };
   if (component === "tooltip") return { width: 520, minimum: 160 };
-  if (component === "grid") return { width: 1120, minimum: 96 };
-  if (component === "panel") return { width: 1120, minimum: 64 };
+  if (component === "grid") return { width: 1120, minimum: 160 };
+  if (component === "panel") return { width: 1120, minimum: 160 };
   if (["input", "card", "callout", "progress", "scrollarea"].includes(component))
-    return { width: 1120, minimum: 64 };
-  return { width: 520, minimum: 64 };
+    return { width: 1120, minimum: 96 };
+  return { width: 520, minimum: 96 };
+}
+
+function PreviewDocument({
+  src,
+  frameRef,
+  ...props
+}: Omit<ComponentProps<"iframe">, "src" | "ref"> & {
+  src: string;
+  frameRef: RefObject<HTMLIFrameElement | null>;
+}) {
+  const initialSrc = useRef(src);
+  const requested = useRef(src);
+  useEffect(() => {
+    if (requested.current === src) return;
+    requested.current = src;
+    // Child navigation must not add joint browser history entries.
+    frameRef.current?.contentWindow?.location.replace(new URL(src, window.location.href).href);
+  }, [frameRef, src]);
+  return <iframe {...props} ref={frameRef} src={initialSrc.current} data-preview-src={src} />;
 }
 
 function StoryPreview({
@@ -151,9 +319,10 @@ function StoryPreview({
   title,
   layout,
   expanded,
-  generation,
-  pending,
-  status,
+  appearance,
+  generation = 0,
+  pending = false,
+  status = "",
   onLoad,
   onSlow,
   onError,
@@ -162,51 +331,96 @@ function StoryPreview({
   title: string;
   layout: { width: number; minimum: number };
   expanded: boolean;
-  generation: number;
-  pending: boolean;
-  status: string;
+  appearance: CatalogAppearance;
+  generation?: number;
+  pending?: boolean;
+  status?: string;
   onLoad: () => void;
-  onSlow: () => void;
+  onSlow?: () => void;
   onError: () => void;
 }) {
   const frame = useRef<HTMLIFrameElement>(null);
+  const initialTheme = useRef(appearance.theme);
+  const frameSrc = src.replace(
+    /(&globals=previewTheme:)(?:light|dark)/,
+    `$1${initialTheme.current}`,
+  );
+  useEffect(() => {
+    const element = frame.current;
+    if (!element || element.dataset.generation !== String(generation)) return;
+    const send = () =>
+      element?.contentWindow?.postMessage(
+        { type: "kbui:theme", theme: appearance.theme },
+        window.location.origin,
+      );
+    const ready = (event: MessageEvent) => {
+      if (
+        event.origin === window.location.origin &&
+        event.source === element?.contentWindow &&
+        event.data?.type === "kbui:theme-ready"
+      )
+        send();
+    };
+    window.addEventListener("message", ready);
+    element?.addEventListener("load", send);
+    send();
+    return () => {
+      window.removeEventListener("message", ready);
+      element?.removeEventListener("load", send);
+    };
+  }, [appearance.theme, generation]);
   const [contentHeight, setContentHeight] = useState(0);
   useEffect(() => {
     const element = frame.current;
     if (
       !element ||
       element.dataset.generation !== String(generation) ||
-      element.src !== new URL(src, window.location.href).href
+      element.dataset.previewSrc !== frameSrc
     )
       return;
-    const timer = window.setTimeout(onSlow, 10000);
+    const timer = window.setTimeout(() => onSlow?.(), 10000);
     let disconnect = () => {};
     const observe = () => {
       disconnect();
       try {
         const doc = element.contentDocument;
         const view = element.contentWindow;
-        if (!doc?.body || !view || doc.URL !== element.src) return;
+        if (!doc?.body || !view) return;
+        const documentUrl = new URL(doc.URL);
+        const requestedUrl = new URL(element.dataset.previewSrc ?? frameSrc, window.location.href);
+        documentUrl.searchParams.sort();
+        requestedUrl.searchParams.sort();
+        if (documentUrl.href !== requestedUrl.href) return;
         let active = true;
         let animation = 0;
         let root: HTMLElement | null = null;
         let ready = false;
         const measure = () => {
           if (!active) return;
-          const next = doc.getElementById("storybook-root");
+          const storyRoot = doc.getElementById("storybook-root");
+          const next =
+            storyRoot?.querySelector<HTMLElement>(
+              ":scope > .component-preview > .component-preview-content",
+            ) ?? storyRoot;
           if (next !== root) {
             if (root) resize.unobserve(root);
             root = next;
             if (root) resize.observe(root);
           }
-          if (!root) return;
+          if (!root || !storyRoot) return;
           if (!ready && (root.childElementCount > 0 || doc.querySelector('[role="dialog"]'))) {
             ready = true;
             window.clearTimeout(timer);
             onLoad();
           }
           const body = view.getComputedStyle(doc.body);
-          const bottom = root.getBoundingClientRect().bottom + view.scrollY;
+          // Intrinsic height excludes viewport centering space.
+          const bottom =
+            root === storyRoot
+              ? root.getBoundingClientRect().bottom + view.scrollY
+              : storyRoot.getBoundingClientRect().top +
+                view.scrollY +
+                root.getBoundingClientRect().height;
           setContentHeight(
             Math.ceil(
               bottom +
@@ -244,21 +458,24 @@ function StoryPreview({
       window.clearTimeout(timer);
       disconnect();
     };
-  }, [src, generation, onLoad, onSlow]);
+  }, [frameSrc, generation, onLoad, onSlow]);
   return (
     <div
       className="catalog-preview-frame"
-      style={{ maxWidth: `calc(${layout.width}px + 2 * var(--preview-inset))` }}
+      data-theme={appearance.theme}
+      style={{
+        ...themeStyle(appearance.theme),
+        maxWidth: `calc(${layout.width}px + 2 * var(--preview-inset))`,
+      }}
     >
-      <iframe
-        // New story gets fresh iframe; preview navigation must not add history entries.
-        key={`${generation}:${src}`}
-        ref={frame}
+      <PreviewDocument
+        key={generation}
+        frameRef={frame}
         aria-busy={pending}
         inert={pending}
         data-generation={generation}
         title={title}
-        src={src}
+        src={frameSrc}
         style={{
           maxWidth: layout.width,
           height: expanded
@@ -279,7 +496,9 @@ function CatalogDetail({
   initialStateId,
   storybookRoot,
   onStateChange,
+  appearance,
 }: {
+  appearance: CatalogAppearance;
   entry: CatalogEntry;
   initialStateId: string | null;
   storybookRoot: string;
@@ -309,7 +528,10 @@ function CatalogDetail({
   return (
     <>
       <div className="catalog-topline">
-        <a href="./" className="plain-link">
+        <a
+          href={appearanceQuery(appearance) ? `./?${appearanceQuery(appearance).slice(1)}` : "./"}
+          className="plain-link"
+        >
           ← All components
         </a>
         <a className="plain-link" href={`${storybookRoot}?path=/docs/${entry.docsId}`}>
@@ -329,7 +551,7 @@ function CatalogDetail({
           {entries.map((component) => (
             <a
               key={component.id}
-              href={`./?component=${component.id}`}
+              href={`./?component=${component.id}${appearanceQuery(appearance)}`}
               aria-current={component.id === entry.id ? "page" : undefined}
             >
               {component.name}
@@ -372,6 +594,7 @@ function CatalogDetail({
           <p role="status">State not found. Choose one of the available examples.</p>
         )}
         <StoryPreview
+          appearance={appearance}
           generation={generation}
           pending={!loaded}
           status={
@@ -386,7 +609,7 @@ function CatalogDetail({
           layout={previewLayout(entry.id, selected.id)}
           expanded={expanded}
           title={`${entry.name} — ${selected.name} live example`}
-          src={`${storybookRoot}iframe.html?id=${encodeURIComponent(selected.id)}&viewMode=story`}
+          src={`${storybookRoot}iframe.html?id=${encodeURIComponent(selected.id)}&viewMode=story${previewGlobals(appearance)}`}
           onLoad={markReady}
           onSlow={markSlow}
           onError={() => {
@@ -395,7 +618,10 @@ function CatalogDetail({
           }}
         />
         <div className="catalog-preview-actions">
-          <a className="plain-link" href={`${storybookRoot}?path=/story/${selected.id}`}>
+          <a
+            className="plain-link"
+            href={`${storybookRoot}?path=/story/${selected.id}${storybookGlobals(appearance)}`}
+          >
             Open example in Storybook
           </a>
           <div className="catalog-preview-tools">
@@ -436,7 +662,7 @@ function CatalogDetail({
             className="plain-link"
             href={`https://github.com/KhallilB/kbui/blob/main/packages/react/README.md#${entry.apiHeading.toLowerCase().replaceAll(" ", "-")}`}
           >
-            React guide ↗
+            React guide <span className="link-arrow">↗</span>
           </a>
         </div>
         {entry.api
@@ -476,28 +702,86 @@ export function Catalog({
   componentId = null,
   stateId = null,
   onStateChange,
+  initialAppearance = { theme: readSiteTheme(), live: false },
+  onAppearanceChange,
 }: {
+  initialAppearance?: CatalogAppearance;
+  onAppearanceChange?: (value: CatalogAppearance) => void;
   siteRoot?: string;
   storybookRoot?: string;
   componentId?: string | null;
   stateId?: string | null;
   onStateChange?: (id: string) => void;
 }) {
+  const [appearance, setAppearance] = useState(initialAppearance);
   const entry = componentId ? entries.find((component) => component.id === componentId) : undefined;
   return (
     <SiteFrame
       current="components"
       className="kbui-catalog"
+      theme={appearance.theme}
+      onThemeChange={(theme) => {
+        const value = { ...appearance, theme };
+        setAppearance(value);
+        onAppearanceChange?.(value);
+      }}
       siteRoot={siteRoot}
       storybookRoot={storybookRoot}
     >
       <main id="main" className="inner-page">
+        <CatalogControls
+          showView={!componentId}
+          appearance={appearance}
+          onChange={(value) => {
+            setAppearance(value);
+            onAppearanceChange?.(value);
+          }}
+        />
+        {!componentId && (
+          <details className="catalog-foundations">
+            <summary>Typography and theme foundations</summary>
+            <section
+              aria-label="Typography and surfaces"
+              className="skin-surface type-specimen"
+              data-theme={appearance.theme}
+              style={themeStyle(appearance.theme)}
+            >
+              <div className="type-specimen-copy">
+                <span className="type-eyebrow">A calmer reading rhythm</span>
+                <h2>Clear at every scale.</h2>
+                <p>
+                  Good interfaces make room for the words that matter. Comfortable text, clear
+                  labels and a steady rhythm help you move with confidence.
+                </p>
+                <p>
+                  Keep <strong>important details</strong> distinct, and let supporting text stay
+                  quiet without disappearing.
+                </p>
+                <small>Helpful context stays easy to read.</small>
+                <p className="type-sample-meta">
+                  Deployment <code>RUN-1048</code> · <strong>04:12</strong> elapsed
+                </p>
+              </div>
+              <section className="type-surface-map" aria-label="Surface hierarchy">
+                <span>Canvas</span>
+                <span>Surface</span>
+                <span>Raised</span>
+                <span>Input well</span>
+              </section>
+            </section>
+            <p className="catalog-foundations-note">
+              Theme applies to this page and every preview, including overlays. All examples use the
+              default KBUI design.
+            </p>
+          </details>
+        )}
         {!componentId ? (
-          <CatalogIndex />
+          <CatalogIndex appearance={appearance} storybookRoot={storybookRoot} />
         ) : entry ? (
           <CatalogDetail
             key={entry.id}
             entry={entry}
+            appearance={appearance}
             initialStateId={stateId}
             storybookRoot={storybookRoot}
             onStateChange={onStateChange}

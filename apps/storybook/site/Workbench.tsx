@@ -82,7 +82,9 @@ export function Playground({ storybookRoot }: { storybookRoot: string }) {
               >
                 Reset
               </button>
-              <a href={docs("Button", storybookRoot)}>API & states ↗</a>
+              <a href={docs("Button", storybookRoot)}>
+                API & states <span className="link-arrow">↗</span>
+              </a>
             </div>
           </div>
           <div className="fields">

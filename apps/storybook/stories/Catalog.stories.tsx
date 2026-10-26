@@ -70,12 +70,12 @@ export const ButtonStates: Story = {
       "./?component=input",
     );
     expect(canvas.getByTitle("Button — Disabled live example")).toHaveAttribute(
-      "src",
-      "./iframe.html?id=components-button--disabled&viewMode=story",
+      "data-preview-src",
+      "./iframe.html?id=components-button--disabled&viewMode=story&globals=previewTheme:light",
     );
     expect(canvas.getByRole("link", { name: "Open example in Storybook" })).toHaveAttribute(
       "href",
-      "./?path=/story/components-button--disabled",
+      "./?path=/story/components-button--disabled&globals=theme:light",
     );
   },
 };
@@ -117,6 +117,7 @@ export const CompactInput: Story = {
     const nextFrame = canvas.getByTitle("Input — With Error live example") as HTMLIFrameElement;
     await new Promise<void>((resolve) => {
       nextFrame.addEventListener("load", () => resolve(), { once: true });
+      nextFrame.dataset.previewSrc = "about:blank";
       nextFrame.src = "about:blank";
     });
     const doc = nextFrame.contentDocument;
@@ -145,6 +146,7 @@ export const AdaptivePreview: Story = {
     expect(frame.getBoundingClientRect().height).toBeLessThanOrEqual(160);
     await new Promise<void>((resolve) => {
       frame.addEventListener("load", () => resolve(), { once: true });
+      frame.dataset.previewSrc = "about:blank";
       frame.src = "about:blank";
     });
     const doc = frame.contentDocument;
@@ -306,6 +308,7 @@ export const StateContinuity: Story = {
     const entrance = canvasElement.querySelector(".catalog-live")?.getAnimations()[0];
     await new Promise<void>((resolve) => {
       frame.addEventListener("load", () => resolve(), { once: true });
+      frame.dataset.previewSrc = "about:blank";
       frame.src = "about:blank";
     });
     const doc = frame.contentDocument;
@@ -331,8 +334,9 @@ export const StateContinuity: Story = {
     expect(getComputedStyle(next).transitionDuration).toContain(reduced ? "0s" : "0.2s");
     await userEvent.click(canvas.getByRole("button", { name: "Expand preview" }));
     await new Promise<void>((resolve) => {
-      next.addEventListener("load", () => resolve(), { once: true });
-      next.src = "about:blank";
+      frame.addEventListener("load", () => resolve(), { once: true });
+      frame.dataset.previewSrc = "about:blank";
+      frame.src = "about:blank";
     });
     const incoming = next.contentDocument;
     if (!incoming?.body) throw new Error("Missing next-state fixture");
@@ -345,5 +349,110 @@ export const StateContinuity: Story = {
     await waitFor(() =>
       expect(next.getBoundingClientRect().height).toBeCloseTo(Math.min(480, innerHeight * 0.6), 0),
     );
+  },
+};
+
+export const DefaultDesign: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "Dark mode" }));
+    await userEvent.click(canvas.getByRole("button", { name: "Live catalog" }));
+    expect(
+      canvas.getByRole("link", { name: "Open Button example in Storybook ↗" }),
+    ).toHaveAttribute("href", "./?path=/story/components-button--primary&globals=theme:dark");
+    const frames = canvasElement.querySelectorAll("iframe");
+    expect(frames).toHaveLength(15);
+    for (const frame of frames) {
+      expect(frame.src).toContain("globals=previewTheme:dark");
+      expect(frame.src).toContain("&embed=true");
+    }
+    expect(canvas.getByRole("link", { name: "Button API and code" })).toHaveAttribute(
+      "href",
+      "./?component=button&theme=dark&view=live",
+    );
+    await userEvent.click(canvas.getByRole("combobox", { name: "Button example" }));
+    const choices = await within(document.body).findByRole("listbox", { name: "Button example" });
+    expect(choices.closest("[data-theme]")).toHaveAttribute("data-theme", "dark");
+    const popup = choices.closest(".control-select-popup");
+    if (!popup) throw new Error("Missing styled example popup");
+    expect(getComputedStyle(popup).backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
+    if (matchMedia("(forced-colors: active)").matches)
+      expect(getComputedStyle(popup).borderTopWidth).toBe("1px");
+    else expect(getComputedStyle(popup).boxShadow).not.toBe("none");
+    await userEvent.click(within(choices).getByRole("option", { name: "Disabled" }));
+    await waitFor(() => expect(within(document.body).queryByRole("listbox")).toBeNull());
+    expect(canvas.getByTitle("Button — Disabled live example")).toHaveAttribute(
+      "data-preview-src",
+      "./iframe.html?id=components-button--disabled&viewMode=story&globals=previewTheme:dark&embed=true",
+    );
+    await userEvent.click(canvas.getByRole("button", { name: "Forms" }));
+    expect(canvasElement.querySelectorAll("iframe")).toHaveLength(1);
+    expect(canvas.getByTitle("Input — Default live example")).toBeInTheDocument();
+    const inputFrame = canvas.getByTitle("Input — Default live example");
+    await userEvent.click(canvas.getByRole("button", { name: "Dark mode" }));
+    expect(canvas.getByTitle("Input — Default live example")).toBe(inputFrame);
+    expect(canvas.queryByRole("button", { name: "Site skin" })).toBeNull();
+    expect(canvas.queryByRole("button", { name: "Current default" })).toBeNull();
+  },
+};
+
+export const DarkReview: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const documentTheme = document.documentElement.dataset.theme;
+    const shell = canvasElement.querySelector(".kbui-catalog");
+    await userEvent.click(canvas.getByRole("button", { name: "Dark mode" }));
+    expect(shell).toHaveAttribute("data-theme", "dark");
+    expect(document.documentElement.dataset.theme).toBe(documentTheme);
+    await userEvent.click(canvas.getByText("Typography and theme foundations", { exact: true }));
+    const specimen = canvas.getByRole("region", { name: "Typography and surfaces" });
+    expect(specimen).toBeVisible();
+    const body = within(specimen).getByText(/Good interfaces make room/);
+    const style = getComputedStyle(body);
+    expect(Number.parseFloat(style.fontSize)).toBeGreaterThanOrEqual(15);
+    expect(
+      Number.parseFloat(style.lineHeight) / Number.parseFloat(style.fontSize),
+    ).toBeGreaterThanOrEqual(1.5);
+    expect(
+      Number.parseFloat(
+        getComputedStyle(within(specimen).getByText("Helpful context stays easy to read."))
+          .fontSize,
+      ),
+    ).toBeGreaterThanOrEqual(13);
+    expect(
+      Number.parseFloat(getComputedStyle(within(specimen).getByText("RUN-1048")).fontSize),
+    ).toBeGreaterThanOrEqual(13);
+    expect(shell).toHaveAttribute("data-theme", "dark");
+    await userEvent.click(canvas.getByRole("button", { name: "Dark mode" }));
+    expect(shell).toHaveAttribute("data-theme", "light");
+    expect(document.documentElement.dataset.theme).toBe(documentTheme);
+    await userEvent.click(canvas.getByRole("button", { name: "Dark mode" }));
+  },
+};
+
+export const DarkDetail: Story = {
+  args: {
+    componentId: "input",
+    stateId: "components-input--with-error",
+    initialAppearance: { theme: "dark", live: false },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvasElement.querySelector(".kbui-catalog")).toHaveAttribute("data-theme", "dark");
+    await userEvent.click(canvas.getByRole("button", { name: "View code" }));
+    expect(canvas.getByRole("region", { name: "Example code" })).toBeVisible();
+    expect(canvas.getByRole("table", { name: "Input API" })).toBeVisible();
+    expect(canvas.getByRole("button", { name: "Copy code" })).toBeEnabled();
+  },
+};
+
+export const LiveCatalogEntrance: Story = {
+  play: async ({ canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole("button", { name: "Live catalog" }));
+    const stage = canvasElement.querySelector(".catalog-specimens");
+    if (!stage) throw new Error("Missing live catalog");
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    expect(getComputedStyle(stage).animationName).toBe(reduced ? "none" : "kbui-poster-arrive");
+    expect(getComputedStyle(stage).transform).toBe("none");
   },
 };

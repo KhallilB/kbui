@@ -1,5 +1,6 @@
 import { Select } from "@base-ui/react/select";
 import { useRef, useState } from "react";
+import { useSiteTheme } from "./SiteFrame";
 import "./control-select.css";
 
 export function ControlSelect<Value extends string>({
@@ -8,13 +9,16 @@ export function ControlSelect<Value extends string>({
   value,
   options,
   onChange,
+  disabled = false,
 }: {
   id: string;
   label: string;
   value: Value;
   options: readonly { value: Value; label: string }[];
   onChange: (value: Value) => void;
+  disabled?: boolean;
 }) {
+  const theme = useSiteTheme();
   const [pointerFocus, setPointerFocus] = useState(false);
   const trigger = useRef<HTMLButtonElement>(null);
   const popup = useRef<HTMLDivElement>(null);
@@ -26,6 +30,7 @@ export function ControlSelect<Value extends string>({
       </label>
       <Select.Root
         modal={false}
+        disabled={disabled}
         value={value}
         items={options}
         onValueChange={(next) => {
@@ -68,6 +73,7 @@ export function ControlSelect<Value extends string>({
         <Select.Portal>
           <Select.Positioner
             className="kbui-site control-select-positioner"
+            data-theme={theme}
             sideOffset={6}
             align="start"
             alignItemWithTrigger={false}
@@ -99,7 +105,7 @@ export function ControlSelect<Value extends string>({
                 return true;
               }}
             >
-              <Select.List>
+              <Select.List aria-labelledby={`${id}-label`}>
                 {options.map((option) => (
                   <Select.Item
                     key={option.value}

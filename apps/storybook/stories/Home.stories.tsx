@@ -61,6 +61,15 @@ export const Navigation: Story = {
       "../setup/",
     );
     expect(canvas.getByRole("region", { name: "Install kbui" })).toBeVisible();
+    for (const link of canvas
+      .getAllByRole("link")
+      .filter((item) => item.textContent?.includes("↗"))) {
+      const arrow = link.querySelector(".link-arrow");
+      expect(arrow).not.toBeNull();
+      if (!arrow) throw new Error("Missing isolated link arrow");
+      expect(getComputedStyle(arrow).display).not.toBe("inline");
+      expect(getComputedStyle(arrow).textDecorationLine).toBe("none");
+    }
     expect(canvas.getByRole("link", { name: "Components" })).toHaveAttribute(
       "href",
       "../components/",

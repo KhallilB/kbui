@@ -58,7 +58,7 @@ export function PlanDemo() {
                 setError("");
               }}
             >
-              Rename ↗
+              Rename <span className="link-arrow">↗</span>
             </Dialog.Trigger>
             <Dialog.Content
               title="Name your day"

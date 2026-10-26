@@ -14,7 +14,7 @@ tokens.color.accent; // "--kb-color-accent"
 
 | Import | File | Contents |
 |---|---|---|
-| `@kbui/tokens/tokens.css` | `dist/tokens.css` | The variables: light values on `:root`, dark values under `[data-theme="dark"]`, and a system-setting fallback |
+| `@kbui/tokens/tokens.css` | `dist/tokens.css` | The variables: complete light values on `:root` and `[data-theme="light"]`, complete dark values under `[data-theme="dark"]`, and a system-setting fallback |
 | `@kbui/tokens` | `dist/tokens.js`, `dist/tokens.d.ts` | `tokens`, a nested read-only object of variable names |
 | `@kbui/tokens/tokens.json` | `tokens.json` | The source file |
 

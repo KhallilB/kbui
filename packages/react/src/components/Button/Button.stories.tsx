@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { expect, within } from "storybook/test";
 import { Button } from "./Button";
 
 const meta = {
@@ -15,7 +16,17 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {};
+export const Primary: Story = {
+  play: async ({ canvasElement }) => {
+    if (window.matchMedia("(forced-colors: active)").matches) return;
+    const button = within(canvasElement).getByRole("button", { name: "Button" });
+    const theme = document.documentElement.dataset.theme;
+    expect(getComputedStyle(button).backgroundColor).toBe(
+      theme === "dark" ? "rgb(242, 161, 132)" : "rgb(180, 70, 43)",
+    );
+    expect(getComputedStyle(button).boxShadow).not.toBe("none");
+  },
+};
 export const Secondary: Story = { args: { variant: "secondary" } };
 export const Ghost: Story = { args: { variant: "ghost" } };
 export const Danger: Story = { args: { variant: "danger" } };

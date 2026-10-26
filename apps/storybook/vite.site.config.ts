@@ -12,6 +12,7 @@ export default defineConfig({
     emptyOutDir: true,
     rolldownOptions: {
       input: {
+        compare: fileURLToPath(new URL("./site/compare/index.html", import.meta.url)),
         setup: fileURLToPath(new URL("./site/setup/index.html", import.meta.url)),
         themes: fileURLToPath(new URL("./site/setup/themes/index.html", import.meta.url)),
         components: fileURLToPath(new URL("./site/components/index.html", import.meta.url)),
