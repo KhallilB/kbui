@@ -29,7 +29,7 @@
     max-width: 600px;
     margin-top: 18px;
     color: var(--muted);
-    line-height: 1.6;
+    line-height: var(--kb-text-leading-body);
   }
   .comparison-note {
     font-size: 12px;
@@ -38,7 +38,7 @@
   }
   .comparison-note p {
     margin-top: 8px;
-    line-height: 1.6;
+    line-height: var(--kb-text-leading-body);
   }
   .comparison-note > span {
     display: block;
@@ -52,64 +52,6 @@
     gap: 20px 32px;
     padding-block: 20px 28px;
     border-top: 1px solid var(--review-line);
-  }
-  .comparison-choice {
-    min-width: 0;
-    margin: 0;
-    padding: 0;
-    border: 0;
-  }
-  .comparison-choice legend {
-    font-size: 11px;
-    color: var(--muted);
-    margin-bottom: 8px;
-  }
-  .comparison-choice > div {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 3px;
-    background: linear-gradient(180deg, var(--review-well-top), var(--review-well-bottom));
-    box-shadow:
-      inset 0 1px 2px var(--review-shadow),
-      inset 0 -1px 0 var(--review-highlight);
-    border: 1px solid var(--review-line);
-    padding: 3px;
-    border-radius: 10px;
-  }
-  .comparison-choice label {
-    position: relative;
-    display: flex;
-    cursor: pointer;
-  }
-  .comparison-choice input {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-    margin: 0;
-  }
-  .comparison-choice label span {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 36px;
-    padding: 6px 13px;
-    font-size: 12px;
-    border: 1px solid transparent;
-    border-radius: 7px;
-  }
-  .comparison-choice input:checked + span {
-    background: linear-gradient(180deg, var(--review-selected-top), var(--review-selected));
-    border-color: var(--review-selected-edge);
-    box-shadow:
-      inset 0 1px 0 var(--review-highlight),
-      inset 0 -1px 0 var(--review-shadow),
-      0 1px 2px var(--review-shadow);
-    color: var(--review-selected-fg);
-  }
-  .comparison-choice input:focus-visible + span {
-    outline: 2px solid var(--review-ring);
-    outline-offset: 3px;
   }
   .comparison-previews {
     display: grid;
@@ -189,7 +131,7 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 12px;
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
     font-weight: 600;
   }
   .workspace-brand b,
@@ -235,25 +177,6 @@
     letter-spacing: 0.08em;
     padding: 0 12px 8px;
   }
-  .workspace-sidebar button {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    min-height: 40px;
-    border: 0;
-    border-radius: 6px;
-    background: transparent;
-    color: var(--kb-color-muted);
-    padding: 8px 12px;
-    text-align: left;
-    font-size: 12px;
-    cursor: pointer;
-  }
-  .workspace-sidebar button[aria-current="page"] {
-    color: var(--kb-color-fg);
-    background: var(--kb-color-surface);
-    font-weight: 600;
-  }
   .workspace-sidebar button > span {
     font-size: 16px;
   }
@@ -294,7 +217,7 @@
   }
   .workspace-heading h2 + p {
     margin-top: 8px;
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
   }
   .settings-fields {
     border: 0;
@@ -329,53 +252,18 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
   }
-  .workspace-select {
-    display: flex;
-    flex-direction: column;
-    gap: var(--kb-space-1);
-    font-size: var(--kb-size-sm);
-    font-weight: 500;
-  }
-  .workspace-select select {
-    width: 100%;
-    min-width: 0;
-    height: var(--kb-input-height-md);
-    padding-inline: var(--kb-space-3);
-    background: var(--kb-color-bg);
-    color: var(--kb-color-fg);
-    border: 1px solid var(--kb-color-border);
-    border-radius: var(--kb-input-radius);
-    font-size: var(--kb-size-md);
+  .workspace-sidebar .kb-button {
+    justify-content: flex-start;
+    inline-size: 100%;
+    min-block-size: 44px;
+    text-align: start;
   }
   .preference-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    min-height: 52px;
-    cursor: pointer;
+    min-block-size: 52px;
   }
   .preference-row + .preference-row {
     padding-top: 16px;
     border-top: 1px solid var(--kb-color-border);
-  }
-  .preference-row strong {
-    display: block;
-    font-size: 14px;
-    font-weight: 500;
-  }
-  .preference-row small {
-    display: block;
-    color: var(--kb-color-muted);
-    font-size: 12px;
-    margin-top: 4px;
-  }
-  .preference-row input {
-    width: 18px;
-    height: 18px;
-    flex: none;
-    accent-color: var(--kb-color-accent);
-    margin: 0;
   }
   .workspace-context {
     flex-direction: row;
@@ -460,18 +348,10 @@
     width: 200px;
   }
   .queue-filters {
-    border: 0;
-    margin: 0;
-    min-width: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    padding: 0 24px 16px;
-    border-bottom: 1px solid var(--kb-color-border);
-  }
-  .queue-filters [aria-pressed="true"] {
-    background: var(--kb-color-surface);
-    box-shadow: inset 0 0 0 1px var(--kb-color-border);
+    inline-size: fit-content;
+    max-inline-size: calc(100% - 48px);
+    min-inline-size: 0;
+    margin: 0 24px 12px;
   }
   .queue-count {
     font-size: 10px;
@@ -567,22 +447,6 @@
     flex-wrap: wrap;
     gap: 16px;
   }
-  .comparison-foot details label {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    min-height: 44px;
-    cursor: pointer;
-  }
-  .comparison-foot button {
-    border: 1px solid var(--review-line);
-    border-radius: 8px;
-    background: transparent;
-    padding: 10px 12px;
-    color: var(--ink);
-    cursor: pointer;
-    font-size: 12px;
-  }
   @container (max-width: 850px) {
     .workspace-body {
       grid-template-columns: 1fr;
@@ -633,10 +497,8 @@
       width: 100%;
     }
     .queue-filters {
-      border: 0;
-      margin: 0;
-      min-width: 0;
-      padding-inline: 16px;
+      margin-inline: 16px;
+      max-inline-size: calc(100% - 32px);
     }
     .workspace-topbar {
       padding-inline: 16px;
@@ -676,10 +538,6 @@
     .comparison-controls {
       gap: 16px;
     }
-    .comparison-choice label span {
-      min-height: 44px;
-      padding-inline: 10px;
-    }
     .comparison-intro a {
       min-height: 44px;
     }
@@ -693,15 +551,9 @@
     }
   }
   @media (forced-colors: active) {
-    .comparison-choice input:checked + span,
-    .workspace-sidebar [aria-current="page"],
-    .queue-filters [aria-pressed="true"] {
+    .workspace-sidebar [aria-current="page"] {
       outline: 2px solid Highlight;
       outline-offset: -3px;
-    }
-    .comparison-choice input:focus-visible + span {
-      outline-color: Highlight;
-      outline-offset: 3px;
     }
   }
 }

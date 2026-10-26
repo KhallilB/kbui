@@ -29,7 +29,7 @@ All props accepted by a native button or Base UI's `Button` also work. To render
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
-| `startAdornment` / `endAdornment` | `ReactNode` | | Optional control content; provide accessible names on actions |
+| `startContent` / `endContent` | `ReactNode` | | Optional control content; provide accessible names on actions |
 | `label` | `string` | required | Visible label and accessible name |
 | `visuallyHidden` | `boolean` | | Hides the label visually but keeps it for screen readers |
 | `description` | `string` | | Help text below the field |
@@ -41,7 +41,7 @@ Other native input props, including `value` and `defaultValue`, pass through to 
 
 ### Search composition
 
-Use `Input type="search"` with adornments and a `Button` when search needs a visible clear action. Search stays an input recipe; filtering, submission, debounce, reset and result announcements belong to the application.
+Use `Input type="search"` with content slots and a `Button` when search needs a visible clear action. Search stays an input recipe; filtering, submission, debounce, reset and result announcements belong to the application.
 
 ```tsx
 import { useRef, useState } from "react";
@@ -58,7 +58,7 @@ function SearchExample() {
       name="q"
       value={query}
       onValueChange={setQuery}
-      endAdornment={query ? (
+      endContent={query ? (
         <Button type="button" size="sm" variant="ghost" aria-label="Clear search"
           onClick={() => { setQuery(""); control.current?.focus(); }}>
           <span aria-hidden="true">×</span>
@@ -69,7 +69,7 @@ function SearchExample() {
 }
 ```
 
-The labelled field owns its accessible name, description and error. Give action adornments their own accessible names; hide decorative icons with `aria-hidden`. Clear uses `type="button"` and returns focus to the native input. Hide editing actions for disabled/read-only fields. The stable input shell preserves the native node, value and focus when adornments change. See Input's canonical `WithAdornments` story for the search icon and working interaction.
+The labelled field owns its accessible name, description and error. Give actions their own accessible names; hide decorative icons with `aria-hidden`. Clear uses `type="button"` and returns focus to the native input. Hide editing actions for disabled/read-only fields. The stable input shell preserves the native node, value and focus when slot content changes. See Input's canonical **Icons and actions** story for the search icon and working interaction.
 
 ## Dialog
 

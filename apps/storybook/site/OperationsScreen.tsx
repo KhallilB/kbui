@@ -1,5 +1,17 @@
-import { Badge, Button, Callout, Card, Dialog, Input, Progress, Stat, Status } from "@kbui/react";
+import {
+  Badge,
+  Button,
+  Callout,
+  Card,
+  Dialog,
+  Input,
+  Progress,
+  RadioGroup,
+  Stat,
+  Status,
+} from "@kbui/react";
 import { useEffect, useRef, useState } from "react";
+import { LinkArrow } from "./LinkArrow";
 
 const initialJobs = [
   {
@@ -142,7 +154,8 @@ export function OperationsScreen({
 }) {
   const portal = useRef<HTMLDivElement>(null);
   const lastTrigger = useRef<HTMLButtonElement>(null);
-  const filters = useRef<HTMLFieldSetElement>(null);
+  const filters = useRef<HTMLDivElement>(null);
+  const queryControl = useRef<HTMLInputElement>(null);
   const [selected, setSelected] = useState<string | null>(null);
   const job = model.jobs.find((item) => item.id === selected);
   const complete = model.jobs.filter((item) => item.state === "complete").length;
@@ -198,31 +211,61 @@ export function OperationsScreen({
             <p>Latest runs from your workspace.</p>
           </div>
           <Input
+            ref={queryControl}
             label="Search jobs"
+            type="search"
             visuallyHidden
             placeholder="Search jobs…"
             value={model.query}
-            onChange={(event) => model.setQuery(event.target.value)}
+            onValueChange={model.setQuery}
+            startContent={
+              <svg
+                aria-hidden="true"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              >
+                <circle cx="8.5" cy="8.5" r="5.5" />
+                <path d="m13 13 4 4" />
+              </svg>
+            }
+            endContent={
+              model.query ? (
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="ghost"
+                  aria-label="Clear job search"
+                  onClick={() => {
+                    model.setQuery("");
+                    queryControl.current?.focus();
+                  }}
+                >
+                  <span aria-hidden="true">×</span>
+                </Button>
+              ) : undefined
+            }
           />
         </div>
-        <fieldset className="queue-filters" ref={filters}>
-          <legend className="kb-sr-only">Filter jobs</legend>
-          {[
-            ["all", "All jobs"],
-            ["running", "Running"],
-            ["blocked", "Needs attention"],
-          ].map(([value, label]) => (
-            <Button
-              key={value}
-              variant="ghost"
-              size="sm"
-              aria-pressed={model.filter === value}
-              onClick={() => model.setFilter(value ?? "all")}
-            >
-              {label}
-            </Button>
-          ))}
-        </fieldset>
+        <RadioGroup
+          className="queue-filters"
+          ref={filters}
+          label="Filter jobs"
+          visuallyHidden
+          appearance="segmented"
+          value={model.filter}
+          onValueChange={(value) => {
+            if (value === "all" || value === "running" || value === "blocked")
+              model.setFilter(value);
+          }}
+        >
+          <RadioGroup.Item value="all">All jobs</RadioGroup.Item>
+          <RadioGroup.Item value="running">Running</RadioGroup.Item>
+          <RadioGroup.Item value="blocked">Needs attention</RadioGroup.Item>
+        </RadioGroup>
         {model.phase === "error" ? (
           <Callout
             tone="danger"
@@ -292,10 +335,7 @@ export function OperationsScreen({
                               setSelected(item.id);
                             }}
                           >
-                            Inspect{" "}
-                            <span aria-hidden="true" className="link-arrow">
-                              ↗
-                            </span>
+                            Inspect <LinkArrow />
                           </Button>
                         </td>
                       </tr>
@@ -327,7 +367,7 @@ export function OperationsScreen({
           finalFocus={() =>
             lastTrigger.current?.isConnected
               ? lastTrigger.current
-              : filters.current?.querySelector("button")
+              : filters.current?.querySelector<HTMLElement>('[role="radio"]')
           }
           title={job?.name}
           description={job ? `${job.id} · ${job.environment} · ${job.owner}` : ""}

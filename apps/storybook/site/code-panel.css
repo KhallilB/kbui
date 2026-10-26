@@ -27,7 +27,7 @@
     background: transparent;
     color: var(--ink);
     cursor: pointer;
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
     border-radius: 6px;
     transition-property: color, background-color, transform;
     transition-duration: 140ms;
@@ -66,7 +66,7 @@
     animation: kbui-code-reveal 160ms ease-out both;
   }
   .example-code-content:focus-visible {
-    outline: 2px solid var(--review-ring, #34664e);
+    outline: 2px solid var(--kb-color-ring);
     outline-offset: -2px;
   }
   .example-code-bar .example-code-toggle {
@@ -126,7 +126,7 @@
     font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
     line-height: 1.65;
   }
   .example-code [data-syntax="keyword"] {

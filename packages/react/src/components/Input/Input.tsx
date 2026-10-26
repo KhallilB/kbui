@@ -19,10 +19,10 @@ export type InputProps = Omit<BaseInput.Props, "size" | "className"> & {
   error?: string;
   /** Control height scale. */
   size?: InputSize;
-  /** Decorative content before the control text. */
-  startAdornment?: ReactNode;
-  /** Content after the control text, such as a named action. */
-  endAdornment?: ReactNode;
+  /** Content before control text, such as icons. */
+  startContent?: ReactNode;
+  /** Content after control text, such as a named action. */
+  endContent?: ReactNode;
 };
 
 export function Input({
@@ -33,8 +33,8 @@ export function Input({
   size = "md",
   disabled,
   className,
-  startAdornment,
-  endAdornment,
+  startContent,
+  endContent,
   ...props
 }: InputProps) {
   const invalid = Boolean(error);
@@ -44,8 +44,8 @@ export function Input({
         "input",
         {
           size,
-          "start-adornment": Boolean(startAdornment),
-          "end-adornment": Boolean(endAdornment),
+          "start-adornment": Boolean(startContent),
+          "end-adornment": Boolean(endContent),
         },
         className,
       )}
@@ -56,9 +56,9 @@ export function Input({
         {label}
       </Field.Label>
       <div className="kb-input-shell">
-        {startAdornment && <span className="kb-input-start">{startAdornment}</span>}
+        {startContent && <span className="kb-input-start">{startContent}</span>}
         <BaseInput {...props} className="kb-input-control" />
-        {endAdornment && <span className="kb-input-end">{endAdornment}</span>}
+        {endContent && <span className="kb-input-end">{endContent}</span>}
       </div>
       {description ? (
         <Field.Description className="kb-input-description">{description}</Field.Description>
