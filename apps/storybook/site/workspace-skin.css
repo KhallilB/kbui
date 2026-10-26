@@ -7,7 +7,6 @@
   .workspace-sidebar-note > span:last-child,
   .section-intro p,
   .workspace-context p,
-  .preference-row small,
   .release-title,
   .queue-heading p,
   .queue-empty p {
@@ -52,19 +51,6 @@
     background: color-mix(in srgb, var(--kb-color-bg) 65%, var(--kb-color-surface));
     border-right-color: var(--kb-material-soft-border);
     border-bottom-left-radius: 15px;
-  }
-  .workspace-sidebar button {
-    line-height: var(--kb-text-leading-control);
-    min-height: 42px;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    font-size: var(--kb-text-small-size);
-  }
-  .workspace-sidebar button[aria-current="page"] {
-    color: var(--kb-color-accent);
-    background: var(--kb-material-raised-face);
-    border-color: var(--kb-material-raised-border);
-    box-shadow: var(--kb-material-raised-shadow);
   }
   .workspace-content {
     padding: 36px;
@@ -111,72 +97,12 @@
   .settings-grid {
     gap: 22px;
   }
-  .workspace-select {
-    gap: 7px;
-  }
-  .workspace-select {
-    font-size: var(--kb-text-small-size);
-    font-weight: 600;
-  }
-  .workspace-select select {
-    height: var(--kb-input-height-md);
-    font-size: 14px;
-    font-weight: 400;
-    border-color: var(--kb-material-control-border);
-    background: var(--kb-material-recessed-face);
-    box-shadow: var(--kb-material-field-shadow);
-    letter-spacing: -0.01em;
-  }
-  .workspace-select select:focus-visible {
-    outline: 2px solid var(--kb-color-ring);
-    outline-offset: 2px;
-    border-color: var(--kb-color-ring);
-    background: var(--kb-color-bg);
-  }
   .preference-row {
     min-height: 58px;
   }
   .preference-row + .preference-row {
     border-top-color: var(--kb-material-soft-border);
     padding-top: 20px;
-  }
-  .preference-row strong {
-    font-weight: 600;
-  }
-  .preference-row small {
-    line-height: 1.6;
-  }
-  .preference-row input {
-    appearance: none;
-    position: relative;
-    width: 20px;
-    height: 20px;
-    border: 1px solid var(--kb-material-control-border);
-    border-radius: 6px;
-    background: var(--kb-material-recessed-face);
-    box-shadow: var(--kb-material-field-shadow);
-    cursor: pointer;
-  }
-  .preference-row input:checked {
-    background:
-      linear-gradient(180deg, var(--kb-material-soft-sheen), transparent), var(--kb-color-accent);
-    border-color: color-mix(in srgb, var(--kb-color-accent) 85%, var(--kb-color-fg));
-    box-shadow: var(--kb-material-accent-shadow);
-  }
-  .preference-row input:checked::after {
-    content: "";
-    position: absolute;
-    width: 5px;
-    height: 9px;
-    left: 6px;
-    top: 3px;
-    border: solid var(--kb-color-accent-fg);
-    border-width: 0 1.8px 1.8px 0;
-    transform: rotate(45deg);
-  }
-  .preference-row input:disabled {
-    cursor: default;
-    opacity: 0.5;
   }
   .workspace-context {
     --kb-card-padding: 18px 24px;
@@ -235,23 +161,6 @@
   .queue-heading .kb-input {
     width: 220px;
   }
-  .queue-filters {
-    width: fit-content;
-    max-width: calc(100% - 48px);
-    margin: 0 24px 12px;
-    padding: 4px;
-    gap: 4px;
-    border: 1px solid var(--kb-color-border);
-    border-radius: 11px;
-    background: var(--kb-material-recessed-face);
-    box-shadow: var(--kb-material-field-shadow);
-  }
-  .queue-filters [aria-pressed="true"] {
-    color: var(--kb-color-accent);
-    background: var(--kb-material-raised-face);
-    border-color: var(--kb-material-raised-border);
-    box-shadow: var(--kb-material-raised-shadow);
-  }
   .queue-count {
     padding-block: 12px;
     font-size: var(--kb-text-small-size);
@@ -280,29 +189,8 @@
     margin-top: 5px;
   }
   @media (hover: hover) and (pointer: fine) {
-    .workspace-sidebar button:not([aria-current="page"]):hover {
-      background: color-mix(in srgb, var(--kb-color-accent) 7%, var(--kb-color-bg));
-      color: var(--kb-color-fg);
-    }
-    .workspace-select select:hover:not(:disabled) {
-      border-color: var(--kb-color-muted);
-    }
     .queue-scroll tbody tr:hover {
       background: color-mix(in srgb, var(--kb-color-surface) 50%, var(--kb-color-bg));
-    }
-  }
-  .queue-filters .kb-button[aria-pressed="true"]:active,
-  .workspace-sidebar button[aria-current="page"]:active {
-    box-shadow: var(--kb-material-pressed-shadow);
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .workspace-sidebar button,
-    .preference-row input {
-      transition:
-        background-color 140ms ease,
-        border-color 140ms ease,
-        box-shadow 140ms ease,
-        color 140ms ease;
     }
   }
   @container (max-width: 580px) {
@@ -333,24 +221,6 @@
     }
     .queue-heading .kb-input {
       width: 100%;
-    }
-    .queue-filters {
-      margin-inline: 16px;
-      max-width: calc(100% - 32px);
-    }
-  }
-  @media (forced-colors: active) {
-    .preference-row input {
-      appearance: auto;
-      box-shadow: none;
-    }
-    .preference-row input:checked::after {
-      content: none;
-    }
-    .queue-filters,
-    .workspace-sidebar button {
-      box-shadow: none;
-      background-image: none;
     }
   }
 }
