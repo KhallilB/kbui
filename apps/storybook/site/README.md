@@ -53,7 +53,7 @@ Spacing has three local foundations: `--page-gutter` for shared page edges, `--s
 
 ## Catalog source contract
 
-The catalog covers all 19 public components. `catalog/source.ts` uses Storybook's own CSF parser to derive the 100 example names and IDs from colocated component stories. It reads API tables and usage blocks from `packages/react/README.md`; `catalog/definitions.ts` holds only grouping, short descriptions and API section mapping. The source test compares the catalog against public exports and rejects malformed API rows or missing guide entries.
+The catalog covers all 21 public components. `catalog/source.ts` uses Storybook's own CSF parser to derive the 121 example names and IDs from colocated component stories. It reads API tables and usage blocks from `packages/react/README.md`; `catalog/definitions.ts` holds only grouping, short descriptions and API section mapping. The source test compares the catalog against public exports and rejects malformed API rows or missing guide entries.
 
 A build-time virtual module supplies that data to the site and Storybook without bundling the Node parser into the browser. Guide and component-story changes invalidate the module during development. `build:site` ends with `verify:catalog`, which checks every story and documentation ID against the built Storybook index. An ID mismatch fails the build.
 
@@ -137,7 +137,7 @@ Tokens rebind their aliases in both explicit theme containers, including nested 
 
 ### Complete component catalog
 
-Open `/components/?view=live`. All 19 public components and 100 canonical Storybook examples use the shipped default. Directory/live controls, search, filters, state selection, API summaries and code remain available. Theme changes send a same-origin, exact-parent message to each preview; the Storybook root updates without remounting the story. Existing input values and interaction state survive. Reload preview intentionally resets interaction state and retains the selected theme. Readiness compares canonical document URLs, preserving origin/path/query guards while accepting equivalent query order and encoding. Root theme scope covers portaled Dialog, Menu and Tooltip. Live overview uses `embed=true`, preventing automated story playback from pulling focus or opening overlays on load.
+Open `/components/?view=live`. All 21 public components and 121 canonical Storybook examples use the shipped default. Directory/live controls, search, filters, state selection, API summaries and code remain available. Theme changes send a same-origin, exact-parent message to each preview; the Storybook root updates without remounting the story. Existing input values and interaction state survive. Reload preview intentionally resets interaction state and retains the selected theme. Readiness compares canonical document URLs, preserving origin/path/query guards while accepting equivalent query order and encoding. Root theme scope covers portaled Dialog, Menu and Tooltip. Live overview uses `embed=true`, preventing automated story playback from pulling focus or opening overlays on load.
 
 **Typography and theme foundations** shows body copy, headings, supporting text, an identifier and four surface levels. Body text is 15px/1.6; helpers 13px; controls 14px; standard headings 22px/18px, with larger page titles. Inline identifiers remain at least 13px. Local system sans/mono stacks require no font download.
 
@@ -159,7 +159,7 @@ CATALOG_PREVIEW_URL=http://127.0.0.1:4182 CATALOG_THEME=dark bun run --filter @k
 
 `verify:depth` checks resting material roles and native hover/press states across 15 families in both themes; it complements visual review rather than scoring perceived depth.
 
-`verify:previews` checks all 100 examples at 320px/1280px, gallery theme propagation, content fitting, overlay bounds, code/copy and site panels. Automated checks do not replace human screen-reader or owner visual acceptance. These checks establish local behavior; publication and deployment are separate steps. The shared tokens and component CSS own this default.
+`verify:previews` checks all 121 examples at 320px/1280px, gallery theme propagation, content fitting, overlay bounds, code/copy and site panels. Automated checks do not replace human screen-reader or owner visual acceptance. These checks establish local behavior; publication and deployment are separate steps. The shared tokens and component CSS own this default.
 
 
 ### Shared controls and edge coverage

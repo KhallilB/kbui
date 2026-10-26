@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [storybookTest({ configDir: ".storybook" })],
   optimizeDeps: {
     include: [
+      "@kbui/react > @base-ui/react/number-field",
       "@kbui/react > @base-ui/react/radio",
       "@kbui/react > @base-ui/react/radio-group",
       "@kbui/react > @base-ui/react/select",

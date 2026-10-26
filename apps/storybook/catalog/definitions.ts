@@ -35,6 +35,10 @@ export const definitions: Record<string, Definition> = {
     group: "Actions",
     description: "Dialogs with managed focus.",
   },
+  FileInput: {
+    group: "Forms",
+    description: "Retained files, native selection and removal focus.",
+  },
   Grid: {
     group: "Layout",
     description: "Responsive columns and simple stacks.",
@@ -49,6 +53,10 @@ export const definitions: Record<string, Definition> = {
     description: "A compact set of overflow actions.",
     section: "Overlays and actions",
     row: true,
+  },
+  NumberField: {
+    group: "Forms",
+    description: "Numeric editing with coordinated step controls.",
   },
   Panel: {
     group: "Layout",

@@ -21,6 +21,11 @@ export {
   type DialogProps,
   type DialogTriggerProps,
 } from "./components/Dialog/Dialog";
+export {
+  FileInput,
+  type FileInputItem,
+  type FileInputProps,
+} from "./components/FileInput/FileInput";
 export { Grid, type GridProps } from "./components/Grid/Grid";
 export { Input, type InputProps, type InputSize } from "./components/Input/Input";
 export {
@@ -30,6 +35,11 @@ export {
   type MenuProps,
   type MenuTriggerProps,
 } from "./components/Menu/Menu";
+export {
+  NumberField,
+  type NumberFieldProps,
+  type NumberFieldSize,
+} from "./components/NumberField/NumberField";
 export {
   Panel,
   type PanelBodyProps,
