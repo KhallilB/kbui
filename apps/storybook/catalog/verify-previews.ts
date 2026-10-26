@@ -291,6 +291,10 @@ try {
               throw new Error("Clipboard differs from selected example");
           }
           if (["dialog", "menu", "tooltip"].includes(entry.id)) {
+            if (entry.id === "menu") {
+              const trigger = frame.getByRole("button", { name: "Actions", exact: true });
+              if ((await trigger.getAttribute("aria-expanded")) !== "true") await trigger.click();
+            }
             if (entry.id === "tooltip")
               await frame.getByRole("button", { name: "Stop", exact: true }).hover();
             if (story.id.endsWith("--confirm"))
