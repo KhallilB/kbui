@@ -7,7 +7,6 @@ type Definition = {
   row?: boolean;
 };
 export const definitions: Record<string, Definition> = {
-  SearchInput: { group: "Forms", description: "Labelled search queries with a clear action." },
   Badge: {
     group: "Feedback",
     description: "Static labels and metadata.",

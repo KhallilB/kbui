@@ -46,7 +46,6 @@ export {
 } from "./components/Panel/Panel";
 export { Progress, type ProgressProps } from "./components/Progress/Progress";
 export { ScrollArea, type ScrollAreaProps } from "./components/ScrollArea/ScrollArea";
-export { SearchInput, type SearchInputProps } from "./components/SearchInput/SearchInput";
 export { Stat, type StatProps, type StatSize } from "./components/Stat/Stat";
 export {
   Status,

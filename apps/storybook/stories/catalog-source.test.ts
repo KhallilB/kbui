@@ -227,3 +227,18 @@ test("default playground example is a direct import and Button", () => {
     'import { Button } from "@kbui/react";\n\n<Button variant="primary" size="md">Save changes</Button>',
   );
 });
+
+test("search stays an Input adornment composition with complete generated dependencies", () => {
+  const entries = loadCatalogSources();
+  expect(entries.find((entry) => entry.name === "SearchInput")).toBeUndefined();
+  const recipe = entries
+    .find((entry) => entry.name === "Input")
+    ?.stories.find((story) => story.id === "components-input--with-adornments");
+  expect(recipe).toBeDefined();
+  expect(recipe?.code).toContain("function SearchExample(");
+  expect(recipe?.code).toContain('type="search"');
+  expect(recipe?.code).toContain('aria-label="Clear search"');
+  expect(recipe?.code).toContain("control.current?.focus()");
+  expect(recipe?.snippet).toContain("useRef");
+  expect(recipe?.snippet).not.toContain("SearchInput");
+});

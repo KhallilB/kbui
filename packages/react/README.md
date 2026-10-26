@@ -9,33 +9,6 @@ import { Button, Dialog, Input } from "@kbui/react";
 
 Requires `react` and `react-dom` 19 in the consuming project.
 
-## SearchInput
-
-A controlled search query. The component renders a native `type="search"` input using Input field styling, a decorative search icon and a KBUI Button clear action. Filtering, submission, debounce and result announcements belong to the consumer.
-
-| Prop | Type | Default | Notes |
-|---|---|---|---|
-| `label` | `string` | required | Visible label and accessible name |
-| `value` | `string` | required | Controlled query; empty string means no query |
-| `onValueChange` | `(value: string) => void` | required | Receives typing and clear requests |
-| `clearLabel` | `string` | `"Clear search"` | Localizable accessible name |
-| `disabled` / `readOnly` | `boolean` | `false` | Prevent edits and hide clear action |
-| `description` / `error` | `string` | | Associated helper and validation text |
-| `visuallyHidden` | `boolean` | `false` | Hide label visually |
-| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Input height |
-| `name` / `form` / `required` | native input props | | Native form submission and constraint validation |
-| `ref` | `Ref<HTMLInputElement>` | | Native search input |
-| `className` | `string` | | Field wrapper class |
-
-```tsx
-function SearchExample() {
-  const [query, setQuery] = useState("");
-  return <SearchInput label="Search components" name="q" value={query} onValueChange={setQuery} />;
-}
-```
-
-Import `useState` from React and `SearchInput` from `@kbui/react`. Clear requests an empty query and restores input focus without submitting the form. Empty, disabled and read-only fields expose no clear button. As a controlled field, form reset belongs to its owner; update the query in the form reset handler. SearchInput inherits Input tokens and light/dark themes.
-
 ## Button
 
 | Prop | Type | Default | Notes |
@@ -65,6 +38,38 @@ All props accepted by a native button or Base UI's `Button` also work. To render
 | `className` | `string` | | Applied to the wrapper, not the input element |
 
 Other native input props, including `value` and `defaultValue`, pass through to the input. Base UI's `onValueChange` is also supported.
+
+### Search composition
+
+Use `Input type="search"` with adornments and a `Button` when search needs a visible clear action. Search stays an input recipe; filtering, submission, debounce, reset and result announcements belong to the application.
+
+```tsx
+import { useRef, useState } from "react";
+import { Button, Input } from "@kbui/react";
+
+function SearchExample() {
+  const [query, setQuery] = useState("");
+  const control = useRef<HTMLInputElement>(null);
+  return (
+    <Input
+      ref={control}
+      label="Search components"
+      type="search"
+      name="q"
+      value={query}
+      onValueChange={setQuery}
+      endAdornment={query ? (
+        <Button type="button" size="sm" variant="ghost" aria-label="Clear search"
+          onClick={() => { setQuery(""); control.current?.focus(); }}>
+          <span aria-hidden="true">×</span>
+        </Button>
+      ) : undefined}
+    />
+  );
+}
+```
+
+The labelled field owns its accessible name, description and error. Give action adornments their own accessible names; hide decorative icons with `aria-hidden`. Clear uses `type="button"` and returns focus to the native input. Hide editing actions for disabled/read-only fields. The stable input shell preserves the native node, value and focus when adornments change. See Input's canonical `WithAdornments` story for the search icon and working interaction.
 
 ## Dialog
 
