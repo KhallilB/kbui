@@ -79,7 +79,7 @@ const preview: Preview = {
           : undefined;
       const layout = ["grid", "panel", "scrollarea"].includes(component ?? "")
         ? "layout"
-        : ["input", "card", "callout", "progress"].includes(component ?? "")
+        : ["input", "select", "card", "callout", "progress"].includes(component ?? "")
           ? "surface"
           : "compact";
       return (

@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
-import { chromium, expect } from "playwright/test";
+import { chromium, expect, webkit } from "playwright/test";
+import { chooseRadio, radioChoice } from "./native-controls.ts";
 
 const origin = process.env.CATALOG_PREVIEW_URL ?? "http://127.0.0.1:4202";
 const browser = await chromium.launch();
@@ -17,10 +18,10 @@ try {
   await frame("Default")
     .locator("html")
     .evaluate((root) => (root.dataset.instance = "original"));
-  await page.getByRole("button", { name: "With Error", exact: true }).click();
+  await chooseRadio(page, "Example state", "With Error");
   await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
   await input("With Error").fill("error@example.com");
-  await page.getByRole("button", { name: "Default", exact: true }).click();
+  await chooseRadio(page, "Example state", "Default");
   await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
   assert.equal(
     await input("Default").inputValue(),
@@ -54,8 +55,8 @@ try {
   await input("Default").focus();
   const state = new URL(page.url()).searchParams.get("state");
   await page
-    .getByRole("switch", { name: "Dark mode" })
-    .evaluate((control) => (control as HTMLInputElement).click());
+    .getByLabel("Dark mode", { exact: true })
+    .evaluate((button) => (button as HTMLElement).click());
   await expect(frame("Default").locator("html")).toHaveAttribute("data-theme", "dark");
   assert.equal(
     await frame("Default").locator("html").getAttribute("data-instance"),
@@ -88,11 +89,13 @@ try {
     "History, theme and reload: selection, focus and unrelated drafts preserved; reload resets selected document.",
   );
   await page.goto(`${origin}/components/?component=button&view=directory`);
-  const states = page.locator(".catalog-states button");
+  const states = page
+    .getByRole("radiogroup", { name: "Example state", exact: true })
+    .getByRole("radio");
   const count = await states.count();
   assert.ok(count > 6, "Bounded-cache probe needs more states than capacity");
   for (let index = 0; index < count; index++) {
-    await states.nth(index).click();
+    await states.nth(index).locator("xpath=ancestor::label[1]").click();
     await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute("aria-busy", "false");
     assert.ok(
       (await page.locator(".catalog-preview-frame iframe").count()) <= 6,
@@ -118,13 +121,13 @@ try {
       body: '<html><body><div id="storybook-root"><input aria-label="Late autofocus" autofocus></div></body></html>',
     });
   });
-  await page.getByRole("button", { name: "With Description", exact: true }).click();
+  await chooseRadio(page, "Example state", "With Description");
   await requested;
   const old = page.locator('iframe[title="Input — Default live example"]');
   await expect(old).toHaveAttribute("data-visible", "true");
   await expect(old).toHaveAttribute("inert");
-  await page.getByRole("button", { name: "With Error", exact: true }).click();
-  const chosen = page.getByRole("button", { name: "With Error", exact: true });
+  await chooseRadio(page, "Example state", "With Error");
+  const chosen = radioChoice(page, "Example state", "With Error");
   await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute("aria-busy", "false");
   const scroll = await page.evaluate(() => scrollY);
   release();
@@ -147,7 +150,127 @@ try {
   console.log(
     "Rapid selection: late A cannot override B, autofocus hidden frame, or scroll parent.",
   );
+  await page.unrouteAll({ behavior: "wait" });
+  for (const width of [320, 1280]) {
+    for (const theme of ["light", "dark"]) {
+      await page.setViewportSize({ width, height: 900 });
+      await page.goto(`${origin}/components/?theme=${theme}`);
+      await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute(
+        "aria-busy",
+        "false",
+      );
+      assert.equal(await page.locator("iframe").count(), 1, "Default browser loaded all examples");
+      assert.equal(await page.evaluate(() => scrollY), 0, "Initial preview stole scroll");
+      const components = page.getByRole("navigation", { name: "Browse components" });
+      await components.getByRole("link", { name: "Input", exact: true }).click();
+      await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute(
+        "aria-busy",
+        "false",
+      );
+      await input("Default").fill("browser@example.com");
+      await chooseRadio(page, "Example state", "With Error");
+      await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute(
+        "aria-busy",
+        "false",
+      );
+      await input("With Error").fill("remembered-error@example.com");
+      await components.getByRole("link", { name: "Button", exact: true }).click();
+      await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute(
+        "aria-busy",
+        "false",
+      );
+      await components.getByRole("link", { name: "Input", exact: true }).click();
+      await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute(
+        "aria-busy",
+        "false",
+      );
+      await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute(
+        "title",
+        "Input — With Error live example",
+      );
+      assert.equal(
+        await input("With Error").inputValue(),
+        "remembered-error@example.com",
+        "Component browsing erased selected state's draft",
+      );
+      assert.equal(
+        new URL(page.url()).searchParams.get("state"),
+        "components-input--with-error",
+        "Component browsing forgot selected state in URL",
+      );
+      const search = page.getByRole("searchbox", { name: "Search components" });
+      await search.fill("unmatched component");
+      await page.getByRole("button", { name: "Clear search" }).click();
+      await expect(search).toBeFocused();
+      await expect(search).toHaveValue("");
+      assert.equal(
+        await input("Default").inputValue(),
+        "browser@example.com",
+        "Search remounted inspector",
+      );
+      assert.equal(await frame("Default").locator("html").getAttribute("data-theme"), theme);
+      assert.equal(
+        await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),
+        false,
+        "Focused browser overflowed page",
+      );
+    }
+  }
+  console.log(
+    "Focused browser: one initial document; cross-component drafts, clear focus, both themes and mobile/desktop fit verified.",
+  );
   await page.close();
 } finally {
   await browser.close();
+}
+for (const engine of [chromium, webkit]) {
+  const recipeBrowser = await engine.launch();
+  try {
+    const page = await recipeBrowser.newPage({ viewport: { width: 567, height: 900 } });
+    await page.goto(
+      `${origin}/components/?component=input&state=components-input--with-adornments`,
+    );
+    await expect(page.getByRole("radio", { name: "Icons and actions", exact: true })).toBeChecked();
+    await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute(
+      "data-preview-src",
+      /id=components-input--with-icons-and-actions&/,
+    );
+    await expect(page.getByText(/no longer exists/)).toHaveCount(0);
+    assert.equal(
+      new URL(page.url()).searchParams.get("state"),
+      "components-input--with-adornments",
+      "Legacy recipe navigation rewrote its shareable URL",
+    );
+    console.log(
+      `${engine.name()}: legacy Input recipe URL selects canonical icons/actions without recovery.`,
+    );
+    await page.goto(
+      `${origin}/components/?component=input&state=components-input--with-icons-and-actions`,
+    );
+    await page.waitForFunction(() => {
+      const frame = document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]');
+      const doc = frame?.contentDocument;
+      return (
+        frame &&
+        doc?.fonts.status === "loaded" &&
+        frame.getAttribute("aria-busy") === "false" &&
+        doc.documentElement.scrollHeight <= frame.clientHeight + 1
+      );
+    });
+    const dimensions = await page
+      .locator('iframe[data-current="true"]')
+      .evaluate((frame: HTMLIFrameElement) => ({
+        height: frame.clientHeight,
+        content: frame.contentDocument?.documentElement.scrollHeight ?? Infinity,
+      }));
+    assert.ok(
+      dimensions.content <= dimensions.height + 1,
+      `${engine.name()} recipe retained vertical scrollbar`,
+    );
+    console.log(
+      `${engine.name()}567px: Input icons/actions recipe fits settled document height without vertical scrollbar.`,
+    );
+  } finally {
+    await recipeBrowser.close();
+  }
 }

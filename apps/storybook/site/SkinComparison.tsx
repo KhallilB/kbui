@@ -1,3 +1,4 @@
+import { Button, Checkbox, RadioGroup } from "@kbui/react";
 import { useState } from "react";
 import { BackArrow, LinkArrow } from "./LinkArrow";
 import { OperationsScreen, useOperations } from "./OperationsScreen";
@@ -7,38 +8,6 @@ import { readSiteTheme } from "./site-theme";
 import { themeStyle } from "./theme-foundations";
 import "./skin-comparison.css";
 import "./workspace-skin.css";
-
-function Choice<T extends string>({
-  label,
-  value,
-  options,
-  onChange,
-}: {
-  label: string;
-  value: T;
-  options: readonly (readonly [T, string])[];
-  onChange: (value: T) => void;
-}) {
-  return (
-    <fieldset className="comparison-choice">
-      <legend>{label}</legend>
-      <div>
-        {options.map(([key, text]) => (
-          <label key={key}>
-            <input
-              type="radio"
-              name={label}
-              value={key}
-              checked={value === key}
-              onChange={() => onChange(key)}
-            />
-            <span>{text}</span>
-          </label>
-        ))}
-      </div>
-    </fieldset>
-  );
-}
 
 export function SkinComparison() {
   const [screen, setScreen] = useState<"settings" | "operations">("settings");
@@ -84,15 +53,17 @@ export function SkinComparison() {
           </div>
         </header>
         <div className="comparison-controls">
-          <Choice
+          <RadioGroup
             label="Screen"
             value={screen}
-            onChange={setScreen}
-            options={[
-              ["settings", "Settings"],
-              ["operations", "Operations"],
-            ]}
-          />
+            appearance="segmented"
+            onValueChange={(value) => {
+              if (value === "settings" || value === "operations") setScreen(value);
+            }}
+          >
+            <RadioGroup.Item value="settings">Settings</RadioGroup.Item>
+            <RadioGroup.Item value="operations">Operations</RadioGroup.Item>
+          </RadioGroup>
         </div>
         <div className="comparison-previews">
           <section className="comparison-pane" data-theme={theme} aria-label="Workspace preview">
@@ -116,20 +87,22 @@ export function SkinComparison() {
               <div className="workspace-body">
                 <aside className="workspace-sidebar" aria-label="Workspace navigation">
                   <p>WORKSPACE</p>
-                  <button
+                  <Button
                     type="button"
+                    variant={screen === "operations" ? "secondary" : "ghost"}
                     aria-current={screen === "operations" ? "page" : undefined}
                     onClick={() => setScreen("operations")}
                   >
                     <span aria-hidden="true">▦</span> Operations
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     type="button"
+                    variant={screen === "settings" ? "secondary" : "ghost"}
                     aria-current={screen === "settings" ? "page" : undefined}
                     onClick={() => setScreen("settings")}
                   >
                     <span aria-hidden="true">⚙</span> Settings
-                  </button>
+                  </Button>
                   <div className="workspace-sidebar-note">
                     <span className="connection-dot" /> Local demo
                     <span>Nothing sent or stored.</span>
@@ -154,23 +127,17 @@ export function SkinComparison() {
           <details>
             <summary>Explore edge cases</summary>
             <div>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={failNext}
-                  onChange={(event) => setFailNext(event.target.checked)}
-                />{" "}
-                Fail next save
-              </label>
-              <button
+              <Checkbox label="Fail next save" checked={failNext} onCheckedChange={setFailNext} />
+              <Button
                 type="button"
+                variant="secondary"
                 onClick={() => {
                   setScreen("operations");
                   operations.setPhase("error");
                 }}
               >
                 Show queue error
-              </button>
+              </Button>
               <span>Also try an empty workspace name or a search with no results.</span>
             </div>
           </details>

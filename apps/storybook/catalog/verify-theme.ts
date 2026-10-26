@@ -8,7 +8,7 @@ try {
     await page.goto(`${origin}/components/?component=input&skin=current&theme=light`);
     const toggle = page
       .getByRole("navigation", { name: "Main navigation" })
-      .getByRole("switch", { name: "Dark mode" });
+      .getByLabel("Dark mode", { exact: true });
     if (new URL(page.url()).searchParams.has("skin")) throw new Error("Legacy skin URL remains");
     if (await page.getByRole("button", { name: "Site skin", exact: true }).count())
       throw new Error("Skin selector remains");
@@ -29,9 +29,8 @@ try {
     if (!(await toggle.isChecked())) throw new Error("Toggle state missing");
     if (!(await toggle.evaluate((element) => element === document.activeElement)))
       throw new Error("Toggle lost focus");
-    const duration = await toggle
-      .locator("..")
-      .locator(".kb-switch-thumb")
+    const duration = await page
+      .locator(".theme-toggle .kb-switch-thumb")
       .evaluate((element) => getComputedStyle(element).transitionDuration);
     if (duration !== (reducedMotion === "reduce" ? "0s" : "0.22s"))
       throw new Error(`Unexpected thumb motion: ${duration}`);
@@ -50,7 +49,7 @@ try {
     await page.goto(`${origin}/compare/?theme=light`);
     const name = page.getByRole("textbox", { name: "Workspace name" });
     await name.fill("A retained draft");
-    await page.getByRole("switch", { name: "Dark mode", exact: true }).click();
+    await page.getByLabel("Dark mode", { exact: true }).click();
     if ((await name.inputValue()) !== "A retained draft")
       throw new Error("Theme reset workspace draft");
     await page.reload();
@@ -65,7 +64,7 @@ try {
     if ((await primary.getAttribute("data-variant")) !== "danger")
       throw new Error("Dark navigation theme broke dropdown selection");
     for (const theme of ["light", "dark"]) {
-      await page.goto(`${origin}/components/?theme=${theme}&view=live`);
+      await page.goto(`${origin}/components/?theme=${theme}&view=overview`);
       const picker = page.getByRole("combobox", { name: "Button example", exact: true });
       await picker.click();
       const list = page.getByRole("listbox", { name: "Button example", exact: true });
