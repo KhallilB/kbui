@@ -10,37 +10,33 @@
   --review-selected-edge: #29372a;
   --review-selected-fg: #fffdf5;
   --review-good: #34664e;
-  --review-ring: #34664e;
   --review-well-top: #e9e7d6;
   --review-well-bottom: #f3efdf;
   --review-highlight: rgb(255 255 255 / 0.7);
   --review-shadow: rgb(48 59 49 / 0.14);
   --review-code-hover: #e8e4d4;
-  --kb-color-ring: var(--review-ring);
   line-height: 1.65;
   color-scheme: light;
   .site-footer > span,
   .site-footer > div {
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
   }
   .comparison-intro a,
   .comparison-note,
   .comparison-note > span,
-  .comparison-choice legend,
-  .comparison-choice label span,
   .preview-caption,
   .comparison-foot,
   .comparison-foot button {
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
     line-height: 1.5;
   }
   .site-header nav {
-    font-size: 14px;
+    font-size: var(--kb-text-control-size);
   }
   .catalog-card p,
   .catalog-specimen header p:last-child {
-    font-size: 15px;
-    line-height: 1.6;
+    font-size: var(--kb-text-body-size);
+    line-height: var(--kb-text-leading-body);
   }
   .catalog-card h2,
   .catalog-specimen h2 {
@@ -52,17 +48,11 @@
       .catalog-source,
       .catalog-preview-status,
       .catalog-card-count,
-      .catalog-review-controls legend,
       .catalog-review-controls p,
       .catalog-example-picker
     ) {
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
     line-height: 1.5;
-  }
-  .catalog-review-controls button,
-  .catalog-groups button,
-  .catalog-states button {
-    font-weight: 500;
   }
 }
 
@@ -70,7 +60,6 @@
   --cream: #171e19;
   --ink: #e8ebdf;
   --muted: #b3bdae;
-  --rust: #f2a184;
   --review-paper: #263129;
   --review-plane: #202a23;
   --review-line: #4f5e50;
@@ -81,7 +70,6 @@
   --review-selected-edge: #b3c6a1;
   --review-selected-fg: #1c281d;
   --review-good: #a7c9a4;
-  --review-ring: #c1d7a6;
   --review-well-top: #131a15;
   --review-well-bottom: #1a241c;
   --review-highlight: rgb(255 255 255 / 0.07);
@@ -126,7 +114,7 @@
     padding-block: 16px;
     min-height: 44px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: var(--kb-text-control-size);
     font-weight: 500;
   }
   .type-specimen {
@@ -142,7 +130,7 @@
     display: block;
     margin-bottom: 12px;
     color: var(--kb-color-muted);
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
     font-weight: 500;
   }
   .type-specimen-copy h2 {
@@ -155,7 +143,7 @@
   }
   .type-sample-meta {
     margin-top: 20px;
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
     font-variant-numeric: tabular-nums;
   }
   .type-surface-map {
@@ -163,7 +151,7 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px;
     margin-top: 28px;
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
   }
   .type-surface-map span {
     min-height: 72px;
@@ -190,7 +178,7 @@
   }
   .catalog-foundations-note {
     margin-block: 16px;
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
     color: var(--muted);
     max-width: 72ch;
   }

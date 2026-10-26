@@ -291,6 +291,10 @@ try {
               throw new Error("Clipboard differs from selected example");
           }
           if (["dialog", "menu", "tooltip"].includes(entry.id)) {
+            if (entry.id === "menu") {
+              const trigger = frame.getByRole("button", { name: "Actions", exact: true });
+              if ((await trigger.getAttribute("aria-expanded")) !== "true") await trigger.click();
+            }
             if (entry.id === "tooltip")
               await frame.getByRole("button", { name: "Stop", exact: true }).hover();
             if (story.id.endsWith("--confirm"))
@@ -513,7 +517,7 @@ try {
     }));
     if (
       keyboardRing.width !== "2px" ||
-      keyboardRing.offset !== "2px" ||
+      keyboardRing.offset !== "-2px" ||
       keyboardRing.label?.trim() !== "Danger"
     )
       throw new Error(`Keyboard select/focus failed: ${JSON.stringify(keyboardRing)}`);
@@ -526,7 +530,7 @@ try {
     await page.getByRole("option", { name: "Large", exact: true }).click();
     await page.getByLabel("Disabled", { exact: true }).check();
     await page.getByLabel("Reduce motion", { exact: true }).check();
-    await page.getByRole("button", { name: "Dark theme", exact: true }).click();
+    await chooseRadio(page, "Preview theme", "Dark");
     await checkPanel(
       page.locator(".example-code"),
       samples.playground[
