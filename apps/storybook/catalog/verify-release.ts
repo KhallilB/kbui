@@ -342,7 +342,8 @@ for (const profile of profiles) {
       );
       await page.getByRole("button", { name: "View code", exact: true }).click();
       const iframe = page.locator("iframe");
-      const identity = await iframe.elementHandle();
+      const stage = page.locator(".catalog-preview-frame");
+      const identity = await stage.elementHandle();
       assert.ok(identity);
       const height = await iframe.evaluate((element) => element.getBoundingClientRect().height);
       const toolbar = page.locator(".example-code-bar");
@@ -362,7 +363,7 @@ for (const profile of profiles) {
         await page.getByRole("button", { name: "With Error", exact: true }).click();
         await page.getByText("Loading live example…", { exact: true }).waitFor();
         assert.equal(
-          await iframe.evaluate((element, previous) => element === previous, identity),
+          await stage.evaluate((element, previous) => element === previous, identity),
           true,
         );
         assert.ok(
@@ -393,7 +394,7 @@ for (const profile of profiles) {
         );
       } finally {
         release();
-        await page.unroute(pattern);
+        await page.unrouteAll({ behavior: "wait" });
       }
       await page.getByRole("button", { name: "Expand preview", exact: true }).click();
       await page.waitForFunction(() =>

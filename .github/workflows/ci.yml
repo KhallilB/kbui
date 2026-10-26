@@ -1,17 +1,58 @@
-name: ci
+name: CI
 on:
   push:
     branches: [main]
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   check:
+    name: Build, lint and unit tests
     runs-on: ubuntu-latest
+    outputs:
+      browser: ${{ steps.scope.outputs.browser }}
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
       - uses: jdx/mise-action@v2
       - run: bun install --frozen-lockfile
-      - run: bunx playwright install --with-deps chromium
+      - id: scope
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: bun scripts/ci-scope.ts "$BASE_SHA" "$HEAD_SHA"
       - run: bun run check
-      - run: bun run test:stories
+      - name: Compile documentation without browsers
+        if: steps.scope.outputs.browser != 'true'
+        run: bun run --filter @kbui/storybook build-storybook
+
+  browser:
+    name: Validate site
+    needs: check
+    if: needs.check.outputs.browser == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --ipc=host
+    defaults:
+      run:
+        shell: bash
+    env:
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+      CF_SEND_TELEMETRY: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned Bun
+        run: npm install --global "$(node -p "require('./package.json').packageManager")"
+      - name: Trust checkout in container
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - run: bun install --frozen-lockfile
+      - run: bun run build
+      - run: bun run validate:site

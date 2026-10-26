@@ -251,7 +251,8 @@ function StoryPreview({
       style={{ maxWidth: `calc(${layout.width}px + 2 * var(--preview-inset))` }}
     >
       <iframe
-        key={generation}
+        // New story gets fresh iframe; preview navigation must not add history entries.
+        key={`${generation}:${src}`}
         ref={frame}
         aria-busy={pending}
         inert={pending}

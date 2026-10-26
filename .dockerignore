@@ -5,3 +5,9 @@
 .claude
 docs
 .env*
+
+.internal
+.codex
+.agents
+[Cc][Ll][Aa][Uu][Dd][Ee].[Mm][Dd]
+CLAUDE.local.md

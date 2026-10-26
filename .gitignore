@@ -2,11 +2,16 @@ node_modules/
 dist/
 storybook-static/
 coverage/
-.claude/worktrees/
-.claude/history-backups/
-.claude/settings.local.json
 *.log
 .DS_Store
 .env*
 *.tsbuildinfo
 .infigraph/
+
+# Local instructions, settings, and private documentation.
+.claude/
+.codex/
+.agents/
+[Cc][Ll][Aa][Uu][Dd][Ee].[Mm][Dd]
+CLAUDE.local.md
+/.internal/

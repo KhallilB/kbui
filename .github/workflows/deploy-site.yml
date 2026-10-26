@@ -1,20 +1,21 @@
-name: Deploy kbui site
+name: Validate and deploy kbui site
 
 on:
   push:
     branches: [main]
-    paths: &site-paths
+    paths:
       - 'apps/storybook/**'
       - 'packages/**'
       - 'deployment/site/**'
       - 'scripts/site-stage*'
+      - 'scripts/validate-site.sh'
       - '.github/workflows/deploy-site.yml'
       - 'package.json'
       - 'bun.lock'
       - 'tsconfig*.json'
       - 'mise.toml'
-  pull_request:
-    paths: *site-paths
+      - '!**/*.md'
+      - 'packages/react/README.md'
   workflow_dispatch:
 
 permissions:
@@ -29,33 +30,27 @@ env:
 
 jobs:
   build:
+    name: Validate production artifact
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --ipc=host
+    defaults:
+      run:
+        shell: bash
+    env:
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
     steps:
       - uses: actions/checkout@v4
-      - uses: jdx/mise-action@v2
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22.23.0'
+      - name: Install pinned Bun
+        run: npm install --global "$(node -p "require('./package.json').packageManager")"
+      - name: Trust checkout in container
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - run: bun install --frozen-lockfile
-      - run: npm ci --prefix deployment/site
-      - run: npm test --prefix deployment/site
-      - run: bunx playwright install --with-deps chromium webkit
       - run: bun run check
-      - run: bun run test:stories
-      - run: bun run --cwd apps/storybook test:site
-      - run: bun run --cwd apps/storybook build:site
-      - run: bun scripts/site-stage.ts
-      - name: Test the public path
-        shell: bash
-        run: |
-          python3 -m http.server 4175 --bind 127.0.0.1 --directory deployment/site/public &
-          site_server_pid=$!
-          trap 'kill "$site_server_pid"' EXIT
-          curl --fail --retry 8 --retry-connrefused --retry-delay 1 http://127.0.0.1:4175/ > /dev/null
-          CATALOG_PREVIEW_URL=http://127.0.0.1:4175 bun run --cwd apps/storybook verify:release
-      - run: npm run build --prefix deployment/site
-      - run: npm run check --prefix deployment/site
+      - run: bun run validate:site
       - uses: actions/upload-artifact@v4
         with:
           name: kbui-site-${{ github.sha }}
@@ -64,6 +59,7 @@ jobs:
           retention-days: 14
 
   deploy:
+    name: Deploy production artifact
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest

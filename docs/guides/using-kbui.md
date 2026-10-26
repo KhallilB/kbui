@@ -86,7 +86,7 @@ Add this command to the consumer build or check script. It requires installed Re
 
 ## Installing by path while you work on kbui
 
-[Decision 0003](../decisions/0003-local-path-installs.md) describes this setup. It works only on a machine that has kbui checked out next to the project, so do not commit it to a project that builds in CI.
+This setup works only on a machine that has kbui checked out next to the project, so do not commit it to a project that builds in CI.
 
 1. Build kbui. Package exports point at `dist/` folders, which are not committed.
 

@@ -17,6 +17,7 @@
     "build": "bun run --filter @kbui/tokens build && bun run --filter @kbui/css build && bun run --filter @kbui/react build",
     "test": "bun run --filter './packages/*' test && bun test scripts apps/storybook/stories",
     "test:stories": "bun run --filter @kbui/storybook test",
+    "validate:site": "bash scripts/validate-site.sh",
     "test:pack": "bun test ./scripts/pack.check.ts",
     "typecheck": "bun run --filter '@kbui/*' typecheck && tsc --noEmit -p tsconfig.json",
     "lint": "biome check .",
