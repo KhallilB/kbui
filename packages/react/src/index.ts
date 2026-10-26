@@ -60,6 +60,7 @@ export {
   type StatusProps,
   type StatusTone,
 } from "./components/Status/Status";
+export { Switch, type SwitchProps } from "./components/Switch/Switch";
 export {
   Toolbar,
   type ToolbarButtonProps,

@@ -23,9 +23,9 @@ export const Directory: Story = {
     if (!heading || !panel) throw new Error("Missing catalog entrance surfaces");
     expect(getComputedStyle(heading).animationName).toBe(reduced ? "none" : "kbui-poster-rise");
     expect(getComputedStyle(panel).animationName).toBe(reduced ? "none" : "kbui-poster-arrive");
-    expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent("18 of 18");
+    expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent("19 of 19");
     await userEvent.click(canvas.getByRole("button", { name: "Forms" }));
-    expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent("4 of 18");
+    expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent("5 of 19");
     expect(canvas.getByRole("link", { name: /Input.*Labelled fields/ })).toHaveAttribute(
       "href",
       "./?component=input",
@@ -39,7 +39,7 @@ export const Directory: Story = {
     ).toBeVisible();
     await userEvent.click(canvas.getByRole("button", { name: "Clear filters" }));
     expect(canvas.getByRole("searchbox", { name: "Search components" })).toHaveFocus();
-    expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent("18 of 18");
+    expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent("19 of 19");
   },
 };
 export const ButtonStates: Story = {
@@ -361,7 +361,7 @@ export const DefaultDesign: Story = {
       canvas.getByRole("link", { name: "Open Button example in Storybook ↗" }),
     ).toHaveAttribute("href", "./?path=/story/components-button--primary&globals=theme:dark");
     const frames = canvasElement.querySelectorAll("iframe");
-    expect(frames).toHaveLength(18);
+    expect(frames).toHaveLength(19);
     for (const frame of frames) {
       expect(frame.src).toContain("globals=previewTheme:dark");
       expect(frame.src).toContain("&embed=true");
@@ -386,7 +386,7 @@ export const DefaultDesign: Story = {
       "./iframe.html?id=components-button--disabled&viewMode=story&globals=previewTheme:dark&embed=true",
     );
     await userEvent.click(canvas.getByRole("button", { name: "Forms" }));
-    expect(canvasElement.querySelectorAll("iframe")).toHaveLength(4);
+    expect(canvasElement.querySelectorAll("iframe")).toHaveLength(5);
     expect(canvas.getByTitle("Input — Default live example")).toBeInTheDocument();
     const inputFrame = canvas.getByTitle("Input — Default live example");
     await userEvent.click(canvas.getByRole("button", { name: "Dark mode" }));
