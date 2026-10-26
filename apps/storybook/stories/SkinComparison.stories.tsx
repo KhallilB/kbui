@@ -22,7 +22,7 @@ export const Settings: Story = {
     expect(page.getByText("Enter a workspace name.")).toBeVisible();
     expect(name).toHaveFocus();
     await userEvent.type(name, "Northstar Studio ");
-    await userEvent.click(page.getByRole("button", { name: "Dark mode" }));
+    await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
     expect(page.getByRole("textbox", { name: "Workspace name" })).toBe(name);
     expect(name).toHaveValue("Northstar Studio ");
     await userEvent.click(page.getByRole("button", { name: "Save changes" }));
@@ -36,7 +36,7 @@ export const Settings: Story = {
       "data-theme",
       "dark",
     );
-    await userEvent.click(page.getByRole("button", { name: "Dark mode" }));
+    await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
     expect(page.getByRole("region", { name: "Workspace preview" })).toHaveAttribute(
       "data-theme",
       "light",
@@ -114,11 +114,11 @@ export const ThemePreservesState: Story = {
     const page = within(canvasElement);
     const name = page.getByRole("textbox", { name: "Workspace name" });
     await userEvent.type(name, " together");
-    await userEvent.click(page.getByRole("button", { name: "Dark mode" }));
+    await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
     expect(name).toHaveValue("Northstar together");
     await userEvent.click(page.getByRole("radio", { name: "Operations" }));
     await userEvent.type(page.getByRole("textbox", { name: "Search jobs" }), "Database");
-    await userEvent.click(page.getByRole("button", { name: "Dark mode" }));
+    await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
     expect(page.getByRole("textbox", { name: "Search jobs" })).toHaveValue("Database");
     expect(page.getByRole("status", { name: "Queue results" })).toHaveTextContent("1 job");
   },
@@ -128,7 +128,7 @@ export const DarkOperations: Story = {
   play: async ({ canvasElement }) => {
     const page = within(canvasElement);
     await userEvent.click(page.getByRole("radio", { name: "Operations" }));
-    await userEvent.click(page.getByRole("button", { name: "Dark mode" }));
+    await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
     expect(page.getAllByRole("table", { name: "Workspace jobs" })).toHaveLength(1);
     expect(page.getByRole("region", { name: "Workspace preview" })).toHaveAttribute(
       "data-theme",
@@ -149,9 +149,9 @@ export const ControlStates: Story = {
     expect(getComputedStyle(news).outlineWidth).toBe("2px");
     await userEvent.keyboard(" ");
     expect(news).not.toBeChecked();
-    await userEvent.click(page.getByRole("button", { name: "Dark mode" }));
+    await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
     expect(page.getByRole("checkbox", { name: /^Product news/ })).not.toBeChecked();
-    await userEvent.click(page.getByRole("button", { name: "Dark mode" }));
+    await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
     expect(page.getByRole("button", { name: "Save changes" })).toBeEnabled();
   },
 };
@@ -159,7 +159,7 @@ export const ControlStates: Story = {
 export const SettingsDropdowns: Story = {
   play: async ({ canvasElement }) => {
     const page = within(canvasElement);
-    await userEvent.click(page.getByRole("button", { name: "Dark mode" }));
+    await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
     await userEvent.click(page.getByRole("combobox", { name: "Timezone" }));
     const zones = await within(document.body).findByRole("listbox", { name: "Timezone" });
     expect(zones.closest("[data-theme]")).toHaveAttribute("data-theme", "dark");
@@ -172,7 +172,7 @@ export const SettingsDropdowns: Story = {
     await userEvent.click(page.getByRole("button", { name: "Save changes" }));
     expect(page.getByRole("combobox", { name: "Timezone" })).toBeDisabled();
     await waitFor(() => expect(page.getByText("Changes saved for this session.")).toBeVisible());
-    await userEvent.click(page.getByRole("button", { name: "Dark mode" }));
+    await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
     expect(page.getByRole("combobox", { name: "Activity digest" })).toHaveTextContent("Daily");
   },
 };

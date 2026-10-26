@@ -358,7 +358,7 @@ export const StateContinuity: Story = {
 export const DefaultDesign: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await userEvent.click(canvas.getByRole("button", { name: "Dark mode" }));
+    await userEvent.click(canvas.getByRole("switch", { name: "Dark mode" }));
     await userEvent.click(canvas.getByRole("button", { name: "Live catalog" }));
     expect(
       canvas.getByRole("link", { name: "Open Button example in Storybook ↗" }),
@@ -392,7 +392,7 @@ export const DefaultDesign: Story = {
     expect(canvasElement.querySelectorAll("iframe")).toHaveLength(5);
     expect(canvas.getByTitle("Input — Default live example")).toBeInTheDocument();
     const inputFrame = canvas.getByTitle("Input — Default live example");
-    await userEvent.click(canvas.getByRole("button", { name: "Dark mode" }));
+    await userEvent.click(canvas.getByRole("switch", { name: "Dark mode" }));
     expect(canvas.getByTitle("Input — Default live example")).toBe(inputFrame);
     expect(canvas.queryByRole("button", { name: "Site skin" })).toBeNull();
     expect(canvas.queryByRole("button", { name: "Current default" })).toBeNull();
@@ -404,7 +404,7 @@ export const DarkReview: Story = {
     const canvas = within(canvasElement);
     const documentTheme = document.documentElement.dataset.theme;
     const shell = canvasElement.querySelector(".kbui-catalog");
-    await userEvent.click(canvas.getByRole("button", { name: "Dark mode" }));
+    await userEvent.click(canvas.getByRole("switch", { name: "Dark mode" }));
     expect(shell).toHaveAttribute("data-theme", "dark");
     expect(document.documentElement.dataset.theme).toBe(documentTheme);
     await userEvent.click(canvas.getByText("Typography and theme foundations", { exact: true }));
@@ -426,10 +426,10 @@ export const DarkReview: Story = {
       Number.parseFloat(getComputedStyle(within(specimen).getByText("RUN-1048")).fontSize),
     ).toBeGreaterThanOrEqual(13);
     expect(shell).toHaveAttribute("data-theme", "dark");
-    await userEvent.click(canvas.getByRole("button", { name: "Dark mode" }));
+    await userEvent.click(canvas.getByRole("switch", { name: "Dark mode" }));
     expect(shell).toHaveAttribute("data-theme", "light");
     expect(document.documentElement.dataset.theme).toBe(documentTheme);
-    await userEvent.click(canvas.getByRole("button", { name: "Dark mode" }));
+    await userEvent.click(canvas.getByRole("switch", { name: "Dark mode" }));
   },
 };
 

@@ -54,8 +54,8 @@ try {
   await input("Default").focus();
   const state = new URL(page.url()).searchParams.get("state");
   await page
-    .getByRole("button", { name: "Dark mode" })
-    .evaluate((button) => (button as HTMLButtonElement).click());
+    .getByRole("switch", { name: "Dark mode" })
+    .evaluate((control) => (control as HTMLInputElement).click());
   await expect(frame("Default").locator("html")).toHaveAttribute("data-theme", "dark");
   assert.equal(
     await frame("Default").locator("html").getAttribute("data-instance"),
