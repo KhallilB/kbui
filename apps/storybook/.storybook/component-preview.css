@@ -29,6 +29,11 @@
   max-inline-size: 400px;
 }
 
+.component-preview[data-component="select"] > .component-preview-content {
+  max-inline-size: 400px;
+  padding-block-end: 200px;
+}
+
 .component-preview[data-component="callout"] > .component-preview-content {
   max-inline-size: 640px;
 }

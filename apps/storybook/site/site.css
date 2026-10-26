@@ -3,18 +3,15 @@
 .kbui-site {
   --cream: #fff8e9;
   --ink: #303b31;
-  --rust: #b4462b;
+  --rust: var(--kb-color-accent);
   --muted: #656a5b;
   --page-gutter: clamp(24px, 4.5vw, 64px);
   --section-space: clamp(48px, 6.25vw, 88px);
   --card-inset: clamp(20px, 2.2vw, 32px);
+  --site-radius-surface: 24px;
   background: var(--cream);
   color: var(--ink);
-  font:
-    15px / 1.7 "Helvetica Neue",
-    Helvetica,
-    Arial,
-    sans-serif;
+  font: var(--kb-text-body-size) / 1.7 var(--kb-font-sans);
   & *,
   & *::before,
   & *::after {
@@ -86,7 +83,7 @@
     display: flex;
     align-items: center;
     gap: 34px;
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
   }
   .nav-start {
     display: inline-flex;
@@ -110,7 +107,7 @@
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
     color: var(--muted);
     margin-bottom: 26px;
   }
@@ -164,7 +161,7 @@
     padding: 14px 24px;
     border: 1.5px solid var(--rust);
     border-radius: 999px;
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
     font-weight: 550;
   }
   .plain-link {
@@ -313,9 +310,9 @@
   }
   .day-choice strong {
     display: block;
-    font-size: 14px;
+    font-size: var(--kb-text-control-size);
     font-weight: 550;
-    line-height: 1.4;
+    line-height: var(--kb-text-leading-control);
   }
   .day-choice small {
     display: block;
@@ -439,7 +436,7 @@
     gap: 20px;
     border-bottom: 1px solid var(--review-line);
     padding-block: 22px;
-    font-size: 14px;
+    font-size: var(--kb-text-control-size);
   }
   .example-links > a > span:last-child {
     margin-left: auto;
@@ -469,7 +466,7 @@
     gap: 30px;
     padding: 48px clamp(24px, 3.3vw, 48px);
     background: var(--review-hover);
-    border-radius: 24px;
+    border-radius: var(--site-radius-surface);
     width: calc(100% - 2 * var(--page-gutter));
     max-width: 1312px;
   }
@@ -668,7 +665,7 @@
       font-size: 38px;
     }
     .example-links > a {
-      font-size: 14px;
+      font-size: var(--kb-text-control-size);
       gap: 16px;
     }
     .example-shape {
@@ -734,7 +731,7 @@
   }
   .page-kicker {
     color: var(--muted);
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
     margin-bottom: 20px;
   }
   .page-heading h1 {
