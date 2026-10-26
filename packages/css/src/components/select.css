@@ -51,6 +51,9 @@
   z-index: var(--kb-select-layer);
   max-width: var(--available-width);
 }
+.kb-select-portal {
+  display: contents;
+}
 .kb-select-popup {
   min-width: min(var(--anchor-width), var(--available-width));
   width: max(var(--anchor-width), var(--kb-select-popup-min-width));

@@ -196,7 +196,7 @@ export const DropdownAndFocus: Story = {
     await userEvent.keyboard("{Tab}{Shift>}{Tab}{/Shift}");
     expect(variant).toHaveFocus();
     expect(getComputedStyle(variant).outlineWidth).toBe("2px");
-    expect(getComputedStyle(variant).outlineOffset).toBe("2px");
+    expect(getComputedStyle(variant).outlineOffset).toBe("-2px");
     await userEvent.keyboard("{ArrowDown}");
     const menu = await within(document.body).findByRole("listbox");
     await waitFor(() => expect(menu).toBeVisible());
