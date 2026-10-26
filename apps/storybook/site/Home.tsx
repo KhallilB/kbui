@@ -1,4 +1,6 @@
+import { Badge } from "@kbui/react";
 import { useEffect, useRef } from "react";
+import { LinkArrow } from "./LinkArrow";
 import { PlanDemo } from "./PlanDemo";
 import { InstallBuilder } from "./Setup";
 import { installation, SiteFrame, SiteLink } from "./SiteFrame";
@@ -79,10 +81,7 @@ export function Home({
             </p>
             <div className="hero-links">
               <SiteLink className="primary-link" href={`${siteRoot}${installation}`}>
-                Start building{" "}
-                <span aria-hidden="true" className="link-arrow">
-                  ↗
-                </span>
+                Start building <LinkArrow />
               </SiteLink>
               <a className="plain-link" href={`${siteRoot}components/`}>
                 See the components
@@ -104,10 +103,18 @@ export function Home({
             kbui gives them a shared foundation, while your app keeps its own character.
           </p>
           <ul className="part-tags" aria-label="Parts in the demo">
-            <li>Button</li>
-            <li>Input</li>
-            <li>Dialog</li>
-            <li>Card</li>
+            <li>
+              <Badge>Button</Badge>
+            </li>
+            <li>
+              <Badge>Input</Badge>
+            </li>
+            <li>
+              <Badge>Dialog</Badge>
+            </li>
+            <li>
+              <Badge>Card</Badge>
+            </li>
           </ul>
         </section>
         <section data-motion-phase="waiting" className="other-ways" aria-labelledby="ways-title">
@@ -127,23 +134,17 @@ export function Home({
             <a href={`${siteRoot}examples/#editorial`}>
               <span className="example-shape shape-reading" aria-hidden="true" />
               <span>Something to read</span>
-              <span aria-hidden="true" className="link-arrow">
-                ↗
-              </span>
+              <LinkArrow />
             </a>
             <a href={`${siteRoot}examples/#operations`}>
               <span className="example-shape shape-work" aria-hidden="true" />
               <span>Something to keep moving</span>
-              <span aria-hidden="true" className="link-arrow">
-                ↗
-              </span>
+              <LinkArrow />
             </a>
             <a href={`${siteRoot}examples/#creative`}>
               <span className="example-shape shape-color" aria-hidden="true" />
               <span>Something a little different</span>
-              <span aria-hidden="true" className="link-arrow">
-                ↗
-              </span>
+              <LinkArrow />
             </a>
           </div>
         </section>
@@ -154,7 +155,7 @@ export function Home({
             <p>
               Pick your package manager. Take the parts into your app.
               <a className="plain-link setup-continue" href={`${siteRoot}playground/`}>
-                Open the playground <span className="link-arrow">↗</span>
+                Open the playground <LinkArrow />
               </a>
             </p>
           </div>

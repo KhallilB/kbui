@@ -53,13 +53,28 @@ export const Theming: Story = {
     expect(canvas.getByRole("region", { name: "Theme code" })).toHaveTextContent(
       '<html lang="en">',
     );
-    await userEvent.click(canvas.getByRole("combobox", { name: "Theme" }));
-    await within(document.body).findByRole("listbox", { name: "Theme" });
-    await userEvent.click(await within(document.body).findByRole("option", { name: "Dark" }));
-    await waitFor(() => expect(within(document.body).queryByRole("listbox")).toBeNull());
+    const themes = within(canvas.getByRole("radiogroup", { name: "Theme" }));
+    expect(themes.getByRole("radio", { name: "System" })).toBeChecked();
+    await userEvent.click(themes.getByRole("radio", { name: "Dark" }));
+    expect(themes.getByRole("radio", { name: "Dark" })).toBeChecked();
     expect(preview).toHaveAttribute("data-theme", "dark");
     expect(canvas.getByRole("region", { name: "Theme code" })).toHaveTextContent(
       'data-theme="dark"',
+    );
+    await userEvent.keyboard("{ArrowLeft}");
+    expect(themes.getByRole("radio", { name: "Light" })).toBeChecked();
+    expect(preview).toHaveAttribute("data-theme", "light");
+    expect(canvas.getByRole("region", { name: "Theme code" })).toHaveTextContent(
+      'data-theme="light"',
+    );
+    await userEvent.keyboard("{ArrowLeft}");
+    expect(themes.getByRole("radio", { name: "System" })).toBeChecked();
+    expect(preview).toHaveAttribute(
+      "data-theme",
+      matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
+    );
+    expect(canvas.getByRole("region", { name: "Theme code" })).toHaveTextContent(
+      '<html lang="en">',
     );
     expect(canvas.getByRole("link", { name: "Installation" })).toHaveAttribute(
       "href",
