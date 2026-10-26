@@ -36,6 +36,8 @@ The day-off composition owns ephemeral plan-name and activity-selection state. C
 
 The workbench preserves the real Button preview, light-first reset, variants, sizes, disabled state, semantic themes, motion reduction, code generation and clipboard failure feedback. It lives on its own site page without placing its controls on the landing page. The live preview keeps default kbui themes and button radius so the copied props demonstrate the library rather than the surrounding site skin.
 
+Workbench and setup compose the shared Input, Checkbox, RadioGroup and Select controls. Search uses Input content slots and a named clear action; theme choices use segmented RadioGroup with arrow-key selection. Pages retain their own draft, reset and URL state.
+
 ## Design and geometry
 
 The chosen direction is a bold living poster, explicitly selected by the owner. Warm cream, rust, and soft yellow frame expressive type and one small interaction. The home introduces kbui by letting visitors use a composed interface; it has no numbered index, construction grid, prop inspector, or code panel.

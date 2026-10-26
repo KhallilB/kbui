@@ -74,16 +74,6 @@
     color: var(--muted);
     font-size: 12px;
   }
-  .panel-caption button,
-  .search button {
-    border: 0;
-    padding: 8px;
-    min-height: 44px;
-    color: var(--rust);
-    background: transparent;
-    font: inherit;
-    cursor: pointer;
-  }
   .playground-actions {
     display: flex;
     align-items: center;
@@ -105,32 +95,11 @@
   }
   .theme-control {
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 12px;
-    font-size: 13px;
-  }
-  .segmented {
-    display: inline-flex;
-    border: 1px solid #8d9983;
-    border-radius: 999px;
-    padding: 3px;
-    gap: 4px;
-  }
-  .segmented button {
-    border: 0;
-    border-radius: 999px;
-    background: transparent;
-    color: var(--ink);
-    font: inherit;
-    padding: 8px 16px;
-    min-height: 44px;
-    cursor: pointer;
-  }
-  .segmented button[aria-pressed="true"] {
-    background: var(--review-good);
-    color: #fff;
   }
   .checks {
     display: flex;
@@ -139,44 +108,13 @@
     margin-top: 16px;
     font-size: 13px;
   }
-  .checks label {
-    display: flex;
-    align-items: center;
-    min-height: 44px;
-    gap: 10px;
-    cursor: pointer;
-  }
-  .checks input {
-    width: 20px;
-    height: 20px;
-    accent-color: var(--review-good);
-    margin: 0;
-  }
   .playground-grid > .example-code {
     grid-column: 1 / -1;
     margin-top: 0;
   }
-  .search {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  .component-search {
     max-width: 480px;
     margin-top: 24px;
-    border: 1px solid #8d9983;
-    background: var(--kb-color-bg);
-    border-radius: 12px;
-    padding: 4px 12px;
-  }
-  .search input {
-    min-width: 0;
-    flex: 1;
-    width: 100%;
-    min-height: 44px;
-    background: transparent;
-    color: var(--ink);
-    border: 0;
-    font-size: 15px;
-    padding: 4px;
   }
   .result-count {
     color: var(--muted);
