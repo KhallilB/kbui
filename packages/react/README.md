@@ -235,3 +235,27 @@ A controlled single choice. The group supplies its label, error and form name; e
 `RadioGroup.Item` forwards Base UI Radio props, including `value`, `disabled` and the native control ref. `className` styles the item label; `controlClassName` styles its radio slot. The group inherits semantic colors and material depth; `--kb-radiogroup-size` and `--kb-radiogroup-gap` adjust geometry.
 
 Set `appearance="segmented"` for compact view, density or filter choices. Native radio semantics, keyboard navigation and form behavior stay shared; this is not tab/panel navigation. Caller controls value and form reset. Item `required` participates in native form validation. Changing appearance preserves control identity and focus.
+
+## Select
+
+A controlled, single-value selector. Options carry string values, visible labels and optional disabled flags. Null displays the placeholder. The caller owns domain validation and selection state.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `label` | `string` | required | Visible field label and accessible popup name |
+| `value` | `string \| null` | required | Controlled selection; null means unset |
+| `onValueChange` | `(value: string \| null) => void` | required | Next valid choice request |
+| `options` | `readonly SelectOption[]` | required | Ordered unique values, labels and optional disabled flags |
+| `placeholder` | `string` | `"Choose an option"` | Text for unset values |
+| `description` / `error` | `string` | | Associated help and invalid-state text |
+| `disabled` / `readOnly` | `boolean` | `false` | Prevent edits; disabled also blocks form submission |
+| `name` | `string` | | Native hidden form field name |
+| `container` | `Select.Portal.Props["container"]` | field root | Portal host; default retains nested theme |
+| `controlClassName` / `popupClassName` | `string` | | Trigger and popup slot classes |
+| `className` / `ref` | root div props | | Wrapper class and native root ref |
+
+```tsx
+<Select label="View" name="view" value={view} onValueChange={setView} options={[{ value: "recent", label: "Recent" }, { value: "all", label: "All records" }]} />
+```
+
+Arrow keys and typeahead navigate options. Enter selects; Escape returns focus. Disabled options cannot be selected. An empty collection disables the trigger and shows the visible helper “No options available”. Opening the nonmodal popup preserves page scrolling. Pointer selection returns focus without a keyboard ring; keyboard dismissal retains its visible focus indicator. The default field-root portal inherits local theme tokens; a custom container must provide the desired theme scope. `--kb-select-popup-min-width`, `--kb-select-max-height` and `--kb-select-layer` adjust popup geometry.

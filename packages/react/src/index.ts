@@ -52,6 +52,7 @@ export {
   type RadioGroupProps,
 } from "./components/RadioGroup/RadioGroup";
 export { ScrollArea, type ScrollAreaProps } from "./components/ScrollArea/ScrollArea";
+export { Select, type SelectOption, type SelectProps } from "./components/Select/Select";
 export { Stat, type StatProps, type StatSize } from "./components/Stat/Stat";
 export {
   Status,

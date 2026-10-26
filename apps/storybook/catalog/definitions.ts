@@ -9,6 +9,7 @@ type Definition = {
 export const definitions: Record<string, Definition> = {
   Checkbox: { group: "Forms", description: "Labelled binary and mixed selections." },
   RadioGroup: { group: "Forms", description: "One labelled choice with arrow-key navigation." },
+  Select: { group: "Forms", description: "Labelled choices with keyboard navigation." },
   Badge: {
     group: "Feedback",
     description: "Static labels and metadata.",

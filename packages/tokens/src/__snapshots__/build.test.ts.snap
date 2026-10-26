@@ -205,6 +205,9 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-text-leading-control: 1.4;
   --kb-radiogroup-gap: var(--kb-space-2);
   --kb-radiogroup-size: 1.5rem;
+  --kb-select-popup-min-width: 10rem;
+  --kb-select-max-height: 20rem;
+  --kb-select-layer: 50;
 }
 
 [data-theme="dark"] {
@@ -376,6 +379,9 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-text-leading-control: 1.4;
   --kb-radiogroup-gap: var(--kb-space-2);
   --kb-radiogroup-size: 1.5rem;
+  --kb-select-popup-min-width: 10rem;
+  --kb-select-max-height: 20rem;
+  --kb-select-layer: 50;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -548,6 +554,9 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-text-leading-control: 1.4;
     --kb-radiogroup-gap: var(--kb-space-2);
     --kb-radiogroup-size: 1.5rem;
+    --kb-select-popup-min-width: 10rem;
+    --kb-select-max-height: 20rem;
+    --kb-select-layer: 50;
   }
 }
 "
