@@ -10,6 +10,7 @@ const site = (name: string) => fileURLToPath(new URL(`../site/${name}`, import.m
 export const siteSampleFiles = [
   "Examples.tsx",
   "Brand.tsx",
+  "LinkArrow.tsx",
   "examples.css",
   "logo.svg",
   "playground-model.ts",
@@ -57,6 +58,15 @@ export function loadSiteSamples(): {
     return result.type === "ReturnStatement" && result.argument ? [result.argument] : [];
   });
   if (returns.length !== 3) throw new Error("Expected three canonical composition branches");
+  const arrow = babelParseFile({ code: readFileSync(site("LinkArrow.tsx"), "utf8") });
+  const arrowDeclaration = arrow.path.scope.bindings.LinkArrow?.path.node;
+  const arrowReturn =
+    arrowDeclaration?.type === "FunctionDeclaration"
+      ? arrowDeclaration.body.body.find((statement) => statement.type === "ReturnStatement")
+      : undefined;
+  if (arrowReturn?.type !== "ReturnStatement" || !arrowReturn.argument)
+    throw new Error("Missing link arrow SVG");
+  const arrowSvg = arrowReturn.argument;
   const brand = babelParseFile({ code: readFileSync(site("Brand.tsx"), "utf8") });
   const geometry = brand.path.scope.bindings.Geometry?.path.node;
   if (!geometry) throw new Error("Missing geometry source");
@@ -121,6 +131,11 @@ export function loadSiteSamples(): {
           path.node.openingElement.name.name === "Geometry"
         )
           path.replaceWith(geometrySvg);
+        else if (
+          path.node.openingElement.name.type === "JSXIdentifier" &&
+          path.node.openingElement.name.name === "LinkArrow"
+        )
+          path.replaceWith(arrowSvg);
       },
     });
     const bodyExpression = bodyFile.ast.program.body[0];
@@ -131,7 +146,7 @@ export function loadSiteSamples(): {
       JSXElement(path) {
         if (
           path.node.openingElement.name.type === "JSXIdentifier" &&
-          path.node.openingElement.name.name === "Geometry"
+          ["Geometry", "LinkArrow"].includes(path.node.openingElement.name.name)
         )
           path.remove();
       },

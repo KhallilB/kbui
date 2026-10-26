@@ -211,13 +211,8 @@
   .hero-example::before {
     background: #6c5935;
   }
-  .part-tags li:nth-child(2) {
-    background: #35432c;
-  }
-  .part-tags li:nth-child(3) {
-    background: #4a3329;
-  }
-  .day-demo {
+  .day-demo,
+  .day-dialog {
     --kb-color-fg: #f6f2e6;
     --kb-color-muted: #b8c1ae;
     --kb-color-bg: #202920;

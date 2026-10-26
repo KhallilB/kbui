@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BackArrow, LinkArrow } from "./LinkArrow";
 import { OperationsScreen, useOperations } from "./OperationsScreen";
 import { SettingsScreen, useSettings } from "./SettingsScreen";
 import { SiteFrame } from "./SiteFrame";
@@ -57,7 +58,9 @@ export function SkinComparison() {
       <main id="main" className="inner-page">
         <header className="comparison-intro">
           <div>
-            <a href="../examples/">← All examples</a>
+            <a href="../examples/">
+              <BackArrow /> All examples
+            </a>
             <p className="page-kicker">KBUI · Default design</p>
             <h1>
               The everyday, <em>refined.</em>
@@ -75,7 +78,7 @@ export function SkinComparison() {
             </p>
             <span>
               <a href="../components/?view=live">
-                Review all 15 components <span className="link-arrow">↗</span>
+                Explore component catalog <LinkArrow />
               </a>
             </span>
           </div>

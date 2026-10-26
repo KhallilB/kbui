@@ -193,6 +193,9 @@
   .day-demo {
     position: relative;
     min-width: 0;
+  }
+  .day-demo,
+  .day-dialog {
     --kb-color-fg: #303b31;
     --kb-color-muted: #636b5b;
     --kb-color-bg: #fffdf5;
@@ -251,9 +254,6 @@
     width: 116px;
     height: 116px;
     transition: transform 200ms ease;
-  }
-  .day-bloom[data-picked="3"] {
-    transform: rotate(12deg);
   }
   .day-choices {
     min-width: 0;
@@ -403,12 +403,6 @@
     border: 1px solid var(--review-control);
     border-radius: 999px;
     color: var(--review-good);
-  }
-  .part-tags li:nth-child(2) {
-    background: #e3eac8;
-  }
-  .part-tags li:nth-child(3) {
-    background: #f0d3be;
   }
   .other-ways {
     display: grid;
@@ -793,4 +787,87 @@
 .kbui-site .link-arrow {
   display: inline-block;
   text-decoration: none;
+}
+
+html {
+  scroll-padding-block-start: calc(var(--site-header-height, 96px) + var(--kb-space-4));
+}
+.kbui-site .site-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 30;
+  background: var(--kb-color-bg);
+  box-shadow: 0 1px 0 var(--review-line);
+}
+.kbui-site .skip-link {
+  z-index: 60;
+}
+.kbui-site .about-strip {
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 2.2fr);
+  align-items: start;
+  gap: var(--kb-space-4) var(--kb-space-8);
+  padding-block: var(--kb-space-8);
+}
+.kbui-site .about-strip > h2 {
+  grid-row: span 2;
+  font-size: clamp(27px, 2.6vw, 36px);
+}
+.kbui-site .about-strip > p {
+  max-inline-size: 60ch;
+  font-size: var(--kb-text-body-size);
+  line-height: var(--kb-text-leading-body);
+}
+.kbui-site .part-tags {
+  grid-column: 2;
+  justify-content: start;
+}
+.kbui-site .part-tags li {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+.kbui-site .day-choice-tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kb-space-2);
+  min-block-size: 44px;
+  color: var(--kb-color-muted);
+  font-size: var(--kb-text-small-size);
+}
+.kbui-site .day-choices .kb-sr-only {
+  padding: 0;
+}
+.kbui-site .day-bloom[data-complete] {
+  transform: rotate(12deg);
+}
+@media (max-width: 600px) {
+  .kbui-site .about-strip {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--kb-space-5);
+  }
+  .kbui-site .about-strip > h2,
+  .kbui-site .part-tags {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  .kbui-site .site-header {
+    padding-block: var(--kb-space-3);
+    gap: var(--kb-space-2);
+  }
+}
+
+.kbui-site svg.link-arrow {
+  inline-size: 1em;
+  block-size: 1em;
+  flex: none;
+  vertical-align: -0.1em;
+}
+
+.kbui-site .kb-dialog-backdrop {
+  z-index: 40;
+}
+.kbui-site .kb-dialog-popup {
+  z-index: 41;
 }
