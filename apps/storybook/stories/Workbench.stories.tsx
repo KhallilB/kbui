@@ -23,9 +23,8 @@ export const Playground: Story = {
     if (!heading || !panel) throw new Error("Missing playground entrance surfaces");
     expect(getComputedStyle(heading).animationName).toBe(reduced ? "none" : "kbui-poster-rise");
     expect(getComputedStyle(panel).animationName).toBe(reduced ? "none" : "kbui-poster-arrive");
-    expect(
-      getComputedStyle(canvas.getByRole("button", { name: "Dark theme" })).transitionDuration,
-    ).toBe(reduced ? "0s" : "0.14s");
+    const themes = within(canvas.getByRole("radiogroup", { name: "Preview theme" }));
+    expect(themes.getByRole("radio", { name: "Light" })).toBeChecked();
 
     const systemBackground = window.matchMedia("(forced-colors: active)").matches
       ? getComputedStyle(canvas.getByRole("main")).backgroundColor
@@ -66,7 +65,8 @@ export const Playground: Story = {
     expect(canvas.getByTestId("working-code")).toHaveTextContent('size="lg" disabled');
     expect(preview.getBoundingClientRect().height).toBeCloseTo(previewHeight, 0);
     expect(entranceAnimation()).toBe(entrance);
-    await userEvent.click(canvas.getByRole("button", { name: "Dark theme" }));
+    await userEvent.click(themes.getByRole("radio", { name: "Dark" }));
+    expect(themes.getByRole("radio", { name: "Dark" })).toBeChecked();
     expect(canvas.getByTestId("playground-preview")).toHaveAttribute("data-theme", "dark");
     expect(canvas.getByTestId("working-code")).toHaveTextContent('data-theme="dark"');
     await waitFor(() =>
@@ -74,7 +74,14 @@ export const Playground: Story = {
         backgroundColor: systemBackground ?? "rgb(32, 41, 32)",
       }),
     );
-    await userEvent.click(canvas.getByRole("button", { name: "Light theme" }));
+    await userEvent.keyboard("{ArrowRight}");
+    const light = themes.getByRole("radio", { name: "Light" });
+    expect(light).toBeChecked();
+    expect(light).toHaveFocus();
+    const selected = light.closest("label");
+    if (!selected) throw new Error("Missing selected theme label");
+    expect(getComputedStyle(selected).outlineOffset).toBe("-2px");
+    if (reduced) expect(getComputedStyle(selected).transitionDuration).toBe("0s");
     expect(canvas.getByTestId("playground-preview")).toHaveAttribute("data-theme", "light");
     expect(canvas.getByTestId("working-code")).not.toHaveTextContent("data-theme");
     await waitFor(() =>
@@ -95,6 +102,7 @@ export const Playground: Story = {
     expect(canvas.getByRole("combobox", { name: "Size" })).toHaveTextContent("Medium");
     expect(canvas.getByLabelText("Disabled")).not.toBeChecked();
     expect(canvas.getByLabelText("Reduce motion")).not.toBeChecked();
+    expect(themes.getByRole("radio", { name: "Light" })).toBeChecked();
     expect(canvas.getByTestId("playground-preview")).toHaveAttribute("data-theme", "light");
   },
 };
@@ -196,7 +204,7 @@ export const DropdownAndFocus: Story = {
     await userEvent.keyboard("{Tab}{Shift>}{Tab}{/Shift}");
     expect(variant).toHaveFocus();
     expect(getComputedStyle(variant).outlineWidth).toBe("2px");
-    expect(getComputedStyle(variant).outlineOffset).toBe("2px");
+    expect(getComputedStyle(variant).outlineOffset).toBe("-2px");
     await userEvent.keyboard("{ArrowDown}");
     const menu = await within(document.body).findByRole("listbox");
     await waitFor(() => expect(menu).toBeVisible());
@@ -225,8 +233,9 @@ export const DropdownAndFocus: Story = {
     expect(getComputedStyle(navigation).outlineOffset).toBe("2px");
     const search = canvas.getByRole("searchbox", { name: "Find a component" });
     search.focus();
-    expect(getComputedStyle(search).outlineStyle).toBe("none");
+    expect(getComputedStyle(search).outlineWidth).toBe("2px");
+    expect(getComputedStyle(search).outlineOffset).toBe("-2px");
     if (!(search.parentElement instanceof HTMLElement)) throw new Error("Missing search field");
-    expect(getComputedStyle(search.parentElement).outlineWidth).toBe("2px");
+    expect(getComputedStyle(search.parentElement).outlineStyle).toBe("none");
   },
 };
