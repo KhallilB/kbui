@@ -1,0 +1,158 @@
+/* Anatomy: .kb-switch [data-checked] [data-disabled] [data-readonly] [data-invalid] > .kb-switch-field > .kb-switch-target > .kb-switch-control + .kb-switch-track > .kb-switch-thumb, .kb-switch-off, .kb-switch-on; .kb-switch-label, .kb-switch-description, .kb-switch-error */
+.kb-switch {
+  display: grid;
+  gap: var(--kb-space-1);
+  min-inline-size: 0;
+  color: var(--kb-color-fg);
+}
+.kb-switch-field {
+  display: flex;
+  align-items: center;
+  gap: var(--kb-space-3);
+  min-inline-size: 0;
+}
+.kb-switch-target {
+  position: relative;
+  display: inline-grid;
+  flex: none;
+  inline-size: var(--kb-switch-width);
+  block-size: var(--kb-switch-height);
+}
+.kb-switch-control {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  inline-size: 100%;
+  block-size: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.kb-switch-track {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+  padding: var(--kb-switch-inset);
+  border: 1px solid var(--kb-switch-track-border);
+  border-radius: var(--kb-switch-radius);
+  background: var(--kb-switch-track-background);
+  box-shadow: var(--kb-switch-track-shadow);
+  pointer-events: none;
+}
+.kb-switch-thumb {
+  position: absolute;
+  inset-block-start: var(--kb-switch-inset);
+  inset-inline-start: var(--kb-switch-inset);
+  inline-size: calc(var(--kb-switch-height) - var(--kb-switch-inset) * 2 - 2px);
+  block-size: calc(var(--kb-switch-height) - var(--kb-switch-inset) * 2 - 2px);
+  border: 1px solid var(--kb-switch-thumb-border);
+  border-radius: var(--kb-switch-radius);
+  background: var(--kb-switch-thumb-background);
+  box-shadow: var(--kb-switch-thumb-shadow);
+  transform: translateX(0);
+}
+.kb-switch-off,
+.kb-switch-on {
+  position: relative;
+  display: grid;
+  place-items: center;
+  inline-size: var(--kb-switch-icon-size);
+  block-size: var(--kb-switch-icon-size);
+  justify-self: center;
+}
+.kb-switch-off > *,
+.kb-switch-on > * {
+  inline-size: 100%;
+  block-size: 100%;
+}
+.kb-switch-on,
+.kb-switch-control:checked + .kb-switch-track .kb-switch-off {
+  opacity: 0.55;
+}
+.kb-switch-control:checked + .kb-switch-track .kb-switch-on {
+  opacity: 1;
+}
+.kb-switch-control:checked + .kb-switch-track .kb-switch-thumb {
+  transform: translateX(calc(var(--kb-switch-width) - var(--kb-switch-height)));
+}
+.kb-switch:dir(rtl) .kb-switch-control:checked + .kb-switch-track .kb-switch-thumb {
+  transform: translateX(calc(var(--kb-switch-height) - var(--kb-switch-width)));
+}
+.kb-switch-control:focus-visible + .kb-switch-track {
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: -2px;
+}
+.kb-switch[data-invalid] .kb-switch-track {
+  border-color: var(--kb-color-danger);
+}
+.kb-switch-label {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+  font-size: var(--kb-text-control-size);
+  font-weight: 500;
+  line-height: var(--kb-text-leading-control);
+  cursor: pointer;
+}
+.kb-switch-description,
+.kb-switch-error {
+  overflow-wrap: anywhere;
+  margin: 0;
+  font-size: var(--kb-text-small-size);
+  line-height: var(--kb-text-leading-body);
+  color: var(--kb-color-muted);
+}
+.kb-switch-error {
+  color: var(--kb-color-danger);
+}
+.kb-switch-control[readonly],
+.kb-switch[data-readonly] .kb-switch-label {
+  cursor: default;
+}
+.kb-switch-control:disabled + .kb-switch-track,
+.kb-switch:has(.kb-switch-control:disabled) .kb-switch-label {
+  opacity: 0.5;
+}
+.kb-switch-control:disabled,
+.kb-switch:has(.kb-switch-control:disabled) .kb-switch-label {
+  cursor: not-allowed;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .kb-switch-thumb {
+    transition: transform var(--kb-switch-duration) var(--kb-motion-easing-standard);
+  }
+  .kb-switch-track {
+    transition:
+      background var(--kb-switch-duration),
+      border-color var(--kb-switch-duration),
+      box-shadow var(--kb-switch-duration);
+  }
+  .kb-switch-off,
+  .kb-switch-on {
+    transition: opacity var(--kb-switch-duration) ease;
+  }
+}
+@media (forced-colors: active) {
+  .kb-switch,
+  .kb-switch-description,
+  .kb-switch-error {
+    color: CanvasText;
+  }
+  .kb-switch-track {
+    background: Canvas;
+    border-color: ButtonText;
+    box-shadow: none;
+  }
+  .kb-switch-thumb {
+    background: ButtonFace;
+    border-color: ButtonText;
+    box-shadow: none;
+  }
+  .kb-switch-control:checked + .kb-switch-track {
+    border-color: Highlight;
+  }
+  .kb-switch-control:focus-visible + .kb-switch-track {
+    outline-color: Highlight;
+  }
+}

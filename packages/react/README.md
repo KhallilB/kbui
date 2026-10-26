@@ -29,7 +29,7 @@ All props accepted by a native button or Base UI's `Button` also work. To render
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
-| `startAdornment` / `endAdornment` | `ReactNode` | | Optional control content; provide accessible names on actions |
+| `startContent` / `endContent` | `ReactNode` | | Optional control content; provide accessible names on actions |
 | `label` | `string` | required | Visible label and accessible name |
 | `visuallyHidden` | `boolean` | | Hides the label visually but keeps it for screen readers |
 | `description` | `string` | | Help text below the field |
@@ -41,7 +41,7 @@ Other native input props, including `value` and `defaultValue`, pass through to 
 
 ### Search composition
 
-Use `Input type="search"` with adornments and a `Button` when search needs a visible clear action. Search stays an input recipe; filtering, submission, debounce, reset and result announcements belong to the application.
+Use `Input type="search"` with content slots and a `Button` when search needs a visible clear action. Search stays an input recipe; filtering, submission, debounce, reset and result announcements belong to the application.
 
 ```tsx
 import { useRef, useState } from "react";
@@ -58,7 +58,7 @@ function SearchExample() {
       name="q"
       value={query}
       onValueChange={setQuery}
-      endAdornment={query ? (
+      endContent={query ? (
         <Button type="button" size="sm" variant="ghost" aria-label="Clear search"
           onClick={() => { setQuery(""); control.current?.focus(); }}>
           <span aria-hidden="true">×</span>
@@ -69,7 +69,7 @@ function SearchExample() {
 }
 ```
 
-The labelled field owns its accessible name, description and error. Give action adornments their own accessible names; hide decorative icons with `aria-hidden`. Clear uses `type="button"` and returns focus to the native input. Hide editing actions for disabled/read-only fields. The stable input shell preserves the native node, value and focus when adornments change. See Input's canonical `WithAdornments` story for the search icon and working interaction.
+The labelled field owns its accessible name, description and error. Give actions their own accessible names; hide decorative icons with `aria-hidden`. Clear uses `type="button"` and returns focus to the native input. Hide editing actions for disabled/read-only fields. The stable input shell preserves the native node, value and focus when slot content changes. See Input's canonical **Icons and actions** story for the search icon and working interaction.
 
 ## Dialog
 
@@ -209,3 +209,80 @@ A controlled native checkbox with a tactile mark, associated label, helper and e
 ```
 
 Label activation and Space request changes. A declined controlled update preserves checked and mixed DOM state. Native input props remain supported. `style` applies to the native input; custom CSS properties also scope the decorative mark. Override `--kb-checkbox-size` for a different mark size. Forced colors retain the native checkbox and its focus outline.
+## RadioGroup
+
+A controlled single choice. The group supplies its label, error and form name; each item supplies its own label and unique string value. Arrow keys move selection and skip disabled items.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `label` | `string` | required | Visible accessible group label |
+| `value` | `string \| null` | required | Controlled choice; null means no choice |
+| `onValueChange` | `(value: string) => void` | required | Next choice request |
+| `appearance` | `"standard" \| "segmented"` | `"standard"` | Segmented tray for compact single-choice controls |
+| `disabled` | `boolean` | `false` | Disable every item |
+| `name` | `string` | | Native form field name |
+| `description` / `error` | `string` | | Associated help and invalid-state text |
+| `visuallyHidden` | `boolean` | `false` | Hide group label visually |
+| `ref` | `Ref<HTMLDivElement>` | | Group root |
+
+```tsx
+<RadioGroup label="Density" name="density" value={density} onValueChange={setDensity}>
+  <RadioGroup.Item value="compact">Compact</RadioGroup.Item>
+  <RadioGroup.Item value="comfortable">Comfortable</RadioGroup.Item>
+</RadioGroup>
+```
+
+`RadioGroup.Item` forwards Base UI Radio props, including `value`, `disabled` and the native control ref. `className` styles the item label; `controlClassName` styles its radio slot. The group inherits semantic colors and material depth; `--kb-radiogroup-size` and `--kb-radiogroup-gap` adjust geometry.
+
+Set `appearance="segmented"` for compact view, density or filter choices. Native radio semantics, keyboard navigation and form behavior stay shared; this is not tab/panel navigation. Caller controls value and form reset. Item `required` participates in native form validation. Changing appearance preserves control identity and focus.
+
+## Select
+
+A controlled, single-value selector. Options carry string values, visible labels and optional disabled flags. Null displays the placeholder. The caller owns domain validation and selection state.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `label` | `string` | required | Visible field label and accessible popup name |
+| `value` | `string \| null` | required | Controlled selection; null means unset |
+| `onValueChange` | `(value: string \| null) => void` | required | Next valid choice request |
+| `options` | `readonly SelectOption[]` | required | Ordered unique values, labels and optional disabled flags |
+| `placeholder` | `string` | `"Choose an option"` | Text for unset values |
+| `description` / `error` | `string` | | Associated help and invalid-state text |
+| `disabled` / `readOnly` | `boolean` | `false` | Prevent edits; disabled also blocks form submission |
+| `name` | `string` | | Native hidden form field name |
+| `container` | `Select.Portal.Props["container"]` | field root | Portal host; default retains nested theme |
+| `controlClassName` / `popupClassName` | `string` | | Trigger and popup slot classes |
+| `className` / `ref` | root div props | | Wrapper class and native root ref |
+
+```tsx
+<Select label="View" name="view" value={view} onValueChange={setView} options={[{ value: "recent", label: "Recent" }, { value: "all", label: "All records" }]} />
+```
+
+Arrow keys and typeahead navigate options. Enter selects; Escape returns focus. Disabled options cannot be selected. An empty collection disables the trigger and shows the visible helper “No options available”. Opening the nonmodal popup preserves page scrolling. Pointer selection returns focus without a keyboard ring; keyboard dismissal retains its visible focus indicator. The default field-root portal inherits local theme tokens; a custom container must provide the desired theme scope. `--kb-select-popup-min-width`, `--kb-select-max-height` and `--kb-select-layer` adjust popup geometry.
+
+## Switch
+
+A controlled on/off preference with one labelled native checkbox using `role="switch"`. The application owns checked state, saving and form reset. Use Checkbox for selecting items; use Switch for an immediate preference.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `label` | `string` | required | Associated visible label and accessible name |
+| `checked` | `boolean` | required | Current controlled state |
+| `onCheckedChange` | `(checked: boolean) => void` | required | Requests next state; owner updates checked |
+| `description` / `error` | `string` | | Associated helper/error text; error sets aria-invalid |
+| `disabled` / `readOnly` | `boolean` | `false` | Disabled blocks focus/changes; read-only keeps focus and form value while blocking edits |
+| `visuallyHidden` | `boolean` | `false` | Hide label visually, keep its accessible name |
+| `offIcon` / `onIcon` | `ReactNode` | | Decorative slots; do not place interactive content inside |
+| `name` / `value` / `form` / `required` | native input props | | Native form ownership, successful value and validation |
+| `ref` | `Ref<HTMLInputElement>` | | Native checkbox, never an extra hidden control |
+| `className` / `controlClassName` | `string` | | Root/native input class |
+| `style` | `CSSProperties` | | Native input styles; CSS custom properties also reach visible track and thumb |
+
+```tsx
+function Preference() {
+  const [checked, setChecked] = useState(false);
+  return <Switch label="Email updates" checked={checked} onCheckedChange={setChecked} name="updates" />;
+}
+```
+
+Import `useState` from React and `Switch` from `@kbui/react`. Space and pointer actions request the same boolean change. Unchecked/disabled controls submit no value; a checked control submits its native value (`"on"` unless supplied). For controlled reset, set checked state in the form's `onReset` handler. Dark/light surfaces use shared recessed and raised materials through the `switch` token group; reduced motion removes thumb travel animation.

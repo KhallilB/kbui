@@ -1,5 +1,6 @@
 import { chromium, type Locator } from "playwright";
 import { playgroundKey } from "../site/playground-model.ts";
+import { chooseRadio } from "./native-controls.ts";
 import { loadSiteSamples } from "./site-samples.ts";
 import { loadCatalogSources } from "./source.ts";
 import type { CodeSample } from "./types";
@@ -19,16 +20,16 @@ try {
     const page = await browser.newPage({ viewport: { width, height: 900 } });
     page.setDefaultTimeout(5000);
     if (catalogTheme) {
-      await page.goto(`${origin}/components/?theme=${catalogTheme}&view=live`);
+      await page.goto(`${origin}/components/?theme=${catalogTheme}&view=overview`);
       await page.waitForFunction(
-        () => {
+        (expected) => {
           const frames = [...document.querySelectorAll("iframe")];
           return (
-            frames.length === 16 &&
+            frames.length === expected &&
             frames.every((frame) => frame.contentDocument?.querySelector("#storybook-root > *"))
           );
         },
-        undefined,
+        loadCatalogSources().length,
         { timeout: 15000 },
       );
       const gallery = await page.evaluate(() => ({
@@ -49,17 +50,21 @@ try {
         throw new Error(`Gallery theme/focus/overflow mismatch: ${JSON.stringify(gallery)}`);
     }
     for (const entry of loadCatalogSources()) {
-      for (const story of entry.stories) {
+      for (const story of entry.stories.filter(
+        (story) => !/(?:^|\s)(?:Dark|Light)$/.test(story.name),
+      )) {
         if (storyFilter && story.id !== storyFilter) continue;
         const label = `${width}px ${story.id}`;
         try {
           await page.goto(
             `${origin}/components/?component=${entry.id}&state=${story.id}${appearance}`,
           );
-          const frame = page.frameLocator("iframe");
+          const frame = page.frameLocator('iframe[data-current="true"]');
           await page.waitForFunction(
             () => {
-              const doc = document.querySelector("iframe")?.contentDocument;
+              const doc = document.querySelector<HTMLIFrameElement>(
+                'iframe[data-current="true"]',
+              )?.contentDocument;
               return doc?.querySelector("#storybook-root > *, [role=dialog]");
             },
             undefined,
@@ -81,7 +86,7 @@ try {
             );
           });
           await page.waitForFunction(() => {
-            const iframe = document.querySelector("iframe");
+            const iframe = document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]');
             const doc = iframe?.contentDocument;
             const root = doc?.getElementById("storybook-root");
             if (!root || !iframe || !doc) return false;
@@ -95,7 +100,7 @@ try {
             return iframe.clientHeight >= needed;
           });
           const geometry = await page.evaluate(() => {
-            const iframe = document.querySelector("iframe");
+            const iframe = document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]');
             const doc = iframe?.contentDocument;
             const root = doc?.getElementById("storybook-root");
             if (!iframe || !doc || !root) throw new Error("Missing live example");
@@ -109,12 +114,15 @@ try {
             return {
               pageOverflow: document.documentElement.scrollWidth > innerWidth,
               frameOverflow: doc.documentElement.scrollWidth > iframe.clientWidth + 1,
+              verticalOverflow: doc.documentElement.scrollHeight > iframe.clientHeight + 1,
               height: iframe.clientHeight,
               content,
             };
           });
           if (geometry.pageOverflow || geometry.frameOverflow)
             throw new Error(`Horizontal overflow: ${JSON.stringify(geometry)}`);
+          if (geometry.verticalOverflow)
+            throw new Error(`Preview retains vertical scrollbar: ${JSON.stringify(geometry)}`);
           const alignment = await frame.locator("#storybook-root").evaluate((root) => {
             const content =
               root.querySelector(".component-preview-content") ?? root.firstElementChild;
@@ -133,7 +141,7 @@ try {
             };
           });
           const isLayout = ["grid", "panel", "scrollarea"].includes(entry.id);
-          const isSurface = ["input", "card", "callout", "progress"].includes(entry.id);
+          const isSurface = ["input", "select", "card", "callout", "progress"].includes(entry.id);
           if (isLayout) {
             if (Math.abs(alignment.left - 16) > 1 || Math.abs(alignment.top - 16) > 1)
               throw new Error(`Layout lost start alignment: ${JSON.stringify(alignment)}`);
@@ -201,6 +209,7 @@ try {
           }
           const reserves: Record<string, number> = {
             dialog: 360,
+            select: 240,
             menu: 240,
             tooltip: 160,
             panel: 160,
@@ -212,7 +221,9 @@ try {
           if (story.id === "components-badge--default") {
             await page.getByRole("button", { name: "Expand preview", exact: true }).click();
             await page.waitForFunction(
-              () => document.querySelector("iframe")?.clientHeight === 480,
+              () =>
+                document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
+                  ?.clientHeight === 480,
             );
             const centered = await frame.locator(".kb-badge").evaluate((element) => {
               const bounds = element.getBoundingClientRect();
@@ -221,7 +232,9 @@ try {
             if (!centered) throw new Error("Expanded compact example lost vertical centering");
             await page.getByRole("button", { name: "Compact preview", exact: true }).click();
             await page.waitForFunction(
-              (height) => document.querySelector("iframe")?.clientHeight === height,
+              (height) =>
+                document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
+                  ?.clientHeight === height,
               geometry.height,
             );
           }
@@ -232,7 +245,8 @@ try {
             throw new Error("Code differs from selected canonical example");
           const afterCode = await page.evaluate(() => ({
             overflow: document.documentElement.scrollWidth > innerWidth,
-            height: document.querySelector("iframe")?.clientHeight,
+            height: document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
+              ?.clientHeight,
           }));
           if (afterCode.overflow || afterCode.height !== geometry.height)
             throw new Error(`Code panel changed preview geometry: ${JSON.stringify(afterCode)}`);
@@ -240,14 +254,19 @@ try {
           const expandedHeight = Math.max(geometry.height, Math.min(480, 900 * 0.6));
           await page.waitForFunction(
             (expected) =>
-              Math.abs((document.querySelector("iframe")?.clientHeight ?? 0) - expected) <= 1,
+              Math.abs(
+                (document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
+                  ?.clientHeight ?? 0) - expected,
+              ) <= 1,
             expandedHeight,
           );
           if (await page.evaluate(() => document.documentElement.scrollWidth > innerWidth))
             throw new Error("Expanded preview caused page overflow");
           await page.getByRole("button", { name: "Compact preview", exact: true }).click();
           await page.waitForFunction(
-            (expected) => document.querySelector("iframe")?.clientHeight === expected,
+            (expected) =>
+              document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
+                ?.clientHeight === expected,
             geometry.height,
           );
           if (story.id === "components-panel--token-overrides") {
@@ -272,6 +291,10 @@ try {
               throw new Error("Clipboard differs from selected example");
           }
           if (["dialog", "menu", "tooltip"].includes(entry.id)) {
+            if (entry.id === "menu") {
+              const trigger = frame.getByRole("button", { name: "Actions", exact: true });
+              if ((await trigger.getAttribute("aria-expanded")) !== "true") await trigger.click();
+            }
             if (entry.id === "tooltip")
               await frame.getByRole("button", { name: "Stop", exact: true }).hover();
             if (story.id.endsWith("--confirm"))
@@ -309,13 +332,17 @@ try {
                 await page.keyboard.press("ArrowDown");
                 await popup.waitFor({ state: "visible" });
                 await page.waitForFunction(() => {
-                  const active = document.querySelector("iframe")?.contentDocument?.activeElement;
+                  const active = document.querySelector<HTMLIFrameElement>(
+                    'iframe[data-current="true"]',
+                  )?.contentDocument?.activeElement;
                   return active?.matches('[role="menu"], [role="menuitem"]');
                 });
                 await page.keyboard.press(key);
                 await popup.waitFor({ state: "hidden" });
                 await page.waitForFunction(() => {
-                  const active = document.querySelector("iframe")?.contentDocument?.activeElement;
+                  const active = document.querySelector<HTMLIFrameElement>(
+                    'iframe[data-current="true"]',
+                  )?.contentDocument?.activeElement;
                   return active?.matches('[aria-haspopup="menu"][aria-expanded="false"]');
                 });
               }
@@ -329,7 +356,9 @@ try {
               .waitFor({ state: "hidden" });
             // Minimum overlay reserve can contain both open and closed content.
             await page.waitForFunction((minimum) => {
-              const iframe = document.querySelector("iframe");
+              const iframe = document.querySelector<HTMLIFrameElement>(
+                'iframe[data-current="true"]',
+              );
               const doc = iframe?.contentDocument;
               const root = doc?.getElementById("storybook-root");
               if (!iframe || !doc || !root) return false;
@@ -365,9 +394,24 @@ try {
         await page.waitForFunction(
           () => (document.querySelector(".example-code-content")?.scrollTop ?? 0) > 0,
         );
+        // Let native keyboard scrolling settle before testing state reset.
+        await code.evaluate(
+          (element) =>
+            new Promise<void>((resolve) => {
+              let previous = element.scrollTop;
+              let stable = 0;
+              const settle = () => {
+                stable = element.scrollTop === previous ? stable + 1 : 0;
+                previous = element.scrollTop;
+                if (stable === 4) resolve();
+                else requestAnimationFrame(settle);
+              };
+              requestAnimationFrame(settle);
+            }),
+        );
         await page.getByRole("button", { name: "Expand preview", exact: true }).click();
         console.log(`${width}×${height}: reset long code on state change`);
-        await page.getByRole("button", { name: "Token Overrides Light", exact: true }).click();
+        await chooseRadio(page, "Example state", "Depth");
         await page.getByRole("button", { name: "Expand preview", exact: true }).waitFor();
         await page.waitForFunction(
           () => document.querySelector(".example-code-content")?.scrollTop === 0,
@@ -375,9 +419,9 @@ try {
         if ((await codeToggle.getAttribute("aria-expanded")) !== "true")
           throw new Error("State switch closed the code panel");
         console.log(`${width}×${height}: fit short state`);
-        await page.getByRole("button", { name: "Compact", exact: true }).click();
+        await chooseRadio(page, "Example state", "Compact");
         await page.waitForFunction(() => {
-          const iframe = document.querySelector("iframe");
+          const iframe = document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]');
           const root = iframe?.contentDocument?.getElementById("storybook-root");
           return root?.querySelector(".kb-panel") && iframe && iframe.clientHeight < 300;
         });
@@ -393,13 +437,18 @@ try {
         await page.getByRole("button", { name: "Expand preview", exact: true }).click();
         await page.waitForFunction(
           (expected) =>
-            Math.abs((document.querySelector("iframe")?.clientHeight ?? 0) - expected) <= 1,
+            Math.abs(
+              (document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
+                ?.clientHeight ?? 0) - expected,
+            ) <= 1,
           Math.min(480, height * 0.6),
         );
-        await page.getByRole("button", { name: "With Error", exact: true }).click();
+        await chooseRadio(page, "Example state", "With Error");
         await page.getByRole("button", { name: "Expand preview", exact: true }).waitFor();
         await page.waitForFunction(
-          () => (document.querySelector("iframe")?.clientHeight ?? 480) < 220,
+          () =>
+            (document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
+              ?.clientHeight ?? 480) < 220,
         );
       }
       await page.setViewportSize({ width, height: 900 });
@@ -468,7 +517,7 @@ try {
     }));
     if (
       keyboardRing.width !== "2px" ||
-      keyboardRing.offset !== "2px" ||
+      keyboardRing.offset !== "-2px" ||
       keyboardRing.label?.trim() !== "Danger"
     )
       throw new Error(`Keyboard select/focus failed: ${JSON.stringify(keyboardRing)}`);
@@ -481,7 +530,7 @@ try {
     await page.getByRole("option", { name: "Large", exact: true }).click();
     await page.getByLabel("Disabled", { exact: true }).check();
     await page.getByLabel("Reduce motion", { exact: true }).check();
-    await page.getByRole("button", { name: "Dark theme" }).click();
+    await chooseRadio(page, "Preview theme", "Dark");
     await checkPanel(
       page.locator(".example-code"),
       samples.playground[

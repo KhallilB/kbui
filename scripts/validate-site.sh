@@ -13,6 +13,7 @@ site_server_pid=$!
 trap 'kill "$site_server_pid"' EXIT
 curl --fail --retry 8 --retry-connrefused --retry-delay 1 http://127.0.0.1:4175/ > /dev/null
 CATALOG_PREVIEW_URL=http://127.0.0.1:4175 bun run --cwd apps/storybook verify:release
+CONTROL_EDGES_URL=http://127.0.0.1:4175/storybook bun run --cwd apps/storybook verify:controls
 
 npm run build --prefix deployment/site
 npm run check --prefix deployment/site
