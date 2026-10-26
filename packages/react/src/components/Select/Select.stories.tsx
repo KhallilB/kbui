@@ -28,11 +28,15 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   play: async ({ canvasElement }) => {
     const trigger = within(canvasElement).getByRole("combobox", { name: "View" });
+    const field = trigger.closest(".kb-select");
+    if (!field) throw new Error("Missing select field");
+    const height = field.getBoundingClientRect().height;
     expect(getComputedStyle(trigger).backgroundImage).not.toBe("none");
     expect(getComputedStyle(trigger).boxShadow).toContain("inset");
     await userEvent.click(trigger);
     const list = await within(document.body).findByRole("listbox", { name: "View" });
     await waitFor(() => expect(list).toBeVisible());
+    expect(field.getBoundingClientRect().height).toBeCloseTo(height, 0);
     expect(document.body.style.overflowY).not.toBe("hidden");
     await userEvent.click(within(list).getByRole("option", { name: "All records" }));
     await expect(trigger).toHaveTextContent("All records");

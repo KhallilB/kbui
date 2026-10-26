@@ -4,8 +4,7 @@ export function standaloneSite() {
   return document.getElementById("root") !== null;
 }
 
-export function readSiteTheme(): Theme {
-  if (!standaloneSite()) return "light";
+export function readPreferredTheme(): Theme {
   const query = new URLSearchParams(window.location.search).get("theme");
   if (query === "light" || query === "dark") return query;
   try {
@@ -13,6 +12,10 @@ export function readSiteTheme(): Theme {
   } catch {
     return "light";
   }
+}
+
+export function readSiteTheme(): Theme {
+  return standaloneSite() ? readPreferredTheme() : "light";
 }
 
 export function retainSiteTheme(theme: Theme) {

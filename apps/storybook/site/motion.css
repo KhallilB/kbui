@@ -110,6 +110,7 @@
         .section,
         .example-section,
         .catalog-grid,
+        .catalog-browser,
         .catalog-live,
         .catalog-specimens,
         .comparison-previews
@@ -149,7 +150,6 @@
         .composition a,
         .component-card,
         .playground-actions button,
-        .segmented button,
         .day-demo .kb-button,
         .composition .kb-button,
         .fields select,
@@ -185,16 +185,9 @@
         .primary-link,
         .day-demo .kb-button,
         .composition .kb-button,
-        .playground-actions button,
-        .segmented button
+        .playground-actions button
       ):active:not(:disabled) {
       transform: translateY(1px);
-    }
-    .catalog-states button {
-      transition:
-        color 140ms ease,
-        background-color 140ms ease,
-        border-color 140ms ease;
     }
     .catalog-preview-frame iframe {
       transition:
