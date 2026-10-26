@@ -29,6 +29,8 @@ bun run storybook
 
 `test:stories` needs Chromium and built packages. On a new machine, run `bunx playwright install chromium` and `bun run build` once before the first run.
 
+CI runs **Build, lint and unit tests** on every PR. Docs-only changes compile Storybook without launching browsers. Runtime changes and `packages/react/README.md`, which supplies generated catalog APIs, also run **Validate site** in the official Playwright image. That check includes browser tests, staging and a deployment dry-run; it never publishes. Linux browser jobs reuse the image's installed browsers and system dependencies. Keep the exact Playwright package version and all workflow image tags aligned.
+
 ## Before you push
 
 The pre-commit hook lints staged files and typechecks the repository. It does not run tests. Run what CI runs before you push:

@@ -27,16 +27,22 @@ jobs:
     needs: release-please
     if: ${{ !cancelled() && needs.release-please.outputs.release_created == 'true' }}
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --ipc=host
+    defaults:
+      run:
+        shell: bash
     permissions:
-      contents: write
+      contents: read
     env:
       TAG: ${{ needs.release-please.outputs.tag_name }}
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
     steps:
       - uses: actions/checkout@v4
         with: { ref: "${{ env.TAG }}", fetch-depth: 0 }
       - uses: jdx/mise-action@v2
       - run: bun install --frozen-lockfile
-      - run: bunx playwright install --with-deps chromium
       # Release PRs opened by GITHUB_TOKEN skip ci.yml, so the tag is checked here.
       - run: bun run check
       - run: bun run test:stories
@@ -44,18 +50,37 @@ jobs:
         run: |
           mkdir release
           for dir in packages/*/; do
-            if [ "$(jq -r '.private // false' "$dir/package.json")" != true ]; then
+            if [ "$(bun -e 'console.log((await Bun.file(process.argv[1]).json()).private ?? false)' "$dir/package.json")" != true ]; then
               (cd "$dir" && bun pm pack --quiet --destination "$GITHUB_WORKSPACE/release")
             fi
           done
           ls release
-      - run: gh release upload "$TAG" release/*.tgz --clobber
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ env.TAG }}
+          path: release/*.tgz
+          if-no-files-found: error
+
+  upload:
+    needs: [release-please, assets]
+    if: ${{ !cancelled() && needs.assets.result == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      TAG: ${{ needs.release-please.outputs.tag_name }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-${{ env.TAG }}
+          path: release
+      - run: gh release upload "$TAG" release/*.tgz --repo "$GITHUB_REPOSITORY" --clobber
         env:
           GH_TOKEN: ${{ github.token }}
 
   install:
-    needs: [release-please, assets]
-    if: ${{ !cancelled() && needs.assets.result == 'success' }}
+    needs: [release-please, upload]
+    if: ${{ !cancelled() && needs.upload.result == 'success' }}
     strategy:
       fail-fast: false
       matrix:

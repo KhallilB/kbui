@@ -1,9 +1,9 @@
-name: Deploy kbui site
+name: Validate and deploy kbui site
 
 on:
   push:
     branches: [main]
-    paths: &site-paths
+    paths:
       - 'apps/storybook/**'
       - 'packages/**'
       - 'deployment/site/**'
@@ -13,8 +13,8 @@ on:
       - 'bun.lock'
       - 'tsconfig*.json'
       - 'mise.toml'
-  pull_request:
-    paths: *site-paths
+      - '!**/*.md'
+      - 'packages/react/README.md'
   workflow_dispatch:
 
 permissions:
@@ -29,8 +29,18 @@ env:
 
 jobs:
   build:
+    name: Validate production artifact
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --ipc=host
+    defaults:
+      run:
+        shell: bash
+    env:
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
     steps:
       - uses: actions/checkout@v4
       - uses: jdx/mise-action@v2
@@ -40,7 +50,6 @@ jobs:
       - run: bun install --frozen-lockfile
       - run: npm ci --prefix deployment/site
       - run: npm test --prefix deployment/site
-      - run: bunx playwright install --with-deps chromium webkit
       - run: bun run check
       - run: bun run test:stories
       - run: bun run --cwd apps/storybook test:site
@@ -64,6 +73,7 @@ jobs:
           retention-days: 14
 
   deploy:
+    name: Deploy production artifact
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
