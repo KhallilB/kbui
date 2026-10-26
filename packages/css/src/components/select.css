@@ -6,11 +6,13 @@
   min-width: 0;
 }
 .kb-select-label {
+  overflow-wrap: anywhere;
   font-size: var(--kb-text-small-size);
   font-weight: 600;
   color: var(--kb-color-fg);
 }
 .kb-select-control {
+  overflow-wrap: anywhere;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -103,6 +105,7 @@
 }
 .kb-select-description,
 .kb-select-empty {
+  overflow-wrap: anywhere;
   margin: 0;
   color: var(--kb-color-muted);
   font-size: var(--kb-text-small-size);
@@ -111,6 +114,7 @@
   padding: var(--kb-space-3);
 }
 .kb-select-error {
+  overflow-wrap: anywhere;
   margin: 0;
   color: var(--kb-color-danger);
   font-size: var(--kb-text-small-size);

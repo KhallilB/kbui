@@ -6,12 +6,12 @@
     gap: 24px 40px;
     padding: 28px;
     border: 1px solid var(--review-line);
-    border-radius: 24px;
+    border-radius: var(--site-radius-surface);
     background: var(--review-plane);
   }
   .catalog-search {
     flex: 1 1 280px;
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
   }
   .catalog-groups {
     flex: 1 1 420px;
@@ -24,7 +24,7 @@
     gap: 12px;
     min-height: 72px;
     color: var(--muted);
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
   }
   .catalog-grid {
     display: grid;
@@ -39,7 +39,7 @@
     padding: 28px;
     border: 1px solid var(--review-line);
     background: var(--review-paper);
-    border-radius: 24px;
+    border-radius: var(--site-radius-surface);
   }
   & .catalog-card:hover {
     background: var(--review-hover);
@@ -112,7 +112,7 @@
     border-radius: 24px;
     background: var(--review-plane);
     cursor: pointer;
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
   }
   .catalog-switcher nav {
     display: grid;
@@ -128,7 +128,7 @@
     border: 1px solid var(--review-line);
     border-radius: 12px;
     background: var(--review-paper);
-    font-size: 14px;
+    font-size: var(--kb-text-control-size);
   }
   .catalog-switcher a[aria-current] {
     background: var(--review-hover);
@@ -169,7 +169,7 @@
     --preview-inset: clamp(12px, 2vw, 24px);
     margin-inline: auto;
     border: 1px solid var(--review-line);
-    border-radius: 24px;
+    border-radius: var(--site-radius-surface);
     overflow: hidden;
     background: var(--kb-color-surface, var(--review-plane));
     display: grid;
@@ -208,7 +208,7 @@
     background: var(--review-paper);
     color: var(--ink);
     font-size: 12px;
-    line-height: 1.4;
+    line-height: var(--kb-text-leading-control);
     pointer-events: none;
   }
   .catalog-preview-status:empty {
@@ -235,7 +235,7 @@
   }
   & th {
     background: var(--review-plane);
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
     font-weight: 550;
   }
   & :is(th, td) {
@@ -260,7 +260,7 @@
     padding-block: 16px;
     min-height: 44px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: var(--kb-text-control-size);
   }
   .catalog-notes > div {
     display: flex;
@@ -349,7 +349,7 @@
   }
   .catalog-specimen header p:last-child {
     color: var(--muted);
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
     margin-top: 6px;
   }
   .catalog-example-picker {
@@ -411,7 +411,7 @@
     padding: 10px 12px;
     border: 1px solid transparent;
     border-radius: 10px;
-    font-size: 14px;
+    font-size: var(--kb-text-control-size);
     text-decoration: none;
   }
   .catalog-component-list small {

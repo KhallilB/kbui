@@ -223,15 +223,13 @@ for (const profile of profiles) {
       true,
     );
     await page.getByRole("link", { name: "Choose your theme" }).click();
-    await page.getByRole("combobox", { name: "Theme", exact: true }).click();
-    await page.getByRole("option", { name: "Dark", exact: true }).click();
+    await chooseRadio(page, "Theme", "Dark");
     assert.equal(await page.locator(".setup-preview").getAttribute("data-theme"), "dark");
     assert.match(
       await page.getByRole("region", { name: "Theme code", exact: true }).innerText(),
       /data-theme="dark"/,
     );
-    await page.getByRole("combobox", { name: "Theme", exact: true }).click();
-    await page.getByRole("option", { name: "System", exact: true }).click();
+    await chooseRadio(page, "Theme", "System");
     await page.emulateMedia({ colorScheme: "dark" });
     await page.waitForFunction(
       () => document.querySelector(".setup-preview")?.getAttribute("data-theme") === "dark",
@@ -549,7 +547,7 @@ for (const profile of profiles) {
         await button.evaluate((element, previous) => element === previous, buttonIdentity),
         true,
       );
-      await page.getByRole("button", { name: "Dark theme", exact: true }).click();
+      await chooseRadio(page, "Preview theme", "Dark");
       await page.waitForFunction(
         () =>
           getComputedStyle(document.querySelector(".playground-preview") as Element)
