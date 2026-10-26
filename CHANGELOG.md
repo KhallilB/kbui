@@ -1,5 +1,47 @@
 # Changelog
 
+## [0.6.0](https://github.com/KhallilB/kbui/compare/v0.5.0...v0.6.0) (2026-10-26)
+
+
+### Features
+
+* **catalog:** add bounded preview document cache ([d9ff50d](https://github.com/KhallilB/kbui/commit/d9ff50db5ad41fcf4c63ec15bc8b2f4b9b18113e))
+* **catalog:** add bounded preview document cache ([7db681d](https://github.com/KhallilB/kbui/commit/7db681d3c0115e1cb509f9a8783efda37f812f11))
+* **catalog:** add focused live component browser ([27d6c9c](https://github.com/KhallilB/kbui/commit/27d6c9c18c993828124c13bcafdb1c107fefcd28))
+* **catalog:** add focused live component browser ([57c6081](https://github.com/KhallilB/kbui/commit/57c60817cc04e49f2f8848d7a2e549df95c3eea3))
+* **react:** add controlled accessible RadioGroup ([553cc5e](https://github.com/KhallilB/kbui/commit/553cc5e5eb3a2ee854376c64d18a34b7f8a54044))
+* **react:** add controlled accessible Select ([643a5bd](https://github.com/KhallilB/kbui/commit/643a5bdffaadf848fa8515f692261921f29df6d9))
+* **react:** add controlled SearchInput ([676fe5c](https://github.com/KhallilB/kbui/commit/676fe5cb284917769b4ed2698583ace0f36878f1))
+* **react:** add controlled tactile Checkbox ([61eab67](https://github.com/KhallilB/kbui/commit/61eab67924c66568e0e994f9f651d88771762749))
+* **react:** add controlled tactile Checkbox ([dd62f9a](https://github.com/KhallilB/kbui/commit/dd62f9a9b7e80758161dee263b85766850e0926d))
+* **react:** add controlled tactile Select ([e861ec8](https://github.com/KhallilB/kbui/commit/e861ec84bc81bc030e96fb719a6d61b241741d63))
+* **react:** add controlled tactile Switch ([af339fc](https://github.com/KhallilB/kbui/commit/af339fcc4016b559aac8b0014fa6705e82c1179a))
+* **react:** add controlled tactile Switch ([b32e2b3](https://github.com/KhallilB/kbui/commit/b32e2b34f7b504ec603329f1fe8116f425797598))
+* **react:** add Input adornments and search recipe ([3f7ce63](https://github.com/KhallilB/kbui/commit/3f7ce6312d4e4e28b063ed439316b1b9fefccfb5))
+* **react:** add NumberField and FileInput ([8d42787](https://github.com/KhallilB/kbui/commit/8d427871ab1a69c62da6a6cfdb2e175b4a0e9387))
+* **react:** add NumberField and FileInput ([605a599](https://github.com/KhallilB/kbui/commit/605a5997b4f39b2fd48a12dab222c1e9881083bb))
+* **react:** add tactile RadioGroup with segmented appearance ([a7e4b52](https://github.com/KhallilB/kbui/commit/a7e4b522ef77c2b209c4f1c23900ddb11d951508))
+* ship tactile default design and themed previews ([f00c5c4](https://github.com/KhallilB/kbui/commit/f00c5c44298cc37c39eab53eae9c173f902b72fd))
+* ship tactile default design and themed previews ([23ec550](https://github.com/KhallilB/kbui/commit/23ec550d37e3a6036c316d595cec6b4e50b207cd))
+* **site:** add kbui home, catalog, setup and deployment ([a269e34](https://github.com/KhallilB/kbui/commit/a269e34ce9ceaba9533748eca0da576c046a08d9))
+* **site:** deploy kbui on its own custom domain ([8c95fa1](https://github.com/KhallilB/kbui/commit/8c95fa183271204786af62d753dbed2dc79645d5))
+* **site:** polish landing navigation and interactive day demo ([ca1305b](https://github.com/KhallilB/kbui/commit/ca1305b43e01ed07e8f724222052269a3f351222))
+* **site:** polish landing navigation and interactive day demo ([9217e1c](https://github.com/KhallilB/kbui/commit/9217e1c7a3a233abab1911c6116d79a132e086f8))
+
+
+### Bug Fixes
+
+* **catalog:** preserve legacy Input recipe links ([3c719af](https://github.com/KhallilB/kbui/commit/3c719af6fccad40979f65d0ce4f3a926fca943ef))
+* **catalog:** retain preview documents across state changes ([ef4bab8](https://github.com/KhallilB/kbui/commit/ef4bab87aacad4b47bcaa991ef42a4d364607fdf))
+* **catalog:** retain preview documents across state changes ([1b20426](https://github.com/KhallilB/kbui/commit/1b2042621961808c74f08df80af7f110f2317e93))
+* **ci:** install Bun with image-provided npm ([95e4584](https://github.com/KhallilB/kbui/commit/95e45848a4da01f347420abbb05c8871ec48fec8))
+* **react:** keep focus compact and respect menu input mode ([0924351](https://github.com/KhallilB/kbui/commit/092435110bffa53d15bcee1d0a4c74972a189be3))
+* **react:** keep keyboard focus compact ([2d68c4a](https://github.com/KhallilB/kbui/commit/2d68c4a936a0d4d89d69a079237f859803336326))
+* **react:** recover selected radio keyboard entry ([78454fd](https://github.com/KhallilB/kbui/commit/78454fd9589b340121a2d3ce0b5ea62c2d9b5f9f))
+* **react:** recover selected radio keyboard entry ([11d7fbc](https://github.com/KhallilB/kbui/commit/11d7fbc9271e6b4a7712c1ac6cc2acba4e7d2da1))
+* **site:** keep preview navigation out of catalog history ([c07c550](https://github.com/KhallilB/kbui/commit/c07c5508f508b53f0ea5a46bd7c60fe7b4a4e0b3))
+* **test:** preserve preview canvas and await route cleanup ([a2e1641](https://github.com/KhallilB/kbui/commit/a2e16410fafa3172c17da98cd9e9d142386464ba))
+
 ## [0.5.0](https://github.com/KhallilB/kbui/compare/v0.4.0...v0.5.0) (2026-10-23)
 
 
