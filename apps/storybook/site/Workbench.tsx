@@ -1,8 +1,9 @@
 import samples from "virtual:kbui-site-samples";
-import { Button } from "@kbui/react";
+import { Button, Checkbox, Input, RadioGroup } from "@kbui/react";
 import { useId, useRef, useState } from "react";
 import { CodePanel } from "./CodePanel";
 import { ControlSelect } from "./ControlSelect";
+import { LinkArrow } from "./LinkArrow";
 import { playgroundKey, sizes, variants } from "./playground-model";
 import { SiteFrame } from "./SiteFrame";
 import "./workbench.css";
@@ -68,8 +69,10 @@ export function Playground({ storybookRoot }: { storybookRoot: string }) {
           <div className="panel-caption">
             <span>Controls</span>
             <div className="playground-actions">
-              <button
+              <Button
                 type="button"
+                variant="ghost"
+                size="sm"
                 aria-label="Reset controls"
                 onClick={() => {
                   setVariant("primary");
@@ -81,9 +84,9 @@ export function Playground({ storybookRoot }: { storybookRoot: string }) {
                 }}
               >
                 Reset
-              </button>
+              </Button>
               <a href={docs("Button", storybookRoot)}>
-                API & states <span className="link-arrow">↗</span>
+                API & states <LinkArrow />
               </a>
             </div>
           </div>
@@ -109,43 +112,21 @@ export function Playground({ storybookRoot }: { storybookRoot: string }) {
               }))}
             />
           </div>
-          <div className="theme-control">
-            <span>Theme</span>
-            <div className="segmented">
-              {["dark", "light"].map((value) => (
-                <button
-                  type="button"
-                  key={value}
-                  aria-label={`${value === "dark" ? "Dark" : "Light"} theme`}
-                  aria-pressed={theme === value}
-                  onClick={() => {
-                    setTheme(value as "light" | "dark");
-                  }}
-                >
-                  {value}
-                </button>
-              ))}
-            </div>
-          </div>
+          <RadioGroup
+            className="theme-control"
+            label="Preview theme"
+            appearance="segmented"
+            value={theme}
+            onValueChange={(value) => {
+              if (value === "light" || value === "dark") setTheme(value);
+            }}
+          >
+            <RadioGroup.Item value="dark">Dark</RadioGroup.Item>
+            <RadioGroup.Item value="light">Light</RadioGroup.Item>
+          </RadioGroup>
           <div className="checks">
-            <label>
-              <input
-                type="checkbox"
-                checked={disabled}
-                onChange={(event) => {
-                  setDisabled(event.target.checked);
-                }}
-              />
-              Disabled
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                checked={reduced}
-                onChange={(event) => setReduced(event.target.checked)}
-              />
-              Reduce motion
-            </label>
+            <Checkbox label="Disabled" checked={disabled} onCheckedChange={setDisabled} />
+            <Checkbox label="Reduce motion" checked={reduced} onCheckedChange={setReduced} />
           </div>
         </div>
         <CodePanel sample={sample} name="Button" defaultOpen testId="working-code" />
@@ -184,28 +165,32 @@ export function Workbench({
         <Playground storybookRoot={storybookRoot} />
         <section className="section" aria-label="Featured components">
           <h2>Find a component</h2>
-          <label className="search">
-            <input
-              ref={searchInput}
-              type="search"
-              placeholder="Button, Dialog, Progress…"
-              aria-label="Find a component"
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-            />
-            {search && (
-              <button
-                type="button"
-                aria-label="Clear search"
-                onClick={() => {
-                  setSearch("");
-                  searchInput.current?.focus();
-                }}
-              >
-                Clear
-              </button>
-            )}
-          </label>
+          <Input
+            className="component-search"
+            ref={searchInput}
+            type="search"
+            placeholder="Button, Dialog, Progress…"
+            label="Find a component"
+            visuallyHidden
+            value={search}
+            onValueChange={setSearch}
+            endContent={
+              search ? (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  aria-label="Clear search"
+                  onClick={() => {
+                    setSearch("");
+                    searchInput.current?.focus();
+                  }}
+                >
+                  <span aria-hidden="true">×</span>
+                </Button>
+              ) : undefined
+            }
+          />
           <p className="result-count" role="status" aria-label="Component results">
             {matches.length} of {components.length} featured components
           </p>

@@ -16,13 +16,19 @@ type Story = StoryObj<typeof meta>;
 export const Settings: Story = {
   play: async ({ canvasElement }) => {
     const page = within(canvasElement);
+    const back = page.getByRole("link", { name: /All examples/ });
+    await userEvent.hover(back);
+    const arrow = back.querySelector("svg.link-arrow");
+    expect(arrow).not.toBeNull();
+    expect(arrow).toHaveAttribute("aria-hidden", "true");
+    expect(back).toHaveAccessibleName("All examples");
     const name = page.getByRole("textbox", { name: "Workspace name" });
     await userEvent.clear(name);
     await userEvent.click(page.getByRole("button", { name: "Save changes" }));
     expect(page.getByText("Enter a workspace name.")).toBeVisible();
     expect(name).toHaveFocus();
     await userEvent.type(name, "Northstar Studio ");
-    await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
+    await userEvent.click(page.getByLabelText("Dark mode"));
     expect(page.getByRole("textbox", { name: "Workspace name" })).toBe(name);
     expect(name).toHaveValue("Northstar Studio ");
     await userEvent.click(page.getByRole("button", { name: "Save changes" }));
@@ -36,7 +42,7 @@ export const Settings: Story = {
       "data-theme",
       "dark",
     );
-    await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
+    await userEvent.click(page.getByLabelText("Dark mode"));
     expect(page.getByRole("region", { name: "Workspace preview" })).toHaveAttribute(
       "data-theme",
       "light",
@@ -72,7 +78,7 @@ export const Operations: Story = {
   play: async ({ canvasElement }) => {
     const page = within(canvasElement);
     await userEvent.click(page.getByRole("radio", { name: "Operations" }));
-    await userEvent.click(page.getByRole("button", { name: "Needs attention" }));
+    await userEvent.click(page.getByRole("radio", { name: "Needs attention" }));
     expect(page.getByRole("status", { name: "Queue results" })).toHaveTextContent("1 job");
     await userEvent.click(page.getByRole("button", { name: "Inspect Database migration" }));
     const popup = await page.findByRole("dialog", { name: "Database migration" });
@@ -92,9 +98,9 @@ export const Operations: Story = {
     await userEvent.keyboard("{Escape}");
     await waitFor(() => expect(page.queryByRole("dialog")).toBeNull());
     expect(page.getByText("No jobs need attention.")).toBeVisible();
-    await waitFor(() => expect(page.getByRole("button", { name: "All jobs" })).toHaveFocus());
-    await userEvent.click(page.getByRole("button", { name: "All jobs" }));
-    await userEvent.type(page.getByRole("textbox", { name: "Search jobs" }), "no-match");
+    await waitFor(() => expect(page.getByRole("radio", { name: "All jobs" })).toHaveFocus());
+    await userEvent.click(page.getByRole("radio", { name: "All jobs" }));
+    await userEvent.type(page.getByRole("searchbox", { name: "Search jobs" }), "no-match");
     expect(page.getByText("No jobs match your search.")).toBeVisible();
     await userEvent.click(page.getByRole("button", { name: "Clear filters" }));
     expect(page.getByRole("status", { name: "Queue results" })).toHaveTextContent("6 jobs");
@@ -114,12 +120,12 @@ export const ThemePreservesState: Story = {
     const page = within(canvasElement);
     const name = page.getByRole("textbox", { name: "Workspace name" });
     await userEvent.type(name, " together");
-    await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
+    await userEvent.click(page.getByLabelText("Dark mode"));
     expect(name).toHaveValue("Northstar together");
     await userEvent.click(page.getByRole("radio", { name: "Operations" }));
-    await userEvent.type(page.getByRole("textbox", { name: "Search jobs" }), "Database");
-    await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
-    expect(page.getByRole("textbox", { name: "Search jobs" })).toHaveValue("Database");
+    await userEvent.type(page.getByRole("searchbox", { name: "Search jobs" }), "Database");
+    await userEvent.click(page.getByLabelText("Dark mode"));
+    expect(page.getByRole("searchbox", { name: "Search jobs" })).toHaveValue("Database");
     expect(page.getByRole("status", { name: "Queue results" })).toHaveTextContent("1 job");
   },
 };
@@ -128,7 +134,7 @@ export const DarkOperations: Story = {
   play: async ({ canvasElement }) => {
     const page = within(canvasElement);
     await userEvent.click(page.getByRole("radio", { name: "Operations" }));
-    await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
+    await userEvent.click(page.getByLabelText("Dark mode"));
     expect(page.getAllByRole("table", { name: "Workspace jobs" })).toHaveLength(1);
     expect(page.getByRole("region", { name: "Workspace preview" })).toHaveAttribute(
       "data-theme",
@@ -146,12 +152,16 @@ export const ControlStates: Story = {
     expect(news).toBeChecked();
     await userEvent.keyboard("{Tab}{Shift>}{Tab}{/Shift}");
     expect(news).toHaveFocus();
-    expect(getComputedStyle(news).outlineWidth).toBe("2px");
+    const mark = news.closest(".kb-checkbox")?.querySelector(".kb-checkbox-mark");
+    if (!mark) throw new Error("Missing shared Checkbox mark");
+    expect(
+      getComputedStyle(matchMedia("(forced-colors: active)").matches ? news : mark).outlineWidth,
+    ).toBe("2px");
     await userEvent.keyboard(" ");
     expect(news).not.toBeChecked();
-    await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
+    await userEvent.click(page.getByLabelText("Dark mode"));
     expect(page.getByRole("checkbox", { name: /^Product news/ })).not.toBeChecked();
-    await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
+    await userEvent.click(page.getByLabelText("Dark mode"));
     expect(page.getByRole("button", { name: "Save changes" })).toBeEnabled();
   },
 };
@@ -159,7 +169,7 @@ export const ControlStates: Story = {
 export const SettingsDropdowns: Story = {
   play: async ({ canvasElement }) => {
     const page = within(canvasElement);
-    await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
+    await userEvent.click(page.getByLabelText("Dark mode"));
     await userEvent.click(page.getByRole("combobox", { name: "Timezone" }));
     const zones = await within(document.body).findByRole("listbox", { name: "Timezone" });
     expect(zones.closest("[data-theme]")).toHaveAttribute("data-theme", "dark");
@@ -172,7 +182,81 @@ export const SettingsDropdowns: Story = {
     await userEvent.click(page.getByRole("button", { name: "Save changes" }));
     expect(page.getByRole("combobox", { name: "Timezone" })).toBeDisabled();
     await waitFor(() => expect(page.getByText("Changes saved for this session.")).toBeVisible());
-    await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
+    await userEvent.click(page.getByLabelText("Dark mode"));
     expect(page.getByRole("combobox", { name: "Activity digest" })).toHaveTextContent("Daily");
+  },
+};
+
+export const NotificationDraft: Story = {
+  play: async ({ canvasElement }) => {
+    const page = within(canvasElement);
+    const news = page.getByRole("checkbox", { name: /^Product news/ });
+    expect(news).toHaveAccessibleDescription("Occasional updates from the workspace.");
+    await userEvent.click(news);
+    expect(news).toBeChecked();
+    await userEvent.click(page.getByRole("button", { name: "Discard changes" }));
+    expect(news).not.toBeChecked();
+    await userEvent.click(news);
+    await userEvent.click(page.getByRole("button", { name: "Save changes" }));
+    expect(news).toBeDisabled();
+    expect(page.getByRole("textbox", { name: "Workspace name" })).toBeDisabled();
+    expect(page.getByRole("combobox", { name: "Timezone" })).toBeDisabled();
+    await waitFor(() => expect(page.getByText("Changes saved for this session.")).toBeVisible());
+    await userEvent.click(page.getByRole("button", { name: "Operations" }));
+    await userEvent.click(page.getByRole("button", { name: "Settings" }));
+    const restored = page.getByRole("checkbox", { name: /^Product news/ });
+    expect(restored).toBeChecked();
+    await userEvent.click(restored);
+    await userEvent.click(page.getByLabelText("Dark mode"));
+    expect(restored).not.toBeChecked();
+    await userEvent.click(page.getByRole("button", { name: "Discard changes" }));
+    expect(restored).toBeChecked();
+  },
+};
+
+export const QueueSearch: Story = {
+  play: async ({ canvasElement }) => {
+    const page = within(canvasElement);
+    await userEvent.click(page.getByRole("radio", { name: "Operations" }));
+    await userEvent.click(page.getByRole("radio", { name: "Needs attention" }));
+    const search = page.getByRole("searchbox", { name: "Search jobs" });
+    await userEvent.type(search, "no match");
+    expect(page.getByText("No jobs match your search.")).toBeVisible();
+    await userEvent.click(page.getByRole("button", { name: "Clear job search" }));
+    expect(search).toHaveValue("");
+    expect(search).toHaveFocus();
+    expect(page.getByRole("radio", { name: "Needs attention" })).toBeChecked();
+    expect(page.getByRole("status", { name: "Queue results" })).toHaveTextContent("1 job");
+    expect(page.queryByRole("button", { name: "Clear job search" })).toBeNull();
+  },
+};
+
+export const SegmentedKeyboard: Story = {
+  play: async ({ canvasElement }) => {
+    const page = within(canvasElement);
+    await userEvent.type(page.getByRole("textbox", { name: "Workspace name" }), " draft");
+    const screens = within(page.getByRole("radiogroup", { name: "Screen" }));
+    const settings = screens.getByRole("radio", { name: "Settings" });
+    settings.focus();
+    await userEvent.keyboard("{ArrowRight}");
+    expect(screens.getByRole("radio", { name: "Operations" })).toBeChecked();
+    const filters = within(page.getByRole("radiogroup", { name: "Filter jobs" }));
+    filters.getByRole("radio", { name: "All jobs" }).focus();
+    await userEvent.keyboard("{ArrowRight}");
+    expect(filters.getByRole("radio", { name: "Running" })).toBeChecked();
+    expect(page.getByRole("status", { name: "Queue results" })).toHaveTextContent("2 jobs");
+    await userEvent.keyboard("{ArrowRight}");
+    expect(filters.getByRole("radio", { name: "Needs attention" })).toBeChecked();
+    expect(page.getByRole("status", { name: "Queue results" })).toHaveTextContent("1 job");
+    await userEvent.type(page.getByRole("searchbox", { name: "Search jobs" }), "Database");
+    screens.getByRole("radio", { name: "Operations" }).focus();
+    await userEvent.keyboard("{ArrowLeft}");
+    expect(page.getByRole("textbox", { name: "Workspace name" })).toHaveValue("Northstar draft");
+    await userEvent.click(page.getByLabelText("Dark mode"));
+    screens.getByRole("radio", { name: "Settings" }).focus();
+    await userEvent.keyboard("{ArrowRight}");
+    expect(page.getByRole("searchbox", { name: "Search jobs" })).toHaveValue("Database");
+    expect(page.getByRole("radio", { name: "Needs attention" })).toBeChecked();
+    expect(page.getByRole("status", { name: "Queue results" })).toHaveTextContent("1 job");
   },
 };
