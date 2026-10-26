@@ -1,0 +1,13 @@
+<script>
+  (() => {
+    let inherited;
+    try { inherited = window.frameElement?.getAttribute("data-preview-theme"); } catch {}
+    const globals = new URLSearchParams(location.search).get("globals") || "";
+    const explicit = globals.match(/(?:^|;)(?:previewTheme|theme):(light|dark)(?:;|$)/)?.[1];
+    const theme = inherited === "light" || inherited === "dark" ? inherited : explicit;
+    if (theme) {
+      document.documentElement.dataset.theme = theme;
+      document.documentElement.style.colorScheme = theme;
+    }
+  })();
+</script>

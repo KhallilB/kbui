@@ -27,7 +27,7 @@ function CatalogRoute() {
   }, []);
   return (
     <Catalog
-      key={location.revision}
+      navigationRevision={location.revision}
       initialAppearance={{ theme: readSiteTheme(), live: location.query.get("view") === "live" }}
       onAppearanceChange={({ theme, live }) => {
         const url = new URL(window.location.href);
@@ -42,6 +42,7 @@ function CatalogRoute() {
         const url = new URL(window.location.href);
         url.searchParams.set("state", id);
         window.history.pushState(null, "", url);
+        setLocation((current) => ({ ...current, query: url.searchParams }));
       }}
     />
   );

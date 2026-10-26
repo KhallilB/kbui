@@ -56,10 +56,12 @@ try {
           await page.goto(
             `${origin}/components/?component=${entry.id}&state=${story.id}${appearance}`,
           );
-          const frame = page.frameLocator("iframe");
+          const frame = page.frameLocator('iframe[data-current="true"]');
           await page.waitForFunction(
             () => {
-              const doc = document.querySelector("iframe")?.contentDocument;
+              const doc = document.querySelector<HTMLIFrameElement>(
+                'iframe[data-current="true"]',
+              )?.contentDocument;
               return doc?.querySelector("#storybook-root > *, [role=dialog]");
             },
             undefined,
@@ -81,7 +83,7 @@ try {
             );
           });
           await page.waitForFunction(() => {
-            const iframe = document.querySelector("iframe");
+            const iframe = document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]');
             const doc = iframe?.contentDocument;
             const root = doc?.getElementById("storybook-root");
             if (!root || !iframe || !doc) return false;
@@ -95,7 +97,7 @@ try {
             return iframe.clientHeight >= needed;
           });
           const geometry = await page.evaluate(() => {
-            const iframe = document.querySelector("iframe");
+            const iframe = document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]');
             const doc = iframe?.contentDocument;
             const root = doc?.getElementById("storybook-root");
             if (!iframe || !doc || !root) throw new Error("Missing live example");
@@ -212,7 +214,9 @@ try {
           if (story.id === "components-badge--default") {
             await page.getByRole("button", { name: "Expand preview", exact: true }).click();
             await page.waitForFunction(
-              () => document.querySelector("iframe")?.clientHeight === 480,
+              () =>
+                document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
+                  ?.clientHeight === 480,
             );
             const centered = await frame.locator(".kb-badge").evaluate((element) => {
               const bounds = element.getBoundingClientRect();
@@ -221,7 +225,9 @@ try {
             if (!centered) throw new Error("Expanded compact example lost vertical centering");
             await page.getByRole("button", { name: "Compact preview", exact: true }).click();
             await page.waitForFunction(
-              (height) => document.querySelector("iframe")?.clientHeight === height,
+              (height) =>
+                document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
+                  ?.clientHeight === height,
               geometry.height,
             );
           }
@@ -232,7 +238,8 @@ try {
             throw new Error("Code differs from selected canonical example");
           const afterCode = await page.evaluate(() => ({
             overflow: document.documentElement.scrollWidth > innerWidth,
-            height: document.querySelector("iframe")?.clientHeight,
+            height: document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
+              ?.clientHeight,
           }));
           if (afterCode.overflow || afterCode.height !== geometry.height)
             throw new Error(`Code panel changed preview geometry: ${JSON.stringify(afterCode)}`);
@@ -240,14 +247,19 @@ try {
           const expandedHeight = Math.max(geometry.height, Math.min(480, 900 * 0.6));
           await page.waitForFunction(
             (expected) =>
-              Math.abs((document.querySelector("iframe")?.clientHeight ?? 0) - expected) <= 1,
+              Math.abs(
+                (document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
+                  ?.clientHeight ?? 0) - expected,
+              ) <= 1,
             expandedHeight,
           );
           if (await page.evaluate(() => document.documentElement.scrollWidth > innerWidth))
             throw new Error("Expanded preview caused page overflow");
           await page.getByRole("button", { name: "Compact preview", exact: true }).click();
           await page.waitForFunction(
-            (expected) => document.querySelector("iframe")?.clientHeight === expected,
+            (expected) =>
+              document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
+                ?.clientHeight === expected,
             geometry.height,
           );
           if (story.id === "components-panel--token-overrides") {
@@ -309,13 +321,17 @@ try {
                 await page.keyboard.press("ArrowDown");
                 await popup.waitFor({ state: "visible" });
                 await page.waitForFunction(() => {
-                  const active = document.querySelector("iframe")?.contentDocument?.activeElement;
+                  const active = document.querySelector<HTMLIFrameElement>(
+                    'iframe[data-current="true"]',
+                  )?.contentDocument?.activeElement;
                   return active?.matches('[role="menu"], [role="menuitem"]');
                 });
                 await page.keyboard.press(key);
                 await popup.waitFor({ state: "hidden" });
                 await page.waitForFunction(() => {
-                  const active = document.querySelector("iframe")?.contentDocument?.activeElement;
+                  const active = document.querySelector<HTMLIFrameElement>(
+                    'iframe[data-current="true"]',
+                  )?.contentDocument?.activeElement;
                   return active?.matches('[aria-haspopup="menu"][aria-expanded="false"]');
                 });
               }
@@ -329,7 +345,9 @@ try {
               .waitFor({ state: "hidden" });
             // Minimum overlay reserve can contain both open and closed content.
             await page.waitForFunction((minimum) => {
-              const iframe = document.querySelector("iframe");
+              const iframe = document.querySelector<HTMLIFrameElement>(
+                'iframe[data-current="true"]',
+              );
               const doc = iframe?.contentDocument;
               const root = doc?.getElementById("storybook-root");
               if (!iframe || !doc || !root) return false;
@@ -377,7 +395,7 @@ try {
         console.log(`${width}×${height}: fit short state`);
         await page.getByRole("button", { name: "Compact", exact: true }).click();
         await page.waitForFunction(() => {
-          const iframe = document.querySelector("iframe");
+          const iframe = document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]');
           const root = iframe?.contentDocument?.getElementById("storybook-root");
           return root?.querySelector(".kb-panel") && iframe && iframe.clientHeight < 300;
         });
@@ -393,13 +411,18 @@ try {
         await page.getByRole("button", { name: "Expand preview", exact: true }).click();
         await page.waitForFunction(
           (expected) =>
-            Math.abs((document.querySelector("iframe")?.clientHeight ?? 0) - expected) <= 1,
+            Math.abs(
+              (document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
+                ?.clientHeight ?? 0) - expected,
+            ) <= 1,
           Math.min(480, height * 0.6),
         );
         await page.getByRole("button", { name: "With Error", exact: true }).click();
         await page.getByRole("button", { name: "Expand preview", exact: true }).waitFor();
         await page.waitForFunction(
-          () => (document.querySelector("iframe")?.clientHeight ?? 480) < 220,
+          () =>
+            (document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
+              ?.clientHeight ?? 480) < 220,
         );
       }
       await page.setViewportSize({ width, height: 900 });

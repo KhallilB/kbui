@@ -12,7 +12,7 @@ try {
     if (new URL(page.url()).searchParams.has("skin")) throw new Error("Legacy skin URL remains");
     if (await page.getByRole("button", { name: "Site skin", exact: true }).count())
       throw new Error("Skin selector remains");
-    const frame = page.frameLocator("iframe");
+    const frame = page.frameLocator('iframe[data-current="true"]');
     const email = frame.getByRole("textbox", { name: "Email", exact: true });
     await email.fill("preserve@example.com");
     await frame.locator("html").evaluate((root) => root.setAttribute("data-instance", "retained"));
@@ -20,8 +20,8 @@ try {
     await toggle.press("Space");
     await page.waitForFunction(
       () =>
-        document.querySelector("iframe")?.contentDocument?.documentElement?.dataset.theme ===
-        "dark",
+        document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]')?.contentDocument
+          ?.documentElement?.dataset.theme === "dark",
     );
     if ((await email.inputValue()) !== "preserve@example.com") throw new Error("Theme reset input");
     if ((await frame.locator("html").getAttribute("data-instance")) !== "retained")
@@ -38,8 +38,8 @@ try {
     await page.getByRole("button", { name: "Reload preview", exact: true }).click();
     await page.waitForFunction(
       () =>
-        document.querySelector("iframe")?.contentDocument?.documentElement?.dataset.theme ===
-        "dark",
+        document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]')?.contentDocument
+          ?.documentElement?.dataset.theme === "dark",
       undefined,
       { timeout: 5000 },
     );

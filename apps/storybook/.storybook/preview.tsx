@@ -1,19 +1,22 @@
 import type { Preview } from "@storybook/react-vite";
 import "@kbui/css/styles.css";
-import { type ReactNode, useEffect, useLayoutEffect, useState } from "react";
+import { type ReactNode, useLayoutEffect, useState } from "react";
 import type { Theme } from "../site/site-theme";
 import "../site/workspace-skin.css";
 import "./component-preview.css";
 
 function ThemePreview({ theme, children }: { theme: Theme; children: ReactNode }) {
-  const [receivedTheme, setReceivedTheme] = useState<Theme | null>(null);
+  const [receivedTheme, setReceivedTheme] = useState<Theme | null>(() => {
+    const value = window.frameElement?.getAttribute("data-preview-theme");
+    return value === "light" || value === "dark" ? value : null;
+  });
   const activeTheme = receivedTheme ?? theme;
   useLayoutEffect(() => {
     // Root scope includes body portals.
     document.documentElement.dataset.theme = activeTheme;
     document.documentElement.style.colorScheme = activeTheme;
   }, [activeTheme]);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (window.parent === window) return;
     const receive = (event: MessageEvent) => {
       if (event.source !== window.parent || event.origin !== location.origin) return;

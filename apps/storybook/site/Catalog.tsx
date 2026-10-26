@@ -1,14 +1,7 @@
 import entries from "virtual:kbui-catalog";
-import {
-  type ComponentProps,
-  type RefObject,
-  useCallback,
-  useEffect,
-  useId,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useId, useLayoutEffect, useRef, useState } from "react";
 import type { ApiBlock, CatalogEntry, CatalogGroup } from "../catalog/types";
+import { StoryPreview } from "./CatalogPreview";
 import { CodePanel } from "./CodePanel";
 import { ControlSelect } from "./ControlSelect";
 import { SiteFrame } from "./SiteFrame";
@@ -154,7 +147,7 @@ function CatalogSpecimen({
         style={themeStyle(appearance.theme)}
       >
         <StoryPreview
-          key={`${stateId}`}
+          cacheLimit={2}
           title={`${entry.name} — ${selected.name} live example`}
           src={`${storybookRoot}iframe.html?id=${selected.id}&viewMode=story${previewGlobals(appearance)}&embed=true`}
           layout={previewLayout(entry.id, selected.id)}
@@ -295,210 +288,16 @@ function previewLayout(component: string, _story: string) {
   return { width: 520, minimum: 96 };
 }
 
-function PreviewDocument({
-  src,
-  frameRef,
-  ...props
-}: Omit<ComponentProps<"iframe">, "src" | "ref"> & {
-  src: string;
-  frameRef: RefObject<HTMLIFrameElement | null>;
-}) {
-  const initialSrc = useRef(src);
-  const requested = useRef(src);
-  useEffect(() => {
-    if (requested.current === src) return;
-    requested.current = src;
-    // Child navigation must not add joint browser history entries.
-    frameRef.current?.contentWindow?.location.replace(new URL(src, window.location.href).href);
-  }, [frameRef, src]);
-  return <iframe {...props} ref={frameRef} src={initialSrc.current} data-preview-src={src} />;
-}
-
-function StoryPreview({
-  src,
-  title,
-  layout,
-  expanded,
-  appearance,
-  generation = 0,
-  pending = false,
-  status = "",
-  onLoad,
-  onSlow,
-  onError,
-}: {
-  src: string;
-  title: string;
-  layout: { width: number; minimum: number };
-  expanded: boolean;
-  appearance: CatalogAppearance;
-  generation?: number;
-  pending?: boolean;
-  status?: string;
-  onLoad: () => void;
-  onSlow?: () => void;
-  onError: () => void;
-}) {
-  const frame = useRef<HTMLIFrameElement>(null);
-  const initialTheme = useRef(appearance.theme);
-  const frameSrc = src.replace(
-    /(&globals=previewTheme:)(?:light|dark)/,
-    `$1${initialTheme.current}`,
-  );
-  useEffect(() => {
-    const element = frame.current;
-    if (!element || element.dataset.generation !== String(generation)) return;
-    const send = () =>
-      element?.contentWindow?.postMessage(
-        { type: "kbui:theme", theme: appearance.theme },
-        window.location.origin,
-      );
-    const ready = (event: MessageEvent) => {
-      if (
-        event.origin === window.location.origin &&
-        event.source === element?.contentWindow &&
-        event.data?.type === "kbui:theme-ready"
-      )
-        send();
-    };
-    window.addEventListener("message", ready);
-    element?.addEventListener("load", send);
-    send();
-    return () => {
-      window.removeEventListener("message", ready);
-      element?.removeEventListener("load", send);
-    };
-  }, [appearance.theme, generation]);
-  const [contentHeight, setContentHeight] = useState(0);
-  useEffect(() => {
-    const element = frame.current;
-    if (
-      !element ||
-      element.dataset.generation !== String(generation) ||
-      element.dataset.previewSrc !== frameSrc
-    )
-      return;
-    const timer = window.setTimeout(() => onSlow?.(), 10000);
-    let disconnect = () => {};
-    const observe = () => {
-      disconnect();
-      try {
-        const doc = element.contentDocument;
-        const view = element.contentWindow;
-        if (!doc?.body || !view) return;
-        const documentUrl = new URL(doc.URL);
-        const requestedUrl = new URL(element.dataset.previewSrc ?? frameSrc, window.location.href);
-        documentUrl.searchParams.sort();
-        requestedUrl.searchParams.sort();
-        if (documentUrl.href !== requestedUrl.href) return;
-        let active = true;
-        let animation = 0;
-        let root: HTMLElement | null = null;
-        let ready = false;
-        const measure = () => {
-          if (!active) return;
-          const storyRoot = doc.getElementById("storybook-root");
-          const next =
-            storyRoot?.querySelector<HTMLElement>(
-              ":scope > .component-preview > .component-preview-content",
-            ) ?? storyRoot;
-          if (next !== root) {
-            if (root) resize.unobserve(root);
-            root = next;
-            if (root) resize.observe(root);
-          }
-          if (!root || !storyRoot) return;
-          if (!ready && (root.childElementCount > 0 || doc.querySelector('[role="dialog"]'))) {
-            ready = true;
-            window.clearTimeout(timer);
-            onLoad();
-          }
-          const body = view.getComputedStyle(doc.body);
-          // Intrinsic height excludes viewport centering space.
-          const bottom =
-            root === storyRoot
-              ? root.getBoundingClientRect().bottom + view.scrollY
-              : storyRoot.getBoundingClientRect().top +
-                view.scrollY +
-                root.getBoundingClientRect().height;
-          setContentHeight(
-            Math.ceil(
-              bottom +
-                Number.parseFloat(body.paddingBottom || "0") +
-                Number.parseFloat(body.marginBottom || "0"),
-            ),
-          );
-        };
-        const schedule = () => {
-          cancelAnimationFrame(animation);
-          animation = requestAnimationFrame(measure);
-        };
-        const resize = new ResizeObserver(schedule);
-        const mutations = new MutationObserver(schedule);
-        mutations.observe(doc.body, { childList: true, subtree: true, characterData: true });
-        // Root can mount after iframe load. Ignore body viewport height to avoid resize loops.
-        measure();
-        void doc.fonts.ready.then(() => {
-          if (active) schedule();
-        });
-        disconnect = () => {
-          active = false;
-          cancelAnimationFrame(animation);
-          resize.disconnect();
-          mutations.disconnect();
-        };
-      } catch {
-        // External previews retain fallback sizing and their direct Storybook link.
-      }
-    };
-    element.addEventListener("load", observe);
-    observe();
-    return () => {
-      element.removeEventListener("load", observe);
-      window.clearTimeout(timer);
-      disconnect();
-    };
-  }, [frameSrc, generation, onLoad, onSlow]);
-  return (
-    <div
-      className="catalog-preview-frame"
-      data-theme={appearance.theme}
-      style={{
-        ...themeStyle(appearance.theme),
-        maxWidth: `calc(${layout.width}px + 2 * var(--preview-inset))`,
-      }}
-    >
-      <PreviewDocument
-        key={generation}
-        frameRef={frame}
-        aria-busy={pending}
-        inert={pending}
-        data-generation={generation}
-        title={title}
-        src={frameSrc}
-        style={{
-          maxWidth: layout.width,
-          height: expanded
-            ? `max(${Math.max(layout.minimum, contentHeight)}px, min(480px, 60svh))`
-            : Math.max(layout.minimum, contentHeight),
-        }}
-        onError={onError}
-      />
-      <p className="catalog-preview-status" role="status">
-        {status}
-      </p>
-    </div>
-  );
-}
-
 function CatalogDetail({
   entry,
   initialStateId,
   storybookRoot,
   onStateChange,
   appearance,
+  navigationRevision = 0,
 }: {
   appearance: CatalogAppearance;
+  navigationRevision?: number;
   entry: CatalogEntry;
   initialStateId: string | null;
   storybookRoot: string;
@@ -512,6 +311,15 @@ function CatalogDetail({
   const [failed, setFailed] = useState(false);
   const [slow, setSlow] = useState(false);
   const compactOnReady = useRef(false);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: History restoration can repeat same URL state without remounting retained documents.
+  useLayoutEffect(() => {
+    const next = initialStateId ?? entry.defaultStoryId;
+    setStateId(next);
+    setLoaded(false);
+    setSlow(false);
+    setFailed(false);
+    compactOnReady.current = true;
+  }, [initialStateId, entry.defaultStoryId, navigationRevision]);
   const markReady = useCallback(() => {
     setLoaded(true);
     if (compactOnReady.current) {
@@ -609,7 +417,7 @@ function CatalogDetail({
           layout={previewLayout(entry.id, selected.id)}
           expanded={expanded}
           title={`${entry.name} — ${selected.name} live example`}
-          src={`${storybookRoot}iframe.html?id=${encodeURIComponent(selected.id)}&viewMode=story${previewGlobals(appearance)}`}
+          src={`${storybookRoot}iframe.html?id=${encodeURIComponent(selected.id)}&viewMode=story${previewGlobals(appearance)}&embed=true`}
           onLoad={markReady}
           onSlow={markSlow}
           onError={() => {
@@ -704,7 +512,9 @@ export function Catalog({
   onStateChange,
   initialAppearance = { theme: readSiteTheme(), live: false },
   onAppearanceChange,
+  navigationRevision = 0,
 }: {
+  navigationRevision?: number;
   initialAppearance?: CatalogAppearance;
   onAppearanceChange?: (value: CatalogAppearance) => void;
   siteRoot?: string;
@@ -714,6 +524,10 @@ export function Catalog({
   onStateChange?: (id: string) => void;
 }) {
   const [appearance, setAppearance] = useState(initialAppearance);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: History revision restores local view/theme even when prior props were identical.
+  useLayoutEffect(() => {
+    setAppearance({ theme: initialAppearance.theme, live: initialAppearance.live });
+  }, [navigationRevision, initialAppearance.theme, initialAppearance.live]);
   const entry = componentId ? entries.find((component) => component.id === componentId) : undefined;
   return (
     <SiteFrame
@@ -779,9 +593,9 @@ export function Catalog({
           <CatalogIndex appearance={appearance} storybookRoot={storybookRoot} />
         ) : entry ? (
           <CatalogDetail
-            key={entry.id}
             entry={entry}
             appearance={appearance}
+            navigationRevision={navigationRevision}
             initialStateId={stateId}
             storybookRoot={storybookRoot}
             onStateChange={onStateChange}

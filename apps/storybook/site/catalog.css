@@ -508,3 +508,12 @@
     }
   }
 }
+
+.kbui-catalog .catalog-preview-frame iframe[data-visible="false"] {
+  position: absolute;
+  inset-inline-start: var(--preview-inset);
+  inset-block-start: var(--preview-inset);
+  inline-size: calc(100% - 2 * var(--preview-inset));
+  visibility: hidden;
+  pointer-events: none;
+}

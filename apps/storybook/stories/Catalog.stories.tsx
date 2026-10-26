@@ -71,7 +71,7 @@ export const ButtonStates: Story = {
     );
     expect(canvas.getByTitle("Button — Disabled live example")).toHaveAttribute(
       "data-preview-src",
-      "./iframe.html?id=components-button--disabled&viewMode=story&globals=previewTheme:light",
+      "./iframe.html?id=components-button--disabled&viewMode=story&globals=previewTheme:light&embed=true",
     );
     expect(canvas.getByRole("link", { name: "Open example in Storybook" })).toHaveAttribute(
       "href",
@@ -328,15 +328,18 @@ export const StateContinuity: Story = {
     );
     const next = canvas.getByTitle("Badge — Tones live example") as HTMLIFrameElement;
     expect(next.parentElement).toBe(stage);
-    expect(next.getBoundingClientRect().height).toBeGreaterThan(400);
+    expect(frame).toHaveAttribute("data-visible", "true");
+    expect(frame.getBoundingClientRect().height).toBeGreaterThan(400);
+    expect(next).toHaveAttribute("data-visible", "false");
+    expect(next).toHaveAttribute("inert");
     expect(canvasElement.querySelector(".catalog-live")?.getAnimations()[0]).toBe(entrance);
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     expect(getComputedStyle(next).transitionDuration).toContain(reduced ? "0s" : "0.2s");
     await userEvent.click(canvas.getByRole("button", { name: "Expand preview" }));
     await new Promise<void>((resolve) => {
-      frame.addEventListener("load", () => resolve(), { once: true });
-      frame.dataset.previewSrc = "about:blank";
-      frame.src = "about:blank";
+      next.addEventListener("load", () => resolve(), { once: true });
+      next.dataset.previewSrc = "about:blank";
+      next.src = "about:blank";
     });
     const incoming = next.contentDocument;
     if (!incoming?.body) throw new Error("Missing next-state fixture");
