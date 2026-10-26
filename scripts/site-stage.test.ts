@@ -1,5 +1,13 @@
 import { afterEach, expect, test } from "bun:test";
-import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { stageSite } from "./site-stage";
@@ -30,14 +38,16 @@ function fixture() {
   return { source, destination: join(root, "public") };
 }
 
-test("deploy artifact owns only /kbui and drops stale assets", () => {
+test("deploy artifact serves the subdomain root and drops stale assets", () => {
   const { source, destination } = fixture();
   mkdirSync(destination);
   writeFileSync(join(destination, "stale.js"), "old");
   stageSite(source, destination);
-  expect(readdirSync(destination)).toEqual(["kbui"]);
-  expect(readFileSync(join(destination, "kbui/assets/main.js"), "utf8")).toBe("assets/main.js");
-  expect(readFileSync(join(destination, "kbui/setup/themes/index.html"), "utf8")).toBe(
+  expect(readdirSync(destination)).toContain("index.html");
+  expect(existsSync(join(destination, "kbui"))).toBe(false);
+  expect(existsSync(join(destination, "stale.js"))).toBe(false);
+  expect(readFileSync(join(destination, "assets/main.js"), "utf8")).toBe("assets/main.js");
+  expect(readFileSync(join(destination, "setup/themes/index.html"), "utf8")).toBe(
     "setup/themes/index.html",
   );
 });

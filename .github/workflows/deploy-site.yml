@@ -52,8 +52,8 @@ jobs:
           python3 -m http.server 4175 --bind 127.0.0.1 --directory deployment/site/public &
           site_server_pid=$!
           trap 'kill "$site_server_pid"' EXIT
-          curl --fail --retry 8 --retry-connrefused --retry-delay 1 http://127.0.0.1:4175/kbui/ > /dev/null
-          CATALOG_PREVIEW_URL=http://127.0.0.1:4175/kbui bun run --cwd apps/storybook verify:release
+          curl --fail --retry 8 --retry-connrefused --retry-delay 1 http://127.0.0.1:4175/ > /dev/null
+          CATALOG_PREVIEW_URL=http://127.0.0.1:4175 bun run --cwd apps/storybook verify:release
       - run: npm run build --prefix deployment/site
       - run: npm run check --prefix deployment/site
       - uses: actions/upload-artifact@v4
@@ -70,7 +70,7 @@ jobs:
     timeout-minutes: 10
     environment:
       name: kbui-production
-      url: https://kcb.pro/kbui/
+      url: https://kbui.kcb.pro/
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -90,4 +90,4 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       - name: Check production setup page
-        run: curl --fail --retry 5 --retry-all-errors --silent --show-error https://kcb.pro/kbui/setup/ | grep -Fq '<title>Get started — kbui</title>'
+        run: curl --fail --retry 5 --retry-all-errors --silent --show-error https://kbui.kcb.pro/setup/ | grep -Fq '<title>Get started — kbui</title>'

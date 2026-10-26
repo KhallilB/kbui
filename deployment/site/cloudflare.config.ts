@@ -1,4 +1,4 @@
-import { defineConfig, triggers } from "cf/config";
+import { defineConfig } from "cf/config";
 
 export default defineConfig(({ mode }) => ({
   worker: {
@@ -6,12 +6,7 @@ export default defineConfig(({ mode }) => ({
     compatibilityDate: "2026-10-26",
     workersDev: true,
     assets: { htmlHandling: "auto-trailing-slash", notFoundHandling: "none" },
-    triggers:
-      mode === "production"
-        ? [
-            triggers.fetch({ pattern: "kcb.pro/kbui", zone: "kcb.pro" }),
-            triggers.fetch({ pattern: "kcb.pro/kbui/*", zone: "kcb.pro" }),
-          ]
-        : [],
+    domains: mode === "production" ? ["kbui.kcb.pro"] : [],
+    triggers: [],
   },
 }));

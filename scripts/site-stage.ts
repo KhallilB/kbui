@@ -28,11 +28,11 @@ export function stageSite(source: string, destination: string): void {
   }
   rmSync(to, { recursive: true, force: true });
   mkdirSync(to, { recursive: true });
-  cpSync(from, join(to, "kbui"), { recursive: true });
+  cpSync(from, to, { recursive: true });
 }
 
 if (import.meta.main) {
   const root = resolve(import.meta.dir, "..");
   stageSite(join(root, "apps/storybook/dist"), join(root, "deployment/site/public"));
-  console.log("Staged site at deployment/site/public/kbui/");
+  console.log("Staged site at deployment/site/public/");
 }

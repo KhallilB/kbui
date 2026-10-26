@@ -1,8 +1,8 @@
-# Deploy kbui to kcb.pro
+# Deploy kbui to kbui.kcb.pro
 
-Destination: **https://kcb.pro/kbui/**. A separate Cloudflare Workers Static Assets deployment owns that path; the portfolio keeps its current deployment. Landing, setup, catalog, playground, examples and Storybook ship together.
+Destination: **https://kbui.kcb.pro/**. A separate Cloudflare Workers Static Assets deployment owns this hostname; the portfolio keeps its current deployment. Landing, setup, catalog, playground, examples and Storybook ship together.
 
-The [deployment workflow](../../.github/workflows/deploy-site.yml) becomes active after these changes reach GitHub `main` and the GitHub environment is configured. No production Worker, routes, token or GitHub secrets have been created by this change.
+Production and preview Workers were provisioned on 2026-10-26. GitHub environment `kbui-production` has a `main`-only deployment policy and both required secrets. The [deployment workflow](../../.github/workflows/deploy-site.yml) activates when these changes reach GitHub `main`. Production uses a dedicated custom domain; preview lives at https://kbui-site-preview.khallilbailey.workers.dev/.
 
 ## What happens on a push
 
@@ -10,18 +10,18 @@ Pushes to `main` trigger deployment when they change `apps/storybook/**`, shared
 
 Pull requests run the same build validation but never deploy. Manual dispatch can deploy `main`; other branches cannot publish. The workflow serializes main deployments, validates before giving any step credentials, and uploads an immutable artifact named with the commit SHA. The deploy job downloads that artifact and uses `cf deploy --prebuilt --mode production`, then checks the public setup page.
 
-Validation includes repository checks, Storybook normal/reduced-motion tests, responsive site tests, complete source fixtures, and Chromium/WebKit release journeys against the `/kbui/` mount. Builds run sequentially because package rebuilds replace declaration files used by site verification.
+Validation includes repository checks, Storybook normal/reduced-motion tests, responsive site tests, complete source fixtures, and Chromium/WebKit release journeys against the root-mounted artifact. Builds run sequentially because package rebuilds replace declaration files used by site verification.
 
 ## One-time setup
 
 1. **Publish the reviewed site changes to GitHub main.** A local merge alone does not start Actions. Use the normal signed commit/PR process; the scratch `worktree/*` branch is not a PR branch.
-2. **Check Cloudflare ownership.** In the account hosting `kcb.pro`, inspect existing Workers Routes and confirm that `kcb.pro/kbui` and `kcb.pro/kbui/*` can belong to `kbui-site`. Keep the current proxied DNS record and portfolio root owner. Do not attach the whole `kcb.pro` custom domain to kbui.
-3. **Provision the Workers once.** Use an account with permission to create Workers to provision `kbui-site` and `kbui-site-preview` (or deploy the preview locally as that account). Confirm these names are not already used for another project. Preview has no zone routes. Production routes are applied by its deployment configuration.
-4. **Create the CI token.** Grant Workers Editor to the specific existing `kbui-site` Worker, plus Workers Routes Write scoped to the `kcb.pro` zone. Allow zone metadata lookup (Zone Read) for the configured zone name. Creating a Worker initially requires broader Admin access; do that separately, then use the limited CI token for updates. No KV, R2 or database permissions are needed.
+2. **Check Cloudflare ownership.** In the account hosting `kcb.pro`, confirm `kbui.kcb.pro` has no conflicting DNS record or Worker custom domain. Keep the portfolio’s `kcb.pro` hostname and routes unchanged.
+3. **Provision the Workers once.** Use an account with permission to create Workers to provision `kbui-site` and `kbui-site-preview` (or deploy the preview locally as that account). Confirm these names are not already used for another project. Preview has no custom domain or zone routes. Production attaches only `kbui.kcb.pro` through its deployment configuration.
+4. **Create the CI token.** Grant Workers Editor in the hosting account, plus Workers Routes Write and Zone Read scoped to `kcb.pro`. Custom Domains currently do not support per-Worker roles, so this token can update existing Workers across that account. It cannot create or delete Workers. Provision Workers separately through local OAuth; grant no KV, R2 or database permissions. The production token expires on 2027-10-26; rotate its GitHub environment secret before then.
 5. **Configure GitHub.** Repository Settings → Environments → create `kbui-production`. Restrict deployments to `main`. Add environment secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. For automatic deployment on every qualifying push, leave required-reviewer approval disabled. Store secrets through GitHub's UI or approved secret tooling, never in tracked files.
 6. **Check preview, then run production once.** Follow the local preview steps below. After review, use Actions → Deploy kbui site → Run workflow → `main`. Verify the public pages and portfolio root. Future qualifying main pushes deploy automatically. Use this workflow as the publisher; do not also enable an independent Cloudflare Git auto-deploy for the same Worker.
 
-Cloudflare's current [Workers roles](https://developers.cloudflare.com/workers/authorization/workers/) distinguish creating a Worker from updating an existing Worker. Exact token labels may differ between the role-based and legacy token UI; retain the same Worker/zone scope.
+Cloudflare's current [Workers roles](https://developers.cloudflare.com/workers/authorization/workers/) distinguish creating a Worker from updating an existing Worker. Custom Domain support for per-Worker roles would allow tightening the account-level editor scope later.
 
 ## Local preview and dry run
 
@@ -47,7 +47,7 @@ The dry run validates without uploading or making API requests. When ready to pu
 npm run deploy:preview
 ```
 
-This publishes `kbui-site-preview`, without portfolio routes. Open the returned `workers.dev` hostname at **`/kbui/`**, not `/`, because the assets retain their public prefix. For production validation, `npm run build` followed by `npm run check` builds and dry-runs the production target. Production deployment itself is normally handled by GitHub Actions.
+This publishes `kbui-site-preview`, without custom domains or portfolio routes. Open the returned `workers.dev` hostname at **`/`**. For production validation, `npm run build` followed by `npm run check` builds and dry-runs the production target. Production deployment itself is normally handled by GitHub Actions.
 
 ## Asset layout and routing
 
@@ -55,25 +55,24 @@ This publishes `kbui-site-preview`, without portfolio routes. Open the returned 
 
 ```text
 deployment/site/public/
-  kbui/
-    index.html
-    assets/
-    setup/index.html
-    setup/themes/index.html
-    playground/index.html
-    examples/index.html
-    components/index.html
-    storybook/
+  index.html
+  assets/
+  setup/index.html
+  setup/themes/index.html
+  playground/index.html
+  examples/index.html
+  components/index.html
+  storybook/
 ```
 
-A Cloudflare route prefix does not strip `/kbui/`; asset paths must match. Directory-index handling redirects `/kbui` to `/kbui/`. Missing files return 404 rather than a global SPA fallback. The portfolio has no root asset in this artifact. More-specific existing zone routes must be reviewed before publishing.
+The custom domain serves this artifact at its root. Directory-index handling adds trailing slashes to page URLs. Missing files return 404 rather than a global SPA fallback. Cloudflare manages the custom domain DNS and certificate; no portfolio path rewrite is needed.
 
 The build creates a self-contained `.cloudflare/output/`. CI transfers that entire directory, including hidden files, into the deploy job. Production credentials exist only during the final publish step; they are not part of the artifact. Deployment-tool overrides pin compatible Zod/Undici fixes; review them with CLI upgrades.
 
-References: [Cloudflare CI](https://developers.cloudflare.com/cf/ci/), [static subdirectories](https://developers.cloudflare.com/workers/static-assets/routing/advanced/serving-a-subdirectory/), [routes](https://developers.cloudflare.com/workers/configuration/routing/routes/).
+References: [Cloudflare CI](https://developers.cloudflare.com/cf/ci/), [custom domains](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/).
 
 ## Verify and recover
 
-Check `/kbui/`, both setup pages, catalog, playground, examples, direct Storybook links, iframe previews, copy feedback, refresh and Back/Forward. Check `/` and existing portfolio project URLs separately; local artifact checks cannot prove production route ownership.
+At `kbui.kcb.pro`, check `/`, both setup pages, catalog, playground, examples, direct Storybook links, iframe previews, copy feedback, refresh and Back/Forward. Check `https://kcb.pro/` and existing portfolio project URLs separately; local artifact checks cannot prove production route ownership.
 
 The workflow retains built artifacts for 14 days and labels the Cloudflare version with the commit SHA. On a regression, use the `kbui-site` deployment history in Cloudflare to roll back to the previous verified version. Then revert/fix the change before the next automatic push. Do not roll back or reroute the portfolio Worker.
