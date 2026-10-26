@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { chromium, type Page, webkit } from "playwright";
+import { chooseRadio, radioChoice } from "./native-controls.ts";
 import { loadCatalogSources } from "./source.ts";
 
 const origin = process.env.CATALOG_PREVIEW_URL ?? "http://127.0.0.1:4174";
@@ -55,16 +56,16 @@ for (const profile of profiles) {
     await page.goto(
       `${origin}/components/?component=input&state=components-input--with-description#main`,
     );
-    const state = (name: string) => page.getByRole("button", { name, exact: true });
-    assert.equal(await state("With Description").getAttribute("aria-pressed"), "true");
+    const state = (name: string) => radioChoice(page, "Example state", name);
+    assert.equal(await state("With Description").getAttribute("aria-checked"), "true");
     await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
     const initialHistory = await page.evaluate(() => history.length);
     await page
       .locator('iframe[data-current="true"]')
       .evaluate((frame) => frame.setAttribute("data-history-instance", "retained"));
-    await state("With Error").click();
+    await chooseRadio(page, "Example state", "With Error");
     await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
-    await state("Disabled").click();
+    await chooseRadio(page, "Example state", "Disabled");
     await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
     assert.equal(
       await page.evaluate(() => history.length),
@@ -92,15 +93,15 @@ for (const profile of profiles) {
         "Input — Disabled live example",
     );
     await page.reload();
-    assert.equal(await state("Disabled").getAttribute("aria-pressed"), "true");
-    await state("View code").click();
+    assert.equal(await state("Disabled").getAttribute("aria-checked"), "true");
+    await page.getByRole("button", { name: "View code", exact: true }).click();
     assert.match(
       await page.getByRole("region", { name: "Example code", exact: true }).innerText(),
       /disabled/,
     );
-    await state("With Description").click();
+    await chooseRadio(page, "Example state", "With Description");
     await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
-    await state("Disabled").click();
+    await chooseRadio(page, "Example state", "Disabled");
     await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
     assert.match(
       await page
@@ -222,15 +223,13 @@ for (const profile of profiles) {
       true,
     );
     await page.getByRole("link", { name: "Choose your theme" }).click();
-    await page.getByRole("combobox", { name: "Theme", exact: true }).click();
-    await page.getByRole("option", { name: "Dark", exact: true }).click();
+    await chooseRadio(page, "Theme", "Dark");
     assert.equal(await page.locator(".setup-preview").getAttribute("data-theme"), "dark");
     assert.match(
       await page.getByRole("region", { name: "Theme code", exact: true }).innerText(),
       /data-theme="dark"/,
     );
-    await page.getByRole("combobox", { name: "Theme", exact: true }).click();
-    await page.getByRole("option", { name: "System", exact: true }).click();
+    await chooseRadio(page, "Theme", "System");
     await page.emulateMedia({ colorScheme: "dark" });
     await page.waitForFunction(
       () => document.querySelector(".setup-preview")?.getAttribute("data-theme") === "dark",
@@ -415,7 +414,7 @@ for (const profile of profiles) {
         await route.continue();
       });
       try {
-        await page.getByRole("button", { name: "With Error", exact: true }).click();
+        await chooseRadio(page, "Example state", "With Error");
         await page.getByText("Loading live example…", { exact: true }).waitFor();
         assert.equal(
           await stage.evaluate((element, previous) => element === previous, identity),
@@ -479,7 +478,7 @@ for (const profile of profiles) {
         }
       });
       try {
-        await page.getByRole("button", { name: "With Description", exact: true }).click();
+        await chooseRadio(page, "Example state", "With Description");
         await page.getByText("Loading live example…", { exact: true }).waitFor();
         await page.waitForFunction(() =>
           document
@@ -505,7 +504,7 @@ for (const profile of profiles) {
             ?.getAttribute("aria-busy") === "false",
       );
       for (const name of ["With Description", "Disabled", "Default"]) {
-        await page.getByRole("button", { name, exact: true }).click();
+        await chooseRadio(page, "Example state", name);
       }
       await page.waitForFunction(() => {
         const iframe = document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]');
@@ -548,7 +547,7 @@ for (const profile of profiles) {
         await button.evaluate((element, previous) => element === previous, buttonIdentity),
         true,
       );
-      await page.getByRole("button", { name: "Dark theme", exact: true }).click();
+      await chooseRadio(page, "Preview theme", "Dark");
       await page.waitForFunction(
         () =>
           getComputedStyle(document.querySelector(".playground-preview") as Element)
@@ -577,13 +576,15 @@ for (const profile of profiles) {
       for (const [route, surface] of [
         ["/playground/", ".playground-section"],
         ["/examples/", ".example-section"],
-        ["/components/", ".catalog-grid"],
-        ["/components/?component=input", ".catalog-live"],
+        ["/components/?view=directory", ".catalog-grid"],
+        ["/components/", ".catalog-browser"],
+        ["/components/?component=input&view=directory", ".catalog-live"],
       ] as const) {
         await page.goto(`${origin}${route}`);
         assert.equal(
           await page
             .locator(".page-heading")
+            .first()
             .evaluate((element) => getComputedStyle(element).animationName),
           reduced ? "none" : "kbui-poster-rise",
         );

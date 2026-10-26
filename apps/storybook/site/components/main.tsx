@@ -28,19 +28,36 @@ function CatalogRoute() {
   return (
     <Catalog
       navigationRevision={location.revision}
-      initialAppearance={{ theme: readSiteTheme(), live: location.query.get("view") === "live" }}
-      onAppearanceChange={({ theme, live }) => {
+      initialAppearance={{
+        theme: readSiteTheme(),
+        live: location.query.get("view") !== "directory",
+        overview: location.query.get("view") === "overview",
+      }}
+      onAppearanceChange={({ theme, live, overview }) => {
         const url = new URL(window.location.href);
         url.searchParams.delete("skin");
         url.searchParams.set("theme", theme);
-        url.searchParams.set("view", live ? "live" : "directory");
+        const view = overview ? "overview" : live ? "live" : "directory";
+        const previous = url.searchParams.get("view") ?? "live";
+        url.searchParams.set("view", view);
+        if (view !== previous && view !== "live") url.searchParams.delete("component");
         window.history.replaceState(null, "", url);
+        setLocation((current) => ({ ...current, query: url.searchParams }));
+      }}
+      onComponentChange={(id, stateId) => {
+        const url = new URL(window.location.href);
+        url.searchParams.set("component", id);
+        if (stateId) url.searchParams.set("state", stateId);
+        else url.searchParams.delete("state");
+        window.history.pushState(null, "", url);
+        setLocation((current) => ({ ...current, query: url.searchParams }));
       }}
       componentId={location.query.get("component")}
       stateId={location.query.get("state")}
-      onStateChange={(id) => {
+      onStateChange={(id, componentId) => {
         const url = new URL(window.location.href);
         url.searchParams.set("state", id);
+        if (componentId) url.searchParams.set("component", componentId);
         window.history.pushState(null, "", url);
         setLocation((current) => ({ ...current, query: url.searchParams }));
       }}

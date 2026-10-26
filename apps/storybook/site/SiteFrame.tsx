@@ -4,9 +4,11 @@ import {
   type ReactNode,
   useContext,
   useLayoutEffect,
+  useRef,
   useState,
 } from "react";
 import { Brand } from "./Brand";
+import { LinkArrow } from "./LinkArrow";
 import { readSiteTheme, retainSiteTheme, standaloneSite } from "./site-theme";
 import { ThemeToggle } from "./ThemeToggle";
 import "./site.css";
@@ -52,6 +54,25 @@ export function SiteFrame({
   theme?: "light" | "dark";
   onThemeChange?: (value: "light" | "dark") => void;
 }) {
+  const header = useRef<HTMLElement>(null);
+  useLayoutEffect(() => {
+    const element = header.current;
+    if (!element) return;
+    const root = document.documentElement;
+    const previous = root.style.getPropertyValue("--site-header-height");
+    const measure = () => {
+      const height = `${Math.ceil(element.getBoundingClientRect().height)}px`;
+      root.style.setProperty("--site-header-height", height);
+    };
+    const observer = new ResizeObserver(measure);
+    observer.observe(element);
+    measure();
+    return () => {
+      observer.disconnect();
+      if (previous) root.style.setProperty("--site-header-height", previous);
+      else root.style.removeProperty("--site-header-height");
+    };
+  }, []);
   const [localTheme, setLocalTheme] = useState(readSiteTheme);
   const activeTheme = theme ?? localTheme;
   useLayoutEffect(() => {
@@ -72,7 +93,7 @@ export function SiteFrame({
         <a className="skip-link" href="#main">
           Skip to content
         </a>
-        <header className="site-header">
+        <header ref={header} className="site-header">
           <a className="wordmark" href={themed(siteRoot)} aria-label="kbui home">
             <Brand />
           </a>
@@ -106,13 +127,13 @@ export function SiteFrame({
           <span>React + CSS + tokens. MIT licensed.</span>
           <div>
             <a href={themed(`${siteRoot}${installation}`)}>
-              Get started <span className="link-arrow">↗</span>
+              Get started <LinkArrow />
             </a>
             <a href={storybookRoot}>
-              Documentation <span className="link-arrow">↗</span>
+              Documentation <LinkArrow />
             </a>
             <a href="https://github.com/KhallilB/kbui">
-              GitHub <span className="link-arrow">↗</span>
+              GitHub <LinkArrow />
             </a>
           </div>
         </footer>
