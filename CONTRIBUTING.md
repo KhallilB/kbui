@@ -32,7 +32,7 @@ bun run storybook
 
 CI runs **Build, lint and unit tests** on every PR. Docs-only changes compile Storybook without launching browsers. Runtime changes and `packages/react/README.md`, which supplies generated catalog APIs, also run **Validate site** in the official Playwright image. That check includes browser tests, staging and a deployment dry-run; it never publishes. Linux browser jobs reuse the image's installed browsers and system dependencies. Keep the exact Playwright package version and all workflow image tags aligned.
 
-Container jobs use the image's Node runtime and install only Bun. Before dependency installation, they trust the exact checkout path so Git and Lefthook accept the mounted runner-owned workspace.
+Container jobs use the image's Node/npm runtime to install the Bun version pinned in `packageManager`; no archive utilities are needed. Before dependency installation, they trust the exact checkout path so Git and Lefthook accept the mounted runner-owned workspace.
 
 ## Before you push
 

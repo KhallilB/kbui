@@ -57,7 +57,11 @@ test("container installs trust only their checkout after tool setup", () => {
     const install = steps.findIndex((step) => step.run === "bun install --frozen-lockfile");
     expect(trust).toBeGreaterThanOrEqual(0);
     expect(trust).toBeLessThan(install);
-    expect(steps.some((step) => step.uses === "oven-sh/setup-bun@v2")).toBe(true);
+    const setup = steps.findIndex((step) => step.run?.startsWith("npm install --global "));
+    expect(setup).toBeGreaterThanOrEqual(0);
+    expect(setup).toBeLessThan(install);
+    expect(steps[setup]?.run).toContain("require('./package.json').packageManager");
+    expect(steps.some((step) => step.uses === "oven-sh/setup-bun@v2")).toBe(false);
     expect(
       steps.some(
         (step) =>

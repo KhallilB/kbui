@@ -41,8 +41,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: { ref: "${{ env.TAG }}", fetch-depth: 0 }
-      - uses: oven-sh/setup-bun@v2
-        with: { bun-version-file: package.json }
+      - name: Install pinned Bun
+        run: npm install --global "$(node -p "require('./package.json').packageManager")"
       - name: Trust checkout in container
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - run: bun install --frozen-lockfile
