@@ -246,3 +246,14 @@ test("dark scopes rebind aliases against their own semantic values", () => {
   expect(darkBlock).toContain("--kb-card-background: var(--kb-material-surface-bg);");
   expect(darkBlock).toContain("--kb-material-raised-face: linear-gradient(");
 });
+
+test("switch material tokens retain recessed track and raised thumb in each theme", () => {
+  const css = buildTokens(real as TokenTree).css;
+  const dark = css.slice(css.indexOf('[data-theme="dark"] {'), css.indexOf("@media"));
+  for (const scope of [css, dark]) {
+    expect(scope).toContain("--kb-switch-track-background: var(--kb-material-recessed-face);");
+    expect(scope).toContain("--kb-switch-track-shadow: var(--kb-material-field-shadow);");
+    expect(scope).toContain("--kb-switch-thumb-background: var(--kb-material-raised-face);");
+    expect(scope).toContain("--kb-switch-thumb-shadow: var(--kb-material-raised-shadow);");
+  }
+});

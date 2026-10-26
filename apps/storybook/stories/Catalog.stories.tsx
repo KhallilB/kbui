@@ -1,3 +1,4 @@
+import entries from "virtual:kbui-catalog";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Catalog } from "../site/Catalog";
@@ -5,7 +6,11 @@ import { Catalog } from "../site/Catalog";
 const meta = {
   title: "Site/Catalog",
   component: Catalog,
-  args: { siteRoot: "../", storybookRoot: "./" },
+  args: {
+    siteRoot: "../",
+    storybookRoot: "./",
+    initialAppearance: { theme: "light", live: false },
+  },
   parameters: { layout: "fullscreen" },
   afterEach: async ({ canvasElement }) => {
     expect(canvasElement.scrollWidth).toBeLessThanOrEqual(window.innerWidth);
@@ -23,9 +28,22 @@ export const Directory: Story = {
     if (!heading || !panel) throw new Error("Missing catalog entrance surfaces");
     expect(getComputedStyle(heading).animationName).toBe(reduced ? "none" : "kbui-poster-rise");
     expect(getComputedStyle(panel).animationName).toBe(reduced ? "none" : "kbui-poster-arrive");
-    expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent("15 of 15");
-    await userEvent.click(canvas.getByRole("button", { name: "Forms" }));
-    expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent("1 of 15");
+    expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent(
+      `${entries.length} of ${entries.length}`,
+    );
+    const filters = within(canvas.getByRole("radiogroup", { name: "Filter by use" }));
+    filters.getByRole("radio", { name: "All" }).focus();
+    await userEvent.keyboard("{ArrowRight}");
+    expect(filters.getByRole("radio", { name: "Actions" })).toBeChecked();
+    expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent(
+      `${entries.filter((entry) => entry.group === "Actions").length} of ${entries.length}`,
+    );
+    await userEvent.keyboard("{ArrowLeft}");
+    expect(filters.getByRole("radio", { name: "All" })).toBeChecked();
+    await userEvent.click(canvas.getByRole("radio", { name: "Forms" }));
+    expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent(
+      `${entries.filter((entry) => entry.group === "Forms").length} of ${entries.length}`,
+    );
     expect(canvas.getByRole("link", { name: /Input.*Labelled fields/ })).toHaveAttribute(
       "href",
       "./?component=input",
@@ -39,7 +57,65 @@ export const Directory: Story = {
     ).toBeVisible();
     await userEvent.click(canvas.getByRole("button", { name: "Clear filters" }));
     expect(canvas.getByRole("searchbox", { name: "Search components" })).toHaveFocus();
-    expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent("15 of 15");
+    expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent(
+      `${entries.length} of ${entries.length}`,
+    );
+    const views = within(canvas.getByRole("radiogroup", { name: "Catalog view" }));
+    const directory = views.getByRole("radio", { name: "Directory" });
+    directory.focus();
+    await userEvent.keyboard("{ArrowLeft}");
+    expect(views.getByRole("radio", { name: "Live browser" })).toBeChecked();
+    await userEvent.keyboard("{ArrowRight}");
+    expect(directory).toBeChecked();
+  },
+};
+
+export const FocusedBrowser: Story = {
+  args: { initialAppearance: { theme: "light", live: true } },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvasElement.querySelectorAll("iframe")).toHaveLength(1);
+    const components = canvas.getByRole("navigation", { name: "Browse components" });
+    await userEvent.click(within(components).getByRole("link", { name: "Input" }));
+    expect(canvas.getByRole("heading", { name: "Input in use." })).toBeVisible();
+    expect(canvasElement.querySelector('iframe[data-current="true"]')).toHaveAttribute(
+      "title",
+      "Input — Default live example",
+    );
+    await userEvent.click(canvas.getByRole("radio", { name: "With Error" }));
+    await userEvent.click(within(components).getByRole("link", { name: "Button" }));
+    await userEvent.click(within(components).getByRole("link", { name: "Input" }));
+    expect(canvas.getByRole("radio", { name: "With Error" })).toBeChecked();
+    await userEvent.type(canvas.getByRole("searchbox", { name: "Search components" }), "no-match");
+    expect(
+      canvas.getByText("No components found. Try another name or clear the filters."),
+    ).toBeVisible();
+    await userEvent.click(canvas.getByRole("button", { name: "Clear filters" }));
+    expect(canvas.getByRole("searchbox", { name: "Search components" })).toHaveFocus();
+    expect(canvas.getByRole("heading", { name: "Input in use." })).toBeVisible();
+  },
+};
+
+export const ThemeExamples: Story = {
+  args: { componentId: "panel", stateId: "components-panel--depth-dark" },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.queryByRole("radio", { name: "Dark" })).toBeNull();
+    expect(canvas.queryByRole("radio", { name: "Depth Dark" })).toBeNull();
+    expect(canvas.queryByRole("radio", { name: "Token Overrides Light" })).toBeNull();
+    expect(canvas.getByRole("radio", { name: "Depth" })).toBeChecked();
+  },
+};
+export const LegacyInputRecipe: Story = {
+  args: { componentId: "input", stateId: "components-input--with-adornments" },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.getByRole("radio", { name: "Icons and actions" })).toBeChecked();
+    expect(canvas.getByTitle("Input — Icons and actions live example")).toHaveAttribute(
+      "data-preview-src",
+      "./iframe.html?id=components-input--with-icons-and-actions&viewMode=story&globals=previewTheme:light&embed=true",
+    );
+    expect(canvas.queryByText(/no longer exists/)).toBeNull();
   },
 };
 export const ButtonStates: Story = {
@@ -58,11 +134,13 @@ export const ButtonStates: Story = {
     expect(canvas.getByRole("table", { name: "Button API" })).toHaveTextContent(
       '"primary" | "secondary" | "ghost" | "danger"',
     );
-    await userEvent.click(canvas.getByRole("button", { name: "Disabled" }));
-    expect(canvas.getByRole("button", { name: "Disabled" })).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
+    const examples = within(canvas.getByRole("radiogroup", { name: "Example state" }));
+    examples.getByRole("radio", { name: "Primary" }).focus();
+    await userEvent.keyboard("{ArrowRight}");
+    expect(examples.getByRole("radio", { name: "Secondary" })).toBeChecked();
+    expect(examples.getByRole("radio", { name: "Secondary" })).toHaveFocus();
+    await userEvent.click(canvas.getByRole("radio", { name: "Disabled" }));
+    expect(canvas.getByRole("radio", { name: "Disabled" })).toBeChecked();
     expect(canvas.queryByRole("combobox")).not.toBeInTheDocument();
     await userEvent.click(canvas.getByText("Change component", { exact: true }));
     expect(canvas.getByRole("link", { name: "Input" })).toHaveAttribute(
@@ -71,7 +149,7 @@ export const ButtonStates: Story = {
     );
     expect(canvas.getByTitle("Button — Disabled live example")).toHaveAttribute(
       "data-preview-src",
-      "./iframe.html?id=components-button--disabled&viewMode=story&globals=previewTheme:light",
+      "./iframe.html?id=components-button--disabled&viewMode=story&globals=previewTheme:light&embed=true",
     );
     expect(canvas.getByRole("link", { name: "Open example in Storybook" })).toHaveAttribute(
       "href",
@@ -113,7 +191,7 @@ export const CompactInput: Story = {
     await userEvent.click(canvas.getByRole("button", { name: "Compact preview" }));
     await waitFor(() => expect(frame.getBoundingClientRect().height).toBeLessThanOrEqual(220));
     await userEvent.click(canvas.getByRole("button", { name: "Expand preview" }));
-    await userEvent.click(canvas.getByRole("button", { name: "With Error" }));
+    await userEvent.click(canvas.getByRole("radio", { name: "With Error" }));
     const nextFrame = canvas.getByTitle("Input — With Error live example") as HTMLIFrameElement;
     await new Promise<void>((resolve) => {
       nextFrame.addEventListener("load", () => resolve(), { once: true });
@@ -207,19 +285,19 @@ export const WorkingCode: Story = {
       expect(code).not.toHaveTextContent("document.documentElement");
       await userEvent.click(canvas.getByRole("button", { name: "Copy code" }));
       expect(copied).toBe(code.textContent);
-      await userEvent.click(canvas.getByRole("button", { name: "With Error" }));
+      await userEvent.click(canvas.getByRole("radio", { name: "With Error" }));
       expect(code).toBeVisible();
       expect(code).toHaveTextContent("Email is required.");
       await userEvent.click(canvas.getByRole("button", { name: "Copy code" }));
       expect(copied).toBe(code.textContent);
       expect(canvas.getByRole("button", { name: "Copied" })).toBeVisible();
-      await userEvent.click(canvas.getByRole("button", { name: "With Description" }));
+      await userEvent.click(canvas.getByRole("radio", { name: "With Description" }));
       expect(canvas.queryByRole("button", { name: "Copied" })).not.toBeInTheDocument();
       expect(code).toHaveTextContent("We never share it.");
       expect(code).not.toHaveTextContent("Email is required.");
-      await userEvent.click(canvas.getByRole("button", { name: "With Error" }));
+      await userEvent.click(canvas.getByRole("radio", { name: "With Error" }));
       expect(canvas.queryByRole("button", { name: "Copied" })).not.toBeInTheDocument();
-      await userEvent.click(canvas.getByRole("button", { name: "With Description" }));
+      await userEvent.click(canvas.getByRole("radio", { name: "With Description" }));
       await userEvent.click(canvas.getByRole("button", { name: "View code" }));
       expect(code).not.toBeVisible();
       Object.defineProperty(navigator, "clipboard", {
@@ -272,11 +350,11 @@ export const LongCode: Story = {
     expect(code).toHaveFocus();
     code.scrollTop = code.scrollHeight;
     expect(code.scrollTop).toBeGreaterThan(0);
-    await userEvent.click(canvas.getByRole("button", { name: "Token Overrides Light" }));
+    await userEvent.click(canvas.getByRole("radio", { name: "Depth" }));
     expect(code).toBeVisible();
     await waitFor(() => expect(code.scrollTop).toBe(0));
     expect(code.scrollWidth).toBeLessThanOrEqual(code.clientWidth + 1);
-    await userEvent.click(canvas.getByRole("button", { name: /^Compact$/ }));
+    await userEvent.click(canvas.getByRole("radio", { name: /^Compact$/ }));
     expect(code).toBeVisible();
     expect(code.scrollTop).toBe(0);
     await waitFor(() =>
@@ -322,21 +400,24 @@ export const StateContinuity: Story = {
     doc.body.replaceChildren(root);
     await waitFor(() => expect(frame.getBoundingClientRect().height).toBe(442));
     const codeTop = canvasElement.querySelector(".example-code-bar")?.getBoundingClientRect().top;
-    await userEvent.click(canvas.getByRole("button", { name: "Tones" }));
+    await userEvent.click(canvas.getByRole("radio", { name: "Tones" }));
     expect(canvasElement.querySelector(".example-code-bar")?.getBoundingClientRect().top).toBe(
       codeTop,
     );
     const next = canvas.getByTitle("Badge — Tones live example") as HTMLIFrameElement;
     expect(next.parentElement).toBe(stage);
-    expect(next.getBoundingClientRect().height).toBeGreaterThan(400);
+    expect(frame).toHaveAttribute("data-visible", "true");
+    expect(frame.getBoundingClientRect().height).toBeGreaterThan(400);
+    expect(next).toHaveAttribute("data-visible", "false");
+    expect(next).toHaveAttribute("inert");
     expect(canvasElement.querySelector(".catalog-live")?.getAnimations()[0]).toBe(entrance);
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     expect(getComputedStyle(next).transitionDuration).toContain(reduced ? "0s" : "0.2s");
     await userEvent.click(canvas.getByRole("button", { name: "Expand preview" }));
     await new Promise<void>((resolve) => {
-      frame.addEventListener("load", () => resolve(), { once: true });
-      frame.dataset.previewSrc = "about:blank";
-      frame.src = "about:blank";
+      next.addEventListener("load", () => resolve(), { once: true });
+      next.dataset.previewSrc = "about:blank";
+      next.src = "about:blank";
     });
     const incoming = next.contentDocument;
     if (!incoming?.body) throw new Error("Missing next-state fixture");
@@ -355,20 +436,21 @@ export const StateContinuity: Story = {
 export const DefaultDesign: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await userEvent.click(canvas.getByRole("button", { name: "Dark mode" }));
-    await userEvent.click(canvas.getByRole("button", { name: "Live catalog" }));
-    expect(
-      canvas.getByRole("link", { name: "Open Button example in Storybook ↗" }),
-    ).toHaveAttribute("href", "./?path=/story/components-button--primary&globals=theme:dark");
+    await userEvent.click(canvas.getByLabelText("Dark mode"));
+    await userEvent.click(canvas.getByRole("radio", { name: "Overview" }));
+    expect(canvas.getByRole("link", { name: "Open Button example in Storybook" })).toHaveAttribute(
+      "href",
+      "./?path=/story/components-button--primary&globals=theme:dark",
+    );
     const frames = canvasElement.querySelectorAll("iframe");
-    expect(frames).toHaveLength(15);
+    expect(frames).toHaveLength(entries.length);
     for (const frame of frames) {
       expect(frame.src).toContain("globals=previewTheme:dark");
       expect(frame.src).toContain("&embed=true");
     }
     expect(canvas.getByRole("link", { name: "Button API and code" })).toHaveAttribute(
       "href",
-      "./?component=button&theme=dark&view=live",
+      "./?component=button&theme=dark&view=overview",
     );
     await userEvent.click(canvas.getByRole("combobox", { name: "Button example" }));
     const choices = await within(document.body).findByRole("listbox", { name: "Button example" });
@@ -385,11 +467,13 @@ export const DefaultDesign: Story = {
       "data-preview-src",
       "./iframe.html?id=components-button--disabled&viewMode=story&globals=previewTheme:dark&embed=true",
     );
-    await userEvent.click(canvas.getByRole("button", { name: "Forms" }));
-    expect(canvasElement.querySelectorAll("iframe")).toHaveLength(1);
+    await userEvent.click(canvas.getByRole("radio", { name: "Forms" }));
+    expect(canvasElement.querySelectorAll("iframe")).toHaveLength(
+      entries.filter((entry) => entry.group === "Forms").length,
+    );
     expect(canvas.getByTitle("Input — Default live example")).toBeInTheDocument();
     const inputFrame = canvas.getByTitle("Input — Default live example");
-    await userEvent.click(canvas.getByRole("button", { name: "Dark mode" }));
+    await userEvent.click(canvas.getByLabelText("Dark mode"));
     expect(canvas.getByTitle("Input — Default live example")).toBe(inputFrame);
     expect(canvas.queryByRole("button", { name: "Site skin" })).toBeNull();
     expect(canvas.queryByRole("button", { name: "Current default" })).toBeNull();
@@ -401,7 +485,7 @@ export const DarkReview: Story = {
     const canvas = within(canvasElement);
     const documentTheme = document.documentElement.dataset.theme;
     const shell = canvasElement.querySelector(".kbui-catalog");
-    await userEvent.click(canvas.getByRole("button", { name: "Dark mode" }));
+    await userEvent.click(canvas.getByLabelText("Dark mode"));
     expect(shell).toHaveAttribute("data-theme", "dark");
     expect(document.documentElement.dataset.theme).toBe(documentTheme);
     await userEvent.click(canvas.getByText("Typography and theme foundations", { exact: true }));
@@ -423,10 +507,10 @@ export const DarkReview: Story = {
       Number.parseFloat(getComputedStyle(within(specimen).getByText("RUN-1048")).fontSize),
     ).toBeGreaterThanOrEqual(13);
     expect(shell).toHaveAttribute("data-theme", "dark");
-    await userEvent.click(canvas.getByRole("button", { name: "Dark mode" }));
+    await userEvent.click(canvas.getByLabelText("Dark mode"));
     expect(shell).toHaveAttribute("data-theme", "light");
     expect(document.documentElement.dataset.theme).toBe(documentTheme);
-    await userEvent.click(canvas.getByRole("button", { name: "Dark mode" }));
+    await userEvent.click(canvas.getByLabelText("Dark mode"));
   },
 };
 
@@ -448,7 +532,7 @@ export const DarkDetail: Story = {
 
 export const LiveCatalogEntrance: Story = {
   play: async ({ canvasElement }) => {
-    await userEvent.click(within(canvasElement).getByRole("button", { name: "Live catalog" }));
+    await userEvent.click(within(canvasElement).getByRole("radio", { name: "Overview" }));
     const stage = canvasElement.querySelector(".catalog-specimens");
     if (!stage) throw new Error("Missing live catalog");
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;

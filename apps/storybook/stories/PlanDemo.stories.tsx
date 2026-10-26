@@ -85,3 +85,46 @@ export const Rename: Story = {
     await waitFor(() => expect(canvas.getByRole("button", { name: "Rename plan" })).toHaveFocus());
   },
 };
+
+export const AddYourOwnActivity: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const add = canvas.getByRole("button", { name: "Add an activity" });
+    await userEvent.click(add);
+    const dialog = within(
+      await within(document.body).findByRole("dialog", { name: "Make a little room" }),
+    );
+    await userEvent.click(dialog.getByRole("button", { name: "Add to my day" }));
+    await waitFor(() => expect(dialog.getByText("Enter an activity.")).toBeVisible());
+    await userEvent.type(dialog.getByRole("textbox", { name: "Activity" }), "Visit the bookshop");
+    await userEvent.click(dialog.getByRole("button", { name: "Add to my day" }));
+    await waitFor(() => expect(within(document.body).queryByRole("dialog")).toBeNull());
+    expect(canvas.getByRole("checkbox", { name: "Visit the bookshop" })).toBeChecked();
+    expect(canvas.getByRole("progressbar", { name: "Plans picked" })).toHaveAttribute(
+      "aria-valuemax",
+      "4",
+    );
+    expect(canvas.getByRole("progressbar", { name: "Plans picked" })).toHaveAttribute(
+      "aria-valuenow",
+      "1",
+    );
+    await waitFor(() => expect(add).toHaveFocus());
+    await userEvent.click(canvas.getByRole("button", { name: "Start over" }));
+    expect(canvas.queryByRole("checkbox", { name: "Visit the bookshop" })).toBeNull();
+    expect(canvas.getAllByRole("checkbox")).toHaveLength(3);
+    expect(canvas.getByRole("progressbar", { name: "Plans picked" })).toHaveAttribute(
+      "aria-valuemax",
+      "3",
+    );
+    await userEvent.click(add);
+    await userEvent.type(
+      within(await within(document.body).findByRole("dialog")).getByRole("textbox", {
+        name: "Activity",
+      }),
+      "Unsaved idea",
+    );
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(within(document.body).queryByRole("dialog")).toBeNull());
+    expect(canvas.getAllByRole("checkbox")).toHaveLength(3);
+  },
+};
