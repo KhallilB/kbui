@@ -5,6 +5,7 @@ const entries = [
   "index.html",
   "setup/index.html",
   "setup/themes/index.html",
+  "compare/index.html",
   "components/index.html",
   "examples/index.html",
   "playground/index.html",

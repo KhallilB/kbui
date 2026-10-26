@@ -28,6 +28,10 @@ If TypeScript rejects the `.css` import, add this declaration to the project. Vi
 declare module "*.css";
 ```
 
+## Default design
+
+The normal stylesheet includes the tactile cream/forest/rust light design and forest/peach dark design. No skin selector or extra stylesheet is needed. Public component props and token overrides remain supported.
+
 ## Themes
 
 Set the theme on the `<html>` element:
@@ -36,7 +40,7 @@ Set the theme on the `<html>` element:
 <html data-theme="dark">
 ```
 
-The attribute accepts `"light"` or `"dark"`. Without it, kbui follows the visitor's system setting. Themes switch through CSS variables, so no provider component is needed.
+The attribute accepts `"light"` or `"dark"`. Without it, kbui follows the visitor's system setting. Themes switch through CSS variables, so no provider component is needed. Explicit theme containers rebind aliases for nested light/dark scopes. Put the page theme on `<html>` so body-portaled Dialog, Menu and Tooltip share it; a nested preview wrapper alone does not theme body portals.
 
 To adjust a value for your app, override its variable after the kbui import. Scale and component tokens are the same in both themes, so one rule is enough:
 

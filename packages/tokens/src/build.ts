@@ -78,11 +78,14 @@ export function buildTokens(tree: TokenTree): {
     seen.add(name);
   }
   const light = flat.map((f) => `${varName(f.path)}: ${resolve(f.token.$value, seen)};`);
-  const dark = flat.flatMap((f) => {
-    const value = f.token.$extensions?.["kb.dark"];
-    return value ? [`${varName(f.path)}: ${resolve(value, seen)};`] : [];
-  });
-  const sections = [block(":root", light)];
+  // Rebind aliases inside each theme; inherited vars keep their ancestor's resolved value.
+  const dark = flat.some((f) => f.token.$extensions?.["kb.dark"])
+    ? flat.map(
+        (f) =>
+          `${varName(f.path)}: ${resolve(f.token.$extensions?.["kb.dark"] ?? f.token.$value, seen)};`,
+      )
+    : [];
+  const sections = [block(':root, [data-theme="light"]', light)];
   if (dark.length > 0) {
     sections.push(
       block('[data-theme="dark"]', dark),

@@ -1,17 +1,23 @@
 /* Anatomy: .kb-tooltip [data-open] [data-side=top|bottom|left|right] [data-starting-style] [data-ending-style] */
 .kb-tooltip {
   max-width: 18rem;
-  padding: var(--kb-space-1) var(--kb-space-2);
+  padding: 8px 12px;
   border-radius: var(--kb-radius-sm);
   background: var(--kb-popup-background);
-  box-shadow:
-    inset 0 0 0 1px var(--kb-popup-border),
-    var(--kb-popup-shadow);
+  box-shadow: var(--kb-popup-shadow);
   color: var(--kb-color-fg);
-  font-size: var(--kb-size-xs);
-  line-height: 1.4;
+  font-size: var(--kb-text-small-size);
+  line-height: 1.5;
   opacity: 1;
   transition: opacity var(--kb-motion-duration-fast) var(--kb-motion-easing-standard);
+
+  border: 1px solid var(--kb-popup-border);
+
+  background-image: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--kb-material-raised-top) 25%, transparent),
+    transparent
+  );
 }
 
 .kb-tooltip[data-starting-style],

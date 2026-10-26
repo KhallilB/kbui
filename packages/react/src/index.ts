@@ -12,6 +12,7 @@ export {
 } from "./components/Button/Button";
 export { Callout, type CalloutProps, type CalloutTone } from "./components/Callout/Callout";
 export { Card, type CardProps } from "./components/Card/Card";
+export { Checkbox, type CheckboxProps } from "./components/Checkbox/Checkbox";
 export {
   Dialog,
   type DialogActionsProps,
@@ -45,7 +46,13 @@ export {
   type PanelWellProps,
 } from "./components/Panel/Panel";
 export { Progress, type ProgressProps } from "./components/Progress/Progress";
+export {
+  RadioGroup,
+  type RadioGroupItemProps,
+  type RadioGroupProps,
+} from "./components/RadioGroup/RadioGroup";
 export { ScrollArea, type ScrollAreaProps } from "./components/ScrollArea/ScrollArea";
+export { Select, type SelectOption, type SelectProps } from "./components/Select/Select";
 export { Stat, type StatProps, type StatSize } from "./components/Stat/Stat";
 export {
   Status,
@@ -53,6 +60,7 @@ export {
   type StatusProps,
   type StatusTone,
 } from "./components/Status/Status";
+export { Switch, type SwitchProps } from "./components/Switch/Switch";
 export {
   Toolbar,
   type ToolbarButtonProps,

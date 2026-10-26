@@ -24,8 +24,12 @@
 
 .kb-progress-track {
   height: var(--kb-progress-height);
-  border-radius: var(--kb-radius-full);
+  border-radius: 999px;
   background: var(--kb-progress-track);
+
+  border: 1px solid var(--kb-color-border);
+
+  box-shadow: var(--kb-material-field-shadow);
 }
 
 /* Glow is a blur length; 0px default keeps the fill flat. */
@@ -34,8 +38,13 @@
   height: 100%;
   border-radius: inherit;
   background: var(--_progress-fill);
-  box-shadow: 0 0 var(--kb-progress-glow) var(--_progress-fill);
+  box-shadow:
+    inset 0 1px 0 var(--kb-material-fill-highlight),
+    inset 0 -1px 0 var(--kb-material-fill-shade),
+    0 0 var(--kb-progress-glow) var(--_progress-fill);
   transition: width var(--kb-motion-duration-base) var(--kb-motion-easing-standard);
+
+  background-image: linear-gradient(180deg, var(--kb-material-fill-sheen), transparent);
 }
 
 .kb-progress[data-complete] .kb-progress-indicator {

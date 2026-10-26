@@ -12,22 +12,12 @@
     flex: 1 1 160px;
   }
   .install-tokens {
-    display: flex;
-    align-items: center;
-    gap: 10px;
     min-height: 44px;
-    cursor: pointer;
-    font-size: 13px;
-  }
-  .install-tokens input {
-    width: 18px;
-    height: 18px;
-    accent-color: var(--rust);
   }
   .setup-note {
     color: var(--muted);
-    font-size: 13px;
-    line-height: 1.6;
+    font-size: var(--kb-text-small-size);
+    line-height: var(--kb-text-leading-body);
     margin-top: 14px;
   }
   .setup-continue {
@@ -59,7 +49,7 @@
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
     gap: 32px 64px;
     padding-block: 36px;
-    border-top: 1px solid #d5d9c5;
+    border-top: 1px solid var(--review-line);
   }
   .setup-step > *,
   .setup-work {
@@ -97,7 +87,7 @@
     font-size: 12px;
   }
   .setup-help {
-    border-block: 1px solid #d5d9c5;
+    border-block: 1px solid var(--review-line);
     padding-block: 20px;
   }
   .setup-help summary {

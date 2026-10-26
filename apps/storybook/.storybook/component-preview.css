@@ -1,0 +1,53 @@
+.component-preview {
+  display: grid;
+  place-items: center;
+  min-inline-size: 0;
+  min-block-size: 96px;
+}
+
+.component-preview[data-viewport] {
+  min-block-size: max(0px, calc(100dvh - 32px));
+}
+
+.component-preview-content {
+  display: flow-root;
+  inline-size: fit-content;
+  max-inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.component-preview[data-layout="surface"] {
+  align-items: start;
+}
+
+.component-preview[data-layout="surface"] > .component-preview-content {
+  inline-size: 100%;
+  max-inline-size: 480px;
+}
+
+.component-preview[data-component="input"] > .component-preview-content {
+  max-inline-size: 400px;
+}
+
+.component-preview[data-component="select"] > .component-preview-content {
+  max-inline-size: 400px;
+  padding-block-end: 200px;
+}
+
+.component-preview[data-component="callout"] > .component-preview-content {
+  max-inline-size: 640px;
+}
+
+.component-preview[data-component="menu"] > .component-preview-content {
+  /* Center trigger plus popup footprint; keep room below anchor. */
+  padding-block-end: 160px;
+}
+
+.component-preview[data-layout="layout"] {
+  place-items: start stretch;
+  min-block-size: 0;
+}
+
+.component-preview[data-layout="layout"] > .component-preview-content {
+  inline-size: 100%;
+}

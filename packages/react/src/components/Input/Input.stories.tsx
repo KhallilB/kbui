@@ -14,7 +14,7 @@ function SearchExample(props: InputProps) {
       type="search"
       value={query}
       onValueChange={setQuery}
-      startAdornment={
+      startContent={
         <svg
           aria-hidden="true"
           width="20"
@@ -28,7 +28,7 @@ function SearchExample(props: InputProps) {
           <path d="m13 13 4 4" />
         </svg>
       }
-      endAdornment={
+      endContent={
         query && !props.disabled && !props.readOnly ? (
           <Button
             type="button"
@@ -76,7 +76,8 @@ export const Sizes: Story = {
   ),
 };
 
-export const WithAdornments: Story = {
+export const WithIconsAndActions: Story = {
+  name: "Icons and actions",
   args: { label: "Search components", placeholder: "Find a component…" },
   render: (args) => <SearchExample {...args} />,
   play: async ({ canvasElement }) => {

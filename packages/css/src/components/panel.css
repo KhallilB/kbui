@@ -87,7 +87,7 @@
   --_panel-bg: var(--kb-panel-background-sunken);
   --_panel-rim-top: var(--kb-panel-border);
   --_panel-highlight: transparent;
-  --_panel-shadow: none;
+  --_panel-shadow: var(--kb-material-field-shadow);
 }
 
 .kb-panel[data-tone="active"] {
@@ -163,8 +163,12 @@
 
 .kb-panel-header :is(h1, h2, h3, h4, h5, h6) {
   margin: 0;
-  font-size: var(--kb-size-md);
+  font-size: 17px;
   font-weight: 600;
+
+  line-height: 1.35;
+
+  letter-spacing: -0.015em;
 }
 
 .kb-panel-toolbar {
@@ -183,16 +187,20 @@
   padding: 0 var(--kb-space-2);
   border: 1px solid transparent;
   border-radius: var(--kb-button-radius);
-  background: transparent;
+  background: var(--kb-material-raised-face);
   color: var(--kb-color-fg);
   font: inherit;
   font-size: var(--kb-size-sm);
   font-weight: 500;
   cursor: pointer;
+
+  border-color: var(--kb-material-raised-border);
+
+  box-shadow: var(--kb-material-raised-shadow);
 }
 
 .kb-panel-toggle:hover {
-  border-color: var(--kb-color-border);
+  border-color: var(--kb-color-muted);
 }
 
 .kb-panel-toggle:focus-visible {
@@ -205,6 +213,10 @@
   flex-direction: column;
   gap: var(--kb-space-2);
   min-width: 0;
+
+  font-size: var(--kb-text-body-size);
+
+  line-height: var(--kb-text-leading-body);
 }
 
 /* Screen inside the bezel: recessed, for output and logs. */
@@ -214,6 +226,8 @@
   border-radius: var(--kb-panel-well-radius);
   background: var(--kb-panel-well);
   box-shadow: var(--kb-panel-well-shadow);
+
+  border: 1px solid var(--kb-material-soft-border);
 }
 
 .kb-panel-footer {
@@ -244,4 +258,8 @@
   .kb-panel-plate {
     transition: none;
   }
+}
+
+.kb-panel-toggle:active {
+  box-shadow: var(--kb-material-pressed-shadow);
 }

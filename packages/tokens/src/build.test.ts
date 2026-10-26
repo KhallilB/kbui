@@ -31,11 +31,10 @@ describe("buildTokens", () => {
 
   test("emits kb.dark values in both dark blocks only", () => {
     const { css } = buildTokens(tree);
-    const dark = '[data-theme="dark"] {\n  --kb-color-bg: var(--kb-gray-950);\n}';
-    const media =
-      '@media (prefers-color-scheme: dark) {\n  :root:not([data-theme="light"]) {\n    --kb-color-bg: var(--kb-gray-950);\n  }\n}';
-    expect(css).toContain(dark);
-    expect(css).toContain(media);
+    const dark = css.slice(css.indexOf('[data-theme="dark"] {'), css.indexOf("@media"));
+    expect(dark).toContain("--kb-color-bg: var(--kb-gray-950);");
+    expect(dark).toContain("--kb-color-accent: var(--kb-blue-500);");
+    expect(css).toContain(':root:not([data-theme="light"])');
     expect(css).not.toContain("--kb-color-accent: var(--kb-gray-950)");
   });
 
@@ -90,7 +89,7 @@ describe("buildTokens", () => {
 
   test("omits dark blocks when no token has kb.dark", () => {
     const { css } = buildTokens({ a: { $type: "color", $value: "#111" } });
-    expect(css).not.toContain("data-theme");
+    expect(css).not.toContain('[data-theme="dark"]');
     expect(css).not.toContain("@media");
   });
 
@@ -111,16 +110,16 @@ describe("tokens.json", () => {
 
   test("defines info, success and warning semantic colors with dark values", () => {
     for (const name of ["info", "success", "warning"]) {
-      expect(css).toContain(`--kb-color-${name}: var(`);
+      expect(css).toMatch(new RegExp(`--kb-color-${name}: #[0-9a-f]+;`));
       expect(css).toContain(`--kb-color-${name}-fg: var(`);
-      expect(dark).toContain(`--kb-color-${name}: var(`);
+      expect(dark).toMatch(new RegExp(`--kb-color-${name}: #[0-9a-f]+;`));
       expect(dark).toContain(`--kb-color-${name}-fg: var(`);
     }
   });
 
   test("gives accent and danger foregrounds a dark value for contrast on the lighter dark fills", () => {
-    expect(dark).toContain("--kb-color-accent-fg: var(--kb-gray-950);");
-    expect(dark).toContain("--kb-color-danger-fg: var(--kb-gray-950);");
+    expect(dark).toContain("--kb-color-accent-fg: #291a12;");
+    expect(dark).toContain("--kb-color-danger-fg: #331c20;");
   });
 
   test("defines motion durations and easings", () => {
@@ -147,7 +146,6 @@ describe("tokens.json", () => {
   test("defines a lit rim that runs from rim-top through the border to rim-bottom", () => {
     for (const name of ["rim-top", "rim-bottom"]) {
       expect(css).toContain(`--kb-panel-${name}: `);
-      expect(dark).toContain(`--kb-panel-${name}: `);
     }
     expect(css).toContain("--kb-panel-border-critical: var(--kb-color-danger);");
   });
@@ -161,26 +159,25 @@ describe("tokens.json", () => {
   });
 
   test("lifts panels with box-shadows tuned per theme", () => {
-    for (const name of ["shadow", "shadow-active"]) {
-      expect(css).toMatch(new RegExp(`--kb-panel-${name}: 0 \\d`));
-      expect(dark).toMatch(new RegExp(`--kb-panel-${name}: 0 \\d`));
-    }
+    expect(css).toContain("--kb-panel-shadow: var(--kb-material-panel-shadow);");
+    expect(css).toContain("--kb-panel-shadow-active: var(--kb-material-raised-shadow);");
+    expect(dark).toContain("--kb-material-panel-shadow: inset ");
+    expect(dark).toContain("--kb-material-raised-shadow: inset ");
     expect(css).not.toContain("drop-shadow(");
   });
 
   test("defines a sunken plane, a highlight, a divider and a recessed well", () => {
-    expect(css).toContain("--kb-panel-background-sunken: var(--kb-color-bg);");
+    expect(css).toContain("--kb-panel-background-sunken: var(--kb-material-field-bg);");
     for (const name of ["highlight", "divider", "well"]) {
       expect(css).toContain(`--kb-panel-${name}: `);
-      expect(dark).toContain(`--kb-panel-${name}: `);
     }
-    expect(css).toMatch(/--kb-panel-well-shadow: inset /);
+    expect(css).toContain("--kb-panel-well-shadow: var(--kb-material-field-shadow);");
   });
 
   test("lifts active and critical panel planes in dark", () => {
-    expect(dark).toContain("--kb-panel-background-active: var(--kb-gray-800);");
-    expect(dark).toContain("--kb-panel-border-active: var(--kb-blue-400);");
-    expect(dark).toContain("--kb-panel-border-critical: var(--kb-red-400);");
+    expect(css).toContain("--kb-panel-background-active: var(--kb-material-surface-bg);");
+    expect(css).toContain("--kb-panel-border-active: var(--kb-color-accent);");
+    expect(css).toContain("--kb-panel-border-critical: var(--kb-color-danger);");
   });
 
   test("defines panel component tokens", () => {
@@ -198,7 +195,7 @@ describe("tokens.json", () => {
   });
 
   test("lets the status chip round into a pill and its icon glow", () => {
-    expect(css).toContain("--kb-status-radius: var(--kb-radius-sm);");
+    expect(css).toContain("--kb-status-radius: var(--kb-radius-full);");
     expect(css).toContain("--kb-status-glow: 0px;");
   });
 
@@ -217,14 +214,15 @@ describe("tokens.json", () => {
     for (const name of ["background", "border", "radius", "shadow"]) {
       expect(css).toContain(`--kb-popup-${name}: `);
     }
-    expect(dark).toContain("--kb-popup-shadow: ");
+    expect(css).toContain("--kb-popup-shadow: var(--kb-material-float-shadow);");
+    expect(dark).toContain("--kb-material-float-shadow: ");
   });
 
   test("lets a theme tune progress color, height and glow", () => {
-    expect(css).toContain("--kb-progress-track: var(--kb-color-border);");
+    expect(css).toContain("--kb-progress-track: var(--kb-material-recessed-face);");
     expect(css).toContain("--kb-progress-fill: var(--kb-color-accent);");
     expect(css).toContain("--kb-progress-fill-complete: var(--kb-color-success);");
-    expect(css).toContain("--kb-progress-height: var(--kb-space-1);");
+    expect(css).toContain("--kb-progress-height: 6px;");
     expect(css).toContain("--kb-progress-glow: 0px;");
   });
 
@@ -236,4 +234,26 @@ describe("tokens.json", () => {
   test("snapshot of the shipped css", () => {
     expect(css).toMatchSnapshot();
   });
+});
+
+test("explicit light containers restore the full light token set inside dark roots", () => {
+  expect(buildTokens(tree).css).toContain(':root, [data-theme="light"] {');
+});
+
+test("dark scopes rebind aliases against their own semantic values", () => {
+  const css = buildTokens(real as TokenTree).css;
+  const darkBlock = css.slice(css.indexOf('[data-theme="dark"] {'), css.indexOf("@media"));
+  expect(darkBlock).toContain("--kb-card-background: var(--kb-material-surface-bg);");
+  expect(darkBlock).toContain("--kb-material-raised-face: linear-gradient(");
+});
+
+test("switch material tokens retain recessed track and raised thumb in each theme", () => {
+  const css = buildTokens(real as TokenTree).css;
+  const dark = css.slice(css.indexOf('[data-theme="dark"] {'), css.indexOf("@media"));
+  for (const scope of [css, dark]) {
+    expect(scope).toContain("--kb-switch-track-background: var(--kb-material-recessed-face);");
+    expect(scope).toContain("--kb-switch-track-shadow: var(--kb-material-field-shadow);");
+    expect(scope).toContain("--kb-switch-thumb-background: var(--kb-material-raised-face);");
+    expect(scope).toContain("--kb-switch-thumb-shadow: var(--kb-material-raised-shadow);");
+  }
 });

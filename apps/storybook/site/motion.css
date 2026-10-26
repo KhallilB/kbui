@@ -105,7 +105,16 @@
     .inner-page > .page-heading {
       animation: kbui-poster-rise 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
     }
-    .inner-page > :is(.section, .example-section, .catalog-grid, .catalog-live) {
+    .inner-page
+      > :is(
+        .section,
+        .example-section,
+        .catalog-grid,
+        .catalog-browser,
+        .catalog-live,
+        .catalog-specimens,
+        .comparison-previews
+      ) {
       animation: kbui-poster-arrive 500ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
     }
     .poster-copy > * {
@@ -141,7 +150,6 @@
         .composition a,
         .component-card,
         .playground-actions button,
-        .segmented button,
         .day-demo .kb-button,
         .composition .kb-button,
         .fields select,
@@ -177,16 +185,9 @@
         .primary-link,
         .day-demo .kb-button,
         .composition .kb-button,
-        .playground-actions button,
-        .segmented button
+        .playground-actions button
       ):active:not(:disabled) {
       transform: translateY(1px);
-    }
-    .catalog-states button {
-      transition:
-        color 140ms ease,
-        background-color 140ms ease,
-        border-color 140ms ease;
     }
     .catalog-preview-frame iframe {
       transition:
@@ -369,5 +370,39 @@
   }
   to {
     transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .kbui-site,
+  .kbui-site
+    :where(
+      header,
+      footer,
+      main,
+      section,
+      article,
+      aside,
+      p,
+      h1,
+      h2,
+      h3,
+      small,
+      span,
+      a,
+      label,
+      input,
+      select,
+      table,
+      th,
+      td,
+      details,
+      summary,
+      pre,
+      code
+    ) {
+    transition-property: color, background-color, border-color, box-shadow;
+    transition-duration: 220ms;
+    transition-timing-function: ease;
   }
 }
