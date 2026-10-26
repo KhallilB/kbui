@@ -71,7 +71,7 @@
   }
   .workspace-heading h2 + p {
     font-size: var(--kb-text-control-size);
-    line-height: 1.6;
+    line-height: var(--kb-text-leading-body);
     margin-top: 10px;
   }
   .settings-card {
@@ -83,7 +83,7 @@
     font-weight: 600;
   }
   .section-intro p {
-    line-height: 1.6;
+    line-height: var(--kb-text-leading-body);
   }
   .section-number {
     background: var(--kb-color-surface);
@@ -179,7 +179,7 @@
     font-size: var(--kb-text-small-size);
   }
   .queue-scroll td strong {
-    font-size: 13px;
+    font-size: var(--kb-text-small-size);
     font-weight: 600;
     letter-spacing: -0.015em;
   }

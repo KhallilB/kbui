@@ -16,8 +16,8 @@
   }
   .setup-note {
     color: var(--muted);
-    font-size: 13px;
-    line-height: 1.6;
+    font-size: var(--kb-text-small-size);
+    line-height: var(--kb-text-leading-body);
     margin-top: 14px;
   }
   .setup-continue {
