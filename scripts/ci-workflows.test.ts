@@ -6,7 +6,12 @@ type Workflow = {
   on: { push: { branches?: string[]; paths?: string[] }; pull_request?: unknown };
   jobs: Record<
     string,
-    { container?: { image: string }; if?: string; needs?: string[]; steps: unknown[] }
+    {
+      container?: { image: string };
+      if?: string;
+      needs?: string[];
+      steps: { run?: string; uses?: string }[];
+    }
   >;
 };
 
@@ -36,6 +41,29 @@ test("CI never downloads browsers or their system packages", () => {
     expect(readFileSync(`${root}/.github/workflows/${name}.yml`, "utf8")).not.toMatch(
       /(?:bunx|npx) playwright install/,
     );
+  }
+});
+
+test("container installs trust only their checkout after tool setup", () => {
+  for (const [name, key] of [
+    ["ci", "browser"],
+    ["deploy-site", "build"],
+    ["release", "assets"],
+  ] as const) {
+    const steps = job(name, key).steps;
+    const trust = steps.findIndex(
+      (step) => step.run === 'git config --global --add safe.directory "$GITHUB_WORKSPACE"',
+    );
+    const install = steps.findIndex((step) => step.run === "bun install --frozen-lockfile");
+    expect(trust).toBeGreaterThanOrEqual(0);
+    expect(trust).toBeLessThan(install);
+    expect(steps.some((step) => step.uses === "oven-sh/setup-bun@v2")).toBe(true);
+    expect(
+      steps.some(
+        (step) =>
+          step.uses?.startsWith("jdx/mise-action") || step.uses?.startsWith("actions/setup-node"),
+      ),
+    ).toBe(false);
   }
 });
 
@@ -71,6 +99,9 @@ test("deployment paths preserve generated API docs while excluding ordinary pros
 
 test("PR browser validation retains staged WebKit journeys and deployment dry-run", () => {
   const steps = JSON.stringify(job("ci", "browser").steps);
+  expect(steps).toContain("bun run validate:site");
+  expect(JSON.stringify(job("deploy-site", "build").steps)).toContain("bun run validate:site");
+  const validation = readFileSync(`${root}/scripts/validate-site.sh`, "utf8");
   for (const command of [
     "npm test --prefix deployment/site",
     "bun scripts/site-stage.ts",
@@ -78,7 +109,7 @@ test("PR browser validation retains staged WebKit journeys and deployment dry-ru
     "npm run build --prefix deployment/site",
     "npm run check --prefix deployment/site",
   ])
-    expect(steps).toContain(command);
+    expect(validation).toContain(command);
   expect(steps).not.toContain("CLOUDFLARE_API_TOKEN");
   const manifest = JSON.parse(readFileSync(`${root}/deployment/site/package.json`, "utf8"));
   expect(manifest.scripts.check).toContain("--dry-run");

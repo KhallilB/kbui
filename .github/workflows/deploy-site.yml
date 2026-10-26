@@ -8,6 +8,7 @@ on:
       - 'packages/**'
       - 'deployment/site/**'
       - 'scripts/site-stage*'
+      - 'scripts/validate-site.sh'
       - '.github/workflows/deploy-site.yml'
       - 'package.json'
       - 'bun.lock'
@@ -43,28 +44,14 @@ jobs:
       PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
     steps:
       - uses: actions/checkout@v4
-      - uses: jdx/mise-action@v2
-      - uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: '22.23.0'
+          bun-version-file: package.json
+      - name: Trust checkout in container
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - run: bun install --frozen-lockfile
-      - run: npm ci --prefix deployment/site
-      - run: npm test --prefix deployment/site
       - run: bun run check
-      - run: bun run test:stories
-      - run: bun run --cwd apps/storybook test:site
-      - run: bun run --cwd apps/storybook build:site
-      - run: bun scripts/site-stage.ts
-      - name: Test the public path
-        shell: bash
-        run: |
-          python3 -m http.server 4175 --bind 127.0.0.1 --directory deployment/site/public &
-          site_server_pid=$!
-          trap 'kill "$site_server_pid"' EXIT
-          curl --fail --retry 8 --retry-connrefused --retry-delay 1 http://127.0.0.1:4175/ > /dev/null
-          CATALOG_PREVIEW_URL=http://127.0.0.1:4175 bun run --cwd apps/storybook verify:release
-      - run: npm run build --prefix deployment/site
-      - run: npm run check --prefix deployment/site
+      - run: bun run validate:site
       - uses: actions/upload-artifact@v4
         with:
           name: kbui-site-${{ github.sha }}

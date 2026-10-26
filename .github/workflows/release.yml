@@ -41,7 +41,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: { ref: "${{ env.TAG }}", fetch-depth: 0 }
-      - uses: jdx/mise-action@v2
+      - uses: oven-sh/setup-bun@v2
+        with: { bun-version-file: package.json }
+      - name: Trust checkout in container
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - run: bun install --frozen-lockfile
       # Release PRs opened by GITHUB_TOKEN skip ci.yml, so the tag is checked here.
       - run: bun run check
