@@ -2,10 +2,12 @@
 .kb-radiogroup {
   color: var(--kb-color-fg);
   display: flex;
+  min-inline-size: 0;
   flex-direction: column;
   gap: var(--kb-radiogroup-gap);
 }
 .kb-radiogroup-label {
+  overflow-wrap: anywhere;
   color: var(--kb-color-fg);
   font-size: var(--kb-text-small-size);
   font-weight: 600;
@@ -52,12 +54,15 @@
   cursor: not-allowed;
 }
 .kb-radiogroup-content {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
   color: inherit;
   font-size: var(--kb-text-control-size);
   line-height: var(--kb-text-leading-control);
 }
 .kb-radiogroup-description,
 .kb-radiogroup-error {
+  overflow-wrap: anywhere;
   margin: 0;
   font-size: var(--kb-text-small-size);
   line-height: var(--kb-text-leading-body);
