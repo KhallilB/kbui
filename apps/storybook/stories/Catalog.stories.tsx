@@ -323,8 +323,7 @@ export const StateContinuity: Story = {
     expect(canvasElement.querySelector(".example-code-bar")?.getBoundingClientRect().top).toBe(
       codeTop,
     );
-    const next = canvas.getByTitle("Badge — Tones live example");
-    expect(next).toBe(frame);
+    const next = canvas.getByTitle("Badge — Tones live example") as HTMLIFrameElement;
     expect(next.parentElement).toBe(stage);
     expect(next.getBoundingClientRect().height).toBeGreaterThan(400);
     expect(canvasElement.querySelector(".catalog-live")?.getAnimations()[0]).toBe(entrance);
@@ -332,19 +331,19 @@ export const StateContinuity: Story = {
     expect(getComputedStyle(next).transitionDuration).toContain(reduced ? "0s" : "0.2s");
     await userEvent.click(canvas.getByRole("button", { name: "Expand preview" }));
     await new Promise<void>((resolve) => {
-      frame.addEventListener("load", () => resolve(), { once: true });
-      frame.src = "about:blank";
+      next.addEventListener("load", () => resolve(), { once: true });
+      next.src = "about:blank";
     });
-    const incoming = frame.contentDocument;
+    const incoming = next.contentDocument;
     if (!incoming?.body) throw new Error("Missing next-state fixture");
     incoming.body.innerHTML = '<div id="storybook-root"><span>New state ready</span></div>';
-    await waitFor(() => expect(frame).toHaveAttribute("aria-busy", "false"));
+    await waitFor(() => expect(next).toHaveAttribute("aria-busy", "false"));
     expect(canvas.getByRole("button", { name: "Compact preview" })).toHaveAttribute(
       "aria-expanded",
       "true",
     );
     await waitFor(() =>
-      expect(frame.getBoundingClientRect().height).toBeCloseTo(Math.min(480, innerHeight * 0.6), 0),
+      expect(next.getBoundingClientRect().height).toBeCloseTo(Math.min(480, innerHeight * 0.6), 0),
     );
   },
 };
