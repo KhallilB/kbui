@@ -1,8 +1,9 @@
 import samples from "virtual:kbui-setup-samples";
-import { Button } from "@kbui/react";
+import { Button, Checkbox, RadioGroup } from "@kbui/react";
 import { useEffect, useId, useState } from "react";
 import { CodePanel } from "./CodePanel";
 import { ControlSelect } from "./ControlSelect";
+import { LinkArrow } from "./LinkArrow";
 import { SiteFrame, SiteLink } from "./SiteFrame";
 import {
   installCommand,
@@ -57,14 +58,12 @@ export function InstallBuilder({
           }))}
           onChange={(manager) => update({ ...options, manager })}
         />
-        <label className="install-tokens">
-          <input
-            type="checkbox"
-            checked={options.tokens}
-            onChange={(event) => update({ ...options, tokens: event.target.checked })}
-          />{" "}
-          Include typed tokens
-        </label>
+        <Checkbox
+          className="install-tokens"
+          label="Include typed tokens"
+          checked={options.tokens}
+          onCheckedChange={(tokens) => update({ ...options, tokens })}
+        />
       </div>
       <p className="setup-note">
         v{releaseVersion} · React 19+ · CSS includes design tokens. Add typed tokens only for
@@ -79,10 +78,7 @@ export function InstallBuilder({
       />
       {compact && (
         <SiteLink className="plain-link setup-continue" href={setupHref(siteRoot, options)}>
-          Continue setup{" "}
-          <span aria-hidden="true" className="link-arrow">
-            ↗
-          </span>
+          Continue setup <LinkArrow />
         </SiteLink>
       )}
     </section>
@@ -159,16 +155,21 @@ export function Setup({
                 </p>
               </div>
               <div className="setup-work">
-                <ControlSelect
-                  id={`${id}-theme-choice`}
+                <RadioGroup
                   label="Theme"
+                  appearance="segmented"
                   value={theme}
-                  options={themes.map((value) => ({
-                    value,
-                    label: value[0]?.toUpperCase() + value.slice(1),
-                  }))}
-                  onChange={setTheme}
-                />
+                  onValueChange={(value) => {
+                    const next = themes.find((theme) => theme === value);
+                    if (next) setTheme(next);
+                  }}
+                >
+                  {themes.map((value) => (
+                    <RadioGroup.Item key={value} value={value}>
+                      {value[0]?.toUpperCase() + value.slice(1)}
+                    </RadioGroup.Item>
+                  ))}
+                </RadioGroup>
                 <div
                   className="setup-preview"
                   data-theme={theme === "system" ? (systemDark ? "dark" : "light") : theme}
@@ -202,7 +203,7 @@ export function Setup({
                 className="plain-link"
                 href={`${storybookRoot}?path=/docs/components-button--docs`}
               >
-                See Button API & states <span className="link-arrow">↗</span>
+                See Button API & states <LinkArrow />
               </a>
             </p>
           </>
@@ -273,10 +274,7 @@ export function Setup({
             className="primary-link"
             href={themePage ? `${siteRoot}components/` : `${siteRoot}setup/themes/`}
           >
-            {themePage ? "Explore components" : "Choose your theme"}{" "}
-            <span aria-hidden="true" className="link-arrow">
-              ↗
-            </span>
+            {themePage ? "Explore components" : "Choose your theme"} <LinkArrow />
           </SiteLink>
           <SiteLink className="plain-link" href={`${siteRoot}playground/`}>
             Try the playground

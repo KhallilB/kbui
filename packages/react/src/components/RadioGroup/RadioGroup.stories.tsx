@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { type CSSProperties, useState } from "react";
 import { expect, userEvent, within } from "storybook/test";
+import { Button } from "../Button/Button";
 import { RadioGroup, type RadioGroupProps } from "./RadioGroup";
 
 function RadioExample({ value: initial, ...props }: RadioGroupProps) {
@@ -13,6 +14,23 @@ function RadioExample({ value: initial, ...props }: RadioGroupProps) {
       </RadioGroup.Item>
       <RadioGroup.Item value="roomy">Roomy</RadioGroup.Item>
     </RadioGroup>
+  );
+}
+function ResettableRadioExample({ value: initial, ...props }: RadioGroupProps) {
+  const [value, setValue] = useState<string | null>(initial);
+  return (
+    <div>
+      <Button type="button" variant="secondary" size="sm" onClick={() => setValue(initial)}>
+        Reset display
+      </Button>
+      <RadioGroup {...props} value={value} onValueChange={setValue}>
+        <RadioGroup.Item value="compact">Compact</RadioGroup.Item>
+        <RadioGroup.Item value="locked" disabled>
+          Unavailable
+        </RadioGroup.Item>
+        <RadioGroup.Item value="roomy">Roomy</RadioGroup.Item>
+      </RadioGroup>
+    </div>
   );
 }
 const meta = {
@@ -75,6 +93,7 @@ export const SelectedMaterial: Story = {
 };
 
 export const Segmented: Story = {
+  render: (args) => <ResettableRadioExample {...args} />,
   args: { appearance: "segmented" },
   play: async ({ canvasElement }) => {
     const c = within(canvasElement);
@@ -89,5 +108,16 @@ export const Segmented: Story = {
     await userEvent.keyboard("{ArrowRight}");
     expect(roomy).toBeChecked();
     expect(getComputedStyle(roomyLabel).outlineOffset).toBe("-2px");
+    const reset = c.getByRole("button", { name: "Reset display" });
+    await userEvent.click(reset);
+    expect(reset).toHaveFocus();
+    expect(compact).toBeChecked();
+    expect(compact.tabIndex).toBe(0);
+    expect(roomy.tabIndex).toBe(-1);
+    await userEvent.tab();
+    expect(compact).toHaveFocus();
+    await userEvent.keyboard("{ArrowRight}");
+    expect(roomy).toHaveFocus();
+    expect(roomy).toBeChecked();
   },
 };

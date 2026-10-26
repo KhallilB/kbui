@@ -3,6 +3,7 @@
   --kb-checkbox-inset: calc((var(--kb-input-height-md) - var(--kb-checkbox-size)) / 2);
   position: relative;
   display: grid;
+  min-inline-size: 0;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: start;
   column-gap: var(--kb-space-2);
@@ -61,6 +62,7 @@
   outline-color: var(--kb-color-accent-fg);
 }
 .kb-checkbox-label {
+  overflow-wrap: anywhere;
   min-block-size: var(--kb-input-height-md);
   padding-block: var(--kb-space-3);
   color: var(--kb-color-fg);
@@ -70,6 +72,7 @@
 }
 .kb-checkbox-description,
 .kb-checkbox-error {
+  overflow-wrap: anywhere;
   margin: 0;
   grid-column: 2;
   font-size: var(--kb-text-small-size);

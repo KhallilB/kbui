@@ -2,11 +2,12 @@ import { fileURLToPath } from "node:url";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { catalogPlugin } from "./catalog/source";
+import { themeBootstrapPlugin } from "./site/theme-bootstrap";
 
 export default defineConfig({
   root: fileURLToPath(new URL("./site", import.meta.url)),
   base: "./",
-  plugins: [react(), catalogPlugin()],
+  plugins: [themeBootstrapPlugin(), react(), catalogPlugin()],
   build: {
     outDir: "../dist",
     emptyOutDir: true,
