@@ -37,6 +37,11 @@ export const LongToken: Story = {
     expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
     const text = canvasElement.querySelector("p");
     if (!text) throw new Error("Missing text");
-    expect(text.scrollWidth).toBeLessThanOrEqual(text.clientWidth);
+    const container = text.parentElement;
+    if (!container) throw new Error("Missing container");
+    for (const width of [160, 180, 288]) {
+      container.style.inlineSize = `${width}px`;
+      expect(text.scrollWidth).toBeLessThanOrEqual(text.clientWidth);
+    }
   },
 };
