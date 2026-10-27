@@ -30,7 +30,7 @@ declare module "*.css";
 
 ## Default design
 
-The normal stylesheet includes the tactile cream/forest/rust light design and forest/peach dark design. No skin selector or extra stylesheet is needed. Public component props and token overrides remain supported.
+The normal stylesheet includes the tactile cream/forest/rust light design and forest/peach dark design. No extra stylesheet or selector is needed. Public component props and token overrides remain supported.
 
 ## Themes
 
@@ -49,7 +49,7 @@ To adjust a value for your app, override its variable after the kbui import. Tok
 :root, [data-theme] { --kb-color-accent: light-dark(oklch(55% 0.2 150), oklch(72% 0.17 150)); }
 ```
 
-[Reskinning kbui](reskinning.md) covers complete skins, scoped skins and which tokens to set.
+[Restyling kbui](restyling.md) covers restyling every component, restyling part of a page and which tokens to set.
 
 ## Components
 

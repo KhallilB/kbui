@@ -48,7 +48,7 @@ bun run check            # build, lint, typecheck and unit tests
 | [Maintained features](docs/features.md) | Implementation, canonical docs, examples and current limits |
 | [Tokens](docs/tokens.md) | Token kinds, naming, aliases and dark mode |
 | [Using kbui in a project](docs/guides/using-kbui.md) | Installing, theming, updating and troubleshooting |
-| [Reskinning kbui](docs/guides/reskinning.md) | Token overrides for a complete or scoped skin |
+| [Restyling kbui](docs/guides/restyling.md) | Token overrides that restyle every component or part of a page |
 | [Adding a component](docs/guides/adding-a-component.md) | The generator, styles, tests and stories |
 
 ## License

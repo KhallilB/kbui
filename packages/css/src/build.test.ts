@@ -2,7 +2,7 @@ import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import { mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { anatomyRoots, buildCss, paletteRefs, rawSkinValues } from "./build";
+import { anatomyRoots, buildCss, paletteRefs, rawStyleValues } from "./build";
 
 const src = new URL("./", import.meta.url).pathname;
 let dist: string;
@@ -99,10 +99,10 @@ describe("buildCss", () => {
   });
 
   test("component css takes sizing, type and motion from tokens", async () => {
-    expect(await rawSkinValues(src)).toEqual([]);
+    expect(await rawStyleValues(src)).toEqual([]);
   });
 
-  test("rawSkinValues flags skin literals and keeps hairlines, zero and em", async () => {
+  test("rawStyleValues flags restyle literals and keeps hairlines, zero and em", async () => {
     const root = await fixture({
       "raw.css": `/* Anatomy: .kb-raw */
 .kb-raw {
@@ -123,7 +123,7 @@ describe("buildCss", () => {
 @media (max-width: 580px) { .kb-raw { min-height: var(--kb-button-touch-min); } }
 `,
     });
-    const hits = await rawSkinValues(root);
+    const hits = await rawStyleValues(root);
     for (const m of ["height: 40px", "padding: 0.125rem", "font-size: 15px", "font-weight: 600"]) {
       expect(hits.some((h) => h.endsWith(m))).toBe(true);
     }

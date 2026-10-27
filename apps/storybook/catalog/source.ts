@@ -119,6 +119,11 @@ export function loadCatalogSources(): CatalogEntry[] {
 }
 
 export function catalogPlugin(): Plugin {
+  // Same in both themes on :root; colors take light then dark values.
+  const restyleSample = [
+    ":root { --kb-button-radius: var(--kb-radius-full); }",
+    ":root, [data-theme] { --kb-color-accent: light-dark(#0b6e4f, #7fd1ae); }",
+  ].join("\n");
   return {
     name: "kbui-catalog-source",
     resolveId(id) {
@@ -129,7 +134,7 @@ export function catalogPlugin(): Plugin {
     load(id) {
       if (id === "\0virtual:kbui-setup-samples") {
         const sample = (code: string) => highlightSample({ code, snippet: code });
-        return `export default ${JSON.stringify({ usage: sample(firstComponent), ...Object.fromEntries(themes.map((theme) => [theme, sample(themeMarkup(theme))])), styling: { code: ":root { --kb-button-radius: var(--kb-radius-full); }", snippet: ":root { --kb-button-radius: var(--kb-radius-full); }", tokens: [], snippetTokens: [] } })};`;
+        return `export default ${JSON.stringify({ usage: sample(firstComponent), ...Object.fromEntries(themes.map((theme) => [theme, sample(themeMarkup(theme))])), styling: { code: restyleSample, snippet: restyleSample, tokens: [], snippetTokens: [] } })};`;
       }
       if (id === resolvedSampleId) return `export default ${JSON.stringify(loadSiteSamples())};`;
       if (id === resolvedId) return `export default ${JSON.stringify(loadCatalogSources())};`;

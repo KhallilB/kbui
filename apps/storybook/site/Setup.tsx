@@ -188,17 +188,24 @@ export function Setup({
             </section>
             <section className="setup-step">
               <div>
-                <p className="page-kicker">02 / Your details</p>
+                <p className="page-kicker">02 / Restyle</p>
                 <h2>Start with one small change.</h2>
                 <p>
-                  Override a component token after importing kbui’s stylesheet. This radius works in
-                  both themes.
+                  Restyle with token overrides after importing kbui’s stylesheet. Values that stay
+                  the same in both themes go on <code>:root</code>. Colors take a light and a dark
+                  value through <code>light-dark()</code>.
                 </p>
               </div>
-              <CodePanel name="Styling" language="CSS" sample={samples.styling} defaultOpen />
+              <CodePanel name="Restyle" language="CSS" sample={samples.styling} defaultOpen />
             </section>
             <p className="setup-note">
-              For semantic colors, set values for light and dark themes.{" "}
+              Restyle type, density, shape and motion the same way.{" "}
+              <a
+                className="plain-link"
+                href="https://github.com/KhallilB/kbui/blob/main/docs/guides/restyling.md"
+              >
+                Read the restyling guide <LinkArrow />
+              </a>{" "}
               <a
                 className="plain-link"
                 href={`${storybookRoot}?path=/docs/components-button--docs`}

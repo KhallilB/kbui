@@ -43,7 +43,7 @@ export async function paletteRefs(src: string): Promise<string[]> {
   return hits;
 }
 
-// Skin-facing properties must read tokens; hairlines (<=2px), zero and em stay literal.
+// Restyle-facing properties must read tokens; hairlines (<=2px), zero and em stay literal.
 const SKIN_PROP =
   /^(?:font-size|font-weight|(?:min-)?(?:height|width|block-size|inline-size)|padding(?:-[a-z-]+)?|(?:row-|column-)?gap|border-radius|(?:transition|animation)(?:-duration|-timing-function)?)$/;
 const DECL = /(?:^|[;{\s])([a-z-]+)\s*:\s*([^;{}]+)(?=[;}])/g;
@@ -53,7 +53,7 @@ const EASING =
   /(?<![\w-])(?:ease(?:-in|-out|-in-out)?|linear|step-start|step-end)(?![\w-])|cubic-bezier\(|steps\(/g;
 const WEIGHT = /^(?:\d{3}|bold|bolder|lighter|normal)$/;
 
-export async function rawSkinValues(src: string): Promise<string[]> {
+export async function rawStyleValues(src: string): Promise<string[]> {
   const hits: string[] = [];
   for (const file of [join(src, "reset.css"), ...(await componentFiles(src))]) {
     const css = (await readFile(file, "utf8")).replace(/\/\*[\s\S]*?\*\//g, "");

@@ -1,14 +1,14 @@
-# Reskinning kbui
+# Restyling kbui
 
-A skin is a stylesheet of token overrides loaded after `@kbui/css/styles.css`. Components read every color, size, type and timing value from tokens, so a skin changes the look of every component without touching component CSS. Token kinds, naming and aliases are described in [Tokens](../tokens.md).
+To restyle kbui, write a stylesheet of token overrides and load it after `@kbui/css/styles.css`. Components read every color, size, type and timing value from tokens, so a restyle changes every component without touching component CSS. Token kinds, naming and aliases are described in [Tokens](../tokens.md).
 
 ## Write the override
 
-Load the skin after kbui. Every kbui theme selector has zero specificity, so any later rule wins in every theme.
+Load the restyle after kbui. Every kbui theme selector has zero specificity, so any later rule wins in every theme.
 
 ```css
 @import "@kbui/css/styles.css";
-@import "./skin.css";
+@import "./restyle.css";
 ```
 
 Which selector to use depends on whether the token changes between light and dark:
@@ -45,11 +45,11 @@ Values that cannot be written with `light-dark()`, such as a shadow list that di
 
 Global scale tokens move every component that aliases them. Component tokens, such as `--kb-button-height-md`, adjust one component and take precedence for it. `packages/tokens/tokens.json` lists every token with its default.
 
-Hairline borders and focus-ring widths are fixed in component CSS because they protect legibility and accessibility. `--kb-button-touch-min` sets the minimum button size on narrow screens; keep it at 44px or more.
+Hairline borders and focus-ring widths are fixed in component CSS because they protect legibility and accessibility, so a restyle cannot change them. `--kb-button-touch-min` sets the minimum button size on narrow screens; keep it at 44px or more.
 
-## Scope a skin to part of a page
+## Restyle part of a page
 
-Put `data-theme` on the wrapper together with the skin class. The attribute makes the wrapper rebind aliases, so component tokens resolve against the wrapper's values:
+Put `data-theme` on the wrapper together with the restyle class. The attribute makes the wrapper rebind aliases, so component tokens resolve against the wrapper's values:
 
 ```html
 <section class="brand-b" data-theme="light">…</section>
@@ -59,9 +59,9 @@ Put `data-theme` on the wrapper together with the skin class. The attribute make
 .brand-b { --kb-color-bg: #f4f1ff; --kb-color-accent: #5b3cc4; }
 ```
 
-Without `data-theme`, an alias such as `--kb-panel-background` keeps the value resolved at `:root`. Dialog, Menu and Tooltip render into `<body>`, outside the wrapper, so they use the page skin.
+Without `data-theme`, an alias such as `--kb-panel-background` keeps the value resolved at `:root`. Dialog, Menu and Tooltip render into `<body>`, outside the wrapper, so they use the page's restyle.
 
-## Check a skin
+## Check a restyle
 
 1. Run `bun run storybook` and open a component story.
 2. Use the theme switch in the toolbar to review light and dark.

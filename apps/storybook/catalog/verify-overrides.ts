@@ -78,7 +78,7 @@ const cases: Case[] = [
     expected: "rgb(4, 5, 6)",
   },
   {
-    name: "scoped skin on a theme container rebinds component aliases",
+    name: "restyle on a theme container rebinds component aliases",
     scheme: "dark",
     consumer: ".brand { --kb-color-bg: rgb(10 20 30); }",
     probe: nest("light", 'class="brand"'),

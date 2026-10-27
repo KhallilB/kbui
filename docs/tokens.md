@@ -10,7 +10,7 @@ Every kbui value is defined in one file, `packages/tokens/tokens.json`. The file
 | Scale | `--kb-space-4`, `--kb-radius-md`, `--kb-size-sm`, `--kb-font-sans`, `--kb-font-weight-strong`, `--kb-text-h1-size` | Components and apps, directly |
 | Semantic color | `--kb-color-bg`, `--kb-color-fg`, `--kb-color-accent`, `--kb-color-danger`, `--kb-color-info`, `--kb-color-success`, `--kb-color-warning` | Components and apps. These are the values that change in dark mode. Each status color has a matching `-fg` for text placed on it. |
 | Motion | `--kb-motion-duration-fast`, `--kb-motion-duration-base`, `--kb-motion-duration-slow`, `--kb-motion-duration-theme`, `--kb-motion-easing-standard`, `--kb-motion-easing-enter`, `--kb-motion-easing-exit`, `--kb-motion-easing-smooth` | Transitions that respond to a user action. Nothing in kbui animates on its own, and every transition is disabled under `prefers-reduced-motion`. |
-| Component | `--kb-button-height-md`, `--kb-input-height-md`, `--kb-dialog-width`, `--kb-panel-radius`, `--kb-status-running` | One component each. Override one to adjust that component without affecting others. [Reskinning kbui](guides/reskinning.md) lists the groups a skin usually sets. |
+| Component | `--kb-button-height-md`, `--kb-input-height-md`, `--kb-dialog-width`, `--kb-panel-radius`, `--kb-status-running` | One component each. Override one to adjust that component without affecting others. [Restyling kbui](guides/restyling.md) lists the groups a restyle usually sets. |
 
 ## Surface theming
 
@@ -40,7 +40,7 @@ A path in braces makes one token refer to another:
 
 This builds to `--kb-color-accent: var(--kb-blue-600);`. The reference stays live, so changing `--kb-blue-600` changes every token that points at it. The build stops with an error if an alias points at a token that does not exist.
 
-The reference resolves where the alias is declared: on `:root`, and again on each `[data-theme]` container for aliases that depend on a theme value. An override on `:root` flows through every alias. An override on a plain wrapper element does not, because the alias already holds the root value there. Put `data-theme` on the wrapper to make it rebind aliases; [Reskinning kbui](guides/reskinning.md#scope-a-skin-to-part-of-a-page) shows the pattern.
+The reference resolves where the alias is declared: on `:root`, and again on each `[data-theme]` container for aliases that depend on a theme value. An override on `:root` flows through every alias. An override on a plain wrapper element does not, because the alias already holds the root value there. Put `data-theme` on the wrapper to make it rebind aliases; [Restyling kbui](guides/restyling.md#restyle-part-of-a-page) shows the pattern.
 
 ## Dark mode
 

@@ -162,9 +162,9 @@ const longContent: Pane[] = [
   { ...(idle[2] as Pane) },
 ];
 
-/** One composition, default tokens next to a fixture skin: only custom property values differ. */
+/** One composition, default tokens next to a fixture restyle: only custom property values differ. */
 const meta = {
-  title: "Showcase/Skins",
+  title: "Showcase/Restyle",
   component: Room,
   parameters: { layout: "fullscreen" },
 } satisfies Meta<typeof Room>;
