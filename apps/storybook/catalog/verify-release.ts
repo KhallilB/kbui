@@ -498,7 +498,7 @@ for (const profile of profiles) {
         reduced ? "none" : "kbui-fragment-arrive",
       );
       await page.getByRole("button", { name: "Change palette", exact: true }).click();
-      assert.match(await palette.innerText(), /Apricot \/ Iris \/ Mint/);
+      assert.match(await palette.innerText(), /Persimmon \/ Marigold \/ Lilac · vivid/);
       assert.equal(
         await creativeTitle.evaluate(
           (element, previous) => element.getAnimations()[0] === previous,
