@@ -6,6 +6,7 @@ export type DialogProps = Base.Root.Props;
 export type DialogTriggerProps = Base.Trigger.Props;
 export type DialogCloseProps = Base.Close.Props;
 export type DialogActionsProps = ComponentProps<"div">;
+export type DialogSectionProps = ComponentProps<"div">;
 
 export type DialogContentProps = Omit<Base.Popup.Props, "className" | "title"> & {
   /** Accessible name; mutually exclusive with a composed Dialog.Title. */
@@ -48,6 +49,16 @@ function DialogActions({ className, ...props }: DialogActionsProps) {
   return <div {...props} className={clsx("kb-dialog-actions", className)} />;
 }
 
+function DialogHeader({ className, ...props }: DialogSectionProps) {
+  return <div {...props} className={clsx("kb-dialog-header", className)} />;
+}
+function DialogBody({ className, ...props }: DialogSectionProps) {
+  return <div {...props} className={clsx("kb-dialog-body", className)} />;
+}
+function DialogFooter({ className, ...props }: DialogSectionProps) {
+  return <div {...props} className={clsx("kb-dialog-footer", className)} />;
+}
+
 function DialogContent({
   title,
   description,
@@ -77,4 +88,7 @@ export const Dialog = Object.assign(DialogRoot, {
   Description: DialogDescription,
   Close: DialogClose,
   Actions: DialogActions,
+  Header: DialogHeader,
+  Body: DialogBody,
+  Footer: DialogFooter,
 });

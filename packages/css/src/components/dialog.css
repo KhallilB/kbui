@@ -1,4 +1,4 @@
-/* Anatomy: .kb-dialog-popup [data-open] [data-starting-style] [data-ending-style] > .kb-dialog-title, .kb-dialog-description, .kb-dialog-actions; sibling .kb-dialog-backdrop [data-open] [data-starting-style] [data-ending-style] */
+/* Anatomy: .kb-dialog-popup [data-open] [data-starting-style] [data-ending-style] > .kb-dialog-header, .kb-dialog-body, .kb-dialog-footer, .kb-dialog-title, .kb-dialog-description, .kb-dialog-actions; sibling .kb-dialog-backdrop [data-open] [data-starting-style] [data-ending-style] */
 .kb-dialog-backdrop {
   position: fixed;
   inset: 0;
@@ -63,6 +63,18 @@
   font-size: var(--kb-text-control-size);
 
   line-height: 1.6;
+}
+
+.kb-dialog-header {
+  padding: var(--kb-dialog-header-padding);
+}
+
+.kb-dialog-body {
+  padding: var(--kb-dialog-body-padding);
+}
+
+.kb-dialog-footer {
+  padding: var(--kb-dialog-footer-padding);
 }
 
 .kb-dialog-actions {

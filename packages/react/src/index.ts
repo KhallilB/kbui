@@ -19,6 +19,7 @@ export {
   type DialogCloseProps,
   type DialogContentProps,
   type DialogProps,
+  type DialogSectionProps,
   type DialogTriggerProps,
 } from "./components/Dialog/Dialog";
 export {
