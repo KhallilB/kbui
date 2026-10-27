@@ -9,8 +9,41 @@ Every kbui value is defined in one file, `packages/tokens/tokens.json`. The file
 | Palette | `--kb-gray-500`, `--kb-blue-600`, `--kb-red-500`, `--kb-amber-700`, `--kb-green-700`, `--kb-teal-700`, `--kb-white`, `--kb-black` | Other tokens only. A component stylesheet that references one fails `bun run check`; the family list lives in `packages/css/src/build.ts`. |
 | Scale | `--kb-space-4`, `--kb-radius-md`, `--kb-size-sm`, `--kb-font-sans`, `--kb-font-weight-strong`, `--kb-text-h1-size` | Components and apps, directly |
 | Semantic color | `--kb-color-bg`, `--kb-color-fg`, `--kb-color-accent`, `--kb-color-danger`, `--kb-color-info`, `--kb-color-success`, `--kb-color-warning` | Components and apps. These are the values that change in dark mode. Each status color has a matching `-fg` for text placed on it. |
+| Visualization | `--kb-viz-current`, `--kb-viz-current-bg`, `--kb-viz-current-fg`, `--kb-viz-visited`, `--kb-viz-changed` | Apps that draw data structures or algorithm state. See [Visualization roles](#visualization-roles). |
 | Motion | `--kb-motion-duration-fast`, `--kb-motion-duration-base`, `--kb-motion-duration-slow`, `--kb-motion-duration-theme`, `--kb-motion-easing-standard`, `--kb-motion-easing-enter`, `--kb-motion-easing-exit`, `--kb-motion-easing-smooth` | Transitions that respond to a user action. Nothing in kbui animates on its own, and every transition is disabled under `prefers-reduced-motion`. |
 | Component | `--kb-button-height-md`, `--kb-input-height-md`, `--kb-dialog-width`, `--kb-panel-radius`, `--kb-status-running` | One component each. Override one to adjust that component without affecting others. [Restyling kbui](guides/restyling.md) lists the groups a restyle usually sets. |
+
+## Visualization roles
+
+Use the `viz` tokens to mark the state of cells, nodes and pointers in a drawing, such as an array, grid or tree that an algorithm walks through. Each role has three tokens:
+
+| Token | Use | Contrast held by the token tests |
+|---|---|---|
+| `--kb-viz-<role>` | Mark: outline, stroke, arrow or pointer label | 4.5:1 on `--kb-color-bg` and `--kb-color-surface` |
+| `--kb-viz-<role>-bg` | Tint: cell or node fill | — |
+| `--kb-viz-<role>-fg` | Text on the tint | 4.5:1 on the tint; the mark holds 3:1 on the tint |
+
+| Role | Meaning | Light and dark source |
+|---|---|---|
+| `current` | The element the code is looking at now | Blue, separate from the accent so a cursor never reads as an error |
+| `visited` | Processed or done | Teal |
+| `changed` | Value changed in this step | `--kb-color-warning` |
+| `error` | Out of bounds, failed check | `--kb-color-danger` |
+| `discarded` | Out of range or no longer considered | `--kb-color-muted` on `--kb-color-surface` |
+| `frontier` | Queued or next to visit | Aliases `current`; distinguish it by shape, such as a dashed outline |
+| `path` | Part of the answer | `--kb-color-accent` |
+
+Never rely on color alone. Pair each role with a shape, label or pattern, because `current` and `visited` sit close together for some color-vision types, and forced-colors mode reduces several roles to the same system color.
+
+## Forced colors
+
+A token can name a system color in a `kb.forced` extension next to `kb.dark`:
+
+```json
+"current": { "$type": "color", "$value": "#2f5fa8", "$extensions": { "kb.dark": "#8fb4f0", "kb.forced": "Highlight" } }
+```
+
+The build writes these values in one `@media (forced-colors: active)` block on `:where(:root, [data-theme])`, after the theme blocks, so they replace light, dark and container values. Only the `viz` tokens use it today. Components keep their own forced-colors rules in their stylesheets.
 
 ## Surface theming
 

@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import real from "../tokens.json";
-import { buildTokens, type TokenTree } from "./build";
+import { buildTokens, type Token, type TokenTree } from "./build";
 
 const tree: TokenTree = {
   blue: { "500": { $type: "color", $value: "#2563eb" } },
@@ -137,6 +137,28 @@ describe("buildTokens", () => {
     expect(css).not.toContain("@media");
   });
 
+  test("emits kb.forced values last, for root and theme containers, under forced colors", () => {
+    const forced: TokenTree = {
+      ...tree,
+      mark: {
+        $type: "color",
+        $value: "{blue.500}",
+        $extensions: { "kb.dark": "{white}", "kb.forced": "Highlight" },
+      },
+    };
+    const { css } = buildTokens(forced);
+    const start = css.indexOf("@media (forced-colors: active) {");
+    expect(start).toBeGreaterThan(css.indexOf("@media (prefers-color-scheme: dark)"));
+    const block = css.slice(start);
+    expect(block).toContain(":where(:root, [data-theme]) {");
+    expect(block).toContain("--kb-mark: Highlight;");
+    expect(block).not.toContain("--kb-color-bg");
+  });
+
+  test("omits the forced-colors block when no token has kb.forced", () => {
+    expect(buildTokens(tree).css).not.toContain("forced-colors");
+  });
+
   test("snapshot of css output", () => {
     expect(buildTokens(tree).css).toMatchSnapshot();
   });
@@ -159,6 +181,76 @@ describe("tokens.json", () => {
       expect(dark).toMatch(new RegExp(`--kb-color-${name}: #[0-9a-f]+;`));
       expect(dark).toContain(`--kb-color-${name}-fg: var(`);
     }
+  });
+
+  describe("visualization roles", () => {
+    const roles = ["current", "visited", "changed", "error", "discarded", "frontier", "path"];
+    type Node = { [key: string]: Node } & Token;
+    const node = (path: string) =>
+      path.split(".").reduce((n, k) => n[k] as Node, real as unknown as Node);
+    // Follows aliases to a hex value in the chosen theme.
+    const hex = (path: string, theme: "light" | "dark"): string => {
+      const t = node(path);
+      const value = theme === "dark" ? (t.$extensions?.["kb.dark"] ?? t.$value) : t.$value;
+      const alias = value.match(/^\{(.+)\}$/);
+      return alias ? hex(alias[1] as string, theme) : value;
+    };
+    const luminance = (h: string) => {
+      const [r, g, b] = [1, 3, 5].map((i) => {
+        const c = Number.parseInt(h.slice(i, i + 2), 16) / 255;
+        return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+      }) as [number, number, number];
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    };
+    const contrast = (a: string, b: string) => {
+      const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x) as [number, number];
+      return (hi + 0.05) / (lo + 0.05);
+    };
+
+    test("defines a mark, tint and tint text per role", () => {
+      for (const role of roles) {
+        for (const part of ["", "-bg", "-fg"]) expect(css).toContain(`--kb-viz-${role}${part}: `);
+      }
+    });
+
+    test("marks read as text on the page and surface in both themes", () => {
+      for (const theme of ["light", "dark"] as const) {
+        for (const role of roles) {
+          for (const ground of ["color.bg", "color.surface"]) {
+            expect(contrast(hex(`viz.${role}`, theme), hex(ground, theme))).toBeGreaterThanOrEqual(
+              4.5,
+            );
+          }
+        }
+      }
+    });
+
+    test("tint text reads on its tint and marks stand out from it in both themes", () => {
+      for (const theme of ["light", "dark"] as const) {
+        for (const role of roles) {
+          const tint = hex(`viz.${role}-bg`, theme);
+          expect(contrast(hex(`viz.${role}-fg`, theme), tint)).toBeGreaterThanOrEqual(4.5);
+          expect(contrast(hex(`viz.${role}`, theme), tint)).toBeGreaterThanOrEqual(3);
+        }
+      }
+    });
+
+    test("keeps current apart from the accent so a cursor never reads as an error", () => {
+      expect(hex("viz.current", "light")).not.toBe(hex("color.accent", "light"));
+      expect(hex("viz.current", "dark")).not.toBe(hex("color.accent", "dark"));
+    });
+
+    test("maps every role to system colors under forced colors", () => {
+      const forced = css.slice(css.indexOf("@media (forced-colors: active)"));
+      for (const role of roles) {
+        for (const part of ["", "-bg", "-fg"]) {
+          expect(forced).toMatch(new RegExp(`--kb-viz-${role}${part}: [A-Za-z]+;`));
+        }
+      }
+      expect(forced).toContain("--kb-viz-current: Highlight;");
+      expect(forced).toContain("--kb-viz-changed-bg: Mark;");
+      expect(forced).toContain("--kb-viz-discarded: GrayText;");
+    });
   });
 
   test("gives accent and danger foregrounds a dark value for contrast on the lighter dark fills", () => {
