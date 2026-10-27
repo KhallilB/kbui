@@ -22,11 +22,16 @@ export const Installation: Story = {
     const canvas = within(canvasElement);
     const command = canvas.getByRole("region", { name: "Install command" });
     expect(command).toHaveTextContent(
-      "pnpm add https://github.com/KhallilB/kbui/releases/download/v0.5.0/kbui-react-0.5.0.tgz",
+      "pnpm add https://github.com/KhallilB/kbui/releases/download/v",
     );
-    expect(command).toHaveTextContent("kbui-tokens-0.5.0.tgz");
-    await userEvent.click(canvas.getByRole("checkbox", { name: "Include typed tokens" }));
+    expect(command).toHaveTextContent("kbui-tokens-");
+    expect(command).not.toHaveTextContent("kbui-css");
+    expect(canvas.queryByRole("checkbox", { name: "Include typed tokens" })).toBeNull();
+    await userEvent.click(canvas.getByRole("button", { name: "Remove typed tokens" }));
     expect(command).not.toHaveTextContent("kbui-tokens");
+    await userEvent.click(canvas.getByRole("button", { name: "Add typed tokens" }));
+    expect(command).toHaveTextContent("kbui-tokens-");
+    await userEvent.click(canvas.getByRole("button", { name: "Remove typed tokens" }));
     await userEvent.click(canvas.getByRole("combobox", { name: "Package manager" }));
     await userEvent.click(await within(document.body).findByRole("option", { name: "Bun" }));
     await waitFor(() => expect(within(document.body).queryByRole("listbox")).toBeNull());
@@ -37,7 +42,7 @@ export const Installation: Story = {
       "../setup/themes/",
     );
     expect(canvas.getByRole("region", { name: "Example code" })).toHaveTextContent(
-      'import "@kbui/css/styles.css";',
+      'import "@kbui/react/styles.css";',
     );
   },
 };

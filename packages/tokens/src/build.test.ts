@@ -254,7 +254,7 @@ describe("tokens.json", () => {
   });
 
   test("gives accent and danger foregrounds a dark value for contrast on the lighter dark fills", () => {
-    expect(dark).toContain("--kb-color-accent-fg: #291a12;");
+    expect(dark).toContain("--kb-color-accent-fg: #28150e;");
     expect(dark).toContain("--kb-color-danger-fg: #331c20;");
   });
 

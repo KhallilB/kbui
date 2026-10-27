@@ -5,7 +5,7 @@ A component lives in two places: a stylesheet in `@kbui/css`, and a component fi
 ## 1. Generate the files
 
 ```bash
-bun run new Badge
+bun run new Notice
 bun run lint:fix
 ```
 
@@ -15,10 +15,10 @@ It creates:
 
 | File | Starting content |
 |---|---|
-| `packages/css/src/components/badge.css` | An `Anatomy:` line and a starter `.kb-badge` rule |
-| `packages/react/src/components/Badge/Badge.tsx` | A `div` that applies `kb("badge", { variant }, className)` |
-| `packages/react/src/components/Badge/Badge.test.tsx` | A test for the class and default variant |
-| `packages/react/src/components/Badge/Badge.stories.tsx` | A story with a docs page |
+| `packages/css/src/components/notice.css` | An `Anatomy:` line and a starter `.kb-notice` rule |
+| `packages/react/src/components/Notice/Notice.tsx` | A `div` that applies `kb("notice", { variant }, className)` |
+| `packages/react/src/components/Notice/Notice.test.tsx` | A test for the class and default variant |
+| `packages/react/src/components/Notice/Notice.stories.tsx` | A story with a docs page |
 
 It also adds the export to `packages/react/src/index.ts` and the import to `packages/css/src/styles.css`, keeping both lists sorted.
 
@@ -27,7 +27,7 @@ It also adds the export to `packages/react/src/index.ts` and the import to `pack
 Rewrite the stylesheet's first line so it describes the whole component:
 
 ```css
-/* Anatomy: .kb-badge [data-tone=neutral|success|danger] [data-size=sm|md] > .kb-badge-icon */
+/* Anatomy: .kb-notice [data-tone=neutral|success|danger] [data-size=sm|md] > .kb-notice-icon */
 ```
 
 This line is the contract. The React component must render exactly these classes and attributes, and so must any future renderer in another framework.
@@ -35,17 +35,17 @@ This line is the contract. The React component must render exactly these classes
 ## 3. Write the styles
 
 - Use semantic colors (`--kb-color-*`), scale tokens (`--kb-space-*`, `--kb-radius-*`, `--kb-size-*`) and the component's own tokens. Palette colors and raw values such as `#fff` fail the check.
-- If the component needs its own value, add a group to `tokens.json`, such as `badge.radius`, and use `--kb-badge-radius`.
+- If the component needs its own value, add a group to `tokens.json`, such as `notice.radius`, and use `--kb-notice-radius`.
 - Express variants and states as `data-*` attributes, not extra classes.
 - Make the `md` size the base style and write overrides for the other sizes, so the component still renders correctly when the size attribute is missing.
 - Disable any animation inside a `prefers-reduced-motion` block.
 
 ## 4. Build the React side, test first
 
-Describe the behavior in `Badge.test.tsx` and run it to see it fail:
+Describe the behavior in `Notice.test.tsx` and run it to see it fail:
 
 ```bash
-bun run --cwd packages/react test -- Badge
+bun run --cwd packages/react test -- Notice
 ```
 
 Build on a Base UI primitive when one fits; otherwise render a plain element. Follow the [component conventions](../../CONTRIBUTING.md#component-conventions): spread props first and `kb()` last, test that the `ref` is forwarded, and give each prop a one-line JSDoc comment. Then make the test pass.

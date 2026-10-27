@@ -39,7 +39,7 @@ export const Browse: Story = {
     );
     await userEvent.click(canvas.getByRole("button", { name: "Change palette" }));
     expect(canvas.getByRole("status", { name: "Palette" })).toHaveTextContent(
-      "Apricot / Iris / Mint",
+      "Persimmon / Marigold / Lilac · vivid",
     );
   },
 };
@@ -47,7 +47,7 @@ export const Browse: Story = {
 export const Code: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const creative = within(canvas.getByRole("region", { name: "Something a little different" }));
+    const creative = within(canvas.getByRole("region", { name: "A space to play with color" }));
     expect(canvas.getAllByRole("button", { name: "Copy code" })).toHaveLength(3);
     await userEvent.click(creative.getByRole("button", { name: "View code" }));
     const code = creative.getByRole("region", { name: "Creative example code" });
@@ -60,5 +60,19 @@ export const Code: Story = {
     expect(code).toHaveTextContent('from "@kbui/react"');
     expect(code).not.toHaveTextContent("<svg");
     expect(code).not.toHaveTextContent(".composition");
+  },
+};
+
+export const DarkPage: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("switch", { name: "Dark mode" }));
+    expect(canvas.getByRole("main").closest(".kbui-site")).toHaveAttribute("data-theme", "dark");
+    for (const card of canvasElement.querySelectorAll(".composition")) {
+      expect(card.closest("[data-theme]")).toBe(canvas.getByRole("main").closest(".kbui-site"));
+      expect(card).toHaveAttribute("data-appearance", "outlined");
+    }
+    expect(canvas.getByRole("heading", { name: "Notes from the workshop." })).toBeVisible();
+    expect(canvas.getByRole("button", { name: "Change palette" })).toBeEnabled();
   },
 };

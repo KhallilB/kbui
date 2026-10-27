@@ -8,9 +8,33 @@
     ".": {
       "changelog-path": "CHANGELOG.md",
       "extra-files": [
-        { "type": "json", "path": "packages/tokens/package.json", "jsonpath": "$.version" },
-        { "type": "json", "path": "packages/css/package.json", "jsonpath": "$.version" },
-        { "type": "json", "path": "packages/react/package.json", "jsonpath": "$.version" }
+        {
+          "type": "json",
+          "path": "packages/tokens/package.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": "packages/css/package.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "json",
+          "path": "packages/react/package.json",
+          "jsonpath": "$.version"
+        },
+        {
+          "type": "generic",
+          "path": "README.md"
+        },
+        {
+          "type": "generic",
+          "path": "docs/guides/using-kbui.md"
+        },
+        {
+          "type": "generic",
+          "path": "apps/storybook/docs/Introduction.mdx"
+        }
       ]
     }
   }

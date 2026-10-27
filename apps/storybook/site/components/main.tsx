@@ -47,10 +47,8 @@ function CatalogRoute() {
         window.history.replaceState(window.history.state, "", url);
         setLocation((current) => ({ ...current, query: url.searchParams }));
       }}
-      onAppearanceChange={({ theme }) => {
+      onAppearanceChange={() => {
         const url = new URL(window.location.href);
-        url.searchParams.set("theme", theme);
-        window.history.replaceState(window.history.state, "", url);
         setLocation((current) => ({ ...current, query: url.searchParams }));
       }}
       onComponentChange={(id, stateId) => {

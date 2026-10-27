@@ -130,13 +130,11 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    border: 1px solid var(--review-line);
     border-radius: 18px;
     padding: 24px;
-    background: var(--kb-color-bg);
   }
   & .component-card:hover {
-    background: var(--review-hover);
+    border-color: var(--kb-color-ring);
     text-decoration: none;
   }
   .component-name {

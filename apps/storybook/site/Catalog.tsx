@@ -112,9 +112,12 @@ function CatalogIndex({
       <div className="page-heading catalog-index-heading">
         <p className="page-kicker">Components</p>
         <h1>
-          Find your next <em>piece.</em>
+          Find what you <em>need.</em>
         </h1>
-        <p>Browse {entries.length} components, try the examples, and copy what you need.</p>
+        <p>
+          Start with a component. Try a few variations, see how it behaves, and take the code into
+          your app.
+        </p>
       </div>
       <div className="catalog-filters">
         <Input
@@ -225,7 +228,7 @@ function CatalogIndex({
       </div>
       {matches.length === 0 && (
         <p className="catalog-empty" role="status">
-          No components found. Try another name or clear the filters.
+          No matches this time. Try another name or clear your filters.
         </p>
       )}
     </>
@@ -329,7 +332,7 @@ function CatalogDetail({
         <div className="catalog-section-heading">
           <div>
             <p className="page-kicker">Interactive example</p>
-            <h2 id={`${id}-live`}>Try it here.</h2>
+            <h2 id={`${id}-live`}>Get a feel for it.</h2>
           </div>
           <span className="catalog-source">Live preview</span>
         </div>
@@ -389,7 +392,7 @@ function CatalogDetail({
                   ? "Preview unavailable here. Open the example in Storybook."
                   : !loaded
                     ? slow
-                      ? "Taking longer than expected. Reload the preview or open it in Storybook."
+                      ? "Still loading. Try reloading, or open this example in Storybook."
                       : "Loading live example…"
                     : ""
               }
@@ -471,8 +474,8 @@ function CatalogDetail({
       <section className="catalog-api" aria-labelledby={`${id}-api`}>
         <div className="catalog-section-heading">
           <div>
-            <p className="page-kicker">The essentials</p>
-            <h2 id={`${id}-api`}>API at a glance.</h2>
+            <p className="page-kicker">When you start building</p>
+            <h2 id={`${id}-api`}>The details you need.</h2>
           </div>
           <a
             className="plain-link"

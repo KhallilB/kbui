@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createRef, useState } from "react";
 import { describe, expect, it, vi } from "vitest";
@@ -136,9 +136,14 @@ it("lets outside actions receive focus when dismissing the popup", async () => {
   );
   const next = screen.getByRole("button", { name: "Next action" });
   await userEvent.click(screen.getByRole("combobox"));
+  const list = await screen.findByRole("listbox", { name: "View" });
+  await waitFor(() => expect(list.closest(".kb-select-popup")).toHaveFocus());
   await userEvent.click(next);
   expect(action).toHaveBeenCalledOnce();
-  expect(next).toHaveFocus();
+  await waitFor(() => {
+    expect(screen.queryByRole("listbox")).not.toBeInTheDocument();
+    expect(next).toHaveFocus();
+  });
 });
 
 it("preserves page scrolling while choices are open", async () => {

@@ -52,7 +52,8 @@ test("every canonical story supplies standalone working code", () => {
       const code = "code" in story ? story.code : undefined;
       expect(code, story.id).toBeString();
       if (typeof code !== "string") throw new Error(`Missing code: ${story.id}`);
-      expect(code).toContain('import "@kbui/css/styles.css"');
+      expect(code).toContain('import "@kbui/react/styles.css"');
+      expect(code).not.toContain('import "@kbui/css/styles.css"');
       expect(code).toContain('from "@kbui/react"');
       expect(code).toContain("export default function Example()");
       expect(code).not.toMatch(/storybook|from ["']\.\.?\//);

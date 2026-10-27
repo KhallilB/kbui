@@ -21,10 +21,14 @@ export const Primary: Story = {
   play: async ({ canvasElement }) => {
     if (window.matchMedia("(forced-colors: active)").matches) return;
     const button = within(canvasElement).getByRole("button", { name: "Button" });
-    const theme = document.documentElement.dataset.theme;
-    expect(getComputedStyle(button).backgroundColor).toBe(
-      theme === "dark" ? "rgb(242, 161, 132)" : "rgb(180, 70, 43)",
-    );
+    const accent = document.createElement("span");
+    accent.style.color = "var(--kb-color-accent)";
+    button.append(accent);
+    try {
+      expect(getComputedStyle(button).backgroundColor).toBe(getComputedStyle(accent).color);
+    } finally {
+      accent.remove();
+    }
     expect(getComputedStyle(button).boxShadow).not.toBe("none");
   },
 };

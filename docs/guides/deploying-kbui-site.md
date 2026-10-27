@@ -62,6 +62,9 @@ deployment/site/public/
   playground/index.html
   examples/index.html
   components/index.html
+  components/qa/index.html
+  compare/index.html
+  changelog/index.html
   storybook/
 ```
 
@@ -76,3 +79,5 @@ References: [Cloudflare CI](https://developers.cloudflare.com/cf/ci/), [custom d
 At `kbui.kcb.pro`, check `/`, both setup pages, catalog, playground, examples, direct Storybook links, iframe previews, copy feedback, refresh and Back/Forward. Check `https://kcb.pro/` and existing portfolio project URLs separately; local artifact checks cannot prove production route ownership.
 
 The workflow retains built artifacts for 14 days and labels the Cloudflare version with the commit SHA. On a regression, use the `kbui-site` deployment history in Cloudflare to roll back to the previous verified version. Then revert/fix the change before the next automatic push. Do not roll back or reroute the portfolio Worker.
+
+Public Storybook builds exclude Site, Showcase and Validation fixtures. The shared validation script builds those into a separate temporary QA artifact for control-edge browser checks; only public output reaches deployment staging. Local runs can set `SITE_VALIDATION_PORT=4182` if the default 4175/4176 pair is occupied. Both temporary servers and the QA artifact are cleaned up on exit.

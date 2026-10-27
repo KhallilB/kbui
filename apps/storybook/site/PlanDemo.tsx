@@ -1,6 +1,7 @@
 import { Button, Card, Checkbox, Dialog, Input, Progress, Status } from "@kbui/react";
 import { useCallback, useId, useRef, useState } from "react";
-import { LinkArrow } from "./LinkArrow";
+import { useSiteTheme } from "./SiteFrame";
+import "./plan-demo.css";
 
 const defaultActivities = [
   ["coffee", "Coffee and a slow start", "No rush."],
@@ -18,18 +19,25 @@ function Bloom({ complete }: { complete: boolean }) {
       viewBox="0 0 180 180"
       aria-hidden="true"
     >
-      <g fill={complete ? "#e5b6c8" : "#f1ce64"} stroke="#313b31" strokeWidth="2">
+      <g stroke="var(--day-bloom-ink)" strokeWidth="2">
         {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => (
-          <circle key={angle} cx="90" cy="48" r="26" transform={`rotate(${angle} 90 90)`} />
+          <circle
+            className="day-bloom-petal"
+            key={angle}
+            cx="90"
+            cy="48"
+            r="26"
+            transform={`rotate(${angle} 90 90)`}
+          />
         ))}
-        <circle cx="90" cy="90" r="31" fill="#fff8e9" />
+        <circle cx="90" cy="90" r="31" fill="var(--day-bloom-center)" />
       </g>
-      <circle cx="80" cy="86" r="3" fill="#313b31" />
-      <circle cx="100" cy="86" r="3" fill="#313b31" />
+      <circle cx="80" cy="86" r="3" fill="var(--day-bloom-ink)" />
+      <circle cx="100" cy="86" r="3" fill="var(--day-bloom-ink)" />
       <path
         d={complete ? "M77 98Q90 116 103 98" : "M80 100Q90 107 100 100"}
         fill="none"
-        stroke="#313b31"
+        stroke="var(--day-bloom-ink)"
         strokeWidth="2"
         strokeLinecap="round"
       />
@@ -39,11 +47,15 @@ function Bloom({ complete }: { complete: boolean }) {
 
 export function PlanDemo() {
   const id = useId();
+  const theme = useSiteTheme();
   const [activities, setActivities] = useState<readonly Activity[]>(defaultActivities);
   const activityNumber = useRef(0);
   const [adding, setAdding] = useState(false);
   const [activityDraft, setActivityDraft] = useState("");
   const [activityError, setActivityError] = useState("");
+  const [note, setNote] = useState("");
+  const noteControl = useRef<HTMLInputElement>(null);
+  const summary = useRef<HTMLSpanElement>(null);
   const [picked, setPicked] = useState<string[]>([]);
   const [name, setName] = useState("A day off");
   const [draft, setDraft] = useState(name);
@@ -61,27 +73,26 @@ export function PlanDemo() {
     );
   }
   return (
-    <div className="day-demo" ref={attachPortal} data-theme="light">
+    <div className="day-demo" ref={attachPortal} data-theme={theme}>
       <Card className="day-card" aria-labelledby={`${id}-title`}>
         <div className="day-topline">
-          <span>Something for yourself</span>
+          <span className="day-edition">A DAY TO YOURSELF</span>
           <Dialog open={editing} onOpenChange={setEditing}>
             <Dialog.Trigger
-              render={<Button variant="ghost" size="sm" />}
-              aria-label="Rename plan"
+              render={<Button variant="secondary" size="sm" className="day-name-action" />}
               onClick={() => {
                 setDraft(name);
                 setError("");
               }}
             >
-              Rename <LinkArrow />
+              Name your day
             </Dialog.Trigger>
             <Dialog.Content
-              title="Name your day"
-              description="This is a local demo. Choose any name."
+              title="Give your day a name"
+              description="A quiet Sunday, a day with friends, or whatever you have in mind."
               container={portal}
               className="day-dialog"
-              data-theme="light"
+              data-theme={theme}
             >
               <form
                 onSubmit={(event) => {
@@ -107,7 +118,7 @@ export function PlanDemo() {
         <div className="day-heading">
           <div>
             <h2 id={`${id}-title`}>{name}</h2>
-            <p>A few things. All optional.</p>
+            <p>Make room for what you enjoy.</p>
           </div>
           <Bloom complete={picked.length === activities.length} />
         </div>
@@ -129,7 +140,7 @@ export function PlanDemo() {
               description="One thing you would like to do. This demo stays in your browser."
               container={portal}
               className="day-dialog"
-              data-theme="light"
+              data-theme={theme}
             >
               <form
                 onSubmit={(event) => {
@@ -175,24 +186,66 @@ export function PlanDemo() {
         </fieldset>
         <div className="day-progress">
           <Progress
-            label="Plans picked"
+            label="Activities picked"
             value={picked.length}
             max={activities.length}
             valueText={`${picked.length} of ${activities.length}`}
           />
         </div>
+        <form
+          className="day-note"
+          aria-label="Personal note"
+          onSubmit={(event) => {
+            event.preventDefault();
+            summary.current?.focus();
+          }}
+        >
+          <Input
+            ref={noteControl}
+            label="Note to yourself"
+            placeholder="Bring a book, try that café…"
+            value={note}
+            onValueChange={setNote}
+            onKeyDown={(event) => {
+              if (event.key === "Escape") {
+                event.preventDefault();
+                summary.current?.focus();
+              }
+            }}
+          />
+          <div className="day-note-actions">
+            <span>Just for this visit.</span>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              disabled={!note}
+              onClick={() => {
+                setNote("");
+                noteControl.current?.focus();
+              }}
+            >
+              Clear note
+            </Button>
+            <Button type="submit" variant="secondary" size="sm">
+              Done
+            </Button>
+          </div>
+        </form>
         <div className="day-bottom">
           <Status
+            ref={summary}
+            tabIndex={-1}
             live
             aria-label="Plan summary"
             tone={picked.length === activities.length ? "success" : "neutral"}
           >
             <span className="plan-summary-words" key={picked.length}>
               {picked.length === activities.length
-                ? "Day sorted."
+                ? "Looks like a good day."
                 : picked.length === 0
-                  ? "Leave a little space."
-                  : `${picked.length} picked. Looking good.`}
+                  ? "Nothing picked yet."
+                  : `${picked.length} ${picked.length === 1 ? "activity" : "activities"} picked.`}
             </span>
           </Status>
           <Button
@@ -200,6 +253,7 @@ export function PlanDemo() {
             size="sm"
             onClick={() => {
               setPicked([]);
+              setNote("");
               setActivities(defaultActivities);
               setName("A day off");
             }}
@@ -208,7 +262,7 @@ export function PlanDemo() {
           </Button>
         </div>
       </Card>
-      <p className="demo-note">Go ahead, try it. A small demo made with kbui.</p>
+      <p className="demo-note">Nothing is saved when you leave.</p>
     </div>
   );
 }

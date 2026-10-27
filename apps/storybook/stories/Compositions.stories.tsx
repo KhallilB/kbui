@@ -35,11 +35,11 @@ export const Creative: Story = {
     const bounds = geometry.getBoundingClientRect();
     expect(Math.abs(bounds.height - (bounds.width * 224) / 320)).toBeLessThanOrEqual(1);
     expect(canvas.getByRole("status", { name: "Palette" })).toHaveTextContent(
-      "Ochre / Rose / Sage",
+      "Persimmon / Marigold / Lilac",
     );
     await userEvent.click(canvas.getByRole("button", { name: "Change palette" }));
     expect(canvas.getByRole("status", { name: "Palette" })).toHaveTextContent(
-      "Apricot / Iris / Mint",
+      "Persimmon / Marigold / Lilac · vivid",
     );
     expect(title.getAnimations()[0]).toBe(entrance);
     const words = canvasElement.querySelector(".palette-words");

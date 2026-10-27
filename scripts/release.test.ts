@@ -92,3 +92,66 @@ describe("releaseProblems", () => {
 test("this repository releases in lockstep", async () => {
   expect(await releaseProblems(join(import.meta.dir, ".."))).toEqual([]);
 });
+
+async function documentedRelease(content: string) {
+  await writeFile(join(root, "USAGE.md"), content);
+  await writeConfig([entry("tokens"), entry("css"), { type: "generic", path: "USAGE.md" }]);
+}
+
+const annotated = (line: string) =>
+  `<!-- x-release-please-start-version -->\n${line}\n<!-- x-release-please-end -->\n`;
+
+test("rejects stale versioned documentation before a release", async () => {
+  await documentedRelease(annotated("KBUI_VERSION=0.2.0"));
+  expect(await releaseProblems(root)).toEqual(["USAGE.md documents 0.2.0, root is 0.3.0"]);
+});
+
+test("requires version annotations for release-managed documentation", async () => {
+  await documentedRelease("KBUI_VERSION=0.3.0\n");
+  expect(await releaseProblems(root)).toEqual(["USAGE.md has no release-version block"]);
+});
+
+test("rejects multiple versions per line because the generic updater replaces only one", async () => {
+  await documentedRelease(annotated("/v0.3.0/kbui-react-0.3.0.tgz"));
+  expect(await releaseProblems(root)).toEqual([
+    "USAGE.md has multiple versions on one managed line; use a version variable",
+  ]);
+});
+
+test("allows historical versions outside managed blocks", async () => {
+  await documentedRelease(`Before 0.2.0, setup was different.\n${annotated("KBUI_VERSION=0.3.0")}`);
+  expect(await releaseProblems(root)).toEqual([]);
+});
+
+test("accepts synchronized documentation after a version bump", async () => {
+  await writeFile(join(root, "package.json"), json({ version: "0.4.0" }));
+  await writeFile(join(root, ".release-please-manifest.json"), json({ ".": "0.4.0" }));
+  await writePackage("tokens", { version: "0.4.0" });
+  await writePackage("css", { version: "0.4.0" });
+  await documentedRelease(annotated("KBUI_VERSION=0.4.0"));
+  expect(await releaseProblems(root)).toEqual([]);
+});
+
+test("rejects an empty release-version block", async () => {
+  await documentedRelease(annotated("No release version here."));
+  expect(await releaseProblems(root)).toEqual(["USAGE.md has no version in its managed blocks"]);
+});
+
+test("keeps installation entry points registered with the release updater", async () => {
+  const config = await Bun.file(new URL("../release-please-config.json", import.meta.url)).json();
+  const paths = config.packages["."]["extra-files"]
+    .filter((file: { type: string }) => file.type === "generic")
+    .map((file: { path: string }) => file.path);
+  expect(paths.sort()).toEqual([
+    "README.md",
+    "apps/storybook/docs/Introduction.mdx",
+    "docs/guides/using-kbui.md",
+  ]);
+});
+
+test("rejects incomplete and nested annotation blocks", async () => {
+  await documentedRelease("<!-- x-release-please-start-version -->\nKBUI_VERSION=0.3.0\n");
+  expect(await releaseProblems(root)).toEqual(["USAGE.md has no release-version block"]);
+  await documentedRelease(annotated(annotated("KBUI_VERSION=0.3.0")));
+  expect(await releaseProblems(root)).toEqual(["USAGE.md has malformed release-version blocks"]);
+});

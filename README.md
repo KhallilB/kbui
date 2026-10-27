@@ -1,21 +1,24 @@
 # kbui
 
-kbui is a React component library with shared design tokens and plain CSS. Use the default light and dark themes, or adjust the tokens to fit your app. Components use [Base UI](https://base-ui.com) for interaction. Each release attaches one tarball per package to a [GitHub Release](https://github.com/KhallilB/kbui/releases); nothing is published to a registry.
+kbui is a React component library with shared design tokens and plain CSS. Use the default light and dark themes, or adjust the tokens to fit your app. Components combine native controls with [Base UI](https://base-ui.com) for interaction. Each release attaches one tarball per package to a [GitHub Release](https://github.com/KhallilB/kbui/releases); nothing is published to a registry.
 
 | Package | Contents | Docs |
 |---|---|---|
 | `@kbui/tokens` | Colors, spacing, type and component sizes, defined once in `tokens.json` | [packages/tokens](packages/tokens/README.md) |
 | `@kbui/css` | All styling, one stylesheet per component | [packages/css](packages/css/README.md) |
-| `@kbui/react` | 21 components for React 19, including forms, feedback, and layout | [packages/react](packages/react/README.md) |
+| `@kbui/react` | React 19+ components for forms, feedback, and layout | [packages/react](packages/react/README.md) |
 | `apps/storybook` | Live component docs and accessibility tests | [apps/storybook](apps/storybook/README.md) |
 
 ## Using kbui in a project
 
-Install `@kbui/react` from a release; it includes the stylesheet. Replace `0.7.0` with the version you want:
+Install `@kbui/react` from a release; it includes styles and CSS tokens. Your app needs React and React DOM 19 or later. The commands below use Bash (Git Bash or WSL on Windows); the [Get Started page](https://kbui.kcb.pro/setup/) also generates complete commands for npm, Bun, pnpm and Yarn.
 
+<!-- x-release-please-start-version -->
 ```bash
-bun add https://github.com/KhallilB/kbui/releases/download/v0.7.0/kbui-react-0.7.0.tgz
+KBUI_VERSION=0.7.0
+bun add "https://github.com/KhallilB/kbui/releases/download/v${KBUI_VERSION}/kbui-react-${KBUI_VERSION}.tgz"
 ```
+<!-- x-release-please-end -->
 
 ```tsx
 import "@kbui/react/styles.css";
@@ -28,14 +31,14 @@ export const Save = () => <Button variant="primary">Save</Button>;
 
 ## Versioning
 
-All packages share one version. release-please reads the conventional commits on `main` and opens a release PR; merging it updates `CHANGELOG.md`, tags `v<version>` and uploads the tarballs. Before 1.0, a breaking change raises the minor version. Install the same version of every package.
+All packages share one version. release-please reads the conventional commits on `main` and opens a release PR; merging it updates `CHANGELOG.md`, tags `v<version>` and uploads the tarballs. Before 1.0, a breaking change raises the minor version. Install the same version of every package. Release PRs also update the marked installation examples in this README, the usage guide and Storybook introduction. The site derives its install commands from the root package version; checks reject stale managed documentation.
 
 ## Working on kbui
 
 ```bash
 mise install && bun install
 bun run storybook        # http://localhost:6006
-bun run check            # build, lint, typecheck and unit tests
+bun run check            # build, lint, types, examples, unit and package checks
 ```
 
 [CONTRIBUTING](CONTRIBUTING.md) lists every command, the checks CI runs and the conventions components follow.

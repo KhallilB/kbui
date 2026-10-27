@@ -10,10 +10,11 @@
   padding: var(--kb-card-padding);
   border: var(--kb-card-border-width) solid var(--kb-card-border);
   border-radius: var(--kb-card-radius);
-  background: var(--kb-card-background);
+  background-color: var(--kb-card-background);
+  background-image: var(--kb-card-face);
   color: var(--kb-card-color);
 
-  box-shadow: var(--kb-material-panel-shadow);
+  box-shadow: var(--kb-card-shadow);
 }
 
 .kb-card > :where(p) {

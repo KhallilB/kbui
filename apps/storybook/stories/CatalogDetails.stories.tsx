@@ -103,7 +103,7 @@ export const LegacyThemeExample: Story = {
 export const ComponentReference: Story = {
   play: async ({ canvasElement }) => {
     const page = within(canvasElement);
-    expect(page.queryByText("Usage notes and examples", { exact: true })).not.toBeInTheDocument();
+    expect(page.queryByText("A few things to know", { exact: true })).not.toBeInTheDocument();
     expect(page.getByRole("table", { name: "Input API" })).toBeVisible();
     expect(page.getByRole("link", { name: "React guide" })).toBeVisible();
     await userEvent.click(page.getByRole("button", { name: "View code" }));
@@ -119,7 +119,7 @@ export const NumericReference: Story = {
   args: { componentId: "numberfield" },
   play: async ({ canvasElement }) => {
     const page = within(canvasElement);
-    expect(page.queryByText("Usage notes and examples", { exact: true })).not.toBeInTheDocument();
+    expect(page.queryByText("A few things to know", { exact: true })).not.toBeInTheDocument();
     expect(page.getByRole("table", { name: "NumberField API" })).toBeVisible();
   },
 };

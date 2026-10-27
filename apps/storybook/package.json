@@ -6,22 +6,24 @@
   "scripts": {
     "dev": "storybook dev -p 6006 --no-open --disable-telemetry",
     "build-storybook": "storybook build --quiet --disable-telemetry",
-    "test": "vitest run",
+    "test": "KBUI_STORYBOOK_INTERNAL=1 vitest run",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "dev:site": "vite --config vite.site.config.ts --host 127.0.0.1 --port 4173",
     "build:site": "bun catalog/verify-code.ts && vite build --config vite.site.config.ts && storybook build --quiet --disable-telemetry --output-dir dist/storybook && bun catalog/verify.ts",
-    "test:site": "vitest run --config vitest.site.config.ts stories/Home.stories.tsx stories/Compositions.stories.tsx stories/Workbench.stories.tsx stories/PlanDemo.stories.tsx stories/Examples.stories.tsx stories/Changelog.stories.tsx stories/Catalog.stories.tsx stories/CatalogDetails.stories.tsx stories/Setup.stories.tsx stories/SkinComparison.stories.tsx",
+    "test:site": "KBUI_STORYBOOK_INTERNAL=1 vitest run --config vitest.site.config.ts stories/Home.stories.tsx stories/Compositions.stories.tsx stories/Workbench.stories.tsx stories/PlanDemo.stories.tsx stories/Examples.stories.tsx stories/Changelog.stories.tsx stories/Catalog.stories.tsx stories/CatalogDetails.stories.tsx stories/Setup.stories.tsx stories/SkinComparison.stories.tsx --maxWorkers=2",
     "preview:site": "vite preview --config vite.site.config.ts --host 127.0.0.1 --port 4174 --strictPort",
     "verify:catalog": "bun catalog/verify.ts",
     "verify:previews": "node --experimental-strip-types catalog/verify-previews.ts",
     "verify:release": "node --experimental-strip-types catalog/verify-release.ts",
     "verify:controls": "node --experimental-strip-types catalog/verify-control-edges.ts",
     "verify:code": "bun catalog/verify-code.ts",
-    "test:a11y": "vitest run --config vitest.accessibility.config.ts stories/Accessibility.stories.tsx",
+    "test:a11y": "KBUI_STORYBOOK_INTERNAL=1 vitest run --config vitest.accessibility.config.ts stories/Accessibility.stories.tsx",
     "test:themes": "vitest run --config vitest.themes.config.ts ../../packages/react/src/components",
     "verify:theme": "bun catalog/verify-theme.ts",
     "verify:overrides": "bun catalog/verify-overrides.ts",
-    "verify:depth": "bun catalog/verify-depth.ts"
+    "verify:depth": "bun catalog/verify-depth.ts",
+    "dev:internal": "KBUI_STORYBOOK_INTERNAL=1 storybook dev -p 6008 --no-open --disable-telemetry",
+    "build:internal": "KBUI_STORYBOOK_INTERNAL=1 storybook build --quiet --disable-telemetry"
   },
   "dependencies": {
     "@kbui/css": "workspace:*",

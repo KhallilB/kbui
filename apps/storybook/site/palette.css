@@ -1,0 +1,43 @@
+/* Site layout aliases; component colors and materials come from kbui. */
+:root,
+[data-theme="light"],
+[data-theme="dark"] {
+  --cream: var(--kb-color-bg);
+  --ink: var(--kb-color-fg);
+  --muted: var(--kb-color-muted);
+  --review-paper: var(--kb-material-surface-bg);
+  --review-plane: var(--kb-color-surface);
+  --review-line: var(--kb-color-border);
+  --review-control: var(--kb-material-control-border);
+  --review-hover: light-dark(#e7ebf2, #303640);
+  --review-selected: var(--site-accent);
+  --review-selected-top: var(--site-accent-hover);
+  --review-selected-edge: light-dark(#b53c16, #c86744);
+  --review-selected-fg: var(--site-accent-fg);
+  --review-good: var(--kb-color-success);
+  --review-well-top: light-dark(#e3e7ed, #101318);
+  --review-well-bottom: var(--kb-material-field-bg);
+  --review-highlight: light-dark(rgb(255 255 255 / 0.9), rgb(232 239 255 / 0.12));
+  --review-shadow: light-dark(rgb(26 34 48 / 0.12), rgb(0 0 0 / 0.35));
+  --review-code-hover: light-dark(#e3e8f0, #303640);
+  --site-accent: var(--kb-color-accent);
+  --site-accent-ink: var(--kb-color-accent-ink);
+  --rust: var(--site-accent-ink);
+  --site-choice-ink: light-dark(var(--muted), var(--ink));
+  --site-choice-tint: var(--site-accent);
+  --site-accent-hover: var(--kb-color-accent-hover);
+  --site-accent-fg: var(--kb-color-accent-fg);
+  --site-ring: var(--kb-color-ring);
+  --site-chrome: var(--kb-material-chrome-bg);
+  --site-chrome-fg: var(--kb-material-chrome-fg);
+  --site-chrome-muted: var(--kb-material-chrome-muted);
+  --site-soft-border: var(--kb-material-soft-border);
+  --site-control-top: var(--kb-material-raised-top);
+  --site-control-bottom: var(--kb-material-raised-bottom);
+  --illustration-persimmon: light-dark(#e8a18b, #edac91);
+  --illustration-marigold: light-dark(#f0d17d, #e1c277);
+  --illustration-lilac: light-dark(#c5b0d9, #c3addd);
+  --illustration-persimmon-vivid: var(--site-accent);
+  --illustration-marigold-vivid: light-dark(#eebd56, #f2ce78);
+  --illustration-lilac-vivid: light-dark(#b592d1, #d0b1ed);
+}

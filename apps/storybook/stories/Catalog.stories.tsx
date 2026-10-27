@@ -53,7 +53,7 @@ export const BrowseComponents: Story = {
       "no-such-component",
     );
     expect(
-      canvas.getByText("No components found. Try another name or clear the filters."),
+      canvas.getByText("No matches this time. Try another name or clear your filters."),
     ).toBeVisible();
     await userEvent.click(canvas.getByRole("button", { name: "Clear filters" }));
     expect(canvas.getByRole("searchbox", { name: "Search components" })).toHaveFocus();
@@ -86,7 +86,7 @@ export const FocusedBrowser: Story = {
     await userEvent.click(canvas.getByRole("link", { name: "All components" }));
     await userEvent.type(canvas.getByRole("searchbox", { name: "Search components" }), "no-match");
     expect(
-      canvas.getByText("No components found. Try another name or clear the filters."),
+      canvas.getByText("No matches this time. Try another name or clear your filters."),
     ).toBeVisible();
     await userEvent.click(canvas.getByRole("button", { name: "Clear filters" }));
     expect(canvas.getByRole("searchbox", { name: "Search components" })).toHaveFocus();
@@ -366,7 +366,7 @@ export const FocusedDetails: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     expect(canvas.queryByRole("heading", { name: "Accessibility" })).toBeNull();
-    expect(canvas.getByRole("heading", { name: "API at a glance." })).toBeVisible();
+    expect(canvas.getByRole("heading", { name: "The details you need." })).toBeVisible();
     expect(canvas.getByRole("link", { name: "Full Badge API" })).toHaveAttribute(
       "href",
       "./?path=/docs/components-badge--docs",

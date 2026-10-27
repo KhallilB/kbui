@@ -3,7 +3,6 @@ import "../site/layers.css";
 import "@kbui/css/styles.css";
 import { type ReactNode, useLayoutEffect, useState } from "react";
 import type { Theme } from "../site/site-theme";
-import "../site/workspace-skin.css";
 import "./component-preview.css";
 
 function ThemePreview({ theme, children }: { theme: Theme; children: ReactNode }) {

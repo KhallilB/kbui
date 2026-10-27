@@ -22,7 +22,7 @@
     "typecheck": "bun run --filter '@kbui/*' typecheck && tsc --noEmit -p tsconfig.json",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
-    "check": "bun run build && bun run lint && bun run typecheck && bun run test && bun run test:pack",
+    "check": "bun run build && bun run lint && bun run typecheck && bun run --filter @kbui/storybook verify:code && bun run test && bun run test:pack",
     "storybook": "bun run build && bun run --filter @kbui/storybook dev",
     "docs:up": "docker compose -f docker/compose.yml up -d --build docs",
     "docs:down": "docker compose -f docker/compose.yml stop docs",

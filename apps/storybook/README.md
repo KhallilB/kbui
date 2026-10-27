@@ -27,7 +27,7 @@ This builds the packages and serves Storybook on port 6006. The theme switch in 
 bun run test:stories
 ```
 
-Every story is rendered in headless Chromium and scanned for accessibility violations. Any violation fails the run, so each story is also a test. The suite runs twice, once by default and once with the reduced-motion preference on (`vitest.config.ts`). Dark coverage comes from stories that set `globals: { theme: "dark" }`. The standalone pages are not tested.
+Every story is rendered in headless Chromium and scanned for accessibility violations. Any violation fails the run, so each story is also a test. The suite runs twice, once by default and once with the reduced-motion preference on (`vitest.config.ts`). Dark coverage comes from stories that set `globals: { theme: "dark" }`. Complete React modules in installation and usage documentation are typechecked by `verify:code` within `bun run check`. MDX pages are compiled by the Storybook build; they do not run story play functions. Responsive site stories and staged Chromium/WebKit journeys exercise the website separately through `test:site` and `verify:release`.
 
 The fixture restyle in `stories/skin-fixture-values.ts` is checked by `bun test apps/storybook/stories`, which runs inside `bun run check`.
 
@@ -39,3 +39,7 @@ The fixture restyle in `stories/skin-fixture-values.ts` is checked by `bun test 
 | Foundations / Tokens | `docs/Tokens.mdx`. Reads its list from `@kbui/tokens`, so it always matches `tokens.json`. |
 | Each component | That component's `.stories.tsx` file |
 | Showcase / Restyle | `stories/Skins.stories.tsx`, one composition from stock `Button`, `Dialog`, `Panel` and `Status`, rendered with default tokens and with the fixture restyle from `stories/skin-fixture.tsx` |
+
+## Story visibility
+
+The default development server and production build expose component documentation and public guides. Internal Site, Showcase and Validation stories stay in `stories/` and are not shipped. Use `bun run --filter @kbui/storybook dev:internal` for the full QA view on port 6008. Test commands enable that scope automatically; the public catalog gate rejects internal entries in production output. Site validation builds a temporary internal artifact for built control-edge checks and removes it afterward; it never enters deployment staging. See [Contributing](../../CONTRIBUTING.md#public-docs-and-internal-stories) for placement and deletion rules.

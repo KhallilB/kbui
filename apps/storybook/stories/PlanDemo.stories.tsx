@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 import { PlanDemo } from "../site/PlanDemo";
+import { SiteFrame } from "../site/SiteFrame";
 import "../site/site.css";
 import "../site/motion.css";
 
@@ -36,7 +37,7 @@ export const PickAPlan: Story = {
     const row = coffee.closest(".day-choice");
     const entrance = row?.getAnimations()[0];
     const height = row?.getBoundingClientRect().height;
-    expect(canvas.getByRole("progressbar", { name: "Plans picked" })).toHaveAttribute(
+    expect(canvas.getByRole("progressbar", { name: "Activities picked" })).toHaveAttribute(
       "aria-valuenow",
       "0",
     );
@@ -46,19 +47,21 @@ export const PickAPlan: Story = {
     const summary = canvasElement.querySelector(".plan-summary-words");
     if (!summary) throw new Error("Missing summary update");
     expect(getComputedStyle(summary).animationName).toBe(reduced ? "none" : "kbui-ink-update");
-    expect(canvas.getByRole("progressbar", { name: "Plans picked" })).toHaveAttribute(
+    expect(canvas.getByRole("progressbar", { name: "Activities picked" })).toHaveAttribute(
       "aria-valuenow",
       "1",
     );
     await userEvent.click(coffee);
-    expect(canvas.getByRole("progressbar", { name: "Plans picked" })).toHaveAttribute(
+    expect(canvas.getByRole("progressbar", { name: "Activities picked" })).toHaveAttribute(
       "aria-valuenow",
       "0",
     );
     for (const checkbox of canvas.getAllByRole("checkbox")) await userEvent.click(checkbox);
-    expect(canvas.getByRole("status", { name: "Plan summary" })).toHaveTextContent("Day sorted.");
+    expect(canvas.getByRole("status", { name: "Plan summary" })).toHaveTextContent(
+      "Looks like a good day.",
+    );
     await userEvent.click(canvas.getByRole("button", { name: "Start over" }));
-    expect(canvas.getByRole("progressbar", { name: "Plans picked" })).toHaveAttribute(
+    expect(canvas.getByRole("progressbar", { name: "Activities picked" })).toHaveAttribute(
       "aria-valuenow",
       "0",
     );
@@ -69,9 +72,9 @@ export const PickAPlan: Story = {
 export const Rename: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await userEvent.click(canvas.getByRole("button", { name: "Rename plan" }));
+    await userEvent.click(canvas.getByRole("button", { name: "Name your day" }));
     const dialog = within(
-      await within(document.body).findByRole("dialog", { name: "Name your day" }),
+      await within(document.body).findByRole("dialog", { name: "Give your day a name" }),
     );
     await waitFor(() => expect(dialog.getByLabelText("Plan name")).toBeVisible());
     await userEvent.clear(dialog.getByLabelText("Plan name"));
@@ -80,11 +83,15 @@ export const Rename: Story = {
     await userEvent.type(dialog.getByLabelText("Plan name"), "Saturday with friends");
     await userEvent.click(dialog.getByRole("button", { name: "Save name" }));
     expect(canvas.getByRole("heading", { name: "Saturday with friends" })).toBeVisible();
-    await waitFor(() => expect(canvas.getByRole("button", { name: "Rename plan" })).toHaveFocus());
-    await userEvent.click(canvas.getByRole("button", { name: "Rename plan" }));
+    await waitFor(() =>
+      expect(canvas.getByRole("button", { name: "Name your day" })).toHaveFocus(),
+    );
+    await userEvent.click(canvas.getByRole("button", { name: "Name your day" }));
     await userEvent.keyboard("{Escape}");
     await waitFor(() => expect(within(document.body).queryByRole("dialog")).toBeNull());
-    await waitFor(() => expect(canvas.getByRole("button", { name: "Rename plan" })).toHaveFocus());
+    await waitFor(() =>
+      expect(canvas.getByRole("button", { name: "Name your day" })).toHaveFocus(),
+    );
   },
 };
 
@@ -102,11 +109,11 @@ export const AddYourOwnActivity: Story = {
     await userEvent.click(dialog.getByRole("button", { name: "Add to my day" }));
     await waitFor(() => expect(within(document.body).queryByRole("dialog")).toBeNull());
     expect(canvas.getByRole("checkbox", { name: "Visit the bookshop" })).toBeChecked();
-    expect(canvas.getByRole("progressbar", { name: "Plans picked" })).toHaveAttribute(
+    expect(canvas.getByRole("progressbar", { name: "Activities picked" })).toHaveAttribute(
       "aria-valuemax",
       "4",
     );
-    expect(canvas.getByRole("progressbar", { name: "Plans picked" })).toHaveAttribute(
+    expect(canvas.getByRole("progressbar", { name: "Activities picked" })).toHaveAttribute(
       "aria-valuenow",
       "1",
     );
@@ -114,7 +121,7 @@ export const AddYourOwnActivity: Story = {
     await userEvent.click(canvas.getByRole("button", { name: "Start over" }));
     expect(canvas.queryByRole("checkbox", { name: "Visit the bookshop" })).toBeNull();
     expect(canvas.getAllByRole("checkbox")).toHaveLength(3);
-    expect(canvas.getByRole("progressbar", { name: "Plans picked" })).toHaveAttribute(
+    expect(canvas.getByRole("progressbar", { name: "Activities picked" })).toHaveAttribute(
       "aria-valuemax",
       "3",
     );
@@ -128,5 +135,56 @@ export const AddYourOwnActivity: Story = {
     await userEvent.keyboard("{Escape}");
     await waitFor(() => expect(within(document.body).queryByRole("dialog")).toBeNull());
     expect(canvas.getAllByRole("checkbox")).toHaveLength(3);
+  },
+};
+
+export const NoteToYourself: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const note = canvas.getByRole("textbox", { name: "Note to yourself" });
+    expect(note).toHaveValue("");
+    await userEvent.type(note, "Bring a book. Leave the phone at home.");
+    await userEvent.click(canvas.getByRole("button", { name: "Done" }));
+    expect(canvas.getByRole("status", { name: "Plan summary" })).toHaveFocus();
+    expect(note).toHaveValue("Bring a book. Leave the phone at home.");
+    await userEvent.click(note);
+    await userEvent.keyboard("{Escape}");
+    expect(canvas.getByRole("status", { name: "Plan summary" })).toHaveFocus();
+    await userEvent.click(canvas.getByRole("button", { name: "Clear note" }));
+    expect(note).toHaveValue("");
+    expect(note).toHaveFocus();
+    await userEvent.type(note, "Bring a book. Leave the phone at home.");
+    await userEvent.keyboard("{Enter}");
+    expect(canvas.getByRole("status", { name: "Plan summary" })).toHaveFocus();
+    await userEvent.click(canvas.getByRole("checkbox", { name: "Coffee and a slow start" }));
+    expect(note).toHaveValue("Bring a book. Leave the phone at home.");
+    await userEvent.click(canvas.getByRole("button", { name: "Name your day" }));
+    const dialog = within(
+      await within(document.body).findByRole("dialog", { name: "Give your day a name" }),
+    );
+    await userEvent.clear(dialog.getByLabelText("Plan name"));
+    await userEvent.type(dialog.getByLabelText("Plan name"), "A quiet Sunday");
+    await userEvent.click(dialog.getByRole("button", { name: "Save name" }));
+    expect(note).toHaveValue("Bring a book. Leave the phone at home.");
+    await waitFor(() => expect(canvas.queryByRole("dialog")).toBeNull());
+    await userEvent.click(canvas.getByRole("button", { name: "Start over" }));
+    expect(note).toHaveValue("");
+    expect(canvas.getByRole("heading", { name: "A day off" })).toBeVisible();
+    expect(canvas.getByRole("checkbox", { name: "Coffee and a slow start" })).not.toBeChecked();
+  },
+};
+
+export const DarkNote: Story = {
+  render: () => (
+    <SiteFrame current="home" siteRoot="../" storybookRoot="./" theme="dark">
+      <PlanDemo />
+    </SiteFrame>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.type(
+      canvas.getByRole("textbox", { name: "Note to yourself" }),
+      "Take the long way home.",
+    );
   },
 };

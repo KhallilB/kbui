@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { createServer } from "node:http";
 import { chromium, type Page, webkit } from "playwright";
+import release from "../../../package.json" with { type: "json" };
 import { chooseRadio, radioChoice } from "./native-controls.ts";
 import { loadCatalogSources } from "./source.ts";
 
@@ -234,7 +235,7 @@ for (const profile of profiles) {
     );
     await page.goto(`${origin}/components/?component=input`);
     await page
-      .getByText("Taking longer than expected. Reload the preview or open it in Storybook.", {
+      .getByText("Still loading. Try reloading, or open this example in Storybook.", {
         exact: true,
       })
       .waitFor({ timeout: 15000 });
@@ -246,10 +247,66 @@ for (const profile of profiles) {
       .waitFor();
     await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
     await page
-      .getByText("Taking longer than expected. Reload the preview or open it in Storybook.", {
+      .getByText("Still loading. Try reloading, or open this example in Storybook.", {
         exact: true,
       })
       .waitFor({ state: "hidden" });
+  });
+  await check("site-theme", async (page) => {
+    await page.emulateMedia({ colorScheme: "dark" });
+    for (const path of [
+      "/",
+      "/setup/",
+      "/setup/themes/",
+      "/examples/",
+      "/playground/",
+      "/components/",
+    ]) {
+      await page.goto(`${origin}${path}`);
+      await page.waitForFunction(
+        () => document.querySelector(".kbui-site")?.getAttribute("data-theme") === "dark",
+      );
+      assert.equal(await page.locator("html").getAttribute("data-theme"), "dark");
+      assert.ok(
+        !(
+          await page
+            .getByRole("link", { name: "kbui home", exact: true })
+            .first()
+            .getAttribute("href")
+        )?.includes("theme="),
+      );
+      await page.emulateMedia({ colorScheme: "light" });
+      await page.waitForFunction(
+        () => document.querySelector(".kbui-site")?.getAttribute("data-theme") === "light",
+      );
+      await page.emulateMedia({ colorScheme: "dark" });
+      await page.waitForFunction(
+        () => document.querySelector(".kbui-site")?.getAttribute("data-theme") === "dark",
+      );
+    }
+    await page.getByRole("switch", { name: "Dark mode", exact: true }).click();
+    await page.emulateMedia({ colorScheme: "light" });
+    await page.emulateMedia({ colorScheme: "dark" });
+    assert.equal(await page.locator(".kbui-site").getAttribute("data-theme"), "light");
+    await page.reload();
+    assert.equal(await page.locator(".kbui-site").getAttribute("data-theme"), "light");
+    await page.getByRole("button", { name: "Use system theme", exact: true }).click();
+    await page.waitForFunction(
+      () => document.querySelector(".kbui-site")?.getAttribute("data-theme") === "dark",
+    );
+    assert.equal(new URL(page.url()).searchParams.has("theme"), false);
+    assert.equal(await page.evaluate(() => localStorage.getItem("kbui.theme")), null);
+    await page.emulateMedia({ colorScheme: "light" });
+    await page.waitForFunction(
+      () => document.querySelector(".kbui-site")?.getAttribute("data-theme") === "light",
+    );
+    await page.reload();
+    await page.locator(".kbui-site[data-theme=light]").waitFor();
+    await page.goto(`${origin}/setup/?theme=dark`);
+    await page.locator(".kbui-site[data-theme=dark]").waitFor();
+    await page.emulateMedia({ colorScheme: "dark" });
+    await page.emulateMedia({ colorScheme: "light" });
+    assert.equal(await page.locator(".kbui-site").getAttribute("data-theme"), "dark");
   });
   await check("setup", async (page) => {
     if (profile.engine === chromium)
@@ -258,13 +315,30 @@ for (const profile of profiles) {
     const builder = page.getByRole("region", { name: "Install kbui", exact: true });
     await builder.getByRole("combobox", { name: "Package manager", exact: true }).click();
     await page.getByRole("option", { name: "Bun", exact: true }).click();
-    await builder.getByRole("checkbox", { name: "Include typed tokens" }).check();
+    await builder.getByText("Using tokens in JavaScript or TypeScript?", { exact: true }).click();
+    await builder.getByRole("button", { name: "Add typed tokens", exact: true }).click();
     await builder.getByRole("link", { name: "Continue setup" }).click();
     await page.waitForURL("**/setup/?manager=bun&tokens=1");
     await page.reload();
     const command = page.getByRole("region", { name: "Install command", exact: true });
     assert.match(await command.innerText(), /^bun add /);
-    assert.match(await command.innerText(), /kbui-tokens-0.5.0.tgz/);
+    assert.ok(
+      (await command.innerText()).includes(
+        `/v${release.version}/kbui-react-${release.version}.tgz`,
+      ),
+    );
+    assert.ok(
+      (await command.innerText()).includes(
+        `/v${release.version}/kbui-tokens-${release.version}.tgz`,
+      ),
+    );
+    assert.doesNotMatch(await command.innerText(), /kbui-css/);
+    assert.match(
+      await page
+        .getByRole("region", { name: "First component React example", exact: true })
+        .innerText(),
+      /@kbui\/react\/styles\.css/,
+    );
     await page
       .getByRole("region", { name: "Install Shell example", exact: true })
       .getByRole("button", { name: "Copy code", exact: true })
@@ -374,8 +448,8 @@ for (const profile of profiles) {
       }
       const title = page.locator(".day-heading h2");
       const entrance = await title.evaluateHandle((element) => element.getAnimations()[0]);
-      await page.getByRole("button", { name: "Rename plan", exact: true }).click();
-      const dialog = page.getByRole("dialog", { name: "Name your day", exact: true });
+      await page.getByRole("button", { name: "Name your day", exact: true }).click();
+      const dialog = page.getByRole("dialog", { name: "Give your day a name", exact: true });
       await dialog.waitFor();
       const bounds = await dialog.boundingBox();
       assert.ok(
@@ -395,7 +469,9 @@ for (const profile of profiles) {
       await dialog.getByRole("button", { name: "Cancel", exact: true }).click();
       await page.getByRole("checkbox", { name: "Coffee and a slow start" }).check();
       assert.equal(
-        await page.getByRole("progressbar", { name: "Plans picked" }).getAttribute("aria-valuenow"),
+        await page
+          .getByRole("progressbar", { name: "Activities picked" })
+          .getAttribute("aria-valuenow"),
         "1",
       );
       assert.equal(
@@ -613,7 +689,7 @@ for (const profile of profiles) {
       await page.waitForFunction(
         () =>
           getComputedStyle(document.querySelector(".playground-preview") as Element)
-            .backgroundColor === "rgb(25, 27, 32)",
+            .backgroundColor === "rgb(23, 25, 29)",
       );
       await page.getByLabel("Reduce motion", { exact: true }).check();
       assert.equal(

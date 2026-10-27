@@ -78,7 +78,7 @@
     color: var(--ink);
   }
   .example-code-bar .example-code-toggle[aria-expanded="true"] {
-    border-color: var(--review-good, #34664e);
+    border-color: var(--review-selected, #34664e);
     background: var(--review-selected, #34664e);
     color: var(--review-selected-fg, #fffdf5);
   }

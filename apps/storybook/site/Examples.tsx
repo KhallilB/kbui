@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Geometry } from "./Brand";
 import { CodePanel } from "./CodePanel";
 import { LinkArrow } from "./LinkArrow";
-import { SiteFrame } from "./SiteFrame";
+import { SiteFrame, SiteLink } from "./SiteFrame";
 import "./examples.css";
 
 type Surface = "Creative" | "Editorial" | "Operations";
@@ -27,7 +27,7 @@ function CompositionView({
   const Heading = headingLevel === 2 ? "h2" : "h3";
   if (surface === "Editorial")
     return (
-      <Card appearance="plain" className="composition editorial">
+      <Card className="composition editorial">
         <div className="sample-top">
           <span>FIELD NOTES</span>
           <Badge>Issue 004</Badge>
@@ -36,7 +36,9 @@ function CompositionView({
           04
         </span>
         <Heading className="composition-title">Notes from the workshop.</Heading>
-        <p>A reading layout built with Card and Badge.</p>
+        <p>
+          A sketch, a conversation, an afternoon spent trying things. Good work often starts small.
+        </p>
         <div className="sample-bottom">
           <span>Card + Badge</span>
           <a href={docs("Card", storybookRoot)}>
@@ -47,7 +49,7 @@ function CompositionView({
     );
   if (surface === "Operations")
     return (
-      <Card appearance="plain" className="composition operations">
+      <Card className="composition operations">
         <div className="sample-top">
           <span>RELEASE STATUS</span>
           <Status tone="success" appearance="chip">
@@ -55,7 +57,7 @@ function CompositionView({
           </Status>
         </div>
         <Heading className="composition-title">Release overview</Heading>
-        <p>Progress, metrics, and status in one view.</p>
+        <p>A quick check before the next release.</p>
         <div className="stats">
           <Stat label="Builds complete" value="24" size="display" />
           <Stat label="Uptime · demo" value="99.9%" />
@@ -70,7 +72,7 @@ function CompositionView({
       </Card>
     );
   return (
-    <Card appearance="plain" className="composition creative">
+    <Card className="composition creative">
       <div className="sample-top">
         <span>A change of palette</span>
         <Badge>SVG + CSS</Badge>
@@ -81,7 +83,7 @@ function CompositionView({
           <Heading className="composition-title">Color and composition</Heading>
           <p role="status" aria-label="Palette">
             <span className="palette-words" key={palette ? 1 : 0}>
-              {palette ? "Apricot / Iris / Mint" : "Ochre / Rose / Sage"}
+              {palette ? "Persimmon / Marigold / Lilac · vivid" : "Persimmon / Marigold / Lilac"}
             </span>
           </p>
         </div>
@@ -128,22 +130,24 @@ const examples = [
   {
     id: "editorial",
     surface: "Editorial",
-    title: "Something to read",
-    description: "A quieter reading layout. Type, spacing, and a few useful details.",
+    title: "A quiet place to read",
+    description:
+      "Give longer stories room to breathe. A Card and a Badge are enough to get started.",
     parts: "Card · Badge",
   },
   {
     id: "operations",
     surface: "Operations",
-    title: "Something to keep moving",
-    description: "A release at a glance. Progress, status, and the numbers that go with them.",
+    title: "A release overview",
+    description:
+      "Give a few numbers some context. Status and Progress help people see how things are going.",
     parts: "Card · Stat · Status · Progress",
   },
   {
     id: "creative",
     surface: "Creative",
-    title: "Something a little different",
-    description: "Flat geometry and a change of color. Try another palette.",
+    title: "A space to play with color",
+    description: "Switch the palette and see the same shapes take on a different feel.",
     parts: "Card · Badge · Button",
   },
 ] as const;
@@ -166,17 +170,22 @@ export function Examples({
         <div className="page-heading">
           <p className="page-kicker">Examples</p>
           <h1>
-            See the parts <em>come together.</em>
+            See what you can <em>build with it.</em>
           </h1>
           <p>
-            See how the same components work in a reading layout, a release overview, and a color
-            study.
+            A reading page, a release overview, a study in color. Each starts with kbui. Try them
+            out, then open the code to see how they work.
           </p>
         </div>
         <nav className="example-index" aria-label="Example navigation">
-          <a href={`${siteRoot}compare/`}>
+          <Button
+            variant="secondary"
+            nativeButton={false}
+            role="link"
+            render={<SiteLink href={`${siteRoot}compare/`} />}
+          >
             Try the workspace <LinkArrow />
-          </a>
+          </Button>
           {examples.map(({ id, title }) => (
             <a key={id} href={`#${id}`}>
               {title}

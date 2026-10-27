@@ -2,10 +2,10 @@ import { expect, test } from "bun:test";
 import { runInNewContext } from "node:vm";
 import { initialThemeScript, themeBootstrapPlugin } from "../site/theme-bootstrap";
 
-function boot(search: string, stored: string | null, blocked = false) {
+function boot(search: string, stored: string | null, blocked = false, dark = false) {
   const root = { dataset: { theme: "light" }, style: { colorScheme: "" } };
   runInNewContext(initialThemeScript(), {
-    window: { location: { search } },
+    window: { location: { search }, matchMedia: () => ({ matches: dark }) },
     document: { documentElement: root },
     URLSearchParams,
     localStorage: {
@@ -41,4 +41,12 @@ test("Vite injects one synchronous script before page assets", () => {
   expect(hook.handler()).toEqual([
     { tag: "script", injectTo: "head-prepend", children: initialThemeScript() },
   ]);
+});
+
+test("bootstrap follows system when preference is absent, invalid or storage is blocked", () => {
+  expect(boot("", null, false, true).dataset.theme).toBe("dark");
+  expect(boot("?theme=unknown", "invalid", false, true).dataset.theme).toBe("dark");
+  expect(boot("", null, true, true).dataset.theme).toBe("dark");
+  expect(boot("?theme=light", null, false, true).dataset.theme).toBe("light");
+  expect(boot("", "light", false, true).dataset.theme).toBe("light");
 });

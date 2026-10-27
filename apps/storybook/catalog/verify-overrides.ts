@@ -130,7 +130,7 @@ const cases: Case[] = [
   {
     name: "restyle on a theme container rebinds component aliases",
     scheme: "dark",
-    consumer: ".brand { --kb-color-bg: rgb(10 20 30); }",
+    consumer: ".brand { --kb-material-surface-bg: rgb(10 20 30); }",
     probe: nest("light", 'class="brand"'),
     read: "background-color: var(--kb-panel-background)",
     expected: "rgb(10, 20, 30)",
@@ -141,7 +141,7 @@ const cases: Case[] = [
     consumer: "",
     probe: '<i id="probe"></i>',
     read: "color: var(--kb-color-bg)",
-    expected: "rgb(25, 27, 32)",
+    expected: "rgb(23, 25, 29)",
   },
   {
     name: "forced light beats system dark",
@@ -150,7 +150,7 @@ const cases: Case[] = [
     consumer: "",
     probe: '<i id="probe"></i>',
     read: "color: var(--kb-color-bg)",
-    expected: "rgb(255, 253, 245)",
+    expected: "rgb(245, 246, 248)",
   },
   {
     name: "nested light container inside system dark",
@@ -158,7 +158,7 @@ const cases: Case[] = [
     consumer: "",
     probe: nest("light"),
     read: "color: var(--kb-color-bg)",
-    expected: "rgb(255, 253, 245)",
+    expected: "rgb(245, 246, 248)",
   },
 ];
 

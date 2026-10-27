@@ -11,9 +11,6 @@
   .install-settings .control-field {
     flex: 1 1 160px;
   }
-  .install-tokens {
-    min-height: 44px;
-  }
   .setup-note {
     color: var(--muted);
     font-size: var(--kb-text-small-size);
@@ -126,5 +123,26 @@
       gap: 24px;
       padding-block: 28px;
     }
+  }
+}
+
+.kbui-site .install-token-help {
+  margin-top: 16px;
+  border-top: 1px solid var(--review-line);
+  padding-top: 8px;
+  font-size: var(--kb-text-small-size);
+  color: var(--muted);
+  summary {
+    cursor: pointer;
+    min-height: 44px;
+    align-content: center;
+    color: var(--ink);
+  }
+  p {
+    line-height: 1.7;
+    margin-block: 8px 12px;
+  }
+  .kb-button {
+    min-height: 44px;
   }
 }

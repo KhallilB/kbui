@@ -110,7 +110,7 @@ export const PreviewLocalStyling: Story = {
     );
     await userEvent.click(canvas.getByRole("button", { name: "Reset styling" }));
     await waitFor(() =>
-      expect(getComputedStyle(reloaded.action).backgroundColor).toBe("rgb(242, 161, 132)"),
+      expect(getComputedStyle(reloaded.action).backgroundColor).toBe("rgb(255, 132, 87)"),
     );
     expect(getComputedStyle(reloaded.action).borderRadius).toBe("8px");
     expect(reloaded.doc.documentElement.style.getPropertyValue("--kb-color-accent")).toBe("");

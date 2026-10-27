@@ -1,8 +1,8 @@
 import type { Plugin } from "vite";
-import { readPreferredTheme } from "./site-theme";
+import { readPreferredTheme, readThemePreference } from "./site-theme";
 
 export function initialThemeScript(): string {
-  return `{const theme=(${readPreferredTheme.toString()})();document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme;}`;
+  return `{const readThemePreference=${readThemePreference.toString()};const theme=(${readPreferredTheme.toString()})();document.documentElement.dataset.theme=theme;document.documentElement.style.colorScheme=theme;}`;
 }
 
 export function themeBootstrapPlugin(): Plugin {

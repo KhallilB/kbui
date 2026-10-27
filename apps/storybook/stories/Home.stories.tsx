@@ -45,7 +45,7 @@ export const TryTheDemo: Story = {
     expect(getComputedStyle(action).transitionDuration).toBe(reduced ? "0s" : "0.14s");
 
     await userEvent.click(canvas.getByRole("checkbox", { name: "Coffee and a slow start" }));
-    expect(canvas.getByRole("progressbar", { name: "Plans picked" })).toHaveAttribute(
+    expect(canvas.getByRole("progressbar", { name: "Activities picked" })).toHaveAttribute(
       "aria-valuenow",
       "1",
     );
@@ -94,7 +94,7 @@ export const Navigation: Story = {
       "href",
       "../playground/",
     );
-    expect(canvas.getByRole("link", { name: /Something to read/ })).toHaveAttribute(
+    expect(canvas.getByRole("link", { name: /A quiet place to read/ })).toHaveAttribute(
       "href",
       "../examples/#editorial",
     );
@@ -108,7 +108,7 @@ export const Navigation: Story = {
         header.getByRole("link", { name: "Examples" }),
         canvas.getByRole("link", { name: "See the components" }),
         canvas.getByRole("link", { name: /Open the playground/ }),
-        canvas.getByRole("button", { name: "Rename plan" }),
+        canvas.getByRole("button", { name: "Name your day" }),
         canvas.getByRole("button", { name: "Start over" }),
         ...footer.getAllByRole("link"),
       ]) {
@@ -156,7 +156,7 @@ export const StickyNavigation: Story = {
   play: async ({ canvasElement }) => {
     const header = within(canvasElement).getByRole("banner");
     const about = within(canvasElement).getByRole("heading", {
-      name: /A few parts.*A lot of uses/,
+      name: /The parts behind.*your day off/,
     });
     about.scrollIntoView({ block: "start", behavior: "instant" });
     await waitFor(() => expect(header.getBoundingClientRect().top).toBeCloseTo(0, 0));
@@ -165,6 +165,10 @@ export const StickyNavigation: Story = {
     const firstLink = within(header).getByRole("link", { name: "Playground" });
     await userEvent.click(within(header).getByLabelText("Dark mode"));
     expect(firstLink).toBeVisible();
+    expect(within(canvasElement).getByRole("link", { name: "See the components" })).toHaveAttribute(
+      "href",
+      "../components/?theme=dark",
+    );
     window.scrollTo({ top: 0, behavior: "instant" });
   },
 };

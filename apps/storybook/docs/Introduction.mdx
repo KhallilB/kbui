@@ -8,25 +8,33 @@ kbui is a React component library with shared design tokens and plain CSS. Use i
 
 ## Using kbui in a project
 
-Build kbui, then add it by path from your project:
+Install the release into your React app. The React package includes component styles and CSS tokens; React and React DOM 19 or later are peer dependencies. These commands use Bash (Git Bash or WSL on Windows).
 
+{/* x-release-please-start-version */}
 ```bash
-cd ~/proj/kbui && bun run build
-cd ~/proj/<your-app> && bun add ../kbui/packages/react ../kbui/packages/css
+KBUI_VERSION=0.7.0
+bun add "https://github.com/KhallilB/kbui/releases/download/v${KBUI_VERSION}/kbui-react-${KBUI_VERSION}.tgz"
 ```
+{/* x-release-please-end */}
 
 ```tsx
 import "@kbui/react/styles.css";
-import { Button, Dialog, Panel, Input, Status } from "@kbui/react";
+import { Button } from "@kbui/react";
+
+export function App() {
+  return <Button>Save changes</Button>;
+}
 ```
 
 Set `data-theme="light"` or `"dark"` on `<html>` to choose a theme. Without it, kbui follows the system setting.
+
+The [Get Started page](../setup/) generates complete install commands for npm, Bun, pnpm and Yarn. The [usage guide](https://github.com/KhallilB/kbui/blob/main/docs/guides/using-kbui.md) covers upgrades, optional typed tokens, local path installs and troubleshooting. The [Examples page](../examples/) shows components working together.
 
 ## Navigating this Storybook
 
 **Foundations / Tokens** shows the shared colors, spacing, corner radii, and typography from `tokens.json`.
 
-Under **Components**, each component has a Docs page with its props and live examples. Use the theme switch in the toolbar to view a story in light or dark. **Showcase** composes those components into full screens, with and without a product restyle.
+Under **Components**, each component has a Docs page with its props and live examples. Use the theme switch in the toolbar to view a story in light or dark. Use **Layout** for responsive Grid examples.
 
 Stories run automated interaction and accessibility checks in CI. These checks catch common problems; you should also test components in your app with the keyboard and assistive technology.
 

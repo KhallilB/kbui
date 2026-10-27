@@ -3,21 +3,23 @@ import { mkdtempSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { loadDocumentationExamples } from "./documentation.ts";
 import { loadSiteSamples } from "./site-samples.ts";
 import { loadCatalogSources } from "./source.ts";
 
 const directory = mkdtempSync(join(tmpdir(), "kbui-example-code-"));
 try {
   const site = loadSiteSamples();
-  const stories = [
+  const examples = [
     ...loadCatalogSources().flatMap((entry) => entry.stories),
     ...Object.entries(site.playground).map(([id, sample]) => ({
       id: `playground-${id}`,
       ...sample,
     })),
+    ...loadDocumentationExamples(fileURLToPath(new URL("../../../", import.meta.url))),
     ...Object.entries(site.surfaces).map(([id, sample]) => ({ id: `surface-${id}`, ...sample })),
   ];
-  for (const story of stories) {
+  for (const story of examples) {
     writeFileSync(join(directory, `${story.id}.tsx`), story.code);
     writeFileSync(join(directory, `${story.id}.snippet.tsx`), story.snippet);
   }
@@ -41,7 +43,7 @@ try {
   if (result.exitCode !== 0)
     throw new Error(`${result.stdout.toString()}${result.stderr.toString()}`);
   console.log(
-    `Example code verified: ${stories.length} complete React modules and concise snippets.`,
+    `Example code verified: ${examples.length} complete React modules and concise snippets.`,
   );
 } finally {
   rmSync(directory, { recursive: true, force: true });

@@ -2,6 +2,8 @@
 
 React components for forms, navigation, feedback, and layout. kbui uses [Base UI](https://base-ui.com) 1.9 for interaction and `@kbui/css` for styling, which this package includes as `@kbui/react/styles.css`. Import the stylesheet once, then use components throughout your app.
 
+Current source defaults use monochrome light/dark surfaces with a persimmon accent and shared tactile materials. Locally built packages include this refresh; published v0.7.0 tarballs keep their original appearance.
+
 ```tsx
 import "@kbui/react/styles.css";
 import { Button, Dialog, Input } from "@kbui/react";
@@ -59,7 +61,7 @@ Use `Input type="search"` with content slots and a `Button` when search needs a 
 import { useRef, useState } from "react";
 import { Button, Input } from "@kbui/react";
 
-function SearchExample() {
+export function SearchExample() {
   const [query, setQuery] = useState("");
   const control = useRef<HTMLInputElement>(null);
   return (
@@ -201,7 +203,7 @@ Use `Card` to group related content. It renders an article by default and adds n
 </Grid>
 ```
 
-Restyle with `--kb-card-background`, `--kb-card-color`, `--kb-card-border`, `--kb-card-border-width`, `--kb-card-radius`, `--kb-card-padding`, `--kb-grid-gap` and `--kb-grid-min-item-width`. Defaults use semantic tokens in both themes.
+Restyle with `--kb-card-background`, `--kb-card-face`, `--kb-card-shadow`, `--kb-card-color`, `--kb-card-border`, `--kb-card-border-width`, `--kb-card-radius`, `--kb-card-padding`, `--kb-grid-gap` and `--kb-grid-min-item-width`. Outlined cards share raised controls’ edge light and contact shading, plus a lower ledge and soft shadow. Plain cards stay flat. Defaults use semantic tokens in both themes.
 
 ## Checkbox
 
@@ -298,7 +300,10 @@ Use Switch for a preference that takes effect as soon as it changes. Pass `check
 | `style` | `CSSProperties` | | Native input styles; CSS custom properties also reach visible track and thumb |
 
 ```tsx
-function Preference() {
+import { useState } from "react";
+import { Switch } from "@kbui/react";
+
+export function Preference() {
   const [checked, setChecked] = useState(false);
   return <Switch label="Email updates" checked={checked} onCheckedChange={setChecked} name="updates" />;
 }
@@ -318,7 +323,7 @@ Use NumberField for quantities people can type or adjust with step buttons. Your
 | locale | runtime | Intl numeric editing/display locale |
 | name, form, required | unset/false | Native form behavior |
 | disabled, readOnly | false | Prevent changes; disabled also prevents submission |
-| size | md | sm 32px, md 40px, lg 48px; prefer lg for touch |
+| size | md | sm 2.25rem, md 2.75rem, lg 3rem; prefer lg for touch |
 | description, error |unset | Associated help/error; error sets invalid state |
 | visuallyHidden | false | Keep label accessible without visible label |
 | decrementLabel, incrementLabel |Decrease/Increase + label | Localized step action names |

@@ -6,7 +6,7 @@ const config: StorybookConfig = {
   stories: [
     "../docs/**/*.mdx",
     "../../../packages/react/src/**/*.stories.tsx",
-    "../stories/**/*.stories.tsx",
+    ...(process.env.KBUI_STORYBOOK_INTERNAL === "1" ? ["../stories/**/*.stories.tsx"] : []),
   ],
   viteFinal: (config) => ({ ...config, plugins: [...(config.plugins ?? []), catalogPlugin()] }),
   addons: ["@storybook/addon-docs", "@storybook/addon-a11y", "@storybook/addon-vitest"],

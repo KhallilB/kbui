@@ -12,6 +12,7 @@ export const siteSampleFiles = [
   "Brand.tsx",
   "LinkArrow.tsx",
   "examples.css",
+  "palette.css",
   "logo.svg",
   "playground-model.ts",
 ].map(site);
@@ -113,7 +114,7 @@ export function loadSiteSamples(): {
   if (geometryReturn?.type !== "ReturnStatement" || !geometryReturn.argument)
     throw new Error("Missing geometry JSX");
   const geometrySvg = geometryReturn.argument;
-  const css = readFileSync(site("examples.css"), "utf8");
+  const css = `${readFileSync(site("palette.css"), "utf8")}\n${readFileSync(site("examples.css"), "utf8")}`;
   const surfaces: Record<string, CodeSample> = {};
   for (const [index, surface] of ["editorial", "operations", "creative"].entries()) {
     const node = returns[index];
@@ -174,18 +175,6 @@ export function loadSiteSamples(): {
         .replace(
           "  return (\n    <div style=",
           `  return (\n    <>\n    <style>{${JSON.stringify(css)}}</style>\n    <div className="kbui-site" style=`,
-        )
-        .replace(
-          "padding: 16, background:",
-          '"--ink": "#303b31", "--rust": "#b4462b", "--muted": "#656a5b", fontFamily: "Helvetica Neue, sans-serif", lineHeight: 1.7, padding: 16, background:',
-        )
-        .replace(
-          'color: "var(--kb-color-fg)" }}>',
-          'color: "var(--kb-color-fg)" } as CSSProperties}>',
-        )
-        .replace(
-          "import { useEffect, type ComponentProps",
-          "import { useEffect, type CSSProperties, type ComponentProps",
         )
         .replace("    </div>\n  );", "    </div>\n    </>\n  );");
       surfaces[surface === "creative" ? `${surface}-${palette}` : surface] =

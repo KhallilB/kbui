@@ -1,0 +1,176 @@
+.kbui-site .day-demo {
+  --day-bloom-persimmon: var(--illustration-persimmon);
+  --day-bloom-marigold: var(--illustration-marigold);
+  --day-bloom-lilac: var(--illustration-lilac);
+  --day-bloom-center: light-dark(#ffffff, #e7ecf5);
+  --day-bloom-ink: #292f3a;
+  .day-bloom-petal:nth-child(3n + 1) {
+    fill: var(--day-bloom-persimmon);
+  }
+  .day-bloom-petal:nth-child(3n + 2) {
+    fill: var(--day-bloom-marigold);
+  }
+  .day-bloom-petal:nth-child(3n) {
+    fill: var(--day-bloom-lilac);
+  }
+  .day-bloom[data-complete] {
+    --day-bloom-persimmon: var(--site-accent);
+    --day-bloom-marigold: var(--illustration-marigold-vivid);
+    --day-bloom-lilac: var(--illustration-lilac-vivid);
+  }
+  .day-card {
+    --kb-card-radius: 8px 8px 22px 22px;
+    --kb-card-border: light-dark(#858e9d, #8b95a6);
+    border-top: 5px solid var(--site-accent);
+    box-shadow:
+      0 7px 0 -1px light-dark(#e4e7ed, #303640),
+      0 8px 0 light-dark(#9ba3af, #626f85),
+      0 15px 0 -2px light-dark(#d7dce4, #232a35),
+      0 16px 0 -1px light-dark(#aeb6c2, #48556a),
+      0 26px 32px -20px light-dark(#1a223033, #0a0e16b3);
+  }
+  .day-topline {
+    gap: 8px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed light-dark(#ccd1da, #4f5969);
+  }
+  .day-edition {
+    font-size: 9px;
+    letter-spacing: 0.09em;
+    font-weight: 550;
+    line-height: 1.6;
+  }
+  .day-topline .day-name-action {
+    flex-shrink: 0;
+    padding-inline: 14px;
+    min-height: 36px;
+  }
+  .day-heading {
+    padding-block: 18px 22px;
+  }
+  .day-choice {
+    isolation: isolate;
+    padding-block: 12px 16px;
+    padding-inline: 8px;
+    --kb-checkbox-inset: 10px;
+  }
+  .day-choice .kb-checkbox-mark {
+    inset-inline-start: 8px;
+    inset-block-start: 22px;
+  }
+  .day-choice .kb-checkbox-label {
+    padding-bottom: 4px;
+  }
+  .day-choices {
+    margin-top: 8px;
+  }
+  .day-choice::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0;
+    background: light-dark(#e9edf3, #303640);
+  }
+  .day-choice:has(input:checked)::before {
+    opacity: 1;
+  }
+  .day-progress {
+    padding-block: 18px;
+  }
+  .day-note {
+    margin-bottom: 20px;
+    padding: 16px;
+    border: 1px solid light-dark(#cbd2dd, #586477);
+    border-radius: 2px 2px 12px 2px;
+    background: light-dark(#eceff3, #303640);
+  }
+  .day-note:has(input:focus) {
+    background: light-dark(#e6e9ee, #363c46);
+    border-color: var(--kb-color-ring);
+  }
+  .day-note .kb-input {
+    gap: 8px;
+  }
+  .day-note .kb-input-label {
+    font-size: 12px;
+  }
+  .day-note .kb-input-control {
+    min-height: 44px;
+    font-size: 13px;
+  }
+  .day-note-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .day-note-actions > span {
+    flex: 1 1 120px;
+    font-size: 11px;
+    color: var(--kb-color-muted);
+  }
+  .day-note-actions .kb-button {
+    min-height: 44px;
+  }
+  .demo-note {
+    margin-top: 32px;
+    font-size: 11px;
+  }
+  @media (max-width: 600px) {
+    .day-topline .day-name-action {
+      min-height: 44px;
+      padding-inline: 12px;
+    }
+    .day-edition {
+      max-width: 140px;
+      font-size: 8px;
+    }
+    .day-note {
+      padding: 12px;
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .day-choice::before {
+      transition: opacity 200ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .day-topline .day-name-action {
+      transition:
+        background-color 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .day-progress .kb-progress-indicator {
+      transition: width 320ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .day-note {
+      transition:
+        background-color 180ms ease,
+        border-color 180ms ease;
+    }
+    .day-note .kb-input-control {
+      transition:
+        background-color 180ms ease,
+        border-color 180ms ease;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .day-choice:hover::before {
+        opacity: 1;
+      }
+    }
+  }
+  @media (forced-colors: active) {
+    .day-note {
+      border: 1px solid CanvasText;
+    }
+    .day-choice:has(input:focus-visible) {
+      outline-color: Highlight;
+    }
+    .day-card {
+      box-shadow: none;
+    }
+  }
+}

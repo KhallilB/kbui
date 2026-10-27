@@ -1,8 +1,135 @@
-import { chromium } from "playwright";
+import { readFile } from "node:fs/promises";
+import { chromium, type Locator } from "playwright";
 
 const origin = process.env.CATALOG_PREVIEW_URL ?? "http://127.0.0.1:4174";
 const browser = await chromium.launch({ headless: true });
+const material = (locator: Locator) =>
+  locator.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return JSON.stringify({
+      background: style.backgroundColor,
+      face: style.backgroundImage,
+      ink: style.color,
+      border: style.borderTopColor,
+      shadow: style.boxShadow,
+    });
+  });
+const sameMaterial = async (name: string, locator: Locator, expected: string) => {
+  const actual = await material(locator);
+  if (actual !== expected) throw new Error(`${name} material differs: ${actual} vs ${expected}`);
+};
+const installedCss = await readFile(
+  new URL("../../../packages/react/dist/styles.css", import.meta.url),
+  "utf8",
+);
 try {
+  const installed = await browser.newPage({ reducedMotion: "reduce" });
+  const palettePage = await browser.newPage({ reducedMotion: "reduce" });
+  for (const theme of ["light", "dark"]) {
+    await palettePage.goto(`${origin}/components/?component=button&theme=${theme}`);
+    const frame = palettePage.frameLocator('iframe[data-current="true"]');
+    const primary = await material(frame.locator('.kb-button[data-variant="primary"]'));
+    await installed.setContent(`<style>${installedCss}</style><main data-theme="${theme}">
+      <button class="kb-button" data-variant="primary" data-size="md">Save</button>
+      <button class="kb-button" data-variant="secondary" data-size="md">Cancel</button>
+      <article class="kb-card" data-appearance="outlined">Card</article>
+      <article class="kb-card" data-appearance="plain">Plain</article>
+    </main>`);
+    await sameMaterial(
+      `Installed primary ${theme}`,
+      installed.locator('[data-variant="primary"]'),
+      primary,
+    );
+    await palettePage
+      .getByRole("radio", { name: "Secondary", exact: true })
+      .locator("xpath=ancestor::label[1]")
+      .click();
+    const secondary = await material(frame.locator('.kb-button[data-variant="secondary"]'));
+    await sameMaterial(
+      `Installed secondary ${theme}`,
+      installed.locator('[data-variant="secondary"]'),
+      secondary,
+    );
+    await palettePage.goto(`${origin}/playground/?theme=${theme}`);
+    const preview = palettePage.getByTestId("playground-preview");
+    if ((await preview.getAttribute("data-theme")) !== theme)
+      throw new Error("Playground did not inherit page theme");
+    const action = preview.getByRole("button", { name: "Save changes" });
+    await sameMaterial(`Playground primary ${theme}`, action, primary);
+    await palettePage.getByRole("combobox", { name: "Variant", exact: true }).click();
+    await palettePage.getByRole("option", { name: "Secondary", exact: true }).click();
+    await sameMaterial(`Playground secondary ${theme}`, action, secondary);
+    await palettePage.goto(`${origin}/components/?component=card&theme=${theme}`);
+    const card = await material(frame.locator('.kb-card[data-appearance="outlined"]').first());
+    await sameMaterial(
+      `Installed Card ${theme}`,
+      installed.locator('[data-appearance="outlined"]'),
+      card,
+    );
+    const plain = await installed.locator('[data-appearance="plain"]').evaluate((element) => {
+      const style = getComputedStyle(element);
+      return { face: style.backgroundImage, shadow: style.boxShadow };
+    });
+    if (plain.face !== "none" || plain.shadow !== "none")
+      throw new Error("Plain Card acquired depth");
+    await palettePage.goto(`${origin}/components/?theme=${theme}`);
+    await palettePage.mouse.move(0, 0);
+    for (const tile of await palettePage.locator(".catalog-component-item").all())
+      await sameMaterial(`Catalog grid Card ${theme}`, tile, card);
+    await palettePage.goto(`${origin}/playground/?theme=${theme}`);
+    for (const tile of await palettePage.locator(".component-card").all())
+      await sameMaterial(`Playground grid Card ${theme}`, tile, card);
+    await palettePage.goto(`${origin}/examples/?theme=${theme}`);
+    for (const composition of await palettePage.locator(".composition").all())
+      await sameMaterial(`Example Card ${theme}`, composition, card);
+    await sameMaterial(
+      `Example secondary ${theme}`,
+      palettePage.getByRole("button", { name: "Change palette" }),
+      secondary,
+    );
+    await palettePage.goto(`${origin}/components/?component=input&theme=${theme}`);
+    const field = await material(frame.locator(".kb-input-control").first());
+    await palettePage.goto(`${origin}/components/?component=dialog&theme=${theme}`);
+    await frame.getByRole("button", { name: "Delete project", exact: true }).click();
+    const dialog = await material(frame.locator(".kb-dialog-popup"));
+    await palettePage.goto(`${origin}/?theme=${theme}`);
+    await sameMaterial(
+      `Home primary ${theme}`,
+      palettePage.getByRole("link", { name: "Start building", exact: false }),
+      primary,
+    );
+    await sameMaterial(
+      `Planner secondary ${theme}`,
+      palettePage.locator(".day-name-action"),
+      secondary,
+    );
+    await sameMaterial(
+      `Planner field ${theme}`,
+      palettePage.locator(".day-note .kb-input-control"),
+      field,
+    );
+    await palettePage.locator(".day-name-action").click();
+    await sameMaterial(
+      `Planner dialog ${theme}`,
+      palettePage.locator(".day-dialog.kb-dialog-popup"),
+      dialog,
+    );
+    await palettePage.goto(`${origin}/setup/themes/?theme=${theme}`);
+    await palettePage
+      .getByRole("radio", { name: theme === "dark" ? "Dark" : "Light", exact: true })
+      .locator("xpath=ancestor::label[1]")
+      .click();
+    await sameMaterial(
+      `Setup primary ${theme}`,
+      palettePage.locator(".setup-preview .kb-button"),
+      primary,
+    );
+  }
+  await installed.close();
+  await palettePage.close();
+  console.log(
+    "Palette parity verified: Buttons, Cards, fields and dialogs across Components, Playground, Examples, Home and Setup in both themes.",
+  );
   for (const reducedMotion of ["no-preference", "reduce"] as const) {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion });
     await page.goto(`${origin}/components/?component=input&skin=current&theme=light`);
@@ -174,7 +301,8 @@ try {
     await page.goto(`${origin}/?theme=dark`);
     await page.getByRole("link", { name: "Continue setup", exact: false }).click();
     await page.locator('.kbui-site[data-theme="dark"]').waitFor({ timeout: 5000 });
-    await page.getByLabel("Include typed tokens", { exact: true }).check();
+    await page.getByText("Using tokens in JavaScript or TypeScript?", { exact: true }).click();
+    await page.getByRole("button", { name: "Add typed tokens", exact: true }).click();
     if (new URL(page.url()).searchParams.get("theme") !== "dark")
       throw new Error("Installer options removed navigation theme");
     await page.reload();

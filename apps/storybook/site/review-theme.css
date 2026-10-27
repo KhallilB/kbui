@@ -1,22 +1,6 @@
 /* Shared site chrome follows the navigation theme. */
 .kbui-site {
-  --review-paper: #fffdf5;
-  --review-plane: #f2eddb;
-  --review-line: #cbcdb8;
-  --review-control: #829078;
-  --review-hover: #e6eccf;
-  --review-selected: #34664e;
-  --review-selected-top: #465343;
-  --review-selected-edge: #29372a;
-  --review-selected-fg: #fffdf5;
-  --review-good: #34664e;
-  --review-well-top: #e9e7d6;
-  --review-well-bottom: #f3efdf;
-  --review-highlight: rgb(255 255 255 / 0.7);
-  --review-shadow: rgb(48 59 49 / 0.14);
-  --review-code-hover: #e8e4d4;
   line-height: 1.65;
-  color-scheme: light;
   .site-footer > span,
   .site-footer > div {
     font-size: var(--kb-text-small-size);
@@ -57,25 +41,6 @@
 }
 
 .kbui-site[data-theme="dark"] {
-  --cream: #191b20;
-  --ink: #f0f0f2;
-  --muted: #b5b7bf;
-  --review-paper: #24272e;
-  --review-plane: #202329;
-  --review-line: #505560;
-  --review-control: #979ca7;
-  --review-hover: #30343d;
-  --review-selected: #f2a184;
-  --review-selected-top: #ffc0a6;
-  --review-selected-edge: #df8f72;
-  --review-selected-fg: #291a12;
-  --review-good: #a7c9a4;
-  --review-well-top: #121418;
-  --review-well-bottom: #191c22;
-  --review-highlight: rgb(255 255 255 / 0.07);
-  --review-shadow: rgb(0 0 0 / 0.3);
-  --review-code-hover: #30343d;
-  color-scheme: dark;
   .brand-symbol img {
     filter: brightness(0) invert(0.94) sepia(0.12);
   }
@@ -86,7 +51,7 @@
     color: #b1cea0;
   }
   .example-code [data-syntax="comment"] {
-    color: #aeb1bb;
+    color: #b7ad9b;
   }
   .example-code [data-syntax="number"] {
     color: #e6c180;
@@ -192,46 +157,6 @@
 @media (forced-colors: active) {
   .kbui-site .brand-symbol img {
     filter: none;
-  }
-}
-
-.kbui-site[data-theme="dark"] {
-  .hero-example::before {
-    background: #6c5935;
-  }
-  .day-demo,
-  .day-dialog {
-    --kb-color-fg: #f0f0f2;
-    --kb-color-muted: #b5b7bf;
-    --kb-color-bg: #191b20;
-    --kb-color-surface: #22252b;
-    --kb-color-border: #505560;
-    --kb-color-accent: #f2a184;
-    --kb-color-accent-hover: #ffc0a6;
-    --kb-color-accent-fg: #291a12;
-    --kb-color-ring: #f2a184;
-    --kb-status-neutral: #b5b7bf;
-    --kb-status-success: #a0d0a6;
-  }
-  .day-card {
-    --kb-card-background: #24272e;
-    --kb-card-color: #f0f0f2;
-    --kb-card-border: #979ca7;
-  }
-  .day-progress .kb-progress {
-    --kb-color-muted: #b5b7bf;
-    --kb-color-fg: #f0f0f2;
-    --kb-progress-track: #505560;
-    --kb-progress-fill: #a0d0a6;
-    --kb-progress-fill-complete: #a0d0a6;
-  }
-  .day-dialog {
-    background: #24272e;
-    color: #f0f0f2;
-    border-color: #979ca7;
-  }
-  .day-dialog .kb-dialog-description {
-    color: #b5b7bf;
   }
 }
 

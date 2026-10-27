@@ -2,6 +2,8 @@
 
 All kbui styling, as plain CSS. Components are styled through `kb-` classes and `data-*` attributes, so any renderer that produces the right markup gets the kbui look: React, another framework or hand-written HTML.
 
+Current source defaults use monochrome light/dark surfaces with a persimmon accent and shared tactile materials. Locally built packages include this refresh; published v0.7.0 tarballs keep their original appearance.
+
 ## Importing
 
 React apps import the same stylesheet from `@kbui/react/styles.css` and do not need this package. Every file wraps its rules in the `kbui` cascade layer (`kbui.tokens`, `kbui.reset`, `kbui.components`), so app CSS outside a layer wins. Other apps import the full stylesheet once at the root. It contains the tokens, a small reset and every component:
@@ -20,14 +22,14 @@ Plain HTML works as well:
 
 ## Components
 
-The first line of each stylesheet describes the markup it expects.
+The first line of each stylesheet describes the markup it expects. The table shows common entries; [styles.css](src/styles.css) lists every component import.
 
 | File | Expected markup |
 |---|---|
-| `button.css` | `.kb-button` with `data-variant` (`primary`, `secondary`, `ghost`, `danger`), `data-size` (`sm`, `md`, `lg`) and `data-disabled` |
+| `button.css` | `.kb-button` with `data-variant` (`primary`, `secondary`, `ghost`, `danger`), `data-size` (`sm`, `md`, `lg`, `icon`) and `data-disabled` |
 | `numberfield.css` | `.kb-numberfield` with size/state attributes, label, grouped input/step controls and full-width help/error |
 | `fileinput.css` | `.kb-fileinput` with labeled picker, retained list and named removal controls; also load Button CSS when importing parts |
-| `input.css` | `.kb-input` with `data-size`, `data-invalid` and `data-disabled`, wrapping `-label`, `-control`, `-description` and `-error` parts |
+| `input.css` | `.kb-input` with `data-size`, `data-invalid` and `data-disabled`, wrapping `-label`, `-shell`, `-start`, `-control`, `-end`, `-description` and `-error` parts |
 | `dialog.css` | `.kb-dialog-popup` with `-title`, `-description` and `-actions` parts, beside a `.kb-dialog-backdrop`. Both use Base UI's open, starting and ending attributes for animation |
 
 ## Build and test

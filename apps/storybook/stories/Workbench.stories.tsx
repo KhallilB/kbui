@@ -71,7 +71,7 @@ export const Playground: Story = {
     expect(canvas.getByTestId("working-code")).toHaveTextContent('data-theme="dark"');
     await waitFor(() =>
       expect(canvas.getByTestId("playground-preview")).toHaveStyle({
-        backgroundColor: systemBackground ?? "rgb(25, 27, 32)",
+        backgroundColor: systemBackground ?? "rgb(23, 25, 29)",
       }),
     );
     await userEvent.keyboard("{ArrowRight}");
@@ -86,7 +86,7 @@ export const Playground: Story = {
     expect(canvas.getByTestId("working-code")).not.toHaveTextContent("data-theme");
     await waitFor(() =>
       expect(canvas.getByTestId("playground-preview")).toHaveStyle({
-        backgroundColor: systemBackground ?? "rgb(255, 253, 245)",
+        backgroundColor: systemBackground ?? "rgb(245, 246, 248)",
       }),
     );
     await userEvent.click(canvas.getByLabelText("Reduce motion"));
@@ -106,6 +106,28 @@ export const Playground: Story = {
     expect(canvas.getByTestId("playground-preview")).toHaveAttribute("data-theme", "light");
   },
 };
+export const PageTheme: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const preview = canvas.getByTestId("playground-preview");
+    const button = canvas.getByRole("button", { name: "Save changes" });
+    const toggle = canvas.getByRole("switch", { name: "Dark mode" });
+    const themes = within(canvas.getByRole("radiogroup", { name: "Preview theme" }));
+    await userEvent.click(button);
+    await userEvent.click(toggle);
+    expect(preview).toHaveAttribute("data-theme", "dark");
+    expect(canvas.getByRole("button", { name: "Save changes" })).toBe(button);
+    expect(within(preview).getByRole("status")).toHaveTextContent("That worked.");
+    await userEvent.click(themes.getByRole("radio", { name: "Light" }));
+    await userEvent.click(toggle);
+    await userEvent.click(toggle);
+    expect(preview).toHaveAttribute("data-theme", "light");
+    await userEvent.click(canvas.getByRole("button", { name: "Reset controls" }));
+    expect(preview).toHaveAttribute("data-theme", "dark");
+    await userEvent.click(toggle);
+    expect(preview).toHaveAttribute("data-theme", "light");
+  },
+};
 export const Discovery: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -113,10 +135,9 @@ export const Discovery: Story = {
     expect(nav.getByRole("link", { name: "Playground" })).toHaveAttribute("aria-current", "page");
     expect(nav.getByRole("link", { name: "Examples" })).toHaveAttribute("href", "../examples/");
     await userEvent.type(canvas.getByLabelText("Find a component"), "dialog");
-    expect(canvas.getByRole("link", { name: /Dialog.*Focus-managed overlays/i })).toHaveAttribute(
-      "href",
-      "../components/?component=dialog",
-    );
+    expect(
+      canvas.getByRole("link", { name: /Dialog.*Make a change without leaving the page/i }),
+    ).toHaveAttribute("href", "../components/?component=dialog");
     expect(canvas.queryByRole("link", { name: /Button.*Actions/i })).toBeNull();
     expect(canvas.getByRole("status", { name: "Component results" })).toHaveTextContent("1 of 6");
     await userEvent.click(canvas.getByRole("button", { name: "Clear search" }));
@@ -124,7 +145,9 @@ export const Discovery: Story = {
     expect(canvas.getByRole("status", { name: "Component results" })).toHaveTextContent("6 of 6");
     await userEvent.clear(canvas.getByLabelText("Find a component"));
     await userEvent.type(canvas.getByLabelText("Find a component"), "no-such-component");
-    expect(canvas.getByText("No matches. Try Button, Dialog, or Status.")).toBeVisible();
+    expect(
+      canvas.getByText("Nothing here yet. Try another name, or clear your search."),
+    ).toBeVisible();
   },
 };
 export const Clipboard: Story = {

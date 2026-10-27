@@ -7,16 +7,22 @@ Field APIs (`Select`, `Checkbox`, `RadioGroup`, `Switch`) live in the [React API
 Set tokens on a stable theme wrapper. Select mounts its popup inside its own root, so nested themes reach it. Dialog, `Menu.Content` and Tooltip mount on `document.body` by default; pass the wrapper as `container` when colors or timing live on a nested element:
 
 ```tsx
-const host = useRef<HTMLDivElement>(null);
+import { useRef } from "react";
+import { Button, Menu } from "@kbui/react";
 
-<div ref={host} data-theme="dark">
-  <Menu>
-    <Menu.Trigger render={<Button />}>Actions</Menu.Trigger>
-    <Menu.Content container={host}>
-      <Menu.Item>Inspect</Menu.Item>
-    </Menu.Content>
-  </Menu>
-</div>
+export function ThemedActions() {
+  const host = useRef<HTMLDivElement>(null);
+  return (
+    <div ref={host} data-theme="dark">
+      <Menu>
+        <Menu.Trigger render={<Button />}>Actions</Menu.Trigger>
+        <Menu.Content container={host}>
+          <Menu.Item>Inspect</Menu.Item>
+        </Menu.Content>
+      </Menu>
+    </div>
+  );
+}
 ```
 
 Keep the host outside overflow clipping and transformed ancestors when a popup must escape them. A Select inside a scrolling Dialog should target an unclipped outer host.

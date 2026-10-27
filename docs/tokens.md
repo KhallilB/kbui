@@ -2,6 +2,8 @@
 
 Every kbui value is defined in one file, `packages/tokens/tokens.json`. The file follows the [W3C Design Tokens](https://www.designtokens.org/tr/drafts/format/) format, and the build turns each entry into a CSS custom property prefixed with `--kb-`.
 
+Current source defaults use chalk and graphite surfaces with persimmon accents. `color.accent` owns action fills; `color.accent-ink` owns readable small accent text, including running statuses. Success, warning and danger retain separate semantic colors. Themes follow system preference unless an explicit `data-theme` is set. Local builds carry this refresh; previously published v0.7.0 assets are unchanged.
+
 ## Token kinds
 
 | Kind | Examples | Who uses it |
@@ -31,7 +33,7 @@ Use the `viz` tokens to mark the state of cells, nodes and pointers in a drawing
 | `error` | Out of bounds, failed check | `--kb-color-danger` |
 | `discarded` | Out of range or no longer considered | `--kb-color-muted` on `--kb-color-surface` |
 | `frontier` | Queued or next to visit | Aliases `current`; distinguish it by shape, such as a dashed outline |
-| `path` | Part of the answer | `--kb-color-accent` |
+| `path` | Part of the answer | `--kb-color-accent-ink` |
 
 Never rely on color alone. Pair each role with a shape, label or pattern, because `current` and `visited` sit close together for some color-vision types, and forced-colors mode reduces several roles to the same system color.
 
@@ -54,8 +56,11 @@ Dialog, Button and popup (Menu, Tooltip) expose material, typography and motion 
 | Dialog | `--kb-dialog-background`, `-color`, `-border`, `-border-width`, `-padding`, `-shadow`, `-description-color`, `-overlay-background`, `-title-size`, `-title-family`, `-title-weight` |
 | Dialog sections | `--kb-dialog-header-padding`, `-body-padding`, `-footer-padding` (default `0px`) |
 | Dialog motion | `--kb-dialog-motion-duration`, `-motion-easing`, `-enter-scale`, `-enter-offset` |
+| Card | `--kb-card-background`, `-face`, `-color`, `-border`, `-border-width`, `-radius`, `-padding`, `-shadow` |
 | Button | `--kb-button-motion-duration`, `-motion-easing`, `-press-offset` |
 | Popup | `--kb-popup-motion-duration`, `-motion-easing` |
+
+Outlined Cards use a neutral sheen, a contact rim and a lower ledge with an ambient shadow. `appearance="plain"` adds no face or shadow. Override `--kb-card-face: none` and `--kb-card-shadow: none` for a flat outlined surface; `--kb-card-background` still controls the underlying color.
 
 Reduced motion still disables every transition and the button press offset. A portaled Dialog reads tokens from its `container`; pass a themed host to scope overrides. See [forms and overlays](guides/forms-and-overlays.md).
 
@@ -104,13 +109,17 @@ In CSS, reference the variable:
 .my-panel { padding: var(--kb-space-4); background: var(--kb-color-surface); }
 ```
 
-In TypeScript, add the tokens package (`bun add ../kbui/packages/tokens`) and import the `tokens` object. It holds variable names, not values, so it is correct in either theme:
+The full React and CSS stylesheets already include these CSS variables. No extra token install is needed for CSS styling.
+
+For JavaScript or TypeScript, add the optional `@kbui/tokens` tarball from the same release as React. The [Get Started page](https://kbui.kcb.pro/setup/?tokens=1) generates a matching command for your package manager. Import its `tokens` object for typed variable names, not resolved values, so the same reference works in either theme:
 
 ```ts
 import { tokens } from "@kbui/tokens";
 
 const style = { color: `var(${tokens.color.muted})` };
 ```
+
+When developing against a local kbui checkout, `bun add ../kbui/packages/tokens` installs the built package by path. See [path installs](guides/using-kbui.md#installing-by-path-while-you-work-on-kbui).
 
 ## Adding or changing a token
 

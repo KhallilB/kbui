@@ -4,15 +4,18 @@ Projects install kbui from a release: one tarball per package, attached to a [Gi
 
 ## Installing
 
-1. Add `@kbui/react` from a release. It includes the stylesheet. The setup page includes an install command for the current site version. Replace `0.7.0` with the version you want; every release lists its tarballs. Releases before 0.7.0 also need `kbui-css-<version>.tgz` and the `@kbui/css/styles.css` import.
+1. Add `@kbui/react` from a release. It includes all component styles and CSS tokens. These examples use Bash; use Git Bash or WSL on Windows, or copy a complete command for your package manager from the [Get Started page](https://kbui.kcb.pro/setup/).
 
+   <!-- x-release-please-start-version -->
    ```bash
-   bun add https://github.com/KhallilB/kbui/releases/download/v0.7.0/kbui-react-0.7.0.tgz
+   KBUI_VERSION=0.7.0
+   bun add "https://github.com/KhallilB/kbui/releases/download/v${KBUI_VERSION}/kbui-react-${KBUI_VERSION}.tgz"
    ```
+   <!-- x-release-please-end -->
 
-   This works the same on Windows, macOS and Linux. The release workflow installs every release on all three; a failed install shows as a failed `install` job on that release's workflow run. The stylesheet already includes the tokens. Add `kbui-tokens-<version>.tgz` from the same release only if you need the typed `tokens` object in TypeScript.
+   The release workflow checks installation on Windows, macOS and Linux; a failed install shows as a failed `install` job on that release's workflow run. The stylesheet already includes the tokens. Add `kbui-tokens-<version>.tgz` from the same release only if you need the typed `tokens` object in TypeScript.
 
-2. Install `react` and `react-dom` 19 if the project does not have them. They are peer dependencies, so kbui does not install them.
+2. Install `react` and `react-dom` 19 if the project does not have them. They are peer dependencies; keep them as dependencies of your app.
 
 3. Import the stylesheet once, near the root of the app. The components can then be used anywhere.
 
@@ -27,9 +30,11 @@ If TypeScript rejects the `.css` import, add this declaration to the project. Vi
 declare module "*.css";
 ```
 
+Releases before 0.7.0 require both matching React and CSS tarballs and the `@kbui/css/styles.css` import. Keep that import only while consuming those older releases.
+
 ## Default design
 
-The normal stylesheet includes the tactile cream/forest/rust light design and charcoal/peach dark design. No skin selector or extra stylesheet is needed. Public component props and token overrides remain supported.
+The current source stylesheet uses monochrome light/dark surfaces with a persimmon accent. Raised controls and cards share edge light, contact shading and soft shadows. No extra theme stylesheet is needed. Local builds include the refresh; existing published v0.7.0 downloads retain their original colors. Public component props and token overrides remain supported.
 
 ## Themes
 
@@ -57,35 +62,53 @@ To change every component at once, override a token after the kbui import. Token
 
 [Restyling kbui](restyling.md) covers classes, inner parts, Tailwind setup, tokens and restyling part of a page.
 
-## Components
+## Your first component
+
+Import the stylesheet once in the app entry, then render a component. This example is a complete React module:
 
 ```tsx
-<Button variant="secondary" size="sm" onClick={save}>Save</Button>
+import "@kbui/react/styles.css";
+import { useState } from "react";
+import { Button, Checkbox, Input, Status } from "@kbui/react";
 
-<Input label="Email" description="We never share it." error={errors.email} />
+export function Preferences() {
+  const [name, setName] = useState("");
+  const [updates, setUpdates] = useState(false);
+  const [saved, setSaved] = useState(false);
 
-<Dialog>
-  <Dialog.Trigger render={<Button />}>Delete</Dialog.Trigger>
-  <Dialog.Content title="Delete project" description="This cannot be undone.">
-    <Dialog.Actions>
-      <Dialog.Close render={<Button variant="ghost" />}>Cancel</Dialog.Close>
-      <Button variant="danger" onClick={remove}>Delete</Button>
-    </Dialog.Actions>
-  </Dialog.Content>
-</Dialog>
+  return (
+    <form onSubmit={(event) => { event.preventDefault(); setSaved(true); }}>
+      <Input
+        label="Display name"
+        name="displayName"
+        value={name}
+        onValueChange={(value) => { setName(value); setSaved(false); }}
+      />
+      <Checkbox
+        label="Send product updates"
+        checked={updates}
+        onCheckedChange={(checked) => { setUpdates(checked); setSaved(false); }}
+      />
+      <Button type="submit">Save preferences</Button>
+      {saved && <Status live tone="success">Preferences saved for this session.</Status>}
+    </form>
+  );
+}
 ```
 
-Every prop is documented in the [React package README](../../packages/react/README.md) and on each component's **Docs** page in Storybook (`bun run storybook` in kbui).
+This example keeps values in component state. Connect submission to your own storage or API when using it in an app. Your layout owns spacing between fields. Checkbox, Select, RadioGroup and Switch are controlled components; keep their value in state and pass the corresponding change callback.
+
+The [React package README](../../packages/react/README.md) documents component APIs; Storybook includes the full typed prop reference. The [Examples page](https://kbui.kcb.pro/examples/) shows complete compositions with copyable code. The [forms and overlays guide](forms-and-overlays.md) covers themed popups, structured dialogs and focus behavior.
 
 ## Upgrading
 
-Read the [release notes](https://github.com/KhallilB/kbui/releases), also kept in `CHANGELOG.md`, for the versions between yours and the new one. Before 1.0, a minor version can contain breaking changes. Then change both URLs to the new version in one `bun add` command, so the stylesheet and the components always come from the same release. kbui does not support mixing versions. Run the installed-version guard after installing and before building:
+Read the [release notes](https://github.com/KhallilB/kbui/releases), also kept in `CHANGELOG.md`, for the versions between yours and the new one. Before 1.0, a minor version can contain breaking changes. Update `KBUI_VERSION` and run the install command again. From 0.7.0, the React tarball carries the stylesheet, so a React app does not need a separate CSS package. If migrating from an earlier release, switch the import to `@kbui/react/styles.css` and remove a separate `@kbui/css` dependency unless your app uses its individual CSS entry points. Update optional `@kbui/tokens` to the same release. kbui does not support mixed installed package versions. Run the installed-version guard after installing and before building:
 
 ```bash
 bun node_modules/@kbui/react/dist/check-versions.js
 ```
 
-Add this command to the consumer build or check script. It requires installed React/CSS packages, compares every top-level `node_modules/@kbui/*/package.json` (including optional tokens), and exits nonzero on mismatches, missing required packages, unreadable files or malformed manifests. It does not inspect nested dependency trees. There are no package exemptions.
+Add this command to the consumer build or check script. It requires `@kbui/react`, treats separate CSS and tokens packages as optional, compares every top-level `node_modules/@kbui/*/package.json` (including optional tokens), and exits nonzero on mismatches, missing required packages, unreadable files or malformed manifests. It does not inspect nested dependency trees. There are no package exemptions.
 
 ## Installing by path while you work on kbui
 
@@ -100,7 +123,7 @@ This setup works only on a machine that has kbui checked out next to the project
 2. Add the packages from your project folder. The paths assume the project sits next to kbui, as in `~/proj/<your-app>`.
 
    ```bash
-   bun add ../kbui/packages/react ../kbui/packages/css
+   bun add ../kbui/packages/react
    ```
 
 | After you | Run |

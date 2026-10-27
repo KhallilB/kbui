@@ -13,6 +13,19 @@ if (
 ) {
   throw new Error("Missing built Storybook entries");
 }
+for (const entry of Object.values(index.entries)) {
+  if (!entry || typeof entry !== "object") throw new Error("Invalid public Storybook entry");
+  if (
+    ("importPath" in entry &&
+      typeof entry.importPath === "string" &&
+      entry.importPath.startsWith("./stories/")) ||
+    ("title" in entry &&
+      typeof entry.title === "string" &&
+      /^(Site|Showcase|Validation)\//.test(entry.title))
+  )
+    throw new Error("Internal story leaked into public Storybook");
+}
+
 const catalog = loadCatalogSources();
 let count = 0;
 for (const entry of catalog) {

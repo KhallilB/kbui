@@ -20,7 +20,7 @@ bun run storybook
 
 | Command | What it does |
 |---|---|
-| `bun run check` | Builds every package, then runs Biome, the typecheck, the unit tests and `test:pack`. CI runs it. |
+| `bun run check` | Builds every package, then runs Biome, the typecheck, generated/documented React example compilation, the unit tests and `test:pack`. CI runs it. |
 | `bun run test:pack` | Packs each published package and checks the tarball's name and contents. Needs built packages. |
 | `bun run test:stories` | Renders every story in headless Chromium and runs an accessibility scan on each. CI runs it. |
 | `bun run validate:site` | After `bun run build`, runs the complete site/browser and deployment dry-run checks. PR and main validation share this command. Needs Bash and the documented deployment Node version. |
@@ -43,6 +43,12 @@ bun run check && bun run test:stories
 ```
 
 Behavior changes are test-first: write the test, see it fail, then write the code that makes it pass.
+
+## Public docs and internal stories
+
+Public Storybook includes `apps/storybook/docs` and component stories beside `packages/react/src` implementations. Keep reusable component examples there. Site screens, restyle showcases and validation fixtures belong in `apps/storybook/stories`; they are excluded from production bundles and navigation.
+
+Run `bun run --filter @kbui/storybook dev:internal` to inspect those fixtures at http://localhost:6008. Browser test commands opt into the same internal scope with `KBUI_STORYBOOK_INTERNAL=1`. Keep validation fixtures while they protect unique behavior; delete one only after equivalent coverage exists elsewhere. Do not remove tests just to tidy navigation. `build:site` rejects internal stories in its public index and verifies every catalog link. `validate:site` builds a separate temporary QA Storybook for built control-edge checks, then removes it; deployment staging contains only public docs. Set `SITE_VALIDATION_PORT` when local ports 4175/4176 are occupied; QA uses the next port.
 
 ## Component conventions
 
@@ -76,6 +82,10 @@ Comments are one line. Write one only when the code cannot say it: a constraint,
 Sign every commit with `git commit -S`; the repository uses SSH signing. Subjects follow Conventional Commits, for example `feat(react): add Badge` or `fix(css): keep focus ring on invalid inputs`. Each commit must pass `bun run check` on its own. Do not add AI attribution lines or trailers.
 
 ## Releases
+
+The root package version drives the site install builder and generated first-component example. Release Please updates the marked version blocks in `README.md`, `docs/guides/using-kbui.md` and `apps/storybook/docs/Introduction.mdx`. Keep one version literal per managed line and reuse `KBUI_VERSION` in URLs: the generic updater replaces only the first version on a line. `bun run check` rejects stale, missing or unsafe version blocks, and verifies that each installation entry point is registered with the updater.
+
+Review usage, migration guidance and component API documentation whenever behavior or exports change. Version automation updates release metadata; it cannot infer new API semantics. Historical compatibility versions stay outside managed blocks. `bun run check` also compiles complete React examples from the installation entry points, React API recipes, and numeric-field, file-input and overlay guides against the current package exports, alongside generated catalog and site examples. Run the setup stories when changing installation behavior.
 
 Commit subjects on `main` set the next version: `fix` raises the patch, `feat` the minor, and a breaking change (`feat!:` or a `BREAKING CHANGE:` footer) the minor until 1.0. Merge pull requests by rebase, or squash with a conventional title, so subjects and footers reach `main` intact.
 

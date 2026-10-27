@@ -38,12 +38,9 @@
     gap: 16px;
     min-width: 0;
     padding: 28px;
-    border: 1px solid var(--review-line);
-    background: var(--review-paper);
     border-radius: var(--site-radius-surface);
   }
   & .catalog-card:hover {
-    background: var(--review-hover);
     text-decoration: none;
   }
   .catalog-card-group {
@@ -418,7 +415,7 @@
     border-radius: inherit;
   }
   .catalog-component-item:has(a:hover) {
-    background: var(--review-hover);
+    border-color: var(--kb-color-ring);
   }
   .catalog-component-item:has(a:focus-visible) {
     outline: 2px solid var(--kb-color-ring);

@@ -1,4 +1,6 @@
-export const releaseVersion = "0.5.0";
+import release from "../../../package.json" with { type: "json" };
+
+export const releaseVersion = release.version;
 export const managers = ["npm", "bun", "pnpm", "yarn"] as const;
 export type Manager = (typeof managers)[number];
 export type SetupOptions = { manager: Manager; tokens: boolean };
