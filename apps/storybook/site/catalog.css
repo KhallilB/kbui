@@ -390,7 +390,7 @@
 .kbui-catalog {
   .catalog-browser {
     display: grid;
-    grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+    grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
     gap: clamp(20px, 3vw, 40px);
     align-items: start;
   }
@@ -404,29 +404,59 @@
     border-radius: 16px;
     background: var(--review-plane);
   }
-  .catalog-component-list a {
+  .catalog-component-item {
+    position: relative;
     display: grid;
-    gap: 4px;
+    gap: 6px;
     min-block-size: 52px;
-    padding: 10px 12px;
+    padding: 12px;
     border: 1px solid transparent;
     border-radius: 10px;
+  }
+  .catalog-component-item > a {
+    display: block;
+    color: inherit;
     font-size: var(--kb-text-control-size);
+    font-weight: 600;
     text-decoration: none;
   }
-  .catalog-component-list small {
-    color: var(--muted);
-    font-size: 11px;
+  .catalog-component-item > a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
   }
-  .catalog-component-list a:hover {
+  .catalog-component-item:has(a:hover) {
     background: var(--review-hover);
   }
-  .catalog-component-list a[aria-current] {
+  .catalog-component-item[data-current] {
     border-color: var(--review-control);
     background: var(--review-paper);
     box-shadow:
       inset 0 1px 0 var(--review-highlight),
       0 2px 4px -2px var(--review-shadow);
+  }
+  .catalog-component-item:has(a:focus-visible) {
+    outline: 2px solid var(--kb-color-ring);
+    outline-offset: -2px;
+  }
+  .catalog-component-item > a:focus-visible {
+    outline: none;
+  }
+  .catalog-component-description,
+  .catalog-component-list small {
+    color: var(--muted);
+    font-size: var(--kb-text-small-size);
+    line-height: var(--kb-text-leading-control);
+  }
+  .catalog-component-list small {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--kb-space-2);
+  }
+  .catalog-qa-link {
+    margin-inline-start: auto;
   }
   .catalog-inspector {
     min-inline-size: 0;
@@ -449,10 +479,6 @@
   .catalog-search .kb-input-end .kb-button {
     min-inline-size: 28px;
     padding-inline: 6px;
-  }
-  .catalog-card h2 > .link-arrow {
-    inline-size: 16px;
-    block-size: 16px;
   }
   .plain-link .link-arrow {
     inline-size: 1em;

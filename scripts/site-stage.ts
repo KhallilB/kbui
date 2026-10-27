@@ -7,6 +7,7 @@ const entries = [
   "setup/themes/index.html",
   "compare/index.html",
   "components/index.html",
+  "components/qa/index.html",
   "examples/index.html",
   "playground/index.html",
   "storybook/index.html",

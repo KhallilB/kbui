@@ -14,6 +14,12 @@ try {
   await page.goto(`${origin}/components/?component=input&view=directory`);
   const frame = (name: string) => page.frameLocator(`iframe[title="Input — ${name} live example"]`);
   const input = (name: string) => frame(name).getByRole("textbox", { name: "Email", exact: true });
+  assert.equal(
+    new URL(page.url()).searchParams.has("view"),
+    false,
+    "Legacy directory URL was not normalized",
+  );
+  await expect(page.getByRole("radiogroup", { name: "Catalog view", exact: true })).toHaveCount(0);
   await input("Default").fill("retained@example.com");
   await frame("Default")
     .locator("html")
@@ -88,7 +94,7 @@ try {
   console.log(
     "History, theme and reload: selection, focus and unrelated drafts preserved; reload resets selected document.",
   );
-  await page.goto(`${origin}/components/?component=button&view=directory`);
+  await page.goto(`${origin}/components/?component=button`);
   const states = page
     .getByRole("radiogroup", { name: "Example state", exact: true })
     .getByRole("radio");
@@ -105,7 +111,7 @@ try {
   console.log(
     "Bounded retention: visiting all Button examples never exceeds six preview documents.",
   );
-  await page.goto(`${origin}/components/?component=input&view=directory`);
+  await page.goto(`${origin}/components/?component=input`);
   await input("Default").waitFor();
   let release!: () => void;
   let arrived!: () => void;
@@ -218,6 +224,61 @@ try {
   }
   console.log(
     "Focused browser: one initial document; cross-component drafts, clear focus, both themes and mobile/desktop fit verified.",
+  );
+  await page.goto(
+    `${origin}/components/?component=input&state=components-input--with-error&theme=dark`,
+  );
+  await input("With Error").waitFor();
+  const beforeQa = await page.evaluate(() => history.length);
+  await page.goto(
+    `${origin}/components/?view=overview&component=input&state=components-input--with-error&theme=dark&compare=true&from=legacy#main`,
+  );
+  await page.locator(".catalog-qa-gallery").waitFor();
+  const qaLocation = new URL(page.url());
+  assert.equal(qaLocation.pathname, new URL("qa/", `${origin}/components/`).pathname);
+  assert.equal(qaLocation.searchParams.has("view"), false);
+  assert.equal(qaLocation.searchParams.get("component"), "input");
+  assert.equal(qaLocation.searchParams.get("state"), "components-input--with-error");
+  assert.equal(qaLocation.searchParams.get("theme"), "dark");
+  assert.equal(qaLocation.searchParams.get("from"), "legacy");
+  assert.equal(qaLocation.hash, "#main");
+  assert.equal(
+    await page.evaluate(() => history.length),
+    beforeQa + 1,
+    "QA redirect added history",
+  );
+  await expect(page.locator(".catalog-qa-gallery .catalog-specimen")).toHaveCount(1);
+  const lightQa = page.frameLocator(
+    '.catalog-qa-panes [data-qa-theme="light"] iframe[data-current="true"]',
+  );
+  const darkQa = page.frameLocator(
+    '.catalog-qa-panes [data-qa-theme="dark"] iframe[data-current="true"]',
+  );
+  await expect(lightQa.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(darkQa.locator("html")).toHaveAttribute("data-theme", "dark");
+  await lightQa.getByRole("textbox", { name: "Email", exact: true }).fill("light-qa@example.com");
+  await darkQa.getByRole("textbox", { name: "Email", exact: true }).fill("dark-qa@example.com");
+  for (const theme of ["light", "dark"])
+    await expect
+      .poll(() =>
+        page
+          .locator(`.catalog-qa-panes [data-qa-theme="${theme}"] iframe[data-current="true"]`)
+          .evaluate((frame) => frame.getBoundingClientRect().height),
+      )
+      .toBeLessThan(240);
+  await page.getByLabel("Dark mode", { exact: true }).click();
+  await expect(lightQa.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(darkQa.locator("html")).toHaveAttribute("data-theme", "dark");
+  assert.equal(
+    await lightQa.getByRole("textbox", { name: "Email", exact: true }).inputValue(),
+    "light-qa@example.com",
+  );
+  assert.equal(
+    await darkQa.getByRole("textbox", { name: "Email", exact: true }).inputValue(),
+    "dark-qa@example.com",
+  );
+  console.log(
+    "Legacy overview redirects without extra history; QA comparison pins both themes and retains drafts.",
   );
   await page.close();
 } finally {

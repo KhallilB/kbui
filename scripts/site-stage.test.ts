@@ -26,6 +26,7 @@ function fixture() {
     "setup/themes/index.html",
     "compare/index.html",
     "components/index.html",
+    "components/qa/index.html",
     "examples/index.html",
     "playground/index.html",
     "storybook/index.html",
@@ -48,6 +49,9 @@ test("deploy artifact serves the subdomain root and drops stale assets", () => {
   expect(existsSync(join(destination, "kbui"))).toBe(false);
   expect(existsSync(join(destination, "stale.js"))).toBe(false);
   expect(readFileSync(join(destination, "assets/main.js"), "utf8")).toBe("assets/main.js");
+  expect(readFileSync(join(destination, "components/qa/index.html"), "utf8")).toBe(
+    "components/qa/index.html",
+  );
   expect(readFileSync(join(destination, "setup/themes/index.html"), "utf8")).toBe(
     "setup/themes/index.html",
   );
@@ -74,5 +78,16 @@ test("missing workspace fails before replacing previous artifact", () => {
   writeFileSync(join(destination, "previous"), "keep");
   rmSync(join(source, "compare/index.html"));
   expect(() => stageSite(source, destination)).toThrow("Missing site entry: compare/index.html");
+  expect(readFileSync(join(destination, "previous"), "utf8")).toBe("keep");
+});
+
+test("missing QA entry fails before replacing previous artifact", () => {
+  const { source, destination } = fixture();
+  mkdirSync(destination);
+  writeFileSync(join(destination, "previous"), "keep");
+  rmSync(join(source, "components/qa/index.html"));
+  expect(() => stageSite(source, destination)).toThrow(
+    "Missing site entry: components/qa/index.html",
+  );
   expect(readFileSync(join(destination, "previous"), "utf8")).toBe("keep");
 });

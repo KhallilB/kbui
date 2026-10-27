@@ -576,9 +576,9 @@ for (const profile of profiles) {
       for (const [route, surface] of [
         ["/playground/", ".playground-section"],
         ["/examples/", ".example-section"],
-        ["/components/?view=directory", ".catalog-grid"],
+        ["/components/?view=directory", ".catalog-browser"],
         ["/components/", ".catalog-browser"],
-        ["/components/?component=input&view=directory", ".catalog-live"],
+        ["/components/?component=input&view=directory", ".catalog-browser"],
       ] as const) {
         await page.goto(`${origin}${route}`);
         assert.equal(

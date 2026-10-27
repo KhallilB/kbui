@@ -17,6 +17,7 @@ export default defineConfig({
         setup: fileURLToPath(new URL("./site/setup/index.html", import.meta.url)),
         themes: fileURLToPath(new URL("./site/setup/themes/index.html", import.meta.url)),
         components: fileURLToPath(new URL("./site/components/index.html", import.meta.url)),
+        componentQa: fileURLToPath(new URL("./site/components/qa/index.html", import.meta.url)),
         home: fileURLToPath(new URL("./site/index.html", import.meta.url)),
         playground: fileURLToPath(new URL("./site/playground/index.html", import.meta.url)),
         examples: fileURLToPath(new URL("./site/examples/index.html", import.meta.url)),
