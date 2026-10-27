@@ -58,6 +58,10 @@ export const TryTheDemo: Story = {
 export const Navigation: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    expect(canvas.getByRole("link", { name: /Start building/ })).toHaveClass("kb-button");
+    const installer = within(canvas.getByRole("region", { name: "Install kbui" }));
+    expect(installer.getByRole("button", { name: "Copy code" })).toHaveClass("kb-button");
+    expect(installer.getByRole("button", { name: "View code" })).toHaveClass("kb-button");
     const [latest] = releases;
     if (!latest) throw new Error("Missing latest release");
     const pill = canvas.getByRole("link", { name: /What's new in/ });

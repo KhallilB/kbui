@@ -106,6 +106,12 @@ function CachedFrame({
         if (!doc?.body || !view) return;
         const actual = new URL(doc.URL);
         const requested = new URL(element.dataset.previewSrc ?? entry.src, location.href);
+        // Cloudflare canonicalizes iframe.html; retain origin and exact state checks.
+        if (
+          requested.pathname.endsWith("/iframe.html") &&
+          actual.pathname === requested.pathname.slice(0, -5)
+        )
+          actual.pathname = requested.pathname;
         actual.searchParams.sort();
         requested.searchParams.sort();
         if (actual.href !== requested.href) return;

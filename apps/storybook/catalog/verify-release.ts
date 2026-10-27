@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createServer } from "node:http";
 import { chromium, type Page, webkit } from "playwright";
 import { chooseRadio, radioChoice } from "./native-controls.ts";
 import { loadCatalogSources } from "./source.ts";
@@ -118,6 +119,62 @@ for (const profile of profiles) {
         .then((text) => text.join(" ")),
       /State not found/,
     );
+  });
+  await check("redirected-preview", async (page) => {
+    const server = createServer(async (request, response) => {
+      const url = new URL(request.url ?? "/", origin);
+      if (url.pathname.endsWith("/storybook/iframe.html")) {
+        response.writeHead(307, { location: url.pathname.slice(0, -5) + url.search });
+        response.end();
+        return;
+      }
+      if (url.pathname.endsWith("/storybook/iframe")) url.pathname += ".html";
+      try {
+        const upstream = await fetch(`${origin.replace(/\/$/, "")}${url.pathname}${url.search}`);
+        response.writeHead(upstream.status, {
+          "content-type": upstream.headers.get("content-type") ?? "application/octet-stream",
+        });
+        response.end(Buffer.from(await upstream.arrayBuffer()));
+      } catch {
+        response.writeHead(502);
+        response.end();
+      }
+    });
+    await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+    const address = server.address();
+    assert.ok(address && typeof address === "object");
+    try {
+      await page.goto(
+        `http://127.0.0.1:${address.port}/components/?component=progress&state=components-progress--complete`,
+      );
+      const frame = page.locator('iframe[data-current="true"]');
+      await page.waitForFunction(() => {
+        const frame = document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]');
+        return frame?.contentDocument?.URL.includes("/storybook/iframe?");
+      });
+      assert.equal(
+        await frame.contentFrame().locator('[role="progressbar"]').getAttribute("aria-valuenow"),
+        "100",
+      );
+      await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
+      assert.equal(await frame.getAttribute("aria-busy"), "false");
+      assert.equal(await frame.getAttribute("inert"), null);
+      await chooseRadio(page, "Example state", "Default");
+      await page.getByText("Loading live example…", { exact: true }).waitFor({ state: "hidden" });
+      assert.equal(
+        await page
+          .locator('iframe[data-current="true"]')
+          .contentFrame()
+          .getByRole("progressbar", { name: "Build", exact: true })
+          .getAttribute("aria-valuenow"),
+        "40",
+      );
+    } finally {
+      server.closeAllConnections();
+      await new Promise<void>((resolve, reject) =>
+        server.close((error) => (error ? reject(error) : resolve())),
+      );
+    }
   });
   await check("readiness", async (page) => {
     await page.route("**/storybook/iframe.html?*", (route) =>
@@ -287,7 +344,11 @@ for (const profile of profiles) {
       }));
       assert.equal(styles.animation, reduced ? "none" : "kbui-poster-arrive");
       assert.equal(styles.iterations, "1");
-      for (const selector of [".about-strip > p", ".choice-copy strong", ".choice-copy small"]) {
+      for (const selector of [
+        ".about-strip > p",
+        ".day-choice .kb-checkbox-label",
+        ".day-choice .kb-checkbox-description",
+      ]) {
         assert.equal(
           await page
             .locator(selector)
@@ -297,11 +358,12 @@ for (const profile of profiles) {
         );
       }
       const copyDelays = await page
-        .locator(".choice-copy")
+        .locator(".day-choice")
         .first()
         .evaluate((element) =>
-          Array.from(element.children, (child) =>
-            Number.parseFloat(getComputedStyle(child).animationDelay),
+          Array.from(
+            element.querySelectorAll(".kb-checkbox-label, .kb-checkbox-description"),
+            (child) => Number.parseFloat(getComputedStyle(child).animationDelay),
           ),
         );
       if (!reduced) {

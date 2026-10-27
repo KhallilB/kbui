@@ -22,16 +22,18 @@ export const PickAPlan: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const coffee = canvas.getByRole("checkbox", { name: "Coffee and a slow start" });
+    expect(coffee).toHaveClass("kb-checkbox-control");
+    expect(coffee).toHaveAccessibleDescription("No rush.");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const label = canvasElement.querySelector(".choice-copy strong");
-    const detail = canvasElement.querySelector(".choice-copy small");
+    const label = canvasElement.querySelector(".day-choice .kb-checkbox-label");
+    const detail = canvasElement.querySelector(".day-choice .kb-checkbox-description");
     if (!label || !detail) throw new Error("Missing checklist copy");
     expect(getComputedStyle(detail).animationName).toBe(reduced ? "none" : "kbui-fragment-arrive");
     if (!reduced)
       expect(Number.parseFloat(getComputedStyle(detail).animationDelay)).toBeGreaterThan(
         Number.parseFloat(getComputedStyle(label).animationDelay),
       );
-    const row = coffee.closest("label");
+    const row = coffee.closest(".day-choice");
     const entrance = row?.getAnimations()[0];
     const height = row?.getBoundingClientRect().height;
     expect(canvas.getByRole("progressbar", { name: "Plans picked" })).toHaveAttribute(

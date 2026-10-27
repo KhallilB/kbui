@@ -8,7 +8,7 @@
         .day-topline > span,
         .day-heading h2,
         .day-heading p,
-        .choice-copy > *,
+        .day-choice > :is(.kb-checkbox-label, .kb-checkbox-description),
         .demo-note,
         .example-description > *,
         .composition > :is(.sample-top, .composition-title, p),
@@ -44,10 +44,10 @@
     .day-choice:nth-of-type(3) {
       --choice-delay: 70ms;
     }
-    .choice-copy strong {
+    .day-choice .kb-checkbox-label {
       --fragment-delay: calc(45ms + var(--choice-delay, 0ms));
     }
-    .choice-copy small {
+    .day-choice .kb-checkbox-description {
       --fragment-delay: calc(95ms + var(--choice-delay, 0ms));
     }
     .composition > .composition-title {
@@ -160,14 +160,6 @@
       transition-property: color, background-color, border-color, box-shadow, transform;
       transition-duration: 140ms;
       transition-timing-function: ease;
-    }
-    .choice-box {
-      transition-property: background-color, border-color;
-      transition-duration: 140ms;
-      transition-timing-function: ease;
-    }
-    .choice-box svg {
-      animation: kbui-check-settle 140ms ease-out;
     }
     .geometry-a,
     .geometry-b,
@@ -328,10 +320,10 @@
     .day-heading p {
       --fragment-delay: 120ms;
     }
-    .choice-copy strong {
+    .day-choice .kb-checkbox-label {
       --fragment-delay: calc(100ms + var(--choice-delay, 0ms));
     }
-    .choice-copy small {
+    .day-choice .kb-checkbox-description {
       --fragment-delay: calc(140ms + var(--choice-delay, 0ms));
     }
     .day-choice:nth-of-type(2) {

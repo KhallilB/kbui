@@ -1,3 +1,4 @@
+import { Button } from "@kbui/react";
 import { useEffect, useId, useRef, useState } from "react";
 import type { CodeSample, CodeToken } from "../catalog/types";
 import "./code-panel.css";
@@ -76,7 +77,9 @@ export function CodePanel({
   return (
     <section className="example-code" aria-label={`${name} ${language} example`}>
       <div className="example-code-bar">
-        <button
+        <Button
+          variant="ghost"
+          size="sm"
           type="button"
           className="example-code-toggle"
           aria-label="View code"
@@ -112,11 +115,13 @@ export function CodePanel({
           >
             <path d="m3 5 3 3 3-3" />
           </svg>
-        </button>
+        </Button>
         <span className="example-code-caption">
           {language} · {name}
         </span>
-        <button
+        <Button
+          variant="ghost"
+          size="sm"
           type="button"
           className="example-copy"
           data-copy-state={result ?? "idle"}
@@ -155,7 +160,7 @@ export function CodePanel({
               </>
             )}
           </svg>
-        </button>
+        </Button>
       </div>
       <section
         id={id}

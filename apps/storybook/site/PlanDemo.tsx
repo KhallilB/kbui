@@ -1,4 +1,4 @@
-import { Button, Card, Dialog, Input, Progress, Status } from "@kbui/react";
+import { Button, Card, Checkbox, Dialog, Input, Progress, Status } from "@kbui/react";
 import { useCallback, useId, useRef, useState } from "react";
 import { LinkArrow } from "./LinkArrow";
 
@@ -163,32 +163,14 @@ export function PlanDemo() {
         <fieldset className="day-choices">
           <legend className="kb-sr-only">Pick what sounds good</legend>
           {activities.map(([key, label, detail]) => (
-            <label key={key} className="day-choice">
-              <input
-                type="checkbox"
-                aria-labelledby={`${id}-${key}-label`}
-                aria-describedby={`${id}-${key}-detail`}
-                checked={picked.includes(key)}
-                onChange={() => toggle(key)}
-              />
-              <span className="choice-box" aria-hidden="true">
-                {picked.includes(key) && (
-                  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                    <path
-                      d="M3 8.25 6.25 11.5 13 4.5"
-                      stroke="currentColor"
-                      strokeWidth="2.25"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                )}
-              </span>
-              <span className="choice-copy">
-                <strong id={`${id}-${key}-label`}>{label}</strong>
-                <small id={`${id}-${key}-detail`}>{detail}</small>
-              </span>
-            </label>
+            <Checkbox
+              key={key}
+              className="day-choice"
+              label={label}
+              description={detail}
+              checked={picked.includes(key)}
+              onCheckedChange={() => toggle(key)}
+            />
           ))}
         </fieldset>
         <div className="day-progress">

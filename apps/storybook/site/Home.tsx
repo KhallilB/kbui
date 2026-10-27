@@ -1,5 +1,5 @@
 import releases from "virtual:kbui-changelog";
-import { Badge } from "@kbui/react";
+import { Badge, Button } from "@kbui/react";
 import { useEffect, useRef } from "react";
 import { releaseHeadline } from "./changelog-model";
 import { LinkArrow } from "./LinkArrow";
@@ -95,9 +95,15 @@ export function Home({
               here, then use them in your own project.
             </p>
             <div className="hero-links">
-              <SiteLink className="primary-link" href={`${siteRoot}${installation}`}>
+              <Button
+                className="primary-link"
+                size="lg"
+                nativeButton={false}
+                role="link"
+                render={<SiteLink href={`${siteRoot}${installation}`} />}
+              >
                 Start building <LinkArrow />
-              </SiteLink>
+              </Button>
               <a className="plain-link" href={`${siteRoot}components/`}>
                 See the components
               </a>
