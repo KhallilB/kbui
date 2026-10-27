@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.0](https://github.com/KhallilB/kbui/compare/v0.7.0...v0.8.0) (2026-10-27)
+
+
+### Features
+
+* refresh default palette, card depth and documentation site ([300bf5b](https://github.com/KhallilB/kbui/commit/300bf5b46cabde8be177618ab65a2550eeef13a0))
+* **tokens:** add visualization role tokens ([#61](https://github.com/KhallilB/kbui/issues/61)) ([566fbe8](https://github.com/KhallilB/kbui/commit/566fbe819d18596cd2dc0c6bb9a718fa2961dde3))
+
 ## [0.7.0](https://github.com/KhallilB/kbui/compare/v0.6.0...v0.7.0) (2026-10-27)
 
 
