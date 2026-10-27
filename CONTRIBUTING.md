@@ -48,6 +48,10 @@ Behavior changes are test-first: write the test, see it fail, then write the cod
 
 Public Storybook includes `apps/storybook/docs` and component stories beside `packages/react/src` implementations. Keep reusable component examples there. Site screens, restyle showcases and validation fixtures belong in `apps/storybook/stories`; they are excluded from production bundles and navigation.
 
+Each visible story should teach a distinct use, variant, or meaningful state. Use the theme toolbar instead of adding a second public story just for dark mode. Tag theme duplicates and regression-only component fixtures with `tags: ["!dev", "!autodocs"]`; keep their default `test` tag. This removes them from the sidebar and generated Docs without breaking direct story URLs, catalog previews, or automated checks. New app-only fixtures stay in the internal directory above. Keep errors, empty states, disabled controls, and useful compositions visible.
+
+Storybook chrome and Docs read the package palette from `.storybook/theme.ts`; do not copy color values into manager overrides. Docs styling stays scoped to documentation classes so it cannot restyle the components being demonstrated. `verify:storybook` checks the built manager, curated navigation, retained QA URLs, and synchronized System/Light/Dark themes. It runs as part of `validate:site`.
+
 Run `bun run --filter @kbui/storybook dev:internal` to inspect those fixtures at http://localhost:6008. Browser test commands opt into the same internal scope with `KBUI_STORYBOOK_INTERNAL=1`. Keep validation fixtures while they protect unique behavior; delete one only after equivalent coverage exists elsewhere. Do not remove tests just to tidy navigation. `build:site` rejects internal stories in its public index and verifies every catalog link. `validate:site` builds a separate temporary QA Storybook for built control-edge checks, then removes it; deployment staging contains only public docs. Set `SITE_VALIDATION_PORT` when local ports 4175/4176 are occupied; QA uses the next port.
 
 ## Component conventions

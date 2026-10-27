@@ -69,6 +69,7 @@ export const IconOnly: Story = {
 };
 
 export const MotionTokens: Story = {
+  tags: ["!dev", "!autodocs"],
   args: { variant: "secondary" },
   render: (args) => (
     <div style={{ "--kb-button-motion-duration": "300ms" } as CSSProperties}>

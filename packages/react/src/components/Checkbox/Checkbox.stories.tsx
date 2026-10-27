@@ -51,6 +51,7 @@ export const Invalid: Story = {
   args: { description: "Confirm acknowledgement", error: "Acknowledgement required" },
 };
 export const TokenOverrides: Story = {
+  tags: ["!dev", "!autodocs"],
   args: {
     label: "I acknowledge the admission requirements",
   },

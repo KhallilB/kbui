@@ -90,13 +90,18 @@ export const Chip: Story = {
   ),
 };
 
-export const ChipDark: Story = { ...Chip, globals: { theme: "dark" } };
+export const ChipDark: Story = {
+  tags: ["!dev", "!autodocs"],
+  ...Chip,
+  globals: { theme: "dark" },
+};
 
 export const Live: Story = {
   args: { live: true, tone: "running", children: "Running", icon: <Dot /> },
 };
 
 export const Dark: Story = {
+  tags: ["!dev", "!autodocs"],
   globals: { theme: "dark" },
   render: (args) => (
     <div style={row}>

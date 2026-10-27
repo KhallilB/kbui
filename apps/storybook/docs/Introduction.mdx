@@ -2,13 +2,21 @@ import { Meta } from "@storybook/addon-docs/blocks";
 
 <Meta title="Introduction" />
 
-# kbui
+<p className="reference-kicker">kbui / Component reference</p>
 
-kbui is a React component library with shared design tokens and plain CSS. Use its default light and dark themes, or adjust the tokens to fit your app. Components use Base UI for interaction.
+# Find the right component.
 
-## Using kbui in a project
+Explore the parts, try their states, and take the code into your app. Every example uses the same components, colors, and depth as the kbui site.
 
-Install the release into your React app. The React package includes component styles and CSS tokens; React and React DOM 19 or later are peer dependencies. These commands use Bash (Git Bash or WSL on Windows).
+<nav className="reference-links" aria-label="Explore kbui">
+  <a href="../setup/" target="_top"><strong>Get started</strong><span>Install kbui and add your first component.</span></a>
+  <a href="../components/" target="_top"><strong>Browse components</strong><span>Find a part, its props, and working examples.</span></a>
+  <a href="../examples/" target="_top"><strong>See them together</strong><span>Explore useful combinations in context.</span></a>
+</nav>
+
+## Add kbui to your app
+
+The React package includes component styles and CSS tokens. Bring React and React DOM 19 or later. This command uses Bash; [Get started](../setup/) has ready-to-copy commands for npm, pnpm, Yarn, and Bun.
 
 {/* x-release-please-start-version */}
 ```bash
@@ -26,24 +34,16 @@ export function App() {
 }
 ```
 
-Set `data-theme="light"` or `"dark"` on `<html>` to choose a theme. Without it, kbui follows the system setting.
+Import the stylesheet once, where your app starts. Components follow your system theme by default. Set `data-theme="light"` or `"dark"` on `<html>` to choose one explicitly.
 
-The [Get Started page](../setup/) generates complete install commands for npm, Bun, pnpm and Yarn. The [usage guide](https://github.com/KhallilB/kbui/blob/main/docs/guides/using-kbui.md) covers upgrades, optional typed tokens, local path installs and troubleshooting. The [Examples page](../examples/) shows components working together.
+## Using this reference
 
-## Navigating this Storybook
+Choose a component in the sidebar for its props and examples. Use the toolbar to switch between **System**, **Light**, and **Dark**. Useful states, like errors and empty values, sit alongside the main example. You can edit props in the controls and open the code under each preview.
 
-**Foundations / Tokens** shows the shared colors, spacing, corner radii, and typography from `tokens.json`.
+**Foundations / Tokens** covers colors, spacing, typography, and theme overrides. **Layout / Grid** shows responsive arrangements.
 
-Under **Components**, each component has a Docs page with its props and live examples. Use the theme switch in the toolbar to view a story in light or dark. Use **Layout** for responsive Grid examples.
+## Make it yours
 
-Stories run automated interaction and accessibility checks in CI. These checks catch common problems; you should also test components in your app with the keyboard and assistive technology.
+Start with [themes and styling](../setup/themes/) to adjust tokens without rebuilding the components. The [usage guide](https://github.com/KhallilB/kbui/blob/main/docs/guides/using-kbui.md) covers upgrades, typed tokens, and troubleshooting.
 
-## Structure
-
-The tokens package holds every value. The CSS package turns those values into styles keyed on `kb-` classes and `data-*` attributes. The React package adds behavior from Base UI and maps props onto those classes and attributes.
-
-Each component stylesheet starts with an `Anatomy:` line that lists the classes and attributes it expects. That line is the contract between the CSS and any renderer.
-
-## Further reading
-
-For installation and usage, start with `docs/guides/using-kbui.md`. The React package README covers component props, `docs/tokens.md` explains token overrides, and `docs/features.md` records what the library currently supports.
+Examples run interaction and accessibility checks in CI. Check your own compositions with a keyboard and assistive technology too.

@@ -61,4 +61,8 @@ export const Tones: Story = {
     </div>
   ),
 };
-export const WithActionsDark: Story = { ...WithActions, globals: { theme: "dark" } };
+export const WithActionsDark: Story = {
+  tags: ["!dev", "!autodocs"],
+  ...WithActions,
+  globals: { theme: "dark" },
+};

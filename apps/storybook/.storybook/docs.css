@@ -1,0 +1,105 @@
+body {
+  background: var(--kb-color-bg);
+  color: var(--kb-color-fg);
+}
+
+.sbdocs.sbdocs-wrapper {
+  padding: clamp(28px, 5vw, 64px);
+  background: var(--kb-color-bg);
+}
+
+.sbdocs.sbdocs-content {
+  max-width: 960px;
+}
+
+.sbdocs-content :where(.sbdocs-h1, .sbdocs-h2, .sbdocs-h3, .sbdocs-p, .sbdocs-li) {
+  font-family: var(--kb-font-sans);
+}
+
+.sbdocs.sbdocs-content :is(.sbdocs-h1, .sbdocs-title) {
+  font-size: clamp(32px, 4vw, 48px);
+  letter-spacing: -0.045em;
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+
+.sbdocs.sbdocs-content .sbdocs-h2 {
+  margin-top: 40px;
+  letter-spacing: -0.025em;
+  border-color: var(--kb-color-border);
+}
+
+.sbdocs-content :where(.sbdocs-p, .sbdocs-li) {
+  line-height: 1.7;
+}
+
+.sbdocs-content .sbdocs-a {
+  color: var(--kb-color-accent-ink);
+  text-underline-offset: 0.2em;
+}
+
+.sbdocs-content .reference-kicker {
+  color: var(--kb-color-accent-ink);
+  font: 500 12px / 1.5 var(--kb-font-sans);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0 0 12px;
+}
+
+.sbdocs-content .reference-description {
+  color: var(--kb-color-muted);
+  font: 16px / 1.7 var(--kb-font-sans);
+  max-width: 65ch;
+  margin: 0 0 32px;
+}
+
+.reference-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 16px;
+  margin: 32px 0 48px;
+}
+
+.sbdocs-content .reference-links a {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 24px;
+  border: 1px solid var(--kb-card-border);
+  border-radius: var(--kb-card-radius);
+  background: var(--kb-card-face), var(--kb-card-background);
+  box-shadow: var(--kb-card-shadow);
+  color: var(--kb-color-fg);
+  text-decoration: none;
+}
+
+.sbdocs-content .reference-links a:hover {
+  border-color: var(--kb-color-accent-ink);
+}
+
+.sbdocs-content .reference-links strong {
+  color: var(--kb-color-accent-ink);
+  font-size: 16px;
+}
+
+.sbdocs-content .reference-links span {
+  color: var(--kb-color-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.sbdocs-content :where(.docs-story) {
+  background: var(--kb-color-bg);
+  border-radius: var(--kb-radius-lg);
+}
+
+.sbdocs-content :is(.reference-links a, .sbdocs-a):focus-visible {
+  outline: 2px solid var(--kb-color-accent-ink);
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .sbdocs.sbdocs-wrapper {
+    padding: 24px 20px;
+  }
+}

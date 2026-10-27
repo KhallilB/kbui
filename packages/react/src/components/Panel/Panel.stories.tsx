@@ -141,7 +141,11 @@ export const Depth: Story = {
   play: async ({ canvasElement }) => expectDepth(canvasElement),
 };
 
-export const DepthDark: Story = { ...Depth, globals: { theme: "dark" } };
+export const DepthDark: Story = {
+  tags: ["!dev", "!autodocs"],
+  ...Depth,
+  globals: { theme: "dark" },
+};
 
 /** Optional tokens set on a wrapper: sheen, glass, tone-colored light, pill chips. Layout is unchanged. */
 const overrides = {
@@ -156,6 +160,7 @@ const overrides = {
 } as object;
 
 export const TokenOverrides: Story = {
+  tags: ["!dev", "!autodocs"],
   globals: { theme: "dark" },
   render: (args) => (
     <div style={{ ...row, ...overrides, padding: 24 }}>
@@ -214,7 +219,11 @@ export const TokenOverrides: Story = {
   },
 };
 
-export const TokenOverridesLight: Story = { ...TokenOverrides, globals: { theme: "light" } };
+export const TokenOverridesLight: Story = {
+  tags: ["!dev", "!autodocs"],
+  ...TokenOverrides,
+  globals: { theme: "light" },
+};
 
 export const Toolbar: Story = {
   render: (args) => (
@@ -309,6 +318,7 @@ export const Compact: Story = {
 
 /** The focus ring must stay whole: the root never clips, filters or hides overflow. */
 export const FocusVisible: Story = {
+  tags: ["!dev", "!autodocs"],
   args: { rail: "accent", tone: "active" },
   render: (args) => (
     <Panel
@@ -342,6 +352,7 @@ export const FocusVisible: Story = {
 };
 
 export const Dark: Story = {
+  tags: ["!dev", "!autodocs"],
   globals: { theme: "dark" },
   render: (args) => (
     <div style={row}>

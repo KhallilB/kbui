@@ -36,4 +36,8 @@ export const Complete: Story = {
     </div>
   ),
 };
-export const StepsDark: Story = { ...Steps, globals: { theme: "dark" } };
+export const StepsDark: Story = {
+  tags: ["!dev", "!autodocs"],
+  ...Steps,
+  globals: { theme: "dark" },
+};

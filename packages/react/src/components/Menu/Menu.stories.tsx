@@ -34,9 +34,14 @@ export const Default: Story = {
     }
   },
 };
-export const DefaultDark: Story = { ...Default, globals: { theme: "dark" } };
+export const DefaultDark: Story = {
+  tags: ["!dev", "!autodocs"],
+  ...Default,
+  globals: { theme: "dark" },
+};
 
 export const MotionTokens: Story = {
+  tags: ["!dev", "!autodocs"],
   ...Default,
   play: async ({ canvasElement }) => {
     const root = document.documentElement;
@@ -55,6 +60,7 @@ export const MotionTokens: Story = {
 };
 
 export const NestedTheme: Story = {
+  tags: ["!dev", "!autodocs"],
   render: function NestedTheme() {
     const host = useRef<HTMLDivElement>(null);
     return (

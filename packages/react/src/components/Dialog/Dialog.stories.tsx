@@ -97,6 +97,7 @@ function TokenOverridesExample() {
 }
 
 export const TokenOverrides: Story = {
+  tags: ["!dev", "!autodocs"],
   render: () => <TokenOverridesExample />,
   play: async ({ canvasElement }) => {
     const popup = await waitFor(() => {

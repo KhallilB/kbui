@@ -20,7 +20,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
-export const Dark: Story = { globals: { theme: "dark" } };
+export const Dark: Story = {
+  tags: ["!dev", "!autodocs"],
+  globals: { theme: "dark" },
+};
 export const Hierarchy: Story = {
   render: () => (
     <Grid layout="stack">
@@ -88,4 +91,8 @@ export const Article: Story = {
     expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
   },
 };
-export const ArticleDark: Story = { ...Article, globals: { theme: "dark" } };
+export const ArticleDark: Story = {
+  tags: ["!dev", "!autodocs"],
+  ...Article,
+  globals: { theme: "dark" },
+};

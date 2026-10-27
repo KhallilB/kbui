@@ -77,6 +77,7 @@ export const Disabled: Story = {
 };
 export const ReadOnly: Story = { args: { value: "recent", readOnly: true } };
 export const TokenOverrides: Story = {
+  tags: ["!dev", "!autodocs"],
   render: (args) => (
     <SelectExample
       {...args}

@@ -1,33 +1,14 @@
 import type { Preview } from "@storybook/react-vite";
 import "../site/layers.css";
 import "@kbui/css/styles.css";
-import { type ReactNode, useLayoutEffect, useState } from "react";
-import type { Theme } from "../site/site-theme";
+import type { ReactNode } from "react";
+import { readThemePreference, type ThemePreference } from "../site/site-theme";
+import { ReferenceDocs, ReferencePage, useReferenceTheme } from "./docs";
 import "./component-preview.css";
+import "./docs.css";
 
-function ThemePreview({ theme, children }: { theme: Theme; children: ReactNode }) {
-  const [receivedTheme, setReceivedTheme] = useState<Theme | null>(() => {
-    const value = window.frameElement?.getAttribute("data-preview-theme");
-    return value === "light" || value === "dark" ? value : null;
-  });
-  const activeTheme = receivedTheme ?? theme;
-  useLayoutEffect(() => {
-    // Root scope includes body portals.
-    document.documentElement.dataset.theme = activeTheme;
-    document.documentElement.style.colorScheme = activeTheme;
-  }, [activeTheme]);
-  useLayoutEffect(() => {
-    if (window.parent === window) return;
-    const receive = (event: MessageEvent) => {
-      if (event.source !== window.parent || event.origin !== location.origin) return;
-      if (event.data?.type !== "kbui:theme") return;
-      if (event.data.theme === "light" || event.data.theme === "dark")
-        setReceivedTheme(event.data.theme);
-    };
-    window.addEventListener("message", receive);
-    window.parent.postMessage({ type: "kbui:theme-ready" }, location.origin);
-    return () => window.removeEventListener("message", receive);
-  }, []);
+function ThemePreview({ theme, children }: { theme: ThemePreference; children: ReactNode }) {
+  useReferenceTheme(theme);
   return children;
 }
 
@@ -55,24 +36,34 @@ const preview: Preview = {
     },
     backgrounds: { disable: true },
     controls: { matchers: { color: /(background|color)$/i } },
+    docs: { container: ReferenceDocs, page: ReferencePage },
+    options: { storySort: { order: ["Introduction", "Foundations", "Components", "Layout"] } },
   },
   globalTypes: {
     previewTheme: { description: "Catalog preview theme override" },
     theme: {
       description: "Color theme",
-      toolbar: { icon: "mirror", items: ["light", "dark"], dynamicTitle: true },
+      toolbar: {
+        icon: "mirror",
+        items: [
+          { value: "system", title: "System" },
+          { value: "light", title: "Light" },
+          { value: "dark", title: "Dark" },
+        ],
+        dynamicTitle: true,
+      },
     },
   },
-  initialGlobals: { theme: "light", previewTheme: "story" },
+  initialGlobals: { theme: readThemePreference(), previewTheme: "story" },
   decorators: [
     (Story, { globals, title, viewMode }) => {
       // Root scope includes portaled menus, hints and dialogs.
       const theme =
         globals.previewTheme === "light" || globals.previewTheme === "dark"
           ? globals.previewTheme
-          : globals.theme === "dark"
-            ? "dark"
-            : "light";
+          : globals.theme === "dark" || globals.theme === "light"
+            ? globals.theme
+            : "system";
       const component =
         title.startsWith("Components/") || title === "Layout/Grid"
           ? title.split("/").at(-1)?.toLowerCase()

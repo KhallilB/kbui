@@ -67,6 +67,7 @@ export const Invalid: Story = {
   args: { description: "Choose one display", error: "A display is required" },
 };
 export const TokenOverrides: Story = {
+  tags: ["!dev", "!autodocs"],
   render: (args) => (
     <RadioExample
       {...args}
@@ -75,6 +76,7 @@ export const TokenOverrides: Story = {
   ),
 };
 export const SelectedMaterial: Story = {
+  tags: ["!dev", "!autodocs"],
   render: () => (
     <div>
       <style>{".material-choice { background: #261b22; color: #fff2df; padding: 1rem; }"}</style>

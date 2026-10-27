@@ -61,7 +61,10 @@ export const Default: Story = {
     await expect(canvas.getByRole("button", { name: "Remove room-labels.csv" })).toHaveFocus();
   },
 };
-export const Dark: Story = { globals: { theme: "dark" } };
+export const Dark: Story = {
+  tags: ["!dev", "!autodocs"],
+  globals: { theme: "dark" },
+};
 export const Empty: Story = { args: { items: [] } };
 export const Rejected: Story = {
   args: { error: "glossary.exe: choose DOCX or CSV. Accepted documents kept." },
@@ -106,6 +109,7 @@ export const Editorial: Story = {
 };
 
 export const ControlledRefusal: Story = {
+  tags: ["!dev", "!autodocs"],
   render: function Refusal() {
     const [items, setItems] = useState(kit);
     return (

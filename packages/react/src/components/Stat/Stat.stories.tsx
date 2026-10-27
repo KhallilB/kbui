@@ -23,4 +23,8 @@ export const Row: Story = {
     </div>
   ),
 };
-export const DisplayDark: Story = { ...Display, globals: { theme: "dark" } };
+export const DisplayDark: Story = {
+  tags: ["!dev", "!autodocs"],
+  ...Display,
+  globals: { theme: "dark" },
+};
