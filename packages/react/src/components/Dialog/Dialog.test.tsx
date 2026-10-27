@@ -90,6 +90,16 @@ describe("Dialog", () => {
     expect(dialog).toHaveClass("kb-dialog-popup", "extra");
   });
 
+  test("classNames reaches the backdrop", async () => {
+    render(
+      <Dialog defaultOpen>
+        <Dialog.Content title="T" classNames={{ backdrop: "dim" }} />
+      </Dialog>,
+    );
+    await screen.findByRole("dialog");
+    expect(document.querySelector(".kb-dialog-backdrop")).toHaveClass("dim");
+  });
+
   test("accepts a ReactNode title", async () => {
     render(
       <Dialog defaultOpen>

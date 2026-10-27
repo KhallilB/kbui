@@ -1,0 +1,2 @@
+/* Site base rules sit below kbui so components keep their look; other site CSS stays unlayered and wins. */
+@layer site-base, kbui;

@@ -34,8 +34,10 @@ test("rejects mixed installed versions, including optional packages", async () =
     checkVersions(await fixture({ react: "0.4.0", css: "0.4.0", tokens: "0.3.0" })),
   ).rejects.toThrow("Mixed KBUI versions");
 });
+test("accepts the React package alone, which carries the stylesheet", async () => {
+  expect(await checkVersions(await fixture({ react: "0.7.0" }))).toBe("0.7.0");
+});
 test("rejects missing required packages and malformed manifests", async () => {
-  await expect(checkVersions(await fixture({ react: "0.4.0" }))).rejects.toThrow("@kbui/css");
   await expect(checkVersions(await fixture({ css: "0.4.0" }))).rejects.toThrow("@kbui/react");
   const root = await fixture({ react: "0.4.0", css: "0.4.0" });
   await writeFile(join(root, "node_modules/@kbui/css/package.json"), "{");

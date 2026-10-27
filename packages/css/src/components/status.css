@@ -4,8 +4,8 @@
   display: inline-flex;
   align-items: center;
   gap: var(--kb-space-2);
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--kb-text-caption-size);
+  font-weight: var(--kb-font-weight-strong);
   line-height: 1.25;
   color: var(--_status-ink);
 
@@ -34,14 +34,14 @@
 
 /* Chip tints from the ink so every tone stays in its own hue. */
 .kb-status[data-appearance="chip"] {
-  padding: 5px 9px;
+  padding: var(--kb-status-padding-block) var(--kb-status-padding-inline);
   border: 1px solid color-mix(in oklab, var(--_status-ink) 45%, transparent);
   border-radius: var(--kb-status-radius);
   background: color-mix(in oklab, var(--_status-ink) 12%, transparent);
   /* Pulled toward fg: the tint alone drops tone ink under 4.5:1 in light. */
   color: color-mix(in oklab, var(--_status-ink) 70%, var(--kb-color-fg));
 
-  gap: 6px;
+  gap: var(--kb-status-gap);
 
   background-image: linear-gradient(180deg, var(--kb-material-soft-sheen), transparent);
 
@@ -49,12 +49,12 @@
 }
 
 .kb-status[data-appearance="chip"][data-compact] {
-  padding: 3px 6px;
+  padding: var(--kb-status-compact-padding-block) var(--kb-status-compact-padding-inline);
 }
 
 .kb-status[data-compact] {
-  gap: 4px;
-  font-size: 11px;
+  gap: var(--kb-status-compact-gap);
+  font-size: var(--kb-status-compact-size);
 }
 
 /* Icon inherits the ink; it is decoration next to the text, never the only signal. */
@@ -83,8 +83,8 @@
 
 .kb-status[data-appearance="chip"]::before {
   content: "";
-  width: 5px;
-  height: 5px;
+  width: var(--kb-status-dot-size);
+  height: var(--kb-status-dot-size);
   flex: none;
   border-radius: 50%;
   background: currentColor;

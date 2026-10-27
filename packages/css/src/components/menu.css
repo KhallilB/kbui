@@ -1,6 +1,6 @@
 /* Anatomy: .kb-menu [data-open] [data-side=top|bottom|left|right] [data-starting-style] [data-ending-style] > .kb-menu-item [data-highlighted] [data-disabled], .kb-menu-separator */
 .kb-menu {
-  min-width: 10rem;
+  min-width: var(--kb-menu-min-width);
   padding: var(--kb-space-1);
   border-radius: var(--kb-popup-radius);
   background: var(--kb-popup-background);
@@ -37,7 +37,7 @@
 
   line-height: var(--kb-text-leading-control);
 
-  min-height: 40px;
+  min-height: var(--kb-menu-item-height);
 
   border: 1px solid transparent;
 }

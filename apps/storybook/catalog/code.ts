@@ -5,6 +5,7 @@ import {
   extractSource,
   pathForNode,
 } from "storybook/internal/csf-tools";
+import { stylesheetImport } from "../site/setup-model.ts";
 
 type Node = Parameters<typeof extractSource>[0];
 
@@ -188,7 +189,7 @@ export function exampleCode(
         : `<div data-theme="dark">\n${usage}\n</div>`
       : usage;
   const snippet = `${publicImport}\n${setup ? `${setup}\n` : ""}\n${themedUsage}`;
-  const code = `import "@kbui/css/styles.css";
+  const code = `import "${stylesheetImport()}";
 import { ${[...imports].sort().join(", ")} } from "@kbui/react";
 import { useEffect, type ComponentProps${render ? ", type ReactNode" : ""} } from "react";
 

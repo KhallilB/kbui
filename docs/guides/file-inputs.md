@@ -57,7 +57,7 @@ See the [FileInput API](../../packages/react/README.md#fileinput) for props, def
 
 Style the `.kb-fileinput` root and its parts: `-label`, `-native`, `-trigger`, `-description`, `-error`, `-list`, `-item`, `-content`, `-name`, `-metadata`, `-remove`, and `-empty`. The root exposes `data-disabled`, `data-readonly`, and `data-invalid`. The picker and remove actions use KBUI Button styles and focus behavior. Filenames wrap rather than being truncated.
 
-The full `@kbui/css/styles.css` bundle includes everything FileInput needs. If you import individual stylesheets, include `@kbui/css/components/button.css` with `fileinput.css`, tokens, and reset styles.
+The full stylesheet, `@kbui/react/styles.css` or `@kbui/css/styles.css`, includes everything FileInput needs. If you import individual stylesheets, include `@kbui/css/components/button.css` with `fileinput.css`, tokens, and reset styles.
 
 Use `--kb-fileinput-radius`, `--kb-fileinput-action-height` (48px by default), and `--kb-fileinput-border-width` to adjust the layout. Semantic foreground, muted, border, and danger colors, along with Button tokens, control the remaining colors. Apply theme variables to the field’s container, then check contrast for filenames, metadata, and errors. FileInput adds no animation; its buttons respect reduced motion and forced colors.
 

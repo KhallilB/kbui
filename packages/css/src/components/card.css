@@ -23,7 +23,7 @@
 
 @media (max-width: 580px) {
   .kb-card {
-    --kb-card-padding: 20px;
+    --kb-card-padding: var(--kb-card-padding-compact);
   }
 }
 

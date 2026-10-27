@@ -7,7 +7,7 @@ const missing = ["Button", "Dialog", "Input", "Status", "Card", "Grid", "kb"].fi
 );
 if (missing.length) throw new Error(`@kbui/react is missing ${missing.join(", ")}`);
 
-const styles = fileURLToPath(import.meta.resolve("@kbui/css/styles.css"));
+const styles = fileURLToPath(import.meta.resolve("@kbui/react/styles.css"));
 if (!Bun.file(styles).size) throw new Error(`${styles} is empty`);
 
-console.log(`@kbui/react and @kbui/css installed on ${process.platform}`);
+console.log(`@kbui/react and its stylesheet installed on ${process.platform}`);

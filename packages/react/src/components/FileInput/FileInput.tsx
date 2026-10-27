@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { kb } from "../../utils/kb";
+import { type ClassNames, kb } from "../../utils/kb";
 import { Button } from "../Button/Button";
 
 export type FileInputItem = {
@@ -68,6 +68,21 @@ export type FileInputProps = Omit<
   inputRef?: Ref<HTMLInputElement>;
   /** Ref to accessible picker button. */
   triggerRef?: Ref<HTMLButtonElement>;
+  /** Classes for inner parts, keyed by part. */
+  classNames?: ClassNames<
+    | "label"
+    | "trigger"
+    | "list"
+    | "item"
+    | "native"
+    | "description"
+    | "error"
+    | "content"
+    | "name"
+    | "metadata"
+    | "remove"
+    | "empty"
+  >;
 };
 const defaultRemoveLabel = (item: FileInputItem) => `Remove ${item.name}`;
 const defaultRemovedMessage = (item: FileInputItem) => `${item.name} removed.`;
@@ -75,6 +90,7 @@ const defaultSelectionMessage = (count: number) =>
   `${count} ${count === 1 ? "file" : "files"} selected.`;
 
 export function FileInput({
+  classNames,
   label,
   items,
   onFiles,
@@ -143,7 +159,7 @@ export function FileInput({
     >
       <span
         id={`${id}-label`}
-        className={clsx("kb-fileinput-label", visuallyHidden && "kb-sr-only")}
+        className={clsx("kb-fileinput-label", classNames?.label, visuallyHidden && "kb-sr-only")}
       >
         {label}
       </span>
@@ -151,7 +167,7 @@ export function FileInput({
         ref={input}
         type="file"
         hidden
-        className="kb-fileinput-native"
+        className={clsx("kb-fileinput-native", classNames?.native)}
         accept={accept}
         multiple={multiple}
         disabled={blocked}
@@ -177,7 +193,7 @@ export function FileInput({
         aria-labelledby={`${id}-label ${id}-action`}
         aria-describedby={described}
         aria-invalid={Boolean(error) || undefined}
-        className={clsx("kb-fileinput-trigger", triggerClassName)}
+        className={clsx("kb-fileinput-trigger", classNames?.trigger, triggerClassName)}
         onClick={() => {
           if (!blocked) input.current?.click();
         }}
@@ -185,27 +201,42 @@ export function FileInput({
         <span id={`${id}-action`}>{chooseLabel}</span>
       </Button>
       {description && (
-        <p id={`${id}-description`} className="kb-fileinput-description">
+        <p
+          id={`${id}-description`}
+          className={clsx("kb-fileinput-description", classNames?.description)}
+        >
           {description}
         </p>
       )}
       {error && (
-        <p id={`${id}-error`} className="kb-fileinput-error" role="alert">
+        <p
+          id={`${id}-error`}
+          className={clsx("kb-fileinput-error", classNames?.error)}
+          role="alert"
+        >
           {error}
         </p>
       )}
       {items.length ? (
-        <ul className={clsx("kb-fileinput-list", listClassName)} aria-labelledby={`${id}-label`}>
+        <ul
+          className={clsx("kb-fileinput-list", classNames?.list, listClassName)}
+          aria-labelledby={`${id}-label`}
+        >
           {items.map((item, index) => (
-            <li className={clsx("kb-fileinput-item", itemClassName)} key={item.id}>
-              <div className="kb-fileinput-content">
+            <li
+              className={clsx("kb-fileinput-item", classNames?.item, itemClassName)}
+              key={item.id}
+            >
+              <div className={clsx("kb-fileinput-content", classNames?.content)}>
                 {renderItem ? (
                   renderItem(item)
                 ) : (
                   <>
-                    <span className="kb-fileinput-name">{item.name}</span>
+                    <span className={clsx("kb-fileinput-name", classNames?.name)}>{item.name}</span>
                     {item.description && (
-                      <span className="kb-fileinput-metadata">{item.description}</span>
+                      <span className={clsx("kb-fileinput-metadata", classNames?.metadata)}>
+                        {item.description}
+                      </span>
                     )}
                   </>
                 )}
@@ -219,7 +250,7 @@ export function FileInput({
                 size="lg"
                 variant="ghost"
                 disabled={blocked}
-                className="kb-fileinput-remove"
+                className={clsx("kb-fileinput-remove", classNames?.remove)}
                 aria-label={removeLabel(item)}
                 onClick={(event) => {
                   if (blocked) return;
@@ -234,7 +265,7 @@ export function FileInput({
           ))}
         </ul>
       ) : (
-        <p className="kb-fileinput-empty">{emptyMessage}</p>
+        <p className={clsx("kb-fileinput-empty", classNames?.empty)}>{emptyMessage}</p>
       )}
       <p role="status" aria-live="polite" aria-atomic="true" className="kb-sr-only">
         {announcement}

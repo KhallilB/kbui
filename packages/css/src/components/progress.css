@@ -24,7 +24,7 @@
 
 .kb-progress-track {
   height: var(--kb-progress-height);
-  border-radius: 999px;
+  border-radius: var(--kb-progress-radius);
   background: var(--kb-progress-track);
 
   border: 1px solid var(--kb-color-border);

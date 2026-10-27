@@ -1,13 +1,21 @@
 # @kbui/react
 
-React components for forms, navigation, feedback, and layout. kbui uses [Base UI](https://base-ui.com) 1.9 for interaction and `@kbui/css` for styling. Import the stylesheet once, then use components throughout your app.
+React components for forms, navigation, feedback, and layout. kbui uses [Base UI](https://base-ui.com) 1.9 for interaction and `@kbui/css` for styling, which this package includes as `@kbui/react/styles.css`. Import the stylesheet once, then use components throughout your app.
 
 ```tsx
-import "@kbui/css/styles.css";
+import "@kbui/react/styles.css";
 import { Button, Dialog, Input } from "@kbui/react";
 ```
 
 Requires `react` and `react-dom` 19 in the consuming project.
+
+## Styling
+
+Every component takes `className` and `style`. Components with inner parts, such as Input, Select and Checkbox, also take `classNames` keyed by part; the props type lists each part. kbui's CSS sits in the `kbui` cascade layer, so your classes win. See [Restyling kbui](../../docs/guides/restyling.md).
+
+```tsx
+<Input label="Email" className="w-full" classNames={{ control: "rounded-none" }} />
+```
 
 ## Button
 
@@ -193,7 +201,7 @@ Use `Card` to group related content. It renders an article by default and adds n
 </Grid>
 ```
 
-Skin with `--kb-card-background`, `--kb-card-color`, `--kb-card-border`, `--kb-card-border-width`, `--kb-card-radius`, `--kb-card-padding`, `--kb-grid-gap` and `--kb-grid-min-item-width`. Defaults use semantic tokens in both themes.
+Restyle with `--kb-card-background`, `--kb-card-color`, `--kb-card-border`, `--kb-card-border-width`, `--kb-card-radius`, `--kb-card-padding`, `--kb-grid-gap` and `--kb-grid-min-item-width`. Defaults use semantic tokens in both themes.
 
 ## Checkbox
 

@@ -10,7 +10,7 @@
   overflow-wrap: anywhere;
   color: var(--kb-color-fg);
   font-size: var(--kb-text-small-size);
-  font-weight: 600;
+  font-weight: var(--kb-font-weight-strong);
 }
 .kb-radiogroup-item {
   display: flex;

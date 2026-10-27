@@ -11,15 +11,14 @@ kbui is a React component library with shared design tokens and plain CSS. Use t
 
 ## Using kbui in a project
 
-Install `@kbui/react` and `@kbui/css` from the same release. Replace `0.6.0` with the version you want:
+Install `@kbui/react` from a release; it includes the stylesheet. Replace `0.7.0` with the version you want:
 
 ```bash
-bun add https://github.com/KhallilB/kbui/releases/download/v0.6.0/kbui-react-0.6.0.tgz \
-        https://github.com/KhallilB/kbui/releases/download/v0.6.0/kbui-css-0.6.0.tgz
+bun add https://github.com/KhallilB/kbui/releases/download/v0.7.0/kbui-react-0.7.0.tgz
 ```
 
 ```tsx
-import "@kbui/css/styles.css";
+import "@kbui/react/styles.css";
 import { Button } from "@kbui/react";
 
 export const Save = () => <Button variant="primary">Save</Button>;
@@ -48,6 +47,7 @@ bun run check            # build, lint, typecheck and unit tests
 | [Maintained features](docs/features.md) | Implementation, canonical docs, examples and current limits |
 | [Tokens](docs/tokens.md) | Token kinds, naming, aliases and dark mode |
 | [Using kbui in a project](docs/guides/using-kbui.md) | Installing, theming, updating and troubleshooting |
+| [Restyling kbui](docs/guides/restyling.md) | Style components with your own classes or Tailwind; tokens for app-wide changes |
 | [Adding a component](docs/guides/adding-a-component.md) | The generator, styles, tests and stories |
 | [Forms and overlays](docs/guides/forms-and-overlays.md) | Theme hosts for popups, structured dialogs, surface tokens and accessibility checks |
 

@@ -107,7 +107,7 @@ jobs:
       - name: Install the release as a consumer would
         working-directory: ${{ runner.temp }}/consumer
         run: |
-          bun add "$URL/kbui-react-$VERSION.tgz" "$URL/kbui-css-$VERSION.tgz"
+          bun add "$URL/kbui-react-$VERSION.tgz"
           bun install --frozen-lockfile
           bun node_modules/@kbui/react/dist/check-versions.js
           bunx tsc -p .

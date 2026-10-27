@@ -2,7 +2,7 @@ import { Field } from "@base-ui/react/field";
 import { Input as BaseInput } from "@base-ui/react/input";
 import { clsx } from "clsx";
 import type { ReactNode } from "react";
-import { kb } from "../../utils/kb";
+import { type ClassNames, kb } from "../../utils/kb";
 
 export type InputSize = "sm" | "md" | "lg";
 
@@ -23,9 +23,14 @@ export type InputProps = Omit<BaseInput.Props, "size" | "className"> & {
   startContent?: ReactNode;
   /** Content after control text, such as a named action. */
   endContent?: ReactNode;
+  /** Classes for inner parts, keyed by part. */
+  classNames?: ClassNames<
+    "label" | "shell" | "start" | "control" | "end" | "description" | "error"
+  >;
 };
 
 export function Input({
+  classNames,
   label,
   visuallyHidden,
   description,
@@ -52,19 +57,25 @@ export function Input({
       invalid={invalid}
       disabled={Boolean(disabled)}
     >
-      <Field.Label className={clsx("kb-input-label", visuallyHidden && "kb-sr-only")}>
+      <Field.Label
+        className={clsx("kb-input-label", classNames?.label, visuallyHidden && "kb-sr-only")}
+      >
         {label}
       </Field.Label>
-      <div className="kb-input-shell">
-        {startContent && <span className="kb-input-start">{startContent}</span>}
-        <BaseInput {...props} className="kb-input-control" />
-        {endContent && <span className="kb-input-end">{endContent}</span>}
+      <div className={clsx("kb-input-shell", classNames?.shell)}>
+        {startContent && (
+          <span className={clsx("kb-input-start", classNames?.start)}>{startContent}</span>
+        )}
+        <BaseInput {...props} className={clsx("kb-input-control", classNames?.control)} />
+        {endContent && <span className={clsx("kb-input-end", classNames?.end)}>{endContent}</span>}
       </div>
       {description ? (
-        <Field.Description className="kb-input-description">{description}</Field.Description>
+        <Field.Description className={clsx("kb-input-description", classNames?.description)}>
+          {description}
+        </Field.Description>
       ) : null}
       {error ? (
-        <Field.Error className="kb-input-error" match>
+        <Field.Error className={clsx("kb-input-error", classNames?.error)} match>
           {error}
         </Field.Error>
       ) : null}

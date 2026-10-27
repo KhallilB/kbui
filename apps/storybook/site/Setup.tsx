@@ -6,12 +6,14 @@ import { ControlSelect } from "./ControlSelect";
 import { LinkArrow } from "./LinkArrow";
 import { SiteFrame, SiteLink } from "./SiteFrame";
 import {
+  bundlesCss,
   installCommand,
   managers,
   readSetup,
   releaseVersion,
   type SetupOptions,
   setupHref,
+  stylesheetImport,
   type Theme,
   themes,
 } from "./setup-model";
@@ -188,17 +190,24 @@ export function Setup({
             </section>
             <section className="setup-step">
               <div>
-                <p className="page-kicker">02 / Your details</p>
-                <h2>Start with one small change.</h2>
+                <p className="page-kicker">02 / Restyle</p>
+                <h2>Style it like any element.</h2>
                 <p>
-                  Override a component token after importing kbui’s stylesheet. This radius works in
-                  both themes.
+                  Pass your own class with <code>className</code>, or <code>classNames</code> for
+                  inner parts. kbui’s CSS sits in a cascade layer, so plain CSS, CSS Modules and
+                  Tailwind win without kbui names. To change every component at once, set a token.
                 </p>
               </div>
-              <CodePanel name="Styling" language="CSS" sample={samples.styling} defaultOpen />
+              <CodePanel name="Restyle" language="CSS" sample={samples.styling} defaultOpen />
             </section>
             <p className="setup-note">
-              For semantic colors, set values for light and dark themes.{" "}
+              Restyle type, density, shape and motion the same way.{" "}
+              <a
+                className="plain-link"
+                href="https://github.com/KhallilB/kbui/blob/main/docs/guides/restyling.md"
+              >
+                Read the restyling guide <LinkArrow />
+              </a>{" "}
               <a
                 className="plain-link"
                 href={`${storybookRoot}?path=/docs/components-button--docs`}
@@ -214,7 +223,10 @@ export function Setup({
                 <p className="page-kicker">01 / Install</p>
                 <h2 id={`${id}-install`}>Pick your package manager.</h2>
                 <p>
-                  Run this in your app’s folder. Both packages come from the same published release.
+                  Run this in your app’s folder.{" "}
+                  {bundlesCss()
+                    ? "One package carries the components and the stylesheet."
+                    : "Both packages come from the same published release."}{" "}
                   React and React DOM 19+ must already be installed.
                 </p>
               </div>
@@ -260,10 +272,10 @@ export function Setup({
             <details className="setup-help">
               <summary>Something not working?</summary>
               <p>
-                Unstyled components: import <code>@kbui/css/styles.css</code> once. Missing CSS
+                Unstyled components: import <code>{stylesheetImport()}</code> once. Missing CSS
                 types: add <code>declare module "*.css";</code> to your app’s type declarations.
                 Theme unchanged: put <code>data-theme</code> on <code>&lt;html&gt;</code>.
-                Upgrading: update React, CSS and optional typed tokens to the same kbui release.
+                Upgrading: update every installed kbui package to the same release.
               </p>
             </details>
           </>

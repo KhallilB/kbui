@@ -1,5 +1,6 @@
+import { clsx } from "clsx";
 import type { ComponentProps, ReactNode } from "react";
-import { kb } from "../../utils/kb";
+import { type ClassNames, kb } from "../../utils/kb";
 
 export type StatusTone = "neutral" | "info" | "running" | "success" | "warning" | "blocked";
 export type StatusAppearance = "plain" | "chip";
@@ -18,9 +19,12 @@ export type StatusProps = Omit<ComponentProps<"span">, "children"> & {
   appearance?: StatusAppearance;
   /** Tighter spacing and smaller text; the text stays visible. */
   compact?: boolean;
+  /** Classes for inner parts, keyed by part. */
+  classNames?: ClassNames<"icon" | "text">;
 };
 
 export function Status({
+  classNames,
   tone = "neutral",
   appearance = "plain",
   icon,
@@ -37,11 +41,11 @@ export function Status({
       {...kb("status", { tone, appearance, compact }, className)}
     >
       {icon != null ? (
-        <span className="kb-status-icon" aria-hidden="true">
+        <span className={clsx("kb-status-icon", classNames?.icon)} aria-hidden="true">
           {icon}
         </span>
       ) : null}
-      <span className="kb-status-text">{children}</span>
+      <span className={clsx("kb-status-text", classNames?.text)}>{children}</span>
     </span>
   );
 }

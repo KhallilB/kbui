@@ -1,7 +1,7 @@
 /* Anatomy: .kb-tooltip [data-open] [data-side=top|bottom|left|right] [data-starting-style] [data-ending-style] */
 .kb-tooltip {
   max-width: 18rem;
-  padding: 8px 12px;
+  padding: var(--kb-tooltip-padding-block) var(--kb-tooltip-padding-inline);
   border-radius: var(--kb-radius-sm);
   background: var(--kb-popup-background);
   box-shadow: var(--kb-popup-shadow);

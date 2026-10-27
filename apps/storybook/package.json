@@ -20,6 +20,7 @@
     "test:a11y": "vitest run --config vitest.accessibility.config.ts stories/Accessibility.stories.tsx",
     "test:themes": "vitest run --config vitest.themes.config.ts ../../packages/react/src/components",
     "verify:theme": "bun catalog/verify-theme.ts",
+    "verify:overrides": "bun catalog/verify-overrides.ts",
     "verify:depth": "bun catalog/verify-depth.ts"
   },
   "dependencies": {

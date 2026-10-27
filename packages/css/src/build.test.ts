@@ -2,7 +2,7 @@ import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import { mkdir, mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { anatomyRoots, buildCss, paletteRefs } from "./build";
+import { anatomyRoots, buildCss, paletteRefs, rawStyleValues } from "./build";
 
 const src = new URL("./", import.meta.url).pathname;
 let dist: string;
@@ -32,6 +32,20 @@ describe("buildCss", () => {
     expect(css).toContain("--kb-color-bg:");
     expect(css).toContain(".kb-sr-only");
     for (const root of await anatomyRoots(src)) expect(css).toContain(root);
+  });
+
+  test("puts every kbui rule in a kbui cascade layer", async () => {
+    const css = await readFile(join(dist, "styles.css"), "utf8");
+    expect(css).toStartWith("@layer kbui.tokens{");
+    const unlayered = css.replace(
+      /@layer kbui\.\w+\{(?:[^{}]|\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*\})*\}/g,
+      "",
+    );
+    expect(unlayered).toBe("");
+    expect(await readFile(join(dist, "reset.css"), "utf8")).toStartWith("@layer kbui.reset{");
+    expect(await readFile(join(dist, "components", "button.css"), "utf8")).toStartWith(
+      "@layer kbui.components{",
+    );
   });
 
   test("emits standalone reset and component files", async () => {
@@ -95,6 +109,42 @@ describe("buildCss", () => {
     expect(await paletteRefs(root)).toEqual([]);
     await writeFile(join(root, "reset.css"), "html { color: rgb(0 0 0); }");
     expect(await paletteRefs(root)).toHaveLength(1);
+    await rm(root, { recursive: true, force: true });
+  });
+
+  test("component css takes sizing, type and motion from tokens", async () => {
+    expect(await rawStyleValues(src)).toEqual([]);
+  });
+
+  test("rawStyleValues flags restyle literals and keeps hairlines, zero and em", async () => {
+    const root = await fixture({
+      "raw.css": `/* Anatomy: .kb-raw */
+.kb-raw {
+  height: 40px;
+  padding: 0.125rem var(--kb-space-2);
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: color 120ms ease, background-color var(--kb-motion-duration-base) var(--kb-motion-easing-standard);
+  border: 1px solid var(--kb-color-border);
+  outline-offset: -2px;
+  inline-size: calc(var(--kb-switch-height) - 2px);
+  margin: 0;
+  padding-inline-start: 1.4em;
+  background: linear-gradient(180deg, red, blue);
+  transition-duration: 0s;
+}
+@media (max-width: 580px) { .kb-raw { min-height: var(--kb-button-touch-min); } }
+`,
+    });
+    const hits = await rawStyleValues(root);
+    for (const m of ["height: 40px", "padding: 0.125rem", "font-size: 15px", "font-weight: 600"]) {
+      expect(hits.some((h) => h.endsWith(m))).toBe(true);
+    }
+    for (const m of ["border-radius: 10px", "transition: 120ms", "transition: ease"]) {
+      expect(hits.some((h) => h.endsWith(m))).toBe(true);
+    }
+    expect(hits).toHaveLength(7);
     await rm(root, { recursive: true, force: true });
   });
 

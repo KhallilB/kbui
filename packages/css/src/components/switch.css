@@ -91,7 +91,7 @@
   min-inline-size: 0;
   overflow-wrap: anywhere;
   font-size: var(--kb-text-control-size);
-  font-weight: 500;
+  font-weight: var(--kb-font-weight-medium);
   line-height: var(--kb-text-leading-control);
   cursor: pointer;
 }
@@ -130,7 +130,7 @@
   }
   .kb-switch-off,
   .kb-switch-on {
-    transition: opacity var(--kb-switch-duration) ease;
+    transition: opacity var(--kb-switch-duration) var(--kb-motion-easing-smooth);
   }
 }
 @media (forced-colors: active) {

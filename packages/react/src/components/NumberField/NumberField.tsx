@@ -1,7 +1,7 @@
 import { NumberField as Base } from "@base-ui/react/number-field";
 import { clsx } from "clsx";
 import { type ComponentProps, type Ref, useId } from "react";
-import { kb } from "../../utils/kb";
+import { type ClassNames, kb } from "../../utils/kb";
 
 export type NumberFieldSize = "sm" | "md" | "lg";
 export type NumberFieldProps = Omit<
@@ -66,9 +66,14 @@ export type NumberFieldProps = Omit<
   decrementLabel?: string;
   /** Localized increment action; defaults to Increase plus label. */
   incrementLabel?: string;
+  /** Classes for inner parts, keyed by part. */
+  classNames?: ClassNames<
+    "label" | "group" | "input" | "editor" | "decrement" | "increment" | "description" | "error"
+  >;
 };
 
 export function NumberField({
+  classNames,
   label,
   value,
   onValueChange,
@@ -114,7 +119,10 @@ export function NumberField({
         className,
       )}
     >
-      <label htmlFor={id} className={clsx("kb-numberfield-label", visuallyHidden && "kb-sr-only")}>
+      <label
+        htmlFor={id}
+        className={clsx("kb-numberfield-label", classNames?.label, visuallyHidden && "kb-sr-only")}
+      >
         {label}
       </label>
       <Base.Root
@@ -137,10 +145,13 @@ export function NumberField({
         snapOnStep
         allowOutOfRange
         allowWheelScrub={false}
-        className="kb-numberfield-editor"
+        className={clsx("kb-numberfield-editor", classNames?.editor)}
       >
-        <Base.Group className={clsx("kb-numberfield-group", groupClassName)}>
-          <Base.Decrement aria-label={decrementLabel} className="kb-numberfield-decrement">
+        <Base.Group className={clsx("kb-numberfield-group", classNames?.group, groupClassName)}>
+          <Base.Decrement
+            aria-label={decrementLabel}
+            className={clsx("kb-numberfield-decrement", classNames?.decrement)}
+          >
             −
           </Base.Decrement>
           <Base.Input
@@ -148,20 +159,26 @@ export function NumberField({
             ref={inputRef}
             aria-describedby={described}
             aria-invalid={Boolean(error) || undefined}
-            className={clsx("kb-numberfield-input", inputClassName)}
+            className={clsx("kb-numberfield-input", classNames?.input, inputClassName)}
           />
-          <Base.Increment aria-label={incrementLabel} className="kb-numberfield-increment">
+          <Base.Increment
+            aria-label={incrementLabel}
+            className={clsx("kb-numberfield-increment", classNames?.increment)}
+          >
             +
           </Base.Increment>
         </Base.Group>
       </Base.Root>
       {description && (
-        <p id={`${id}-description`} className="kb-numberfield-description">
+        <p
+          id={`${id}-description`}
+          className={clsx("kb-numberfield-description", classNames?.description)}
+        >
           {description}
         </p>
       )}
       {error && (
-        <p id={`${id}-error`} className="kb-numberfield-error">
+        <p id={`${id}-error`} className={clsx("kb-numberfield-error", classNames?.error)}>
           {error}
         </p>
       )}

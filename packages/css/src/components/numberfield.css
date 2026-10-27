@@ -7,7 +7,7 @@
 .kb-numberfield-label {
   color: var(--kb-color-fg);
   font-size: var(--kb-size-sm);
-  font-weight: 500;
+  font-weight: var(--kb-font-weight-medium);
 }
 .kb-numberfield-editor {
   min-width: 0;

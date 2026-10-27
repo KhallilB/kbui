@@ -29,7 +29,7 @@ bun run test:stories
 
 Every story is rendered in headless Chromium and scanned for accessibility violations. Any violation fails the run, so each story is also a test. The suite runs twice, once by default and once with the reduced-motion preference on (`vitest.config.ts`). Dark coverage comes from stories that set `globals: { theme: "dark" }`. The standalone pages are not tested.
 
-The fixture skin in `stories/skin-fixture-values.ts` is checked by `bun test apps/storybook/stories`, which runs inside `bun run check`.
+The fixture restyle in `stories/skin-fixture-values.ts` is checked by `bun test apps/storybook/stories`, which runs inside `bun run check`.
 
 ## Pages
 
@@ -38,4 +38,4 @@ The fixture skin in `stories/skin-fixture-values.ts` is checked by `bun test app
 | Introduction | `docs/Introduction.mdx` |
 | Foundations / Tokens | `docs/Tokens.mdx`. Reads its list from `@kbui/tokens`, so it always matches `tokens.json`. |
 | Each component | That component's `.stories.tsx` file |
-| Showcase / Skins | `stories/Skins.stories.tsx`, one composition from stock `Button`, `Dialog`, `Panel` and `Status`, rendered with default tokens and with the fixture skin from `stories/skin-fixture.tsx` |
+| Showcase / Restyle | `stories/Skins.stories.tsx`, one composition from stock `Button`, `Dialog`, `Panel` and `Status`, rendered with default tokens and with the fixture restyle from `stories/skin-fixture.tsx` |

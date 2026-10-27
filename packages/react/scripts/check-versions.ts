@@ -7,9 +7,8 @@ import { fileURLToPath } from "node:url";
 export async function checkVersions(root: string): Promise<string> {
   const scope = join(root, "node_modules", "@kbui");
   const names = await readdir(scope);
-  for (const required of ["react", "css"]) {
-    if (!names.includes(required)) throw new Error(`Missing @kbui/${required}`);
-  }
+  // css and tokens are optional; @kbui/react carries the stylesheet.
+  if (!names.includes("react")) throw new Error("Missing @kbui/react");
   const versions = await Promise.all(
     names.map(async (name) => {
       const pkg: unknown = JSON.parse(await readFile(join(scope, name, "package.json"), "utf8"));

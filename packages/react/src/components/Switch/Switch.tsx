@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
 import { type ComponentProps, type CSSProperties, type ReactNode, useId } from "react";
-import { kb } from "../../utils/kb";
+import { type ClassNames, kb } from "../../utils/kb";
 
 export type SwitchProps = Omit<
   ComponentProps<"input">,
@@ -25,9 +25,23 @@ export type SwitchProps = Omit<
   controlClassName?: string;
   /** Native styles; custom properties also feed visible planes. */
   style?: CSSProperties | (CSSProperties & Record<`--${string}`, string | number | undefined>);
+  /** Classes for inner parts, keyed by part. */
+  classNames?: ClassNames<
+    | "control"
+    | "label"
+    | "field"
+    | "target"
+    | "track"
+    | "thumb"
+    | "off"
+    | "on"
+    | "description"
+    | "error"
+  >;
 };
 
 export function Switch({
+  classNames,
   label,
   checked,
   onCheckedChange,
@@ -65,8 +79,8 @@ export function Switch({
         className,
       )}
     >
-      <div className="kb-switch-field">
-        <span className="kb-switch-target">
+      <div className={clsx("kb-switch-field", classNames?.field)}>
+        <span className={clsx("kb-switch-target", classNames?.target)}>
           <input
             {...props}
             style={style}
@@ -74,7 +88,7 @@ export function Switch({
             type="checkbox"
             role="switch"
             aria-checked={checked}
-            className={clsx("kb-switch-control", controlClassName)}
+            className={clsx("kb-switch-control", classNames?.control, controlClassName)}
             checked={checked}
             disabled={disabled}
             readOnly={readOnly}
@@ -85,26 +99,26 @@ export function Switch({
               if (!readOnly) onCheckedChange(event.currentTarget.checked);
             }}
           />
-          <span className="kb-switch-track" aria-hidden="true">
-            <span className="kb-switch-thumb" />
-            <span className="kb-switch-off">{offIcon}</span>
-            <span className="kb-switch-on">{onIcon}</span>
+          <span className={clsx("kb-switch-track", classNames?.track)} aria-hidden="true">
+            <span className={clsx("kb-switch-thumb", classNames?.thumb)} />
+            <span className={clsx("kb-switch-off", classNames?.off)}>{offIcon}</span>
+            <span className={clsx("kb-switch-on", classNames?.on)}>{onIcon}</span>
           </span>
         </span>
         <label
           htmlFor={controlId}
-          className={clsx("kb-switch-label", visuallyHidden && "kb-sr-only")}
+          className={clsx("kb-switch-label", classNames?.label, visuallyHidden && "kb-sr-only")}
         >
           {label}
         </label>
       </div>
       {description && (
-        <p className="kb-switch-description" id={descriptionId}>
+        <p className={clsx("kb-switch-description", classNames?.description)} id={descriptionId}>
           {description}
         </p>
       )}
       {error && (
-        <p className="kb-switch-error" id={errorId}>
+        <p className={clsx("kb-switch-error", classNames?.error)} id={errorId}>
           {error}
         </p>
       )}

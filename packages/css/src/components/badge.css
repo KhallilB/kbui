@@ -4,13 +4,13 @@
   display: inline-flex;
   align-items: center;
   gap: var(--kb-space-1);
-  padding: 0.125rem var(--kb-space-2);
-  border-radius: 5px;
+  padding: var(--kb-badge-padding-block) var(--kb-space-2);
+  border-radius: var(--kb-badge-radius);
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--_badge-ink) 35%, transparent);
   background: color-mix(in oklab, var(--_badge-ink) 10%, transparent);
   color: color-mix(in oklab, var(--_badge-ink) 70%, var(--kb-color-fg));
-  font-size: 12px;
-  font-weight: 500;
+  font-size: var(--kb-text-caption-size);
+  font-weight: var(--kb-font-weight-medium);
   line-height: 1.4;
   white-space: nowrap;
 }

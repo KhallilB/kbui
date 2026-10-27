@@ -50,7 +50,7 @@ The existing components follow every rule below and are the best reference.
 
 - Each component has four files: the `.tsx`, `.test.tsx` and `.stories.tsx` in `packages/react`, and a stylesheet in `packages/css`. A test fails the build if the story or the test is missing.
 - Write the stylesheet's first line before anything else. It is the `Anatomy:` comment listing the component's classes and attributes, and every renderer must follow it.
-- Stylesheets use semantic, scale and component tokens only. Palette colors and raw values such as `#fff` fail the check.
+- Stylesheets use semantic, scale and component tokens only. Palette colors, raw colors such as `#fff`, and raw sizes, type or timings such as `40px` or `120ms` fail the check. Hairlines up to 2px are allowed.
 - Spread the caller's props first and the result of `kb()` last, so the component's own class and `data-*` attributes win over anything the caller passes.
 - `className` accepts a string only. Base UI also accepts a function, but `kb()` needs a string to merge classes.
 - Test that each component forwards its `ref` to the underlying DOM element.

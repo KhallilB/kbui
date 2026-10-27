@@ -7,10 +7,10 @@ Every kbui value is defined in one file, `packages/tokens/tokens.json`. The file
 | Kind | Examples | Who uses it |
 |---|---|---|
 | Palette | `--kb-gray-500`, `--kb-blue-600`, `--kb-red-500`, `--kb-amber-700`, `--kb-green-700`, `--kb-teal-700`, `--kb-white`, `--kb-black` | Other tokens only. A component stylesheet that references one fails `bun run check`; the family list lives in `packages/css/src/build.ts`. |
-| Scale | `--kb-space-4`, `--kb-radius-md`, `--kb-size-sm`, `--kb-font-sans` | Components and apps, directly |
+| Scale | `--kb-space-4`, `--kb-radius-md`, `--kb-size-sm`, `--kb-font-sans`, `--kb-font-weight-strong`, `--kb-text-h1-size` | Components and apps, directly |
 | Semantic color | `--kb-color-bg`, `--kb-color-fg`, `--kb-color-accent`, `--kb-color-danger`, `--kb-color-info`, `--kb-color-success`, `--kb-color-warning` | Components and apps. These are the values that change in dark mode. Each status color has a matching `-fg` for text placed on it. |
-| Motion | `--kb-motion-duration-fast`, `--kb-motion-duration-base`, `--kb-motion-duration-slow`, `--kb-motion-easing-standard`, `--kb-motion-easing-enter`, `--kb-motion-easing-exit` | Transitions that respond to a user action. Nothing in kbui animates on its own, and every transition is disabled under `prefers-reduced-motion`. |
-| Component | `--kb-button-radius`, `--kb-input-height-md`, `--kb-dialog-width`, `--kb-panel-radius`, `--kb-status-running` | One component each. Override one to adjust that component without affecting others. The `panel.*` and `status.*` groups are the surface a product skin may set. |
+| Motion | `--kb-motion-duration-fast`, `--kb-motion-duration-base`, `--kb-motion-duration-slow`, `--kb-motion-duration-theme`, `--kb-motion-easing-standard`, `--kb-motion-easing-enter`, `--kb-motion-easing-exit`, `--kb-motion-easing-smooth` | Transitions that respond to a user action. Nothing in kbui animates on its own, and every transition is disabled under `prefers-reduced-motion`. |
+| Component | `--kb-button-height-md`, `--kb-input-height-md`, `--kb-dialog-width`, `--kb-panel-radius`, `--kb-status-running` | One component each. Override one to adjust that component without affecting others. [Restyling kbui](guides/restyling.md) lists the groups a restyle usually sets. |
 
 ## Surface theming
 
@@ -40,7 +40,7 @@ A path in braces makes one token refer to another:
 
 This builds to `--kb-color-accent: var(--kb-blue-600);`. The reference stays live, so changing `--kb-blue-600` changes every token that points at it. The build stops with an error if an alias points at a token that does not exist.
 
-Aliases resolve on the element where they are declared. kbui declares them on `:root` and on explicit light/dark theme containers. A plain wrapper inherits the resolved value, so changing a base variable there may leave component aliases unchanged. Set the component token directly, or add `data-theme` to the wrapper so its aliases resolve locally. For example, use `--kb-panel-background` to change a panel on an otherwise unthemed wrapper.
+The reference resolves where the alias is declared: on `:root`, and again on each `[data-theme]` container for aliases that depend on a theme value. An override on `:root` flows through every alias. An override on a plain wrapper element does not, because the alias already holds the root value there. Put `data-theme` on the wrapper to make it rebind aliases; [Restyling kbui](guides/restyling.md#restyle-part-of-a-page) shows the pattern. Or set the component token directly, such as `--kb-panel-background`.
 
 ## Dark mode
 
@@ -50,15 +50,18 @@ The W3C format has no concept of themes, so each semantic color stores its dark 
 "bg": { "$type": "color", "$value": "{white}", "$extensions": { "kb.dark": "{gray.950}" } }
 ```
 
-From this, the build writes three blocks:
+From this, the build writes four blocks:
 
 ```css
-:root, [data-theme="light"] { /* every token, light values */ }
-[data-theme="dark"] { /* every token, dark values where defined */ }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { /* the same dark values */ } }
+:where(:root) { /* every token, light values; color-scheme: light */ }
+:where([data-theme="light"]) { /* theme-dependent tokens, light values */ }
+:where([data-theme="dark"]) { /* theme-dependent tokens, dark values; color-scheme: dark */ }
+@media (prefers-color-scheme: dark) { :where(:root:not([data-theme="light"])) { /* the same dark values */ } }
 ```
 
-Set `data-theme="light"` or `data-theme="dark"` on `<html>` to force a theme. Without the attribute, the visitor's system setting applies. Explicit containers rebind every alias, allowing light inside dark and dark inside light without inheriting resolved ancestor colors.
+A token is theme-dependent when it has a `kb.dark` value or aliases a token that does. Theme containers redeclare only those, so containers allow light inside dark and dark inside light while every other token inherits from `:root`. `:where()` gives every theme selector zero specificity, so a consumer rule loaded after kbui always wins.
+
+Set `data-theme="light"` or `data-theme="dark"` on `<html>` to force a theme. Without the attribute, the visitor's system setting applies.
 
 ## Using tokens
 
@@ -82,4 +85,4 @@ const style = { color: `var(${tokens.color.muted})` };
 2. Run `bun run build` and `bun run check`.
 3. Check the result in Storybook under **Foundations / Tokens**. The swatches follow your system theme; to compare both themes, open a component story and use the theme switch in the toolbar.
 
-Components should reference semantic or component tokens, never palette colors. A new component can define its own group, such as `badge.radius`, without further setup.
+Components should reference semantic, scale or component tokens, never palette colors or raw values. `bun run check` fails on a raw size, padding, gap, radius, font size, font weight, duration or easing in component CSS; hairlines up to 2px, `0` and `em` lengths are allowed. A new component can define its own group, such as `badge.radius`, without further setup.
