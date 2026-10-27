@@ -15,7 +15,7 @@ Install `@kbui/react` from a release; it includes styles and CSS tokens. Your ap
 
 <!-- x-release-please-start-version -->
 ```bash
-KBUI_VERSION=0.7.0
+KBUI_VERSION=0.8.0
 bun add "https://github.com/KhallilB/kbui/releases/download/v${KBUI_VERSION}/kbui-react-${KBUI_VERSION}.tgz"
 ```
 <!-- x-release-please-end -->
