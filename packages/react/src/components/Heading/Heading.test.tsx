@@ -35,4 +35,35 @@ describe("Heading", () => {
     expect(ref.current).toHaveAttribute("id", "title");
     expect(ref.current).toHaveClass("kb-heading", "extra");
   });
+  test("updates rank-derived defaults and ref when level changes", () => {
+    const ref = createRef<HTMLHeadingElement>();
+    const { rerender } = render(
+      <Heading level={1} ref={ref}>
+        Changing section
+      </Heading>,
+    );
+    expect(ref.current).toBe(screen.getByRole("heading", { level: 1 }));
+    expect(ref.current).toHaveAttribute("data-size", "xl");
+    rerender(
+      <Heading level={3} ref={ref}>
+        Changing section
+      </Heading>,
+    );
+    expect(ref.current).toBe(screen.getByRole("heading", { level: 3 }));
+    expect(ref.current).toHaveAttribute("data-size", "md");
+    rerender(
+      <Heading level={4} size="display" ref={ref}>
+        Changing section
+      </Heading>,
+    );
+    expect(ref.current).toBe(screen.getByRole("heading", { level: 4 }));
+    expect(ref.current).toHaveAttribute("data-size", "display");
+    rerender(
+      <Heading level={6} ref={ref}>
+        Changing section
+      </Heading>,
+    );
+    expect(ref.current).toBe(screen.getByRole("heading", { level: 6 }));
+    expect(ref.current).toHaveAttribute("data-size", "sm");
+  });
 });
