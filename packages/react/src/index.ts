@@ -79,4 +79,4 @@ export {
   type ToolbarProps,
 } from "./components/Toolbar/Toolbar";
 export { Tooltip, type TooltipProps } from "./components/Tooltip/Tooltip";
-export { kb } from "./utils/kb";
+export { type ClassNames, kb } from "./utils/kb";

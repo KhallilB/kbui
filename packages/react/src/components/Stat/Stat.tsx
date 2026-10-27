@@ -1,5 +1,6 @@
+import { clsx } from "clsx";
 import type { ComponentProps, ReactNode } from "react";
-import { kb } from "../../utils/kb";
+import { type ClassNames, kb } from "../../utils/kb";
 
 export type StatSize = "md" | "display";
 
@@ -11,13 +12,15 @@ export type StatProps = Omit<ComponentProps<"div">, "children"> & {
   value: ReactNode;
   /** Value size; display is for one headline number. */
   size?: StatSize;
+  /** Classes for inner parts, keyed by part. */
+  classNames?: ClassNames<"label" | "value">;
 };
 
-export function Stat({ label, value, size = "md", className, ...props }: StatProps) {
+export function Stat({ classNames, label, value, size = "md", className, ...props }: StatProps) {
   return (
     <div {...props} {...kb("stat", { size }, className)}>
-      <span className="kb-stat-label">{label}</span>
-      <span className="kb-stat-value">{value}</span>
+      <span className={clsx("kb-stat-label", classNames?.label)}>{label}</span>
+      <span className={clsx("kb-stat-value", classNames?.value)}>{value}</span>
     </div>
   );
 }

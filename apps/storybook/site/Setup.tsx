@@ -191,11 +191,11 @@ export function Setup({
             <section className="setup-step">
               <div>
                 <p className="page-kicker">02 / Restyle</p>
-                <h2>Start with one small change.</h2>
+                <h2>Style it like any element.</h2>
                 <p>
-                  Restyle with token overrides after importing kbui’s stylesheet. Values that stay
-                  the same in both themes go on <code>:root</code>. Colors take a light and a dark
-                  value through <code>light-dark()</code>.
+                  Pass your own class with <code>className</code>, or <code>classNames</code> for
+                  inner parts. kbui’s CSS sits in a cascade layer, so plain CSS, CSS Modules and
+                  Tailwind win without kbui names. To change every component at once, set a token.
                 </p>
               </div>
               <CodePanel name="Restyle" language="CSS" sample={samples.styling} defaultOpen />

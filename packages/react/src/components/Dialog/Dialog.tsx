@@ -1,6 +1,7 @@
 import { Dialog as Base } from "@base-ui/react/dialog";
 import { clsx } from "clsx";
 import type { ComponentProps, ReactNode } from "react";
+import type { ClassNames } from "../../utils/kb";
 
 export type DialogProps = Base.Root.Props;
 export type DialogTriggerProps = Base.Trigger.Props;
@@ -17,6 +18,8 @@ export type DialogContentProps = Omit<Base.Popup.Props, "className" | "title"> &
   className?: string;
   /** Portal target; defaults to document.body. */
   container?: Base.Portal.Props["container"];
+  /** Classes for inner parts, keyed by part. */
+  classNames?: ClassNames<"backdrop">;
 };
 
 function DialogRoot(props: DialogProps) {
@@ -60,6 +63,7 @@ function DialogFooter({ className, ...props }: DialogSectionProps) {
 }
 
 function DialogContent({
+  classNames,
   title,
   description,
   container,
@@ -69,7 +73,7 @@ function DialogContent({
 }: DialogContentProps) {
   return (
     <Base.Portal container={container}>
-      <Base.Backdrop className="kb-dialog-backdrop" />
+      <Base.Backdrop className={clsx("kb-dialog-backdrop", classNames?.backdrop)} />
       <Base.Popup {...props} className={clsx("kb-dialog-popup", className)}>
         {title != null && title !== "" ? <DialogTitle>{title}</DialogTitle> : null}
         {description != null && description !== "" ? (

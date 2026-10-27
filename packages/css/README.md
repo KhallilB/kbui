@@ -4,7 +4,7 @@ All kbui styling, as plain CSS. Components are styled through `kb-` classes and 
 
 ## Importing
 
-React apps import the same stylesheet from `@kbui/react/styles.css` and do not need this package. Other apps import the full stylesheet once at the root. It contains the tokens, a small reset and every component:
+React apps import the same stylesheet from `@kbui/react/styles.css` and do not need this package. Every file wraps its rules in the `kbui` cascade layer (`kbui.tokens`, `kbui.reset`, `kbui.components`), so app CSS outside a layer wins. Other apps import the full stylesheet once at the root. It contains the tokens, a small reset and every component:
 
 ```ts
 import "@kbui/css/styles.css";

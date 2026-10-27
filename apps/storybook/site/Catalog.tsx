@@ -460,7 +460,12 @@ function CatalogDetail({
             </Button>
           </div>
         </div>
-        <CatalogSkinControls value={skin} onChange={setSkin} theme={appearance.theme} />
+        <CatalogSkinControls
+          value={skin}
+          onChange={setSkin}
+          theme={appearance.theme}
+          component={entry.name}
+        />
         <CodePanel sample={selected} name={selected.name} />
       </section>
       <section className="catalog-api" aria-labelledby={`${id}-api`}>

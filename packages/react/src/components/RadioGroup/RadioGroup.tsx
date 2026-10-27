@@ -12,7 +12,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { kb } from "../../utils/kb";
+import { type ClassNames, kb } from "../../utils/kb";
 export type RadioGroupProps = Omit<ComponentProps<"div">, "onChange" | "defaultValue"> & {
   /** Visible group label. */
   label: string;
@@ -32,6 +32,8 @@ export type RadioGroupProps = Omit<ComponentProps<"div">, "onChange" | "defaultV
   error?: string;
   /** Keep group label accessible but visually hidden. */
   visuallyHidden?: boolean;
+  /** Classes for inner parts, keyed by part. */
+  classNames?: ClassNames<"label" | "options" | "description" | "error">;
 };
 export type RadioGroupItemProps = Omit<
   Radio.Root.Props<string>,
@@ -43,6 +45,8 @@ export type RadioGroupItemProps = Omit<
   children: ReactNode;
   /** Class on focusable radio slot. */
   controlClassName?: string;
+  /** Classes for inner parts, keyed by part. */
+  classNames?: ClassNames<"item" | "control" | "indicator" | "content">;
 };
 type EntryData = { checked: boolean; eligible: boolean; tabIndex: number | undefined };
 type EntryState = {
@@ -102,6 +106,7 @@ function RadioControl({
 }
 
 function RadioGroupRoot({
+  classNames,
   label,
   value,
   onValueChange,
@@ -189,19 +194,22 @@ function RadioGroupRoot({
         aria-invalid={Boolean(error) || undefined}
       >
         <div
-          className={clsx("kb-radiogroup-label", visuallyHidden && "kb-sr-only")}
+          className={clsx("kb-radiogroup-label", classNames?.label, visuallyHidden && "kb-sr-only")}
           id={`${id}-label`}
         >
           {label}
         </div>
-        <div className="kb-radiogroup-options">{children}</div>
+        <div className={clsx("kb-radiogroup-options", classNames?.options)}>{children}</div>
         {description && (
-          <p id={`${id}-description`} className="kb-radiogroup-description">
+          <p
+            id={`${id}-description`}
+            className={clsx("kb-radiogroup-description", classNames?.description)}
+          >
             {description}
           </p>
         )}
         {error && (
-          <p id={`${id}-error`} className="kb-radiogroup-error">
+          <p id={`${id}-error`} className={clsx("kb-radiogroup-error", classNames?.error)}>
             {error}
           </p>
         )}
@@ -209,13 +217,19 @@ function RadioGroupRoot({
     </EntryContext.Provider>
   );
 }
-function RadioGroupItem({ className, children, controlClassName, ...props }: RadioGroupItemProps) {
+function RadioGroupItem({
+  classNames,
+  className,
+  children,
+  controlClassName,
+  ...props
+}: RadioGroupItemProps) {
   return (
     // biome-ignore lint/a11y/noLabelWithoutControl: Base UI Radio.Root renders its native input inside this label.
-    <label className={clsx("kb-radiogroup-item", className)}>
+    <label className={clsx("kb-radiogroup-item", classNames?.item, className)}>
       <Radio.Root
         {...props}
-        className={clsx("kb-radiogroup-control", controlClassName)}
+        className={clsx("kb-radiogroup-control", classNames?.control, controlClassName)}
         render={(controlProps, state) => (
           <RadioControl
             {...controlProps}
@@ -225,9 +239,9 @@ function RadioGroupItem({ className, children, controlClassName, ...props }: Rad
           />
         )}
       >
-        <Radio.Indicator className="kb-radiogroup-indicator" />
+        <Radio.Indicator className={clsx("kb-radiogroup-indicator", classNames?.indicator)} />
       </Radio.Root>
-      <span className="kb-radiogroup-content">{children}</span>
+      <span className={clsx("kb-radiogroup-content", classNames?.content)}>{children}</span>
     </label>
   );
 }

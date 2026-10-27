@@ -41,14 +41,21 @@ Set the theme on the `<html>` element:
 
 The attribute accepts `"light"` or `"dark"`. Without it, kbui follows the visitor's system setting. Themes switch through CSS variables, so no provider component is needed. Explicit theme containers rebind aliases for nested light/dark scopes. Put the page theme on `<html>` so body-portaled Dialog, Menu and Tooltip share it; a nested preview wrapper alone does not theme body portals.
 
-To adjust a value for your app, override its variable after the kbui import. Tokens that are the same in both themes need one `:root` rule. Colors take both theme values through `light-dark()`:
+To style one component, pass your own class. kbui's CSS sits in a cascade layer, so your CSS, CSS Modules or Tailwind classes win without kbui names. Components with inner parts take `classNames`:
+
+```tsx
+<Button className="checkout">Pay</Button>
+<Input label="Email" classNames={{ control: "signup-input" }} />
+```
+
+To change every component at once, override a token after the kbui import. Tokens that are the same in both themes need one `:root` rule. Colors take both theme values through `light-dark()`:
 
 ```css
 :root { --kb-button-radius: var(--kb-radius-full); }
 :root, [data-theme] { --kb-color-accent: light-dark(oklch(55% 0.2 150), oklch(72% 0.17 150)); }
 ```
 
-[Restyling kbui](restyling.md) covers restyling every component, restyling part of a page and which tokens to set.
+[Restyling kbui](restyling.md) covers classes, inner parts, Tailwind setup, tokens and restyling part of a page.
 
 ## Components
 

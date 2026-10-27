@@ -131,10 +131,18 @@ export function loadCatalogSources(): CatalogEntry[] {
 }
 
 export function catalogPlugin(): Plugin {
-  // Same in both themes on :root; colors take light then dark values.
+  // Plain classes first; the token rule is the optional app-wide route.
   const restyleSample = [
-    ":root { --kb-button-radius: var(--kb-radius-full); }",
-    ":root, [data-theme] { --kb-color-accent: light-dark(#0b6e4f, #7fd1ae); }",
+    '/* <Button className="pill">Save</Button> */',
+    ".pill {",
+    "  border-radius: 999px;",
+    "  background: #0b6e4f;",
+    "}",
+    "",
+    "/* Optional: every component, in both themes */",
+    ":root, [data-theme] {",
+    "  --kb-color-accent: light-dark(#0b6e4f, #7fd1ae);",
+    "}",
   ].join("\n");
   return {
     name: "kbui-catalog-source",

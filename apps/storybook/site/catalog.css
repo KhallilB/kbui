@@ -529,6 +529,11 @@
   .catalog-skin-default {
     margin-block-start: 16px;
   }
+  .catalog-skin-hint {
+    display: block;
+    margin-block-start: 8px;
+    color: var(--muted);
+  }
   .catalog-compare-control {
     margin-block-end: 20px;
   }

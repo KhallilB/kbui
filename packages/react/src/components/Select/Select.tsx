@@ -1,7 +1,7 @@
 import { Select as Base } from "@base-ui/react/select";
 import { clsx } from "clsx";
 import { type ComponentProps, useId, useImperativeHandle, useRef, useState } from "react";
-import { kb } from "../../utils/kb";
+import { type ClassNames, kb } from "../../utils/kb";
 export type SelectOption = { value: string; label: string; disabled?: boolean };
 export type SelectProps = Omit<ComponentProps<"div">, "onChange" | "children" | "defaultValue"> & {
   /** Visible label for the trigger. */
@@ -30,8 +30,24 @@ export type SelectProps = Omit<ComponentProps<"div">, "onChange" | "children" | 
   popupClassName?: string;
   /** Portal host; defaults to field root to retain theme. */
   container?: Base.Portal.Props["container"];
+  /** Classes for inner parts, keyed by part. */
+  classNames?: ClassNames<
+    | "control"
+    | "popup"
+    | "label"
+    | "icon"
+    | "portal"
+    | "positioner"
+    | "list"
+    | "item"
+    | "indicator"
+    | "empty"
+    | "description"
+    | "error"
+  >;
 };
 export function Select({
+  classNames,
   label,
   value,
   onValueChange,
@@ -91,10 +107,10 @@ export function Select({
         }}
         {...(name ? { name } : {})}
       >
-        <Base.Label className="kb-select-label">{label}</Base.Label>
+        <Base.Label className={clsx("kb-select-label", classNames?.label)}>{label}</Base.Label>
         <Base.Trigger
           ref={trigger}
-          className={clsx("kb-select-control", controlClassName)}
+          className={clsx("kb-select-control", classNames?.control, controlClassName)}
           aria-describedby={described}
           aria-invalid={Boolean(error) || undefined}
           data-pointer-focus={pointerFocus || undefined}
@@ -109,21 +125,24 @@ export function Select({
           onBlur={() => setPointerFocus(false)}
         >
           <Base.Value placeholder={placeholder} />
-          <Base.Icon className="kb-select-icon" aria-hidden="true">
+          <Base.Icon className={clsx("kb-select-icon", classNames?.icon)} aria-hidden="true">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="m4 6 4 4 4-4" stroke="currentColor" strokeWidth="1.5" />
             </svg>
           </Base.Icon>
         </Base.Trigger>
-        <Base.Portal container={container ?? root} className="kb-select-portal">
+        <Base.Portal
+          container={container ?? root}
+          className={clsx("kb-select-portal", classNames?.portal)}
+        >
           <Base.Positioner
-            className="kb-select-positioner"
+            className={clsx("kb-select-positioner", classNames?.positioner)}
             sideOffset={6}
             alignItemWithTrigger={false}
           >
             <Base.Popup
               ref={popup}
-              className={clsx("kb-select-popup", popupClassName)}
+              className={clsx("kb-select-popup", classNames?.popup, popupClassName)}
               onPointerDownCapture={() => {
                 interaction.current = "pointer";
               }}
@@ -146,23 +165,34 @@ export function Select({
                 return true;
               }}
             >
-              <Base.List className="kb-select-list" aria-label={label}>
+              <Base.List className={clsx("kb-select-list", classNames?.list)} aria-label={label}>
                 {options.length ? (
                   options.map((option) => (
                     <Base.Item
                       key={option.value}
                       value={option.value}
                       disabled={Boolean(option.disabled)}
-                      className="kb-select-item"
+                      className={clsx("kb-select-item", classNames?.item)}
                     >
                       <Base.ItemText>{option.label}</Base.ItemText>
-                      <Base.ItemIndicator className="kb-select-indicator" aria-hidden="true">
+                      <Base.ItemIndicator
+                        className={clsx("kb-select-indicator", classNames?.indicator)}
+                        aria-hidden="true"
+                      >
                         ✓
                       </Base.ItemIndicator>
                     </Base.Item>
                   ))
                 ) : (
-                  <Base.Item value="" disabled className="kb-select-item kb-select-empty">
+                  <Base.Item
+                    value=""
+                    disabled
+                    className={clsx(
+                      "kb-select-item kb-select-empty",
+                      classNames?.item,
+                      classNames?.empty,
+                    )}
+                  >
                     <Base.ItemText>No options available</Base.ItemText>
                   </Base.Item>
                 )}
@@ -172,12 +202,15 @@ export function Select({
         </Base.Portal>
       </Base.Root>
       {help && (
-        <p className="kb-select-description" id={`${id}-description`}>
+        <p
+          className={clsx("kb-select-description", classNames?.description)}
+          id={`${id}-description`}
+        >
           {help}
         </p>
       )}
       {error && (
-        <p className="kb-select-error" id={`${id}-error`}>
+        <p className={clsx("kb-select-error", classNames?.error)} id={`${id}-error`}>
           {error}
         </p>
       )}

@@ -9,6 +9,14 @@ import { Button, Dialog, Input } from "@kbui/react";
 
 Requires `react` and `react-dom` 19 in the consuming project.
 
+## Styling
+
+Every component takes `className` and `style`. Components with inner parts, such as Input, Select and Checkbox, also take `classNames` keyed by part; the props type lists each part. kbui's CSS sits in the `kbui` cascade layer, so your classes win. See [Restyling kbui](../../docs/guides/restyling.md).
+
+```tsx
+<Input label="Email" className="w-full" classNames={{ control: "rounded-none" }} />
+```
+
 ## Button
 
 Use a Button for an action such as saving a form or opening a dialog. Choose a variant to match the action’s importance.

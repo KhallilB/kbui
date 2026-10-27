@@ -1,10 +1,69 @@
 # Restyling kbui
 
-To restyle kbui, write a stylesheet of token overrides and load it after `@kbui/react/styles.css`. Components read every color, size, type and timing value from tokens, so a restyle changes every component without touching component CSS. Token kinds, naming and aliases are described in [Tokens](../tokens.md).
+Style kbui components the same way you style your own elements. kbui's CSS sits in the `kbui` cascade layer, so any rule you write outside a layer wins over it, whatever its specificity. You do not need kbui class names or tokens to change one component.
 
-## Write the override
+## Style one component
 
-Load the restyle after kbui. Every kbui theme selector has zero specificity, so any later rule wins in every theme.
+Pass a class with `className`. It lands on the component's root element:
+
+```tsx
+<Button className="checkout">Pay</Button>
+```
+
+```css
+.checkout { background: #0b6e4f; border-radius: 999px; }
+```
+
+Components with inner parts also take `classNames`, keyed by part. The props type lists every part, so your editor completes the names:
+
+```tsx
+<Input label="Email" classNames={{ control: "signup-input", label: "signup-label" }} />
+<Select label="View" options={options} classNames={{ control: "rounded-none", popup: "shadow-xl" }} />
+```
+
+`style` works too, and inline styles always win.
+
+State is exposed through `data-*` attributes, so you can style it without kbui names. Examples: `data-variant`, `data-size`, `data-disabled`, `data-checked`, `data-open`, `data-highlighted` and `data-invalid`.
+
+```css
+.checkout:hover { background: #095c42; }
+.checkout[data-disabled] { opacity: 0.5; }
+```
+
+CSS Modules and other scoped class names work the same way.
+
+### Tailwind CSS v4
+
+Declare the layer order once, before Tailwind's import, so utilities win and Tailwind's preflight stays below kbui:
+
+```css
+@layer theme, base, kbui, components, utilities;
+@import "tailwindcss";
+```
+
+```tsx
+<Button className="rounded-full bg-emerald-700">Pay</Button>
+<Input label="Email" classNames={{ control: "rounded-none border-black" }} />
+```
+
+### Global resets
+
+An unlayered element rule, such as `button { padding: 0; }`, also beats kbui and reaches its components. Put resets and other base styles in a layer declared before `kbui`:
+
+```css
+@layer reset, kbui;
+@layer reset {
+  button { padding: 0; }
+}
+```
+
+## Theme every component with tokens
+
+Tokens restyle every component at once, in light and dark. Components read every color, size, type and timing value from them. Token kinds, naming and aliases are described in [Tokens](../tokens.md).
+
+### Write the override
+
+Load the overrides after kbui. Rules outside a layer, or in a layer declared after `kbui`, win in every theme.
 
 ```css
 @import "@kbui/react/styles.css";
@@ -30,7 +89,7 @@ Values that cannot be written with `light-dark()`, such as a shadow list that di
 }
 ```
 
-## Common changes
+### Common changes
 
 | Goal | Tokens to set |
 |---|---|
@@ -45,11 +104,11 @@ Values that cannot be written with `light-dark()`, such as a shadow list that di
 
 Global scale tokens move every component that aliases them. Component tokens, such as `--kb-button-height-md`, adjust one component and take precedence for it. `packages/tokens/tokens.json` lists every token with its default.
 
-Hairline borders and focus-ring widths are fixed in component CSS because they protect legibility and accessibility, so a restyle cannot change them. `--kb-button-touch-min` sets the minimum button size on narrow screens; keep it at 44px or more.
+Hairline borders and focus-ring widths have no tokens because they protect legibility and accessibility. A class can still change them; keep focus rings visible. `--kb-button-touch-min` sets the minimum button size on narrow screens; keep it at 44px or more.
 
-## Restyle part of a page
+### Restyle part of a page
 
-Put `data-theme` on the wrapper together with the restyle class. The attribute makes the wrapper rebind aliases, so component tokens resolve against the wrapper's values:
+To retheme a section with tokens, put `data-theme` on the wrapper together with the restyle class. The attribute makes the wrapper rebind aliases, so component tokens resolve against the wrapper's values:
 
 ```html
 <section class="brand-b" data-theme="light">…</section>
