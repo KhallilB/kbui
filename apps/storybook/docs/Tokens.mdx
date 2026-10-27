@@ -97,9 +97,11 @@ Each role has a mark, a tint and text for the tint. See `docs/tokens.md` for whe
 
 ## Component tokens
 
+Typography uses native Heading, Text, Link and Code markup. Heading size stays independent of document rank; body rhythm, secondary ink and inline surfaces have their own tokens. See [Heading examples](?path=/docs/components-heading--docs) for a composed article in both themes.
+
 <table>
   <tbody>
-    {["button", "input", "dialog"].flatMap((component) =>
+    {["button", "input", "dialog", "leading", "heading", "text", "link", "code"].flatMap((component) =>
       Object.entries(tokens[component]).flatMap(([key, value]) =>
         typeof value === "string"
           ? [<tr key={value}><td><code>{value}</code></td></tr>]

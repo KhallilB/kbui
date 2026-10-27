@@ -40,6 +40,14 @@ export const BrowseComponents: Story = {
     );
     await userEvent.keyboard("{ArrowLeft}");
     expect(filters.getByRole("radio", { name: "All" })).toBeChecked();
+    await userEvent.click(canvas.getByRole("radio", { name: "Typography" }));
+    expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent(
+      `4 of ${entries.length}`,
+    );
+    expect(canvas.getByRole("link", { name: "Heading" })).toHaveAttribute(
+      "href",
+      "./?component=heading",
+    );
     await userEvent.click(canvas.getByRole("radio", { name: "Forms" }));
     expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent(
       `${entries.filter((entry) => entry.group === "Forms").length} of ${entries.length}`,

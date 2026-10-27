@@ -6,7 +6,7 @@ kbui is a React component library with shared design tokens and plain CSS. Use t
 |---|---|---|
 | `@kbui/tokens` | Colors, spacing, type and component sizes, defined once in `tokens.json` | [packages/tokens](packages/tokens/README.md) |
 | `@kbui/css` | All styling, one stylesheet per component | [packages/css](packages/css/README.md) |
-| `@kbui/react` | React 19+ components for forms, feedback, and layout | [packages/react](packages/react/README.md) |
+| `@kbui/react` | React 19+ components for actions, forms, feedback, layout and typography | [packages/react](packages/react/README.md) |
 | `apps/storybook` | Live component docs and accessibility tests | [apps/storybook](apps/storybook/README.md) |
 
 ## Using kbui in a project

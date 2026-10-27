@@ -7,6 +7,22 @@ import { loadSiteSamples } from "../catalog/site-samples";
 import { loadCatalogSources, parseApiSection } from "../catalog/source";
 import { playgroundKey } from "../site/playground-model";
 
+test("typography is public and discoverable with light, dark and composed examples", () => {
+  const entries = loadCatalogSources();
+  for (const name of ["Heading", "Text", "Link", "Code"]) {
+    expect(publicApi).toHaveProperty(name);
+    const entry = entries.find((candidate) => candidate.name === name);
+    expect(entry?.group).toBe("Typography");
+    expect(entry?.stories.some((story) => story.id.endsWith("--default"))).toBe(true);
+    expect(entry?.stories.some((story) => story.id.endsWith("--dark"))).toBe(true);
+  }
+  const article = entries
+    .find((entry) => entry.name === "Heading")
+    ?.stories.find((story) => story.id.endsWith("--article"));
+  for (const component of ["Heading", "Text", "Link", "Code"])
+    expect(article?.code).toContain(component);
+});
+
 test("catalog covers every public component with canonical API and CSF stories", () => {
   const entries = loadCatalogSources();
   expect(entries.map((entry) => entry.name).sort()).toEqual(
