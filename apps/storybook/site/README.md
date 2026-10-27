@@ -194,3 +194,7 @@ Write as if helping a developer use the library: explain when a component is use
 Selected segmented controls use the shared rust accent (peach in dark mode); unselected choices use quieter forest tints. Status colors keep their status meaning. `site-accent.css` applies these roles to site controls using shared KBUI tokens, including keyboard focus and forced-color styles. Page entrances use 320–360ms easing with short staggers; controls settle in 160ms. The home demo no longer waits through long stagger delays. Reduced motion removes animation and transitions.
 
 Component details show the live example, code, and API table. The extra usage-notes disclosure is hidden for now; the React guide and Storybook links still provide the full documentation.
+
+## Dark palette
+
+Dark mode uses neutral charcoal for the canvas, fields, and raised surfaces, with peach for primary actions and selection. Neutral borders and lighter upper edges define depth without tinting the whole page. Blue marks information; green stays available for success and status. Site chrome and component previews share the dark material tokens. Light-mode values remain unchanged.

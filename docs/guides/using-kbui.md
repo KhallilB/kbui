@@ -30,7 +30,7 @@ declare module "*.css";
 
 ## Default design
 
-The normal stylesheet includes the tactile cream/forest/rust light design and forest/peach dark design. No skin selector or extra stylesheet is needed. Public component props and token overrides remain supported.
+The normal stylesheet includes the tactile cream/forest/rust light design and charcoal/peach dark design. No skin selector or extra stylesheet is needed. Public component props and token overrides remain supported.
 
 ## Themes
 

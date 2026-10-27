@@ -1,11 +1,13 @@
 .kbui-site {
+  --site-choice-ink: var(--review-good);
+  --site-choice-tint: var(--review-good);
   :is(.page-kicker, .section-kicker, .intro-tag) {
     color: var(--kb-color-accent-hover);
   }
   .kb-radiogroup[data-appearance="segmented"] .kb-radiogroup-item {
-    color: var(--review-good);
-    background-color: color-mix(in srgb, var(--review-good) 6%, var(--review-paper));
-    border-color: color-mix(in srgb, var(--review-good) 20%, var(--review-line));
+    color: var(--site-choice-ink);
+    background-color: color-mix(in srgb, var(--site-choice-tint) 6%, var(--review-paper));
+    border-color: color-mix(in srgb, var(--site-choice-tint) 20%, var(--review-line));
   }
   .kb-radiogroup[data-appearance="segmented"] .kb-radiogroup-item:has([data-checked]) {
     color: var(--kb-color-accent-fg);
@@ -21,8 +23,8 @@
   @media (hover: hover) and (pointer: fine) and (forced-colors: none) {
     .kb-radiogroup[data-appearance="segmented"]
       .kb-radiogroup-item:not(:has([data-checked], [data-disabled])):hover {
-      background-color: color-mix(in srgb, var(--review-good) 14%, var(--review-paper));
-      border-color: var(--review-good);
+      background-color: color-mix(in srgb, var(--site-choice-tint) 14%, var(--review-paper));
+      border-color: var(--site-choice-ink);
     }
   }
   @media (prefers-reduced-motion: no-preference) {
@@ -58,4 +60,9 @@
       outline-color: HighlightText;
     }
   }
+}
+
+.kbui-site[data-theme="dark"] {
+  --site-choice-ink: var(--ink);
+  --site-choice-tint: var(--kb-color-accent);
 }

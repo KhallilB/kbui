@@ -57,24 +57,24 @@
 }
 
 .kbui-site[data-theme="dark"] {
-  --cream: #171e19;
-  --ink: #e8ebdf;
-  --muted: #b3bdae;
-  --review-paper: #263129;
-  --review-plane: #202a23;
-  --review-line: #4f5e50;
-  --review-control: #81917e;
-  --review-hover: #303e32;
-  --review-selected: #bed0ad;
-  --review-selected-top: #cbdcbb;
-  --review-selected-edge: #b3c6a1;
-  --review-selected-fg: #1c281d;
+  --cream: #191b20;
+  --ink: #f0f0f2;
+  --muted: #b5b7bf;
+  --review-paper: #24272e;
+  --review-plane: #202329;
+  --review-line: #505560;
+  --review-control: #979ca7;
+  --review-hover: #30343d;
+  --review-selected: #f2a184;
+  --review-selected-top: #ffc0a6;
+  --review-selected-edge: #df8f72;
+  --review-selected-fg: #291a12;
   --review-good: #a7c9a4;
-  --review-well-top: #131a15;
-  --review-well-bottom: #1a241c;
+  --review-well-top: #121418;
+  --review-well-bottom: #191c22;
   --review-highlight: rgb(255 255 255 / 0.07);
   --review-shadow: rgb(0 0 0 / 0.3);
-  --review-code-hover: #303e32;
+  --review-code-hover: #30343d;
   color-scheme: dark;
   .brand-symbol img {
     filter: brightness(0) invert(0.94) sepia(0.12);
@@ -86,7 +86,7 @@
     color: #b1cea0;
   }
   .example-code [data-syntax="comment"] {
-    color: #aebaaa;
+    color: #aeb1bb;
   }
   .example-code [data-syntax="number"] {
     color: #e6c180;
@@ -201,37 +201,37 @@
   }
   .day-demo,
   .day-dialog {
-    --kb-color-fg: #f6f2e6;
-    --kb-color-muted: #b8c1ae;
-    --kb-color-bg: #202920;
-    --kb-color-surface: #161c17;
-    --kb-color-border: #4d5c4a;
+    --kb-color-fg: #f0f0f2;
+    --kb-color-muted: #b5b7bf;
+    --kb-color-bg: #191b20;
+    --kb-color-surface: #22252b;
+    --kb-color-border: #505560;
     --kb-color-accent: #f2a184;
     --kb-color-accent-hover: #ffc0a6;
     --kb-color-accent-fg: #291a12;
-    --kb-color-ring: #c1d7a6;
-    --kb-status-neutral: #b8c1ae;
+    --kb-color-ring: #f2a184;
+    --kb-status-neutral: #b5b7bf;
     --kb-status-success: #a0d0a6;
   }
   .day-card {
-    --kb-card-background: #202920;
-    --kb-card-color: #f6f2e6;
-    --kb-card-border: #81917e;
+    --kb-card-background: #24272e;
+    --kb-card-color: #f0f0f2;
+    --kb-card-border: #979ca7;
   }
   .day-progress .kb-progress {
-    --kb-color-muted: #b8c1ae;
-    --kb-color-fg: #f6f2e6;
-    --kb-progress-track: #4d5c4a;
+    --kb-color-muted: #b5b7bf;
+    --kb-color-fg: #f0f0f2;
+    --kb-progress-track: #505560;
     --kb-progress-fill: #a0d0a6;
     --kb-progress-fill-complete: #a0d0a6;
   }
   .day-dialog {
-    background: #202920;
-    color: #f6f2e6;
-    border-color: #81917e;
+    background: #24272e;
+    color: #f0f0f2;
+    border-color: #979ca7;
   }
   .day-dialog .kb-dialog-description {
-    color: #b8c1ae;
+    color: #b5b7bf;
   }
 }
 

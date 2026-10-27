@@ -443,10 +443,10 @@
   }
   .catalog-component-item small > span:first-child {
     padding: 3px 10px;
-    border: 1px solid color-mix(in srgb, var(--review-good) 24%, var(--review-line));
+    border: 1px solid color-mix(in srgb, var(--site-choice-tint) 24%, var(--review-line));
     border-radius: var(--kb-radius-sm);
-    background: color-mix(in srgb, var(--review-good) 8%, var(--review-paper));
-    color: var(--review-good);
+    background: color-mix(in srgb, var(--site-choice-tint) 8%, var(--review-paper));
+    color: var(--site-choice-ink);
   }
   .catalog-component-item small > span:last-child {
     align-self: center;
