@@ -174,7 +174,11 @@ test("preview credentials stay behind successful same-repository PR validation",
   ])
     expect(preview.if).toContain(guard);
   expect(preview.environment?.name).toBe("kbui-preview");
-  expect(preview.permissions).toEqual({ contents: "read", deployments: "write" });
+  expect(preview.permissions).toEqual({
+    contents: "read",
+    deployments: "write",
+    issues: "write",
+  });
   expect(JSON.stringify(workflow("ci").on)).not.toContain("pull_request_target");
   const deploy = preview.steps.find((step) => step.name === "Publish Storybook preview");
   expect(deploy?.env?.CLOUDFLARE_API_TOKEN).toBe(`\${{ secrets.CLOUDFLARE_API_TOKEN }}`);
@@ -201,4 +205,72 @@ test("PR aliases identify separate URLs without deploying production traffic", (
     "cf workers versions create --prebuilt --mode preview",
   );
   expect(JSON.stringify(preview.steps)).not.toContain("npm run deploy");
+});
+
+const commentContext = {
+  repo: { owner: "example", repo: "ui" },
+  payload: { number: 59, pull_request: { head: { sha: "abc123" } } },
+};
+const commentMarker = "<!-- kbui-storybook-preview -->";
+
+async function runPreviewComment(comments: unknown[]) {
+  const steps = job("ci", "preview").steps;
+  const step = steps.find((step) => step.name === "Comment Storybook preview");
+  if (!step) throw new Error("Missing preview comment step");
+  expect(step?.uses).toBe("actions/github-script@v7");
+  expect(steps.indexOf(step)).toBeGreaterThan(
+    steps.findIndex((step) => step.name === "Publish Storybook preview"),
+  );
+  expect(step?.if).toBeUndefined();
+  const writes: { kind: string; parameters: Record<string, unknown> }[] = [];
+  const listComments = () => {};
+  const github = {
+    paginate: async (endpoint: unknown, parameters: Record<string, unknown>) => {
+      expect(endpoint).toBe(listComments);
+      expect(parameters).toEqual({ ...commentContext.repo, issue_number: 59, per_page: 100 });
+      return comments;
+    },
+    rest: {
+      issues: {
+        listComments,
+        createComment: async (parameters: Record<string, unknown>) => {
+          writes.push({ kind: "create", parameters });
+        },
+        updateComment: async (parameters: Record<string, unknown>) => {
+          writes.push({ kind: "update", parameters });
+        },
+      },
+    },
+  };
+  const script = step?.with?.script;
+  expect(typeof script).toBe("string");
+  await new Function("github", "context", `return (async () => {${script}})()`)(
+    github,
+    commentContext,
+  );
+  return writes;
+}
+
+test("successful preview posts its URL to the PR conversation", async () => {
+  const writes = await runPreviewComment([]);
+  expect(writes).toHaveLength(1);
+  expect(writes[0]?.kind).toBe("create");
+  expect(writes[0]?.parameters).toMatchObject({ ...commentContext.repo, issue_number: 59 });
+  expect(writes[0]?.parameters.body).toContain(commentMarker);
+  expect(writes[0]?.parameters.body).toContain(
+    "[Open Storybook preview](https://pr-59-kbui-site-preview.khallilbailey.workers.dev)",
+  );
+  expect(writes[0]?.parameters.body).toContain("abc123");
+});
+
+test("later previews update the existing Actions comment without duplicates", async () => {
+  const writes = await runPreviewComment([
+    { id: 10, body: commentMarker, user: { type: "User", login: "reviewer" } },
+    { id: 11, body: "Unrelated automation", user: { login: "github-actions[bot]" } },
+    { id: 12, body: commentMarker, user: { login: "github-actions[bot]" } },
+  ]);
+  expect(writes).toHaveLength(1);
+  expect(writes[0]?.kind).toBe("update");
+  expect(writes[0]?.parameters).toMatchObject({ ...commentContext.repo, comment_id: 12 });
+  expect(writes[0]?.parameters.body).toContain("abc123");
 });
