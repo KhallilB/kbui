@@ -47,7 +47,7 @@ export function SiteFrame({
   onThemeChange,
 }: {
   children: ReactNode;
-  current: "home" | "playground" | "examples" | "components" | "setup";
+  current: "home" | "playground" | "examples" | "components" | "setup" | "changelog";
   siteRoot: string;
   storybookRoot: string;
   className?: string;
@@ -131,6 +131,9 @@ export function SiteFrame({
             </a>
             <a href={storybookRoot}>
               Documentation <LinkArrow />
+            </a>
+            <a href={themed(`${siteRoot}changelog/`)}>
+              What's new <LinkArrow />
             </a>
             <a href="https://github.com/KhallilB/kbui">
               GitHub <LinkArrow />

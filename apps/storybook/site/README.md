@@ -13,7 +13,7 @@ bun run --filter @kbui/storybook build:site
 bun run --filter @kbui/storybook preview:site
 ```
 
-Serve the combined `apps/storybook/dist/` directory as one site. The home lives at `/`, the playground at `/playground/`, curated examples at `/examples/`, the component catalog at `/components/`, the settings/operations workspace at `/compare/`, installation at `/setup/`, theme guidance at `/setup/themes/`, and Storybook at `/storybook/`. The seven site routes are separate built HTML entries, so direct loads need no application fallback. Relative asset and documentation paths support hosting under a subdirectory. Deploying only the landing bundle breaks documentation links.
+Serve the combined `apps/storybook/dist/` directory as one site. The home lives at `/`, the playground at `/playground/`, curated examples at `/examples/`, the component catalog at `/components/`, the settings/operations workspace at `/compare/`, installation at `/setup/`, theme guidance at `/setup/themes/`, release notes at `/changelog/`, and Storybook at `/storybook/`. The eight site routes are separate built HTML entries, so direct loads need no application fallback. Relative asset and documentation paths support hosting under a subdirectory. Deploying only the landing bundle breaks documentation links.
 
 For fast home edits, use `bun run --filter @kbui/storybook dev:site`. Live catalog previews and documentation links require the combined static preview; the Vite development server does not serve Storybook.
 
@@ -22,7 +22,8 @@ For fast home edits, use `bun run --filter @kbui/storybook dev:site`. Live catal
 | Source | Role | Storybook proof |
 | --- | --- | --- |
 | `SiteFrame.tsx` | Shared brand, navigation, current-page state, skip link and footer | `stories/Home.stories.tsx`, `stories/Workbench.stories.tsx`, `stories/Examples.stories.tsx` |
-| `Home.tsx` | Product home and links | `stories/Home.stories.tsx` |
+| `Home.tsx` | Product home, links, and the latest-release pill | `stories/Home.stories.tsx` |
+| `Changelog.tsx`, `changelog-model.ts` | Release notes built from the root `CHANGELOG.md` at build time. Groups entries into breaking changes, new components, improvements, and fixes; hides `build`, `ci`, `release`, and `test` scopes. Commit subjects like `add NumberField and FileInput` become catalog links when every name is a catalog component | `stories/Changelog.stories.tsx`, `stories/changelog-model.test.ts` |
 | `PlanDemo.tsx` | Day-off composition, rendered directly by the home | `stories/PlanDemo.stories.tsx` |
 | `Workbench.tsx` | Prop playground, copied JSX, and six searchable component entries | `stories/Workbench.stories.tsx` |
 | `Catalog.tsx` | Searchable catalog, shareable component pages, canonical API summaries and live Storybook previews | `stories/Catalog.stories.tsx`, `stories/catalog-source.test.ts` |
