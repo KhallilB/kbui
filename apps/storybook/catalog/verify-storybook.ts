@@ -57,7 +57,7 @@ try {
   await page.emulateMedia({ colorScheme: "light" });
   await checkTheme("dark");
 
-  await page.goto(`${origin}/?path=/story/components-card--dark`);
+  await page.goto(`${origin}/?path=/story/components-card--default&globals=theme:dark`);
   await docs.locator(".kb-card").waitFor();
   await docs.locator('html[data-theme="dark"]').waitFor();
   await page.setViewportSize({ width: 390, height: 844 });
