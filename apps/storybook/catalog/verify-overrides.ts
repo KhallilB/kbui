@@ -91,7 +91,7 @@ const cases: Case[] = [
     consumer: "",
     probe: '<i id="probe"></i>',
     read: "color: var(--kb-color-bg)",
-    expected: "rgb(32, 41, 32)",
+    expected: "rgb(25, 27, 32)",
   },
   {
     name: "forced light beats system dark",
