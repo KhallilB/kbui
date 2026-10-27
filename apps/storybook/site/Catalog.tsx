@@ -4,11 +4,21 @@ import { type ReactNode, useCallback, useId, useLayoutEffect, useRef, useState }
 import type { ApiBlock, CatalogEntry, CatalogGroup } from "../catalog/types";
 import { StoryPreview } from "./CatalogPreview";
 import { CodePanel } from "./CodePanel";
-import { ControlSelect } from "./ControlSelect";
+import {
+  appearanceQuery,
+  browsableStories,
+  type CatalogAppearance,
+  previewGlobals,
+  previewLayout,
+  storybookGlobals,
+} from "./catalog-model";
 import { LinkArrow } from "./LinkArrow";
 import { SiteFrame } from "./SiteFrame";
 import { readSiteTheme } from "./site-theme";
-import { type Theme, themeStyle } from "./theme-foundations";
+
+export type { CatalogAppearance } from "./catalog-model";
+
+import { themeStyle } from "./theme-foundations";
 import "./catalog.css";
 import "./workspace-skin.css";
 
@@ -16,13 +26,6 @@ const groups = ["All", "Actions", "Forms", "Feedback", "Layout"] as const satisf
   | "All"
   | CatalogGroup
 )[];
-const views = [
-  ["live", "Live browser"],
-  ["directory", "Directory"],
-  ["overview", "Overview"],
-] as const;
-const viewChoices = views.map(([value]) => value);
-
 function isChoice<T extends string>(value: string, choices: readonly T[]): value is T {
   return choices.some((choice) => choice === value);
 }
@@ -67,137 +70,15 @@ function ApiTable({ name, block }: { name: string; block: Extract<ApiBlock, { ki
   );
 }
 
-export type CatalogAppearance = { theme: Theme; live: boolean; overview?: boolean };
-
-function browsableStories(entry: CatalogEntry) {
-  return entry.stories.filter((story) => !/(?:^|\s)(?:Dark|Light)$/.test(story.name));
-}
-
-function appearanceQuery({ theme, live, overview }: CatalogAppearance) {
-  return theme === "light" && !live
-    ? ""
-    : `&theme=${theme}&view=${overview ? "overview" : live ? "live" : "directory"}`;
-}
-function previewGlobals({ theme }: CatalogAppearance) {
-  return `&globals=previewTheme:${theme}`;
-}
-function storybookGlobals({ theme }: CatalogAppearance) {
-  return `&globals=theme:${theme}`;
-}
-
-function CatalogControls({
-  appearance,
-  showView,
-  onChange,
-}: {
-  appearance: CatalogAppearance;
-  showView: boolean;
-  onChange: (value: CatalogAppearance) => void;
-}) {
-  const selectedView = appearance.overview ? "overview" : appearance.live ? "live" : "directory";
-  return (
-    <div className="catalog-review-controls">
-      {showView && (
-        <RadioGroup
-          label="Catalog view"
-          appearance="segmented"
-          value={selectedView}
-          onValueChange={(value) => {
-            if (!isChoice(value, viewChoices)) return;
-            onChange({
-              ...appearance,
-              live: value !== "directory",
-              overview: value === "overview",
-            });
-          }}
-        >
-          {views.map(([value, label]) => (
-            <RadioGroup.Item key={value} value={value}>
-              {label}
-            </RadioGroup.Item>
-          ))}
-        </RadioGroup>
-      )}
-      <p>KBUI’s default design. Select any example to check its states.</p>
-    </div>
-  );
-}
-
-function CatalogSpecimen({
-  entry,
-  appearance,
-  storybookRoot,
-}: {
-  entry: CatalogEntry;
-  appearance: CatalogAppearance;
-  storybookRoot: string;
-}) {
-  const id = useId();
-  const [stateId, setStateId] = useState(entry.defaultStoryId);
-  const [failed, setFailed] = useState(false);
-  const markReady = useCallback(() => setFailed(false), []);
-  const selected = entry.stories.find((story) => story.id === stateId) ?? entry.stories[0];
-  if (!selected) return null;
-  return (
-    <section className="catalog-specimen" aria-labelledby={`${id}-title`}>
-      <header>
-        <div>
-          <p className="catalog-card-group">{entry.group}</p>
-          <h2 id={`${id}-title`}>{entry.name}</h2>
-          <p>{entry.description}</p>
-        </div>
-        <a className="plain-link" href={`./?component=${entry.id}${appearanceQuery(appearance)}`}>
-          {entry.name} API and code
-        </a>
-      </header>
-      <div className="catalog-example-picker">
-        <ControlSelect
-          id={`${id}-state`}
-          label={`${entry.name} example`}
-          value={stateId}
-          options={browsableStories(entry).map((story) => ({ value: story.id, label: story.name }))}
-          onChange={(value) => {
-            setStateId(value);
-            setFailed(false);
-          }}
-        />
-      </div>
-      <div
-        className="catalog-specimen-stage"
-        data-theme={appearance.theme}
-        style={themeStyle(appearance.theme)}
-      >
-        <StoryPreview
-          cacheLimit={2}
-          title={`${entry.name} — ${selected.name} live example`}
-          src={`${storybookRoot}iframe.html?id=${selected.id}&viewMode=story${previewGlobals(appearance)}&embed=true`}
-          layout={previewLayout(entry.id, selected.id)}
-          expanded={false}
-          appearance={appearance}
-          onLoad={markReady}
-          onError={() => setFailed(true)}
-        />
-      </div>
-      {failed && <p role="status">Preview unavailable. Open the example in Storybook.</p>}
-      <a
-        className="plain-link"
-        href={`${storybookRoot}?path=/story/${selected.id}${storybookGlobals(appearance)}`}
-      >
-        Open {entry.name} example in Storybook <LinkArrow />
-      </a>
-    </section>
-  );
-}
-
 function CatalogIndex({
   appearance,
-  storybookRoot,
+  qaHref,
   selectedId,
   onChoose,
   detail,
 }: {
   appearance: CatalogAppearance;
-  storybookRoot: string;
+  qaHref: string;
   selectedId: string;
   onChoose: (id: string) => void;
   detail: ReactNode;
@@ -294,14 +175,21 @@ function CatalogIndex({
             Clear filters
           </Button>
         )}
+        <a className="plain-link catalog-qa-link" href={qaHref}>
+          Component QA <LinkArrow />
+        </a>
       </div>
-      {appearance.live && !appearance.overview ? (
-        <div className="catalog-browser">
-          <nav aria-label="Browse components" className="catalog-component-list">
-            {matches.map((entry) => (
+      <div className="catalog-browser">
+        <nav aria-label="Browse components" className="catalog-component-list">
+          {matches.map((entry) => (
+            <div
+              key={entry.id}
+              className="catalog-component-item"
+              data-current={entry.id === selectedId || undefined}
+            >
               <a
-                key={entry.id}
                 href={`./?component=${entry.id}${appearanceQuery(appearance)}`}
+                aria-describedby={`${id}-${entry.id}-description ${id}-${entry.id}-count`}
                 aria-current={entry.id === selectedId ? "page" : undefined}
                 onClick={(event) => {
                   if (
@@ -316,43 +204,20 @@ function CatalogIndex({
                   onChoose(entry.id);
                 }}
               >
-                <span>{entry.name}</span>
-                <small aria-hidden="true">{entry.group}</small>
+                {entry.name}
               </a>
-            ))}
-          </nav>
-          <div className="catalog-inspector">{detail}</div>
-        </div>
-      ) : (
-        <div className={appearance.overview ? "catalog-specimens" : "catalog-grid"}>
-          {matches.map((entry) =>
-            appearance.overview ? (
-              <CatalogSpecimen
-                key={entry.id}
-                entry={entry}
-                appearance={appearance}
-                storybookRoot={storybookRoot}
-              />
-            ) : (
-              <a
-                key={entry.id}
-                className="catalog-card"
-                href={`./?component=${entry.id}${appearanceQuery(appearance)}`}
-              >
-                <span className="catalog-card-group">{entry.group}</span>
-                <h2>
-                  {entry.name}
-                  <LinkArrow />
-                </h2>
-                <p>{entry.description}</p>
-                <span className="catalog-card-count">
-                  {browsableStories(entry).length} live examples
-                </span>
-              </a>
-            ),
-          )}
-        </div>
-      )}
+              <span className="catalog-component-description" id={`${id}-${entry.id}-description`}>
+                {entry.description}
+              </span>
+              <small id={`${id}-${entry.id}-count`}>
+                <span>{entry.group}</span>
+                <span>{browsableStories(entry).length} examples</span>
+              </small>
+            </div>
+          ))}
+        </nav>
+        <div className="catalog-inspector">{detail}</div>
+      </div>
       {matches.length === 0 && (
         <p className="catalog-empty" role="status">
           No components found. Try another name or clear the filters.
@@ -360,18 +225,6 @@ function CatalogIndex({
       )}
     </>
   );
-}
-
-function previewLayout(component: string, _story: string) {
-  if (component === "dialog") return { width: 800, minimum: 360 };
-  if (component === "menu") return { width: 520, minimum: 240 };
-  if (component === "tooltip") return { width: 520, minimum: 160 };
-  if (component === "select") return { width: 1120, minimum: 240 };
-  if (component === "grid") return { width: 1120, minimum: 160 };
-  if (component === "panel") return { width: 1120, minimum: 160 };
-  if (["input", "card", "callout", "progress", "scrollarea"].includes(component))
-    return { width: 1120, minimum: 96 };
-  return { width: 520, minimum: 96 };
 }
 
 function CatalogDetail({
@@ -457,22 +310,6 @@ function CatalogDetail({
         )}
         <p>{entry.description}</p>
       </div>
-      {!embedded && (
-        <details className="catalog-switcher">
-          <summary>Change component</summary>
-          <nav aria-label="Choose component">
-            {entries.map((component) => (
-              <a
-                key={component.id}
-                href={`./?component=${component.id}${appearanceQuery(appearance)}`}
-                aria-current={component.id === entry.id ? "page" : undefined}
-              >
-                {component.name}
-              </a>
-            ))}
-          </nav>
-        </details>
-      )}
       <section className="catalog-live" aria-labelledby={`${id}-live`}>
         <div className="catalog-section-heading">
           <div>
@@ -622,7 +459,7 @@ export function Catalog({
   stateId = null,
   onStateChange,
   onComponentChange,
-  initialAppearance = { theme: readSiteTheme(), live: true },
+  initialAppearance = { theme: readSiteTheme() },
   onAppearanceChange,
   navigationRevision = 0,
 }: {
@@ -649,17 +486,8 @@ export function Catalog({
   }, [componentId, navigationRevision]);
   // biome-ignore lint/correctness/useExhaustiveDependencies: History revision restores local view/theme even when prior props were identical.
   useLayoutEffect(() => {
-    setAppearance({
-      theme: initialAppearance.theme,
-      live: initialAppearance.live,
-      overview: initialAppearance.overview ?? false,
-    });
-  }, [
-    navigationRevision,
-    initialAppearance.theme,
-    initialAppearance.live,
-    initialAppearance.overview,
-  ]);
+    setAppearance({ theme: initialAppearance.theme });
+  }, [navigationRevision, initialAppearance.theme]);
   const entry = entries.find((component) => component.id === selectedId);
   const detail = entry && (
     <CatalogDetail
@@ -676,7 +504,7 @@ export function Catalog({
         remembered.current.set(entry.id, id);
         onStateChange?.(id, entry.id);
       }}
-      embedded={appearance.live && !appearance.overview}
+      embedded
     />
   );
   const choose = (id: string) => {
@@ -697,14 +525,6 @@ export function Catalog({
       storybookRoot={storybookRoot}
     >
       <main id="main" className="inner-page">
-        <CatalogControls
-          showView={!componentId || appearance.live}
-          appearance={appearance}
-          onChange={(value) => {
-            setAppearance(value);
-            onAppearanceChange?.(value);
-          }}
-        />
         {!componentId && (
           <details className="catalog-foundations">
             <summary>Typography and theme foundations</summary>
@@ -752,16 +572,14 @@ export function Catalog({
               All components
             </a>
           </div>
-        ) : !componentId || (appearance.live && !appearance.overview) ? (
+        ) : (
           <CatalogIndex
             appearance={appearance}
-            storybookRoot={storybookRoot}
+            qaHref={`${siteRoot}components/qa/?theme=${appearance.theme}`}
             selectedId={selectedId}
             onChoose={choose}
             detail={detail}
           />
-        ) : (
-          detail
         )}
       </main>
     </SiteFrame>

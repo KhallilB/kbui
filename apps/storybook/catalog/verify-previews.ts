@@ -20,10 +20,12 @@ try {
     const page = await browser.newPage({ viewport: { width, height: 900 } });
     page.setDefaultTimeout(5000);
     if (catalogTheme) {
-      await page.goto(`${origin}/components/?theme=${catalogTheme}&view=overview`);
+      await page.goto(`${origin}/components/qa/?theme=${catalogTheme}`);
       await page.waitForFunction(
         (expected) => {
-          const frames = [...document.querySelectorAll("iframe")];
+          const frames = [
+            ...document.querySelectorAll<HTMLIFrameElement>(".catalog-qa-gallery iframe"),
+          ];
           return (
             frames.length === expected &&
             frames.every((frame) => frame.contentDocument?.querySelector("#storybook-root > *"))
@@ -34,12 +36,14 @@ try {
       );
       const gallery = await page.evaluate(() => ({
         overflow: document.documentElement.scrollWidth > innerWidth,
-        theme: document.querySelector<HTMLElement>(".kbui-catalog")?.dataset.theme,
+        theme: document.querySelector<HTMLElement>(".catalog-qa")?.dataset.theme,
         scroll: scrollY,
-        skins: [...document.querySelectorAll("iframe")].map((frame) => ({
-          theme: frame.contentDocument?.documentElement.dataset.theme,
-          embed: frame.src.includes("embed=true"),
-        })),
+        skins: [...document.querySelectorAll<HTMLIFrameElement>(".catalog-qa-gallery iframe")].map(
+          (frame) => ({
+            theme: frame.contentDocument?.documentElement.dataset.theme,
+            embed: frame.src.includes("embed=true"),
+          }),
+        ),
       }));
       if (
         gallery.overflow ||

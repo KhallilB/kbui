@@ -9,7 +9,7 @@ const meta = {
   args: {
     siteRoot: "../",
     storybookRoot: "./",
-    initialAppearance: { theme: "light", live: false },
+    initialAppearance: { theme: "light" },
   },
   parameters: { layout: "fullscreen" },
   afterEach: async ({ canvasElement }) => {
@@ -19,12 +19,12 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Directory: Story = {
+export const BrowseComponents: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const heading = canvasElement.querySelector(".page-heading");
-    const panel = canvasElement.querySelector(".catalog-grid");
+    const panel = canvasElement.querySelector(".catalog-browser");
     if (!heading || !panel) throw new Error("Missing catalog entrance surfaces");
     expect(getComputedStyle(heading).animationName).toBe(reduced ? "none" : "kbui-poster-rise");
     expect(getComputedStyle(panel).animationName).toBe(reduced ? "none" : "kbui-poster-arrive");
@@ -44,7 +44,7 @@ export const Directory: Story = {
     expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent(
       `${entries.filter((entry) => entry.group === "Forms").length} of ${entries.length}`,
     );
-    expect(canvas.getByRole("link", { name: /Input.*Labelled fields/ })).toHaveAttribute(
+    expect(canvas.getByRole("link", { name: "Input" })).toHaveAttribute(
       "href",
       "./?component=input",
     );
@@ -60,18 +60,11 @@ export const Directory: Story = {
     expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent(
       `${entries.length} of ${entries.length}`,
     );
-    const views = within(canvas.getByRole("radiogroup", { name: "Catalog view" }));
-    const directory = views.getByRole("radio", { name: "Directory" });
-    directory.focus();
-    await userEvent.keyboard("{ArrowLeft}");
-    expect(views.getByRole("radio", { name: "Live browser" })).toBeChecked();
-    await userEvent.keyboard("{ArrowRight}");
-    expect(directory).toBeChecked();
   },
 };
 
 export const FocusedBrowser: Story = {
-  args: { initialAppearance: { theme: "light", live: true } },
+  args: { initialAppearance: { theme: "light" } },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     expect(canvasElement.querySelectorAll("iframe")).toHaveLength(1);
@@ -122,7 +115,7 @@ export const ButtonStates: Story = {
   args: { componentId: "button" },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const panel = canvasElement.querySelector(".catalog-live");
+    const panel = canvasElement.querySelector(".catalog-browser");
     if (!panel) throw new Error("Missing catalog preview entrance");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     expect(getComputedStyle(panel).animationName).toBe(reduced ? "none" : "kbui-poster-arrive");
@@ -142,7 +135,6 @@ export const ButtonStates: Story = {
     await userEvent.click(canvas.getByRole("radio", { name: "Disabled" }));
     expect(canvas.getByRole("radio", { name: "Disabled" })).toBeChecked();
     expect(canvas.queryByRole("combobox")).not.toBeInTheDocument();
-    await userEvent.click(canvas.getByText("Change component", { exact: true }));
     expect(canvas.getByRole("link", { name: "Input" })).toHaveAttribute(
       "href",
       "./?component=input",
@@ -399,11 +391,12 @@ export const StateContinuity: Story = {
     root.textContent = "Tall sizing fixture";
     doc.body.replaceChildren(root);
     await waitFor(() => expect(frame.getBoundingClientRect().height).toBe(442));
-    const codeTop = canvasElement.querySelector(".example-code-bar")?.getBoundingClientRect().top;
+    const codeBar = canvasElement.querySelector(".example-code-bar");
+    if (!codeBar) throw new Error("Missing code toolbar");
+    const codeTop = codeBar.getBoundingClientRect().top + window.scrollY;
     await userEvent.click(canvas.getByRole("radio", { name: "Tones" }));
-    expect(canvasElement.querySelector(".example-code-bar")?.getBoundingClientRect().top).toBe(
-      codeTop,
-    );
+    // Focus may scroll page; document position still must stay fixed.
+    expect(codeBar.getBoundingClientRect().top + window.scrollY).toBe(codeTop);
     const next = canvas.getByTitle("Badge — Tones live example") as HTMLIFrameElement;
     expect(next.parentElement).toBe(stage);
     expect(frame).toHaveAttribute("data-visible", "true");
@@ -436,47 +429,17 @@ export const StateContinuity: Story = {
 export const DefaultDesign: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    const frame = canvasElement.querySelector('iframe[data-current="true"]');
+    expect(frame).not.toBeNull();
     await userEvent.click(canvas.getByLabelText("Dark mode"));
-    await userEvent.click(canvas.getByRole("radio", { name: "Overview" }));
-    expect(canvas.getByRole("link", { name: "Open Button example in Storybook" })).toHaveAttribute(
-      "href",
-      "./?path=/story/components-button--primary&globals=theme:dark",
-    );
-    const frames = canvasElement.querySelectorAll("iframe");
-    expect(frames).toHaveLength(entries.length);
-    for (const frame of frames) {
-      expect(frame.src).toContain("globals=previewTheme:dark");
-      expect(frame.src).toContain("&embed=true");
-    }
-    expect(canvas.getByRole("link", { name: "Button API and code" })).toHaveAttribute(
-      "href",
-      "./?component=button&theme=dark&view=overview",
-    );
-    await userEvent.click(canvas.getByRole("combobox", { name: "Button example" }));
-    const choices = await within(document.body).findByRole("listbox", { name: "Button example" });
-    expect(choices.closest("[data-theme]")).toHaveAttribute("data-theme", "dark");
-    const popup = choices.closest(".control-select-popup");
-    if (!popup) throw new Error("Missing styled example popup");
-    expect(getComputedStyle(popup).backgroundColor).not.toBe("rgba(0, 0, 0, 0)");
-    if (matchMedia("(forced-colors: active)").matches)
-      expect(getComputedStyle(popup).borderTopWidth).toBe("1px");
-    else expect(getComputedStyle(popup).boxShadow).not.toBe("none");
-    await userEvent.click(within(choices).getByRole("option", { name: "Disabled" }));
-    await waitFor(() => expect(within(document.body).queryByRole("listbox")).toBeNull());
-    expect(canvas.getByTitle("Button — Disabled live example")).toHaveAttribute(
-      "data-preview-src",
-      "./iframe.html?id=components-button--disabled&viewMode=story&globals=previewTheme:dark&embed=true",
-    );
-    await userEvent.click(canvas.getByRole("radio", { name: "Forms" }));
-    expect(canvasElement.querySelectorAll("iframe")).toHaveLength(
-      entries.filter((entry) => entry.group === "Forms").length,
-    );
-    expect(canvas.getByTitle("Input — Default live example")).toBeInTheDocument();
-    const inputFrame = canvas.getByTitle("Input — Default live example");
-    await userEvent.click(canvas.getByLabelText("Dark mode"));
-    expect(canvas.getByTitle("Input — Default live example")).toBe(inputFrame);
+    expect(canvasElement.querySelector('iframe[data-current="true"]')).toBe(frame);
+    expect(frame).toHaveAttribute("data-preview-theme", "dark");
     expect(canvas.queryByRole("button", { name: "Site skin" })).toBeNull();
-    expect(canvas.queryByRole("button", { name: "Current default" })).toBeNull();
+    expect(canvas.queryByRole("radiogroup", { name: "Catalog view" })).toBeNull();
+    expect(canvas.getByRole("link", { name: "Component QA" })).toHaveAttribute(
+      "href",
+      "../components/qa/?theme=dark",
+    );
   },
 };
 
@@ -518,7 +481,7 @@ export const DarkDetail: Story = {
   args: {
     componentId: "input",
     stateId: "components-input--with-error",
-    initialAppearance: { theme: "dark", live: false },
+    initialAppearance: { theme: "dark" },
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -532,11 +495,42 @@ export const DarkDetail: Story = {
 
 export const LiveCatalogEntrance: Story = {
   play: async ({ canvasElement }) => {
-    await userEvent.click(within(canvasElement).getByRole("radio", { name: "Overview" }));
-    const stage = canvasElement.querySelector(".catalog-specimens");
+    const stage = canvasElement.querySelector(".catalog-browser");
     if (!stage) throw new Error("Missing live catalog");
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     expect(getComputedStyle(stage).animationName).toBe(reduced ? "none" : "kbui-poster-arrive");
     expect(getComputedStyle(stage).transform).toBe("none");
+  },
+};
+
+export const UnifiedCatalog: Story = {
+  args: { initialAppearance: { theme: "light" }, componentId: "input" },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.queryByRole("radiogroup", { name: "Catalog view" })).toBeNull();
+    const navigation = within(canvas.getByRole("navigation", { name: "Browse components" }));
+    for (const [name, id] of [
+      ["NumberField", "numberfield"],
+      ["FileInput", "fileinput"],
+    ] as const)
+      expect(navigation.getByRole("link", { name })).toHaveAttribute(
+        "href",
+        expect.stringContaining(`component=${id}`),
+      );
+    const input = navigation.getByRole("link", { name: "Input" });
+    expect(input).toHaveAccessibleDescription(
+      /Labelled fields, help text, and validation.*7 examples/,
+    );
+    const summary = input.closest(".catalog-component-item");
+    if (!summary) throw new Error("Missing component summary");
+    expect(
+      within(summary as HTMLElement).getByText("Labelled fields, help text, and validation."),
+    ).toBeVisible();
+    expect(within(summary as HTMLElement).getByText("7 examples")).toBeVisible();
+    expect(canvas.getByRole("heading", { name: "Input in use." })).toBeVisible();
+    expect(canvas.getByRole("link", { name: "Component QA" })).toHaveAttribute(
+      "href",
+      "../components/qa/?theme=light",
+    );
   },
 };

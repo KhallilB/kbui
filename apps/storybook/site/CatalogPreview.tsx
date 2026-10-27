@@ -9,7 +9,7 @@ import {
 } from "./catalog-preview-cache";
 import { type Theme, themeStyle } from "./theme-foundations";
 
-type Appearance = { theme: Theme; live: boolean };
+type Appearance = { theme: Theme };
 type Props = {
   src: string;
   title: string;

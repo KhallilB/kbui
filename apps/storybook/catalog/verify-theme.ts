@@ -64,12 +64,12 @@ try {
     if ((await primary.getAttribute("data-variant")) !== "danger")
       throw new Error("Dark navigation theme broke dropdown selection");
     for (const theme of ["light", "dark"]) {
-      await page.goto(`${origin}/components/?theme=${theme}&view=overview`);
+      await page.goto(`${origin}/components/qa/?theme=${theme}`);
       const picker = page.getByRole("combobox", { name: "Button example", exact: true });
       await picker.click();
       const list = page.getByRole("listbox", { name: "Button example", exact: true });
       await list.waitFor();
-      const material = await page.locator(".control-select-popup").evaluate((element) => {
+      const material = await page.locator(".kb-select-popup").evaluate((element) => {
         const style = getComputedStyle(element);
         const bounds = element.getBoundingClientRect();
         return {
@@ -91,7 +91,9 @@ try {
         throw new Error("Reduced motion animated dropdown");
       await list.getByRole("option", { name: "Disabled", exact: true }).click();
       await list.waitFor({ state: "hidden" });
-      await page.getByTitle("Button — Disabled live example").waitFor();
+      await page
+        .getByTitle(`Button — Disabled — ${theme === "light" ? "Light" : "Dark"} QA example`)
+        .waitFor();
       await picker.press("ArrowDown");
       await list.waitFor();
       await page.waitForFunction(
