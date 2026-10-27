@@ -289,62 +289,17 @@
     color: var(--kb-color-muted);
   }
   .day-choice {
-    display: grid;
-    grid-template-columns: 24px minmax(0, 1fr);
-    position: relative;
-    align-items: center;
-    gap: 14px;
+    --kb-checkbox-size: 24px;
+    column-gap: 14px;
+    row-gap: 0;
     min-height: 80px;
-    padding-block: 18px;
     border-top: 1px solid var(--review-line);
-    cursor: pointer;
   }
-  .day-choice input {
-    position: absolute;
-    left: 0;
-    width: 24px;
-    height: 24px;
-    opacity: 0;
-    margin: 0;
-  }
-  .choice-box {
-    display: grid;
-    place-items: center;
-    width: 24px;
-    height: 24px;
-    flex: none;
-    border: 1.5px solid var(--review-control);
-    border-radius: 7px;
-    background: var(--kb-color-bg);
-    color: var(--kb-color-accent-fg);
-  }
-  .choice-box svg {
-    width: 16px;
-    height: 16px;
-  }
-  .choice-copy {
-    min-width: 0;
-  }
-  .day-choice input:checked + .choice-box {
-    border-color: var(--review-good);
-    background: var(--review-good);
-  }
-  .day-choice input:focus-visible + .choice-box {
-    outline: 2px solid var(--review-good);
-    outline-offset: 2px;
-  }
-  .day-choice strong {
-    display: block;
-    font-size: var(--kb-text-control-size);
+  .day-choice .kb-checkbox-label {
     font-weight: 550;
-    line-height: var(--kb-text-leading-control);
   }
-  .day-choice small {
-    display: block;
-    color: var(--kb-color-muted);
-    font-size: 12px;
+  .day-choice .kb-checkbox-description {
     line-height: 1.5;
-    margin-top: 4px;
   }
   .day-progress {
     padding-block: 20px;
@@ -659,7 +614,7 @@
       font-size: clamp(28px, 8vw, 34px);
     }
     .day-choice {
-      gap: 12px;
+      column-gap: 12px;
     }
     .day-bottom {
       gap: 12px;

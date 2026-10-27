@@ -18,9 +18,6 @@
     .playground-grid {
       border: 1px solid CanvasText;
     }
-    .day-choice input:checked + .choice-box {
-      outline: 2px solid Highlight;
-    }
     .kb-progress-track {
       border: 1px solid CanvasText;
     }
