@@ -20,6 +20,7 @@ export default defineConfig({
         home: fileURLToPath(new URL("./site/index.html", import.meta.url)),
         playground: fileURLToPath(new URL("./site/playground/index.html", import.meta.url)),
         examples: fileURLToPath(new URL("./site/examples/index.html", import.meta.url)),
+        changelog: fileURLToPath(new URL("./site/changelog/index.html", import.meta.url)),
       },
     },
   },

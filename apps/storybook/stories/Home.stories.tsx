@@ -1,5 +1,7 @@
+import releases from "virtual:kbui-changelog";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+import { releaseHeadline } from "../site/changelog-model";
 import { Home } from "../site/Home";
 
 const meta = {
@@ -56,6 +58,13 @@ export const TryTheDemo: Story = {
 export const Navigation: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    const [latest] = releases;
+    if (!latest) throw new Error("Missing latest release");
+    const pill = canvas.getByRole("link", { name: /What's new in/ });
+    expect(pill).toHaveAccessibleName(
+      `What's new in v${latest.version} ${releaseHeadline(latest)}`,
+    );
+    expect(pill).toHaveAttribute("href", `../changelog/#v${latest.version}`);
     expect(canvas.getByRole("link", { name: /Start building/ })).toHaveAttribute(
       "href",
       "../setup/",

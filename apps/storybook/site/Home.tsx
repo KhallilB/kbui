@@ -1,5 +1,7 @@
+import releases from "virtual:kbui-changelog";
 import { Badge } from "@kbui/react";
 import { useEffect, useRef } from "react";
+import { releaseHeadline } from "./changelog-model";
 import { LinkArrow } from "./LinkArrow";
 import { PlanDemo } from "./PlanDemo";
 import { InstallBuilder } from "./Setup";
@@ -13,6 +15,7 @@ export function Home({
   siteRoot?: string;
 }) {
   const main = useRef<HTMLElement>(null);
+  const [latest] = releases;
   useEffect(() => {
     const root = main.current;
     if (!root) return;
@@ -70,7 +73,19 @@ export function Home({
       <main id="main" ref={main}>
         <section data-motion-phase="waiting" className="poster-hero" aria-labelledby="home-title">
           <div className="poster-copy">
-            <p className="intro-tag">A small React component library.</p>
+            {latest ? (
+              <SiteLink
+                className="intro-tag release-pill"
+                href={`${siteRoot}changelog/#v${latest.version}`}
+              >
+                <span className="kb-sr-only">What's new in </span>
+                <span className="release-version">v{latest.version}</span>
+                <span>{releaseHeadline(latest)}</span>
+                <LinkArrow />
+              </SiteLink>
+            ) : (
+              <p className="intro-tag">A small React component library.</p>
+            )}
             <h1 id="home-title">
               <span className="hero-line">Click around.</span>{" "}
               <span className="hero-line">Make something.</span>
