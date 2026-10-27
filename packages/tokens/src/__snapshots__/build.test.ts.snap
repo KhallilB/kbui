@@ -332,8 +332,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-heading-weight: var(--kb-font-weight-strong);
   --kb-heading-leading: 1.25;
   --kb-heading-tracking: -0.025em;
-  --kb-link-color: var(--kb-color-accent);
-  --kb-link-hover: var(--kb-color-accent-hover);
+  --kb-link-color: var(--kb-color-accent-ink);
+  --kb-link-hover: var(--kb-color-fg);
   --kb-link-underline-offset: 0.18em;
   --kb-code-size: max(var(--kb-text-small-size), 0.875em);
   --kb-code-background: var(--kb-color-surface);
@@ -450,8 +450,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-switch-thumb-background: var(--kb-material-raised-face);
   --kb-switch-thumb-border: var(--kb-material-raised-border);
   --kb-switch-thumb-shadow: var(--kb-material-raised-shadow);
-  --kb-link-color: var(--kb-color-accent);
-  --kb-link-hover: var(--kb-color-accent-hover);
+  --kb-link-color: var(--kb-color-accent-ink);
+  --kb-link-hover: var(--kb-color-fg);
   --kb-code-background: var(--kb-color-surface);
   --kb-code-border: var(--kb-color-border);
   color-scheme: light;
@@ -565,8 +565,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-switch-thumb-background: var(--kb-material-raised-face);
   --kb-switch-thumb-border: var(--kb-material-raised-border);
   --kb-switch-thumb-shadow: var(--kb-material-raised-shadow);
-  --kb-link-color: var(--kb-color-accent);
-  --kb-link-hover: var(--kb-color-accent-hover);
+  --kb-link-color: var(--kb-color-accent-ink);
+  --kb-link-hover: var(--kb-color-fg);
   --kb-code-background: var(--kb-color-surface);
   --kb-code-border: var(--kb-color-border);
   color-scheme: dark;
@@ -681,8 +681,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-switch-thumb-background: var(--kb-material-raised-face);
     --kb-switch-thumb-border: var(--kb-material-raised-border);
     --kb-switch-thumb-shadow: var(--kb-material-raised-shadow);
-    --kb-link-color: var(--kb-color-accent);
-    --kb-link-hover: var(--kb-color-accent-hover);
+    --kb-link-color: var(--kb-color-accent-ink);
+    --kb-link-hover: var(--kb-color-fg);
     --kb-code-background: var(--kb-color-surface);
     --kb-code-border: var(--kb-color-border);
     color-scheme: dark;
