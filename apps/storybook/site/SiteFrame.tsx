@@ -153,8 +153,8 @@ export function SiteFrame({
               >
                 Components
               </a>
-              <ThemeToggle theme={activeTheme} onChange={changeTheme} />
             </nav>
+            <ThemeToggle theme={activeTheme} onChange={changeTheme} />
           </header>
           {children}
           <footer className="site-footer">

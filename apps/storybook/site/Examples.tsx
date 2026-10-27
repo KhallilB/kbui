@@ -1,15 +1,29 @@
 import samples from "virtual:kbui-site-samples";
-import { Badge, Button, Card, Progress, Stat, Status } from "@kbui/react";
-import { useState } from "react";
+import {
+  Badge,
+  Button,
+  Card,
+  Checkbox,
+  Code,
+  Grid,
+  Heading,
+  Link,
+  Progress,
+  Stat,
+  Status,
+  Text,
+} from "@kbui/react";
+import { type Dispatch, type SetStateAction, useState } from "react";
 import { Geometry } from "./Brand";
 import { CodePanel } from "./CodePanel";
+import { releaseSampleKey, releaseSteps } from "./example-model";
 import { LinkArrow } from "./LinkArrow";
 import { SiteFrame, SiteLink } from "./SiteFrame";
 import "./examples.css";
 
 type Surface = "Creative" | "Editorial" | "Operations";
 const docs = (name: string, root: string) =>
-  `${root}?path=/docs/components-${name.toLowerCase()}--docs`;
+  `${root}?path=/docs/${name === "Grid" ? "layout" : "components"}-${name.toLowerCase()}--docs`;
 
 function CompositionView({
   surface,
@@ -17,33 +31,44 @@ function CompositionView({
   storybookRoot = "./storybook/",
   palette,
   setPalette,
+  checks,
+  setChecks,
 }: {
   surface: Surface;
   headingLevel?: 2 | 3;
   storybookRoot?: string;
   palette: boolean;
   setPalette: (value: boolean) => void;
+  checks: boolean[];
+  setChecks: Dispatch<SetStateAction<boolean[]>>;
 }) {
-  const Heading = headingLevel === 2 ? "h2" : "h3";
+  const completed = checks.filter(Boolean).length;
   if (surface === "Editorial")
     return (
       <Card className="composition editorial">
         <div className="sample-top">
-          <span>FIELD NOTES</span>
+          <Text as="span" size="sm" tone="muted">
+            FIELD NOTES
+          </Text>
           <Badge>Issue 004</Badge>
         </div>
         <span className="editorial-mark" aria-hidden="true">
           04
         </span>
-        <Heading className="composition-title">Notes from the workshop.</Heading>
-        <p>
-          A sketch, a conversation, an afternoon spent trying things. Good work often starts small.
-        </p>
+        <Heading level={headingLevel} size="display" className="composition-title">
+          Notes from the workshop.
+        </Heading>
+        <Text size="lg">
+          Start with a clear heading, then give each idea room to breathe. Use <Code>Heading</Code>{" "}
+          for the outline and <Code>Text</Code> for reading rhythm.
+        </Text>
         <div className="sample-bottom">
-          <span>Card + Badge</span>
-          <a href={docs("Card", storybookRoot)}>
-            Explore Card <LinkArrow />
-          </a>
+          <Text as="span" size="sm" tone="muted">
+            4 minute read · Issue 004
+          </Text>
+          <Link href={docs("Heading", storybookRoot)}>
+            Explore Heading <LinkArrow />
+          </Link>
         </div>
       </Card>
     );
@@ -51,43 +76,88 @@ function CompositionView({
     return (
       <Card className="composition operations">
         <div className="sample-top">
-          <span>RELEASE STATUS</span>
-          <Status tone="success" appearance="chip">
-            Healthy
+          <Text as="span" size="sm" tone="muted">
+            RELEASE CHECKLIST
+          </Text>
+          <Status
+            live
+            tone={completed === checks.length ? "success" : "warning"}
+            appearance="chip"
+            aria-label="Release checks"
+          >
+            {completed === checks.length ? "Checks complete" : "Checks pending"}
           </Status>
         </div>
-        <Heading className="composition-title">Release overview</Heading>
-        <p>A quick check before the next release.</p>
+        <Heading level={headingLevel} size="xl" className="composition-title">
+          Release overview
+        </Heading>
+        <Text tone="muted">Complete the checklist. Readiness follows your selections.</Text>
+        <fieldset className="release-checks">
+          <legend>Before you release</legend>
+          <Grid layout="stack">
+            {releaseSteps.map((label, index) => (
+              <Checkbox
+                key={label}
+                label={label}
+                checked={checks[index] ?? false}
+                onCheckedChange={(checked) =>
+                  setChecks((current) =>
+                    current.map((value, position) => (position === index ? checked : value)),
+                  )
+                }
+              />
+            ))}
+          </Grid>
+        </fieldset>
         <div className="stats">
-          <Stat label="Builds complete" value="24" size="display" />
-          <Stat label="Uptime · demo" value="99.9%" />
+          <Stat label="Checks complete" value={`${completed}/${checks.length}`} size="display" />
+          <Stat label="Checks remaining" value={checks.length - completed} />
         </div>
-        <Progress label="Release readiness" value={84} />
+        <Progress label="Release readiness" value={Math.round((completed / checks.length) * 100)} />
         <div className="sample-bottom">
-          <span>Sample data</span>
-          <a href={docs("Progress", storybookRoot)}>
-            Explore Progress <LinkArrow />
-          </a>
+          <Text as="span" size="sm" tone="muted">
+            Local demo
+          </Text>
+          <Button
+            variant="secondary"
+            size="sm"
+            disabled={completed === 0}
+            onClick={() => setChecks((current) => current.map(() => false))}
+          >
+            Reset checklist
+          </Button>
         </div>
       </Card>
     );
   return (
-    <Card className="composition creative">
+    <Card
+      className="composition creative"
+      style={{ borderColor: palette ? "var(--kb-color-accent-ink)" : "var(--kb-color-border)" }}
+    >
       <div className="sample-top">
-        <span>A change of palette</span>
-        <Badge>SVG + CSS</Badge>
+        <Text as="span" size="sm" tone="muted">
+          A change of palette
+        </Text>
+        <Badge>Semantic tokens</Badge>
       </div>
       <Geometry alternate={palette} />
       <div className="sample-bottom">
         <div>
-          <Heading className="composition-title">Color and composition</Heading>
-          <p role="status" aria-label="Palette">
+          <Heading level={headingLevel} size="lg" className="composition-title">
+            Color and composition
+          </Heading>
+          <Text size="sm" role="status" aria-label="Palette">
             <span className="palette-words" key={palette ? 1 : 0}>
               {palette ? "Persimmon / Marigold / Lilac · vivid" : "Persimmon / Marigold / Lilac"}
             </span>
-          </p>
+          </Text>
         </div>
-        <Button variant="secondary" size="sm" onClick={() => setPalette(!palette)}>
+        <Button
+          variant={palette ? "primary" : "secondary"}
+          size="sm"
+          aria-pressed={palette}
+          onClick={() => setPalette(!palette)}
+        >
           Change palette
         </Button>
       </div>
@@ -107,7 +177,13 @@ export function Composition({
   showCode?: boolean;
 }) {
   const [palette, setPalette] = useState(false);
-  const key = surface === "Creative" ? `creative-${palette}` : surface.toLowerCase();
+  const [checks, setChecks] = useState(() => releaseSteps.map(() => false));
+  const key =
+    surface === "Creative"
+      ? `creative-${palette}`
+      : surface === "Operations"
+        ? releaseSampleKey(checks)
+        : surface.toLowerCase();
   const sample = samples.surfaces[key];
   if (!sample) throw new Error(`Missing composition code: ${key}`);
   return (
@@ -118,6 +194,8 @@ export function Composition({
         storybookRoot={storybookRoot}
         palette={palette}
         setPalette={setPalette}
+        checks={checks}
+        setChecks={setChecks}
       />
       {showCode && (
         <CodePanel sample={sample} name={surface} regionLabel={`${surface} example code`} />
@@ -132,23 +210,24 @@ const examples = [
     surface: "Editorial",
     title: "A quiet place to read",
     description:
-      "Give longer stories room to breathe. A Card and a Badge are enough to get started.",
-    parts: "Card · Badge",
+      "Keep heading rank separate from visual size. Compose readable text, literal code and recognizable links inside one semantic article.",
+    parts: ["Card", "Badge", "Heading", "Text", "Link", "Code"],
   },
   {
     id: "operations",
     surface: "Operations",
     title: "A release overview",
     description:
-      "Give a few numbers some context. Status and Progress help people see how things are going.",
-    parts: "Card · Stat · Status · Progress",
+      "Own checkbox state once. Derive Status, Stat and Progress from the same selections, then reset the workflow without duplicating state.",
+    parts: ["Card", "Checkbox", "Grid", "Stat", "Status", "Progress", "Button"],
   },
   {
     id: "creative",
     surface: "Creative",
     title: "A space to play with color",
-    description: "Switch the palette and see the same shapes take on a different feel.",
-    parts: "Card · Badge · Button",
+    description:
+      "Keep shared controls and behavior. Change a Card border with a semantic color token and switch Button variants; both follow the page theme.",
+    parts: ["Card", "Badge", "Heading", "Text", "Button"],
   },
 ] as const;
 
@@ -173,8 +252,8 @@ export function Examples({
             See what you can <em>build with it.</em>
           </h1>
           <p>
-            A reading page, a release overview, a study in color. Each starts with kbui. Try them
-            out, then open the code to see how they work.
+            Content, a controlled workflow, a change of visual character. Try each pattern, explore
+            its components and copy the code with its current state.
           </p>
         </div>
         <nav className="example-index" aria-label="Example navigation">
@@ -195,7 +274,13 @@ export function Examples({
         {examples.map(({ id, surface, title, description, parts }) => (
           <section key={id} id={id} className="example-section" aria-labelledby={`${id}-title`}>
             <div className="example-description">
-              <p className="page-kicker">{parts}</p>
+              <nav className="example-components" aria-label={`${surface} components`}>
+                {parts.map((name) => (
+                  <Link key={name} href={docs(name, storybookRoot)}>
+                    {name}
+                  </Link>
+                ))}
+              </nav>
               <h2 id={`${id}-title`}>{title}</h2>
               <p>{description}</p>
             </div>

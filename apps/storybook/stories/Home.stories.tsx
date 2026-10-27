@@ -58,6 +58,35 @@ export const TryTheDemo: Story = {
 export const Navigation: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    const headerElement = canvas.getByRole("banner");
+    const header = within(headerElement);
+    const navigation = within(header.getByRole("navigation", { name: "Main navigation" }));
+    const links = navigation.getAllByRole("link");
+    const theme = header.getByRole("switch", { name: "Dark mode" });
+    const controls = [header.getByRole("link", { name: "kbui home" }), ...links, theme];
+    const bounds = controls.map((control) => control.getBoundingClientRect());
+    for (let index = 0; index < controls.length; index++) {
+      const control = controls[index];
+      const rect = bounds[index];
+      if (!control || !rect) throw new Error("Missing header control");
+      expect(rect.left).toBeGreaterThanOrEqual(0);
+      expect(rect.right).toBeLessThanOrEqual(innerWidth);
+      const hit = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
+      expect(hit === control || control.contains(hit)).toBe(true);
+      for (const other of bounds.slice(index + 1)) {
+        const overlapX = Math.min(rect.right, other.right) - Math.max(rect.left, other.left);
+        const overlapY = Math.min(rect.bottom, other.bottom) - Math.max(rect.top, other.top);
+        expect(overlapX > 0.5 && overlapY > 0.5).toBe(false);
+      }
+    }
+    for (const link of links) {
+      const range = document.createRange();
+      range.selectNodeContents(link);
+      const text = range.getBoundingClientRect();
+      const rect = link.getBoundingClientRect();
+      expect(text.left).toBeGreaterThanOrEqual(rect.left - 0.5);
+      expect(text.right).toBeLessThanOrEqual(rect.right + 0.5);
+    }
     expect(canvas.getByRole("link", { name: /Start building/ })).toHaveClass("kb-button");
     const installer = within(canvas.getByRole("region", { name: "Install kbui" }));
     expect(installer.getByRole("button", { name: "Copy code" })).toHaveClass("kb-button");
@@ -99,13 +128,9 @@ export const Navigation: Story = {
       "../examples/#editorial",
     );
     if (window.innerWidth <= 600) {
-      const header = within(canvas.getByRole("banner"));
       const footer = within(canvas.getByRole("contentinfo"));
       for (const control of [
-        header.getByRole("link", { name: "kbui home" }),
-        header.getByRole("link", { name: "Components" }),
-        header.getByRole("link", { name: "Playground" }),
-        header.getByRole("link", { name: "Examples" }),
+        ...controls,
         canvas.getByRole("link", { name: "See the components" }),
         canvas.getByRole("link", { name: /Open the playground/ }),
         canvas.getByRole("button", { name: "Name your day" }),
