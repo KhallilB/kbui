@@ -1,7 +1,7 @@
 export type Token = {
   $type: string;
   $value: string;
-  $extensions?: { "kb.dark"?: string };
+  $extensions?: { "kb.dark"?: string; "kb.forced"?: string };
 };
 export type TokenTree = { [key: string]: Token | TokenTree };
 
@@ -107,6 +107,16 @@ export function buildTokens(tree: TokenTree): {
     sections.push(
       block(':where([data-theme="dark"])', dark),
       `@media (prefers-color-scheme: dark) {\n${block(':where(:root:not([data-theme="light"]))', dark, "  ")}\n}`,
+    );
+  }
+  const forced = flat.flatMap((f) => {
+    const value = f.token.$extensions?.["kb.forced"];
+    return value ? [decl(f, value)] : [];
+  });
+  // Last and on theme containers too, so it beats their redeclarations at equal specificity.
+  if (forced.length > 0) {
+    sections.push(
+      `@media (forced-colors: active) {\n${block(":where(:root, [data-theme])", forced, "  ")}\n}`,
     );
   }
   const vars = varTree(flat);

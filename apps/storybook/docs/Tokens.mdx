@@ -17,6 +17,25 @@ Use semantic colors such as foreground or accent when styling your app. Spacing,
   ))}
 </ColorPalette>
 
+## Visualization roles
+
+Each role has a mark, a tint and text for the tint. See `docs/tokens.md` for when to use each.
+
+<ColorPalette>
+  {["current", "visited", "changed", "error", "discarded", "frontier", "path"].map((role) => (
+    <ColorItem
+      key={role}
+      title={`viz.${role}`}
+      subtitle={`--kb-viz-${role}, -bg, -fg`}
+      colors={{
+        mark: `var(${tokens.viz[role]})`,
+        tint: `var(${tokens.viz[`${role}-bg`]})`,
+        text: `var(${tokens.viz[`${role}-fg`]})`,
+      }}
+    />
+  ))}
+</ColorPalette>
+
 ## Palette
 
 <ColorPalette>
