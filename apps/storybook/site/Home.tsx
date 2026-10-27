@@ -91,8 +91,8 @@ export function Home({
               <span className="hero-line">Make something.</span>
             </h1>
             <p className="hero-description">
-              Ready-to-use components, shared tokens, and plain CSS. Try them here. Take the parts
-              into your own project.
+              Build with React components, shared design tokens, and plain CSS. Try the components
+              here, then use them in your own project.
             </p>
             <div className="hero-links">
               <SiteLink className="primary-link" href={`${siteRoot}${installation}`}>
@@ -114,8 +114,8 @@ export function Home({
             <br />A lot of uses.
           </h2>
           <p>
-            A button, a field, a dialog. Small details that become the things people use every day.
-            kbui gives them a shared foundation, while your app keeps its own character.
+            Buttons, fields, and dialogs are part of everyday work. kbui gives them consistent
+            styling and interaction, with room to make them feel at home in your app.
           </p>
           <ul className="part-tags" aria-label="Parts in the demo">
             <li>
@@ -168,7 +168,7 @@ export function Home({
             <p className="section-kicker">Your turn</p>
             <h2 id="take-title">What are you making?</h2>
             <p>
-              Pick your package manager. Take the parts into your app.
+              Choose your package manager and copy the install command.
               <a className="plain-link setup-continue" href={`${siteRoot}playground/`}>
                 Open the playground <LinkArrow />
               </a>

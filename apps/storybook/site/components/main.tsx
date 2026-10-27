@@ -2,53 +2,66 @@ import "@kbui/css/styles.css";
 import { StrictMode, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { Catalog } from "../Catalog";
+import { normalizeCatalogLocation } from "../catalog-location";
 import { readSiteTheme } from "../site-theme";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("Missing site root");
-const clean = new URL(window.location.href);
-if (clean.searchParams.has("skin")) {
-  clean.searchParams.delete("skin");
-  window.history.replaceState(null, "", clean);
+function canonicalCatalogUrl() {
+  const { url, redirect } = normalizeCatalogLocation(new URL(window.location.href));
+  if (redirect) {
+    window.location.replace(url.href);
+    return null;
+  }
+  if (url.href !== window.location.href) window.history.replaceState(window.history.state, "", url);
+  return url;
 }
+const initialUrl = canonicalCatalogUrl();
 function CatalogRoute() {
   const [location, setLocation] = useState(() => ({
     query: new URLSearchParams(window.location.search),
     revision: 0,
   }));
   useEffect(() => {
-    const restore = () =>
-      setLocation((current) => ({
-        query: new URLSearchParams(window.location.search),
-        revision: current.revision + 1,
-      }));
+    const restore = () => {
+      const url = canonicalCatalogUrl();
+      if (url)
+        setLocation((current) => ({
+          query: url.searchParams,
+          revision: current.revision + 1,
+        }));
+    };
     window.addEventListener("popstate", restore);
     return () => window.removeEventListener("popstate", restore);
   }, []);
   return (
     <Catalog
       navigationRevision={location.revision}
-      initialAppearance={{
-        theme: readSiteTheme(),
-        live: location.query.get("view") !== "directory",
-        overview: location.query.get("view") === "overview",
-      }}
-      onAppearanceChange={({ theme, live, overview }) => {
+      initialAppearance={{ theme: readSiteTheme() }}
+      initialCompare={["true", "1"].includes(location.query.get("compare") ?? "")}
+      onCompareChange={(compare: boolean) => {
         const url = new URL(window.location.href);
-        url.searchParams.delete("skin");
+        if (compare) url.searchParams.set("compare", "true");
+        else url.searchParams.delete("compare");
+        window.history.replaceState(window.history.state, "", url);
+        setLocation((current) => ({ ...current, query: url.searchParams }));
+      }}
+      onAppearanceChange={({ theme }) => {
+        const url = new URL(window.location.href);
         url.searchParams.set("theme", theme);
-        const view = overview ? "overview" : live ? "live" : "directory";
-        const previous = url.searchParams.get("view") ?? "live";
-        url.searchParams.set("view", view);
-        if (view !== previous && view !== "live") url.searchParams.delete("component");
-        window.history.replaceState(null, "", url);
+        window.history.replaceState(window.history.state, "", url);
         setLocation((current) => ({ ...current, query: url.searchParams }));
       }}
       onComponentChange={(id, stateId) => {
         const url = new URL(window.location.href);
-        url.searchParams.set("component", id);
-        if (stateId) url.searchParams.set("state", stateId);
-        else url.searchParams.delete("state");
+        if (id === null) {
+          url.searchParams.delete("component");
+          url.searchParams.delete("state");
+        } else {
+          url.searchParams.set("component", id);
+          if (stateId) url.searchParams.set("state", stateId);
+          else url.searchParams.delete("state");
+        }
         window.history.pushState(null, "", url);
         setLocation((current) => ({ ...current, query: url.searchParams }));
       }}
@@ -64,8 +77,9 @@ function CatalogRoute() {
     />
   );
 }
-createRoot(root).render(
-  <StrictMode>
-    <CatalogRoute />
-  </StrictMode>,
-);
+if (initialUrl)
+  createRoot(root).render(
+    <StrictMode>
+      <CatalogRoute />
+    </StrictMode>,
+  );

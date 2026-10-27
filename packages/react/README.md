@@ -1,6 +1,6 @@
 # @kbui/react
 
-React 19 components for kbui. Behavior comes from [Base UI](https://base-ui.com) 1.9 and styling from `@kbui/css`. This package imports no CSS, so import the stylesheet once in your app.
+React components for forms, navigation, feedback, and layout. kbui uses [Base UI](https://base-ui.com) 1.9 for interaction and `@kbui/css` for styling. Import the stylesheet once, then use components throughout your app.
 
 ```tsx
 import "@kbui/css/styles.css";
@@ -11,9 +11,11 @@ Requires `react` and `react-dom` 19 in the consuming project.
 
 ## Button
 
+Use a Button for an action such as saving a form or opening a dialog. Choose a variant to match the action’s importance.
+
 | Prop | Type | Default | Notes |
 |---|---|---|---|
-| `variant` | `"primary" \| "secondary" \| "ghost" \| "danger"` | `"primary"` | Visual weight |
+| `variant` | `"primary" \| "secondary" \| "ghost" \| "danger"` | `"primary"` | How much emphasis the action receives |
 | `size` | `"sm" \| "md" \| "lg" \| "icon"` | `"md"` | Height and padding; icon-only buttons require `aria-label` |
 | `className` | `string` | | Added after `kb-button` |
 | `render` | element | | Renders a different element, such as a link |
@@ -27,9 +29,11 @@ All props accepted by a native button or Base UI's `Button` also work. To render
 
 ## Input
 
+Use Input for text entry. It keeps the label, help text, and error message together, and has space for icons or actions at either end.
+
 | Prop | Type | Default | Notes |
 |---|---|---|---|
-| `startContent` / `endContent` | `ReactNode` | | Optional control content; provide accessible names on actions |
+| `startContent` / `endContent` | `ReactNode` | | Icons or actions at either end; give actions accessible names |
 | `label` | `string` | required | Visible label and accessible name |
 | `visuallyHidden` | `boolean` | | Hides the label visually but keeps it for screen readers |
 | `description` | `string` | | Help text below the field |
@@ -41,7 +45,7 @@ Other native input props, including `value` and `defaultValue`, pass through to 
 
 ### Search composition
 
-Use `Input type="search"` with content slots and a `Button` when search needs a visible clear action. Search stays an input recipe; filtering, submission, debounce, reset and result announcements belong to the application.
+Use `Input type="search"` with content slots and a `Button` when search needs a visible clear action. Your app handles filtering, submission, debounce, reset, and result announcements.
 
 ```tsx
 import { useRef, useState } from "react";
@@ -69,7 +73,7 @@ function SearchExample() {
 }
 ```
 
-The labelled field owns its accessible name, description and error. Give actions their own accessible names; hide decorative icons with `aria-hidden`. Clear uses `type="button"` and returns focus to the native input. Hide editing actions for disabled/read-only fields. The stable input shell preserves the native node, value and focus when slot content changes. See Input's canonical **Icons and actions** story for the search icon and working interaction.
+The field label names the input. Give each action its own accessible name, and hide decorative icons with `aria-hidden`. Use `type="button"` on the clear action so it does not submit the form, then return focus to the input. Hide editing actions when the field is disabled or read-only. Adding or removing content at either end keeps the same input node, value, and focus. See the **Icons and actions** story for a working search example.
 
 ## Dialog
 
@@ -100,7 +104,7 @@ The labelled field owns its accessible name, description and error. Give actions
 
 ## Panel
 
-A rounded section plane with a lit rim, a lift and optional emitted light. Name it with `aria-labelledby` pointing at the heading in `Panel.Header`.
+Use Panel for a section that needs a header, body, and actions. Its parts help keep those areas aligned. Give the section an accessible name with `aria-labelledby`, pointing to the heading in `Panel.Header`.
 
 ```tsx
 <Panel tone="active" rail="status" aria-labelledby="queue-title">
@@ -122,11 +126,13 @@ A rounded section plane with a lit rim, a lift and optional emitted light. Name 
 | `density` | `compact` `standard` | `standard` |
 | `collapsible`, `open`, `defaultOpen`, `onOpenChange` | Body collapses and expands from `Panel.Toggle` | off |
 
-`quiet` draws no plane; `sunken` recesses onto the page color. `Panel.Well` is a recessed area for logs and output. Shape and light come from tokens: `--kb-panel-radius`, a rim from `--kb-panel-rim-top` through `--kb-panel-border` to `--kb-panel-rim-bottom`, `--kb-panel-shadow` and `--kb-panel-shadow-active` for the lift. `--kb-panel-sheen`, `--kb-panel-backdrop` and `--kb-panel-glow`, `-glow-active` and `-glow-critical` stay off until a skin turns them up. Active and critical recolor the top of the rim and the glow. The rail is clipped by the rounded plate.
+`quiet` removes the panel background; `sunken` gives it a recessed surface. Use `Panel.Well` for logs or other output that should sit inside the panel. Customize the shape with `--kb-panel-radius`, the rim with `--kb-panel-rim-top`, `--kb-panel-border`, and `--kb-panel-rim-bottom`, and the depth with `--kb-panel-shadow` or `--kb-panel-shadow-active`.
+
+For additional lighting, use `--kb-panel-sheen`, `--kb-panel-backdrop`, `--kb-panel-glow`, `--kb-panel-glow-active`, and `--kb-panel-glow-critical`. These effects stay off by default. Active and critical tones change the upper rim and glow colors. The rail follows the panel’s rounded corners.
 
 ## Status
 
-Text plus an optional caller-provided icon; the text is mandatory.
+Use Status for a state such as running, blocked, or complete. Always include text so the meaning is clear without relying on color or an icon.
 
 ```tsx
 <Status tone="running" appearance="chip" icon={<PlayIcon />} live>Running</Status>
@@ -146,7 +152,7 @@ Text plus an optional caller-provided icon; the text is mandatory.
 | `Badge` | Static metadata such as a role or provider. Use `Status` for a state that changes. | `tone` (`neutral` `info` `success` `warning` `danger`), `appearance` (`chip` `plain`), `mono` (small uppercase monospace), `preserveCase` (keeps the case of branches and paths) |
 | `Stat` | A labelled number. The label is read first, and figures are tabular. | `label`, `value`, `size` (`md` `display`) |
 | `Progress` | Determinate progress with a visible label. | `label`, `value`, `max`, `valueText` (for example `"3 of 5"`, shown and announced) |
-| `Callout` | An inline message that may need an answer. | `tone`, `title`, `icon`, `actions`, `live` |
+| `Callout` | Highlight information and, when useful, offer a next step. | `tone`, `title`, `icon`, `actions`, `live` |
 | `ScrollArea` | Long content in a named region that keyboard users can focus. | `label`, `maxHeight` |
 
 ## Overlays and actions
@@ -177,9 +183,9 @@ Tests use Vitest and Testing Library in jsdom.
 
 ## Card and Grid
 
-`Card` is a neutral article surface with caller-owned content and navigation. It adds no link, button, keyboard handler or tab stop. Use `as="li"` inside lists and `appearance="plain"` for ruled rows. Keep a stretched link and its focus styling in the consumer; do not nest other controls inside a whole-card link.
+Use `Card` to group related content. It renders an article by default and adds no link, button, keyboard handler, or tab stop. Add links and actions where your content needs them. Use `as="li"` inside a list and `appearance="plain"` for a simpler row with a dividing line. If a link covers the whole card, style its focus state and keep other controls outside that link.
 
-`Grid` is CSS layout, with no ARIA grid role or keyboard model. It fits equal columns to available width; `layout="stack"` keeps one column. `as="ul"` or `as="ol"` preserves native list semantics.
+`Grid` arranges content into equal columns that fit the available width. Use `layout="stack"` for a single column, or `as="ul"` and `as="ol"` for lists. It uses ordinary CSS layout, without an ARIA grid role or special keyboard navigation.
 
 ```tsx
 <Grid>
@@ -191,7 +197,7 @@ Skin with `--kb-card-background`, `--kb-card-color`, `--kb-card-border`, `--kb-c
 
 ## Checkbox
 
-A controlled native checkbox with a tactile mark, associated label, helper and error text. The caller owns checked state; a mixed checkbox requests checked when activated.
+Use Checkbox when people can select options independently. It includes a label, help text, and error message. Pass `checked` and update it in `onCheckedChange`. Activating a mixed checkbox requests the checked state.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
@@ -211,10 +217,10 @@ A controlled native checkbox with a tactile mark, associated label, helper and e
 <Checkbox label="Receive release updates" name="updates" checked={updates} onCheckedChange={setUpdates} />
 ```
 
-Label activation and Space request changes. A declined controlled update preserves checked and mixed DOM state. Native input props remain supported. `style` applies to the native input; custom CSS properties also scope the decorative mark. Override `--kb-checkbox-size` for a different mark size. Forced colors retain the native checkbox and its focus outline.
+Clicking the label or pressing Space calls `onCheckedChange`. The checkbox changes only when your app updates `checked`; otherwise its checked or mixed state stays as it was. Native input props are supported. `style` applies to the input, and CSS custom properties also reach the visible mark. Use `--kb-checkbox-size` to change its size. In forced colors, the native checkbox and its focus outline remain visible.
 ## RadioGroup
 
-A controlled single choice. The group supplies its label, error and form name; each item supplies its own label and unique string value. Arrow keys move selection and skip disabled items.
+Use RadioGroup when people need to choose one option and see all the choices at once. Give the group a label and each item a unique string value. Arrow keys change the selection and skip disabled options.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
@@ -235,13 +241,13 @@ A controlled single choice. The group supplies its label, error and form name; e
 </RadioGroup>
 ```
 
-`RadioGroup.Item` forwards Base UI Radio props, including `value`, `disabled` and the native control ref. `className` styles the item label; `controlClassName` styles its radio slot. The group inherits semantic colors and material depth; `--kb-radiogroup-size` and `--kb-radiogroup-gap` adjust geometry.
+`RadioGroup.Item` forwards Base UI Radio props, including `value`, `disabled` and the native control ref. `className` styles the item label; `controlClassName` styles its radio slot. The group uses the shared theme colors and shadows. Adjust the control size with `--kb-radiogroup-size` and the spacing with `--kb-radiogroup-gap`.
 
-Set `appearance="segmented"` for compact view, density or filter choices. Native radio semantics, keyboard navigation and form behavior stay shared; this is not tab/panel navigation. Caller controls value and form reset. Item `required` participates in native form validation. Changing appearance preserves control identity and focus.
+Set `appearance="segmented"` for compact choices such as view, density, or a filter. The control still behaves as a radio group, rather than tabs with associated panels. Your app manages the value and resets it when the form resets. An item’s `required` prop participates in native form validation. Changing the appearance keeps the same controls and focus.
 
 ## Select
 
-A controlled, single-value selector. Options carry string values, visible labels and optional disabled flags. Null displays the placeholder. The caller owns domain validation and selection state.
+Use Select to choose one option from a dropdown. Each option has a string value, a visible label, and an optional disabled flag. Pass `null` to show the placeholder. Your app stores the selected value and decides whether it is valid.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
@@ -261,11 +267,13 @@ A controlled, single-value selector. Options carry string values, visible labels
 <Select label="View" name="view" value={view} onValueChange={setView} options={[{ value: "recent", label: "Recent" }, { value: "all", label: "All records" }]} />
 ```
 
-Arrow keys and typeahead navigate options. Enter selects; Escape returns focus. Disabled options cannot be selected. An empty collection disables the trigger and shows the visible helper “No options available”. Opening the nonmodal popup preserves page scrolling. Pointer selection returns focus without a keyboard ring; keyboard dismissal retains its visible focus indicator. The default field-root portal inherits local theme tokens; a custom container must provide the desired theme scope. `--kb-select-popup-min-width`, `--kb-select-max-height` and `--kb-select-layer` adjust popup geometry.
+Use the arrow keys or type to find an option, Enter to select it, and Escape to close the popup and return focus. Disabled options cannot be selected. When there are no options, the trigger is disabled and “No options available” appears below it. Opening the popup leaves the page scrollable. Pointer selection returns focus without a keyboard ring; keyboard dismissal keeps a visible focus indicator.
+
+By default, the popup mounts inside the field root and inherits its theme. If you provide a custom `container`, apply the theme there too. Use `--kb-select-popup-min-width`, `--kb-select-max-height`, and `--kb-select-layer` to adjust the popup’s size and stacking order.
 
 ## Switch
 
-A controlled on/off preference with one labelled native checkbox using `role="switch"`. The application owns checked state, saving and form reset. Use Checkbox for selecting items; use Switch for an immediate preference.
+Use Switch for a preference that takes effect as soon as it changes. Pass `checked` and update it in `onCheckedChange`; your app handles saving and form reset. Switch uses a labelled native checkbox with `role="switch"`. Use Checkbox when people are selecting items instead.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
@@ -288,11 +296,11 @@ function Preference() {
 }
 ```
 
-Import `useState` from React and `Switch` from `@kbui/react`. Space and pointer actions request the same boolean change. Unchecked/disabled controls submit no value; a checked control submits its native value (`"on"` unless supplied). For controlled reset, set checked state in the form's `onReset` handler. Dark/light surfaces use shared recessed and raised materials through the `switch` token group; reduced motion removes thumb travel animation.
+Import `useState` from React and `Switch` from `@kbui/react`. Clicking or pressing Space calls `onCheckedChange`. Unchecked or disabled controls submit no value; a checked control submits its native value (`"on"` unless you supply one). Reset `checked` in the form’s `onReset` handler when needed. The `switch` token group controls its appearance in both themes, and reduced motion removes the thumb’s travel animation.
 
 ## NumberField
 
-Controlled numeric editing and stepping; callers own ranges and validation. See [Numeric fields](../../docs/guides/number-fields.md) for examples, keyboard behavior, styling and limits. Prepared locally after 0.5.0; unreleased.
+Use NumberField for quantities people can type or adjust with step buttons. Your app sets the range and validates the value. See [Numeric fields](../../docs/guides/number-fields.md) for examples, keyboard behavior, and styling. Available since v0.6.0.
 
 | Prop | Default | Responsibility |
 |---|---|---|
@@ -306,21 +314,21 @@ Controlled numeric editing and stepping; callers own ranges and validation. See 
 | description, error |unset | Associated help/error; error sets invalid state |
 | visuallyHidden | false | Keep label accessible without visible label |
 | decrementLabel, incrementLabel |Decrease/Increase + label | Localized step action names |
-| className, groupClassName, inputClassName |unset | Stable root/group/input styling seams |
+| className, groupClassName, inputClassName |unset | Classes for styling the root, group, and input |
 | inputRef, inputProps |unset | Visible input ref and native event/ARIA extensions |
 
-Root native div props/ref pass through. `aria-describedby` from root and inputProps is merged after helper/error IDs. Native input value/type/disabled/readOnly/name/required/ref are controlled by explicit props and cannot be replaced through inputProps. Native events can prevent defaults deliberately; preserve keyboard semantics when extending them.
+Native div props and the root ref pass through to the wrapper. Any `aria-describedby` values from the root and `inputProps` are added after the help and error IDs. Use the explicit NumberField props for the input’s value, type, disabled/read-only state, name, required state, and ref; `inputProps` cannot override those. Custom event handlers can prevent defaults, so take care to preserve keyboard behavior.
 
 ## FileInput
 
-Controlled retained-file selection; callers own acceptance, metadata and uploads. See [Retained file selection](../../docs/guides/file-inputs.md) for examples, keyboard behavior, styling and limits. Prepared locally after 0.5.0; unreleased.
+Use FileInput to choose files, review the selected list, and remove items. Your app decides which files to accept, keeps the File objects, and handles uploads. See [Retained file selection](../../docs/guides/file-inputs.md) for examples, keyboard behavior, and styling. Available since v0.6.0.
 
 | Prop | Default | Responsibility |
 |---|---|---|
-| label, items, onFiles, onRemove | required | Accessible field name and controlled lifecycle |
+| label, items, onFiles, onRemove | required | Field label, selected files, and callbacks for choosing and removing files |
 | accept |unset | Native file-type hint |
 | multiple | true | Permit native multiple selection |
-| disabled, readOnly | false | Block mutations; keep list visible |
+| disabled, readOnly | false | Prevent changes while keeping the list visible |
 | description, error |unset | Associated help/rejection text |
 | visuallyHidden | false | Accessible field label without visible label |
 | chooseLabel |Choose files | Localized picker action; use singular text for single mode |
@@ -329,7 +337,7 @@ Controlled retained-file selection; callers own acceptance, metadata and uploads
 | removedMessage(item) |name + removed. | Localized confirmed-removal announcement |
 | selectionMessage(count) |count + files selected. | Localized native-selection announcement |
 | renderItem(item) |name + description | Caller content; preserve visible file identity |
-| triggerClassName, listClassName, itemClassName |unset | Stable styling seams |
+| triggerClassName, listClassName, itemClassName |unset | Classes for styling the picker, list, and items |
 | inputRef, triggerRef |unset | Native hidden input and visible picker refs |
 
-Root native div props/ref and className pass through. Root aria-describedby merges after helper/error. Item button refs remain internal to preserve focus; use public item/content classes and renderItem for presentation. No imperative item API is promised. The `×` mark is decorative; removal has a full accessible filename label.
+Root native div props/ref and className pass through. Root aria-describedby merges after helper/error. Item button refs remain internal to preserve focus; use public item/content classes and renderItem for presentation. Use these props and classes rather than reaching into individual item buttons. The `×` mark is decorative; removal has a full accessible filename label.

@@ -131,8 +131,8 @@ export function Setup({
           </h1>
           <p>
             {themePage
-              ? "Choose a theme. Keep your app’s character."
-              : "For an existing React app. Install the parts, add the stylesheet, use a component."}
+              ? "Choose light, dark, or the system preference, then adjust the details for your app."
+              : "Add kbui to an existing React app, import the stylesheet, and try your first component."}
           </p>
         </div>
         <nav className="setup-nav" aria-label="Setup navigation">
@@ -150,8 +150,8 @@ export function Setup({
                 <p className="page-kicker">01 / Appearance</p>
                 <h2 id={`${id}-theme`}>Let the theme do the work.</h2>
                 <p>
-                  Set the attribute on your app’s HTML element. System follows the visitor’s
-                  preference; no provider needed.
+                  Set the theme on your app’s HTML element. Choose System to follow the visitor’s
+                  preference. You don’t need a theme provider.
                 </p>
               </div>
               <div className="setup-work">
@@ -235,8 +235,7 @@ export function Setup({
                 <p className="page-kicker">02 / Use it</p>
                 <h2>Add CSS once. Use components anywhere.</h2>
                 <p>
-                  Import the stylesheet at your app’s entry point. This small example is all a
-                  Button needs.
+                  Import the stylesheet at your app’s entry point, then add a Button as shown below.
                 </p>
               </div>
               <CodePanel name="First component" sample={samples.usage} defaultOpen />

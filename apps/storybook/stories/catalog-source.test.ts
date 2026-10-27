@@ -274,3 +274,15 @@ test("dark stateful render declarations stay outside the theme wrapper", () => {
   expect(() => babelParse(sample.snippet)).not.toThrow();
   expect(sample.snippet).toContain('<div data-theme="dark"><Example /></div>');
 });
+
+test("API documentation preserves subsection headings", () => {
+  const blocks = parseApiSection(
+    "## Input\n\nUse a field.\n\n### Search composition\n\nAdd a clear action.\n",
+    "Input",
+  );
+  expect(blocks).toEqual([
+    { kind: "paragraph", text: "Use a field." },
+    { kind: "heading", level: 3, text: "Search composition" },
+    { kind: "paragraph", text: "Add a clear action." },
+  ]);
+});

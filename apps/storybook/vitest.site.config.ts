@@ -15,6 +15,9 @@ const viewports = [
 export default defineConfig({
   test: {
     projects: viewports.map((name) => ({
+      optimizeDeps: {
+        include: ["@kbui/react > @base-ui/react/number-field"],
+      },
       plugins: [
         storybookTest({
           configDir: ".storybook",

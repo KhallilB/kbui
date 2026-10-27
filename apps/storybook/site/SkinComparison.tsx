@@ -34,10 +34,7 @@ export function SkinComparison() {
             <h1>
               The everyday, <em>refined.</em>
             </h1>
-            <p>
-              Two complete screens. One component library. Warm site colors, tactile controls and
-              the same everyday work.
-            </p>
+            <p>Try a settings form and an operations screen built with kbui’s default design.</p>
           </div>
           <div className="comparison-note">
             <strong>A working example</strong>
@@ -121,8 +118,8 @@ export function SkinComparison() {
         </div>
         <div className="comparison-foot">
           <p>
-            <strong>Same markup. Same behavior.</strong> Shared tokens and component CSS supply this
-            design out of the box. Try settings and operations in either theme.
+            <strong>Built with kbui.</strong> These screens use the shared components, styles, and
+            tokens. Try the forms and actions in either theme.
           </p>
           <details>
             <summary>Explore edge cases</summary>

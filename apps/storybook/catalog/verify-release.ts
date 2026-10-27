@@ -551,7 +551,7 @@ for (const profile of profiles) {
       await page.waitForFunction(
         () =>
           getComputedStyle(document.querySelector(".playground-preview") as Element)
-            .backgroundColor === "rgb(32, 41, 32)",
+            .backgroundColor === "rgb(25, 27, 32)",
       );
       await page.getByLabel("Reduce motion", { exact: true }).check();
       assert.equal(
@@ -577,14 +577,18 @@ for (const profile of profiles) {
         ["/playground/", ".playground-section"],
         ["/examples/", ".example-section"],
         ["/changelog/", ".release-list"],
-        ["/components/?view=directory", ".catalog-grid"],
+        ["/components/?view=directory", ".catalog-browser"],
         ["/components/", ".catalog-browser"],
         ["/components/?component=input&view=directory", ".catalog-live"],
       ] as const) {
         await page.goto(`${origin}${route}`);
         assert.equal(
           await page
-            .locator(".page-heading")
+            .locator(
+              surface === ".catalog-live"
+                ? ".catalog-detail:visible .page-heading"
+                : ".page-heading",
+            )
             .first()
             .evaluate((element) => getComputedStyle(element).animationName),
           reduced ? "none" : "kbui-poster-rise",
