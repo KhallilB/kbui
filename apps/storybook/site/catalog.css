@@ -7,7 +7,8 @@
     padding: 28px;
     border: 1px solid var(--review-line);
     border-radius: var(--site-radius-surface);
-    background: var(--review-plane);
+    background: color-mix(in srgb, var(--rust) 4%, var(--review-paper));
+    box-shadow: var(--kb-material-panel-shadow);
   }
   .catalog-search {
     flex: 1 1 280px;
@@ -157,8 +158,12 @@
     margin-bottom: 12px;
   }
   .catalog-source {
+    padding: 5px 12px;
+    border: 1px solid color-mix(in srgb, var(--rust) 24%, var(--review-line));
+    border-radius: var(--kb-radius-sm);
+    background: color-mix(in srgb, var(--rust) 8%, var(--review-paper));
     font-size: 12px;
-    color: var(--review-good);
+    color: var(--rust);
   }
   .catalog-states {
     margin: 0 0 20px;
@@ -171,10 +176,21 @@
     border: 1px solid var(--review-line);
     border-radius: var(--site-radius-surface);
     overflow: hidden;
-    background: var(--kb-color-surface, var(--review-plane));
+    background: var(--kb-material-recessed-face);
+    box-shadow: var(--kb-material-panel-shadow);
     display: grid;
     place-items: center;
     padding: var(--preview-inset);
+  }
+  .catalog-preview-frame::after {
+    content: "";
+    position: absolute;
+    inset: var(--preview-inset);
+    z-index: 1;
+    border: 1px solid var(--kb-material-soft-border);
+    border-radius: 12px;
+    box-shadow: var(--kb-material-field-shadow);
+    pointer-events: none;
   }
   .catalog-preview-frame iframe {
     display: block;
@@ -183,6 +199,7 @@
     border: 0;
     background: var(--kb-color-bg);
     border-radius: 12px;
+    box-shadow: var(--kb-material-raised-shadow);
   }
   .catalog-preview-tools {
     display: flex;
@@ -439,6 +456,30 @@
     color: var(--muted);
     font-size: var(--kb-text-small-size);
   }
+  .catalog-component-item small > span:first-child {
+    padding: 3px 10px;
+    border: 1px solid color-mix(in srgb, var(--review-good) 24%, var(--review-line));
+    border-radius: var(--kb-radius-sm);
+    background: color-mix(in srgb, var(--review-good) 8%, var(--review-paper));
+    color: var(--review-good);
+  }
+  .catalog-component-item small > span:last-child {
+    align-self: center;
+    color: var(--rust);
+  }
+  .catalog-component-item:has(a:hover) > a {
+    color: var(--rust);
+  }
+  .catalog-index-heading .page-kicker,
+  .catalog-detail-heading .page-kicker,
+  .catalog-section-heading .page-kicker,
+  .catalog-skin-heading h3 {
+    color: var(--rust);
+  }
+  .catalog-live,
+  .catalog-api {
+    border-top-color: color-mix(in srgb, var(--rust) 28%, var(--review-line));
+  }
   .catalog-foundations {
     margin-block-start: 40px;
   }
@@ -450,7 +491,8 @@
     padding: 24px;
     border: 1px solid var(--review-line);
     border-radius: var(--site-radius-surface);
-    background: var(--review-plane);
+    background: color-mix(in srgb, var(--rust) 4%, var(--review-paper));
+    box-shadow: var(--kb-material-panel-shadow);
   }
   .catalog-skin-heading {
     margin-block-end: 20px;
@@ -490,6 +532,7 @@
     border-radius: var(--kb-input-radius);
     color: var(--ink);
     background: var(--review-paper);
+    box-shadow: var(--kb-material-field-shadow);
     font-family: var(--kb-font-mono);
     font-size: var(--kb-text-small-size);
     line-height: 1.5;
@@ -567,5 +610,21 @@
   .kbui-catalog .catalog-browser,
   .kbui-catalog .catalog-detail > .catalog-live {
     animation: kbui-poster-arrive 500ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
+  }
+}
+
+@media (forced-colors: active) {
+  .kbui-catalog {
+    .catalog-filters,
+    .catalog-skin-controls,
+    .catalog-skin-code textarea,
+    .catalog-preview-frame,
+    .catalog-preview-frame iframe {
+      box-shadow: none;
+      background-image: none;
+    }
+    .catalog-preview-frame::after {
+      display: none;
+    }
   }
 }
