@@ -15,11 +15,11 @@
         .stats > .kb-stat,
         .creative .sample-bottom > div > *
       ) {
-      animation: kbui-fragment-arrive 380ms cubic-bezier(0.22, 1, 0.36, 1)
+      animation: kbui-fragment-arrive 320ms cubic-bezier(0.22, 1, 0.36, 1)
         var(--fragment-delay, 0ms) both;
     }
     &.kbui-examples .page-heading > * {
-      animation: kbui-fragment-arrive 380ms cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation: kbui-fragment-arrive 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
     }
     &.kbui-examples .page-heading > h1 {
       animation-delay: 35ms;
@@ -78,7 +78,8 @@
         .composition > .geometry,
         .composition > .editorial-mark
       ) {
-      animation: kbui-poster-arrive 350ms ease-out var(--detail-delay, 100ms) both;
+      animation: kbui-poster-arrive 300ms cubic-bezier(0.22, 1, 0.36, 1) var(--detail-delay, 100ms)
+        both;
     }
     :is(.part-tags li, .example-links a):nth-child(2) {
       --detail-delay: 125ms;
@@ -103,7 +104,7 @@
       animation: kbui-ink-update 160ms ease-out both;
     }
     .inner-page > .page-heading {
-      animation: kbui-poster-rise 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation: kbui-poster-rise 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
     }
     .inner-page
       > :is(
@@ -115,10 +116,10 @@
         .catalog-specimens,
         .comparison-previews
       ) {
-      animation: kbui-poster-arrive 500ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
+      animation: kbui-poster-arrive 360ms cubic-bezier(0.22, 1, 0.36, 1) 40ms both;
     }
     .poster-copy > * {
-      animation: kbui-poster-rise 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation: kbui-poster-rise 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
     }
     .poster-copy > :nth-child(2) {
       animation-delay: 30ms;
@@ -133,10 +134,10 @@
       animation-delay: 120ms;
     }
     .hero-example {
-      animation: kbui-poster-arrive 500ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
+      animation: kbui-poster-arrive 360ms cubic-bezier(0.22, 1, 0.36, 1) 40ms both;
     }
     .hero-example .day-card {
-      animation: kbui-poster-rise 500ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
+      animation: kbui-poster-rise 360ms cubic-bezier(0.22, 1, 0.36, 1) 40ms both;
     }
     .day-bloom g {
       transition: fill 200ms ease;
@@ -284,68 +285,68 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .kbui-home {
-    --fragment-travel: 16px;
+    --fragment-travel: 8px;
     --fragment-opacity: 0.72;
 
     .poster-copy > h1 {
       animation: none;
     }
     .hero-line {
-      animation: kbui-headline-assemble 560ms cubic-bezier(0.22, 1, 0.36, 1) 40ms both;
+      animation: kbui-headline-assemble 420ms cubic-bezier(0.22, 1, 0.36, 1) 40ms both;
     }
     .hero-line:last-child {
       animation-delay: 80ms;
     }
     .poster-copy > .hero-description {
-      animation-delay: 220ms;
+      animation-delay: 120ms;
     }
     .poster-copy > .hero-links {
-      animation-delay: 300ms;
+      animation-delay: 160ms;
     }
     .poster-copy > .hero-footnote {
-      animation-delay: 360ms;
+      animation-delay: 200ms;
     }
     .about-strip > p {
-      --fragment-delay: 160ms;
+      --fragment-delay: 100ms;
     }
     :is(.other-ways, .take-it) > div:first-child > p:last-child {
-      --fragment-delay: 220ms;
+      --fragment-delay: 120ms;
     }
     .example-links a:nth-child(1) {
-      --detail-delay: 160ms;
+      --detail-delay: 80ms;
     }
     .example-links a:nth-child(2) {
-      --detail-delay: 280ms;
+      --detail-delay: 120ms;
     }
     .example-links a:nth-child(3) {
-      --detail-delay: 400ms;
+      --detail-delay: 160ms;
     }
     .day-heading h2 {
       --fragment-delay: 120ms;
     }
     .day-heading p {
-      --fragment-delay: 220ms;
+      --fragment-delay: 120ms;
     }
     .choice-copy strong {
-      --fragment-delay: calc(280ms + var(--choice-delay, 0ms));
+      --fragment-delay: calc(100ms + var(--choice-delay, 0ms));
     }
     .choice-copy small {
-      --fragment-delay: calc(360ms + var(--choice-delay, 0ms));
+      --fragment-delay: calc(140ms + var(--choice-delay, 0ms));
     }
     .day-choice:nth-of-type(2) {
-      --choice-delay: 110ms;
+      --choice-delay: 40ms;
     }
     .day-choice:nth-of-type(3) {
-      --choice-delay: 220ms;
+      --choice-delay: 80ms;
     }
     .day-progress {
-      --detail-delay: 660ms;
+      --detail-delay: 180ms;
     }
     .day-bottom {
-      --detail-delay: 740ms;
+      --detail-delay: 220ms;
     }
     .day-bloom {
-      animation: kbui-bloom-unfold 800ms cubic-bezier(0.16, 1, 0.3, 1) 160ms both;
+      animation: kbui-bloom-unfold 500ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
       transform-origin: center;
     }
     #main [data-motion-phase="waiting"] * {
@@ -357,7 +358,7 @@
 @keyframes kbui-headline-assemble {
   from {
     opacity: 0.8;
-    transform: translateY(14px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
@@ -366,7 +367,7 @@
 }
 @keyframes kbui-bloom-unfold {
   from {
-    transform: rotate(-24deg) scale(0.84);
+    transform: rotate(-12deg) scale(0.92);
   }
   to {
     transform: none;

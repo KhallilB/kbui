@@ -15,6 +15,7 @@ import "./site.css";
 import "./motion.css";
 import "./focus.css";
 import "./review-theme.css";
+import "./site-accent.css";
 
 export const installation = "setup/";
 const SiteThemeContext = createContext<"light" | "dark">("light");

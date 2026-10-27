@@ -1,0 +1,61 @@
+.kbui-site {
+  :is(.page-kicker, .section-kicker, .intro-tag) {
+    color: var(--kb-color-accent-hover);
+  }
+  .kb-radiogroup[data-appearance="segmented"] .kb-radiogroup-item {
+    color: var(--review-good);
+    background-color: color-mix(in srgb, var(--review-good) 6%, var(--review-paper));
+    border-color: color-mix(in srgb, var(--review-good) 20%, var(--review-line));
+  }
+  .kb-radiogroup[data-appearance="segmented"] .kb-radiogroup-item:has([data-checked]) {
+    color: var(--kb-color-accent-fg);
+    background-color: var(--kb-color-accent);
+    background-image: linear-gradient(var(--kb-material-action-sheen), transparent);
+    border-color: var(--kb-color-accent-hover);
+    box-shadow: var(--kb-material-accent-shadow);
+  }
+  .kb-radiogroup[data-appearance="segmented"]
+    .kb-radiogroup-item:has([data-checked]):has(:focus-visible) {
+    outline-color: var(--kb-color-accent-fg);
+  }
+  @media (hover: hover) and (pointer: fine) and (forced-colors: none) {
+    .kb-radiogroup[data-appearance="segmented"]
+      .kb-radiogroup-item:not(:has([data-checked], [data-disabled])):hover {
+      background-color: color-mix(in srgb, var(--review-good) 14%, var(--review-paper));
+      border-color: var(--review-good);
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .kb-radiogroup[data-appearance="segmented"] .kb-radiogroup-item {
+      transition:
+        background-color 160ms cubic-bezier(0.22, 1, 0.36, 1),
+        color 160ms ease,
+        border-color 160ms ease,
+        box-shadow 160ms ease;
+    }
+    .catalog-component-item {
+      transition:
+        background-color 160ms ease,
+        border-color 160ms ease,
+        box-shadow 160ms ease;
+    }
+  }
+  @media (forced-colors: active) {
+    .kb-radiogroup[data-appearance="segmented"] .kb-radiogroup-item {
+      color: CanvasText;
+      background: Canvas;
+      border-color: ButtonText;
+      box-shadow: none;
+    }
+    .kb-radiogroup[data-appearance="segmented"] .kb-radiogroup-item:has([data-checked]) {
+      color: HighlightText;
+      background: Highlight;
+      border-color: Highlight;
+      forced-color-adjust: none;
+    }
+    .kb-radiogroup[data-appearance="segmented"]
+      .kb-radiogroup-item:has([data-checked]):has(:focus-visible) {
+      outline-color: HighlightText;
+    }
+  }
+}

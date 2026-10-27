@@ -188,3 +188,9 @@ Legacy `view=live`, `view=directory` and `view=overview` URLs normalize to the p
 ## Writing site copy
 
 Write as if helping a developer use the library: explain when a component is useful, show an example, then cover the details they need to get it right. Use “your app” instead of “the consumer” or “the caller” in public guidance. Keep API names exact, explain unfamiliar terms, and state limitations plainly. Prefer natural sentences over repeated slogans, inflated claims, or internal implementation notes. Keep the catalog summaries and React guide consistent; the catalog reads its API guidance from that guide.
+
+## Site color and motion
+
+Selected segmented controls use the shared rust accent (peach in dark mode); unselected choices use quieter forest tints. Status colors keep their status meaning. `site-accent.css` applies these roles to site controls using shared KBUI tokens, including keyboard focus and forced-color styles. Page entrances use 320–360ms easing with short staggers; controls settle in 160ms. The home demo no longer waits through long stagger delays. Reduced motion removes animation and transitions.
+
+Component details show the live example, code, and API table. The extra usage-notes disclosure is hidden for now; the React guide and Storybook links still provide the full documentation.

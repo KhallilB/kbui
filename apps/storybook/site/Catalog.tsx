@@ -1,6 +1,6 @@
 import entries from "virtual:kbui-catalog";
 import { Button, Card, Checkbox, Input, RadioGroup } from "@kbui/react";
-import { createElement, useCallback, useId, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useId, useLayoutEffect, useRef, useState } from "react";
 import type { ApiBlock, CatalogEntry, CatalogGroup } from "../catalog/types";
 import { CatalogComparisonPreview } from "./CatalogComparison";
 import { StoryPreview } from "./CatalogPreview";
@@ -299,7 +299,6 @@ function CatalogDetail({
     stories.find((story) => story.name === alias) ??
     stories.find((story) => story.id === entry.defaultStoryId);
   if (!selected) throw new Error(`Missing default catalog story: ${entry.name}`);
-  const notes = entry.api.filter((block) => block.kind !== "table");
   return (
     <>
       <div className="catalog-topline">
@@ -482,33 +481,6 @@ function CatalogDetail({
           .map((block) => (
             <ApiTable key={block.headers.join("|")} name={entry.name} block={block} />
           ))}
-        {notes.length > 0 && (
-          <details
-            className="catalog-notes"
-            open={!entry.api.some((block) => block.kind === "table")}
-          >
-            <summary>Usage notes and examples</summary>
-            <div>
-              {notes.map((block) =>
-                block.kind === "code" ? (
-                  <pre key={block.text}>
-                    <code>{block.text}</code>
-                  </pre>
-                ) : block.kind === "heading" ? (
-                  createElement(
-                    `h${block.level}`,
-                    { key: block.text },
-                    <Inline text={block.text} />,
-                  )
-                ) : (
-                  <p key={block.text}>
-                    <Inline text={block.text} />
-                  </p>
-                ),
-              )}
-            </div>
-          </details>
-        )}
       </section>
     </>
   );

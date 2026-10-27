@@ -526,12 +526,14 @@ export const FullPageCatalog: Story = {
       );
     const input = navigation.getByRole("link", { name: "Input" });
     expect(input).toHaveAccessibleDescription(
-      /Labelled fields, help text, and validation.*7 examples/,
+      /Collect text with a clear label, help text, and error feedback.*7 examples/,
     );
     const summary = input.closest(".catalog-component-item");
     if (!summary) throw new Error("Missing component summary");
     expect(
-      within(summary as HTMLElement).getByText("Labelled fields, help text, and validation."),
+      within(summary as HTMLElement).getByText(
+        "Collect text with a clear label, help text, and error feedback.",
+      ),
     ).toBeVisible();
     expect(within(summary as HTMLElement).getByText("7 examples")).toBeVisible();
     expect(canvasElement.querySelectorAll("iframe")).toHaveLength(0);

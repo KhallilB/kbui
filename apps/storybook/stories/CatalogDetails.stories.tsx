@@ -100,25 +100,26 @@ export const LegacyThemeExample: Story = {
   },
 };
 
-export const DocumentationHeadings: Story = {
+export const ComponentReference: Story = {
   play: async ({ canvasElement }) => {
     const page = within(canvasElement);
-    await userEvent.click(page.getByText("Usage notes and examples", { exact: true }));
-    expect(page.getByRole("heading", { name: "Search composition", level: 3 })).toBeVisible();
-    expect(canvasElement.querySelector(".catalog-notes strong")).toHaveTextContent(
-      "Icons and actions",
+    expect(page.queryByText("Usage notes and examples", { exact: true })).not.toBeInTheDocument();
+    expect(page.getByRole("table", { name: "Input API" })).toBeVisible();
+    expect(page.getByRole("link", { name: "React guide" })).toBeVisible();
+    await userEvent.click(page.getByRole("button", { name: "View code" }));
+    expect(page.getByRole("button", { name: "View code" })).toHaveAttribute(
+      "aria-expanded",
+      "true",
     );
+    expect(canvasElement.querySelector(".example-code-content")).toBeVisible();
   },
 };
 
-export const DocumentationLinks: Story = {
+export const NumericReference: Story = {
   args: { componentId: "numberfield" },
   play: async ({ canvasElement }) => {
     const page = within(canvasElement);
-    await userEvent.click(page.getByText("Usage notes and examples", { exact: true }));
-    expect(page.getByRole("link", { name: /^Numeric fields$/ })).toHaveAttribute(
-      "href",
-      "https://github.com/KhallilB/kbui/blob/main/docs/guides/number-fields.md",
-    );
+    expect(page.queryByText("Usage notes and examples", { exact: true })).not.toBeInTheDocument();
+    expect(page.getByRole("table", { name: "NumberField API" })).toBeVisible();
   },
 };
