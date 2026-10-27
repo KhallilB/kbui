@@ -86,7 +86,7 @@ Each role has a mark, a tint and text for the tint. See `docs/tokens.md` for whe
         <td style={{ fontSize: `var(${variable})`, fontFamily: "var(--kb-font-sans)" }}>The quick brown fox jumps over the lazy dog</td>
       </tr>
     ))}
-    {Object.entries(tokens.font).map(([name, variable]) => (
+    {Object.entries(tokens.font).filter(([, variable]) => typeof variable === "string").map(([name, variable]) => (
       <tr key={name}>
         <td><code>{variable}</code></td>
         <td style={{ fontFamily: `var(${variable})` }}>The quick brown fox jumps over the lazy dog</td>
