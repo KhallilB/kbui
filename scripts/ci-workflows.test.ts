@@ -10,7 +10,16 @@ type Workflow = {
       container?: { image: string };
       if?: string;
       needs?: string[];
-      steps: { run?: string; uses?: string }[];
+      permissions?: Record<string, string>;
+      environment?: { name: string; url?: string };
+      steps: {
+        name?: string;
+        if?: string;
+        run?: string;
+        uses?: string;
+        with?: Record<string, unknown>;
+        env?: Record<string, string>;
+      }[];
     }
   >;
 };
@@ -129,4 +138,67 @@ test("release publishing uses host tools after container validation", () => {
   expect(JSON.stringify(jobs.upload?.steps)).toContain("gh release upload");
   expect(JSON.stringify(jobs.upload?.steps)).toContain("$GITHUB_REPOSITORY");
   expect(job("release", "install").needs).toEqual(["release-please", "upload"]);
+});
+
+test("PR previews reuse either existing CI Storybook build", () => {
+  for (const key of ["check", "browser"]) {
+    const upload = job("ci", key).steps.find((step) => step.uses === "actions/upload-artifact@v4");
+    expect(upload).toBeDefined();
+    expect(upload?.with?.path).toBe("apps/storybook/dist/storybook/");
+    expect(upload?.with?.name).toBe(`storybook-\${{ github.sha }}`);
+    expect(upload?.with?.["if-no-files-found"]).toBe("error");
+    expect(upload?.if).toContain("github.event_name == 'pull_request'");
+    expect(upload?.if).toContain(
+      "github.event.pull_request.head.repo.full_name == github.repository",
+    );
+  }
+  const compile = job("ci", "check").steps.find((step) => step.run?.includes("build-storybook"));
+  expect(compile?.run).toContain("--output-dir dist/storybook");
+  const deploy = job("ci", "preview");
+  expect(deploy.needs).toEqual(["check", "browser"]);
+  const download = deploy.steps.find((step) => step.uses === "actions/download-artifact@v4");
+  expect(download?.with?.name).toBe(`storybook-\${{ github.sha }}`);
+  expect(download?.with?.path).toBe("deployment/site/public");
+  expect(JSON.stringify(deploy.steps)).not.toMatch(/build-storybook|build:site|validate:site/);
+});
+
+test("preview credentials stay behind successful same-repository PR validation", () => {
+  const preview = job("ci", "preview");
+  for (const guard of [
+    "always()",
+    "github.event_name == 'pull_request'",
+    "github.event.pull_request.head.repo.full_name == github.repository",
+    "needs.check.result == 'success'",
+    "needs.browser.result == 'success'",
+    "needs.browser.result == 'skipped'",
+  ])
+    expect(preview.if).toContain(guard);
+  expect(preview.environment?.name).toBe("kbui-preview");
+  expect(preview.permissions).toEqual({ contents: "read", deployments: "write" });
+  expect(JSON.stringify(workflow("ci").on)).not.toContain("pull_request_target");
+  const deploy = preview.steps.find((step) => step.name === "Publish Storybook preview");
+  expect(deploy?.env?.CLOUDFLARE_API_TOKEN).toBe(`\${{ secrets.CLOUDFLARE_API_TOKEN }}`);
+  expect(preview.steps.filter((step) => step.env?.CLOUDFLARE_API_TOKEN)).toHaveLength(1);
+  expect(deploy?.run).toContain("npm run configure:preview");
+  expect(deploy?.run).toContain("npm run upload:preview");
+  expect(deploy?.run).toContain(`--preview-alias "pr-\${PR_NUMBER}"`);
+});
+
+test("PR aliases identify separate URLs without deploying production traffic", () => {
+  const preview = job("ci", "preview");
+  const url = preview.environment?.url ?? "";
+  expect(url.replace(`\${{ github.event.number }}`, "57")).toBe(
+    "https://pr-57-kbui-site-preview.khallilbailey.workers.dev",
+  );
+  expect(url.replace(`\${{ github.event.number }}`, "58")).toBe(
+    "https://pr-58-kbui-site-preview.khallilbailey.workers.dev",
+  );
+  const manifest = JSON.parse(readFileSync(`${root}/deployment/site/package.json`, "utf8"));
+  expect(manifest.scripts["configure:preview"]).toBe(
+    "cf workers triggers deploy --prebuilt --mode preview",
+  );
+  expect(manifest.scripts["upload:preview"]).toBe(
+    "cf workers versions create --prebuilt --mode preview",
+  );
+  expect(JSON.stringify(preview.steps)).not.toContain("npm run deploy");
 });

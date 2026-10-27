@@ -5,6 +5,7 @@ export default defineConfig(({ mode }) => ({
     name: mode === "production" ? "kbui-site" : "kbui-site-preview",
     compatibilityDate: "2026-10-26",
     workersDev: true,
+    previewUrls: mode === "production" ? undefined : true,
     assets: { htmlHandling: "auto-trailing-slash", notFoundHandling: "none" },
     domains: mode === "production" ? ["kbui.kcb.pro"] : [],
     triggers: [],
