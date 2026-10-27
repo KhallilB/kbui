@@ -23,3 +23,7 @@
 @import "./components/checkbox.css" layer(kbui.components);
 @import "./components/radiogroup.css" layer(kbui.components);
 @import "./components/select.css" layer(kbui.components);
+@import "./components/code.css" layer(kbui.components);
+@import "./components/heading.css" layer(kbui.components);
+@import "./components/link.css" layer(kbui.components);
+@import "./components/text.css" layer(kbui.components);

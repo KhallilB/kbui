@@ -292,6 +292,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-text-h2-size: 22px;
   --kb-text-h3-size: 18px;
   --kb-text-h4-size: 16px;
+  --kb-text-measure: 65ch;
+  --kb-text-muted: var(--kb-color-muted);
   --kb-radiogroup-gap: var(--kb-space-2);
   --kb-radiogroup-size: 1.5rem;
   --kb-select-popup-min-width: 10rem;
@@ -322,6 +324,21 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-toolbar-padding: 6px;
   --kb-tooltip-padding-block: var(--kb-space-2);
   --kb-tooltip-padding-inline: var(--kb-space-3);
+  --kb-heading-size-sm: var(--kb-text-h4-size);
+  --kb-heading-size-md: var(--kb-text-h3-size);
+  --kb-heading-size-lg: var(--kb-text-h2-size);
+  --kb-heading-size-xl: var(--kb-text-h1-size);
+  --kb-heading-size-display: var(--kb-size-display);
+  --kb-heading-weight: var(--kb-font-weight-strong);
+  --kb-heading-leading: 1.25;
+  --kb-heading-tracking: -0.025em;
+  --kb-link-color: var(--kb-color-accent);
+  --kb-link-hover: var(--kb-color-accent-hover);
+  --kb-link-underline-offset: 0.18em;
+  --kb-code-size: max(var(--kb-text-small-size), 0.875em);
+  --kb-code-background: var(--kb-color-surface);
+  --kb-code-border: var(--kb-color-border);
+  --kb-code-radius: var(--kb-radius-sm);
   color-scheme: light;
 }
 
@@ -426,12 +443,17 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-material-raised-face: linear-gradient(180deg, var(--kb-material-raised-top), var(--kb-material-raised-bottom));
   --kb-material-recessed-face: linear-gradient(180deg, color-mix(in srgb, var(--kb-material-field-bg) 96%, var(--kb-color-fg)), var(--kb-material-field-bg));
   --kb-material-surface-bg: #ffffff;
+  --kb-text-muted: var(--kb-color-muted);
   --kb-switch-track-background: var(--kb-material-recessed-face);
   --kb-switch-track-border: var(--kb-material-raised-border);
   --kb-switch-track-shadow: var(--kb-material-field-shadow);
   --kb-switch-thumb-background: var(--kb-material-raised-face);
   --kb-switch-thumb-border: var(--kb-material-raised-border);
   --kb-switch-thumb-shadow: var(--kb-material-raised-shadow);
+  --kb-link-color: var(--kb-color-accent);
+  --kb-link-hover: var(--kb-color-accent-hover);
+  --kb-code-background: var(--kb-color-surface);
+  --kb-code-border: var(--kb-color-border);
   color-scheme: light;
 }
 
@@ -536,12 +558,17 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-material-raised-face: linear-gradient(180deg, var(--kb-material-raised-top), var(--kb-material-raised-bottom));
   --kb-material-recessed-face: linear-gradient(180deg, color-mix(in srgb, var(--kb-material-field-bg) 65%, var(--kb-material-chrome-bg)), var(--kb-material-field-bg));
   --kb-material-surface-bg: #252931;
+  --kb-text-muted: var(--kb-color-muted);
   --kb-switch-track-background: var(--kb-material-recessed-face);
   --kb-switch-track-border: var(--kb-material-raised-border);
   --kb-switch-track-shadow: var(--kb-material-field-shadow);
   --kb-switch-thumb-background: var(--kb-material-raised-face);
   --kb-switch-thumb-border: var(--kb-material-raised-border);
   --kb-switch-thumb-shadow: var(--kb-material-raised-shadow);
+  --kb-link-color: var(--kb-color-accent);
+  --kb-link-hover: var(--kb-color-accent-hover);
+  --kb-code-background: var(--kb-color-surface);
+  --kb-code-border: var(--kb-color-border);
   color-scheme: dark;
 }
 
@@ -647,12 +674,17 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-material-raised-face: linear-gradient(180deg, var(--kb-material-raised-top), var(--kb-material-raised-bottom));
     --kb-material-recessed-face: linear-gradient(180deg, color-mix(in srgb, var(--kb-material-field-bg) 65%, var(--kb-material-chrome-bg)), var(--kb-material-field-bg));
     --kb-material-surface-bg: #252931;
+    --kb-text-muted: var(--kb-color-muted);
     --kb-switch-track-background: var(--kb-material-recessed-face);
     --kb-switch-track-border: var(--kb-material-raised-border);
     --kb-switch-track-shadow: var(--kb-material-field-shadow);
     --kb-switch-thumb-background: var(--kb-material-raised-face);
     --kb-switch-thumb-border: var(--kb-material-raised-border);
     --kb-switch-thumb-shadow: var(--kb-material-raised-shadow);
+    --kb-link-color: var(--kb-color-accent);
+    --kb-link-hover: var(--kb-color-accent-hover);
+    --kb-code-background: var(--kb-color-surface);
+    --kb-code-border: var(--kb-color-border);
     color-scheme: dark;
   }
 }

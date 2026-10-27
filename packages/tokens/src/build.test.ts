@@ -395,3 +395,16 @@ test("switch material tokens retain recessed track and raised thumb in each them
     expect(scope).toContain("--kb-switch-thumb-shadow: var(--kb-material-raised-shadow);");
   }
 });
+
+describe("typography role integration", () => {
+  test("aliases heading and body primitives to existing design roles", () => {
+    const { css } = buildTokens(real as TokenTree);
+    expect(css).toContain("--kb-heading-size-sm: var(--kb-text-h4-size);");
+    expect(css).toContain("--kb-heading-size-md: var(--kb-text-h3-size);");
+    expect(css).toContain("--kb-heading-size-lg: var(--kb-text-h2-size);");
+    expect(css).toContain("--kb-heading-size-xl: var(--kb-text-h1-size);");
+    expect(css).toContain("--kb-heading-weight: var(--kb-font-weight-strong);");
+    expect(css).toContain("--kb-link-color: var(--kb-color-accent);");
+    expect(css).toContain("--kb-text-muted: var(--kb-color-muted);");
+  });
+});

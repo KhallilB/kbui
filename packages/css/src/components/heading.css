@@ -1,0 +1,29 @@
+/* Anatomy: .kb-heading [data-size=sm|md|lg|xl|display] */
+.kb-heading {
+  margin: 0;
+  min-inline-size: 0;
+  font-family: var(--kb-font-sans);
+  font-size: var(--kb-heading-size-lg);
+  font-weight: var(--kb-heading-weight);
+  line-height: var(--kb-heading-leading);
+  letter-spacing: var(--kb-heading-tracking);
+  color: var(--kb-color-fg);
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+.kb-heading[data-size="sm"] {
+  font-size: var(--kb-heading-size-sm);
+}
+.kb-heading[data-size="md"] {
+  font-size: var(--kb-heading-size-md);
+}
+.kb-heading[data-size="lg"] {
+  font-size: var(--kb-heading-size-lg);
+}
+.kb-heading[data-size="display"] {
+  font-size: var(--kb-heading-size-display);
+}
+
+.kb-heading[data-size="xl"] {
+  font-size: var(--kb-heading-size-xl);
+}
