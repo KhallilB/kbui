@@ -86,7 +86,7 @@ jobs:
     permissions:
       contents: read
       deployments: write
-      issues: write
+      pull-requests: write
     environment:
       name: kbui-preview
       url: https://pr-${{ github.event.number }}-kbui-site-preview.khallilbailey.workers.dev

@@ -177,7 +177,7 @@ test("preview credentials stay behind successful same-repository PR validation",
   expect(preview.permissions).toEqual({
     contents: "read",
     deployments: "write",
-    issues: "write",
+    "pull-requests": "write",
   });
   expect(JSON.stringify(workflow("ci").on)).not.toContain("pull_request_target");
   const deploy = preview.steps.find((step) => step.name === "Publish Storybook preview");
