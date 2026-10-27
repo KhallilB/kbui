@@ -11,5 +11,5 @@
   text-transform: none;
   white-space: break-spaces;
   overflow-wrap: anywhere;
-  box-decoration-break: clone;
+  box-decoration-break: slice;
 }
