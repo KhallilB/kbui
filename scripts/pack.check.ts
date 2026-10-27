@@ -20,6 +20,19 @@ function run(cmd: string[], cwd: string): string {
   return result.stdout.toString().trim();
 }
 
+test("@kbui/react ships the full stylesheet so one install is enough", async () => {
+  const react = packages.find(({ pkg }) => pkg.name === "@kbui/react");
+  if (!react) throw new Error("@kbui/react is not published");
+  const tarball = run(["bun", "pm", "pack", "--quiet", "--destination", out], react.dir);
+  const entries = run(["tar", "-tzf", tarball], react.dir).split("\n");
+  expect(entries).toContain("package/dist/styles.css");
+  const pkg = react.pkg as { exports?: Record<string, unknown>; sideEffects?: unknown };
+  expect(pkg.exports?.["./styles.css"]).toBe("./dist/styles.css");
+  expect(pkg.sideEffects).toEqual(["*.css"]);
+  const shipped = await Bun.file(join(react.dir, "dist/styles.css")).text();
+  expect(shipped).toBe(await Bun.file(join(root, "packages/css/dist/styles.css")).text());
+});
+
 describe.each(packages)("$pkg.name tarball", ({ dir, pkg }) => {
   const tarball = run(["bun", "pm", "pack", "--quiet", "--destination", out], dir);
   const entries = run(["tar", "-tzf", tarball], dir)

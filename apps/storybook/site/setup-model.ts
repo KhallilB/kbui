@@ -5,10 +5,26 @@ export type SetupOptions = { manager: Manager; tokens: boolean };
 export const themes = ["system", "light", "dark"] as const;
 export type Theme = (typeof themes)[number];
 
-export function installCommand(manager: Manager, tokens: boolean): string {
+// @kbui/react ships styles.css from 0.7.0; earlier releases also need @kbui/css.
+export function bundlesCss(version = releaseVersion): boolean {
+  const [major = 0, minor = 0] = version.split(".").map(Number);
+  return major > 0 || minor >= 7;
+}
+export function stylesheetImport(version = releaseVersion): string {
+  return bundlesCss(version) ? "@kbui/react/styles.css" : "@kbui/css/styles.css";
+}
+export function installCommand(
+  manager: Manager,
+  tokens: boolean,
+  version = releaseVersion,
+): string {
   const prefix = manager === "npm" ? "npm install" : `${manager} add`;
-  const packages = tokens ? ["react", "css", "tokens"] : ["react", "css"];
-  return `${prefix} ${packages.map((name) => `https://github.com/KhallilB/kbui/releases/download/v${releaseVersion}/kbui-${name}-${releaseVersion}.tgz`).join(" ")}`;
+  const packages = [
+    "react",
+    ...(bundlesCss(version) ? [] : ["css"]),
+    ...(tokens ? ["tokens"] : []),
+  ];
+  return `${prefix} ${packages.map((name) => `https://github.com/KhallilB/kbui/releases/download/v${version}/kbui-${name}-${version}.tgz`).join(" ")}`;
 }
 export function readSetup(search: string): SetupOptions {
   const query = new URLSearchParams(search);
@@ -26,7 +42,7 @@ export function setupHref(root: string, options: SetupOptions): string {
 export function themeMarkup(theme: Theme): string {
   return `<html lang="en"${theme === "system" ? "" : ` data-theme="${theme}"`}>`;
 }
-export const firstComponent = `import "@kbui/css/styles.css";
+export const firstComponent = `import "${stylesheetImport()}";
 import { Button } from "@kbui/react";
 
 export function App() {

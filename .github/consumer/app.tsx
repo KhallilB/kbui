@@ -1,4 +1,4 @@
-import "@kbui/css/styles.css";
+import "@kbui/react/styles.css";
 import { Button, Card, Dialog, Grid, Input } from "@kbui/react";
 
 export const App = () => (

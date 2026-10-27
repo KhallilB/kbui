@@ -2,7 +2,7 @@
 
 Use `NumberField` when people type quantities and also need visible step controls. Use `Input type="number"` for a plain native numeric field without coordinated buttons. Counts, prices, units and business validation remain consumer rules.
 
-Import from `@kbui/react` and load matching `@kbui/css/styles.css`. NumberField is prepared after 0.5.0 and remains unreleased as of 2026-10-26. Existing release 0.5.0 does not contain it. React 19 and Base UI 1.9 are the tested source contract; no other framework adapter is provided.
+Import from `@kbui/react` and load `@kbui/react/styles.css`. NumberField is prepared after 0.5.0 and remains unreleased as of 2026-10-26. Existing release 0.5.0 does not contain it. React 19 and Base UI 1.9 are the tested source contract; no other framework adapter is provided.
 
 ```tsx
 import { useState } from "react";

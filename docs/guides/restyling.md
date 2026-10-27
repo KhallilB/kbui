@@ -1,13 +1,13 @@
 # Restyling kbui
 
-To restyle kbui, write a stylesheet of token overrides and load it after `@kbui/css/styles.css`. Components read every color, size, type and timing value from tokens, so a restyle changes every component without touching component CSS. Token kinds, naming and aliases are described in [Tokens](../tokens.md).
+To restyle kbui, write a stylesheet of token overrides and load it after `@kbui/react/styles.css`. Components read every color, size, type and timing value from tokens, so a restyle changes every component without touching component CSS. Token kinds, naming and aliases are described in [Tokens](../tokens.md).
 
 ## Write the override
 
 Load the restyle after kbui. Every kbui theme selector has zero specificity, so any later rule wins in every theme.
 
 ```css
-@import "@kbui/css/styles.css";
+@import "@kbui/react/styles.css";
 @import "./restyle.css";
 ```
 

@@ -6,16 +6,19 @@
   "files": [
     "dist"
   ],
-  "sideEffects": false,
+  "sideEffects": [
+    "*.css"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
-    "./check-versions": "./dist/check-versions.js"
+    "./check-versions": "./dist/check-versions.js",
+    "./styles.css": "./dist/styles.css"
   },
   "scripts": {
-    "build": "vite build && tsc -p tsconfig.build.json && bun build scripts/check-versions.ts --target=node --outfile=dist/check-versions.js",
+    "build": "vite build && tsc -p tsconfig.build.json && bun build scripts/check-versions.ts --target=node --outfile=dist/check-versions.js && bun scripts/copy-styles.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit -p tsconfig.json"

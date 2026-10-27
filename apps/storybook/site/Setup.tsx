@@ -6,12 +6,14 @@ import { ControlSelect } from "./ControlSelect";
 import { LinkArrow } from "./LinkArrow";
 import { SiteFrame, SiteLink } from "./SiteFrame";
 import {
+  bundlesCss,
   installCommand,
   managers,
   readSetup,
   releaseVersion,
   type SetupOptions,
   setupHref,
+  stylesheetImport,
   type Theme,
   themes,
 } from "./setup-model";
@@ -221,7 +223,10 @@ export function Setup({
                 <p className="page-kicker">01 / Install</p>
                 <h2 id={`${id}-install`}>Pick your package manager.</h2>
                 <p>
-                  Run this in your app’s folder. Both packages come from the same published release.
+                  Run this in your app’s folder.{" "}
+                  {bundlesCss()
+                    ? "One package carries the components and the stylesheet."
+                    : "Both packages come from the same published release."}{" "}
                   React and React DOM 19+ must already be installed.
                 </p>
               </div>
@@ -268,10 +273,10 @@ export function Setup({
             <details className="setup-help">
               <summary>Something not working?</summary>
               <p>
-                Unstyled components: import <code>@kbui/css/styles.css</code> once. Missing CSS
+                Unstyled components: import <code>{stylesheetImport()}</code> once. Missing CSS
                 types: add <code>declare module "*.css";</code> to your app’s type declarations.
                 Theme unchanged: put <code>data-theme</code> on <code>&lt;html&gt;</code>.
-                Upgrading: update React, CSS and optional typed tokens to the same kbui release.
+                Upgrading: update every installed kbui package to the same release.
               </p>
             </details>
           </>

@@ -11,15 +11,14 @@ kbui is the design system shared across our projects. Design tokens define every
 
 ## Using kbui in a project
 
-Install `@kbui/react` and `@kbui/css` from the same release. Replace `0.1.0` with the version you want:
+Install `@kbui/react` from a release; it includes the stylesheet. Replace `0.7.0` with the version you want:
 
 ```bash
-bun add https://github.com/KhallilB/kbui/releases/download/v0.1.0/kbui-react-0.1.0.tgz \
-        https://github.com/KhallilB/kbui/releases/download/v0.1.0/kbui-css-0.1.0.tgz
+bun add https://github.com/KhallilB/kbui/releases/download/v0.7.0/kbui-react-0.7.0.tgz
 ```
 
 ```tsx
-import "@kbui/css/styles.css";
+import "@kbui/react/styles.css";
 import { Button } from "@kbui/react";
 
 export const Save = () => <Button variant="primary">Save</Button>;

@@ -1,9 +1,9 @@
 # @kbui/react
 
-React 19 components for kbui. Behavior comes from [Base UI](https://base-ui.com) 1.9 and styling from `@kbui/css`. This package imports no CSS, so import the stylesheet once in your app.
+React 19 components for kbui. Behavior comes from [Base UI](https://base-ui.com) 1.9 and styling from `@kbui/css`, which this package includes as `@kbui/react/styles.css`. Components import no CSS, so import the stylesheet once in your app.
 
 ```tsx
-import "@kbui/css/styles.css";
+import "@kbui/react/styles.css";
 import { Button, Dialog, Input } from "@kbui/react";
 ```
 

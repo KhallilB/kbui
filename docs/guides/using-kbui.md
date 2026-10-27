@@ -4,21 +4,20 @@ Projects install kbui from a release: one tarball per package, attached to a [Gi
 
 ## Installing
 
-1. Add `@kbui/react` and `@kbui/css` from the same release. The on-site setup page pins a verified release. Replace `0.5.0` with the version you want; every release lists its tarballs.
+1. Add `@kbui/react` from a release. It includes the stylesheet. The on-site setup page pins a verified release. Replace `0.7.0` with the version you want; every release lists its tarballs. Releases before 0.7.0 also need `kbui-css-<version>.tgz` and the `@kbui/css/styles.css` import.
 
    ```bash
-   bun add https://github.com/KhallilB/kbui/releases/download/v0.5.0/kbui-react-0.5.0.tgz \
-           https://github.com/KhallilB/kbui/releases/download/v0.5.0/kbui-css-0.5.0.tgz
+   bun add https://github.com/KhallilB/kbui/releases/download/v0.7.0/kbui-react-0.7.0.tgz
    ```
 
-   This works the same on Windows, macOS and Linux. The release workflow installs every release on all three; a failed install shows as a failed `install` job on that release's workflow run. `@kbui/css` already includes the tokens. Add `kbui-tokens-<version>.tgz` from the same release only if you need the typed `tokens` object in TypeScript.
+   This works the same on Windows, macOS and Linux. The release workflow installs every release on all three; a failed install shows as a failed `install` job on that release's workflow run. The stylesheet already includes the tokens. Add `kbui-tokens-<version>.tgz` from the same release only if you need the typed `tokens` object in TypeScript.
 
 2. Install `react` and `react-dom` 19 if the project does not have them. They are peer dependencies, so kbui does not install them.
 
 3. Import the stylesheet once, near the root of the app. The components can then be used anywhere.
 
    ```tsx
-   import "@kbui/css/styles.css";
+   import "@kbui/react/styles.css";
    import { Button, Dialog, Input } from "@kbui/react";
    ```
 
@@ -112,9 +111,9 @@ To return to a release, run the `bun add` command from [Installing](#installing)
 | `failed to resolve` after `bun add link:../kbui/...` | In Bun, `link:` refers to a package registered with `bun link`, not a folder | Drop the prefix: `bun add ../kbui/packages/react` |
 | `has a dependency loop` | `bun add` was run inside kbui | Run it from the project folder |
 | `Cannot find module '@kbui/react'`, or missing types, with a path install | kbui has not been built | Run `bun run build` in kbui |
-| Components render unstyled | The stylesheet is not imported | Import `@kbui/css/styles.css` once at the root |
+| Components render unstyled | The stylesheet is not imported | Import `@kbui/react/styles.css` once at the root |
 | Dark mode never applies | `data-theme` is on the wrong element | Put it on `<html>` |
 | CI or a deploy cannot find `@kbui/*` | The project installs kbui by path, and `../kbui` exists only on this machine | Install from a release instead; see [Installing](#installing) |
-| Styles do not match the components | `@kbui/css` and `@kbui/react` come from different releases | Install both from the same version |
+| Styles do not match the components | `@kbui/css/styles.css` is imported from a different release than `@kbui/react` | Import `@kbui/react/styles.css` and remove `@kbui/css` |
 | `Invalid hook call` in jsdom tests, while the browser build works | Bun symlinks each path-installed file into `../kbui`, so Node resolves kbui's own `react` and `@base-ui/react` next to the project's copies | In the test config set `resolve: { preserveSymlinks: true, dedupe: ["react", "react-dom"] }` and inline `/@kbui\//` for jsdom; the Vite build needs nothing |
 | `Element type is invalid` in Vitest browser tests after rebuilding kbui | Vite keeps the previous build of `@kbui/*` in its prebundled dependency cache | Delete `node_modules/.vite` in the project and rerun the tests |
