@@ -1,8 +1,10 @@
 import entries from "virtual:kbui-catalog";
-import { Button, Input, RadioGroup } from "@kbui/react";
-import { type ReactNode, useCallback, useId, useLayoutEffect, useRef, useState } from "react";
+import { Button, Card, Checkbox, Input, RadioGroup } from "@kbui/react";
+import { useCallback, useId, useLayoutEffect, useRef, useState } from "react";
 import type { ApiBlock, CatalogEntry, CatalogGroup } from "../catalog/types";
+import { CatalogComparisonPreview } from "./CatalogComparison";
 import { StoryPreview } from "./CatalogPreview";
+import { CatalogSkinControls } from "./CatalogSkinControls";
 import { CodePanel } from "./CodePanel";
 import {
   appearanceQuery,
@@ -12,6 +14,7 @@ import {
   previewLayout,
   storybookGlobals,
 } from "./catalog-model";
+import { defaultCatalogSkin } from "./catalog-skin";
 import { LinkArrow } from "./LinkArrow";
 import { SiteFrame } from "./SiteFrame";
 import { readSiteTheme } from "./site-theme";
@@ -72,16 +75,10 @@ function ApiTable({ name, block }: { name: string; block: Extract<ApiBlock, { ki
 
 function CatalogIndex({
   appearance,
-  qaHref,
-  selectedId,
   onChoose,
-  detail,
 }: {
   appearance: CatalogAppearance;
-  qaHref: string;
-  selectedId: string;
   onChoose: (id: string) => void;
-  detail: ReactNode;
 }) {
   const id = useId();
   const input = useRef<HTMLInputElement>(null);
@@ -95,12 +92,12 @@ function CatalogIndex({
   );
   return (
     <>
-      <div className="page-heading">
+      <div className="page-heading catalog-index-heading">
         <p className="page-kicker">Components</p>
         <h1>
           Find your next <em>piece.</em>
         </h1>
-        <p>{entries.length} components. Pick one, try its states, and see how to use it.</p>
+        <p>{entries.length} components. Find a piece, explore its examples, and make it yours.</p>
       </div>
       <div className="catalog-filters">
         <Input
@@ -175,22 +172,14 @@ function CatalogIndex({
             Clear filters
           </Button>
         )}
-        <a className="plain-link catalog-qa-link" href={qaHref}>
-          Component QA <LinkArrow />
-        </a>
       </div>
       <div className="catalog-browser">
-        <nav aria-label="Browse components" className="catalog-component-list">
+        <nav aria-label="Browse components" className="catalog-grid">
           {matches.map((entry) => (
-            <div
-              key={entry.id}
-              className="catalog-component-item"
-              data-current={entry.id === selectedId || undefined}
-            >
+            <Card key={entry.id} className="catalog-card catalog-component-item">
               <a
                 href={`./?component=${entry.id}${appearanceQuery(appearance)}`}
                 aria-describedby={`${id}-${entry.id}-description ${id}-${entry.id}-count`}
-                aria-current={entry.id === selectedId ? "page" : undefined}
                 onClick={(event) => {
                   if (
                     event.button !== 0 ||
@@ -213,10 +202,9 @@ function CatalogIndex({
                 <span>{entry.group}</span>
                 <span>{browsableStories(entry).length} examples</span>
               </small>
-            </div>
+            </Card>
           ))}
         </nav>
-        <div className="catalog-inspector">{detail}</div>
       </div>
       {matches.length === 0 && (
         <p className="catalog-empty" role="status">
@@ -228,15 +216,21 @@ function CatalogIndex({
 }
 
 function CatalogDetail({
+  active,
   entry,
   initialStateId,
   storybookRoot,
   onStateChange,
   appearance,
   navigationRevision = 0,
-  embedded = false,
+  onBrowse,
+  initialCompare = false,
+  onCompareChange,
 }: {
-  embedded?: boolean;
+  active: boolean;
+  onBrowse: () => void;
+  initialCompare?: boolean;
+  onCompareChange: ((value: boolean) => void) | undefined;
   appearance: CatalogAppearance;
   navigationRevision?: number;
   entry: CatalogEntry;
@@ -247,6 +241,13 @@ function CatalogDetail({
   const id = useId();
   const [stateId, setStateId] = useState(initialStateId ?? entry.defaultStoryId);
   const [generation, setGeneration] = useState(0);
+  const [skin, setSkin] = useState(appearance.skin ?? defaultCatalogSkin);
+  const [compare, setCompare] = useState(initialCompare);
+  const [compared, setCompared] = useState(initialCompare);
+  useLayoutEffect(() => {
+    setCompare(initialCompare);
+    if (initialCompare) setCompared(true);
+  }, [initialCompare]);
   const [expanded, setExpanded] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -285,38 +286,36 @@ function CatalogDetail({
   return (
     <>
       <div className="catalog-topline">
-        {!embedded && (
-          <a
-            href={appearanceQuery(appearance) ? `./?${appearanceQuery(appearance).slice(1)}` : "./"}
-            className="plain-link"
-          >
-            All components
-          </a>
-        )}
+        <a
+          href={appearanceQuery(appearance) ? `./?${appearanceQuery(appearance).slice(1)}` : "./"}
+          className="plain-link"
+          onClick={(event) => {
+            if (event.button || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey)
+              return;
+            event.preventDefault();
+            onBrowse();
+          }}
+        >
+          All components
+        </a>
         <a className="plain-link" href={`${storybookRoot}?path=/docs/${entry.docsId}`}>
           Full {entry.name} API
         </a>
       </div>
       <div className="page-heading catalog-detail-heading">
         <p className="page-kicker">{entry.group}</p>
-        {embedded ? (
-          <h2>
-            {entry.name} <em>in use.</em>
-          </h2>
-        ) : (
-          <h1>
-            {entry.name} <em>in use.</em>
-          </h1>
-        )}
+        <h1 tabIndex={-1}>
+          {entry.name} <em>in use.</em>
+        </h1>
         <p>{entry.description}</p>
       </div>
       <section className="catalog-live" aria-labelledby={`${id}-live`}>
         <div className="catalog-section-heading">
           <div>
-            <p className="page-kicker">Straight from Storybook</p>
+            <p className="page-kicker">Interactive example</p>
             <h2 id={`${id}-live`}>Try it here.</h2>
           </div>
-          <span className="catalog-source">Live · Storybook</span>
+          <span className="catalog-source">Live preview</span>
         </div>
         <RadioGroup
           className="catalog-states"
@@ -347,30 +346,69 @@ function CatalogDetail({
           ))}
         </RadioGroup>
         {!requested && <p role="status">State not found. Choose one of the available examples.</p>}
-        <StoryPreview
-          appearance={appearance}
-          generation={generation}
-          pending={!loaded}
-          status={
-            failed
-              ? "Preview unavailable here. Open the example in Storybook."
-              : !loaded
-                ? slow
-                  ? "Taking longer than expected. Reload the preview or open it in Storybook."
-                  : "Loading live example…"
-                : ""
-          }
-          layout={previewLayout(entry.id, selected.id)}
-          expanded={expanded}
-          title={`${entry.name} — ${selected.name} live example`}
-          src={`${storybookRoot}iframe.html?id=${encodeURIComponent(selected.id)}&viewMode=story${previewGlobals(appearance)}&embed=true`}
-          onLoad={markReady}
-          onSlow={markSlow}
-          onError={() => {
-            setFailed(true);
-            setLoaded(true);
+        <Checkbox
+          className="catalog-compare-control"
+          label="Compare light and dark"
+          checked={compare}
+          onCheckedChange={(value) => {
+            setCompare(value);
+            if (value) setCompared(true);
+            onCompareChange?.(value);
           }}
         />
+        <div className="catalog-preview-panes" data-compare={compare || undefined}>
+          <section
+            className="catalog-preview-pane"
+            data-qa-theme={compare ? "light" : undefined}
+            aria-label={compare ? "Light preview" : `${entry.name} preview`}
+          >
+            {compare && <h3>Light</h3>}
+            <StoryPreview
+              active={active}
+              appearance={{ ...appearance, theme: compare ? "light" : appearance.theme, skin }}
+              generation={generation}
+              pending={!loaded}
+              status={
+                failed
+                  ? "Preview unavailable here. Open the example in Storybook."
+                  : !loaded
+                    ? slow
+                      ? "Taking longer than expected. Reload the preview or open it in Storybook."
+                      : "Loading live example…"
+                    : ""
+              }
+              layout={previewLayout(entry.id, selected.id)}
+              expanded={expanded}
+              title={`${entry.name} — ${selected.name} live example`}
+              src={`${storybookRoot}iframe.html?id=${encodeURIComponent(selected.id)}&viewMode=story${previewGlobals(appearance)}&embed=true`}
+              onLoad={markReady}
+              onSlow={markSlow}
+              onError={() => {
+                setFailed(true);
+                setLoaded(true);
+              }}
+            />
+          </section>
+          {compared && (
+            <section
+              className="catalog-preview-pane"
+              data-qa-theme="dark"
+              hidden={!compare}
+              inert={!compare}
+              aria-label="Dark comparison"
+            >
+              <h3>Dark</h3>
+              <CatalogComparisonPreview
+                active={active && compare}
+                entry={entry}
+                story={selected}
+                appearance={{ theme: "dark", skin }}
+                generation={generation}
+                storybookRoot={storybookRoot}
+              />
+            </section>
+          )}
+        </div>
         <div className="catalog-preview-actions">
           <a
             className="plain-link"
@@ -406,6 +444,7 @@ function CatalogDetail({
             </Button>
           </div>
         </div>
+        <CatalogSkinControls value={skin} onChange={setSkin} theme={appearance.theme} />
         <CodePanel sample={selected} name={selected.name} />
       </section>
       <section className="catalog-api" aria-labelledby={`${id}-api`}>
@@ -462,7 +501,11 @@ export function Catalog({
   initialAppearance = { theme: readSiteTheme() },
   onAppearanceChange,
   navigationRevision = 0,
+  initialCompare = false,
+  onCompareChange,
 }: {
+  initialCompare?: boolean;
+  onCompareChange?: (value: boolean) => void;
   navigationRevision?: number;
   initialAppearance?: CatalogAppearance;
   onAppearanceChange?: (value: CatalogAppearance) => void;
@@ -471,10 +514,15 @@ export function Catalog({
   componentId?: string | null;
   stateId?: string | null;
   onStateChange?: (id: string, componentId?: string) => void;
-  onComponentChange?: (id: string, stateId?: string) => void;
+  onComponentChange?: (id: string | null, stateId?: string) => void;
 }) {
   const [appearance, setAppearance] = useState(initialAppearance);
-  const [selectedId, setSelectedId] = useState(componentId ?? entries[0]?.id ?? "button");
+  const [selectedId, setSelectedId] = useState<string | null>(componentId);
+  const [retainedId, setRetainedId] = useState<string | null>(componentId);
+  const focusAfterNavigation = useRef<"index" | "detail" | null>(null);
+  const indexScroll = useRef(0);
+  const indexRoot = useRef<HTMLDivElement>(null);
+  const detailRoot = useRef<HTMLDivElement>(null);
   const remembered = useRef(new Map<string, string>());
   useLayoutEffect(() => {
     const component = entries.find((entry) => entry.id === componentId);
@@ -482,32 +530,59 @@ export function Catalog({
   }, [componentId, stateId]);
   // biome-ignore lint/correctness/useExhaustiveDependencies: History can restore same external id after local browsing.
   useLayoutEffect(() => {
-    setSelectedId(componentId ?? entries[0]?.id ?? "button");
+    setSelectedId(componentId);
+    if (componentId) setRetainedId(componentId);
   }, [componentId, navigationRevision]);
   // biome-ignore lint/correctness/useExhaustiveDependencies: History revision restores local view/theme even when prior props were identical.
   useLayoutEffect(() => {
     setAppearance({ theme: initialAppearance.theme });
   }, [navigationRevision, initialAppearance.theme]);
-  const entry = entries.find((component) => component.id === selectedId);
+  useLayoutEffect(() => {
+    const target = focusAfterNavigation.current;
+    if (!target) return;
+    focusAfterNavigation.current = null;
+    if (target === "index" && selectedId === null) {
+      indexRoot.current
+        ?.querySelector<HTMLAnchorElement>(`a[href*="component=${retainedId}"]`)
+        ?.focus({ preventScroll: true });
+      window.scrollTo({ top: indexScroll.current });
+    } else if (selectedId !== null) {
+      detailRoot.current?.querySelector<HTMLElement>("h1")?.focus({ preventScroll: true });
+      window.scrollTo({ top: 0 });
+    }
+  }, [selectedId, retainedId]);
+  const entry = entries.find((component) => component.id === (selectedId ?? retainedId));
   const detail = entry && (
     <CatalogDetail
+      active={selectedId !== null}
       entry={entry}
       appearance={appearance}
       navigationRevision={navigationRevision}
       initialStateId={
-        componentId === entry.id || onComponentChange
-          ? stateId
-          : (remembered.current.get(entry.id) ?? null)
+        selectedId === null
+          ? (remembered.current.get(entry.id) ?? stateId)
+          : componentId === entry.id || onComponentChange
+            ? stateId
+            : (remembered.current.get(entry.id) ?? null)
       }
       storybookRoot={storybookRoot}
       onStateChange={(id) => {
         remembered.current.set(entry.id, id);
         onStateChange?.(id, entry.id);
       }}
-      embedded
+      initialCompare={initialCompare}
+      onCompareChange={onCompareChange}
+      onBrowse={() => {
+        focusAfterNavigation.current = "index";
+        setSelectedId(null);
+        onComponentChange?.(null);
+      }}
     />
   );
   const choose = (id: string) => {
+    indexScroll.current = window.scrollY;
+    focusAfterNavigation.current = "detail";
+    setRetainedId(id);
     setSelectedId(id);
     onComponentChange?.(id, remembered.current.get(id));
   };
@@ -525,7 +600,8 @@ export function Catalog({
       storybookRoot={storybookRoot}
     >
       <main id="main" className="inner-page">
-        {!componentId && (
+        <div ref={indexRoot} hidden={selectedId !== null} inert={selectedId !== null}>
+          <CatalogIndex appearance={appearance} onChoose={choose} />
           <details className="catalog-foundations">
             <summary>Typography and theme foundations</summary>
             <section
@@ -562,25 +638,26 @@ export function Catalog({
               default KBUI design.
             </p>
           </details>
-        )}
-        {!entry && componentId ? (
-          <div className="page-heading">
-            <p className="page-kicker">Components</p>
-            <h1>Component not found.</h1>
-            <p>That component is not in this catalog.</p>
-            <a className="plain-link" href="./">
-              All components
-            </a>
-          </div>
-        ) : (
-          <CatalogIndex
-            appearance={appearance}
-            qaHref={`${siteRoot}components/qa/?theme=${appearance.theme}`}
-            selectedId={selectedId}
-            onChoose={choose}
-            detail={detail}
-          />
-        )}
+        </div>
+        <div
+          ref={detailRoot}
+          className="catalog-detail"
+          hidden={selectedId === null}
+          inert={selectedId === null}
+        >
+          {!entry && selectedId ? (
+            <div className="page-heading">
+              <p className="page-kicker">Components</p>
+              <h1>Component not found.</h1>
+              <p>That component is not in this catalog.</p>
+              <a className="plain-link" href="./">
+                All components
+              </a>
+            </div>
+          ) : (
+            detail
+          )}
+        </div>
       </main>
     </SiteFrame>
   );

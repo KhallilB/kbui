@@ -1,4 +1,5 @@
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import type { CatalogAppearance } from "./catalog-model";
 import {
   createPreviewCache,
   markPreviewReady,
@@ -7,15 +8,17 @@ import {
   previewSourceKey,
   requestPreview,
 } from "./catalog-preview-cache";
-import { type Theme, themeStyle } from "./theme-foundations";
+import { applyCatalogSkin, defaultCatalogSkin } from "./catalog-skin";
+import { themeStyle } from "./theme-foundations";
 
-type Appearance = { theme: Theme };
+type Appearance = CatalogAppearance;
 type Props = {
   src: string;
   title: string;
   layout: { width: number; minimum: number };
   expanded: boolean;
   appearance: Appearance;
+  active?: boolean;
   generation?: number;
   cacheLimit?: number;
   pending?: boolean;
@@ -53,6 +56,8 @@ function CachedFrame({
   useLayoutEffect(() => {
     callbacks.current = { onReady, onMeasure, onSlow };
   }, [onReady, onMeasure, onSlow]);
+  const palette = appearance.skin?.palette ?? defaultCatalogSkin.palette;
+  const corners = appearance.skin?.corners ?? defaultCatalogSkin.corners;
   useLayoutEffect(() => {
     const element = frame.current;
     if (!element) return;
@@ -62,6 +67,7 @@ function CachedFrame({
         if (root) {
           root.dataset.theme = appearance.theme;
           root.style.colorScheme = appearance.theme;
+          applyCatalogSkin(root.style, { palette, corners }, appearance.theme);
         }
       } catch {
         /* Cross-origin previews use their own theme. */
@@ -86,7 +92,7 @@ function CachedFrame({
       window.removeEventListener("message", ready);
       element.removeEventListener("load", send);
     };
-  }, [appearance.theme]);
+  }, [appearance.theme, palette, corners]);
   useLayoutEffect(() => {
     const element = frame.current;
     if (!element) return;
@@ -206,6 +212,7 @@ export function StoryPreview({
   layout,
   expanded,
   appearance,
+  active = true,
   generation = 0,
   cacheLimit = 6,
   pending = false,
@@ -258,8 +265,8 @@ export function StoryPreview({
         <CachedFrame
           key={entry.id}
           entry={entry}
-          current={cache.requested === entry.id}
-          visible={cache.displayed === entry.id && entry.ready}
+          current={active && cache.requested === entry.id}
+          visible={active && cache.displayed === entry.id && entry.ready}
           expanded={expanded}
           appearance={appearance}
           pending={cache.requested === entry.id && pending}

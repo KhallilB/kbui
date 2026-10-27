@@ -67,7 +67,7 @@ export const FocusedBrowser: Story = {
   args: { initialAppearance: { theme: "light" } },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    expect(canvasElement.querySelectorAll("iframe")).toHaveLength(1);
+    expect(canvasElement.querySelectorAll("iframe")).toHaveLength(0);
     const components = canvas.getByRole("navigation", { name: "Browse components" });
     await userEvent.click(within(components).getByRole("link", { name: "Input" }));
     expect(canvas.getByRole("heading", { name: "Input in use." })).toBeVisible();
@@ -76,16 +76,23 @@ export const FocusedBrowser: Story = {
       "Input — Default live example",
     );
     await userEvent.click(canvas.getByRole("radio", { name: "With Error" }));
+    await userEvent.click(canvas.getByRole("link", { name: "All components" }));
+    expect(canvasElement.querySelectorAll("iframe").length).toBeGreaterThan(0);
+    expect(canvasElement.querySelectorAll('iframe[data-current="true"]')).toHaveLength(0);
     await userEvent.click(within(components).getByRole("link", { name: "Button" }));
+    await userEvent.click(canvas.getByRole("link", { name: "All components" }));
     await userEvent.click(within(components).getByRole("link", { name: "Input" }));
     expect(canvas.getByRole("radio", { name: "With Error" })).toBeChecked();
+    await userEvent.click(canvas.getByRole("link", { name: "All components" }));
     await userEvent.type(canvas.getByRole("searchbox", { name: "Search components" }), "no-match");
     expect(
       canvas.getByText("No components found. Try another name or clear the filters."),
     ).toBeVisible();
     await userEvent.click(canvas.getByRole("button", { name: "Clear filters" }));
     expect(canvas.getByRole("searchbox", { name: "Search components" })).toHaveFocus();
-    expect(canvas.getByRole("heading", { name: "Input in use." })).toBeVisible();
+    expect(canvas.queryByRole("heading", { name: "Input in use." })).toBeNull();
+    await userEvent.click(within(components).getByRole("link", { name: "Input" }));
+    expect(canvas.getByRole("radio", { name: "With Error" })).toBeChecked();
   },
 };
 
@@ -115,7 +122,7 @@ export const ButtonStates: Story = {
   args: { componentId: "button" },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const panel = canvasElement.querySelector(".catalog-browser");
+    const panel = canvasElement.querySelector(".catalog-live");
     if (!panel) throw new Error("Missing catalog preview entrance");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     expect(getComputedStyle(panel).animationName).toBe(reduced ? "none" : "kbui-poster-arrive");
@@ -134,11 +141,9 @@ export const ButtonStates: Story = {
     expect(examples.getByRole("radio", { name: "Secondary" })).toHaveFocus();
     await userEvent.click(canvas.getByRole("radio", { name: "Disabled" }));
     expect(canvas.getByRole("radio", { name: "Disabled" })).toBeChecked();
-    expect(canvas.queryByRole("combobox")).not.toBeInTheDocument();
-    expect(canvas.getByRole("link", { name: "Input" })).toHaveAttribute(
-      "href",
-      "./?component=input",
-    );
+    expect(canvas.queryByRole("combobox", { name: "Example state" })).toBeNull();
+    expect(canvas.queryByRole("navigation", { name: "Browse components" })).toBeNull();
+    expect(canvas.getByRole("link", { name: "All components" })).toHaveAttribute("href", "./");
     expect(canvas.getByTitle("Button — Disabled live example")).toHaveAttribute(
       "data-preview-src",
       "./iframe.html?id=components-button--disabled&viewMode=story&globals=previewTheme:light&embed=true",
@@ -427,6 +432,7 @@ export const StateContinuity: Story = {
 };
 
 export const DefaultDesign: Story = {
+  args: { componentId: "input" },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const frame = canvasElement.querySelector('iframe[data-current="true"]');
@@ -436,9 +442,10 @@ export const DefaultDesign: Story = {
     expect(frame).toHaveAttribute("data-preview-theme", "dark");
     expect(canvas.queryByRole("button", { name: "Site skin" })).toBeNull();
     expect(canvas.queryByRole("radiogroup", { name: "Catalog view" })).toBeNull();
-    expect(canvas.getByRole("link", { name: "Component QA" })).toHaveAttribute(
+    expect(canvas.queryByRole("link", { name: "Component QA" })).toBeNull();
+    expect(canvas.getByRole("link", { name: "All components" })).toHaveAttribute(
       "href",
-      "../components/qa/?theme=dark",
+      "./?theme=dark",
     );
   },
 };
@@ -503,8 +510,8 @@ export const LiveCatalogEntrance: Story = {
   },
 };
 
-export const UnifiedCatalog: Story = {
-  args: { initialAppearance: { theme: "light" }, componentId: "input" },
+export const FullPageCatalog: Story = {
+  args: { initialAppearance: { theme: "light" }, componentId: null },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     expect(canvas.queryByRole("radiogroup", { name: "Catalog view" })).toBeNull();
@@ -527,10 +534,23 @@ export const UnifiedCatalog: Story = {
       within(summary as HTMLElement).getByText("Labelled fields, help text, and validation."),
     ).toBeVisible();
     expect(within(summary as HTMLElement).getByText("7 examples")).toBeVisible();
-    expect(canvas.getByRole("heading", { name: "Input in use." })).toBeVisible();
-    expect(canvas.getByRole("link", { name: "Component QA" })).toHaveAttribute(
-      "href",
-      "../components/qa/?theme=light",
-    );
+    expect(canvasElement.querySelectorAll("iframe")).toHaveLength(0);
+    expect(canvas.queryByRole("link", { name: "Component QA" })).toBeNull();
+    const list = canvas.getByRole("navigation", { name: "Browse components" });
+    expect(list.scrollHeight).toBeLessThanOrEqual(list.clientHeight + 1);
+  },
+};
+
+export const ComponentDetails: Story = {
+  args: { componentId: "input" },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.queryByRole("navigation", { name: "Browse components" })).toBeNull();
+    expect(canvas.queryByRole("searchbox", { name: "Search components" })).toBeNull();
+    expect(canvas.queryByRole("link", { name: "Component QA" })).toBeNull();
+    expect(canvas.getByRole("heading", { level: 1, name: "Input in use." })).toBeVisible();
+    expect(canvas.getByRole("link", { name: "All components" })).toHaveAttribute("href", "./");
+    expect(canvas.getByRole("radio", { name: "With Error" })).toBeVisible();
+    expect(canvas.getByRole("button", { name: "View code" })).toBeEnabled();
   },
 };

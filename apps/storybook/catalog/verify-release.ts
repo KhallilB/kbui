@@ -578,12 +578,16 @@ for (const profile of profiles) {
         ["/examples/", ".example-section"],
         ["/components/?view=directory", ".catalog-browser"],
         ["/components/", ".catalog-browser"],
-        ["/components/?component=input&view=directory", ".catalog-browser"],
+        ["/components/?component=input&view=directory", ".catalog-live"],
       ] as const) {
         await page.goto(`${origin}${route}`);
         assert.equal(
           await page
-            .locator(".page-heading")
+            .locator(
+              surface === ".catalog-live"
+                ? ".catalog-detail:visible .page-heading"
+                : ".page-heading",
+            )
             .first()
             .evaluate((element) => getComputedStyle(element).animationName),
           reduced ? "none" : "kbui-poster-rise",
