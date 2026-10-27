@@ -3,8 +3,8 @@
   --_callout-ink: var(--kb-color-muted);
   display: flex;
   gap: var(--kb-space-3);
-  padding: 16px 18px;
-  border-radius: 10px;
+  padding: var(--kb-callout-padding-block) var(--kb-callout-padding-inline);
+  border-radius: var(--kb-callout-radius);
   background: color-mix(in oklab, var(--_callout-ink) 8%, transparent);
   box-shadow: var(--kb-material-inlay-shadow);
   color: var(--kb-color-fg);
@@ -50,7 +50,7 @@
 }
 
 .kb-callout-title {
-  font-weight: 600;
+  font-weight: var(--kb-font-weight-strong);
 }
 
 .kb-callout-actions {

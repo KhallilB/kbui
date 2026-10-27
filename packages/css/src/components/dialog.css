@@ -4,7 +4,7 @@
   inset: 0;
   background: var(--kb-color-overlay);
   opacity: 1;
-  transition: opacity 150ms ease;
+  transition: opacity var(--kb-dialog-duration) var(--kb-motion-easing-smooth);
 
   backdrop-filter: blur(3px);
 }
@@ -29,8 +29,8 @@
   transform: translate(-50%, -50%) scale(1);
   opacity: 1;
   transition:
-    opacity 150ms ease,
-    transform 150ms ease;
+    opacity var(--kb-dialog-duration) var(--kb-motion-easing-smooth),
+    transform var(--kb-dialog-duration) var(--kb-motion-easing-smooth);
 
   box-shadow: var(--kb-material-float-shadow);
 }
@@ -47,8 +47,8 @@
 
 .kb-dialog-title {
   margin: 0 0 var(--kb-space-2);
-  font-size: 23px;
-  font-weight: 600;
+  font-size: var(--kb-dialog-title-size);
+  font-weight: var(--kb-font-weight-strong);
 
   letter-spacing: -0.035em;
 }

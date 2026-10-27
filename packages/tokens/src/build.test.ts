@@ -31,11 +31,55 @@ describe("buildTokens", () => {
 
   test("emits kb.dark values in both dark blocks only", () => {
     const { css } = buildTokens(tree);
-    const dark = css.slice(css.indexOf('[data-theme="dark"] {'), css.indexOf("@media"));
+    const dark = css.slice(css.indexOf('[data-theme="dark"]) {'), css.indexOf("@media"));
     expect(dark).toContain("--kb-color-bg: var(--kb-gray-950);");
-    expect(dark).toContain("--kb-color-accent: var(--kb-blue-500);");
     expect(css).toContain(':root:not([data-theme="light"])');
     expect(css).not.toContain("--kb-color-accent: var(--kb-gray-950)");
+  });
+
+  test("theme selectors have zero specificity so later consumer rules win", () => {
+    const { css } = buildTokens(tree);
+    const selectors = css
+      .split("\n")
+      .map((l) => l.trim())
+      .filter((l) => l.endsWith("{") && !l.startsWith("@"))
+      .map((l) => l.slice(0, -1).trim());
+    expect(selectors).toHaveLength(4);
+    for (const s of selectors) expect(s).toMatch(/^:where\(.*\)$/);
+  });
+
+  test("theme containers redeclare only theme-dependent tokens", () => {
+    const themed: TokenTree = {
+      ...tree,
+      panel: {
+        background: { $type: "color", $value: "{color.bg}" },
+        radius: { $type: "dimension", $value: "{button.radius}" },
+      },
+    };
+    const { css } = buildTokens(themed);
+    const root = css.slice(0, css.indexOf("}"));
+    expect(root).toContain("--kb-space-4: 1rem;");
+    expect(root).toContain("--kb-panel-radius: var(--kb-button-radius);");
+    for (const sel of ['[data-theme="light"])', '[data-theme="dark"])']) {
+      const start = css.indexOf(`${sel} {`);
+      const body = css.slice(start, css.indexOf("}", start));
+      expect(body).toContain("--kb-color-bg:");
+      expect(body).toContain("--kb-panel-background: var(--kb-color-bg);");
+      expect(body).not.toContain("--kb-space-4");
+      expect(body).not.toContain("--kb-panel-radius");
+      expect(body).not.toContain("--kb-color-accent");
+    }
+  });
+
+  test("each theme block declares its color-scheme for light-dark()", () => {
+    const { css } = buildTokens(tree);
+    const blocks = css.split(/\n(?=\S)/).filter((b) => b.includes("{"));
+    expect(blocks.map((b) => b.match(/color-scheme: (\w+);/)?.[1])).toEqual([
+      "light",
+      "light",
+      "dark",
+      "dark",
+    ]);
   });
 
   test("emits a typed nested object of var names", () => {
@@ -236,20 +280,22 @@ describe("tokens.json", () => {
   });
 });
 
-test("explicit light containers restore the full light token set inside dark roots", () => {
-  expect(buildTokens(tree).css).toContain(':root, [data-theme="light"] {');
+test("explicit light containers restore light theme values inside dark roots", () => {
+  const css = buildTokens(tree).css;
+  const start = css.indexOf(':where([data-theme="light"]) {');
+  expect(css.slice(start, css.indexOf("}", start))).toContain("--kb-color-bg: var(--kb-white);");
 });
 
 test("dark scopes rebind aliases against their own semantic values", () => {
   const css = buildTokens(real as TokenTree).css;
-  const darkBlock = css.slice(css.indexOf('[data-theme="dark"] {'), css.indexOf("@media"));
+  const darkBlock = css.slice(css.indexOf(':where([data-theme="dark"]) {'), css.indexOf("@media"));
   expect(darkBlock).toContain("--kb-card-background: var(--kb-material-surface-bg);");
   expect(darkBlock).toContain("--kb-material-raised-face: linear-gradient(");
 });
 
 test("switch material tokens retain recessed track and raised thumb in each theme", () => {
   const css = buildTokens(real as TokenTree).css;
-  const dark = css.slice(css.indexOf('[data-theme="dark"] {'), css.indexOf("@media"));
+  const dark = css.slice(css.indexOf(':where([data-theme="dark"]) {'), css.indexOf("@media"));
   for (const scope of [css, dark]) {
     expect(scope).toContain("--kb-switch-track-background: var(--kb-material-recessed-face);");
     expect(scope).toContain("--kb-switch-track-shadow: var(--kb-material-field-shadow);");

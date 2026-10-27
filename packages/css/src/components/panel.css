@@ -143,7 +143,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--kb-space-2);
-  font-weight: 600;
+  font-weight: var(--kb-font-weight-strong);
 }
 
 /* Full-bleed hairline centered in the gap below the header; no layout cost. */
@@ -163,8 +163,8 @@
 
 .kb-panel-header :is(h1, h2, h3, h4, h5, h6) {
   margin: 0;
-  font-size: 17px;
-  font-weight: 600;
+  font-size: var(--kb-panel-title-size);
+  font-weight: var(--kb-font-weight-strong);
 
   line-height: 1.35;
 
@@ -183,7 +183,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--kb-space-1);
-  height: 2rem;
+  height: var(--kb-panel-toggle-height);
   padding: 0 var(--kb-space-2);
   border: 1px solid transparent;
   border-radius: var(--kb-button-radius);
@@ -191,7 +191,7 @@
   color: var(--kb-color-fg);
   font: inherit;
   font-size: var(--kb-size-sm);
-  font-weight: 500;
+  font-weight: var(--kb-font-weight-medium);
   cursor: pointer;
 
   border-color: var(--kb-material-raised-border);

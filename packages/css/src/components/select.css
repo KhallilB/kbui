@@ -8,7 +8,7 @@
 .kb-select-label {
   overflow-wrap: anywhere;
   font-size: var(--kb-text-small-size);
-  font-weight: 600;
+  font-weight: var(--kb-font-weight-strong);
   color: var(--kb-color-fg);
 }
 .kb-select-control {

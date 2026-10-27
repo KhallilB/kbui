@@ -4,22 +4,15 @@
   align-items: center;
   justify-content: center;
   gap: var(--kb-space-2);
-  height: 40px;
-  padding: 0 var(--kb-space-4);
+  height: var(--kb-button-height-md);
+  padding: 0 var(--kb-button-padding-md);
   font-size: var(--kb-text-control-size);
   border: 1px solid transparent;
   border-radius: var(--kb-button-radius);
-  font-weight: 600;
+  font-weight: var(--kb-font-weight-strong);
   line-height: 1;
   cursor: pointer;
   text-decoration: none;
-  transition:
-    background-color 120ms ease,
-    border-color 120ms ease,
-    color 120ms ease;
-
-  padding-inline: 15px;
-
   letter-spacing: -0.01em;
 }
 
@@ -37,31 +30,27 @@
 }
 
 .kb-button[data-size="sm"] {
-  height: 34px;
-  padding: 0 var(--kb-space-3);
+  height: var(--kb-button-height-sm);
+  padding: 0 var(--kb-button-padding-sm);
   font-size: var(--kb-text-small-size);
-
-  padding-inline: 11px;
 }
 
 /* Square for a lone icon; the name comes from aria-label. */
 .kb-button[data-size="icon"] {
-  width: 40px;
-  height: 40px;
+  width: var(--kb-button-height-md);
+  height: var(--kb-button-height-md);
   padding: 0;
 }
 
 .kb-button[data-size="icon"] > svg {
-  width: 1.125rem;
-  height: 1.125rem;
+  width: var(--kb-button-icon-size);
+  height: var(--kb-button-icon-size);
 }
 
 .kb-button[data-size="lg"] {
-  height: 46px;
-  padding: 0 var(--kb-space-5);
-  font-size: 15px;
-
-  padding-inline: 20px;
+  height: var(--kb-button-height-lg);
+  padding: 0 var(--kb-button-padding-lg);
+  font-size: var(--kb-text-body-size);
 }
 
 .kb-button[data-variant="primary"] {
@@ -137,10 +126,10 @@
 @media (prefers-reduced-motion: no-preference) {
   .kb-button {
     transition:
-      background-color 140ms ease,
-      border-color 140ms ease,
-      box-shadow 140ms ease,
-      color 140ms ease;
+      background-color var(--kb-button-duration) var(--kb-motion-easing-smooth),
+      border-color var(--kb-button-duration) var(--kb-motion-easing-smooth),
+      box-shadow var(--kb-button-duration) var(--kb-motion-easing-smooth),
+      color var(--kb-button-duration) var(--kb-motion-easing-smooth);
   }
 }
 
@@ -152,13 +141,13 @@
 
 @media (max-width: 580px) {
   .kb-button {
-    min-height: 44px;
+    min-height: var(--kb-button-touch-min);
   }
 }
 
 @media (max-width: 580px) {
   .kb-button[data-size="icon"] {
-    min-width: 44px;
+    min-width: var(--kb-button-touch-min);
   }
 }
 

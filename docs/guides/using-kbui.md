@@ -42,21 +42,14 @@ Set the theme on the `<html>` element:
 
 The attribute accepts `"light"` or `"dark"`. Without it, kbui follows the visitor's system setting. Themes switch through CSS variables, so no provider component is needed. Explicit theme containers rebind aliases for nested light/dark scopes. Put the page theme on `<html>` so body-portaled Dialog, Menu and Tooltip share it; a nested preview wrapper alone does not theme body portals.
 
-To adjust a value for your app, override its variable after the kbui import. Scale and component tokens are the same in both themes, so one rule is enough:
+To adjust a value for your app, override its variable after the kbui import. Tokens that are the same in both themes need one `:root` rule. Colors take both theme values through `light-dark()`:
 
 ```css
 :root { --kb-button-radius: var(--kb-radius-full); }
+:root, [data-theme] { --kb-color-accent: light-dark(oklch(55% 0.2 150), oklch(72% 0.17 150)); }
 ```
 
-Semantic colors differ between themes, so override the dark value as well. Otherwise a plain `:root` override also applies in dark mode:
-
-```css
-:root { --kb-color-accent: oklch(55% 0.2 150); }
-:root[data-theme="dark"] { --kb-color-accent: oklch(72% 0.17 150); }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) { --kb-color-accent: oklch(72% 0.17 150); }
-}
-```
+[Reskinning kbui](reskinning.md) covers complete skins, scoped skins and which tokens to set.
 
 ## Components
 

@@ -43,27 +43,27 @@ body {
 :where(h1, h2, h3, h4, h5, h6) {
   margin: 0;
   font-family: var(--kb-font-sans);
-  font-weight: 600;
+  font-weight: var(--kb-font-weight-strong);
   color: var(--kb-color-fg);
   text-wrap: pretty;
 }
 :where(h1) {
-  font-size: 32px;
+  font-size: var(--kb-text-h1-size);
   line-height: 1.15;
   letter-spacing: -0.035em;
 }
 :where(h2) {
-  font-size: 22px;
+  font-size: var(--kb-text-h2-size);
   line-height: 1.25;
   letter-spacing: -0.025em;
 }
 :where(h3) {
-  font-size: 18px;
+  font-size: var(--kb-text-h3-size);
   line-height: 1.35;
   letter-spacing: -0.018em;
 }
 :where(h4, h5, h6) {
-  font-size: 16px;
+  font-size: var(--kb-text-h4-size);
   line-height: 1.4;
   letter-spacing: -0.01em;
 }
@@ -79,7 +79,7 @@ body {
   margin-block-start: 0.45em;
 }
 :where(strong, b) {
-  font-weight: 600;
+  font-weight: var(--kb-font-weight-strong);
 }
 :where(small) {
   font-size: var(--kb-text-small-size);
@@ -126,7 +126,7 @@ body {
     .kb-scrollarea
   ) {
     transition-property: background-color, border-color, color, box-shadow;
-    transition-duration: 220ms;
-    transition-timing-function: ease;
+    transition-duration: var(--kb-motion-duration-theme);
+    transition-timing-function: var(--kb-motion-easing-smooth);
   }
 }

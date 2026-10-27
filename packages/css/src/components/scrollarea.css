@@ -5,7 +5,7 @@
 
   border: 1px solid var(--kb-color-border);
 
-  border-radius: 10px;
+  border-radius: var(--kb-scrollarea-radius);
 
   background: var(--kb-material-recessed-face);
 
@@ -17,7 +17,7 @@
   overscroll-behavior: contain;
   border-radius: inherit;
 
-  padding: 12px;
+  padding: var(--kb-scrollarea-padding);
 }
 
 .kb-scrollarea-viewport:focus-visible {

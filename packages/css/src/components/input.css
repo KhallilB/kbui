@@ -3,13 +3,13 @@
   display: flex;
   min-inline-size: 0;
   flex-direction: column;
-  gap: 7px;
+  gap: var(--kb-input-gap);
 }
 
 .kb-input-label {
   overflow-wrap: anywhere;
   font-size: var(--kb-text-small-size);
-  font-weight: 600;
+  font-weight: var(--kb-font-weight-strong);
   color: var(--kb-color-fg);
 }
 
@@ -23,7 +23,7 @@
   color: var(--kb-color-fg);
   font-size: var(--kb-text-control-size);
 
-  font-weight: 400;
+  font-weight: var(--kb-font-weight-regular);
 
   border-color: var(--kb-material-control-border);
 

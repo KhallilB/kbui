@@ -7,7 +7,7 @@
 .kb-fileinput-label {
   color: var(--kb-color-fg);
   font-size: var(--kb-size-sm);
-  font-weight: 500;
+  font-weight: var(--kb-font-weight-medium);
 }
 .kb-fileinput .kb-fileinput-trigger {
   max-width: 100%;
@@ -55,7 +55,7 @@
 }
 .kb-fileinput-name {
   display: block;
-  font-weight: 500;
+  font-weight: var(--kb-font-weight-medium);
   color: var(--kb-color-fg);
 }
 .kb-fileinput-metadata {

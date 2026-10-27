@@ -77,19 +77,36 @@ export function buildTokens(tree: TokenTree): {
     if (seen.has(name)) throw new Error(`Duplicate token var ${name}`);
     seen.add(name);
   }
-  const light = flat.map((f) => `${varName(f.path)}: ${resolve(f.token.$value, seen)};`);
-  // Rebind aliases inside each theme; inherited vars keep their ancestor's resolved value.
-  const dark = flat.some((f) => f.token.$extensions?.["kb.dark"])
-    ? flat.map(
-        (f) =>
-          `${varName(f.path)}: ${resolve(f.token.$extensions?.["kb.dark"] ?? f.token.$value, seen)};`,
-      )
-    : [];
-  const sections = [block(':root, [data-theme="light"]', light)];
-  if (dark.length > 0) {
+  const decl = (f: Flat, value: string) => `${varName(f.path)}: ${resolve(value, seen)};`;
+  const darkOf = (f: Flat) => f.token.$extensions?.["kb.dark"] ?? f.token.$value;
+  // Containers redeclare only theme-dependent tokens; the rest inherit consumer :root overrides.
+  const themed = new Set(
+    flat.filter((f) => f.token.$extensions?.["kb.dark"]).map((f) => varName(f.path)),
+  );
+  for (let grew = true; grew; ) {
+    grew = false;
+    for (const f of flat) {
+      const name = varName(f.path);
+      if (themed.has(name)) continue;
+      const refs = `${f.token.$value} ${darkOf(f)}`.match(/\{[^}]+\}/g) ?? [];
+      if (refs.some((r) => themed.has(varName(r.slice(1, -1).split("."))))) {
+        themed.add(name);
+        grew = true;
+      }
+    }
+  }
+  const theme = flat.filter((f) => themed.has(varName(f.path)));
+  const light = theme.map((f) => decl(f, f.token.$value));
+  const dark = [...theme.map((f) => decl(f, darkOf(f))), "color-scheme: dark;"];
+  // :where() keeps every theme selector at zero specificity; consumer rules after kbui win.
+  const sections = [
+    block(":where(:root)", [...flat.map((f) => decl(f, f.token.$value)), "color-scheme: light;"]),
+    block(':where([data-theme="light"])', [...light, "color-scheme: light;"]),
+  ];
+  if (theme.length > 0) {
     sections.push(
-      block('[data-theme="dark"]', dark),
-      `@media (prefers-color-scheme: dark) {\n${block(':root:not([data-theme="light"])', dark, "  ")}\n}`,
+      block(':where([data-theme="dark"])', dark),
+      `@media (prefers-color-scheme: dark) {\n${block(':where(:root:not([data-theme="light"]))', dark, "  ")}\n}`,
     );
   }
   const vars = varTree(flat);
