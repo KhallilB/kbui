@@ -224,6 +224,12 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-panel-rail-active: var(--kb-color-accent);
   --kb-panel-title-size: 17px;
   --kb-panel-toggle-height: 2rem;
+  --kb-panel-handle-size: var(--kb-space-3);
+  --kb-panel-handle-hit: 1.5rem;
+  --kb-panel-handle-grip: 2rem;
+  --kb-panel-handle-line-width: 2px;
+  --kb-panel-handle-line: var(--kb-color-border);
+  --kb-panel-handle-line-active: var(--kb-color-accent);
   --kb-popup-motion-duration: var(--kb-motion-duration-fast);
   --kb-popup-motion-easing: var(--kb-motion-easing-standard);
   --kb-popup-background: var(--kb-material-surface-bg);
@@ -412,6 +418,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-panel-well-shadow: var(--kb-material-field-shadow);
   --kb-panel-rail: var(--kb-color-border);
   --kb-panel-rail-active: var(--kb-color-accent);
+  --kb-panel-handle-line: var(--kb-color-border);
+  --kb-panel-handle-line-active: var(--kb-color-accent);
   --kb-popup-background: var(--kb-material-surface-bg);
   --kb-popup-border: var(--kb-color-border);
   --kb-popup-shadow: var(--kb-material-float-shadow);
@@ -527,6 +535,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-panel-well-shadow: var(--kb-material-field-shadow);
   --kb-panel-rail: var(--kb-color-border);
   --kb-panel-rail-active: var(--kb-color-accent);
+  --kb-panel-handle-line: var(--kb-color-border);
+  --kb-panel-handle-line-active: var(--kb-color-accent);
   --kb-popup-background: var(--kb-material-surface-bg);
   --kb-popup-border: var(--kb-color-border);
   --kb-popup-shadow: var(--kb-material-float-shadow);
@@ -643,6 +653,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-panel-well-shadow: var(--kb-material-field-shadow);
     --kb-panel-rail: var(--kb-color-border);
     --kb-panel-rail-active: var(--kb-color-accent);
+    --kb-panel-handle-line: var(--kb-color-border);
+    --kb-panel-handle-line-active: var(--kb-color-accent);
     --kb-popup-background: var(--kb-material-surface-bg);
     --kb-popup-border: var(--kb-color-border);
     --kb-popup-shadow: var(--kb-material-float-shadow);
