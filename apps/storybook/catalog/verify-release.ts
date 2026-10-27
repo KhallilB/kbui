@@ -551,7 +551,7 @@ for (const profile of profiles) {
       await page.waitForFunction(
         () =>
           getComputedStyle(document.querySelector(".playground-preview") as Element)
-            .backgroundColor === "rgb(32, 41, 32)",
+            .backgroundColor === "rgb(25, 27, 32)",
       );
       await page.getByLabel("Reduce motion", { exact: true }).check();
       assert.equal(
