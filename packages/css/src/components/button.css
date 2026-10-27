@@ -126,16 +126,16 @@
 @media (prefers-reduced-motion: no-preference) {
   .kb-button {
     transition:
-      background-color var(--kb-button-duration) var(--kb-motion-easing-smooth),
-      border-color var(--kb-button-duration) var(--kb-motion-easing-smooth),
-      box-shadow var(--kb-button-duration) var(--kb-motion-easing-smooth),
-      color var(--kb-button-duration) var(--kb-motion-easing-smooth);
+      background-color var(--kb-button-motion-duration) var(--kb-button-motion-easing),
+      border-color var(--kb-button-motion-duration) var(--kb-button-motion-easing),
+      box-shadow var(--kb-button-motion-duration) var(--kb-button-motion-easing),
+      color var(--kb-button-motion-duration) var(--kb-button-motion-easing);
   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .kb-button:active:not([data-disabled]) {
-    transform: translateY(1px);
+    transform: translateY(var(--kb-button-press-offset));
   }
 }
 

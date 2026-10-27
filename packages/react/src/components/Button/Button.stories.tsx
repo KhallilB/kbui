@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import type { CSSProperties } from "react";
 import { expect, within } from "storybook/test";
 import { Button } from "./Button";
 
@@ -60,5 +61,19 @@ export const IconOnly: Story = {
         <rect x="4" y="4" width="8" height="8" rx="1" />
       </svg>
     ),
+  },
+};
+
+export const MotionTokens: Story = {
+  args: { variant: "secondary" },
+  render: (args) => (
+    <div style={{ "--kb-button-motion-duration": "300ms" } as CSSProperties}>
+      <Button {...args} />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    if (!window.matchMedia("(prefers-reduced-motion: no-preference)").matches) return;
+    const button = within(canvasElement).getByRole("button", { name: "Button" });
+    expect(getComputedStyle(button).transitionDuration).toBe("0.3s, 0.3s, 0.3s, 0.3s");
   },
 };

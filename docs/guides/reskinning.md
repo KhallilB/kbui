@@ -40,7 +40,7 @@ Values that cannot be written with `light-dark()`, such as a shadow list that di
 | Type sizes | `--kb-text-body-size`, `--kb-text-control-size`, `--kb-text-small-size`, `--kb-text-caption-size`, `--kb-text-h1-size` to `--kb-text-h4-size` |
 | Shape | `--kb-radius-sm`, `--kb-radius-md`, `--kb-radius-lg`; component radii such as `--kb-callout-radius` and `--kb-toolbar-radius` |
 | Density | `--kb-space-1` to `--kb-space-8`, `--kb-button-height-*`, `--kb-button-padding-*`, `--kb-input-height-*` |
-| Motion | `--kb-motion-duration-*`, `--kb-motion-easing-*`, `--kb-button-duration`, `--kb-dialog-duration`, `--kb-switch-duration` |
+| Motion | `--kb-motion-duration-*`, `--kb-motion-easing-*`, `--kb-button-motion-duration`, `--kb-dialog-motion-duration`, `--kb-popup-motion-duration`, `--kb-switch-duration` |
 | Depth and material | `--kb-material-*` for shared shadows and faces; `--kb-panel-*` and `--kb-status-*` for panels and status chips |
 
 Global scale tokens move every component that aliases them. Component tokens, such as `--kb-button-height-md`, adjust one component and take precedence for it. `packages/tokens/tokens.json` lists every token with its default.

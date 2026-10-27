@@ -12,6 +12,19 @@ Every kbui value is defined in one file, `packages/tokens/tokens.json`. The file
 | Motion | `--kb-motion-duration-fast`, `--kb-motion-duration-base`, `--kb-motion-duration-slow`, `--kb-motion-duration-theme`, `--kb-motion-easing-standard`, `--kb-motion-easing-enter`, `--kb-motion-easing-exit`, `--kb-motion-easing-smooth` | Transitions that respond to a user action. Nothing in kbui animates on its own, and every transition is disabled under `prefers-reduced-motion`. |
 | Component | `--kb-button-height-md`, `--kb-input-height-md`, `--kb-dialog-width`, `--kb-panel-radius`, `--kb-status-running` | One component each. Override one to adjust that component without affecting others. [Reskinning kbui](guides/reskinning.md) lists the groups a skin usually sets. |
 
+## Surface theming
+
+Dialog, Button and popup (Menu, Tooltip) expose material, typography and motion tokens. Defaults reproduce the shipped design; override them on `:root` or a themed container.
+
+| Surface | Tokens |
+|---|---|
+| Dialog | `--kb-dialog-background`, `-color`, `-border`, `-border-width`, `-padding`, `-shadow`, `-description-color`, `-overlay-background`, `-title-size`, `-title-family`, `-title-weight` |
+| Dialog motion | `--kb-dialog-motion-duration`, `-motion-easing`, `-enter-scale`, `-enter-offset` |
+| Button | `--kb-button-motion-duration`, `-motion-easing`, `-press-offset` |
+| Popup | `--kb-popup-motion-duration`, `-motion-easing` |
+
+Reduced motion still disables every transition and the button press offset. A portaled Dialog reads tokens from its `container`; pass a themed host to scope overrides.
+
 ## Naming
 
 A token's CSS name is its path in the file joined with dashes: `color.accent-hover` becomes `--kb-color-accent-hover`. Keys may contain letters, digits, `_` and `-`.

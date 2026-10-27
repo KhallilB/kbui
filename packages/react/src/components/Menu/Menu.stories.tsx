@@ -28,6 +28,27 @@ export const Default: Story = {
     await userEvent.click(within(canvasElement).getByRole("button", { name: "Actions" }));
     const menu = await within(document.body).findByRole("menu");
     await waitFor(() => expect(menu).toBeVisible());
+    if (window.matchMedia("(prefers-reduced-motion: no-preference)").matches) {
+      expect(getComputedStyle(menu).transitionDuration).toBe("0.08s");
+    }
   },
 };
 export const DefaultDark: Story = { ...Default, globals: { theme: "dark" } };
+
+export const MotionTokens: Story = {
+  ...Default,
+  play: async ({ canvasElement }) => {
+    const root = document.documentElement;
+    root.style.setProperty("--kb-popup-motion-duration", "300ms");
+    try {
+      await userEvent.click(within(canvasElement).getByRole("button", { name: "Actions" }));
+      const menu = await within(document.body).findByRole("menu");
+      await waitFor(() => expect(menu).toBeVisible());
+      if (window.matchMedia("(prefers-reduced-motion: no-preference)").matches) {
+        expect(getComputedStyle(menu).transitionDuration).toBe("0.3s");
+      }
+    } finally {
+      root.style.removeProperty("--kb-popup-motion-duration");
+    }
+  },
+};
