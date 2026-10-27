@@ -113,7 +113,8 @@
         .catalog-browser,
         .catalog-live,
         .catalog-specimens,
-        .comparison-previews
+        .comparison-previews,
+        .release-list
       ) {
       animation: kbui-poster-arrive 500ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
     }

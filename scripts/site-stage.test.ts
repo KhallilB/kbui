@@ -27,6 +27,7 @@ function fixture() {
     "compare/index.html",
     "components/index.html",
     "examples/index.html",
+    "changelog/index.html",
     "playground/index.html",
     "storybook/index.html",
     "storybook/iframe.html",
@@ -74,5 +75,14 @@ test("missing workspace fails before replacing previous artifact", () => {
   writeFileSync(join(destination, "previous"), "keep");
   rmSync(join(source, "compare/index.html"));
   expect(() => stageSite(source, destination)).toThrow("Missing site entry: compare/index.html");
+  expect(readFileSync(join(destination, "previous"), "utf8")).toBe("keep");
+});
+
+test("missing changelog fails before replacing previous artifact", () => {
+  const { source, destination } = fixture();
+  mkdirSync(destination);
+  writeFileSync(join(destination, "previous"), "keep");
+  rmSync(join(source, "changelog/index.html"));
+  expect(() => stageSite(source, destination)).toThrow("Missing site entry: changelog/index.html");
   expect(readFileSync(join(destination, "previous"), "utf8")).toBe("keep");
 });

@@ -1,6 +1,7 @@
 import "@kbui/css/styles.css";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { Changelog } from "./Changelog";
 import { Examples } from "./Examples";
 import { Home } from "./Home";
 import { Setup } from "./Setup";
@@ -24,6 +25,8 @@ createRoot(root).render(
       <Workbench />
     ) : root.dataset.page === "examples" ? (
       <Examples />
+    ) : root.dataset.page === "changelog" ? (
+      <Changelog />
     ) : (
       <Home />
     )}

@@ -50,6 +50,7 @@ bun run check            # build, lint, typecheck and unit tests
 | [Using kbui in a project](docs/guides/using-kbui.md) | Installing, theming, updating and troubleshooting |
 | [Restyling kbui](docs/guides/restyling.md) | Token overrides that restyle every component or part of a page |
 | [Adding a component](docs/guides/adding-a-component.md) | The generator, styles, tests and stories |
+| [Forms and overlays](docs/guides/forms-and-overlays.md) | Theme hosts for popups, structured dialogs, surface tokens and accessibility checks |
 
 ## License
 

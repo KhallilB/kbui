@@ -20,3 +20,8 @@ declare module "virtual:kbui-setup-samples" {
   >;
   export default samples;
 }
+
+declare module "virtual:kbui-changelog" {
+  const releases: import("./changelog-model").Release[];
+  export default releases;
+}

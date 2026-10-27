@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadCsf } from "storybook/internal/csf-tools";
 import type { Plugin } from "vite";
+import { parseChangelog } from "../site/changelog-model.ts";
 import { firstComponent, themeMarkup, themes } from "../site/setup-model.ts";
 import { exampleCode } from "./code.ts";
 import { definitions } from "./definitions.ts";
@@ -14,6 +15,8 @@ const reactRoot = fileURLToPath(new URL("../../../packages/react/", import.meta.
 const componentsRoot = resolve(reactRoot, "src/components");
 const guidePath = resolve(reactRoot, "README.md");
 const setupPath = fileURLToPath(new URL("../site/setup-model.ts", import.meta.url));
+const changelogPath = fileURLToPath(new URL("../../../CHANGELOG.md", import.meta.url));
+const changelogId = "\0virtual:kbui-changelog";
 const virtualId = "virtual:kbui-catalog";
 const sampleId = "virtual:kbui-site-samples";
 const resolvedSampleId = "\0virtual:kbui-site-samples";
@@ -129,6 +132,7 @@ export function catalogPlugin(): Plugin {
     resolveId(id) {
       if (id === "virtual:kbui-setup-samples") return "\0virtual:kbui-setup-samples";
       if (id === virtualId) return resolvedId;
+      if (id === "virtual:kbui-changelog") return changelogId;
       if (id === sampleId) return resolvedSampleId;
     },
     load(id) {
@@ -138,10 +142,13 @@ export function catalogPlugin(): Plugin {
       }
       if (id === resolvedSampleId) return `export default ${JSON.stringify(loadSiteSamples())};`;
       if (id === resolvedId) return `export default ${JSON.stringify(loadCatalogSources())};`;
+      if (id === changelogId)
+        return `export default ${JSON.stringify(parseChangelog(readFileSync(changelogPath, "utf8"), Object.keys(definitions)))};`;
     },
     buildStart() {
       this.addWatchFile(guidePath);
       this.addWatchFile(setupPath);
+      this.addWatchFile(changelogPath);
       for (const path of siteSampleFiles) this.addWatchFile(path);
       for (const name of Object.keys(definitions))
         this.addWatchFile(resolve(componentsRoot, name, `${name}.stories.tsx`));
@@ -150,6 +157,7 @@ export function catalogPlugin(): Plugin {
       if (
         file !== guidePath &&
         file !== setupPath &&
+        file !== changelogPath &&
         !file.startsWith(componentsRoot) &&
         !siteSampleFiles.includes(file)
       )
@@ -160,6 +168,8 @@ export function catalogPlugin(): Plugin {
       if (samples) server.moduleGraph.invalidateModule(samples);
       const setup = server.moduleGraph.getModuleById("\0virtual:kbui-setup-samples");
       if (setup) server.moduleGraph.invalidateModule(setup);
+      const changelog = server.moduleGraph.getModuleById(changelogId);
+      if (changelog) server.moduleGraph.invalidateModule(changelog);
       server.ws.send({ type: "full-reload" });
       return [];
     },

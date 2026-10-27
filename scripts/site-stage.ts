@@ -8,6 +8,7 @@ const entries = [
   "compare/index.html",
   "components/index.html",
   "examples/index.html",
+  "changelog/index.html",
   "playground/index.html",
   "storybook/index.html",
   "storybook/iframe.html",

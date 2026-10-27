@@ -6,6 +6,7 @@ npm test --prefix deployment/site
 bun run test:stories
 bun run --cwd apps/storybook verify:overrides
 bun run --cwd apps/storybook test:site
+bun run --cwd apps/storybook test:a11y
 bun run --cwd apps/storybook build:site
 bun scripts/site-stage.ts
 

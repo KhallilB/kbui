@@ -576,6 +576,7 @@ for (const profile of profiles) {
       for (const [route, surface] of [
         ["/playground/", ".playground-section"],
         ["/examples/", ".example-section"],
+        ["/changelog/", ".release-list"],
         ["/components/?view=directory", ".catalog-grid"],
         ["/components/", ".catalog-browser"],
         ["/components/?component=input&view=directory", ".catalog-live"],
