@@ -167,6 +167,27 @@ describe("buildTokens", () => {
 describe("tokens.json", () => {
   const { css } = buildTokens(real as TokenTree);
   const dark = css.slice(css.indexOf('[data-theme="dark"]'));
+  type Node = { [key: string]: Node } & Token;
+  const node = (path: string) =>
+    path.split(".").reduce((n, k) => n[k] as Node, real as unknown as Node);
+  // Resolve aliases within chosen theme.
+  const hex = (path: string, theme: "light" | "dark"): string => {
+    const t = node(path);
+    const value = theme === "dark" ? (t.$extensions?.["kb.dark"] ?? t.$value) : t.$value;
+    const alias = value.match(/^\{(.+)\}$/);
+    return alias ? hex(alias[1] as string, theme) : value;
+  };
+  const luminance = (h: string) => {
+    const [r, g, b] = [1, 3, 5].map((i) => {
+      const c = Number.parseInt(h.slice(i, i + 2), 16) / 255;
+      return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+    }) as [number, number, number];
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  };
+  const contrast = (a: string, b: string) => {
+    const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x) as [number, number];
+    return (hi + 0.05) / (lo + 0.05);
+  };
 
   test("defines amber, green and teal primitives", () => {
     for (const name of ["amber", "green", "teal"]) {
@@ -185,27 +206,6 @@ describe("tokens.json", () => {
 
   describe("visualization roles", () => {
     const roles = ["current", "visited", "changed", "error", "discarded", "frontier", "path"];
-    type Node = { [key: string]: Node } & Token;
-    const node = (path: string) =>
-      path.split(".").reduce((n, k) => n[k] as Node, real as unknown as Node);
-    // Follows aliases to a hex value in the chosen theme.
-    const hex = (path: string, theme: "light" | "dark"): string => {
-      const t = node(path);
-      const value = theme === "dark" ? (t.$extensions?.["kb.dark"] ?? t.$value) : t.$value;
-      const alias = value.match(/^\{(.+)\}$/);
-      return alias ? hex(alias[1] as string, theme) : value;
-    };
-    const luminance = (h: string) => {
-      const [r, g, b] = [1, 3, 5].map((i) => {
-        const c = Number.parseInt(h.slice(i, i + 2), 16) / 255;
-        return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
-      }) as [number, number, number];
-      return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-    };
-    const contrast = (a: string, b: string) => {
-      const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x) as [number, number];
-      return (hi + 0.05) / (lo + 0.05);
-    };
 
     test("defines a mark, tint and tint text per role", () => {
       for (const role of roles) {
@@ -251,6 +251,14 @@ describe("tokens.json", () => {
       expect(forced).toContain("--kb-viz-changed-bg: Mark;");
       expect(forced).toContain("--kb-viz-discarded: GrayText;");
     });
+  });
+
+  test.each(["link.color", "link.hover"])("%s reads as inline text in both themes", (path) => {
+    for (const theme of ["light", "dark"] as const) {
+      for (const ground of ["color.bg", "color.surface"]) {
+        expect(contrast(hex(path, theme), hex(ground, theme))).toBeGreaterThanOrEqual(4.5);
+      }
+    }
   });
 
   test("gives accent and danger foregrounds a dark value for contrast on the lighter dark fills", () => {
@@ -394,4 +402,17 @@ test("switch material tokens retain recessed track and raised thumb in each them
     expect(scope).toContain("--kb-switch-thumb-background: var(--kb-material-raised-face);");
     expect(scope).toContain("--kb-switch-thumb-shadow: var(--kb-material-raised-shadow);");
   }
+});
+
+describe("typography role integration", () => {
+  test("aliases heading and body primitives to existing design roles", () => {
+    const { css } = buildTokens(real as TokenTree);
+    expect(css).toContain("--kb-heading-size-sm: var(--kb-text-h4-size);");
+    expect(css).toContain("--kb-heading-size-md: var(--kb-text-h3-size);");
+    expect(css).toContain("--kb-heading-size-lg: var(--kb-text-h2-size);");
+    expect(css).toContain("--kb-heading-size-xl: var(--kb-text-h1-size);");
+    expect(css).toContain("--kb-heading-weight: var(--kb-font-weight-strong);");
+    expect(css).toContain("--kb-link-color: var(--kb-color-accent-ink);");
+    expect(css).toContain("--kb-text-muted: var(--kb-color-muted);");
+  });
 });

@@ -11,6 +11,8 @@
     "deploy": "cf deploy --prebuilt --mode production",
     "build:preview": "cf build --mode preview",
     "deploy:preview": "cf deploy --prebuilt --mode preview",
+    "configure:preview": "cf workers triggers deploy --prebuilt --mode preview",
+    "upload:preview": "cf workers versions create --prebuilt --mode preview",
     "test": "node --test config.test.mjs"
   },
   "devDependencies": {

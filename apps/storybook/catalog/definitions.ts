@@ -34,6 +34,7 @@ export const definitions: Record<string, Definition> = {
     description: "Group related content, with room for links and actions.",
     section: "Card and Grid",
   },
+  Code: { group: "Typography", description: "Literal inline code that wraps long paths." },
   Dialog: {
     group: "Actions",
     description: "Keep a focused task in a dialog while the page waits behind it.",
@@ -47,9 +48,17 @@ export const definitions: Record<string, Definition> = {
     description: "Arrange content in responsive columns or a single stack.",
     section: "Card and Grid",
   },
+  Heading: {
+    group: "Typography",
+    description: "Native heading hierarchy with independent visual sizing.",
+  },
   Input: {
     group: "Forms",
     description: "Collect text with a clear label, help text, and error feedback.",
+  },
+  Link: {
+    group: "Typography",
+    description: "Recognizable navigation with visible keyboard focus.",
   },
   Menu: {
     group: "Actions",
@@ -90,6 +99,10 @@ export const definitions: Record<string, Definition> = {
   Switch: {
     group: "Forms",
     description: "Turn an immediate preference on or off.",
+  },
+  Text: {
+    group: "Typography",
+    description: "Readable paragraphs, inline text and supporting content.",
   },
   Toolbar: {
     group: "Actions",

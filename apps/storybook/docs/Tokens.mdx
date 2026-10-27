@@ -1,5 +1,6 @@
 import { ColorItem, ColorPalette, Meta } from "@storybook/addon-docs/blocks";
 import { tokens } from "@kbui/tokens";
+import { componentTokenVariables, fontFamilyVariables, fontWeightVariables } from "./token-data";
 
 <Meta title="Foundations/Tokens" />
 
@@ -86,10 +87,16 @@ Each role has a mark, a tint and text for the tint. See `docs/tokens.md` for whe
         <td style={{ fontSize: `var(${variable})`, fontFamily: "var(--kb-font-sans)" }}>The quick brown fox jumps over the lazy dog</td>
       </tr>
     ))}
-    {Object.entries(tokens.font).filter(([, variable]) => typeof variable === "string").map(([name, variable]) => (
-      <tr key={name}>
+    {fontFamilyVariables().map((variable) => (
+      <tr key={variable}>
         <td><code>{variable}</code></td>
         <td style={{ fontFamily: `var(${variable})` }}>The quick brown fox jumps over the lazy dog</td>
+      </tr>
+    ))}
+    {fontWeightVariables().map((variable) => (
+      <tr key={variable}>
+        <td><code>{variable}</code></td>
+        <td style={{ fontWeight: `var(${variable})` }}>The quick brown fox jumps over the lazy dog</td>
       </tr>
     ))}
   </tbody>
@@ -97,14 +104,10 @@ Each role has a mark, a tint and text for the tint. See `docs/tokens.md` for whe
 
 ## Component tokens
 
+Typography uses native Heading, Text, Link and Code markup. Heading size stays independent of document rank; body rhythm, secondary ink and inline surfaces have their own tokens. See [Heading examples](?path=/docs/components-heading--docs) for a composed article in both themes.
+
 <table>
   <tbody>
-    {["button", "input", "dialog"].flatMap((component) =>
-      Object.entries(tokens[component]).flatMap(([key, value]) =>
-        typeof value === "string"
-          ? [<tr key={value}><td><code>{value}</code></td></tr>]
-          : Object.values(value).map((variable) => <tr key={variable}><td><code>{variable}</code></td></tr>),
-      ),
-    )}
+    {componentTokenVariables().map((variable) => <tr key={variable}><td><code>{variable}</code></td></tr>)}
   </tbody>
 </table>

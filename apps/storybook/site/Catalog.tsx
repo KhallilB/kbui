@@ -25,10 +25,14 @@ import { themeStyle } from "./theme-foundations";
 import "./catalog.css";
 import "./workspace-skin.css";
 
-const groups = ["All", "Actions", "Forms", "Feedback", "Layout"] as const satisfies readonly (
-  | "All"
-  | CatalogGroup
-)[];
+const groups = [
+  "All",
+  "Actions",
+  "Forms",
+  "Feedback",
+  "Layout",
+  "Typography",
+] as const satisfies readonly ("All" | CatalogGroup)[];
 function isChoice<T extends string>(value: string, choices: readonly T[]): value is T {
   return choices.some((choice) => choice === value);
 }

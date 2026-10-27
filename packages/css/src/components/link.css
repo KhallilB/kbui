@@ -1,0 +1,25 @@
+/* Anatomy: .kb-link */
+.kb-link {
+  color: var(--kb-link-color);
+  font: inherit;
+  text-decoration-line: underline;
+  text-decoration-thickness: from-font;
+  text-underline-offset: var(--kb-link-underline-offset);
+  overflow-wrap: anywhere;
+}
+.kb-link:hover {
+  color: var(--kb-link-hover);
+}
+.kb-link:focus-visible {
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: 2px;
+  border-radius: var(--kb-radius-sm);
+}
+@media (forced-colors: active) {
+  .kb-link {
+    color: LinkText;
+  }
+  .kb-link:focus-visible {
+    outline-color: Highlight;
+  }
+}

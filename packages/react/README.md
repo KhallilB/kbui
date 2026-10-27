@@ -354,3 +354,51 @@ Use FileInput to choose files, review the selected list, and remove items. Your 
 | inputRef, triggerRef |unset | Native hidden input and visible picker refs |
 
 Root native div props/ref and className pass through. Root aria-describedby merges after helper/error. Item button refs remain internal to preserve focus; use public item/content classes and renderItem for presentation. Use these props and classes rather than reaching into individual item buttons. The `×` mark is decorative; removal has a full accessible filename label.
+
+## Heading
+
+Native `h1`–`h6` headings with visual size independent of rank. Prepared locally after 0.7.0; unreleased.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `level` | `1` \| `2` \| `3` \| `4` \| `5` \| `6` | `2` | Document rank; choose from page structure |
+| `size` | `sm` \| `md` \| `lg` \| `xl` \| `display` | From level | Levels 1–6 map to xl, lg, md, sm, sm, sm; display is an explicit hero size |
+| `className`, `ref` | Native heading props | unset | Classes merge; ref targets native heading |
+
+Use one page title and nest section ranks without skipping levels. Adjust `size` for context without changing the outline. Headings have no margin; use Grid or parent layout for spacing. See [Typography](../../docs/guides/typography.md) for composition, CSS recipes and accessibility guidance.
+
+## Text
+
+Body paragraphs, inline text and block grouping. Prepared locally after 0.7.0; unreleased.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `as` | `p` \| `span` \| `div` | `p` | Use span inside paragraphs; div for block children |
+| `size` | `sm` \| `md` \| `lg` | `md` | Existing small/body roles (13px, 15px), then 1.125rem |
+| `tone` | `default` \| `muted` | `default` | Primary ink or readable secondary ink |
+| `className`, `ref` | Native element props | unset | Ref type follows chosen element |
+
+Body line height is 1.6; block content is bounded to 65ch by `--kb-text-measure`. Text has no margin. Inline spans keep natural flow. Use native `strong` and `em` for meaningful emphasis. Do not nest paragraphs or place block children inside the default paragraph.
+
+## Link
+
+Native anchor for navigation, with persistent underline and visible keyboard focus. Prepared locally after 0.7.0; unreleased.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `href` | `string` | required | Navigation destination |
+| `target`, `rel`, `download`, `aria-current` | Native anchor props | unset | Passed through without rewriting |
+| `className`, `ref` | Native anchor props | unset | Ref targets anchor |
+
+Use descriptive link text. Use Button for an action. Links inherit surrounding type size; Tab focuses, Enter follows, and Space retains native behavior. Callers own new-tab wording and target/rel policy. No disabled link or router adapter is provided; apply `kb-link` to a router component that renders an anchor with href. Color, underline and focus must remain visible.
+
+## Code
+
+Literal inline code, commands and paths in native `code`. Prepared locally after 0.7.0; unreleased.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `children` | `ReactNode` | unset | Pass markup as a string to display it literally |
+| `className`, `ref` | Native code props | unset | Ref targets code element |
+
+Monospace text inherits surrounding ink and line height, uses a relative size and wraps long tokens. Case and whitespace remain intact; no HTML parsing occurs. This component styles inline fragments; multiline listings need a separate `pre`/`code` recipe without inline padding. Syntax highlighting and copy controls are outside this component.

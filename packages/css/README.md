@@ -26,6 +26,10 @@ The first line of each stylesheet describes the markup it expects. The table sho
 
 | File | Expected markup |
 |---|---|
+| `heading.css` | Native heading with `.kb-heading` and `data-size` (`sm`, `md`, `lg`, `xl`, `display`); rank follows document outline |
+| `text.css` | `p`, `span` or `div` with `.kb-text`, `data-size` (`sm`, `md`, `lg`) and `data-tone` (`default`, `muted`) |
+| `link.css` | Native anchor with href and `.kb-link`; underline and visible keyboard focus |
+| `code.css` | Native inline `code` with `.kb-code`; literal fragments and wrapping paths |
 | `button.css` | `.kb-button` with `data-variant` (`primary`, `secondary`, `ghost`, `danger`), `data-size` (`sm`, `md`, `lg`, `icon`) and `data-disabled` |
 | `numberfield.css` | `.kb-numberfield` with size/state attributes, label, grouped input/step controls and full-width help/error |
 | `fileinput.css` | `.kb-fileinput` with labeled picker, retained list and named removal controls; also load Button CSS when importing parts |
@@ -45,3 +49,5 @@ bun run --cwd packages/css test
 The tests check that each component file starts with its `Anatomy:` line and styles the root class it names. They fail if component or reset CSS uses a palette color such as `--kb-gray-500` or a raw color such as `#fff`.
 
 [Adding a component](../../docs/guides/adding-a-component.md) describes the anatomy contract and its checks.
+
+[Typography](../../docs/guides/typography.md) covers hierarchy, composition, plain HTML recipes and theme tokens.

@@ -9,6 +9,7 @@ Current source defaults use chalk and graphite surfaces with persimmon accents. 
 | Kind | Examples | Who uses it |
 |---|---|---|
 | Palette | `--kb-gray-500`, `--kb-blue-600`, `--kb-red-500`, `--kb-amber-700`, `--kb-green-700`, `--kb-teal-700`, `--kb-white`, `--kb-black` | Other tokens only. A component stylesheet that references one fails `bun run check`; the family list lives in `packages/css/src/build.ts`. |
+| Typography | `--kb-heading-size-xl`, `--kb-text-measure`, `--kb-link-color`, `--kb-code-size` | Shared hierarchy and inline content; see [Typography](guides/typography.md#theme-and-scale). |
 | Scale | `--kb-space-4`, `--kb-radius-md`, `--kb-size-sm`, `--kb-font-sans`, `--kb-font-weight-strong`, `--kb-text-h1-size` | Components and apps, directly |
 | Semantic color | `--kb-color-bg`, `--kb-color-fg`, `--kb-color-accent`, `--kb-color-danger`, `--kb-color-info`, `--kb-color-success`, `--kb-color-warning` | Components and apps. These are the values that change in dark mode. Each status color has a matching `-fg` for text placed on it. |
 | Visualization | `--kb-viz-current`, `--kb-viz-current-bg`, `--kb-viz-current-fg`, `--kb-viz-visited`, `--kb-viz-changed` | Apps that draw data structures or algorithm state. See [Visualization roles](#visualization-roles). |

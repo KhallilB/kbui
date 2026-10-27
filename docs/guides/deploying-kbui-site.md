@@ -12,6 +12,21 @@ Pull requests use CI's **Build, lint and unit tests** check. Runtime and generat
 
 Validation includes repository checks, Storybook normal/reduced-motion tests, responsive site tests, complete source fixtures, and Chromium/WebKit release journeys against the root-mounted artifact. Builds run sequentially because package rebuilds replace declaration files used by site verification.
 
+## PR Storybook previews
+
+Same-repository PRs publish Storybook at `https://pr-<number>-kbui-site-preview.khallilbailey.workers.dev`. After a successful upload, CI updates one Actions comment with direct links to stories and MDX docs from changed PR files, plus **Browse all stories** and the deployed commit. Links use the uploaded Storybook index's actual IDs and component paths, so component implementation changes also surface their indexed stories. Generated autodocs duplicates are omitted; large changes show the first 40 matching entries. Shared dependency changes without a direct story/component match keep the browse link. Each stacked PR uses its own base-to-head diff. The **Storybook preview** deployment also provides its **View deployment** link. New commits update that PR's alias; other PR aliases and production traffic stay on their existing versions. Fork PRs run validation without publishing.
+
+Both CI build paths produce `apps/storybook/dist/storybook/`. The browser job uploads its tested files; documentation-only changes upload their existing documentation build. Only the successful path uploads `storybook-<commit SHA>`, retained for three days. The publishing job downloads those files into `deployment/site/public/` and packages them with the pinned Cloudflare CLI. It does not build Storybook again.
+
+Create a GitHub environment named **`kbui-preview`** with these secrets before enabling publishing:
+
+- `CLOUDFLARE_API_TOKEN`: Workers Editor scoped to the existing `kbui-site-preview` Worker. Production's token remains in `kbui-production`.
+- `CLOUDFLARE_ACCOUNT_ID`: the account containing that Worker.
+
+Allow PR branch deployments in this environment. The existing preview Worker must remain provisioned and its `workers.dev` subdomain must remain `khallilbailey`; update the workflow URL if the account subdomain changes. No per-PR Worker creation, deletion or zone permissions are needed.
+
+`configure:preview` enables version URLs from the preview configuration, without selecting a new version for live traffic. `upload:preview -- --preview-alias pr-<number>` uploads a version and assigns its PR alias. These commands use the preview Worker with no custom domains or zone routes. Missing credentials fail with setup instructions rather than publishing through production's environment. Closing a PR does not delete the shared Worker or its retained versions.
+
 ## One-time setup
 
 1. **Publish the reviewed site changes to GitHub main.** A local merge alone does not start Actions. Use the normal signed commit/PR process; the scratch `worktree/*` branch is not a PR branch.

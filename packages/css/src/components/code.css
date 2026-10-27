@@ -1,0 +1,15 @@
+/* Anatomy: .kb-code */
+.kb-code {
+  padding: 0.1em var(--kb-space-1);
+  border: 1px solid var(--kb-code-border);
+  border-radius: var(--kb-code-radius);
+  background: var(--kb-code-background);
+  font-family: var(--kb-font-mono);
+  font-size: var(--kb-code-size);
+  line-height: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: break-spaces;
+  overflow-wrap: anywhere;
+  box-decoration-break: slice;
+}

@@ -13,6 +13,7 @@ export {
 export { Callout, type CalloutProps, type CalloutTone } from "./components/Callout/Callout";
 export { Card, type CardProps } from "./components/Card/Card";
 export { Checkbox, type CheckboxProps } from "./components/Checkbox/Checkbox";
+export { Code, type CodeProps } from "./components/Code/Code";
 export {
   Dialog,
   type DialogActionsProps,
@@ -28,7 +29,14 @@ export {
   type FileInputProps,
 } from "./components/FileInput/FileInput";
 export { Grid, type GridProps } from "./components/Grid/Grid";
+export {
+  Heading,
+  type HeadingLevel,
+  type HeadingProps,
+  type HeadingSize,
+} from "./components/Heading/Heading";
 export { Input, type InputProps, type InputSize } from "./components/Input/Input";
+export { Link, type LinkProps } from "./components/Link/Link";
 export {
   Menu,
   type MenuContentProps,
@@ -72,6 +80,13 @@ export {
   type StatusTone,
 } from "./components/Status/Status";
 export { Switch, type SwitchProps } from "./components/Switch/Switch";
+export {
+  Text,
+  type TextElement,
+  type TextProps,
+  type TextSize,
+  type TextTone,
+} from "./components/Text/Text";
 export {
   Toolbar,
   type ToolbarButtonProps,

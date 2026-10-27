@@ -14,6 +14,7 @@ test("preview is a different Worker with no portfolio routes", async () => {
   for (const mode of ["preview", undefined]) {
     const { worker } = await config({ mode, isPreview: true });
     assert.equal(worker.name, "kbui-site-preview");
+    assert.equal(worker.previewUrls, true);
     assert.deepEqual(worker.triggers, []);
     assert.deepEqual(worker.domains, []);
   }

@@ -1,0 +1,20 @@
+/* Anatomy: .kb-text [data-size=sm|md|lg] [data-tone=default|muted] */
+.kb-text {
+  margin: 0;
+  min-inline-size: 0;
+  max-inline-size: var(--kb-text-measure);
+  font-family: var(--kb-font-sans);
+  font-size: var(--kb-text-body-size);
+  line-height: var(--kb-text-leading-body);
+  color: var(--kb-color-fg);
+  overflow-wrap: anywhere;
+}
+.kb-text[data-size="sm"] {
+  font-size: var(--kb-text-small-size);
+}
+.kb-text[data-size="lg"] {
+  font-size: var(--kb-size-lg);
+}
+.kb-text[data-tone="muted"] {
+  color: var(--kb-text-muted);
+}
