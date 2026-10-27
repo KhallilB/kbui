@@ -64,10 +64,20 @@ try {
     if ((await primary.getAttribute("data-variant")) !== "danger")
       throw new Error("Dark navigation theme broke dropdown selection");
     for (const theme of ["light", "dark"]) {
-      await page.goto(`${origin}/components/qa/?theme=${theme}`);
-      const picker = page.getByRole("combobox", { name: "Button example", exact: true });
+      await page.goto(`${origin}/components/?component=button&theme=${theme}`);
+      const preview = page.locator('.catalog-detail:visible iframe[data-current="true"]');
+      const previewRoot = page
+        .frameLocator('.catalog-detail:visible iframe[data-current="true"]')
+        .locator("html");
+      await previewRoot.locator("#storybook-root > *").first().waitFor();
+      await previewRoot.evaluate((root) => (root.dataset.instance = "reskin-retained"));
+      const href = page.url();
+      const siteAccent = await page
+        .locator(".kbui-catalog")
+        .evaluate((root) => getComputedStyle(root).getPropertyValue("--kb-color-accent").trim());
+      const picker = page.getByRole("combobox", { name: "Palette", exact: true });
       await picker.click();
-      const list = page.getByRole("listbox", { name: "Button example", exact: true });
+      const list = page.getByRole("listbox", { name: "Palette", exact: true });
       await list.waitFor();
       const material = await page.locator(".kb-select-popup").evaluate((element) => {
         const style = getComputedStyle(element);
@@ -89,11 +99,31 @@ try {
         throw new Error(`Dropdown material/bounds mismatch: ${JSON.stringify(material)}`);
       if (reducedMotion === "reduce" && material.transition !== "0s")
         throw new Error("Reduced motion animated dropdown");
-      await list.getByRole("option", { name: "Disabled", exact: true }).click();
+      await list.getByRole("option", { name: "Ocean", exact: true }).click();
       await list.waitFor({ state: "hidden" });
-      await page
-        .getByTitle(`Button — Disabled — ${theme === "light" ? "Light" : "Dark"} QA example`)
-        .waitFor();
+      const accent = theme === "light" ? "#21637a" : "#8cd5e8";
+      await page.waitForFunction((expected) => {
+        const frame = document.querySelector<HTMLIFrameElement>(
+          '.catalog-detail:not([hidden]) iframe[data-current="true"]',
+        );
+        const root = frame?.contentDocument?.documentElement;
+        return (
+          root && getComputedStyle(root).getPropertyValue("--kb-color-accent").trim() === expected
+        );
+      }, accent);
+      if (
+        page.url() !== href ||
+        (await previewRoot.getAttribute("data-instance")) !== "reskin-retained"
+      )
+        throw new Error("Local palette changed URL or replaced preview document");
+      if (
+        (await page
+          .locator(".kbui-catalog")
+          .evaluate((root) =>
+            getComputedStyle(root).getPropertyValue("--kb-color-accent").trim(),
+          )) !== siteAccent
+      )
+        throw new Error("Preview palette leaked into the site theme");
       await picker.press("ArrowDown");
       await list.waitFor();
       await page.waitForFunction(
@@ -105,6 +135,40 @@ try {
       await list.waitFor({ state: "hidden" });
       if (!(await picker.evaluate((element) => element === document.activeElement)))
         throw new Error("Dropdown did not restore trigger focus");
+      await page.getByRole("combobox", { name: "Corners", exact: true }).click();
+      await page.getByRole("option", { name: "Sharp", exact: true }).click();
+      await page.getByRole("listbox").waitFor({ state: "hidden" });
+      if (
+        !(await page.getByRole("textbox", { name: "Theme CSS overrides" }).inputValue()).includes(
+          "--kb-radius-md: 0px;",
+        )
+      )
+        throw new Error("Generated CSS omitted selected corners");
+      if (
+        (await previewRoot.evaluate((root) =>
+          getComputedStyle(root).getPropertyValue("--kb-radius-md").trim(),
+        )) !== "0px"
+      )
+        throw new Error("Selected corners did not reach live preview");
+      await page.getByRole("button", { name: "Reset styling", exact: true }).click();
+      if (
+        (await previewRoot.evaluate((root) => root.style.getPropertyValue("--kb-color-accent"))) !==
+        ""
+      )
+        throw new Error("Reset styling retained inline palette overrides");
+      if (
+        (await previewRoot.getAttribute("data-instance")) !== "reskin-retained" ||
+        page.url() !== href
+      )
+        throw new Error("Reset styling replaced preview or changed URL");
+      await page
+        .getByRole("radiogroup", { name: "Example state" })
+        .getByRole("radio", { name: "Disabled", exact: true })
+        .locator("xpath=ancestor::label[1]")
+        .click();
+      await page.getByTitle("Button — Disabled live example").waitFor();
+      if ((await preview.getAttribute("title")) !== "Button — Disabled live example")
+        throw new Error("State selection stopped working after local reskinning");
     }
     await page.evaluate(() => localStorage.clear());
     await page.goto(`${origin}/?theme=dark`);

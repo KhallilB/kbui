@@ -36,7 +36,7 @@ function CompositionView({
           04
         </span>
         <Heading className="composition-title">Notes from the workshop.</Heading>
-        <p>A reading layout using Card and Badge. Content stays in your app.</p>
+        <p>A reading layout built with Card and Badge.</p>
         <div className="sample-bottom">
           <span>Card + Badge</span>
           <a href={docs("Card", storybookRoot)}>
@@ -168,7 +168,10 @@ export function Examples({
           <h1>
             See the parts <em>come together.</em>
           </h1>
-          <p>Three small compositions. Same components, different jobs.</p>
+          <p>
+            See how the same components work in a reading layout, a release overview, and a color
+            study.
+          </p>
         </div>
         <nav className="example-index" aria-label="Example navigation">
           <a href={`${siteRoot}compare/`}>

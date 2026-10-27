@@ -38,6 +38,14 @@ function CatalogRoute() {
     <Catalog
       navigationRevision={location.revision}
       initialAppearance={{ theme: readSiteTheme() }}
+      initialCompare={["true", "1"].includes(location.query.get("compare") ?? "")}
+      onCompareChange={(compare: boolean) => {
+        const url = new URL(window.location.href);
+        if (compare) url.searchParams.set("compare", "true");
+        else url.searchParams.delete("compare");
+        window.history.replaceState(window.history.state, "", url);
+        setLocation((current) => ({ ...current, query: url.searchParams }));
+      }}
       onAppearanceChange={({ theme }) => {
         const url = new URL(window.location.href);
         url.searchParams.set("theme", theme);
@@ -46,9 +54,14 @@ function CatalogRoute() {
       }}
       onComponentChange={(id, stateId) => {
         const url = new URL(window.location.href);
-        url.searchParams.set("component", id);
-        if (stateId) url.searchParams.set("state", stateId);
-        else url.searchParams.delete("state");
+        if (id === null) {
+          url.searchParams.delete("component");
+          url.searchParams.delete("state");
+        } else {
+          url.searchParams.set("component", id);
+          if (stateId) url.searchParams.set("state", stateId);
+          else url.searchParams.delete("state");
+        }
         window.history.pushState(null, "", url);
         setLocation((current) => ({ ...current, query: url.searchParams }));
       }}

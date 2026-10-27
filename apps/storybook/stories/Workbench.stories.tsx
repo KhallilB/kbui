@@ -71,7 +71,7 @@ export const Playground: Story = {
     expect(canvas.getByTestId("working-code")).toHaveTextContent('data-theme="dark"');
     await waitFor(() =>
       expect(canvas.getByTestId("playground-preview")).toHaveStyle({
-        backgroundColor: systemBackground ?? "rgb(32, 41, 32)",
+        backgroundColor: systemBackground ?? "rgb(25, 27, 32)",
       }),
     );
     await userEvent.keyboard("{ArrowRight}");

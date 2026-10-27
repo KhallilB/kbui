@@ -1,7 +1,8 @@
 import type { CatalogEntry } from "../catalog/types";
+import type { CatalogSkin } from "./catalog-skin";
 import type { Theme } from "./theme-foundations";
 
-export type CatalogAppearance = { theme: Theme };
+export type CatalogAppearance = { theme: Theme; skin?: CatalogSkin };
 
 export function browsableStories(entry: CatalogEntry) {
   return entry.stories.filter((story) => !/(?:^|\s)(?:Dark|Light)$/.test(story.name));

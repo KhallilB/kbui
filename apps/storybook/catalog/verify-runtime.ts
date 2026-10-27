@@ -12,7 +12,9 @@ try {
       documents++;
   });
   await page.goto(`${origin}/components/?component=input&view=directory`);
-  const frame = (name: string) => page.frameLocator(`iframe[title="Input — ${name} live example"]`);
+  const detail = page.locator(".catalog-detail:visible");
+  const frame = (name: string) =>
+    detail.frameLocator(`iframe[title="Input — ${name} live example"]`);
   const input = (name: string) => frame(name).getByRole("textbox", { name: "Email", exact: true });
   assert.equal(
     new URL(page.url()).searchParams.has("view"),
@@ -41,22 +43,22 @@ try {
   );
   assert.equal(documents, 2, "Returning to a cached state navigated a document");
   await page.goBack();
-  await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute(
+  await expect(detail.locator('iframe[data-current="true"]')).toHaveAttribute(
     "title",
     "Input — With Error live example",
   );
-  await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute("aria-busy", "false");
+  await expect(detail.locator('iframe[data-current="true"]')).toHaveAttribute("aria-busy", "false");
   assert.equal(
     await input("With Error").inputValue(),
     "error@example.com",
     "Back erased the previous state's draft",
   );
   await page.goForward();
-  await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute(
+  await expect(detail.locator('iframe[data-current="true"]')).toHaveAttribute(
     "title",
     "Input — Default live example",
   );
-  await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute("aria-busy", "false");
+  await expect(detail.locator('iframe[data-current="true"]')).toHaveAttribute("aria-busy", "false");
   assert.equal(documents, 2, "History restoration navigated a cached document");
   await input("Default").focus();
   const state = new URL(page.url()).searchParams.get("state");
@@ -77,7 +79,7 @@ try {
   );
   assert.equal(documents, 2, "Theme navigated a document");
   await page.getByRole("button", { name: "Reload preview" }).click();
-  await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute("aria-busy", "false");
+  await expect(detail.locator('iframe[data-current="true"]')).toHaveAttribute("aria-busy", "false");
   assert.equal(await input("Default").inputValue(), "", "Explicit reload kept old draft");
   assert.equal(
     await frame("Default").locator("html").getAttribute("data-instance"),
@@ -102,9 +104,12 @@ try {
   assert.ok(count > 6, "Bounded-cache probe needs more states than capacity");
   for (let index = 0; index < count; index++) {
     await states.nth(index).locator("xpath=ancestor::label[1]").click();
-    await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute("aria-busy", "false");
+    await expect(detail.locator('iframe[data-current="true"]')).toHaveAttribute(
+      "aria-busy",
+      "false",
+    );
     assert.ok(
-      (await page.locator(".catalog-preview-frame iframe").count()) <= 6,
+      (await detail.locator(".catalog-preview-frame iframe").count()) <= 6,
       "Preview cache exceeded six documents",
     );
   }
@@ -129,12 +134,12 @@ try {
   });
   await chooseRadio(page, "Example state", "With Description");
   await requested;
-  const old = page.locator('iframe[title="Input — Default live example"]');
+  const old = detail.locator('iframe[title="Input — Default live example"]');
   await expect(old).toHaveAttribute("data-visible", "true");
   await expect(old).toHaveAttribute("inert");
   await chooseRadio(page, "Example state", "With Error");
   const chosen = radioChoice(page, "Example state", "With Error");
-  await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute("aria-busy", "false");
+  await expect(detail.locator('iframe[data-current="true"]')).toHaveAttribute("aria-busy", "false");
   const scroll = await page.evaluate(() => scrollY);
   release();
   await page
@@ -147,7 +152,7 @@ try {
         .querySelector('iframe[title="Input — With Description live example"]')
         ?.getAttribute("data-visible") === "false",
   );
-  await expect(page.locator('iframe[data-visible="true"]')).toHaveAttribute(
+  await expect(detail.locator('iframe[data-visible="true"]')).toHaveAttribute(
     "title",
     "Input — With Error live example",
   );
@@ -160,125 +165,205 @@ try {
   for (const width of [320, 1280]) {
     for (const theme of ["light", "dark"]) {
       await page.setViewportSize({ width, height: 900 });
-      await page.goto(`${origin}/components/?theme=${theme}`);
-      await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute(
+      await page.goto(`${origin}/components/?theme=${theme}&tag=retained`);
+      await expect(page.locator(".catalog-browser:visible")).toBeVisible();
+      assert.equal(await page.locator("iframe").count(), 0, "Fresh browse page mounted a preview");
+      assert.equal(
+        await page.locator(".catalog-component-list").count(),
+        0,
+        "Scrollable sidebar remains",
+      );
+      assert.equal(await page.evaluate(() => scrollY), 0, "Initial catalog stole scroll");
+      const card = (id: string) => page.locator(`.catalog-card a[href*='component=${id}']`);
+      const browse = async () => {
+        await page.getByRole("link", { name: "All components", exact: true }).click();
+        await expect(page.locator(".catalog-browser:visible")).toBeVisible();
+        await expect(detail).toHaveCount(0);
+        assert.equal(new URL(page.url()).searchParams.has("component"), false);
+        assert.equal(new URL(page.url()).searchParams.has("state"), false);
+        assert.equal(new URL(page.url()).searchParams.get("tag"), "retained");
+      };
+      await card("input").click();
+      await expect(detail.locator('iframe[data-current="true"]')).toHaveAttribute(
         "aria-busy",
         "false",
       );
-      assert.equal(await page.locator("iframe").count(), 1, "Default browser loaded all examples");
-      assert.equal(await page.evaluate(() => scrollY), 0, "Initial preview stole scroll");
-      const components = page.getByRole("navigation", { name: "Browse components" });
-      await components.getByRole("link", { name: "Input", exact: true }).click();
-      await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute(
-        "aria-busy",
-        "false",
-      );
+      await expect(
+        page.getByRole("navigation", { name: "Browse components", exact: true }),
+      ).toHaveCount(0);
       await input("Default").fill("browser@example.com");
+      await frame("Default")
+        .locator("html")
+        .evaluate((root) => root.setAttribute("data-instance", "browse-retained"));
       await chooseRadio(page, "Example state", "With Error");
-      await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute(
+      await expect(detail.locator('iframe[data-current="true"]')).toHaveAttribute(
         "aria-busy",
         "false",
       );
       await input("With Error").fill("remembered-error@example.com");
-      await components.getByRole("link", { name: "Button", exact: true }).click();
-      await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute(
+      await browse();
+      assert.equal(
+        await page
+          .locator('iframe[title="Input — With Error live example"]')
+          .evaluate((node) => node.closest("[inert]") !== null),
+        true,
+        "Retained hidden detail remains interactive",
+      );
+      await card("button").click();
+      await expect(detail.locator('iframe[data-current="true"]')).toHaveAttribute(
         "aria-busy",
         "false",
       );
-      await components.getByRole("link", { name: "Input", exact: true }).click();
-      await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute(
-        "aria-busy",
-        "false",
-      );
-      await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute(
+      await expect(
+        page.getByRole("navigation", { name: "Browse components", exact: true }),
+      ).toHaveCount(0);
+      await browse();
+      await card("input").click();
+      await expect(detail.locator('iframe[data-current="true"]')).toHaveAttribute(
         "title",
         "Input — With Error live example",
       );
       assert.equal(
         await input("With Error").inputValue(),
         "remembered-error@example.com",
-        "Component browsing erased selected state's draft",
+        "Browsing erased selected state's draft",
       );
       assert.equal(
         new URL(page.url()).searchParams.get("state"),
         "components-input--with-error",
-        "Component browsing forgot selected state in URL",
+        "Browsing forgot selected state URL",
       );
+      await page.goBack();
+      await expect(page.locator(".catalog-browser:visible")).toBeVisible();
+      await expect(detail).toHaveCount(0);
+      await page.goForward();
+      await expect(detail.locator('iframe[data-current="true"]')).toHaveAttribute(
+        "title",
+        "Input — With Error live example",
+      );
+      assert.equal(
+        await input("With Error").inputValue(),
+        "remembered-error@example.com",
+        "Browse history erased draft",
+      );
+      await browse();
       const search = page.getByRole("searchbox", { name: "Search components" });
       await search.fill("unmatched component");
       await page.getByRole("button", { name: "Clear search" }).click();
       await expect(search).toBeFocused();
       await expect(search).toHaveValue("");
+      await card("input").click();
       assert.equal(
         await input("Default").inputValue(),
         "browser@example.com",
-        "Search remounted inspector",
+        "Browse search remounted retained detail",
+      );
+      assert.equal(
+        await frame("Default").locator("html").getAttribute("data-instance"),
+        "browse-retained",
+        "Browse/history replaced preview document",
       );
       assert.equal(await frame("Default").locator("html").getAttribute("data-theme"), theme);
       assert.equal(
         await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),
         false,
-        "Focused browser overflowed page",
+        "Browse/detail page overflowed",
       );
     }
   }
   console.log(
-    "Focused browser: one initial document; cross-component drafts, clear focus, both themes and mobile/desktop fit verified.",
+    "Public browse/detail: zero initial previews; hidden inert cache, cross-component drafts, history, clear focus and both viewport themes preserved.",
   );
   await page.goto(
     `${origin}/components/?component=input&state=components-input--with-error&theme=dark`,
   );
   await input("With Error").waitFor();
-  const beforeQa = await page.evaluate(() => history.length);
+  const beforeOverview = page.url();
   await page.goto(
     `${origin}/components/?view=overview&component=input&state=components-input--with-error&theme=dark&compare=true&from=legacy#main`,
   );
-  await page.locator(".catalog-qa-gallery").waitFor();
-  const qaLocation = new URL(page.url());
-  assert.equal(qaLocation.pathname, new URL("qa/", `${origin}/components/`).pathname);
-  assert.equal(qaLocation.searchParams.has("view"), false);
-  assert.equal(qaLocation.searchParams.get("component"), "input");
-  assert.equal(qaLocation.searchParams.get("state"), "components-input--with-error");
-  assert.equal(qaLocation.searchParams.get("theme"), "dark");
-  assert.equal(qaLocation.searchParams.get("from"), "legacy");
-  assert.equal(qaLocation.hash, "#main");
-  assert.equal(
-    await page.evaluate(() => history.length),
-    beforeQa + 1,
-    "QA redirect added history",
-  );
-  await expect(page.locator(".catalog-qa-gallery .catalog-specimen")).toHaveCount(1);
-  const lightQa = page.frameLocator(
-    '.catalog-qa-panes [data-qa-theme="light"] iframe[data-current="true"]',
-  );
-  const darkQa = page.frameLocator(
-    '.catalog-qa-panes [data-qa-theme="dark"] iframe[data-current="true"]',
-  );
-  await expect(lightQa.locator("html")).toHaveAttribute("data-theme", "light");
-  await expect(darkQa.locator("html")).toHaveAttribute("data-theme", "dark");
-  await lightQa.getByRole("textbox", { name: "Email", exact: true }).fill("light-qa@example.com");
-  await darkQa.getByRole("textbox", { name: "Email", exact: true }).fill("dark-qa@example.com");
+  await expect(detail).toBeVisible();
+  const publicLocation = new URL(page.url());
+  assert.equal(publicLocation.pathname, new URL(`${origin}/components/`).pathname);
+  assert.equal(publicLocation.searchParams.has("view"), false);
+  assert.equal(publicLocation.searchParams.get("component"), "input");
+  assert.equal(publicLocation.searchParams.get("state"), "components-input--with-error");
+  assert.equal(publicLocation.searchParams.get("theme"), "dark");
+  assert.equal(publicLocation.searchParams.get("from"), "legacy");
+  assert.equal(publicLocation.hash, "#main");
+  await page.goBack();
+  await expect(page).toHaveURL(beforeOverview);
+  await page.goForward();
+  await expect(detail).toBeVisible();
+  await expect(page.locator(".catalog-qa-gallery")).toHaveCount(0);
+  await expect(
+    page.getByRole("navigation", { name: "Browse components", exact: true }),
+  ).toHaveCount(0);
+  const lightPreview = detail.frameLocator('[data-qa-theme="light"] iframe[data-current="true"]');
+  const darkPreview = detail.frameLocator('[data-qa-theme="dark"] iframe[data-current="true"]');
+  await expect(detail.getByRole("region", { name: "Dark comparison", exact: true })).toBeVisible();
+  await expect(lightPreview.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(darkPreview.locator("html")).toHaveAttribute("data-theme", "dark");
+  await lightPreview
+    .getByRole("textbox", { name: "Email", exact: true })
+    .fill("light-compare@example.com");
+  await darkPreview
+    .getByRole("textbox", { name: "Email", exact: true })
+    .fill("dark-compare@example.com");
+  await lightPreview.locator("html").evaluate((root) => (root.dataset.instance = "paired-light"));
+  await darkPreview.locator("html").evaluate((root) => (root.dataset.instance = "paired-dark"));
   for (const theme of ["light", "dark"])
     await expect
       .poll(() =>
-        page
-          .locator(`.catalog-qa-panes [data-qa-theme="${theme}"] iframe[data-current="true"]`)
+        detail
+          .locator(`[data-qa-theme="${theme}"] iframe[data-current="true"]`)
           .evaluate((frame) => frame.getBoundingClientRect().height),
       )
       .toBeLessThan(240);
   await page.getByLabel("Dark mode", { exact: true }).click();
-  await expect(lightQa.locator("html")).toHaveAttribute("data-theme", "light");
-  await expect(darkQa.locator("html")).toHaveAttribute("data-theme", "dark");
+  await expect(lightPreview.locator("html")).toHaveAttribute("data-theme", "light");
+  await expect(darkPreview.locator("html")).toHaveAttribute("data-theme", "dark");
   assert.equal(
-    await lightQa.getByRole("textbox", { name: "Email", exact: true }).inputValue(),
-    "light-qa@example.com",
+    await lightPreview.getByRole("textbox", { name: "Email", exact: true }).inputValue(),
+    "light-compare@example.com",
   );
   assert.equal(
-    await darkQa.getByRole("textbox", { name: "Email", exact: true }).inputValue(),
-    "dark-qa@example.com",
+    await darkPreview.getByRole("textbox", { name: "Email", exact: true }).inputValue(),
+    "dark-compare@example.com",
   );
+  assert.equal(await lightPreview.locator("html").getAttribute("data-instance"), "paired-light");
+  assert.equal(await darkPreview.locator("html").getAttribute("data-instance"), "paired-dark");
+  await page.getByRole("checkbox", { name: "Compare light and dark" }).uncheck();
+  assert.equal(new URL(page.url()).searchParams.has("compare"), false);
+  await page.getByRole("checkbox", { name: "Compare light and dark" }).check();
+  assert.equal(new URL(page.url()).searchParams.get("compare"), "true");
+  const beforeCompare = page.url();
+  await page.goBack();
+  await expect(page).toHaveURL(beforeOverview);
+  await page.goForward();
+  await expect(page).toHaveURL(beforeCompare);
+  const beforeAlias = page.url();
+  await page.goto(
+    `${origin}/components/qa/?component=input&state=components-input--with-error&theme=dark&compare=true&view=overview&skin=current&from=alias#main`,
+  );
+  await expect(detail).toBeVisible();
+  assert.equal(new URL(page.url()).pathname, new URL(`${origin}/components/`).pathname);
+  assert.equal(new URL(page.url()).searchParams.get("state"), "components-input--with-error");
+  assert.equal(new URL(page.url()).searchParams.get("compare"), "true");
+  assert.equal(new URL(page.url()).searchParams.get("from"), "alias");
+  assert.equal(new URL(page.url()).hash, "#main");
+  assert.equal(new URL(page.url()).searchParams.has("view"), false);
+  assert.equal(new URL(page.url()).searchParams.has("skin"), false);
+  await page.goBack();
+  await expect(page).toHaveURL(beforeAlias);
+  await page.goForward();
+  await expect(detail).toBeVisible();
+  await page.goto(`${origin}/components/qa/?theme=light&compare=true&from=alias#main`);
+  await expect(page.locator(".catalog-browser:visible")).toBeVisible();
+  assert.equal(new URL(page.url()).pathname, new URL(`${origin}/components/`).pathname);
+  assert.equal(await page.locator("iframe").count(), 0, "Unscoped QA alias mounted a detail");
   console.log(
-    "Legacy overview redirects without extra history; QA comparison pins both themes and retains drafts.",
+    "Legacy views stay public; QA aliases replace to browse/details; public comparison pins both themes/documents and uses replace-only URL state.",
   );
   await page.close();
 } finally {
