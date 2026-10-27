@@ -123,7 +123,31 @@ jobs:
             const marker = '<!-- kbui-storybook-preview -->';
             const issue_number = context.payload.number;
             const url = `https://pr-${issue_number}-kbui-site-preview.khallilbailey.workers.dev`;
-            const body = `${marker}\n[Open Storybook preview](${url})\n\nUpdated for commit ${context.payload.pull_request.head.sha}.`;
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              ...context.repo, pull_number: issue_number, per_page: 100,
+            });
+            const changed = new Set(files.map(file => file.filename));
+            const { entries } = JSON.parse(require('node:fs').readFileSync('deployment/site/public/index.json', 'utf8'));
+            const sourcePath = path => require('node:path').posix.normalize(`apps/storybook/${path}`);
+            const affected = Object.values(entries).filter(entry =>
+              (entry.type === 'story' || (entry.type === 'docs' && entry.importPath.endsWith('.mdx'))) &&
+              (changed.has(sourcePath(entry.importPath)) ||
+                (entry.componentPath && changed.has(sourcePath(entry.componentPath))))
+            );
+            const label = text => text.replace(/[\\\[\]`*_<>]/g, '\\$&').replace(/\s+/g, ' ');
+            const links = affected.slice(0, 40).map(entry => {
+              const route = entry.type === 'docs' ? 'docs' : 'story';
+              return `- [${label(`${entry.title} / ${entry.name}`)}](${url}/?path=/${route}/${encodeURIComponent(entry.id)})`;
+            });
+            const changedStories = links.length ? [
+              '### Changed stories',
+              'Stories from changed story, documentation or component files.',
+              ...links,
+              ...(affected.length > links.length ? [`Showing ${links.length} of ${affected.length} matching entries.`] : []),
+            ].join('\n\n') : '';
+            const body = [marker, changedStories, `[Browse all stories](${url})`,
+              `Updated for commit ${context.payload.pull_request.head.sha}.`,
+            ].filter(Boolean).join('\n\n');
             const comments = await github.paginate(github.rest.issues.listComments, {
               ...context.repo, issue_number, per_page: 100,
             });
