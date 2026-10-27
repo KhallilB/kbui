@@ -9,7 +9,7 @@
   font-size: var(--kb-text-small-size);
   line-height: 1.5;
   opacity: 1;
-  transition: opacity var(--kb-motion-duration-fast) var(--kb-motion-easing-standard);
+  transition: opacity var(--kb-popup-motion-duration) var(--kb-popup-motion-easing);
 
   border: 1px solid var(--kb-popup-border);
 

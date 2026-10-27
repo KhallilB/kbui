@@ -14,9 +14,9 @@
   cursor: pointer;
   text-decoration: none;
   transition:
-    background-color 120ms ease,
-    border-color 120ms ease,
-    color 120ms ease;
+    background-color var(--kb-button-motion-duration) var(--kb-button-motion-easing),
+    border-color var(--kb-button-motion-duration) var(--kb-button-motion-easing),
+    color var(--kb-button-motion-duration) var(--kb-button-motion-easing);
 
   padding-inline: 15px;
 
@@ -137,16 +137,16 @@
 @media (prefers-reduced-motion: no-preference) {
   .kb-button {
     transition:
-      background-color 140ms ease,
-      border-color 140ms ease,
-      box-shadow 140ms ease,
-      color 140ms ease;
+      background-color var(--kb-button-motion-duration) var(--kb-button-motion-easing),
+      border-color var(--kb-button-motion-duration) var(--kb-button-motion-easing),
+      box-shadow var(--kb-button-motion-duration) var(--kb-button-motion-easing),
+      color var(--kb-button-motion-duration) var(--kb-button-motion-easing);
   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .kb-button:active:not([data-disabled]) {
-    transform: translateY(1px);
+    transform: translateY(var(--kb-button-press-offset));
   }
 }
 

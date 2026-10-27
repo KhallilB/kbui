@@ -2,9 +2,9 @@
 .kb-dialog-backdrop {
   position: fixed;
   inset: 0;
-  background: var(--kb-color-overlay);
+  background: var(--kb-dialog-overlay-background);
   opacity: 1;
-  transition: opacity 150ms ease;
+  transition: opacity var(--kb-dialog-motion-duration) var(--kb-dialog-motion-easing);
 
   backdrop-filter: blur(3px);
 }
@@ -21,23 +21,24 @@
   width: min(var(--kb-dialog-width), calc(100vw - var(--kb-space-8)));
   max-height: calc(100vh - var(--kb-space-8));
   overflow: auto;
-  padding: var(--kb-space-6);
-  border: 1px solid var(--kb-color-border);
+  padding: var(--kb-dialog-padding);
+  border: var(--kb-dialog-border-width) solid var(--kb-dialog-border);
   border-radius: var(--kb-dialog-radius);
-  background: var(--kb-material-surface-bg);
-  color: var(--kb-color-fg);
+  background: var(--kb-dialog-background);
+  color: var(--kb-dialog-color);
   transform: translate(-50%, -50%) scale(1);
   opacity: 1;
   transition:
-    opacity 150ms ease,
-    transform 150ms ease;
+    opacity var(--kb-dialog-motion-duration) var(--kb-dialog-motion-easing),
+    transform var(--kb-dialog-motion-duration) var(--kb-dialog-motion-easing);
 
-  box-shadow: var(--kb-material-float-shadow);
+  box-shadow: var(--kb-dialog-shadow);
 }
 
 .kb-dialog-popup[data-starting-style],
 .kb-dialog-popup[data-ending-style] {
-  transform: translate(-50%, -50%) scale(0.96);
+  transform: translate(-50%, calc(-50% + var(--kb-dialog-enter-offset)))
+    scale(var(--kb-dialog-enter-scale));
   opacity: 0;
 }
 
@@ -47,15 +48,17 @@
 
 .kb-dialog-title {
   margin: 0 0 var(--kb-space-2);
-  font-size: 23px;
-  font-weight: 600;
+  font-size: var(--kb-dialog-title-size);
+  font-family: var(--kb-dialog-title-family);
+  font-weight: var(--kb-dialog-title-weight);
+  color: inherit;
 
   letter-spacing: -0.035em;
 }
 
 .kb-dialog-description {
   margin: 0 0 var(--kb-space-4);
-  color: var(--kb-color-muted);
+  color: var(--kb-dialog-description-color);
 
   font-size: var(--kb-text-control-size);
 
