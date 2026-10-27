@@ -17,6 +17,7 @@
     "verify:release": "node --experimental-strip-types catalog/verify-release.ts",
     "verify:controls": "node --experimental-strip-types catalog/verify-control-edges.ts",
     "verify:code": "bun catalog/verify-code.ts",
+    "test:a11y": "vitest run --config vitest.accessibility.config.ts stories/Accessibility.stories.tsx",
     "test:themes": "vitest run --config vitest.themes.config.ts ../../packages/react/src/components",
     "verify:theme": "bun catalog/verify-theme.ts",
     "verify:depth": "bun catalog/verify-depth.ts"

@@ -49,6 +49,7 @@ bun run check            # build, lint, typecheck and unit tests
 | [Tokens](docs/tokens.md) | Token kinds, naming, aliases and dark mode |
 | [Using kbui in a project](docs/guides/using-kbui.md) | Installing, theming, updating and troubleshooting |
 | [Adding a component](docs/guides/adding-a-component.md) | The generator, styles, tests and stories |
+| [Forms and overlays](docs/guides/forms-and-overlays.md) | Theme hosts for popups, structured dialogs, surface tokens and accessibility checks |
 
 ## License
 

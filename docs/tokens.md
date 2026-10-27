@@ -24,7 +24,7 @@ Dialog, Button and popup (Menu, Tooltip) expose material, typography and motion 
 | Button | `--kb-button-motion-duration`, `-motion-easing`, `-press-offset` |
 | Popup | `--kb-popup-motion-duration`, `-motion-easing` |
 
-Reduced motion still disables every transition and the button press offset. A portaled Dialog reads tokens from its `container`; pass a themed host to scope overrides.
+Reduced motion still disables every transition and the button press offset. A portaled Dialog reads tokens from its `container`; pass a themed host to scope overrides. See [forms and overlays](guides/forms-and-overlays.md).
 
 ## Naming
 
