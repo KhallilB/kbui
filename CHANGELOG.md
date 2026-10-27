@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.7.0](https://github.com/KhallilB/kbui/compare/v0.6.0...v0.7.0) (2026-10-27)
+
+
+### Features
+
+* **css:** expose surface material and motion tokens ([a26b11c](https://github.com/KhallilB/kbui/commit/a26b11c4884a789489d846332aa39b20dbaca9ca))
+* **react:** support structured themed overlays ([098289c](https://github.com/KhallilB/kbui/commit/098289ce80d442605527b836395bb070b9ed8217))
+* **site:** add changelog page and latest-release pill ([#55](https://github.com/KhallilB/kbui/issues/55)) ([4cfbbc7](https://github.com/KhallilB/kbui/commit/4cfbbc7853e5048a9bbb03143a7c02a55c7345d6))
+* **site:** unify catalog and QA on kbui 0.6.0 ([#51](https://github.com/KhallilB/kbui/issues/51)) ([6cf405c](https://github.com/KhallilB/kbui/commit/6cf405c0110cab3fa00dca1116713cccccd4e777))
+
+
+### Bug Fixes
+
+* **css:** keep Button text legible in forced colors ([047c3ae](https://github.com/KhallilB/kbui/commit/047c3aec6e147f72beef5ce977257f6f6d27c7b5))
+* restyle kbui with plain classes, tokens or Tailwind; ship styles.css in @kbui/react ([#54](https://github.com/KhallilB/kbui/issues/54)) ([828a06c](https://github.com/KhallilB/kbui/commit/828a06c48d84f323585900a5114da597d487f3a4))
+* **site:** restore deployed previews and reuse landing controls ([#56](https://github.com/KhallilB/kbui/issues/56)) ([d7ddde8](https://github.com/KhallilB/kbui/commit/d7ddde8dbef49ee3a1b56c42afa0d3f015e3561e))
+
 ## [0.6.0](https://github.com/KhallilB/kbui/compare/v0.5.0...v0.6.0) (2026-10-26)
 
 
