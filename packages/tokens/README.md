@@ -1,6 +1,6 @@
 # @kbui/tokens
 
-Defines every kbui value. You edit `tokens.json`; the build produces the CSS variables and a typed object of their names.
+Shared colors, spacing, typography, and component values for kbui. Edit `tokens.json` to generate CSS variables and a typed object of their names.
 
 Most projects do not import this package directly, because `@kbui/css/styles.css` already includes the generated CSS. Install it when you need the typed names, or the variables without the rest of the stylesheet.
 

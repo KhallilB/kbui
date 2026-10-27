@@ -39,7 +39,15 @@ export function parseApiSection(guide: string, heading: string, rowName?: string
       index++;
       continue;
     }
-    if (line.startsWith("```")) {
+    const subheading = /^(#{3,6}) (.+)$/.exec(line);
+    if (subheading) {
+      blocks.push({
+        kind: "heading",
+        level: subheading[1]?.length as 3 | 4 | 5 | 6,
+        text: subheading[2] ?? "",
+      });
+      index++;
+    } else if (line.startsWith("```")) {
       const code: string[] = [];
       while (++index < lines.length && !lines[index]?.startsWith("```"))
         code.push(lines[index] ?? "");
@@ -62,7 +70,8 @@ export function parseApiSection(guide: string, heading: string, rowName?: string
       while (
         lines[++index]?.trim() &&
         !lines[index]?.startsWith("|") &&
-        !lines[index]?.startsWith("```")
+        !lines[index]?.startsWith("```") &&
+        !/^#{3,6} /.test(lines[index] ?? "")
       )
         paragraph.push(lines[index] ?? "");
       blocks.push({ kind: "paragraph", text: paragraph.join(" ") });

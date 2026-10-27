@@ -26,7 +26,7 @@ A path in braces makes one token refer to another:
 
 This builds to `--kb-color-accent: var(--kb-blue-600);`. The reference stays live, so changing `--kb-blue-600` changes every token that points at it. The build stops with an error if an alias points at a token that does not exist.
 
-The reference resolves where the alias is declared, which is `:root`. An override on `:root` flows through every alias. An override on a wrapper element does not: the alias already holds the root value there. For example, `--kb-panel-background` aliases `--kb-color-surface`, so a wrapper that sets `--kb-color-surface` leaves panels unchanged; set `--kb-panel-background` instead.
+Aliases resolve on the element where they are declared. kbui declares them on `:root` and on explicit light/dark theme containers. A plain wrapper inherits the resolved value, so changing a base variable there may leave component aliases unchanged. Set the component token directly, or add `data-theme` to the wrapper so its aliases resolve locally. For example, use `--kb-panel-background` to change a panel on an otherwise unthemed wrapper.
 
 ## Dark mode
 

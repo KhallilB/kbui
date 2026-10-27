@@ -184,3 +184,7 @@ CONTROL_EDGES_URL=http://127.0.0.1:4174/storybook node --experimental-strip-type
 Palette and corner controls apply semantic token overrides only inside the same-origin preview documents. CSS overrides remain selectable separately from authoritative generated React examples. Reset restores shipped tokens without reloading or clearing the example. Optional comparison pins the same canonical example in light and dark; panes stack on narrow screens and retain their interaction state during navigation-theme changes. Preview documents use bounded caches.
 
 Legacy `view=live`, `view=directory` and `view=overview` URLs normalize to the public directory/details route without adding history entries. `/components/qa/` replaces its URL with the parent catalog while preserving component/state/theme, other query parameters, hosted prefixes and hash.
+
+## Writing site copy
+
+Write as if helping a developer use the library: explain when a component is useful, show an example, then cover the details they need to get it right. Use “your app” instead of “the consumer” or “the caller” in public guidance. Keep API names exact, explain unfamiliar terms, and state limitations plainly. Prefer natural sentences over repeated slogans, inflated claims, or internal implementation notes. Keep the catalog summaries and React guide consistent; the catalog reads its API guidance from that guide.

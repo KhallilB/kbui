@@ -286,6 +286,20 @@
     padding-bottom: 24px;
     font-size: 14px;
   }
+  .catalog-doc-link {
+    color: var(--rust);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .catalog-doc-link:focus-visible {
+    outline: 2px solid var(--kb-color-ring);
+    outline-offset: 2px;
+  }
+  .catalog-notes h3 {
+    font-size: var(--kb-text-heading-sm-size);
+    font-weight: 600;
+    line-height: 1.3;
+  }
   .catalog-notes pre {
     white-space: pre-wrap;
     overflow-wrap: anywhere;

@@ -99,3 +99,26 @@ export const LegacyThemeExample: Story = {
     );
   },
 };
+
+export const DocumentationHeadings: Story = {
+  play: async ({ canvasElement }) => {
+    const page = within(canvasElement);
+    await userEvent.click(page.getByText("Usage notes and examples", { exact: true }));
+    expect(page.getByRole("heading", { name: "Search composition", level: 3 })).toBeVisible();
+    expect(canvasElement.querySelector(".catalog-notes strong")).toHaveTextContent(
+      "Icons and actions",
+    );
+  },
+};
+
+export const DocumentationLinks: Story = {
+  args: { componentId: "numberfield" },
+  play: async ({ canvasElement }) => {
+    const page = within(canvasElement);
+    await userEvent.click(page.getByText("Usage notes and examples", { exact: true }));
+    expect(page.getByRole("link", { name: /^Numeric fields$/ })).toHaveAttribute(
+      "href",
+      "https://github.com/KhallilB/kbui/blob/main/docs/guides/number-fields.md",
+    );
+  },
+};

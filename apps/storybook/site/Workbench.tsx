@@ -41,7 +41,7 @@ export function Playground({ storybookRoot }: { storybookRoot: string }) {
         <div>
           <h2 id={`${id}-title`}>Button</h2>
         </div>
-        <p>Preview uses kbui’s default themes.</p>
+        <p>This preview uses kbui’s default light and dark themes.</p>
       </div>
       <div className="playground-grid">
         <div
@@ -160,7 +160,7 @@ export function Workbench({
           <h1>
             Try a few <em>changes.</em>
           </h1>
-          <p>Change a Button. Test the result. Copy code that matches.</p>
+          <p>Adjust the button’s options, try it out, and copy the code into your app.</p>
         </div>
         <Playground storybookRoot={storybookRoot} />
         <section className="section" aria-label="Featured components">

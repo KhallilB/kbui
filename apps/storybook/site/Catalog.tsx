@@ -1,6 +1,6 @@
 import entries from "virtual:kbui-catalog";
 import { Button, Card, Checkbox, Input, RadioGroup } from "@kbui/react";
-import { useCallback, useId, useLayoutEffect, useRef, useState } from "react";
+import { createElement, useCallback, useId, useLayoutEffect, useRef, useState } from "react";
 import type { ApiBlock, CatalogEntry, CatalogGroup } from "../catalog/types";
 import { CatalogComparisonPreview } from "./CatalogComparison";
 import { StoryPreview } from "./CatalogPreview";
@@ -35,10 +35,27 @@ function isChoice<T extends string>(value: string, choices: readonly T[]): value
 
 function Inline({ text }: { text: string }) {
   let offset = 0;
-  return text.split(/(`[^`]+`)/g).map((part) => {
+  return text.split(/(`[^`]+`|\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g).map((part) => {
     const key = offset;
     offset += part.length;
-    return part.startsWith("`") ? <code key={key}>{part.slice(1, -1)}</code> : part;
+    if (part.startsWith("`")) return <code key={key}>{part.slice(1, -1)}</code>;
+    if (part.startsWith("**"))
+      return (
+        <strong key={key}>
+          <Inline text={part.slice(2, -2)} />
+        </strong>
+      );
+    const link = /^\[([^\]]+)\]\(([^)]+)\)$/.exec(part);
+    if (link?.[1] && link[2]) {
+      const href = new URL(link[2], "https://github.com/KhallilB/kbui/blob/main/packages/react/");
+      if (href.protocol === "https:" || href.protocol === "http:")
+        return (
+          <a className="catalog-doc-link" key={key} href={href.href}>
+            <Inline text={link[1]} />
+          </a>
+        );
+    }
+    return part;
   });
 }
 
@@ -97,7 +114,7 @@ function CatalogIndex({
         <h1>
           Find your next <em>piece.</em>
         </h1>
-        <p>{entries.length} components. Find a piece, explore its examples, and make it yours.</p>
+        <p>Browse {entries.length} components, try the examples, and copy what you need.</p>
       </div>
       <div className="catalog-filters">
         <Input
@@ -477,6 +494,12 @@ function CatalogDetail({
                   <pre key={block.text}>
                     <code>{block.text}</code>
                   </pre>
+                ) : block.kind === "heading" ? (
+                  createElement(
+                    `h${block.level}`,
+                    { key: block.text },
+                    <Inline text={block.text} />,
+                  )
                 ) : (
                   <p key={block.text}>
                     <Inline text={block.text} />
@@ -634,7 +657,7 @@ export function Catalog({
               </section>
             </section>
             <p className="catalog-foundations-note">
-              Theme applies to this page and every preview, including overlays. All examples use the
+              The page theme also applies to previews, menus, and dialogs. Examples start with the
               default KBUI design.
             </p>
           </details>
