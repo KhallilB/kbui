@@ -1,8 +1,8 @@
 # Numeric fields
 
-Use `NumberField` when people type quantities and also need visible step controls. Use `Input type="number"` for a plain native numeric field without coordinated buttons. Counts, prices, units and business validation remain consumer rules.
+Use `NumberField` when people need to type a quantity or adjust it with step buttons. For a plain numeric input without those buttons, use `Input type="number"`. Your app decides which units, ranges, and values make sense.
 
-Import from `@kbui/react` and load `@kbui/react/styles.css`. NumberField is prepared after 0.5.0 and remains unreleased as of 2026-10-26. Existing release 0.5.0 does not contain it. React 19 and Base UI 1.9 are the tested source contract; no other framework adapter is provided.
+Import `NumberField` from `@kbui/react` and load `@kbui/react/styles.css` once (`@kbui/css/styles.css` before 0.7.0). NumberField is available from v0.6.0 and requires React 19.
 
 ```tsx
 import { useState } from "react";
@@ -23,24 +23,30 @@ export function PackingBoxes() {
 }
 ```
 
-These are the same synthetic linen/packing scenarios used in the working study. NumberField does not decide shortage estimates, storage fit or integer-only policy.
+These examples show a towel count and a box count. Each app decides whether a quantity must be a whole number and how it affects the rest of the workflow.
 
 ## State and interaction
 
-Controlled `value: number | null` and `onValueChange` are required. Null means empty. There is no uncontrolled mode. Direct numeric drafts may exceed bounds or be fractional and remain visible on blur; validate in the consumer. Unsupported text does not fabricate a numeric value. Formatting/parsing follows the supplied `locale` or runtime locale. Supply the same locale on server/client when using SSR; A fresh local tarball server-render smoke passes; hydration is not validated by this study.
+Pass `value: number | null` and update it with `onValueChange`. Use `null` for an empty field; NumberField does not have an uncontrolled mode. People can type a fraction or a value outside the bounds, and it stays visible on blur so your app can explain what needs correcting. Unrecognized text does not produce a number.
 
-Tab reaches the visible input; steppers stay out of the Tab sequence while remaining available to pointer and assistive-technology actions. Buttons and ArrowUp/ArrowDown share step alignment. At step 1, decrementing 1.5 produces1 through either route. At step 0.25, 0.5 increments to0.75. Typed drafts are not silently aligned. Step controls clamp to min/max and disable at their respective bound. Stepping an empty field seeds the value nearest 0 inside bounds. Shift steps by 10×step; Alt keeps the configured step. Home/End use finite min/max. Wheel/scrub gestures are disabled. Numeric values, bounds and positive step must be finite; min must not exceed max.
+The `locale` prop controls number parsing and formatting; otherwise the runtime locale is used. Set the same locale on the server and client when using server rendering. Server-rendered output has a smoke test; hydration remains unverified.
 
-Base UI uses a native text input with `aria-roledescription="Number field"`, not a spinbutton role. Find it by accessible label or textbox role. Localize that role description through `inputProps`. Ref on NumberField targets the outer div; `inputRef` targets the visible input. `name`/`form` serialize the numeric value through Base UI's native form input. Disabled excludes it from submission; readOnly preserves submission and focus while preventing mutations. Required participates in native form validation. Native validation is additional feedback, not a replacement for domain validation.
+Tab moves to the input. Step buttons stay outside the Tab sequence but are available to pointer and assistive-technology actions. The buttons and ArrowUp/ArrowDown use the same step rules: with `step={1}`, decrementing 1.5 gives 1; with `step={0.25}`, incrementing 0.5 gives 0.75. Typing does not automatically round to a step.
+
+Step buttons stop at `min` and `max` and disable at their respective limits. Stepping an empty field starts at the value nearest zero within the bounds. Shift uses 10 times the step; Alt keeps the configured step. Home and End move to a finite minimum or maximum. Mouse-wheel and scrub gestures are disabled. Values and bounds must be finite, `step` must be positive and finite, and `min` must not exceed `max`.
+
+NumberField uses a native text input with `aria-roledescription="Number field"`. Query it by label or textbox role rather than spinbutton. You can translate the role description through `inputProps`. The component ref points to the outer div; `inputRef` points to the visible input.
+
+`name` and `form` submit the numeric value through Base UI’s native form input. A disabled field is excluded from submission. A read-only field keeps its value and focus but prevents edits. `required` participates in native form validation; your app still needs to validate the value for its own rules.
 
 ## API
 
-See the canonical [NumberField API](../../packages/react/README.md#numberfield) for props, defaults and events.
+See the [NumberField API](../../packages/react/README.md#numberfield) for props, defaults, and events.
 
-## Anatomy and theme
+## Styling and themes
 
-Public classes: `.kb-numberfield`, `-label`, `-editor`, `-group`, `-decrement`, `-input`, `-increment`, `-description`, `-error`. Root states: `data-size`, `data-disabled`, `data-readonly`, `data-invalid`. Help/error are siblings of editor and span the whole field width. Use part classes/variables instead of private Base UI markup.
+Style the field with `.kb-numberfield` and its parts: `-label`, `-editor`, `-group`, `-decrement`, `-input`, `-increment`, `-description`, and `-error`. The root exposes `data-size`, `data-disabled`, `data-readonly`, and `data-invalid`. Help and error text sit below the editor and span the field’s width. Use these classes and tokens rather than Base UI’s internal markup.
 
-Variables: `--kb-numberfield-background`, `color`, `border`, `border-width`, `radius`, `step-width`, `font-size`, `height-sm/md/lg`. Semantic foreground/muted/danger/ring values control labels, help, errors and focus. For compact linen, set dark group colors, 2px radius and larger tabular numerals; for packing, use rounded radius and ordinary text size. Do not set the whole field foreground to white when the error sits on a light surface. No motion is added by NumberField; forced-color styles keep controls visible.
+NumberField tokens include `--kb-numberfield-background`, `--kb-numberfield-color`, `--kb-numberfield-border`, `--kb-numberfield-border-width`, `--kb-numberfield-radius`, `--kb-numberfield-step-width`, `--kb-numberfield-font-size`, and `--kb-numberfield-height-sm`, `-md`, and `-lg`. Semantic foreground, muted, danger, and ring colors style labels, help, errors, and focus. Check the label and error contrast when changing the editor’s colors; those elements may sit on a different background. NumberField adds no animation and keeps controls visible in forced colors.
 
-Runnable stories cover both contexts, light/dark, empty, invalid, disabled/readOnly, bounds, fractional step and long labels. Test native forms, keyboard/button parity, focus, error relationships, long content and reflow in each host. Chromium and automated accessibility checks do not establish assistive-technology conformance.
+Storybook includes light and dark themes, empty and invalid values, disabled and read-only fields, bounds, fractional steps, and long labels. Check keyboard use, forms, focus, and narrow layouts in your app. Automated browser and accessibility checks do not replace testing with assistive technology.

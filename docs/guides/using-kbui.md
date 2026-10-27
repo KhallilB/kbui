@@ -4,7 +4,7 @@ Projects install kbui from a release: one tarball per package, attached to a [Gi
 
 ## Installing
 
-1. Add `@kbui/react` from a release. It includes the stylesheet. The on-site setup page pins a verified release. Replace `0.7.0` with the version you want; every release lists its tarballs. Releases before 0.7.0 also need `kbui-css-<version>.tgz` and the `@kbui/css/styles.css` import.
+1. Add `@kbui/react` from a release. It includes the stylesheet. The setup page includes an install command for the current site version. Replace `0.7.0` with the version you want; every release lists its tarballs. Releases before 0.7.0 also need `kbui-css-<version>.tgz` and the `@kbui/css/styles.css` import.
 
    ```bash
    bun add https://github.com/KhallilB/kbui/releases/download/v0.7.0/kbui-react-0.7.0.tgz
@@ -29,7 +29,7 @@ declare module "*.css";
 
 ## Default design
 
-The normal stylesheet includes the tactile cream/forest/rust light design and forest/peach dark design. No extra stylesheet or selector is needed. Public component props and token overrides remain supported.
+The normal stylesheet includes the tactile cream/forest/rust light design and charcoal/peach dark design. No skin selector or extra stylesheet is needed. Public component props and token overrides remain supported.
 
 ## Themes
 

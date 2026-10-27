@@ -13,7 +13,7 @@ bun run --filter @kbui/storybook build:site
 bun run --filter @kbui/storybook preview:site
 ```
 
-Serve the combined `apps/storybook/dist/` directory as one site. The home lives at `/`, the playground at `/playground/`, curated examples at `/examples/`, the component catalog at `/components/`, the settings/operations workspace at `/compare/`, installation at `/setup/`, theme guidance at `/setup/themes/`, release notes at `/changelog/`, and Storybook at `/storybook/`. The eight site routes are separate built HTML entries, so direct loads need no application fallback. Relative asset and documentation paths support hosting under a subdirectory. Deploying only the landing bundle breaks documentation links.
+Serve the combined `apps/storybook/dist/` directory as one site. The home lives at `/`, the playground at `/playground/`, curated examples at `/examples/`, the component catalog at `/components/`, legacy catalog redirect at `/components/qa/`, the settings/operations workspace at `/compare/`, installation at `/setup/`, theme guidance at `/setup/themes/`, release notes at `/changelog/`, and Storybook at `/storybook/`. The nine site routes are separate built HTML entries, so direct loads need no application fallback. Relative asset and documentation paths support hosting under a subdirectory. Deploying only the landing bundle breaks documentation links.
 
 For fast home edits, use `bun run --filter @kbui/storybook dev:site`. Live catalog previews and documentation links require the combined static preview; the Vite development server does not serve Storybook.
 
@@ -27,6 +27,8 @@ For fast home edits, use `bun run --filter @kbui/storybook dev:site`. Live catal
 | `PlanDemo.tsx` | Day-off composition, rendered directly by the home | `stories/PlanDemo.stories.tsx` |
 | `Workbench.tsx` | Prop playground, copied JSX, and six searchable component entries | `stories/Workbench.stories.tsx` |
 | `Catalog.tsx` | Searchable catalog, shareable component pages, canonical API summaries and live Storybook previews | `stories/Catalog.stories.tsx`, `stories/catalog-source.test.ts` |
+| `CatalogComparison.tsx` | Optional pinned dark preview alongside the light example | `stories/CatalogDetails.stories.tsx`, `catalog/verify-runtime.ts` |
+| `CatalogSkinControls.tsx`, `catalog-skin.ts` | Preview-local palette and corner controls, CSS overrides and reset | `stories/CatalogSkinControls.stories.tsx`, `stories/catalog-skin.test.ts` |
 | `CodePanel.tsx` | Shared import-and-usage view, highlighting, automatic wrapping and clipboard recovery | Catalog, Workbench and Examples stories |
 | `catalog/site-samples.ts` | Generated playground combinations and curated composition code | Source coverage and `verify:code` |
 | `Examples.tsx` | Curated examples page and three shared compositions | `stories/Examples.stories.tsx`, `stories/Compositions.stories.tsx` |
@@ -58,11 +60,11 @@ The catalog covers all 21 public components. `catalog/source.ts` uses Storybook'
 
 A build-time virtual module supplies that data to the site and Storybook without bundling the Node parser into the browser. Guide and component-story changes invalidate the module during development. `build:site` ends with `verify:catalog`, which checks every story and documentation ID against the built Storybook index. An ID mismatch fails the build.
 
-`/components/` opens a focused live browser with searchable component links and one active inspector. Directory and overview remain optional views. `?component=input&state=components-input--with-error` addresses a component and example directly. Shared segmented RadioGroup controls choose view, use category and example state. Selection pushes a shareable URL; unknown components offer recovery and unknown states fall back with a notice. The navigation owns theme; redundant Light/Dark example choices are hidden and legacy links map to their canonical example.
+`/components/` opens a full-page searchable component directory with category filters, descriptions and example counts. Selecting a card opens component details with a live example, canonical state choices, code and API guidance. `?component=input&state=components-input--with-error` addresses an example directly. Selection pushes a shareable URL; All components restores directory filters, scroll and focus. Unknown components offer recovery and unknown states fall back with a notice. Navigation owns the site theme; redundant Light/Dark example choices stay hidden and legacy links map to the canonical example.
 
 Each inspector retains up to six titled Storybook preview documents in an in-memory least-recently-used cache. Returning to a cached example preserves its native node, draft and interaction state. The previous canvas stays visible while a requested document loads. Readiness checks the requested canonical source and generation, so late content cannot replace the current example. Reload replaces only the selected document. Hidden and loading frames stay inert and cannot pull focus or scroll the parent. Insertion order remains stable because moving iframe DOM nodes reloads browsing contexts.
 
-Theme updates reach the same-origin Storybook root before paint and through an exact-parent message without document navigation. Body portals inherit that root theme. Overview embeds skip automatic story playback. Loading completes when story content mounts; after ten seconds the status offers reload and a direct Storybook link, while late content may still recover.
+Theme updates reach the same-origin Storybook root before paint and through an exact-parent message without document navigation. Body portals inherit that root theme. QA embeds skip automatic story playback. Loading completes when story content mounts; after ten seconds the status offers reload and a direct Storybook link, while late content may still recover.
 
 Root observation fits iframe height to content, including wrapping and font loading, and disconnects on document changes. Small controls center in compact canvases; fields/cards use readable widths, while layout primitives keep full width. Overlay examples retain room for popups. Expand preview adds space without remounting; content and overlay reserves always win. Explicit expansion during loading overrides deferred compaction. Busy status overlays the canvas without shifting the code toolbar.
 
@@ -138,7 +140,7 @@ Tokens rebind their aliases in both explicit theme containers, including nested 
 
 ### Complete component catalog
 
-Open `/components/?view=live`. All 21 public components and 127 canonical Storybook examples use the shipped default. Directory/live controls, search, filters, state selection, API summaries and code remain available. Theme changes send a same-origin, exact-parent message to each preview; the Storybook root updates without remounting the story. Existing input values and interaction state survive. Reload preview intentionally resets interaction state and retains the selected theme. Readiness compares canonical document URLs, preserving origin/path/query guards while accepting equivalent query order and encoding. Root theme scope covers portaled Dialog, Menu and Tooltip. Live overview uses `embed=true`, preventing automated story playback from pulling focus or opening overlays on load.
+Open `/components/`. All 21 public components and 127 canonical Storybook examples use the shipped default. Search and category filters live in the full-page directory; component details provide state selection, API summaries, code and optional paired light/dark previews. Theme changes send a same-origin, exact-parent message to each preview; the Storybook root updates without remounting the story. Existing input values and interaction state survive. Reload preview intentionally resets interaction state and retains the selected theme. Readiness compares canonical document URLs, preserving origin/path/query guards while accepting equivalent query order and encoding. Root theme scope covers portaled Dialog, Menu and Tooltip. Catalog previews use `embed=true`, preventing automated story playback from pulling focus or opening overlays on load.
 
 **Typography and theme foundations** shows body copy, headings, supporting text, an identifier and four surface levels. Body text is 15px/1.6; helpers 13px; controls 14px; standard headings 22px/18px, with larger page titles. Inline identifiers remain at least 13px. Local system sans/mono stacks require no font download.
 
@@ -150,7 +152,7 @@ Required name/email checks focus the first invalid field. Failed saves retain dr
 
 ### Verification
 
-`bun run --filter @kbui/storybook test:themes` exercises all 100 canonical component stories in light/dark and normal/reduced motion, including accessibility scans. `test:site` covers responsive routes and forced colors. `verify:theme` checks real built iframe identity/input retention, workspace draft retention, keyboard focus, thumb motion, cross-route persistence and legacy URL cleanup. Run against the combined static output:
+`bun run --filter @kbui/storybook test:themes` exercises all 121 canonical component stories in light/dark and normal/reduced motion, including accessibility scans. `test:site` covers responsive routes and forced colors. `verify:theme` checks real built iframe identity/input retention, workspace draft retention, keyboard focus, thumb motion, cross-route persistence and legacy URL cleanup. Run against the combined static output:
 
 ```bash
 CATALOG_PREVIEW_URL=http://127.0.0.1:4182 bun run --filter @kbui/storybook verify:theme
@@ -174,3 +176,26 @@ Site chrome reuses semantic KBUI typography, accent and focus roles. `--site-rad
 ```bash
 CONTROL_EDGES_URL=http://127.0.0.1:4174/storybook node --experimental-strip-types apps/storybook/catalog/verify-control-edges.ts
 ```
+
+
+### Component directory and details
+
+`/components/` provides a searchable card grid without a nested scrolling menu or initial preview document. A component opens a focused details page with its examples, generated code, API guidance and preview styling. Returning to the directory preserves filters, scroll, keyboard focus and cached drafts. Retained hidden documents become inert and stop being current previews.
+
+Palette and corner controls apply semantic token overrides only inside the same-origin preview documents. CSS overrides remain selectable separately from authoritative generated React examples. Reset restores shipped tokens without reloading or clearing the example. Optional comparison pins the same canonical example in light and dark; panes stack on narrow screens and retain their interaction state during navigation-theme changes. Preview documents use bounded caches.
+
+Legacy `view=live`, `view=directory` and `view=overview` URLs normalize to the public directory/details route without adding history entries. `/components/qa/` replaces its URL with the parent catalog while preserving component/state/theme, other query parameters, hosted prefixes and hash.
+
+## Writing site copy
+
+Write as if helping a developer use the library: explain when a component is useful, show an example, then cover the details they need to get it right. Use “your app” instead of “the consumer” or “the caller” in public guidance. Keep API names exact, explain unfamiliar terms, and state limitations plainly. Prefer natural sentences over repeated slogans, inflated claims, or internal implementation notes. Keep the catalog summaries and React guide consistent; the catalog reads its API guidance from that guide.
+
+## Site color and motion
+
+Selected segmented controls use the shared rust accent (peach in dark mode); unselected choices use quieter forest tints. Status colors keep their status meaning. `site-accent.css` applies these roles to site controls using shared KBUI tokens, including keyboard focus and forced-color styles. Page entrances use 320–360ms easing with short staggers; controls settle in 160ms. The home demo no longer waits through long stagger delays. Reduced motion removes animation and transitions.
+
+Component details show the live example, code, and API table. The extra usage-notes disclosure is hidden for now; the React guide and Storybook links still provide the full documentation.
+
+## Dark palette
+
+Dark mode uses neutral charcoal for the canvas, fields, and raised surfaces, with peach for primary actions and selection. Neutral borders and lighter upper edges define depth without tinting the whole page. Blue marks information; green stays available for success and status. Site chrome and component previews share the dark material tokens. Light-mode values remain unchanged.

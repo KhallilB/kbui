@@ -1,12 +1,12 @@
 # kbui
 
-kbui is the design system shared across our projects. Design tokens define every value, plain CSS defines every style, and a thin React layer built on [Base UI](https://base-ui.com) provides behavior. Each release attaches one tarball per package to a [GitHub Release](https://github.com/KhallilB/kbui/releases); nothing is published to a registry.
+kbui is a React component library with shared design tokens and plain CSS. Use the default light and dark themes, or adjust the tokens to fit your app. Components use [Base UI](https://base-ui.com) for interaction. Each release attaches one tarball per package to a [GitHub Release](https://github.com/KhallilB/kbui/releases); nothing is published to a registry.
 
 | Package | Contents | Docs |
 |---|---|---|
 | `@kbui/tokens` | Colors, spacing, type and component sizes, defined once in `tokens.json` | [packages/tokens](packages/tokens/README.md) |
 | `@kbui/css` | All styling, one stylesheet per component | [packages/css](packages/css/README.md) |
-| `@kbui/react` | 13 components for React 19, from `Button` to `Panel` and `Toolbar` | [packages/react](packages/react/README.md) |
+| `@kbui/react` | 21 components for React 19, including forms, feedback, and layout | [packages/react](packages/react/README.md) |
 | `apps/storybook` | Live component docs and accessibility tests | [apps/storybook](apps/storybook/README.md) |
 
 ## Using kbui in a project

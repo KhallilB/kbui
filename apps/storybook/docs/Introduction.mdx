@@ -4,7 +4,7 @@ import { Meta } from "@storybook/addon-docs/blocks";
 
 # kbui
 
-kbui is the design system shared across our projects. Design tokens define every value, plain CSS defines every style, and a thin React layer built on Base UI provides behavior.
+kbui is a React component library with shared design tokens and plain CSS. Use its default light and dark themes, or adjust the tokens to fit your app. Components use Base UI for interaction.
 
 ## Using kbui in a project
 
@@ -24,11 +24,11 @@ Set `data-theme="light"` or `"dark"` on `<html>` to choose a theme. Without it, 
 
 ## Navigating this Storybook
 
-**Foundations / Tokens** lists every color, spacing, radius and type token, read from `tokens.json`.
+**Foundations / Tokens** shows the shared colors, spacing, corner radii, and typography from `tokens.json`.
 
 Under **Components**, each component has a Docs page with its props and live examples. Use the theme switch in the toolbar to view a story in light or dark. **Showcase** composes those components into full screens, with and without a product restyle.
 
-Every story is also an accessibility test. A violation fails CI.
+Stories run automated interaction and accessibility checks in CI. These checks catch common problems; you should also test components in your app with the keyboard and assistive technology.
 
 ## Structure
 
@@ -36,6 +36,6 @@ The tokens package holds every value. The CSS package turns those values into st
 
 Each component stylesheet starts with an `Anatomy:` line that lists the classes and attributes it expects. That line is the contract between the CSS and any renderer.
 
-## Direction
+## Further reading
 
-The repository also contains `README.md`, `docs/tokens.md`, the maintained feature map in `docs/features.md` and the guides in `docs/guides/`.
+For installation and usage, start with `docs/guides/using-kbui.md`. The React package README covers component props, `docs/tokens.md` explains token overrides, and `docs/features.md` records what the library currently supports.
