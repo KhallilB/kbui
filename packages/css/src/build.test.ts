@@ -34,6 +34,20 @@ describe("buildCss", () => {
     for (const root of await anatomyRoots(src)) expect(css).toContain(root);
   });
 
+  test("puts every kbui rule in a kbui cascade layer", async () => {
+    const css = await readFile(join(dist, "styles.css"), "utf8");
+    expect(css).toStartWith("@layer kbui.tokens{");
+    const unlayered = css.replace(
+      /@layer kbui\.\w+\{(?:[^{}]|\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*\})*\}/g,
+      "",
+    );
+    expect(unlayered).toBe("");
+    expect(await readFile(join(dist, "reset.css"), "utf8")).toStartWith("@layer kbui.reset{");
+    expect(await readFile(join(dist, "components", "button.css"), "utf8")).toStartWith(
+      "@layer kbui.components{",
+    );
+  });
+
   test("emits standalone reset and component files", async () => {
     expect(await readdir(dist)).toContain("reset.css");
     expect(await readdir(join(dist, "components"))).toEqual(

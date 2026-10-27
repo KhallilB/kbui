@@ -78,13 +78,13 @@ export async function buildCss(src: string, dist: string): Promise<void> {
   await mkdir(join(dist, "components"), { recursive: true });
   const bundled = bundle({ filename: join(src, "styles.css"), minify: true });
   await writeFile(join(dist, "styles.css"), bundled.code);
-  const single = async (from: string, to: string) => {
+  const single = async (from: string, to: string, layer: string) => {
     const code = await readFile(from);
     const out = transform({ filename: from, code, minify: true });
-    await writeFile(to, out.code);
+    await writeFile(to, `@layer ${layer}{${out.code}}`);
   };
-  await single(join(src, "reset.css"), join(dist, "reset.css"));
+  await single(join(src, "reset.css"), join(dist, "reset.css"), "kbui.reset");
   for (const file of await componentFiles(src)) {
-    await single(file, join(dist, "components", basename(file)));
+    await single(file, join(dist, "components", basename(file)), "kbui.components");
   }
 }

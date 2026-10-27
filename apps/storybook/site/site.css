@@ -1,5 +1,11 @@
 @import "./accessibility.css";
 
+@layer site-base {
+  .kbui-site :where(button, input) {
+    font: inherit;
+  }
+}
+
 .kbui-site {
   --cream: #fff8e9;
   --ink: #303b31;
@@ -30,9 +36,6 @@
   & a:hover {
     text-decoration: underline;
     text-underline-offset: 5px;
-  }
-  :where(&) :where(button, input) {
-    font: inherit;
   }
   & .skip-link {
     position: fixed;
