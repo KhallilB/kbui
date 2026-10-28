@@ -7,6 +7,9 @@ type Workflow = {
   jobs: Record<
     string,
     {
+      name?: string;
+      "runs-on"?: string;
+      strategy?: { "fail-fast": boolean; matrix: { include: { suite: string; name: string }[] } };
       container?: { image: string };
       if?: string;
       needs?: string[];
@@ -33,11 +36,18 @@ const job = (name: string, key: string) => {
   return found;
 };
 
+test("CI compiles examples in the configured Storybook workspace", () => {
+  const manifest = JSON.parse(readFileSync(`${root}/apps/storybook/package.json`, "utf8"));
+  const examples = job("ci", "check").steps.find((step) => step.name === "Check examples");
+  expect(examples?.run).toBe(`bun run --filter ${manifest.name} verify:code`);
+});
+
 test("Linux browser jobs use the image matching the pinned client", () => {
   const manifest = JSON.parse(readFileSync(`${root}/apps/storybook/package.json`, "utf8"));
   expect(manifest.devDependencies.playwright).toBe("1.64.1");
   for (const [name, key] of [
-    ["ci", "browser"],
+    ["ci", "browser-tests"],
+    ["ci", "browser-built"],
     ["deploy-site", "build"],
     ["release", "assets"],
   ] as const) {
@@ -55,7 +65,8 @@ test("CI never downloads browsers or their system packages", () => {
 
 test("container installs trust only their checkout after tool setup", () => {
   for (const [name, key] of [
-    ["ci", "browser"],
+    ["ci", "browser-tests"],
+    ["ci", "browser-built"],
     ["deploy-site", "build"],
     ["release", "assets"],
   ] as const) {
@@ -84,8 +95,68 @@ test("ordinary checks stay browser-free and browser job follows changed-file sco
   const jobs = workflow("ci").jobs;
   expect(job("ci", "check").container).toBeUndefined();
   expect(JSON.stringify(job("ci", "check").steps)).not.toContain("test:stories");
-  expect(jobs.browser?.if).toBe("needs.check.outputs.browser == 'true'");
+  for (const key of ["browser-tests", "browser-built"])
+    expect(jobs[key]?.if).toBe("needs.check.outputs.browser == 'true'");
   expect(JSON.stringify(job("ci", "check").steps)).toContain("scripts/ci-scope.ts");
+});
+
+test("independent browser suites and built-site checks run on separate standard runners", () => {
+  const jobs = workflow("ci").jobs;
+  for (const key of ["browser-tests", "browser-built"]) {
+    expect(jobs[key]?.needs).toEqual(["check"]);
+    expect(jobs[key]?.["runs-on"]).toBe("ubuntu-latest");
+  }
+  const suites = job("ci", "browser-tests");
+  expect(suites.strategy?.["fail-fast"]).toBe(false);
+  expect(suites.strategy?.matrix.include).toEqual([
+    { suite: "stories", name: "Test: stories" },
+    { suite: "themes", name: "Test: themes" },
+    { suite: "responsive", name: "Test: layouts" },
+  ]);
+  expect(JSON.stringify(suites.steps)).toContain(`bun run validate:site \${{ matrix.suite }}`);
+  expect(job("ci", "browser-built").name).toBe("Test: site");
+  expect(suites.steps.some((step) => step.uses?.includes("upload-artifact"))).toBe(false);
+  expect(jobs.browser?.name).toBe("Gate: validation");
+  expect(jobs.browser?.needs).toEqual(["check", "browser-tests", "browser-built"]);
+  expect(jobs.browser?.if).toBe("always() && needs.check.outputs.browser == 'true'");
+});
+
+test("final validation gate rejects failed, skipped and cancelled prerequisites", () => {
+  const gate = job("ci", "browser").steps.find((step) => step.run);
+  if (!gate?.run) throw new Error("Missing validation gate command");
+  expect(gate.env).toEqual({
+    SUITES_RESULT: `\${{ needs.browser-tests.result }}`,
+    BUILT_RESULT: `\${{ needs.browser-built.result }}`,
+  });
+  for (const suites of ["success", "failure", "skipped", "cancelled"]) {
+    for (const built of ["success", "failure", "skipped", "cancelled"]) {
+      const result = Bun.spawnSync(["bash", "-e", "-c", gate.run], {
+        env: { ...process.env, SUITES_RESULT: suites, BUILT_RESULT: built },
+      });
+      expect(result.exitCode === 0, `${suites}/${built}`).toBe(
+        suites === "success" && built === "success",
+      );
+    }
+  }
+});
+
+test("ordinary gate exposes named build and validation steps without losing checks", () => {
+  expect(
+    job("ci", "check")
+      .steps.filter((step) => step.run?.startsWith("bun run "))
+      .map((step) => ({ name: step.name, run: step.run })),
+  ).toEqual([
+    { name: "Build packages", run: "bun run build" },
+    { name: "Lint", run: "bun run lint" },
+    { name: "Typecheck", run: "bun run typecheck" },
+    { name: "Check examples", run: "bun run --filter @kb.ui/storybook verify:code" },
+    { name: "Run tests", run: "bun run test" },
+    { name: "Check packages", run: "bun run test:pack" },
+    {
+      name: "Build Storybook",
+      run: "bun run --cwd apps/storybook build-storybook --output-dir dist/storybook",
+    },
+  ]);
 });
 
 test("deployment workflow runs only on main and excludes Markdown-only pushes", () => {
@@ -111,8 +182,8 @@ test("deployment paths preserve generated API docs while excluding ordinary pros
 });
 
 test("PR browser validation retains staged WebKit journeys and deployment dry-run", () => {
-  const steps = JSON.stringify(job("ci", "browser").steps);
-  expect(steps).toContain("bun run validate:site");
+  const steps = JSON.stringify(job("ci", "browser-built").steps);
+  expect(steps).toContain("bun run validate:site built");
   expect(JSON.stringify(job("deploy-site", "build").steps)).toContain("bun run validate:site");
   const validation = readFileSync(`${root}/scripts/validate-site.sh`, "utf8");
   for (const command of [
@@ -155,7 +226,7 @@ test("npm publish trusts GitHub OIDC only after every OS installs the release", 
 });
 
 test("PR previews reuse either existing CI Storybook build", () => {
-  for (const key of ["check", "browser"]) {
+  for (const key of ["check", "browser-built"]) {
     const upload = job("ci", key).steps.find((step) => step.uses === "actions/upload-artifact@v4");
     expect(upload).toBeDefined();
     expect(upload?.with?.path).toBe("apps/storybook/dist/storybook/");
@@ -194,7 +265,7 @@ test("preview credentials stay behind successful same-repository PR validation",
     "pull-requests": "write",
   });
   expect(JSON.stringify(workflow("ci").on)).not.toContain("pull_request_target");
-  const deploy = preview.steps.find((step) => step.name === "Publish Storybook preview");
+  const deploy = preview.steps.find((step) => step.name === "Deploy preview");
   expect(deploy?.env?.CLOUDFLARE_API_TOKEN).toBe(`\${{ secrets.CLOUDFLARE_API_TOKEN }}`);
   expect(preview.steps.filter((step) => step.env?.CLOUDFLARE_API_TOKEN)).toHaveLength(1);
   expect(deploy?.run).toContain("npm run configure:preview");
@@ -233,11 +304,11 @@ async function runPreviewComment(
   entries: Record<string, unknown>[] = [],
 ) {
   const steps = job("ci", "preview").steps;
-  const step = steps.find((step) => step.name === "Comment Storybook preview");
+  const step = steps.find((step) => step.name === "Post preview link");
   if (!step) throw new Error("Missing preview comment step");
   expect(step?.uses).toBe("actions/github-script@v7");
   expect(steps.indexOf(step)).toBeGreaterThan(
-    steps.findIndex((step) => step.name === "Publish Storybook preview"),
+    steps.findIndex((step) => step.name === "Deploy preview"),
   );
   expect(step?.if).toBeUndefined();
   const writes: { kind: string; parameters: Record<string, unknown> }[] = [];
