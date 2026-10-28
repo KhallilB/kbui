@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.1](https://github.com/KhallilB/kbui/compare/v0.10.0...v0.10.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* **release:** keep public notes complete across version bumps ([b4f9ee5](https://github.com/KhallilB/kbui/commit/b4f9ee53497329bd45d00e283896e5c9a413e488))
+
 ## [0.10.0](https://github.com/KhallilB/kbui/compare/v0.9.1...v0.10.0) (2026-10-28)
 
 
