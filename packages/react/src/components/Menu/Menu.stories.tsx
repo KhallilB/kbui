@@ -34,11 +34,6 @@ export const Default: Story = {
     }
   },
 };
-export const DefaultDark: Story = {
-  tags: ["!dev", "!autodocs"],
-  ...Default,
-  globals: { theme: "dark" },
-};
 
 export const MotionTokens: Story = {
   tags: ["!dev", "!autodocs"],

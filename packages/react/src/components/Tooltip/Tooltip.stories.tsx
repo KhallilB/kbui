@@ -37,11 +37,6 @@ export const OnHover: Story = {
     await waitFor(() => expect(popup).toBeVisible());
   },
 };
-export const OnHoverDark: Story = {
-  tags: ["!dev", "!autodocs"],
-  ...OnHover,
-  globals: { theme: "dark" },
-};
 
 export const NestedTheme: Story = {
   tags: ["!dev", "!autodocs"],

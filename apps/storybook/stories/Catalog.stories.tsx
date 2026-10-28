@@ -112,6 +112,7 @@ export const ThemeExamples: Story = {
     expect(canvas.queryByRole("radio", { name: "Depth Dark" })).toBeNull();
     expect(canvas.queryByRole("radio", { name: "Token Overrides Light" })).toBeNull();
     expect(canvas.getByRole("radio", { name: "Depth" })).toBeChecked();
+    expect(canvas.queryByText(/State not found/)).toBeNull();
   },
 };
 export const LegacyInputRecipe: Story = {

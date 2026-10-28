@@ -25,11 +25,6 @@ export const Default: Story = {
     expect(Number.parseFloat(style.outlineWidth)).toBeGreaterThanOrEqual(2);
   },
 };
-export const Dark: Story = {
-  tags: ["!dev", "!autodocs"],
-  ...Default,
-  globals: { theme: "dark" },
-};
 export const InText: Story = {
   render: () => (
     <Text size="lg">

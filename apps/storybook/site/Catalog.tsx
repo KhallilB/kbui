@@ -299,11 +299,14 @@ function CatalogDetail({
     stateId === "components-input--with-adornments"
       ? "components-input--with-icons-and-actions"
       : stateId;
-  const requested = entry.stories.find((story) => story.id === requestedId);
-  const alias = requested?.name.replace(/(?:^|\s)(?:Dark|Light)$/, "").trim();
+  // Theme variants left the catalog: old `--x-dark` links open `--x`, bare `--dark` the default.
+  const alias = /--(?:dark|light)$/.test(requestedId ?? "")
+    ? entry.defaultStoryId
+    : requestedId?.replace(/-(?:dark|light)$/, "");
+  const requested = entry.stories.find((story) => story.id === requestedId || story.id === alias);
   const selected =
     stories.find((story) => story.id === requestedId) ??
-    stories.find((story) => story.name === alias) ??
+    stories.find((story) => story.id === alias) ??
     stories.find((story) => story.id === entry.defaultStoryId);
   if (!selected) throw new Error(`Missing default catalog story: ${entry.name}`);
   return (
