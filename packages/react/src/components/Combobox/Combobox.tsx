@@ -8,7 +8,7 @@ import {
   useMemo,
   useRef,
 } from "react";
-import { type ClassNames, kb } from "../../utils/kb";
+import { type ClassNames, kb, resolveInvalid } from "../../utils/kb";
 
 /** Single selectable option in a Combobox list. */
 export interface ComboboxOption {
@@ -118,6 +118,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
     classNames,
     id,
     "aria-describedby": ariaDescribedBy,
+    "aria-invalid": callerAriaInvalid,
     ...rest
   },
   ref,
@@ -129,7 +130,10 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
   const descId = `${uid}-desc`;
   const errId = `${uid}-err`;
   const hasError = Boolean(error);
-  const isInvalid = Boolean(invalid) || hasError;
+  const { invalid: isInvalid, ariaInvalid } = resolveInvalid(
+    Boolean(invalid) || hasError,
+    callerAriaInvalid,
+  );
   const hasDescription = Boolean(description);
   const describedBy =
     [hasDescription ? descId : null, hasError ? errId : null, ariaDescribedBy]
@@ -199,7 +203,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
             id={inputId}
             placeholder={placeholder}
             aria-labelledby={labelId}
-            aria-invalid={isInvalid || undefined}
+            aria-invalid={ariaInvalid}
             aria-describedby={describedBy}
             className={clsx("kb-combobox-input", classNames?.input)}
           />

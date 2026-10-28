@@ -1,4 +1,4 @@
-/* Anatomy: .kb-menu [data-open] [data-side=top|bottom|left|right] [data-starting-style] [data-ending-style] > .kb-menu-item [data-highlighted] [data-disabled], .kb-menu-separator */
+/* Anatomy: .kb-menu [data-open] [data-side=top|bottom|left|right] [data-starting-style] [data-ending-style] > .kb-menu-item [data-highlighted] [data-disabled], .kb-menu-separator; [data-kb-menu-trigger][data-pointer-focus] */
 .kb-menu {
   min-width: var(--kb-menu-min-width);
   padding: var(--kb-space-1);
@@ -42,8 +42,9 @@
   border: 1px solid transparent;
 }
 
-.kb-menu-item[data-highlighted] {
+.kb-menu-item[data-highlighted]:not([data-disabled]) {
   background: var(--kb-color-surface);
+  border-color: transparent;
   box-shadow: inset 0 0 0 1px var(--kb-color-border);
 }
 
@@ -72,8 +73,18 @@
   }
 }
 
-.kb-menu-item[data-highlighted]:not([data-disabled]) {
-  background: var(--kb-color-surface);
-  border-color: transparent;
-  box-shadow: inset 0 0 0 1px var(--kb-color-border);
+@media (forced-colors: active) {
+  .kb-menu {
+    border: 1px solid CanvasText;
+  }
+  .kb-menu-item:focus-visible {
+    outline-color: Highlight;
+  }
+  .kb-menu-item[data-highlighted]:not([data-disabled]):not(:focus-visible) {
+    outline: 1px solid Highlight;
+    outline-offset: -1px;
+  }
+  .kb-menu-item[data-disabled] {
+    color: GrayText;
+  }
 }

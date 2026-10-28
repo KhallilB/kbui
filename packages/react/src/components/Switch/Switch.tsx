@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
 import { type ComponentProps, type CSSProperties, type ReactNode, useId } from "react";
-import { type ClassNames, kb } from "../../utils/kb";
+import { type ClassNames, kb, resolveInvalid } from "../../utils/kb";
 
 export type SwitchSize = "sm" | "md" | "lg";
 export type SwitchTone = "neutral" | "accent" | "info" | "success" | "warning" | "danger";
@@ -33,8 +33,9 @@ export type SwitchProps = Omit<
   error?: string | undefined;
   /** Hide label visually; keep its accessible name. */
   visuallyHidden?: boolean | undefined;
-  /** Decorative content in off and on positions. */
+  /** Decorative content in off position. */
   offIcon?: ReactNode;
+  /** Decorative content in on position. */
   onIcon?: ReactNode;
   /** Added to native input; className belongs to root. */
   controlClassName?: string | undefined;
@@ -80,7 +81,7 @@ export function Switch({
   disabled,
   readOnly,
   "aria-describedby": describedBy,
-  "aria-invalid": ariaInvalid,
+  "aria-invalid": callerAriaInvalid,
   ...props
 }: SwitchProps) {
   const customVars = Object.fromEntries(
@@ -95,6 +96,7 @@ export function Switch({
   const resolvedOnTone = onColor ? "custom" : (onTone ?? tone ?? "accent");
   const generated = useId();
   const controlId = id ?? `kb-switch-${generated}`;
+  const { invalid, ariaInvalid } = resolveInvalid(Boolean(error), callerAriaInvalid);
   const descriptionId = `${controlId}-description`;
   const errorId = `${controlId}-error`;
   const descriptions =
@@ -112,7 +114,7 @@ export function Switch({
           checked,
           disabled,
           readonly: readOnly,
-          invalid: Boolean(error),
+          invalid,
         },
         className,
       )}
@@ -131,7 +133,7 @@ export function Switch({
             disabled={disabled}
             readOnly={readOnly}
             aria-readonly={readOnly || undefined}
-            aria-invalid={error ? true : ariaInvalid}
+            aria-invalid={ariaInvalid}
             aria-describedby={descriptions}
             onChange={(event) => {
               if (!readOnly) onCheckedChange(event.currentTarget.checked);

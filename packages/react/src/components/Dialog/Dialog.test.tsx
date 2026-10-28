@@ -118,10 +118,11 @@ describe("Dialog", () => {
 });
 
 test("section slots preserve native refs, semantics and caller classes", async () => {
+  const content = createRef<HTMLDivElement>();
   const body = createRef<HTMLDivElement>();
   render(
     <Dialog defaultOpen>
-      <Dialog.Content>
+      <Dialog.Content ref={content}>
         <Dialog.Header className="surface-heading">
           <Dialog.Title>Review draft</Dialog.Title>
           <Dialog.Description>Local preview.</Dialog.Description>
@@ -138,6 +139,7 @@ test("section slots preserve native refs, semantics and caller classes", async (
     </Dialog>,
   );
   const dialog = await screen.findByRole("dialog", { name: "Review draft" });
+  expect(content.current).toBe(dialog);
   expect(dialog).toHaveAccessibleDescription("Local preview.");
   expect(body.current).toBe(screen.getByRole("region", { name: "Draft" }));
   expect(body.current).toHaveClass("kb-dialog-body");

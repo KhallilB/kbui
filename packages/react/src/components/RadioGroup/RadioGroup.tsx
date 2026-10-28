@@ -12,7 +12,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { type ClassNames, kb } from "../../utils/kb";
+import { type ClassNames, kb, resolveInvalid } from "../../utils/kb";
 export type RadioGroupProps = Omit<ComponentProps<"div">, "onChange" | "defaultValue"> & {
   /** Visible group label. */
   label: string;
@@ -212,9 +212,11 @@ function RadioGroupRoot({
   children,
   onFocusCapture,
   onBlurCapture,
+  "aria-invalid": callerAriaInvalid,
   ...props
 }: RadioGroupProps) {
   const id = useId();
+  const { invalid, ariaInvalid } = resolveInvalid(Boolean(error), callerAriaInvalid);
   const focused = useRef<string | null>(null);
   const [inside, setInside] = useState(false);
   const markFocused = useCallback((id: string) => {
@@ -283,7 +285,7 @@ function RadioGroupRoot({
         {...kb(
           "radiogroup",
           {
-            invalid: Boolean(error),
+            invalid,
             disabled,
             appearance,
             "selection-motion": selectionMotion,
@@ -293,7 +295,7 @@ function RadioGroupRoot({
         )}
         aria-labelledby={`${id}-label`}
         aria-describedby={described}
-        aria-invalid={Boolean(error) || undefined}
+        aria-invalid={ariaInvalid}
       >
         <div
           className={clsx("kb-radiogroup-label", classNames?.label, visuallyHidden && "kb-sr-only")}

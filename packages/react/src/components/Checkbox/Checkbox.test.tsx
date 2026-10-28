@@ -46,6 +46,13 @@ describe("Checkbox", () => {
     expect(box).toHaveAccessibleDescription("Email updates Choose a channel");
     expect(box).toHaveAttribute("aria-invalid", "true");
     expect(new FormData(screen.getByRole("form") as HTMLFormElement).get("notify")).toBe("yes");
+
+    render(
+      <Checkbox label="Terms" checked={false} aria-invalid="grammar" onCheckedChange={() => {}} />,
+    );
+    const terms = screen.getByRole("checkbox", { name: "Terms" });
+    expect(terms).toHaveAttribute("aria-invalid", "grammar");
+    expect(terms.closest(".kb-checkbox")).toHaveAttribute("data-invalid", "");
   });
   it("blocks disabled and read-only updates", async () => {
     const change = vi.fn();

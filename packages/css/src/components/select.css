@@ -1,4 +1,4 @@
-/* Anatomy: .kb-select [data-disabled] [data-invalid] > .kb-select-label, .kb-select-control, .kb-select-description, .kb-select-error; portal .kb-select-positioner > .kb-select-popup > .kb-select-list > .kb-select-item [data-highlighted] [data-selected] [data-disabled] > .kb-select-indicator; .kb-select-empty, .kb-select-icon */
+/* Anatomy: .kb-select [data-disabled] [data-invalid] > .kb-select-label, .kb-select-control [data-pointer-focus], .kb-select-description, .kb-select-error; portal .kb-select-portal > .kb-select-positioner > .kb-select-popup [data-starting-style] [data-ending-style] > .kb-select-list > .kb-select-item [data-highlighted] [data-selected] [data-disabled] > .kb-select-indicator; .kb-select-empty, .kb-select-icon */
 .kb-select {
   display: flex;
   flex-direction: column;
@@ -133,6 +133,15 @@
   }
   .kb-select-control {
     border-color: ButtonText;
+  }
+  .kb-select[data-invalid] .kb-select-control {
+    border-color: Highlight;
+  }
+  .kb-select[data-disabled] .kb-select-control,
+  .kb-select-item[data-disabled] {
+    color: GrayText;
+    border-color: GrayText;
+    opacity: 1;
   }
   .kb-select-popup {
     border: 1px solid CanvasText;

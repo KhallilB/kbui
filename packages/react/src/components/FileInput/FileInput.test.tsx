@@ -100,6 +100,20 @@ describe("FileInput", () => {
       "aria-invalid",
       "true",
     );
+
+    render(
+      <FileInput
+        label="Grammar evidence"
+        items={[]}
+        aria-invalid="grammar"
+        onFiles={() => {}}
+        onRemove={() => {}}
+      />,
+    );
+    const grammar = screen.getByRole("button", { name: "Grammar evidence Choose files" });
+    expect(grammar).toHaveAttribute("aria-invalid", "grammar");
+    expect(grammar.closest(".kb-fileinput")).toHaveAttribute("data-invalid", "");
+    expect(grammar.closest(".kb-fileinput")).not.toHaveAttribute("aria-invalid");
   });
   it("blocks picker and removal for disabled and read-only states", async () => {
     const change = vi.fn(),

@@ -54,13 +54,18 @@ describe("Input", () => {
     expect(screen.getByLabelText("Name")).toHaveAccessibleDescription("Shown publicly");
   });
 
-  test("error sets data-invalid, aria-invalid and describes the control", () => {
+  test("error and aria-invalid set data-invalid, preserve aria-invalid token and describe the control", () => {
     const { container } = render(<Input label="Email" error="Required" />);
     const input = screen.getByLabelText("Email");
     expect(container.querySelector(".kb-input")).toHaveAttribute("data-invalid");
     expect(input).toHaveAttribute("aria-invalid", "true");
     expect(input).toHaveAccessibleDescription("Required");
     expect(container.querySelector(".kb-input-error")).toHaveTextContent("Required");
+
+    render(<Input label="Grammar" aria-invalid="grammar" />);
+    const grammar = screen.getByLabelText("Grammar");
+    expect(grammar).toHaveAttribute("aria-invalid", "grammar");
+    expect(grammar.closest(".kb-input")).toHaveAttribute("data-invalid");
   });
 
   test("visuallyHidden label stays accessible", () => {

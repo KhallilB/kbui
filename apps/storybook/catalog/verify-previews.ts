@@ -1,4 +1,5 @@
 import { chromium, type Locator } from "playwright";
+import { previewKind, previewLayout } from "../site/catalog-model.ts";
 import { playgroundKey } from "../site/playground-model.ts";
 import { chooseRadio } from "./native-controls.ts";
 import { loadSiteSamples } from "./site-samples.ts";
@@ -153,20 +154,9 @@ try {
               text: getComputedStyle(content).textAlign,
             };
           });
-          const isLayout = ["grid", "panel", "scrollarea"].includes(entry.id);
-          const isSurface = [
-            "input",
-            "textarea",
-            "fieldset",
-            "formactions",
-            "errorsummary",
-            "select",
-            "combobox",
-            "multiselect",
-            "card",
-            "callout",
-            "progress",
-          ].includes(entry.id);
+          const kind = previewKind(entry.id);
+          const isLayout = kind === "layout";
+          const isSurface = kind === "surface";
           if (isLayout) {
             if (Math.abs(alignment.left - 16) > 1 || Math.abs(alignment.top - 16) > 1)
               throw new Error(`Layout lost start alignment: ${JSON.stringify(alignment)}`);
@@ -189,6 +179,7 @@ try {
             fieldset: ".kb-fieldset",
             formactions: ".kb-formactions",
             errorsummary: ".kb-errorsummary",
+            select: ".kb-select",
             combobox: ".kb-combobox",
             multiselect: ".kb-multiselect",
             card: ".kb-card",
@@ -238,17 +229,7 @@ try {
             });
             if (!fills) throw new Error("Panel row leaves unused width");
           }
-          const reserves: Record<string, number> = {
-            dialog: 360,
-            select: 240,
-            combobox: 240,
-            multiselect: 240,
-            menu: 240,
-            tooltip: 160,
-            panel: 160,
-            grid: 160,
-          };
-          const reserve = reserves[entry.id] ?? 96;
+          const reserve = previewLayout(entry.id, story.id).minimum;
           const availableHeight = await page.locator(".catalog-preview-frame").evaluate((stage) => {
             const style = getComputedStyle(stage);
             return (

@@ -40,7 +40,7 @@
   color: var(--kb-color-muted);
 }
 @media (hover: hover) and (pointer: fine) {
-  .kb-textarea:not([data-invalid]) .kb-textarea-control:hover:not(:disabled) {
+  .kb-textarea:not([data-invalid]) .kb-textarea-control:hover:not(:disabled):not(:focus-visible) {
     border-color: var(--kb-color-muted);
   }
 }
@@ -48,6 +48,7 @@
   border-color: var(--kb-color-danger);
 }
 .kb-textarea-control:focus-visible,
+.kb-textarea[data-readonly] .kb-textarea-control:focus-visible,
 .kb-textarea[data-invalid] .kb-textarea-control:focus-visible {
   outline: 2px solid var(--kb-color-ring);
   outline-offset: -2px;
@@ -92,7 +93,7 @@
 @media (forced-colors: active) {
   .kb-textarea-control,
   .kb-textarea[data-readonly] .kb-textarea-control,
-  .kb-textarea:not([data-invalid]) .kb-textarea-control:hover:not(:disabled) {
+  .kb-textarea:not([data-invalid]) .kb-textarea-control:hover:not(:disabled):not(:focus-visible) {
     background: Field;
     color: FieldText;
     border-color: ButtonText;
@@ -102,6 +103,7 @@
     border-color: Highlight;
   }
   .kb-textarea-control:focus-visible,
+  .kb-textarea[data-readonly] .kb-textarea-control:focus-visible,
   .kb-textarea[data-invalid] .kb-textarea-control:focus-visible {
     outline-color: Highlight;
     border-color: Highlight;

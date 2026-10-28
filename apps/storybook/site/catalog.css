@@ -484,7 +484,7 @@
     margin-block-end: 20px;
   }
   .catalog-skin-heading h3 {
-    font-size: var(--kb-text-heading-sm-size);
+    font-size: var(--kb-heading-size-sm);
     font-weight: 600;
   }
   .catalog-skin-heading p,

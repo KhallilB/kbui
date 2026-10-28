@@ -1,4 +1,4 @@
-/* Anatomy: .kb-combobox[data-size="sm|md|lg"][data-invalid][data-disabled][data-readonly][data-required] > .kb-combobox-label + .kb-combobox-shell > (.kb-combobox-input + .kb-combobox-actions > (.kb-combobox-clear + .kb-combobox-trigger)) + .kb-combobox-description + .kb-combobox-error; portal: .kb-combobox-positioner > .kb-combobox-popup > (.kb-combobox-list > .kb-combobox-option[data-highlighted][data-selected][data-disabled] > (.kb-combobox-option-indicator + .kb-combobox-option-label)) + .kb-combobox-empty */
+/* Anatomy: .kb-combobox[data-size="sm|md|lg"][data-invalid][data-disabled][data-readonly][data-required] > .kb-combobox-label + .kb-combobox-shell > (.kb-combobox-input + .kb-combobox-actions > (.kb-combobox-clear + .kb-combobox-trigger)) + .kb-combobox-description + .kb-combobox-error; portal: .kb-combobox-positioner > .kb-combobox-popup[data-starting-style][data-ending-style] > (.kb-combobox-list > .kb-combobox-option[data-highlighted][data-selected][data-disabled] > (.kb-combobox-option-indicator + .kb-combobox-option-label)) + .kb-combobox-empty */
 .kb-combobox {
   display: flex;
   flex-direction: column;
@@ -44,7 +44,8 @@
   padding-inline: var(--kb-space-4) var(--kb-space-2);
 }
 
-.kb-combobox:not([data-disabled]):not([data-readonly]) .kb-combobox-shell:hover {
+.kb-combobox:not([data-disabled]):not([data-readonly]):not([data-invalid])
+  .kb-combobox-shell:hover:not(:focus-within) {
   border-color: var(--kb-color-accent);
 }
 
@@ -58,15 +59,11 @@
   border-color: var(--kb-color-danger);
 }
 
-.kb-combobox:not([data-disabled]) .kb-combobox-shell:focus-within {
+.kb-combobox:not([data-disabled]) .kb-combobox-shell:focus-within,
+.kb-combobox[data-invalid]:not([data-disabled]) .kb-combobox-shell:focus-within {
   border-color: var(--kb-color-ring);
   outline: 2px solid var(--kb-color-ring);
   outline-offset: -1px;
-}
-
-.kb-combobox[data-invalid]:not([data-disabled]) .kb-combobox-shell:focus-within {
-  border-color: var(--kb-color-danger);
-  outline-color: var(--kb-color-danger);
 }
 
 .kb-combobox[data-disabled] .kb-combobox-shell {
@@ -277,11 +274,26 @@
 }
 
 @media (forced-colors: active) {
-  .kb-combobox-shell {
+  .kb-combobox-shell,
+  .kb-combobox[data-readonly] .kb-combobox-shell,
+  .kb-combobox:not([data-disabled]):not([data-readonly]):not([data-invalid])
+    .kb-combobox-shell:hover:not(:focus-within) {
     background: Field;
     color: FieldText;
     border-color: ButtonBorder;
     box-shadow: none;
+  }
+
+  .kb-combobox[data-invalid] .kb-combobox-shell {
+    border-color: Highlight;
+  }
+
+  .kb-combobox:not([data-disabled]) .kb-combobox-shell:focus-within,
+  .kb-combobox[data-invalid]:not([data-disabled]) .kb-combobox-shell:focus-within,
+  .kb-combobox-clear:focus-visible,
+  .kb-combobox-trigger:focus-visible {
+    border-color: Highlight;
+    outline-color: Highlight;
   }
 
   .kb-combobox-popup {

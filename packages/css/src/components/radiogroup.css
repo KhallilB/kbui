@@ -1,4 +1,4 @@
-/* Anatomy: .kb-radiogroup-options, .kb-radiogroup[data-appearance="segmented"] [data-selection-motion=slide|none] [data-selection-tone=primary|neutral]; .kb-radiogroup [data-disabled] [data-invalid] > .kb-radiogroup-label, .kb-radiogroup-selection, .kb-radiogroup-item > .kb-radiogroup-control [data-checked] [data-disabled] > .kb-radiogroup-indicator; .kb-radiogroup-content, .kb-radiogroup-description, .kb-radiogroup-error */
+/* Anatomy: .kb-radiogroup [data-appearance="segmented"] [data-selection-motion=slide|none] [data-selection-tone=primary|neutral] [data-disabled] [data-invalid] > .kb-radiogroup-label, .kb-radiogroup-options [data-selection] > .kb-radiogroup-selection, .kb-radiogroup-item > .kb-radiogroup-control [data-checked] [data-disabled] > .kb-radiogroup-indicator; .kb-radiogroup-content, .kb-radiogroup-description, .kb-radiogroup-error */
 .kb-radiogroup {
   color: var(--kb-color-fg);
   display: flex;
@@ -43,6 +43,12 @@
   outline: 2px solid var(--kb-color-ring);
   outline-offset: -2px;
 }
+.kb-radiogroup-control[data-checked]:focus-visible {
+  outline-color: var(--kb-color-accent-fg);
+}
+.kb-radiogroup[data-invalid] .kb-radiogroup-control:not([data-checked]) {
+  border-color: var(--kb-color-danger);
+}
 .kb-radiogroup-indicator {
   inline-size: var(--kb-space-2);
   block-size: var(--kb-space-2);
@@ -73,36 +79,11 @@
 .kb-radiogroup-error {
   color: var(--kb-color-danger);
 }
-@media (forced-colors: active) {
-  .kb-radiogroup-control {
-    border-color: CanvasText;
-    background: Canvas;
-    color: CanvasText;
-  }
-  .kb-radiogroup-control[data-checked] {
-    border-color: Highlight;
-    background: Highlight;
-    color: HighlightText;
-    forced-color-adjust: none;
-  }
-  .kb-radiogroup-indicator {
-    background: currentColor;
-    forced-color-adjust: none;
-  }
-  .kb-radiogroup-control[data-disabled] {
-    border-color: GrayText;
-    color: GrayText;
-  }
-}
-
 .kb-radiogroup-options {
   display: flex;
   flex-direction: column;
   gap: var(--kb-radiogroup-gap);
   min-inline-size: 0;
-}
-.kb-radiogroup-control[data-checked]:focus-visible {
-  outline-color: var(--kb-color-accent-fg);
 }
 .kb-radiogroup[data-appearance="segmented"] {
   --kb-radiogroup-selection-bg: var(--kb-radiogroup-primary-background);
@@ -126,6 +107,9 @@
   border: 1px solid var(--kb-color-border);
   border-radius: calc(var(--kb-input-height-md) / 2 + var(--kb-space-1) + 1px);
   background: var(--kb-material-recessed-face);
+}
+.kb-radiogroup[data-appearance="segmented"][data-invalid] .kb-radiogroup-options {
+  border-color: var(--kb-color-danger);
 }
 .kb-radiogroup-selection {
   position: absolute;
@@ -209,16 +193,42 @@
   }
 }
 @media (forced-colors: active) {
-  .kb-radiogroup-selection {
-    display: none;
+  .kb-radiogroup-control {
+    border-color: CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
+  .kb-radiogroup-control[data-checked] {
+    border-color: Highlight;
+    background: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+  .kb-radiogroup-control[data-disabled] {
+    border-color: GrayText;
+    color: GrayText;
   }
   .kb-radiogroup-control:focus-visible,
-  .kb-radiogroup-control[data-checked]:focus-visible,
   .kb-radiogroup[data-appearance="segmented"] .kb-radiogroup-item:has(:focus-visible) {
     outline-color: Highlight;
   }
   .kb-radiogroup-control[data-checked]:focus-visible {
     outline-color: HighlightText;
+  }
+  .kb-radiogroup[data-invalid] .kb-radiogroup-control:not([data-checked]),
+  .kb-radiogroup[data-appearance="segmented"][data-invalid] .kb-radiogroup-options {
+    border-color: Highlight;
+  }
+  .kb-radiogroup-indicator {
+    background: currentColor;
+    forced-color-adjust: none;
+  }
+  .kb-radiogroup-selection {
+    display: none;
+  }
+  .kb-radiogroup[data-appearance="segmented"] .kb-radiogroup-item {
+    box-shadow: none;
+    background-image: none;
   }
   .kb-radiogroup[data-appearance="segmented"] .kb-radiogroup-item:has([data-checked]),
   .kb-radiogroup[data-appearance="segmented"]
@@ -228,10 +238,6 @@
     color: HighlightText;
     background: Highlight;
     forced-color-adjust: none;
-  }
-  .kb-radiogroup[data-appearance="segmented"] .kb-radiogroup-item {
-    box-shadow: none;
-    background-image: none;
   }
   .kb-radiogroup[data-appearance="segmented"]
     .kb-radiogroup-item:has([data-checked]):has(:focus-visible) {

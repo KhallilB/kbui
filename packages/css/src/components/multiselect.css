@@ -1,4 +1,4 @@
-/* Anatomy: .kb-multiselect[data-size="sm|md|lg"][data-invalid][data-disabled][data-readonly][data-required] > .kb-multiselect-label + .kb-multiselect-shell > (.kb-multiselect-chips > (.kb-multiselect-chip > (.kb-multiselect-chip-label + .kb-multiselect-chip-remove) + .kb-multiselect-input) + .kb-multiselect-actions > (.kb-multiselect-clear + .kb-multiselect-trigger)) + .kb-multiselect-description + .kb-multiselect-error; portal: .kb-multiselect-positioner > .kb-multiselect-popup > (.kb-multiselect-list > .kb-multiselect-option[data-highlighted][data-selected][data-disabled] > (.kb-multiselect-option-indicator + .kb-multiselect-option-label)) + .kb-multiselect-empty */
+/* Anatomy: .kb-multiselect[data-size="sm|md|lg"][data-invalid][data-disabled][data-readonly][data-required] > .kb-multiselect-label + .kb-multiselect-shell > (.kb-multiselect-chips > (.kb-multiselect-chip > (.kb-multiselect-chip-label + .kb-multiselect-chip-remove) + .kb-multiselect-input) + .kb-multiselect-actions > (.kb-multiselect-clear + .kb-multiselect-trigger)) + .kb-multiselect-description + .kb-multiselect-error; portal: .kb-multiselect-positioner > .kb-multiselect-popup[data-starting-style][data-ending-style] > (.kb-multiselect-list > .kb-multiselect-option[data-highlighted][data-selected][data-disabled] > (.kb-multiselect-option-indicator + .kb-multiselect-option-label)) + .kb-multiselect-empty */
 .kb-multiselect {
   display: flex;
   flex-direction: column;
@@ -45,7 +45,8 @@
   padding-inline: var(--kb-space-3) var(--kb-space-2);
 }
 
-.kb-multiselect:not([data-disabled]):not([data-readonly]) .kb-multiselect-shell:hover {
+.kb-multiselect:not([data-disabled]):not([data-readonly]):not([data-invalid])
+  .kb-multiselect-shell:hover:not(:focus-within) {
   border-color: var(--kb-color-accent);
 }
 
@@ -59,15 +60,11 @@
   border-color: var(--kb-color-danger);
 }
 
-.kb-multiselect:not([data-disabled]) .kb-multiselect-shell:focus-within {
+.kb-multiselect:not([data-disabled]) .kb-multiselect-shell:focus-within,
+.kb-multiselect[data-invalid]:not([data-disabled]) .kb-multiselect-shell:focus-within {
   border-color: var(--kb-color-ring);
   outline: 2px solid var(--kb-color-ring);
   outline-offset: -1px;
-}
-
-.kb-multiselect[data-invalid]:not([data-disabled]) .kb-multiselect-shell:focus-within {
-  border-color: var(--kb-color-danger);
-  outline-color: var(--kb-color-danger);
 }
 
 .kb-multiselect[data-disabled] .kb-multiselect-shell {
@@ -357,11 +354,28 @@
 }
 
 @media (forced-colors: active) {
-  .kb-multiselect-shell {
+  .kb-multiselect-shell,
+  .kb-multiselect[data-readonly] .kb-multiselect-shell,
+  .kb-multiselect:not([data-disabled]):not([data-readonly]):not([data-invalid])
+    .kb-multiselect-shell:hover:not(:focus-within) {
     background: Field;
     color: FieldText;
     border-color: ButtonBorder;
     box-shadow: none;
+  }
+
+  .kb-multiselect[data-invalid] .kb-multiselect-shell {
+    border-color: Highlight;
+  }
+
+  .kb-multiselect:not([data-disabled]) .kb-multiselect-shell:focus-within,
+  .kb-multiselect[data-invalid]:not([data-disabled]) .kb-multiselect-shell:focus-within,
+  .kb-multiselect-chip:focus-visible,
+  .kb-multiselect-chip-remove:focus-visible,
+  .kb-multiselect-clear:focus-visible,
+  .kb-multiselect-trigger:focus-visible {
+    border-color: Highlight;
+    outline-color: Highlight;
   }
 
   .kb-multiselect-chip {

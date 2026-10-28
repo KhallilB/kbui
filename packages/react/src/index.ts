@@ -31,8 +31,10 @@ export {
   type DialogActionsProps,
   type DialogCloseProps,
   type DialogContentProps,
+  type DialogDescriptionProps,
   type DialogProps,
   type DialogSectionProps,
+  type DialogTitleProps,
   type DialogTriggerProps,
 } from "./components/Dialog/Dialog";
 export {
@@ -77,6 +79,7 @@ export {
   type MenuContentProps,
   type MenuItemProps,
   type MenuProps,
+  type MenuSeparatorProps,
   type MenuTriggerProps,
 } from "./components/Menu/Menu";
 export {
@@ -97,6 +100,7 @@ export {
   type PanelFooterProps,
   type PanelGroupDirection,
   type PanelGroupProps,
+  type PanelHandleProps,
   type PanelHeaderProps,
   type PanelProps,
   type PanelRail,
@@ -156,6 +160,7 @@ export {
   type ToolbarButtonProps,
   type ToolbarGroupProps,
   type ToolbarProps,
+  type ToolbarSeparatorProps,
 } from "./components/Toolbar/Toolbar";
 export { Tooltip, type TooltipProps } from "./components/Tooltip/Tooltip";
 export { type ClassNames, kb } from "./utils/kb";

@@ -36,14 +36,6 @@
   color: var(--kb-color-muted);
 }
 
-.kb-input-control:focus-visible {
-  outline: 2px solid var(--kb-color-ring);
-  outline-offset: -2px;
-  border-color: var(--kb-color-ring);
-
-  background: var(--kb-color-bg);
-}
-
 .kb-input[data-size="sm"] .kb-input-control {
   height: var(--kb-input-height-sm);
   font-size: var(--kb-size-sm);
@@ -56,6 +48,14 @@
 
 .kb-input[data-invalid] .kb-input-control {
   border-color: var(--kb-color-danger);
+}
+
+.kb-input-control:focus-visible,
+.kb-input[data-invalid] .kb-input-control:focus-visible {
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: -2px;
+  border-color: var(--kb-color-ring);
+  background: var(--kb-color-bg);
 }
 
 .kb-input[data-disabled] {
@@ -85,7 +85,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .kb-input:not([data-invalid]) .kb-input-control:hover:not(:disabled) {
+  .kb-input:not([data-invalid]) .kb-input-control:hover:not(:disabled):not(:focus-visible) {
     border-color: var(--kb-color-muted);
   }
 }
@@ -120,4 +120,33 @@
 }
 .kb-input[data-end-adornment] .kb-input-control[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;
+}
+
+@media (forced-colors: active) {
+  .kb-input-control,
+  .kb-input:not([data-invalid]) .kb-input-control:hover:not(:disabled):not(:focus-visible) {
+    background: Field;
+    color: FieldText;
+    border-color: ButtonText;
+    box-shadow: none;
+  }
+  .kb-input[data-invalid] .kb-input-control {
+    border-color: Highlight;
+  }
+  .kb-input-control:focus-visible,
+  .kb-input[data-invalid] .kb-input-control:focus-visible {
+    outline-color: Highlight;
+    border-color: Highlight;
+  }
+  .kb-input[data-disabled] {
+    opacity: 1;
+  }
+  .kb-input[data-disabled] .kb-input-label,
+  .kb-input[data-disabled] .kb-input-description,
+  .kb-input[data-disabled] .kb-input-control,
+  .kb-input-control:disabled {
+    color: GrayText;
+    border-color: GrayText;
+    opacity: 1;
+  }
 }

@@ -30,6 +30,18 @@ describe("Switch", () => {
       "Workspace policy Weekly activity Choose a preference",
     );
     expect(control).toHaveAttribute("aria-invalid", "true");
+
+    render(
+      <Switch
+        label="Grammar switch"
+        checked={false}
+        aria-invalid="grammar"
+        onCheckedChange={() => {}}
+      />,
+    );
+    const grammar = screen.getByRole("switch", { name: "Grammar switch" });
+    expect(grammar).toHaveAttribute("aria-invalid", "grammar");
+    expect(grammar.closest(".kb-switch")).toHaveAttribute("data-invalid", "");
   });
 
   test("forwards custom properties to visible planes while native styles stay native", () => {

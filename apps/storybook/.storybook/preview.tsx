@@ -2,6 +2,7 @@ import type { Preview } from "@storybook/react-vite";
 import "../site/layers.css";
 import "@kbui/css/styles.css";
 import type { ReactNode } from "react";
+import { previewKind } from "../site/catalog-model";
 import { readThemePreference, type ThemePreference } from "../site/site-theme";
 import { ReferenceDocs, ReferencePage, useReferenceTheme } from "./docs";
 import "./component-preview.css";
@@ -69,31 +70,7 @@ const preview: Preview = {
         title.startsWith("Components/") || title.startsWith("Layout/")
           ? title.split("/").at(-1)?.toLowerCase()
           : undefined;
-      const layout = [
-        "grid",
-        "container",
-        "inline",
-        "split",
-        "separator",
-        "panel",
-        "scrollarea",
-      ].includes(component ?? "")
-        ? "layout"
-        : [
-              "input",
-              "textarea",
-              "fieldset",
-              "formactions",
-              "errorsummary",
-              "select",
-              "combobox",
-              "multiselect",
-              "card",
-              "callout",
-              "progress",
-            ].includes(component ?? "")
-          ? "surface"
-          : "compact";
+      const layout = previewKind(component);
       return (
         <ThemePreview theme={theme}>
           {component ? (

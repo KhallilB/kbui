@@ -11,6 +11,10 @@ export type MenuItemProps = Omit<Base.Item.Props, "className"> & {
   /** Plain class string; Base UI's function form is not supported. */
   className?: string;
 };
+export type MenuSeparatorProps = Omit<Separator.Props, "className"> & {
+  /** Plain class string; Base UI's function form is not supported. */
+  className?: string;
+};
 export type MenuContentProps = Omit<Base.Popup.Props, "className"> & {
   /** Plain class string; Base UI's function form is not supported. */
   className?: string;
@@ -78,8 +82,8 @@ function MenuItem({ className, ...props }: MenuItemProps) {
   return <Base.Item {...props} className={clsx("kb-menu-item", className)} />;
 }
 
-function MenuSeparator() {
-  return <Separator className="kb-menu-separator" />;
+function MenuSeparator({ className, ...props }: MenuSeparatorProps) {
+  return <Separator {...props} className={clsx("kb-menu-separator", className)} />;
 }
 
 export const Menu = Object.assign(MenuRoot, {
