@@ -2,9 +2,19 @@
 
 Shared colors, spacing, typography, and component values for kbui. Edit `tokens.json` to generate CSS variables and a typed object of their names.
 
-Current source defaults use monochrome light/dark surfaces with a persimmon accent and shared tactile materials. Locally built packages include this refresh; published v0.7.0 tarballs keep their original appearance.
+Published defaults use monochrome light/dark surfaces with a persimmon accent and shared tactile materials.
 
 Most projects do not import this package directly, because `@kb.ui/react/styles.css` and `@kb.ui/css/styles.css` already include the generated CSS. Install it when you need the typed names, or the variables without the rest of the stylesheet.
+
+## Installation and use
+
+For tokens without component styles:
+
+```sh
+npm install @kb.ui/tokens
+```
+
+If your app also uses React or CSS packages, use the [matching install command](https://kbui.kcb.pro/setup/?tokens=1) and keep every kbui dependency on one version. Package managers install tokens like any other npm dependency.
 
 ```ts
 import { tokens } from "@kb.ui/tokens";
@@ -12,7 +22,9 @@ import { tokens } from "@kb.ui/tokens";
 tokens.color.accent; // "--kb-color-accent"
 ```
 
-Install the optional `@kb.ui/tokens` package at the same version as your other kbui packages; [Get Started](https://kbui.kcb.pro/setup/?tokens=1) generates the command. Wrap names in `var()` when using them as styles, for example ``color: `var(${tokens.color.accent})` ``. Importing the object does not load CSS.
+Wrap names in `var()` when using them as styles, for example ``color: `var(${tokens.color.accent})` ``. Importing the object does not load CSS.
+
+If your app does not load the full React or CSS stylesheet, import `@kb.ui/tokens/tokens.css` once to define the variables. JSON consumers can import `@kb.ui/tokens/tokens.json`. The [usage guide](../../docs/guides/using-kbui.md#choosing-packages) explains which package to choose.
 
 ## Exports
 

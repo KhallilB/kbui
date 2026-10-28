@@ -1,15 +1,29 @@
 # @kb.ui/react
 
-React components for forms, navigation, feedback, and layout. kbui uses [Base UI](https://base-ui.com) 1.9 for interaction and `@kb.ui/css` for styling, which this package includes as `@kb.ui/react/styles.css`. Import the stylesheet once, then use components throughout your app.
+React components for forms, navigation, feedback, layout and typography. This adapter bundles the complete kbui stylesheet and CSS tokens. [Base UI](https://base-ui.com) 1.9 and `clsx` install automatically as runtime dependencies.
 
 Default themes use monochrome light/dark surfaces, a persimmon accent, and shared tactile materials. This reference follows the source on `main`; check the [release notes](https://github.com/KhallilB/kbui/releases) for the exports available in an installed version.
 
-```tsx
-import "@kb.ui/react/styles.css";
-import { Button, Dialog, Input } from "@kb.ui/react";
+## Installation
+
+In your React app's folder:
+
+```sh
+npm install @kb.ui/react
 ```
 
-Requires `react` and `react-dom` 19 in the consuming project.
+Your app supplies `react` and `react-dom` 19 or later. TypeScript apps need compatible React type packages. Import the bundled stylesheet once at your app entry or framework's global-style entry:
+
+```tsx
+import "@kb.ui/react/styles.css";
+import { Button } from "@kb.ui/react";
+
+export function Save() {
+  return <Button>Save changes</Button>;
+}
+```
+
+The React adapter provides the components, styles and CSS variables together. Install the optional `@kb.ui/tokens` package only for typed variable names or token-only assets. Keep all installed kbui packages on one version. [Get Started](https://kbui.kcb.pro/setup/) generates versioned commands for npm, Bun, pnpm and Yarn; the [usage guide](../../docs/guides/using-kbui.md) covers prerequisites, upgrading, local development and troubleshooting.
 
 ## Styling
 
@@ -611,7 +625,7 @@ Root native div props/ref and className pass through. Root aria-describedby merg
 
 ## Heading
 
-Native `h1`–`h6` headings with visual size independent of rank. Prepared locally after 0.7.0; unreleased.
+Native `h1`–`h6` headings with visual size independent of rank.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
@@ -623,7 +637,7 @@ Use one page title and nest section ranks without skipping levels. Adjust `size`
 
 ## Text
 
-Body paragraphs, inline text and block grouping. Prepared locally after 0.7.0; unreleased.
+Body paragraphs, inline text and block grouping.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
@@ -636,7 +650,7 @@ Body line height is 1.6; block content is bounded to 65ch by `--kb-text-measure`
 
 ## Link
 
-Native anchor for navigation, with persistent underline and visible keyboard focus. Prepared locally after 0.7.0; unreleased.
+Native anchor for navigation, with persistent underline and visible keyboard focus.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
@@ -648,7 +662,7 @@ Use descriptive link text. Use Button for an action. Links inherit surrounding t
 
 ## Code
 
-Literal inline code, commands and paths in native `code`. Prepared locally after 0.7.0; unreleased.
+Literal inline code, commands and paths in native `code`.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
@@ -659,7 +673,7 @@ Monospace text inherits surrounding ink and line height, uses a relative size an
 
 ## Container
 
-Centered page boundary with responsive inline gutters. Native props and matching ref pass through. See [Layout composition](../../docs/guides/layout.md) for rules, CSS recipes and token overrides. Prepared locally after 0.8.0; unreleased.
+Centered page boundary with responsive inline gutters. Native props and matching ref pass through. See [Layout composition](../../docs/guides/layout.md) for rules, CSS recipes and token overrides.
 
 | Prop | Values | Default |
 |---|---|---|

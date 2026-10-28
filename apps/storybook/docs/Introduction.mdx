@@ -16,11 +16,11 @@ Explore the parts, try their states, and take the code into your app. Every exam
 
 ## Add kbui to your app
 
-The React package includes component styles and CSS tokens. Bring React and React DOM 19 or later. This command uses Bash; [Get started](../setup/) has ready-to-copy commands for npm, pnpm, Yarn, and Bun.
+Install the React adapter in your app's folder. It includes every component, the complete stylesheet and CSS tokens. Base UI and other runtime dependencies install automatically; your app supplies React and React DOM 19 or later. [Get started](../setup/) has ready-to-copy commands for npm, pnpm, Yarn and Bun, plus prerequisite and version guidance.
 
 {/* x-release-please-start-version */}
 ```bash
-bun add @kb.ui/react@0.10.2
+npm install @kb.ui/react@0.10.2
 ```
 {/* x-release-please-end */}
 
@@ -34,6 +34,8 @@ export function App() {
 ```
 
 Import the stylesheet once, where your app starts. Components follow your system theme by default. Set `data-theme="light"` or `"dark"` on `<html>` to choose one explicitly.
+
+For plain HTML or another renderer, use `@kb.ui/css`. Add `@kb.ui/tokens` at the same version only for typed variable names or token-only assets. The [usage guide](https://github.com/KhallilB/kbui/blob/main/docs/guides/using-kbui.md#choosing-packages) explains these choices; the React adapter already contains CSS variables.
 
 ## Using this reference
 

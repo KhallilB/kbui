@@ -242,7 +242,8 @@ export function Setup({
                   {bundlesCss()
                     ? "The React package includes components, styles, and CSS tokens."
                     : "Install the matching React and CSS packages from this release."}{" "}
-                  Your app needs React and React DOM 19 or later.
+                  Base UI and other runtime dependencies install automatically. Your app supplies
+                  React and React DOM 19 or later.
                 </p>
               </div>
               <InstallBuilder
@@ -293,6 +294,16 @@ export function Setup({
                 types: add <code>declare module "*.css";</code> to your app’s type declarations.
                 Theme unchanged: put <code>data-theme</code> on <code>&lt;html&gt;</code>.
                 Upgrading: update every installed kbui package to the same release.
+              </p>
+              <p>
+                For plain HTML or another renderer, use <code>@kb.ui/css</code>. Add{" "}
+                <code>@kb.ui/tokens</code> only for typed variable names or token-only assets.{" "}
+                <a
+                  className="plain-link"
+                  href="https://github.com/KhallilB/kbui/blob/main/docs/guides/using-kbui.md"
+                >
+                  Full installation, upgrade and troubleshooting guide <LinkArrow />
+                </a>
               </p>
             </details>
           </>

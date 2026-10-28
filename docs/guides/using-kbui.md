@@ -1,22 +1,23 @@
 # Using kbui in a project
 
-Projects install kbui from package tarballs attached to a [GitHub Release](https://github.com/KhallilB/kbui/releases). While you change kbui itself, a project can install it by path instead and receive every rebuild immediately.
+Install kbui from npm in your app's folder. The React adapter includes the components, their styles and CSS tokens. While developing kbui itself, use a local path install instead. GitHub Releases retain the same package archives for pinned downloads and historical releases.
 
 ## Installing
 
-1. Add `@kb.ui/react` from npm. It includes all component styles and CSS tokens. These examples use Bash; use Git Bash or WSL on Windows, or copy a complete command for your package manager from the [Get Started page](https://kbui.kcb.pro/setup/).
+1. Add `@kb.ui/react` using your app's package manager. Choose one command; these commands work in standard shells on Windows, macOS and Linux. The [Get Started page](https://kbui.kcb.pro/setup/) generates the same versioned commands.
 
    <!-- x-release-please-start-version -->
-   ```bash
-   bun add @kb.ui/react@0.10.2
-   ```
+   | Package manager | Command |
+   |---|---|
+   | npm | `npm install @kb.ui/react@0.10.2` |
+   | Bun | `bun add @kb.ui/react@0.10.2` |
+   | pnpm | `pnpm add @kb.ui/react@0.10.2` |
+   | Yarn | `yarn add @kb.ui/react@0.10.2` |
    <!-- x-release-please-end -->
 
-   The release workflow checks installation on Windows, macOS and Linux; a failed install shows as a failed `install` job on that release's workflow run. npm publishes a release only after those installs pass. The stylesheet already includes the tokens. Add `@kb.ui/tokens` at the same version only if you need the typed `tokens` object in TypeScript.
+   Base UI and `clsx` install automatically as dependencies. The stylesheet includes all component rules and CSS variables, so this one kbui package is sufficient for a React app.
 
-   Releases before 0.10.0 are not on npm and use the old `@kbui/*` names. Install them from their tarball, `https://github.com/KhallilB/kbui/releases/download/v<version>/kbui-react-<version>.tgz`.
-
-2. Install `react` and `react-dom` 19 if the project does not have them. They are peer dependencies; keep them as dependencies of your app.
+2. Your app needs `react` and `react-dom` 19 or later as peer dependencies. If missing, install them with your package manager, for example `npm install react@19 react-dom@19`. TypeScript apps also need compatible React type packages, for example `npm install --save-dev @types/react@19 @types/react-dom@19`.
 
 3. Import the stylesheet once, near the root of the app. The components can then be used anywhere.
 
@@ -25,17 +26,32 @@ Projects install kbui from package tarballs attached to a [GitHub Release](https
    import { Button, Dialog, Input } from "@kb.ui/react";
    ```
 
+Use your app entry or the global-style entry supported by your framework. Bundlers resolve the package stylesheet; browsers cannot resolve a bare npm package name in an HTML `href`. Keep the stylesheet import in the app even when importing individual components. No theme provider or separate Base UI setup is required for this example.
+
 If TypeScript rejects the `.css` import, add this declaration to the project. Vite projects usually have it already through `vite/client`.
 
 ```ts
 declare module "*.css";
 ```
 
-Releases before 0.7.0 require both matching React and CSS tarballs and the `@kbui/css/styles.css` import. Keep that import only while consuming those older releases.
+Commit your app's package manifest and lockfile so CI and deployments install the same versions. The release workflow checks consumer installation on Windows, macOS and Linux before publishing to npm.
+
+### Choosing packages
+
+| Your app needs | Install | Load |
+|---|---|---|
+| React components | `@kb.ui/react` | `@kb.ui/react/styles.css` once |
+| Plain HTML or another renderer's markup | `@kb.ui/css` | `@kb.ui/css/styles.css` once |
+| Typed token names in JavaScript or TypeScript | Optional `@kb.ui/tokens` at the same kbui version | Import `{ tokens }`; use the existing full stylesheet |
+| CSS variables without component styles | `@kb.ui/tokens` | `@kb.ui/tokens/tokens.css` |
+
+React is the framework adapter currently provided. The CSS package supplies styling for other renderers; interactive controls still need their own behavior and accessible markup. The [CSS package guide](../../packages/css/README.md) describes its anatomy and individual stylesheet exports.
+
+To add typed tokens, use the [matching command](https://kbui.kcb.pro/setup/?tokens=1) and update React and tokens together. `tokens.color.accent` returns `--kb-color-accent`, a variable name; use `var(${tokens.color.accent})` in styles. Importing the JavaScript object does not load CSS. See the [token guide](../tokens.md).
 
 ## Default design
 
-The current source stylesheet uses monochrome light/dark surfaces with a persimmon accent. Raised controls and cards share edge light, contact shading and soft shadows. No extra theme stylesheet is needed. Local builds include the refresh; existing published v0.7.0 downloads retain their original colors. Public component props and token overrides remain supported.
+The published stylesheet uses monochrome light/dark surfaces with a persimmon accent. Raised controls and cards share edge light, contact shading and soft shadows. Token overrides customize these defaults through the same bundled stylesheet. Historical releases retain the appearance they shipped with.
 
 ## Themes
 
@@ -105,7 +121,7 @@ The [React package README](../../packages/react/README.md) documents component A
 
 ### Moving from `@kbui` to `@kb.ui` (0.10.0)
 
-The npm scope `@kbui` was unavailable, so from 0.10.0 the packages are `@kb.ui/react`, `@kb.ui/css` and `@kb.ui/tokens`. Code is otherwise unchanged.
+The npm scope `@kbui` was unavailable, so from 0.10.0 the packages are `@kb.ui/react`, `@kb.ui/css` and `@kb.ui/tokens`. Stable npm publication starts at 0.10.1; 0.10.0 is available through GitHub release tarballs. Use a published npm version when following the current install command. The scope rename itself leaves component APIs unchanged.
 
 1. Remove every `@kbui/*` dependency from `package.json`, then run the install command from [Installing](#installing). Add `@kb.ui/tokens` if you used `@kbui/tokens`.
 
@@ -113,15 +129,19 @@ The npm scope `@kbui` was unavailable, so from 0.10.0 the packages are `@kb.ui/r
 
 3. Point the version guard at the new path: `node_modules/@kb.ui/react/dist/check-versions.js`.
 
-### Other releases
+### Updating current npm releases
 
-Read the [release notes](https://github.com/KhallilB/kbui/releases), also kept in `CHANGELOG.md`, for the versions between yours and the new one. Before 1.0, a minor version can contain breaking changes. Run the install command again with the new version. From 0.7.0, the React tarball carries the stylesheet, so a React app does not need a separate CSS package. If migrating from an earlier release, switch the import to `@kb.ui/react/styles.css` and remove a separate `@kbui/css` dependency unless your app uses its individual CSS entry points. Update optional `@kb.ui/tokens` to the same release. kbui does not support mixed installed package versions. Run the installed-version guard after installing and before building:
+Read the [release notes](https://kbui.kcb.pro/changelog/) and [full changelog](https://github.com/KhallilB/kbui/blob/main/CHANGELOG.md) for the versions between yours and the new one. Before 1.0, a minor version can contain breaking changes. Run the install command again with the new version, updating optional CSS and tokens packages in the same change. Commit the updated manifest and lockfile. kbui does not support mixed installed package versions. Run the installed-version guard after installing and before building:
 
 ```bash
-bun node_modules/@kb.ui/react/dist/check-versions.js
+node node_modules/@kb.ui/react/dist/check-versions.js
 ```
 
-Add this command to the consumer build or check script. It requires `@kb.ui/react`, treats separate CSS and tokens packages as optional, compares every top-level `node_modules/@kb.ui/*/package.json` (including optional tokens), and exits nonzero on mismatches, missing required packages, unreadable files or malformed manifests. It does not inspect nested dependency trees. There are no package exemptions.
+Add this command to the consumer build or check script. Bun can run the same file. The guard requires `@kb.ui/react`, treats separate CSS and tokens packages as optional, compares every top-level `node_modules/@kb.ui/*/package.json` (including optional tokens), and exits nonzero on mismatches, missing required packages, unreadable files or malformed manifests. It expects a `node_modules` installation; Yarn Plug'n'Play is outside its coverage. It does not inspect nested dependency trees. There are no package exemptions.
+
+### Historical tarball installs
+
+Releases before 0.10.0 are not on npm and use `@kbui/*`. Their React archive is at `https://github.com/KhallilB/kbui/releases/download/v<version>/kbui-react-<version>.tgz`. Releases before 0.7.0 also need the matching CSS archive and `@kbui/css/styles.css`; 0.7.0 and later bundle the stylesheet in React. Version 0.10.0 uses the new `@kb.ui` scope and `kb.ui-react-0.10.0.tgz` asset name, but remains tarball-only. When moving to current npm releases, remove old tarball dependencies, switch imports to `@kb.ui/`, and load `@kb.ui/react/styles.css`. Keep a separate CSS package only when your app uses its individual exports.
 
 ### Hearing about new releases
 
@@ -144,6 +164,8 @@ These tools cannot see a project that installs kbui from a tarball URL; switch i
 ## Installing by path while you work on kbui
 
 This setup works only on a machine that has kbui checked out next to the project, so do not commit it to a project that builds in CI.
+
+These development examples use Bun and Unix-style paths. Adapt the checkout paths to your machine; the published npm install above works without a kbui checkout.
 
 1. Build kbui. Package exports point at `dist/` folders, which are not committed.
 

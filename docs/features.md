@@ -42,7 +42,9 @@ This register links kbui capabilities to their implementation, documentation, an
 
 ## Verification and publication
 
-The site is deployed at https://kbui.kcb.pro/. Historical checks below retain the artifact and environment they tested. Earlier regression baseline, verified on 2026-10-25:
+The site is deployed at https://kbui.kcb.pro/. Current npm distribution was verified on 2026-10-28: `@kb.ui/react`, `@kb.ui/css` and `@kb.ui/tokens` 0.10.2 were published by GitHub Actions with signed provenance. Their npm integrity values match the GitHub release archives, all three trusted publisher connections show Valid, and a fresh npm-only React consumer passed the version guard, TypeScript, runtime and bundled-stylesheet checks. React apps install the adapter alone; standalone CSS and typed token names are optional. The [usage guide](guides/using-kbui.md) and [package READMEs](../packages/react/README.md) describe current setup.
+
+Historical checks below retain the artifact and environment they tested. Earlier regression baseline, verified on 2026-10-25:
 
 - `bun run check` passed: package builds, repository lint, TypeScript, unit tests and package-content checks.
 - `bun run --filter @kb.ui/storybook test:site` passed 154 browser cases across 320, 390, 768, 1024, 1280 and 1440-pixel widths and forced colors.

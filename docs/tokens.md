@@ -2,7 +2,7 @@
 
 Every kbui value is defined in one file, `packages/tokens/tokens.json`. The file follows the [W3C Design Tokens](https://www.designtokens.org/tr/drafts/format/) format, and the build turns each entry into a CSS custom property prefixed with `--kb-`.
 
-Current source defaults use chalk and graphite surfaces with persimmon accents. `color.accent` owns action fills; `color.accent-ink` owns readable small accent text, including running statuses. Success, warning and danger retain separate semantic colors. Themes follow system preference unless an explicit `data-theme` is set. Local builds carry this refresh; previously published v0.7.0 assets are unchanged.
+Published defaults use chalk and graphite surfaces with persimmon accents. `color.accent` owns action fills; `color.accent-ink` owns readable small accent text, including running statuses. Success, warning and danger retain separate semantic colors. Themes follow system preference unless an explicit `data-theme` is set. React and CSS package stylesheets include these variables; token-only consumers can load `@kb.ui/tokens/tokens.css`.
 
 ## Token kinds
 

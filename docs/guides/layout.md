@@ -1,6 +1,6 @@
 # Layout composition
 
-Use Container for page boundaries, Inline for wrapping rows, Split for two-column sections, and Separator for thematic or decorative rules. Styles are framework-free CSS; React wrappers add native markup without state, effects, resize listeners or hydration-dependent layout. Prepared locally after 0.8.0; unreleased.
+Use Container for page boundaries, Inline for wrapping rows, Split for two-column sections, and Separator for thematic or decorative rules. Styles are framework-free CSS; React wrappers add native markup without state, effects, resize listeners or hydration-dependent layout.
 
 ## Compose a page
 
@@ -73,7 +73,7 @@ Use `className` and `style` for root overrides, and `classNames={{ track: "proje
 
 ## Framework-free markup
 
-Load tokens, reset and required component styles, or the bundled stylesheet. Missing data attributes use the same default geometry as React.
+Install `@kb.ui/css` and load its full `@kb.ui/css/styles.css` stylesheet, or choose tokens, reset and the required component files as described in the [CSS package guide](../../packages/css/README.md). Missing data attributes use the same default geometry as React.
 
 ```html
 <main class="kb-container" data-size="lg">
