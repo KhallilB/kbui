@@ -27,7 +27,18 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
           HEAD_SHA: ${{ github.sha }}
         run: bun scripts/ci-scope.ts "$BASE_SHA" "$HEAD_SHA"
-      - run: bun run check
+      - name: Build packages
+        run: bun run build
+      - name: Lint source
+        run: bun run lint
+      - name: Check TypeScript
+        run: bun run typecheck
+      - name: Compile documented examples
+        run: bun run --filter @kbui/storybook verify:code
+      - name: Run unit and contract tests
+        run: bun run test
+      - name: Check release tarballs
+        run: bun run test:pack
       - name: Compile documentation without browsers
         if: steps.scope.outputs.browser != 'true'
         run: bun run --cwd apps/storybook build-storybook --output-dir dist/storybook
@@ -40,9 +51,47 @@ jobs:
           if-no-files-found: error
           retention-days: 3
 
-  browser:
-    name: Validate site
-    needs: check
+  browser-tests:
+    name: ${{ matrix.name }}
+    needs: [check]
+    if: needs.check.outputs.browser == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - suite: stories
+            name: Stories and reduced motion
+          - suite: themes
+            name: Component themes
+          - suite: responsive
+            name: Responsive layouts and accessibility
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --ipc=host
+    defaults:
+      run:
+        shell: bash
+    env:
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+      CF_SEND_TELEMETRY: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned Bun
+        run: npm install --global "$(node -p "require('./package.json').packageManager")"
+      - name: Trust checkout in container
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Build packages
+        run: bun run build
+      - name: Validate ${{ matrix.name }}
+        run: bun run validate:site ${{ matrix.suite }}
+
+  browser-built:
+    name: Built site and deployment dry-run
+    needs: [check]
     if: needs.check.outputs.browser == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -61,9 +110,12 @@ jobs:
         run: npm install --global "$(node -p "require('./package.json').packageManager")"
       - name: Trust checkout in container
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
-      - run: bun install --frozen-lockfile
-      - run: bun run build
-      - run: bun run validate:site
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Build packages
+        run: bun run build
+      - name: Verify built site and deployment package
+        run: bun run validate:site built
       - name: Retain Storybook for PR preview
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         uses: actions/upload-artifact@v4
@@ -72,6 +124,20 @@ jobs:
           path: apps/storybook/dist/storybook/
           if-no-files-found: error
           retention-days: 3
+
+  browser:
+    name: Validate site
+    needs: [check, browser-tests, browser-built]
+    if: always() && needs.check.outputs.browser == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require every browser validation job
+        env:
+          SUITES_RESULT: ${{ needs.browser-tests.result }}
+          BUILT_RESULT: ${{ needs.browser-built.result }}
+        run: |
+          test "$SUITES_RESULT" = success
+          test "$BUILT_RESULT" = success
 
   preview:
     name: Storybook preview

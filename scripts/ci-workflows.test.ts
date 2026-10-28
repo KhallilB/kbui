@@ -7,6 +7,9 @@ type Workflow = {
   jobs: Record<
     string,
     {
+      name?: string;
+      "runs-on"?: string;
+      strategy?: { "fail-fast": boolean; matrix: { include: { suite: string; name: string }[] } };
       container?: { image: string };
       if?: string;
       needs?: string[];
@@ -37,7 +40,8 @@ test("Linux browser jobs use the image matching the pinned client", () => {
   const manifest = JSON.parse(readFileSync(`${root}/apps/storybook/package.json`, "utf8"));
   expect(manifest.devDependencies.playwright).toBe("1.64.1");
   for (const [name, key] of [
-    ["ci", "browser"],
+    ["ci", "browser-tests"],
+    ["ci", "browser-built"],
     ["deploy-site", "build"],
     ["release", "assets"],
   ] as const) {
@@ -55,7 +59,8 @@ test("CI never downloads browsers or their system packages", () => {
 
 test("container installs trust only their checkout after tool setup", () => {
   for (const [name, key] of [
-    ["ci", "browser"],
+    ["ci", "browser-tests"],
+    ["ci", "browser-built"],
     ["deploy-site", "build"],
     ["release", "assets"],
   ] as const) {
@@ -84,8 +89,68 @@ test("ordinary checks stay browser-free and browser job follows changed-file sco
   const jobs = workflow("ci").jobs;
   expect(job("ci", "check").container).toBeUndefined();
   expect(JSON.stringify(job("ci", "check").steps)).not.toContain("test:stories");
-  expect(jobs.browser?.if).toBe("needs.check.outputs.browser == 'true'");
+  for (const key of ["browser-tests", "browser-built"])
+    expect(jobs[key]?.if).toBe("needs.check.outputs.browser == 'true'");
   expect(JSON.stringify(job("ci", "check").steps)).toContain("scripts/ci-scope.ts");
+});
+
+test("independent browser suites and built-site checks run on separate standard runners", () => {
+  const jobs = workflow("ci").jobs;
+  for (const key of ["browser-tests", "browser-built"]) {
+    expect(jobs[key]?.needs).toEqual(["check"]);
+    expect(jobs[key]?.["runs-on"]).toBe("ubuntu-latest");
+  }
+  const suites = job("ci", "browser-tests");
+  expect(suites.strategy?.["fail-fast"]).toBe(false);
+  expect(suites.strategy?.matrix.include).toEqual([
+    { suite: "stories", name: "Stories and reduced motion" },
+    { suite: "themes", name: "Component themes" },
+    { suite: "responsive", name: "Responsive layouts and accessibility" },
+  ]);
+  expect(JSON.stringify(suites.steps)).toContain(`bun run validate:site \${{ matrix.suite }}`);
+  expect(job("ci", "browser-built").name).toBe("Built site and deployment dry-run");
+  expect(suites.steps.some((step) => step.uses?.includes("upload-artifact"))).toBe(false);
+  expect(jobs.browser?.name).toBe("Validate site");
+  expect(jobs.browser?.needs).toEqual(["check", "browser-tests", "browser-built"]);
+  expect(jobs.browser?.if).toBe("always() && needs.check.outputs.browser == 'true'");
+});
+
+test("final validation gate rejects failed, skipped and cancelled prerequisites", () => {
+  const gate = job("ci", "browser").steps.find((step) => step.run);
+  if (!gate?.run) throw new Error("Missing validation gate command");
+  expect(gate.env).toEqual({
+    SUITES_RESULT: `\${{ needs.browser-tests.result }}`,
+    BUILT_RESULT: `\${{ needs.browser-built.result }}`,
+  });
+  for (const suites of ["success", "failure", "skipped", "cancelled"]) {
+    for (const built of ["success", "failure", "skipped", "cancelled"]) {
+      const result = Bun.spawnSync(["bash", "-e", "-c", gate.run], {
+        env: { ...process.env, SUITES_RESULT: suites, BUILT_RESULT: built },
+      });
+      expect(result.exitCode === 0, `${suites}/${built}`).toBe(
+        suites === "success" && built === "success",
+      );
+    }
+  }
+});
+
+test("ordinary gate exposes named build and validation steps without losing checks", () => {
+  expect(
+    job("ci", "check")
+      .steps.filter((step) => step.run?.startsWith("bun run "))
+      .map((step) => ({ name: step.name, run: step.run })),
+  ).toEqual([
+    { name: "Build packages", run: "bun run build" },
+    { name: "Lint source", run: "bun run lint" },
+    { name: "Check TypeScript", run: "bun run typecheck" },
+    { name: "Compile documented examples", run: "bun run --filter @kbui/storybook verify:code" },
+    { name: "Run unit and contract tests", run: "bun run test" },
+    { name: "Check release tarballs", run: "bun run test:pack" },
+    {
+      name: "Compile documentation without browsers",
+      run: "bun run --cwd apps/storybook build-storybook --output-dir dist/storybook",
+    },
+  ]);
 });
 
 test("deployment workflow runs only on main and excludes Markdown-only pushes", () => {
@@ -111,8 +176,8 @@ test("deployment paths preserve generated API docs while excluding ordinary pros
 });
 
 test("PR browser validation retains staged WebKit journeys and deployment dry-run", () => {
-  const steps = JSON.stringify(job("ci", "browser").steps);
-  expect(steps).toContain("bun run validate:site");
+  const steps = JSON.stringify(job("ci", "browser-built").steps);
+  expect(steps).toContain("bun run validate:site built");
   expect(JSON.stringify(job("deploy-site", "build").steps)).toContain("bun run validate:site");
   const validation = readFileSync(`${root}/scripts/validate-site.sh`, "utf8");
   for (const command of [
@@ -144,7 +209,7 @@ test("release publishing uses host tools after container validation", () => {
 });
 
 test("PR previews reuse either existing CI Storybook build", () => {
-  for (const key of ["check", "browser"]) {
+  for (const key of ["check", "browser-built"]) {
     const upload = job("ci", key).steps.find((step) => step.uses === "actions/upload-artifact@v4");
     expect(upload).toBeDefined();
     expect(upload?.with?.path).toBe("apps/storybook/dist/storybook/");
