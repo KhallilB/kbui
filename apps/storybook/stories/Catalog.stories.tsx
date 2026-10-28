@@ -427,6 +427,7 @@ export const FocusedDetails: Story = {
 
 export const StateContinuity: Story = {
   args: { componentId: "badge", storybookRoot: "about:blank#" },
+  render: (args) => <Catalog key="state-continuity" {...args} />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const frame = canvas.getByTitle("Badge — Default live example") as HTMLIFrameElement;
