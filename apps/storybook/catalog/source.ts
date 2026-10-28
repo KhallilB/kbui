@@ -4,11 +4,17 @@ import { fileURLToPath } from "node:url";
 import { loadCsf } from "storybook/internal/csf-tools";
 import type { Plugin } from "vite";
 import { parseChangelog } from "../site/changelog-model.ts";
-import { firstComponent, themeMarkup, themes } from "../site/setup-model.ts";
+import {
+  firstComponent,
+  installCommand,
+  managers,
+  themeMarkup,
+  themes,
+} from "../site/setup-model.ts";
 import { exampleCode } from "./code.ts";
 import { componentGuides } from "./component-guides.ts";
 import { definitions } from "./definitions.ts";
-import { highlightSample } from "./highlight.ts";
+import { type CodeLanguage, highlightSample } from "./highlight.ts";
 import { loadSiteSamples, siteSampleFiles } from "./site-samples.ts";
 import type { ApiBlock, CatalogEntry, ComponentReference } from "./types";
 
@@ -172,8 +178,25 @@ export function catalogPlugin(): Plugin {
     load(id) {
       if (id === referenceId) return `export default ${JSON.stringify(loadComponentReferences())};`;
       if (id === "\0virtual:kbui-setup-samples") {
-        const sample = (code: string) => highlightSample({ code, snippet: code });
-        return `export default ${JSON.stringify({ usage: sample(firstComponent), ...Object.fromEntries(themes.map((theme) => [theme, sample(themeMarkup(theme))])), styling: { code: restyleSample, snippet: restyleSample, tokens: [], snippetTokens: [] } })};`;
+        const sample = (code: string, language: CodeLanguage = "tsx") =>
+          highlightSample({ code, snippet: code }, language);
+        return `export default ${JSON.stringify({
+          usage: sample(firstComponent),
+          ...Object.fromEntries(themes.map((theme) => [theme, sample(themeMarkup(theme), "html")])),
+          styling: sample(restyleSample, "css"),
+          ...Object.fromEntries(
+            managers.flatMap((manager) =>
+              [false, true].map((tokens) => [
+                `${manager}-${tokens}`,
+                sample(installCommand(manager, tokens), "shellscript"),
+              ]),
+            ),
+          ),
+          versionCheck: sample(
+            "node node_modules/@kbui/react/dist/check-versions.js",
+            "shellscript",
+          ),
+        })};`;
       }
       if (id === resolvedSampleId) return `export default ${JSON.stringify(loadSiteSamples())};`;
       if (id === resolvedId) return `export default ${JSON.stringify(loadCatalogSources())};`;

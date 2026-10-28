@@ -7,7 +7,6 @@ import { LinkArrow } from "./LinkArrow";
 import { SiteFrame, SiteLink } from "./SiteFrame";
 import {
   bundlesCss,
-  installCommand,
   managers,
   readSetup,
   releaseVersion,
@@ -18,8 +17,6 @@ import {
   themes,
 } from "./setup-model";
 import "./setup.css";
-
-const plain = (code: string) => ({ code, snippet: code, tokens: [], snippetTokens: [] });
 
 export function InstallBuilder({
   siteRoot = "./",
@@ -69,7 +66,7 @@ export function InstallBuilder({
         name="Install"
         language="Shell"
         regionLabel="Install command"
-        sample={plain(installCommand(options.manager, options.tokens))}
+        sample={samples[`${options.manager}-${options.tokens}`]}
         defaultOpen
       />
       <details
@@ -285,7 +282,7 @@ export function Setup({
                 name="Version check"
                 regionLabel="Version check command"
                 language="Shell"
-                sample={plain("node node_modules/@kbui/react/dist/check-versions.js")}
+                sample={samples.versionCheck}
                 defaultOpen
               />
             </section>

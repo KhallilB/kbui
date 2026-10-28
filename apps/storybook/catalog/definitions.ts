@@ -5,9 +5,24 @@ type Definition = {
   description: string;
 };
 export const definitions: Record<string, Definition> = {
+  Split: { group: "Layout", description: "Two columns that stack when their parent narrows." },
+  Separator: {
+    group: "Layout",
+    description: "Semantic or decorative horizontal and vertical rules.",
+  },
+  Inline: { group: "Layout", description: "Wrapping rows with shared spacing and alignment." },
+  Container: { group: "Layout", description: "Shared page widths and responsive gutters." },
   Checkbox: {
     group: "Forms",
     description: "Let people select options independently, including a mixed selection.",
+  },
+  Combobox: {
+    group: "Forms",
+    description: "Search and choose one option from a longer list.",
+  },
+  MultiSelect: {
+    group: "Forms",
+    description: "Search a list and keep multiple selections visible as removable chips.",
   },
   RadioGroup: { group: "Forms", description: "Choose one option from a visible group." },
   Select: { group: "Forms", description: "Choose one option from a dropdown list." },
@@ -87,6 +102,22 @@ export const definitions: Record<string, Definition> = {
   Text: {
     group: "Typography",
     description: "Readable paragraphs, inline text and supporting content.",
+  },
+  Textarea: {
+    group: "Forms",
+    description: "Collect multiline text with a label, help text, and error feedback.",
+  },
+  Fieldset: {
+    group: "Forms",
+    description: "Group related fields with a native fieldset, legend, and section help.",
+  },
+  FormActions: {
+    group: "Forms",
+    description: "Align submit, reset, and secondary actions at the end of a form.",
+  },
+  ErrorSummary: {
+    group: "Forms",
+    description: "Summarize form validation errors with links that focus each field.",
   },
   Toolbar: {
     group: "Actions",

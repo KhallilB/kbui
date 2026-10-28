@@ -6,6 +6,69 @@ export type ComponentGuide = {
 };
 
 export const componentGuides: Record<string, ComponentGuide> = {
+  Container: {
+    use: "Align page sections with shared maximum widths and responsive gutters.",
+    example: {
+      title: "Give a workspace a shared page boundary",
+      description:
+        "Compose headings, actions and content inside one centered page width. Compare sizes and the composed page example.",
+    },
+    tips: [
+      "Maximum widths include gutters; use the same size across aligned page sections.",
+      "Disable gutters when a parent already owns inline padding.",
+    ],
+    accessibility: [
+      "Choose main, section or another native element from document structure.",
+      "Container adds no focus stop or interactive role.",
+    ],
+  },
+  Inline: {
+    use: "Arrange independent content or actions in a row that wraps when space runs out.",
+    example: {
+      title: "Keep related actions together",
+      description:
+        "Actions retain their native tab order while the row wraps. Compare spacing and alignment examples.",
+    },
+    tips: [
+      "Use gap for shared spacing between items and wrapped rows.",
+      "Use Toolbar when actions need coordinated arrow-key navigation.",
+    ],
+    accessibility: [
+      "Wrapping preserves source and keyboard order.",
+      "Use li children when rendering a native list.",
+    ],
+  },
+  Split: {
+    use: "Compose two columns that stack when their available width falls below a shared threshold.",
+    example: {
+      title: "Pair primary content with supporting context",
+      description:
+        "Use equal or weighted columns, then compare the same composition inside narrower parents.",
+    },
+    tips: [
+      "Provide two children; Split owns the tracks while content retains its own measure.",
+      "Thresholds follow available width; style tracks with classNames.track and use Grid for variable counts.",
+    ],
+    accessibility: [
+      "Place primary content first so stacked reading order remains meaningful.",
+      "Split adds no ARIA grid role or keyboard model.",
+    ],
+  },
+  Separator: {
+    use: "Divide related content with a horizontal or vertical static rule.",
+    example: {
+      title: "Separate content groups",
+      description: "Compare a native thematic break with a vertical divider in an Inline row.",
+    },
+    tips: [
+      "Use decorative when the rule repeats an existing visual grouping.",
+      "Vertical rules stretch inside Inline; Separator provides no resize interaction.",
+    ],
+    accessibility: [
+      "Semantic rules announce their orientation without adding a tab stop.",
+      "Decorative rules are hidden from assistive technology.",
+    ],
+  },
   Badge: {
     use: "Label a role, category, or version beside the thing it describes. Use Status for a state that changes.",
     example: {
@@ -227,6 +290,40 @@ export const componentGuides: Record<string, ComponentGuide> = {
       "Use action text on each item; do not nest another button inside it.",
     ],
   },
+  Combobox: {
+    use: "Let people filter a longer option list by typing before choosing one value. Use Select when the list is short enough to scan without typing.",
+    example: {
+      title: "Find a deployment region",
+      description:
+        "Type to narrow the region list, choose a region with the keyboard or pointer, and clear the selection when needed.",
+    },
+    tips: [
+      "Pass null when nothing is selected and update value in onValueChange.",
+      "Keep emptyMessage specific so people know whether no options exist or none match their filter.",
+    ],
+    accessibility: [
+      "Always provide a visible label; placeholder text only hints at what to type.",
+      "Empty results announce politely without moving focus away from the input.",
+      "Clear and toggle buttons carry explicit accessible names.",
+    ],
+  },
+  MultiSelect: {
+    use: "Let people search a longer list and keep multiple selected values visible as removable chips. Use Checkbox when every choice should stay visible on the page.",
+    example: {
+      title: "Assign API permission scopes",
+      description:
+        "Filter scopes by typing, toggle multiple options in the popup, and remove individual chips with the pointer or keyboard.",
+    },
+    tips: [
+      "Keep option labels concise so multiple chips wrap cleanly inside bounded containers.",
+      "Customize removeLabel when option labels need extra context in screen reader announcements.",
+    ],
+    accessibility: [
+      "Selected chips live in a named toolbar with Left/Right arrow navigation and Backspace/Delete removal.",
+      "Each chip remove button has a distinct accessible name such as Remove Webhooks.",
+      "Read-only and disabled states block chip removal as well as list changes.",
+    ],
+  },
   NumberField: {
     use: "Collect a numeric quantity that people can type or adjust with steps. Use Input for identifiers such as postal codes.",
     example: {
@@ -372,7 +469,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
     },
     tips: [
       "Update checked in onCheckedChange and let your app handle saving.",
-      "Handle controlled form reset explicitly; decorative icon slots should not contain controls.",
+      "Use size ('sm', 'md', 'lg') and offTone/onTone or offColor/onColor for bilateral state colors; decorative icon slots should not contain controls.",
     ],
     accessibility: [
       "Use a stable label that names the preference, not its current state.",
@@ -395,6 +492,73 @@ export const componentGuides: Record<string, ComponentGuide> = {
       "Keep paragraph structure valid; do not nest paragraphs.",
       "Use strong and em when emphasis has meaning.",
       "Muted text still needs readable contrast; avoid lowering opacity further.",
+    ],
+  },
+  Textarea: {
+    use: "Collect multiline notes, summaries, or configuration payloads with a persistent label and validation feedback. Use Input for single-line text.",
+    example: {
+      title: "Write release notes",
+      description: "Type into the textarea or compare helper, error, read-only, and resize states.",
+    },
+    tips: [
+      "Use rows to set the initial height and resize to control whether people can drag-resize the field.",
+      "Both native onChange and onValueChange are supported for controlled forms.",
+    ],
+    accessibility: [
+      "Keep a visible label or set visuallyHidden when surrounding context already names the field.",
+      "description and error are linked to the native textarea through aria-describedby.",
+      "Read-only keeps the value focusable and copyable; disabled removes it from interaction and submission.",
+    ],
+  },
+  Fieldset: {
+    use: "Group related controls into an understandable form section using native fieldset and legend semantics.",
+    example: {
+      title: "Group workspace profile fields",
+      description:
+        "Related text, multiline, and switch controls share one legend and supporting description.",
+    },
+    tips: [
+      "Use Fieldset when several controls answer a shared question or belong to the same settings section; nested Switch controls default to the compact sm track.",
+      "Pass disabled on Fieldset to lock every descendant control during saving or archival states.",
+    ],
+    accessibility: [
+      "The legend names the native group for screen readers; use visuallyHidden only when a visible heading would duplicate it.",
+      "Group-level description and error text are associated with the fieldset via aria-describedby.",
+      "Pair group-level errors with specific field errors when individual controls need correction.",
+    ],
+  },
+  FormActions: {
+    use: "Align submit, reset, and cancel buttons at the footer of a form or section with consistent wrapping.",
+    example: {
+      title: "Finish a form with clear actions",
+      description:
+        "Compare end-aligned, divided, and split action rows for settings and editing forms.",
+    },
+    tips: [
+      "Set type='submit' on the primary action and type='button' or type='reset' on secondary actions.",
+      "Use align='between' when a reset or secondary action sits opposite the primary submit button.",
+    ],
+    accessibility: [
+      "FormActions keeps buttons in natural DOM and Tab order without adding a toolbar role.",
+      "Keep action labels specific to the form task, such as Save changes or Publish release.",
+      "When actions wrap on narrow screens, reading order still matches keyboard order.",
+    ],
+  },
+  ErrorSummary: {
+    use: "Summarize validation problems at the top of a form after submission and link each message to its field.",
+    example: {
+      title: "Recover from validation errors",
+      description:
+        "Select an error link in the form recovery example to move keyboard focus directly to the invalid field.",
+    },
+    tips: [
+      "Pass an empty items array before submission or once errors are resolved; ErrorSummary renders nothing when empty.",
+      "Focus the ErrorSummary ref when a submit attempt fails so keyboard and screen-reader users hear the summary first.",
+    ],
+    accessibility: [
+      "Renders an alert region named by its heading with tabIndex={-1} for programmatic focus.",
+      "Each link points to a field or group id and moves focus to that control when activated.",
+      "Always pair the summary with inline error messages on the individual fields.",
     ],
   },
   Toolbar: {

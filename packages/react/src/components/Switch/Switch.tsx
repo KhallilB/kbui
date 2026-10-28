@@ -2,6 +2,9 @@ import { clsx } from "clsx";
 import { type ComponentProps, type CSSProperties, type ReactNode, useId } from "react";
 import { type ClassNames, kb } from "../../utils/kb";
 
+export type SwitchSize = "sm" | "md" | "lg";
+export type SwitchTone = "neutral" | "accent" | "info" | "success" | "warning" | "danger";
+
 export type SwitchProps = Omit<
   ComponentProps<"input">,
   "type" | "role" | "checked" | "defaultChecked" | "onChange" | "size" | "children" | "style"
@@ -12,32 +15,46 @@ export type SwitchProps = Omit<
   checked: boolean;
   /** Requests next checked state. */
   onCheckedChange: (checked: boolean) => void;
+  /** Track size; defaults to sm inside Fieldset and md elsewhere. */
+  size?: SwitchSize | undefined;
+  /** Shorthand tone for the on side when onTone is omitted. */
+  tone?: SwitchTone | undefined;
+  /** Semantic tone for the off side. */
+  offTone?: SwitchTone | undefined;
+  /** Semantic tone for the on side; defaults to accent. */
+  onTone?: SwitchTone | undefined;
+  /** Custom CSS color or token for the off side. */
+  offColor?: string | undefined;
+  /** Custom CSS color or token for the on side. */
+  onColor?: string | undefined;
   /** Associated helper text. */
-  description?: string;
+  description?: string | undefined;
   /** Associated error; marks native control invalid for assistive technology. */
-  error?: string;
+  error?: string | undefined;
   /** Hide label visually; keep its accessible name. */
-  visuallyHidden?: boolean;
+  visuallyHidden?: boolean | undefined;
   /** Decorative content in off and on positions. */
   offIcon?: ReactNode;
   onIcon?: ReactNode;
   /** Added to native input; className belongs to root. */
-  controlClassName?: string;
+  controlClassName?: string | undefined;
   /** Native styles; custom properties also feed visible planes. */
   style?: CSSProperties | (CSSProperties & Record<`--${string}`, string | number | undefined>);
   /** Classes for inner parts, keyed by part. */
-  classNames?: ClassNames<
-    | "control"
-    | "label"
-    | "field"
-    | "target"
-    | "track"
-    | "thumb"
-    | "off"
-    | "on"
-    | "description"
-    | "error"
-  >;
+  classNames?:
+    | ClassNames<
+        | "control"
+        | "label"
+        | "field"
+        | "target"
+        | "track"
+        | "thumb"
+        | "off"
+        | "on"
+        | "description"
+        | "error"
+      >
+    | undefined;
 };
 
 export function Switch({
@@ -45,6 +62,12 @@ export function Switch({
   label,
   checked,
   onCheckedChange,
+  size,
+  tone,
+  offTone,
+  onTone,
+  offColor,
+  onColor,
   description,
   error,
   visuallyHidden,
@@ -60,9 +83,16 @@ export function Switch({
   "aria-invalid": ariaInvalid,
   ...props
 }: SwitchProps) {
-  const rootStyle = Object.fromEntries(
+  const customVars = Object.fromEntries(
     Object.entries(style ?? {}).filter(([property]) => property.startsWith("--")),
-  ) as CSSProperties;
+  );
+  const rootStyle = {
+    ...customVars,
+    ...(offColor ? { "--kb-switch-off-color": offColor } : {}),
+    ...(onColor ? { "--kb-switch-on-color": onColor } : {}),
+  } as CSSProperties;
+  const resolvedOffTone = offColor ? "custom" : offTone;
+  const resolvedOnTone = onColor ? "custom" : (onTone ?? tone ?? "accent");
   const generated = useId();
   const controlId = id ?? `kb-switch-${generated}`;
   const descriptionId = `${controlId}-description`;
@@ -75,7 +105,15 @@ export function Switch({
       style={rootStyle}
       {...kb(
         "switch",
-        { checked, disabled, readonly: readOnly, invalid: Boolean(error) },
+        {
+          size,
+          "off-tone": resolvedOffTone,
+          "on-tone": resolvedOnTone,
+          checked,
+          disabled,
+          readonly: readOnly,
+          invalid: Boolean(error),
+        },
         className,
       )}
     >

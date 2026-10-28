@@ -68,6 +68,8 @@ export const Default = {
     if (!target || !track || !thumb) throw new Error("Missing switch material anatomy");
     expect(target.getBoundingClientRect().height).toBeGreaterThanOrEqual(44);
     expect(target.getBoundingClientRect().width).toBeGreaterThanOrEqual(44);
+    expect(track.getBoundingClientRect().width).toBe(44);
+    expect(track.getBoundingClientRect().height).toBe(24);
     const forced = matchMedia("(forced-colors: active)").matches;
     for (const plane of [track, thumb]) {
       if (forced) expect(getComputedStyle(plane).boxShadow).toBe("none");
@@ -79,9 +81,13 @@ export const Default = {
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     expect(getComputedStyle(thumb).transitionDuration).toBe(reduced ? "0s" : "0.22s");
     const off = getComputedStyle(thumb).transform;
+    const offTrackBg = getComputedStyle(track).backgroundColor;
     await userEvent.click(control);
     expect(control).toBeChecked();
     await waitFor(() => expect(getComputedStyle(thumb).transform).not.toBe(off));
+    if (!forced) {
+      expect(getComputedStyle(track).backgroundColor).not.toBe(offTrackBg);
+    }
     await userEvent.keyboard(" ");
     expect(control).not.toBeChecked();
     expect(getComputedStyle(track).outlineStyle).not.toBe("none");
@@ -129,6 +135,9 @@ export const WithIcons: Story = {
   args: {
     label: "Dark mode",
     visuallyHidden: true,
+    size: "lg",
+    offTone: "warning",
+    onTone: "info",
     offIcon: (
       <svg aria-hidden="true" viewBox="0 0 20 20" fill="none" stroke="currentColor">
         <circle cx="10" cy="10" r="4" />
@@ -140,6 +149,21 @@ export const WithIcons: Story = {
         <path d="M16 12.5A7 7 0 0 1 7.5 4 7 7 0 1 0 16 12.5Z" />
       </svg>
     ),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const control = canvas.getByRole("switch", { name: "Dark mode" });
+    const track = canvasElement.querySelector(".kb-switch-track");
+    if (!track) throw new Error("Missing switch track");
+    expect(track.getBoundingClientRect().width).toBe(56);
+    expect(track.getBoundingClientRect().height).toBe(32);
+    const forced = matchMedia("(forced-colors: active)").matches;
+    const offBg = getComputedStyle(track).backgroundColor;
+    await userEvent.click(control);
+    expect(control).toBeChecked();
+    if (!forced) {
+      await waitFor(() => expect(getComputedStyle(track).backgroundColor).not.toBe(offBg));
+    }
   },
 };
 export const NativeForm: Story = {

@@ -1,0 +1,24 @@
+/* Anatomy: .kb-formactions [data-align=end|start|between] [data-divider] */
+.kb-formactions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--kb-formactions-gap);
+  min-inline-size: 0;
+}
+.kb-formactions[data-align="start"] {
+  justify-content: flex-start;
+}
+.kb-formactions[data-align="between"] {
+  justify-content: space-between;
+}
+.kb-formactions[data-divider] {
+  padding-block-start: var(--kb-formactions-padding-top);
+  border-block-start: 1px solid var(--kb-color-border);
+}
+@media (forced-colors: active) {
+  .kb-formactions[data-divider] {
+    border-block-start-color: CanvasText;
+  }
+}

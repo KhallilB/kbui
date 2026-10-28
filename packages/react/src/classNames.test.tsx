@@ -4,8 +4,12 @@ import { describe, expect, test } from "vitest";
 import {
   Callout,
   Checkbox,
+  Combobox,
+  ErrorSummary,
+  Fieldset,
   FileInput,
   Input,
+  MultiSelect,
   NumberField,
   Progress,
   RadioGroup,
@@ -14,6 +18,7 @@ import {
   Stat,
   Status,
   Switch,
+  Textarea,
 } from "./index";
 
 // Every key resolves to `slot-<key>`, so any rendered part can be checked without listing slots.
@@ -33,6 +38,26 @@ const cases: [string, () => ReactElement][] = [
         error="e"
         startContent="s"
         endContent="x"
+        classNames={every}
+      />
+    ),
+  ],
+  ["textarea", () => <Textarea label="L" description="d" error="e" classNames={every} />],
+  [
+    "fieldset",
+    () => (
+      <Fieldset legend="L" description="d" error="e" classNames={every}>
+        Child
+      </Fieldset>
+    ),
+  ],
+  [
+    "errorsummary",
+    () => (
+      <ErrorSummary
+        title="T"
+        description="d"
+        items={[{ href: "#a", label: "Err" }]}
         classNames={every}
       />
     ),
@@ -71,6 +96,34 @@ const cases: [string, () => ReactElement][] = [
         description="d"
         error="e"
         value={null}
+        options={[{ value: "a", label: "A" }]}
+        onValueChange={() => {}}
+        classNames={every}
+      />
+    ),
+  ],
+  [
+    "combobox",
+    () => (
+      <Combobox
+        label="L"
+        description="d"
+        error="e"
+        value="a"
+        options={[{ value: "a", label: "A" }]}
+        onValueChange={() => {}}
+        classNames={every}
+      />
+    ),
+  ],
+  [
+    "multiselect",
+    () => (
+      <MultiSelect
+        label="L"
+        description="d"
+        error="e"
+        value={["a"]}
         options={[{ value: "a", label: "A" }]}
         onValueChange={() => {}}
         classNames={every}

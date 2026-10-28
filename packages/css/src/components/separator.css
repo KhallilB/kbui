@@ -1,0 +1,27 @@
+/* Anatomy: .kb-separator [data-orientation=horizontal|vertical] */
+.kb-separator {
+  box-sizing: border-box;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  block-size: 0;
+  inline-size: 100%;
+  min-inline-size: 0;
+  flex-shrink: 0;
+  border-block-start: var(--kb-separator-width) solid var(--kb-separator-color);
+}
+
+.kb-separator[data-orientation="vertical"] {
+  align-self: stretch;
+  inline-size: 0;
+  block-size: auto;
+  min-block-size: var(--kb-separator-min-length);
+  border-block-start: 0;
+  border-inline-start: var(--kb-separator-width) solid var(--kb-separator-color);
+}
+
+@media (forced-colors: active) {
+  .kb-separator {
+    border-color: CanvasText;
+  }
+}

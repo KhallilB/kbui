@@ -1,9 +1,60 @@
-/* Anatomy: .kb-switch [data-checked] [data-disabled] [data-readonly] [data-invalid] > .kb-switch-field > .kb-switch-target > .kb-switch-control + .kb-switch-track > .kb-switch-thumb, .kb-switch-off, .kb-switch-on; .kb-switch-label, .kb-switch-description, .kb-switch-error */
+/* Anatomy: .kb-switch [data-size=sm|md|lg] [data-off-tone=neutral|accent|info|success|warning|danger|custom] [data-on-tone=neutral|accent|info|success|warning|danger|custom] [data-checked] [data-disabled] [data-readonly] [data-invalid] > .kb-switch-field > .kb-switch-target > .kb-switch-control + .kb-switch-track > .kb-switch-thumb, .kb-switch-off, .kb-switch-on; .kb-switch-label, .kb-switch-description, .kb-switch-error */
 .kb-switch {
+  --_switch-off-color: var(--kb-switch-off-color, var(--kb-color-accent));
+  --_switch-on-color: var(--kb-switch-on-color, var(--kb-color-accent));
   display: grid;
   gap: var(--kb-space-1);
   min-inline-size: 0;
   color: var(--kb-color-fg);
+}
+.kb-fieldset .kb-switch:not([data-size]),
+.kb-switch[data-size="sm"] {
+  --kb-switch-width: var(--kb-switch-sm-width);
+  --kb-switch-height: var(--kb-switch-sm-height);
+  --kb-switch-inset: var(--kb-switch-sm-inset);
+  --kb-switch-icon-size: var(--kb-switch-sm-icon-size);
+}
+.kb-switch[data-size="md"] {
+  --kb-switch-width: var(--kb-switch-md-width);
+  --kb-switch-height: var(--kb-switch-md-height);
+  --kb-switch-inset: var(--kb-switch-md-inset);
+  --kb-switch-icon-size: var(--kb-switch-md-icon-size);
+}
+.kb-switch[data-size="lg"] {
+  --kb-switch-width: var(--kb-switch-lg-width);
+  --kb-switch-height: var(--kb-switch-lg-height);
+  --kb-switch-inset: var(--kb-switch-lg-inset);
+  --kb-switch-icon-size: var(--kb-switch-lg-icon-size);
+}
+.kb-switch[data-off-tone="accent"] {
+  --_switch-off-color: var(--kb-color-accent);
+}
+.kb-switch[data-off-tone="info"] {
+  --_switch-off-color: var(--kb-color-info);
+}
+.kb-switch[data-off-tone="success"] {
+  --_switch-off-color: var(--kb-color-success);
+}
+.kb-switch[data-off-tone="warning"] {
+  --_switch-off-color: var(--kb-color-warning);
+}
+.kb-switch[data-off-tone="danger"] {
+  --_switch-off-color: var(--kb-color-danger);
+}
+.kb-switch[data-on-tone="accent"] {
+  --_switch-on-color: var(--kb-color-accent);
+}
+.kb-switch[data-on-tone="info"] {
+  --_switch-on-color: var(--kb-color-info);
+}
+.kb-switch[data-on-tone="success"] {
+  --_switch-on-color: var(--kb-color-success);
+}
+.kb-switch[data-on-tone="warning"] {
+  --_switch-on-color: var(--kb-color-warning);
+}
+.kb-switch[data-on-tone="danger"] {
+  --_switch-on-color: var(--kb-color-danger);
 }
 .kb-switch-field {
   display: flex;
@@ -14,7 +65,10 @@
 .kb-switch-target {
   position: relative;
   display: inline-grid;
+  place-items: center;
   flex: none;
+  min-inline-size: var(--kb-button-touch-min);
+  min-block-size: var(--kb-button-touch-min);
   inline-size: var(--kb-switch-width);
   block-size: var(--kb-switch-height);
 }
@@ -34,6 +88,9 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   align-items: center;
+  box-sizing: border-box;
+  inline-size: var(--kb-switch-width);
+  block-size: var(--kb-switch-height);
   padding: var(--kb-switch-inset);
   border: 1px solid var(--kb-switch-track-border);
   border-radius: var(--kb-switch-radius);
@@ -43,6 +100,7 @@
 }
 .kb-switch-thumb {
   position: absolute;
+  box-sizing: border-box;
   inset-block-start: var(--kb-switch-inset);
   inset-inline-start: var(--kb-switch-inset);
   inline-size: calc(var(--kb-switch-height) - var(--kb-switch-inset) * 2 - 2px);
@@ -67,7 +125,55 @@
   inline-size: 100%;
   block-size: 100%;
 }
-.kb-switch-on,
+.kb-switch-on {
+  opacity: 0.55;
+}
+:where(.kb-switch[data-off-tone]:not([data-off-tone="neutral"]))
+  .kb-switch-control:where(:not(:checked))
+  + .kb-switch-track {
+  background-color: color-mix(in oklab, var(--_switch-off-color) 28%, var(--kb-material-field-bg));
+  background-image: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--_switch-off-color) 18%, transparent),
+    color-mix(in oklab, var(--_switch-off-color) 32%, transparent)
+  );
+  border-color: color-mix(in oklab, var(--_switch-off-color) 68%, var(--kb-material-raised-border));
+}
+:where(.kb-switch[data-off-tone]:not([data-off-tone="neutral"]))
+  .kb-switch-control:where(:not(:checked))
+  + .kb-switch-track
+  .kb-switch-thumb {
+  border-color: color-mix(in oklab, var(--_switch-off-color) 55%, var(--kb-switch-thumb-border));
+}
+:where(.kb-switch[data-off-tone]:not([data-off-tone="neutral"]))
+  .kb-switch-control:where(:not(:checked))
+  + .kb-switch-track
+  .kb-switch-off {
+  color: color-mix(in oklab, var(--_switch-off-color) 80%, var(--kb-color-fg));
+}
+:where(.kb-switch:not([data-on-tone="neutral"]))
+  .kb-switch-control:where(:checked)
+  + .kb-switch-track {
+  background-color: color-mix(in oklab, var(--_switch-on-color) 28%, var(--kb-material-field-bg));
+  background-image: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--_switch-on-color) 18%, transparent),
+    color-mix(in oklab, var(--_switch-on-color) 32%, transparent)
+  );
+  border-color: color-mix(in oklab, var(--_switch-on-color) 68%, var(--kb-material-raised-border));
+}
+:where(.kb-switch:not([data-on-tone="neutral"]))
+  .kb-switch-control:where(:checked)
+  + .kb-switch-track
+  .kb-switch-thumb {
+  border-color: color-mix(in oklab, var(--_switch-on-color) 55%, var(--kb-switch-thumb-border));
+}
+:where(.kb-switch:not([data-on-tone="neutral"]))
+  .kb-switch-control:where(:checked)
+  + .kb-switch-track
+  .kb-switch-on {
+  color: color-mix(in oklab, var(--_switch-on-color) 80%, var(--kb-color-fg));
+}
 .kb-switch-control:checked + .kb-switch-track .kb-switch-off {
   opacity: 0.55;
 }
@@ -124,35 +230,39 @@
   }
   .kb-switch-track {
     transition:
-      background var(--kb-switch-duration),
-      border-color var(--kb-switch-duration),
-      box-shadow var(--kb-switch-duration);
+      background-color var(--kb-switch-duration) var(--kb-motion-easing-standard),
+      border-color var(--kb-switch-duration) var(--kb-motion-easing-standard),
+      box-shadow var(--kb-switch-duration) var(--kb-motion-easing-standard);
   }
   .kb-switch-off,
   .kb-switch-on {
-    transition: opacity var(--kb-switch-duration) var(--kb-motion-easing-smooth);
+    transition:
+      opacity var(--kb-switch-duration) var(--kb-motion-easing-smooth),
+      color var(--kb-switch-duration) var(--kb-motion-easing-smooth);
   }
 }
 @media (forced-colors: active) {
   .kb-switch,
   .kb-switch-description,
-  .kb-switch-error {
+  .kb-switch-error,
+  .kb-switch-off,
+  .kb-switch-on {
     color: CanvasText;
   }
-  .kb-switch-track {
+  .kb-switch .kb-switch-control + .kb-switch-track {
     background: Canvas;
     border-color: ButtonText;
     box-shadow: none;
   }
-  .kb-switch-thumb {
+  .kb-switch .kb-switch-control + .kb-switch-track .kb-switch-thumb {
     background: ButtonFace;
     border-color: ButtonText;
     box-shadow: none;
   }
-  .kb-switch-control:checked + .kb-switch-track {
+  .kb-switch .kb-switch-control:checked + .kb-switch-track {
     border-color: Highlight;
   }
-  .kb-switch-control:focus-visible + .kb-switch-track {
+  .kb-switch .kb-switch-control:focus-visible + .kb-switch-track {
     outline-color: Highlight;
   }
 }

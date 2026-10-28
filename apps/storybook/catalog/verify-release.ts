@@ -96,9 +96,8 @@ for (const profile of profiles) {
     );
     await page.reload();
     assert.equal(await state("Disabled").getAttribute("aria-checked"), "true");
-    await page.getByRole("button", { name: "View code", exact: true }).click();
     assert.match(
-      await page.getByRole("region", { name: "Example code", exact: true }).innerText(),
+      await page.getByRole("textbox", { name: "Component code", exact: true }).inputValue(),
       /disabled/,
     );
     await chooseRadio(page, "Example state", "With Description");
@@ -532,13 +531,13 @@ for (const profile of profiles) {
             ?.getAnimations()
             .every((animation) => animation.playState !== "running"),
       );
-      await page.getByRole("button", { name: "View code", exact: true }).click();
+      await page.getByRole("textbox", { name: "Component code", exact: true }).waitFor();
       const iframe = page.locator('iframe[data-visible="true"]');
       const stage = page.locator(".catalog-preview-frame");
       const identity = await stage.elementHandle();
       assert.ok(identity);
       const height = await iframe.evaluate((element) => element.getBoundingClientRect().height);
-      const toolbar = page.locator(".example-code-bar");
+      const toolbar = page.locator(".catalog-editor-panel");
       const top = await toolbar.evaluate(
         (element) => element.getBoundingClientRect().top + scrollY,
       );
@@ -658,9 +657,9 @@ for (const profile of profiles) {
         ) < 1,
         "Latest state retained the wrong canvas height",
       );
-      const snippet = page.getByRole("region", { name: "Example code", exact: true });
+      const snippet = page.getByRole("textbox", { name: "Component code", exact: true });
       assert.equal(
-        await snippet.innerText(),
+        await snippet.inputValue(),
         loadCatalogSources()
           .find((entry) => entry.id === "input")
           ?.stories.find((story) => story.id === "components-input--default")?.snippet,

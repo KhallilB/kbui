@@ -178,4 +178,46 @@ describe("Switch", () => {
     expect(screen.getByText("Sun").closest("[aria-hidden]")).toHaveAttribute("aria-hidden", "true");
     expect(screen.getByText("Dark mode")).toHaveClass("kb-sr-only");
   });
+
+  test("exposes size and side-based on/off tone and color attributes on root", () => {
+    const { rerender } = render(
+      <Switch label="Alerts" checked={false} onCheckedChange={() => {}} />,
+    );
+    const control = screen.getByRole("switch", { name: "Alerts" });
+    const root = control.closest(".kb-switch") as HTMLElement;
+    expect(root).not.toHaveAttribute("data-size");
+    expect(root).not.toHaveAttribute("data-off-tone");
+    expect(root).toHaveAttribute("data-on-tone", "accent");
+
+    rerender(
+      <Switch
+        label="Alerts"
+        checked
+        onCheckedChange={() => {}}
+        size="sm"
+        offTone="warning"
+        onTone="success"
+      />,
+    );
+    expect(root).toHaveAttribute("data-size", "sm");
+    expect(root).toHaveAttribute("data-off-tone", "warning");
+    expect(root).toHaveAttribute("data-on-tone", "success");
+
+    rerender(
+      <Switch
+        label="Alerts"
+        checked
+        onCheckedChange={() => {}}
+        size="lg"
+        tone="danger"
+        offColor="var(--kb-color-info)"
+        onColor="var(--kb-color-success)"
+      />,
+    );
+    expect(root).toHaveAttribute("data-size", "lg");
+    expect(root).toHaveAttribute("data-off-tone", "custom");
+    expect(root).toHaveAttribute("data-on-tone", "custom");
+    expect(root.style.getPropertyValue("--kb-switch-off-color")).toBe("var(--kb-color-info)");
+    expect(root.style.getPropertyValue("--kb-switch-on-color")).toBe("var(--kb-color-success)");
+  });
 });

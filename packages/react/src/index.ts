@@ -15,6 +15,18 @@ export { Card, type CardProps } from "./components/Card/Card";
 export { Checkbox, type CheckboxProps } from "./components/Checkbox/Checkbox";
 export { Code, type CodeProps } from "./components/Code/Code";
 export {
+  Combobox,
+  type ComboboxOption,
+  type ComboboxProps,
+  type ComboboxSlot,
+} from "./components/Combobox/Combobox";
+export {
+  Container,
+  type ContainerElement,
+  type ContainerProps,
+  type ContainerSize,
+} from "./components/Container/Container";
+export {
   Dialog,
   type DialogActionsProps,
   type DialogCloseProps,
@@ -24,10 +36,27 @@ export {
   type DialogTriggerProps,
 } from "./components/Dialog/Dialog";
 export {
+  ErrorSummary,
+  type ErrorSummaryHeadingLevel,
+  type ErrorSummaryItem,
+  type ErrorSummaryPart,
+  type ErrorSummaryProps,
+} from "./components/ErrorSummary/ErrorSummary";
+export {
+  Fieldset,
+  type FieldsetPart,
+  type FieldsetProps,
+} from "./components/Fieldset/Fieldset";
+export {
   FileInput,
   type FileInputItem,
   type FileInputProps,
 } from "./components/FileInput/FileInput";
+export {
+  FormActions,
+  type FormActionsAlign,
+  type FormActionsProps,
+} from "./components/FormActions/FormActions";
 export { Grid, type GridProps } from "./components/Grid/Grid";
 export {
   Heading,
@@ -35,6 +64,12 @@ export {
   type HeadingProps,
   type HeadingSize,
 } from "./components/Heading/Heading";
+export {
+  Inline,
+  type InlineElement,
+  type InlineJustify,
+  type InlineProps,
+} from "./components/Inline/Inline";
 export { Input, type InputProps, type InputSize } from "./components/Input/Input";
 export { Link, type LinkProps } from "./components/Link/Link";
 export {
@@ -44,6 +79,12 @@ export {
   type MenuProps,
   type MenuTriggerProps,
 } from "./components/Menu/Menu";
+export {
+  MultiSelect,
+  type MultiSelectOption,
+  type MultiSelectProps,
+  type MultiSelectSlot,
+} from "./components/MultiSelect/MultiSelect";
 export {
   NumberField,
   type NumberFieldProps,
@@ -72,6 +113,18 @@ export {
 } from "./components/RadioGroup/RadioGroup";
 export { ScrollArea, type ScrollAreaProps } from "./components/ScrollArea/ScrollArea";
 export { Select, type SelectOption, type SelectProps } from "./components/Select/Select";
+export {
+  Separator,
+  type SeparatorOrientation,
+  type SeparatorProps,
+} from "./components/Separator/Separator";
+export {
+  Split,
+  type SplitCollapse,
+  type SplitElement,
+  type SplitProps,
+  type SplitRatio,
+} from "./components/Split/Split";
 export { Stat, type StatProps, type StatSize } from "./components/Stat/Stat";
 export {
   Status,
@@ -79,7 +132,12 @@ export {
   type StatusProps,
   type StatusTone,
 } from "./components/Status/Status";
-export { Switch, type SwitchProps } from "./components/Switch/Switch";
+export {
+  Switch,
+  type SwitchProps,
+  type SwitchSize,
+  type SwitchTone,
+} from "./components/Switch/Switch";
 export {
   Text,
   type TextElement,
@@ -88,6 +146,12 @@ export {
   type TextTone,
 } from "./components/Text/Text";
 export {
+  Textarea,
+  type TextareaPart,
+  type TextareaProps,
+  type TextareaResize,
+} from "./components/Textarea/Textarea";
+export {
   Toolbar,
   type ToolbarButtonProps,
   type ToolbarGroupProps,
@@ -95,3 +159,4 @@ export {
 } from "./components/Toolbar/Toolbar";
 export { Tooltip, type TooltipProps } from "./components/Tooltip/Tooltip";
 export { type ClassNames, kb } from "./utils/kb";
+export type { LayoutAlign, LayoutGap } from "./utils/layout";

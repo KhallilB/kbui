@@ -16,7 +16,14 @@ export default defineConfig({
   test: {
     projects: viewports.map((name) => ({
       optimizeDeps: {
-        include: ["@kbui/react > @base-ui/react/number-field"],
+        include: [
+          "@babel/standalone",
+          "prettier/standalone",
+          "prettier/plugins/babel",
+          "prettier/plugins/estree",
+          "prettier/plugins/postcss",
+          "@kbui/react > @base-ui/react/number-field",
+        ],
       },
       plugins: [
         storybookTest({

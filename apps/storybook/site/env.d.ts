@@ -20,7 +20,13 @@ declare module "virtual:kbui-site-samples" {
 
 declare module "virtual:kbui-setup-samples" {
   const samples: Record<
-    "usage" | "system" | "light" | "dark" | "styling",
+    | "usage"
+    | "system"
+    | "light"
+    | "dark"
+    | "styling"
+    | "versionCheck"
+    | `${import("./setup-model").Manager}-${boolean}`,
     import("../catalog/types").CodeSample
   >;
   export default samples;

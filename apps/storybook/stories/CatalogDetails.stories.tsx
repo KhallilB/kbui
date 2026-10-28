@@ -19,6 +19,221 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+export const EditorSpaceAndHints: Story = {
+  args: { componentId: "badge" },
+  play: async ({ canvasElement }) => {
+    const page = within(canvasElement);
+    const pane = page.getByRole("region", { name: "Preview styling" });
+    const editor = pane.querySelector<HTMLElement>(".catalog-editor-panel");
+    if (!editor) throw new Error("Missing editor panel");
+    if (innerWidth >= 520) {
+      const bottom =
+        pane.getBoundingClientRect().bottom -
+        Number.parseFloat(getComputedStyle(pane).paddingBottom);
+      expect(editor.getBoundingClientRect().bottom).toBeCloseTo(bottom, 0);
+    }
+    expect(page.queryByRole("status", { name: "Editor notification" })).toBeNull();
+    for (const name of [
+      "Expand preview",
+      "Reload preview",
+      "Open example in Storybook",
+      "Copy code",
+      "Reset example",
+    ]) {
+      const control = page.getByRole(name === "Open example in Storybook" ? "link" : "button", {
+        name,
+      });
+      await userEvent.hover(control);
+      const hint = await within(document.body).findByText(name, { selector: ".kb-tooltip" });
+      await waitFor(() => expect(hint).toBeVisible());
+      await userEvent.unhover(control);
+      await userEvent.keyboard("{Escape}");
+      await waitFor(() => expect(document.querySelector(".kb-tooltip")).toBeNull());
+    }
+    const copy = page.getByRole("button", { name: "Copy code" });
+    copy.focus();
+    const hint = await within(document.body).findByText("Copy code", { selector: ".kb-tooltip" });
+    await waitFor(() => expect(hint).toBeVisible());
+    await userEvent.keyboard("{Escape}");
+    expect(copy).toHaveFocus();
+  },
+};
+
+export const WindowControls: Story = {
+  args: { componentId: "badge" },
+  play: async ({ canvasElement }) => {
+    const page = within(canvasElement);
+    expect(page.queryByText("Starting style")).toBeNull();
+    expect(page.queryByText("Fine-tune colors & corners")).toBeNull();
+    expect(page.queryByText("Live preview")).toBeNull();
+    expect(page.queryByText("example.tsx")).toBeNull();
+    const header = canvasElement.querySelector<HTMLElement>(".catalog-preview-caption");
+    if (!header) throw new Error("Missing preview header");
+    const controls = within(header);
+    const expand = controls.getByRole("button", { name: "Expand preview" });
+    expect(expand).toHaveTextContent("");
+    expect(controls.getByRole("button", { name: "Reload preview" })).toHaveTextContent("");
+    await userEvent.click(expand);
+    expect(controls.getByRole("button", { name: "Compact preview" })).toHaveAttribute(
+      "aria-expanded",
+      "true",
+    );
+    const copy = page.getByRole("button", { name: "Copy code" });
+    expect(copy).toHaveTextContent("");
+    expect(copy.closest(".catalog-editor-actions")).not.toBeNull();
+    expect(page.getByRole("button", { name: "Reset example" })).toHaveTextContent("");
+    const storybook = controls.getByRole("link", { name: "Open example in Storybook" });
+    expect(storybook).toHaveClass("kb-button");
+    expect(storybook).toHaveTextContent("");
+    expect(storybook).toHaveAttribute("href", expect.stringContaining("components-badge--default"));
+    expect(
+      page.queryByText(
+        "Edit text, props or JSX. Imports from React and @kbui/react are ready to use.",
+      ),
+    ).toBeNull();
+    expect(page.getByRole("table", { name: "Badge API" })).toBeVisible();
+    expect(page.getByRole("contentinfo")).toBeVisible();
+  },
+};
+
+export const CohesiveEditors: Story = {
+  args: { componentId: "badge" },
+  play: async ({ canvasElement }) => {
+    const page = within(canvasElement);
+    const pane = page.getByRole("region", { name: "Preview styling" });
+    const editor = pane.querySelector(".catalog-editor-panel");
+    for (const mode of ["Component", "CSS", "Tailwind"]) {
+      await userEvent.click(page.getByRole("radio", { name: mode }));
+      expect(pane.querySelector(".catalog-editor-panel")).toBe(editor);
+      expect(within(pane).getAllByRole("textbox")).toHaveLength(1);
+      expect(within(pane).getByRole("textbox")).not.toHaveAttribute("readonly");
+      expect(pane.querySelector(".code-editor-caption")).toBeNull();
+      expect(page.queryByText("Use on Badge", { exact: true })).toBeNull();
+      expect(page.queryByText("Default KBUI tokens. No CSS overrides needed.")).toBeNull();
+    }
+  },
+};
+
+export const EditableDrafts: Story = {
+  args: { componentId: "badge" },
+  play: async ({ canvasElement }) => {
+    const page = within(canvasElement);
+    const source = () =>
+      page.getByRole("textbox", { name: "Component code" }) as HTMLTextAreaElement;
+    const original = source().value;
+    await userEvent.type(source(), "\n// Local draft");
+    expect(source().value).toContain("Local draft");
+    await userEvent.click(page.getByRole("radio", { name: "CSS" }));
+    const css = page.getByRole("textbox", { name: "Style this component" }) as HTMLTextAreaElement;
+    await userEvent.type(css, "\n/* Style draft */");
+    await userEvent.click(page.getByRole("radio", { name: "Component" }));
+    expect(source().value).toContain("Local draft");
+    await userEvent.click(page.getByRole("radio", { name: /^Mono$/ }));
+    expect(source().value).not.toContain("Local draft");
+    await userEvent.click(page.getByRole("radio", { name: "Default" }));
+    expect(source().value).toContain("Local draft");
+    await userEvent.click(page.getByRole("button", { name: "Reset example" }));
+    expect(source()).toHaveValue(original);
+    await userEvent.click(page.getByRole("radio", { name: "CSS" }));
+    expect(css.value).toContain("Style draft");
+  },
+};
+
+export const DarkEditorContrast: Story = {
+  args: { componentId: "badge", initialAppearance: { theme: "dark" } },
+  play: async ({ canvasElement }) => {
+    const page = within(canvasElement);
+    const selected = page.getByRole("radio", { name: "Component" }).closest(".kb-radiogroup-item");
+    if (!selected) throw new Error("Missing editor mode control");
+    const style = getComputedStyle(selected);
+    const luminance = (color: string) => {
+      const channels = color
+        .match(/[\d.]+/g)
+        ?.slice(0, 3)
+        .map((part) => {
+          const value = Number(part) / 255;
+          return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+        });
+      if (channels?.length !== 3) throw new Error(`Unexpected color: ${color}`);
+      return (
+        (channels[0] ?? 0) * 0.2126 + (channels[1] ?? 0) * 0.7152 + (channels[2] ?? 0) * 0.0722
+      );
+    };
+    const foreground = luminance(style.color);
+    const background = luminance(style.backgroundColor);
+    expect(
+      (Math.max(foreground, background) + 0.05) / (Math.min(foreground, background) + 0.05),
+    ).toBeGreaterThanOrEqual(4.5);
+    if (!matchMedia("(forced-colors: active)").matches) expect(background).toBeLessThan(0.1);
+  },
+};
+
+export const ResizablePanes: Story = {
+  args: { componentId: "badge" },
+  play: async ({ canvasElement }) => {
+    const page = within(canvasElement);
+    if (innerWidth < 520) {
+      expect(page.queryByRole("separator", { name: "Resize preview and editor" })).toBeNull();
+      return;
+    }
+    const divider = page.getByRole("separator", { name: "Resize preview and editor" });
+    const preview = canvasElement.querySelector<HTMLElement>(".catalog-styling-preview");
+    const frame = page.getByTitle("Badge — Default live example");
+    if (!preview) throw new Error("Missing preview pane");
+    const initial = Number(divider.getAttribute("aria-valuenow"));
+    const initialWidth = preview.getBoundingClientRect().width;
+    divider.focus();
+    await userEvent.keyboard("{ArrowRight}");
+    expect(Number(divider.getAttribute("aria-valuenow"))).toBeGreaterThan(initial);
+    expect(preview.getBoundingClientRect().width).toBeGreaterThan(initialWidth);
+    expect(page.getByTitle("Badge — Default live example")).toBe(frame);
+    await userEvent.keyboard("{Home}");
+    expect(divider.getAttribute("aria-valuenow")).toBe(divider.getAttribute("aria-valuemin"));
+    await userEvent.keyboard("{ArrowLeft}");
+    expect(divider.getAttribute("aria-valuenow")).toBe(divider.getAttribute("aria-valuemin"));
+    await userEvent.keyboard("{End}");
+    expect(divider.getAttribute("aria-valuenow")).toBe(divider.getAttribute("aria-valuemax"));
+    await userEvent.keyboard("{ArrowRight}");
+    expect(divider.getAttribute("aria-valuenow")).toBe(divider.getAttribute("aria-valuemax"));
+    await userEvent.keyboard("{Enter}");
+    expect(Number(divider.getAttribute("aria-valuenow"))).toBe(initial);
+    expect(divider).toHaveFocus();
+    const canvas = preview.querySelector<HTMLElement>(".catalog-preview-panes");
+    if (!canvas) throw new Error("Missing preview canvas");
+    expect(frame.getBoundingClientRect().width).toBeCloseTo(
+      canvas.getBoundingClientRect().width,
+      0,
+    );
+    expect(frame.getBoundingClientRect().height).toBeCloseTo(
+      canvas.getBoundingClientRect().height,
+      0,
+    );
+    expect(canvas.getBoundingClientRect().height).toBeGreaterThan(150);
+  },
+};
+
+export const ComponentStylingScope: Story = {
+  args: { componentId: "badge" },
+  play: async ({ canvasElement }) => {
+    const page = within(canvasElement);
+    await userEvent.click(page.getByRole("radio", { name: "CSS" }));
+    await userEvent.type(
+      page.getByRole("textbox", { name: "Style this component" }),
+      "\n/* Badge only */",
+    );
+    await userEvent.click(page.getByRole("link", { name: "All components" }));
+    await userEvent.click(
+      within(page.getByRole("navigation", { name: "Browse components" })).getByRole("link", {
+        name: /^Input$/,
+      }),
+    );
+    await userEvent.click(page.getByRole("radio", { name: "CSS" }));
+    expect(
+      (page.getByRole("textbox", { name: "Style this component" }) as HTMLTextAreaElement).value,
+    ).not.toContain("Badge only");
+  },
+};
+
 export const CompareThemes: Story = {
   args: { initialCompare: true },
   play: async ({ canvasElement }) => {
@@ -53,24 +268,15 @@ export const CompareThemes: Story = {
 export const PreviewStyling: Story = {
   play: async ({ canvasElement }) => {
     const page = within(canvasElement);
+    await userEvent.click(page.getByRole("radio", { name: "CSS" }));
     const frame = canvasElement.querySelector("iframe");
-    await userEvent.click(page.getByRole("combobox", { name: "Palette" }));
-    await userEvent.click(await within(document.body).findByRole("option", { name: "Ocean" }));
-    await waitFor(() => expect(within(document.body).queryByRole("listbox")).toBeNull());
-    expect(
-      (page.getByRole("textbox", { name: "Theme CSS overrides" }) as HTMLTextAreaElement).value,
-    ).toContain("#21637a");
-    await userEvent.click(page.getByRole("combobox", { name: "Corners" }));
-    await userEvent.click(await within(document.body).findByRole("option", { name: "Soft" }));
-    await waitFor(() => expect(within(document.body).queryByRole("listbox")).toBeNull());
-    expect(
-      (page.getByRole("textbox", { name: "Theme CSS overrides" }) as HTMLTextAreaElement).value,
-    ).toContain("--kb-radius-md: 0.875rem");
+    const css = page.getByRole("textbox", { name: "Style this component" }) as HTMLTextAreaElement;
+    const original = css.value;
+    await userEvent.type(css, "\n/* Custom styling */");
     expect(canvasElement.querySelector("iframe")).toBe(frame);
     expect(canvasElement.querySelector(".kbui-catalog")).toHaveAttribute("data-theme", "light");
     await userEvent.click(page.getByRole("button", { name: "Reset styling" }));
-    expect(page.queryByRole("textbox", { name: "Theme CSS overrides" })).toBeNull();
-    expect(page.getByText("Default KBUI tokens. No CSS overrides needed.")).toBeVisible();
+    expect(css).toHaveValue(original);
   },
 };
 
@@ -107,12 +313,17 @@ export const ComponentReference: Story = {
     expect(page.queryByText("A few things to know", { exact: true })).not.toBeInTheDocument();
     expect(page.getByRole("table", { name: "Input API" })).toBeVisible();
     expect(page.getByRole("link", { name: "React guide" })).toBeVisible();
-    await userEvent.click(page.getByRole("button", { name: "View code" }));
-    expect(page.getByRole("button", { name: "View code" })).toHaveAttribute(
-      "aria-expanded",
-      "true",
-    );
-    expect(canvasElement.querySelector(".example-code-content")).toBeVisible();
+    const editor = within(page.getByRole("region", { name: "Preview styling" }));
+    expect(editor.getByRole("radio", { name: "Component" })).toBeChecked();
+    expect(
+      (editor.getByRole("textbox", { name: "Component code" }) as HTMLTextAreaElement).value,
+    ).toContain('import { Input } from "@kbui/react";');
+    expect(editor.getByRole("button", { name: "Copy code" })).toBeVisible();
+    await userEvent.click(editor.getByRole("radio", { name: "CSS" }));
+    expect(editor.getByRole("textbox", { name: "Style this component" })).toBeVisible();
+    expect(editor.queryByRole("textbox", { name: "Component code" })).not.toBeInTheDocument();
+    await userEvent.click(editor.getByRole("radio", { name: "Component" }));
+    expect(editor.getByRole("textbox", { name: "Component code" })).toBeVisible();
   },
 };
 

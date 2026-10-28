@@ -1,0 +1,45 @@
+/* Anatomy: .kb-inline [data-gap=none|sm|md|lg] [data-align=start|center|end|baseline|stretch] [data-justify=start|center|end|between] > * */
+.kb-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kb-layout-gap-md);
+  align-items: center;
+  justify-content: flex-start;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+.kb-inline > * {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+.kb-inline[data-gap="none"] {
+  gap: 0;
+}
+.kb-inline[data-gap="sm"] {
+  gap: var(--kb-layout-gap-sm);
+}
+.kb-inline[data-gap="lg"] {
+  gap: var(--kb-layout-gap-lg);
+}
+.kb-inline[data-align="start"] {
+  align-items: flex-start;
+}
+.kb-inline[data-align="end"] {
+  align-items: flex-end;
+}
+.kb-inline[data-align="baseline"] {
+  align-items: baseline;
+}
+.kb-inline[data-align="stretch"] {
+  align-items: stretch;
+}
+.kb-inline[data-justify="center"] {
+  justify-content: center;
+}
+.kb-inline[data-justify="end"] {
+  justify-content: flex-end;
+}
+.kb-inline[data-justify="between"] {
+  justify-content: space-between;
+}
