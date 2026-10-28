@@ -1,7 +1,7 @@
 import { Select as Base } from "@base-ui/react/select";
 import { clsx } from "clsx";
 import { type ComponentProps, useId, useImperativeHandle, useRef, useState } from "react";
-import { type ClassNames, kb } from "../../utils/kb";
+import { type ClassNames, kb, resolveInvalid } from "../../utils/kb";
 export type SelectOption = { value: string; label: string; disabled?: boolean };
 export type SelectProps = Omit<ComponentProps<"div">, "onChange" | "children" | "defaultValue"> & {
   /** Visible label for the trigger. */
@@ -64,6 +64,7 @@ export function Select({
   container,
   ref,
   "aria-describedby": callerDescription,
+  "aria-invalid": callerAriaInvalid,
   ...props
 }: SelectProps) {
   const id = useId();
@@ -73,6 +74,7 @@ export function Select({
   const interaction = useRef<"pointer" | "keyboard">("keyboard");
   const [pointerFocus, setPointerFocus] = useState(false);
   useImperativeHandle(ref, () => root.current as HTMLDivElement);
+  const { invalid, ariaInvalid } = resolveInvalid(Boolean(error), callerAriaInvalid);
   const empty = options.length === 0;
   const inactive = disabled || empty;
   const help =
@@ -82,11 +84,7 @@ export function Select({
       .filter(Boolean)
       .join(" ") || undefined;
   return (
-    <div
-      {...props}
-      ref={root}
-      {...kb("select", { disabled: inactive, invalid: Boolean(error) }, className)}
-    >
+    <div {...props} ref={root} {...kb("select", { disabled: inactive, invalid }, className)}>
       <Base.Root<string>
         modal={false}
         items={options}
@@ -112,7 +110,7 @@ export function Select({
           ref={trigger}
           className={clsx("kb-select-control", classNames?.control, controlClassName)}
           aria-describedby={described}
-          aria-invalid={Boolean(error) || undefined}
+          aria-invalid={ariaInvalid}
           data-pointer-focus={pointerFocus || undefined}
           onPointerDown={() => {
             interaction.current = "pointer";

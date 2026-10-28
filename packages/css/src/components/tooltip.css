@@ -30,3 +30,13 @@
     transition: none;
   }
 }
+
+@media (forced-colors: active) {
+  .kb-tooltip {
+    background: Canvas;
+    background-image: none;
+    color: CanvasText;
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+}

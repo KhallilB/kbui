@@ -163,6 +163,20 @@ describe("Combobox", () => {
     expect(input).toHaveAccessibleDescription(
       "Choose the primary deployment region. Region is required.",
     );
+
+    render(
+      <Combobox
+        label="Grammar region"
+        options={options}
+        value={null}
+        aria-invalid="grammar"
+        onValueChange={() => {}}
+      />,
+    );
+    const grammar = screen.getByRole("combobox", { name: "Grammar region" });
+    expect(grammar).toHaveAttribute("aria-invalid", "grammar");
+    expect(grammar.closest(".kb-combobox")).toHaveAttribute("data-invalid", "");
+    expect(grammar.closest(".kb-combobox")).not.toHaveAttribute("aria-invalid");
   });
 
   it("respects disabled and readOnly states", async () => {

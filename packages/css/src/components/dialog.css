@@ -91,3 +91,9 @@
     transition: none;
   }
 }
+
+@media (forced-colors: active) {
+  .kb-dialog-popup {
+    border: 1px solid CanvasText;
+  }
+}

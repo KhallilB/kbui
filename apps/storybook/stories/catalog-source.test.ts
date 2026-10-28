@@ -389,3 +389,44 @@ test("API documentation preserves subsection headings", () => {
     { kind: "paragraph", text: "Add a clear action." },
   ]);
 });
+
+test("Switch Props JSDoc documents both offIcon and onIcon and preview layout classifications stay aligned", async () => {
+  const { readFileSync } = await import("node:fs");
+  const { resolve } = await import("node:path");
+  const switchSource = readFileSync(
+    resolve(import.meta.dir, "../../../packages/react/src/components/Switch/Switch.tsx"),
+    "utf8",
+  );
+  expect(switchSource).toMatch(/\/\*\*[^*]*\*\/\s*offIcon\?:/);
+  expect(switchSource).toMatch(/\/\*\*[^*]*\*\/\s*onIcon\?:/);
+
+  const entries = loadCatalogSources();
+  const switchEntry = entries.find((entry) => entry.name === "Switch");
+  const switchTable = switchEntry?.api.find((block) => block.kind === "table");
+  expect(
+    switchTable?.kind === "table" &&
+      switchTable.rows.some((r) => r[0]?.includes("offIcon") && r[0]?.includes("onIcon")),
+  ).toBe(true);
+
+  const catalogModel = await import("../site/catalog-model");
+  expect(typeof (catalogModel as Record<string, unknown>).previewKind).toBe("function");
+  const previewKind = (catalogModel as { previewKind: (id: string) => string }).previewKind;
+  for (const id of ["grid", "container", "inline", "split", "separator", "panel", "scrollarea"]) {
+    expect(previewKind(id), id).toBe("layout");
+  }
+  for (const id of [
+    "input",
+    "textarea",
+    "fieldset",
+    "formactions",
+    "errorsummary",
+    "select",
+    "combobox",
+    "multiselect",
+    "card",
+    "callout",
+    "progress",
+  ]) {
+    expect(previewKind(id), id).toBe("surface");
+  }
+});

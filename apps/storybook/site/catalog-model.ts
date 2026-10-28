@@ -24,15 +24,45 @@ export function storybookGlobals({ theme }: CatalogAppearance) {
   return `&globals=theme:${theme}`;
 }
 
+export const layoutPreviewComponents = [
+  "grid",
+  "container",
+  "inline",
+  "split",
+  "separator",
+  "panel",
+  "scrollarea",
+] as const;
+
+export const surfacePreviewComponents = [
+  "input",
+  "textarea",
+  "fieldset",
+  "formactions",
+  "errorsummary",
+  "select",
+  "combobox",
+  "multiselect",
+  "card",
+  "callout",
+  "progress",
+] as const;
+
+export function previewKind(component: string | undefined): "layout" | "surface" | "compact" {
+  if (!component) return "compact";
+  if ((layoutPreviewComponents as readonly string[]).includes(component)) return "layout";
+  if ((surfacePreviewComponents as readonly string[]).includes(component)) return "surface";
+  return "compact";
+}
+
 export function previewLayout(component: string, _story: string) {
   if (component === "dialog") return { width: 800, minimum: 360 };
   if (component === "menu") return { width: 520, minimum: 240 };
   if (component === "tooltip") return { width: 520, minimum: 160 };
   if (["select", "combobox", "multiselect"].includes(component))
     return { width: 1120, minimum: 240 };
-  if (["grid", "container", "inline", "split"].includes(component))
+  if (["grid", "container", "inline", "split", "panel"].includes(component))
     return { width: 1120, minimum: 160 };
-  if (component === "panel") return { width: 1120, minimum: 160 };
   if (
     [
       "input",

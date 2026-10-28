@@ -40,6 +40,9 @@
 .kb-checkbox-mixed {
   display: none;
 }
+.kb-checkbox[data-invalid] .kb-checkbox-mark {
+  border-color: var(--kb-color-danger);
+}
 .kb-checkbox-control:is(:checked, :indeterminate) + .kb-checkbox-mark {
   background: var(--kb-color-accent);
   border-color: var(--kb-color-accent);
@@ -88,9 +91,6 @@
 }
 .kb-checkbox[data-disabled] :is(.kb-checkbox-control, .kb-checkbox-label) {
   cursor: not-allowed;
-}
-.kb-checkbox[data-invalid] .kb-checkbox-mark {
-  border-color: var(--kb-color-danger);
 }
 @media (forced-colors: active) {
   .kb-checkbox-control {

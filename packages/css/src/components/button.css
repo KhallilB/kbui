@@ -106,6 +106,10 @@
   box-shadow: var(--kb-material-accent-shadow);
 }
 
+.kb-button[data-variant="danger"] {
+  border-color: color-mix(in srgb, var(--kb-color-danger) 85%, var(--kb-color-fg));
+}
+
 @media (hover: hover) and (pointer: fine) {
   .kb-button[data-variant="secondary"]:hover:not([data-disabled]) {
     border-color: var(--kb-material-control-border);
@@ -151,37 +155,33 @@
   }
 }
 
+.kb-button[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-image: none;
+  box-shadow: none;
+}
+
 @media (forced-colors: active) {
   .kb-button {
     box-shadow: none;
   }
-  /* Matches variant specificity so system colors win. */
-  .kb-button[data-variant] {
+  /* Matches variant and hover specificity so system colors win. */
+  .kb-button[data-variant],
+  .kb-button[data-variant]:hover:not([data-disabled]),
+  .kb-button[data-variant="ghost"]:not([aria-pressed="true"]):hover:not([data-disabled]) {
     background: ButtonFace;
+    background-image: none;
     color: ButtonText;
     border-color: ButtonText;
+  }
+  .kb-button:focus-visible,
+  .kb-button[data-variant]:focus-visible {
+    outline-color: Highlight;
   }
   .kb-button[data-variant][data-disabled] {
     color: GrayText;
     border-color: GrayText;
+    opacity: 1;
   }
-}
-
-@media (forced-colors: active) {
-  .kb-button[data-variant="primary"] {
-    background-image: none;
-  }
-}
-
-.kb-button[data-variant="danger"] {
-  border-color: color-mix(in srgb, var(--kb-color-danger) 85%, var(--kb-color-fg));
-}
-
-.kb-button[data-disabled] {
-  opacity: 0.5;
-  cursor: not-allowed;
-
-  background-image: none;
-
-  box-shadow: none;
 }

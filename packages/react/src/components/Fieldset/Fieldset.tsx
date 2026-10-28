@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
 import { type ComponentProps, type ReactNode, useId } from "react";
-import { type ClassNames, kb } from "../../utils/kb";
+import { type ClassNames, kb, resolveInvalid } from "../../utils/kb";
 
 export type FieldsetPart = "legend" | "description" | "fields" | "error";
 
@@ -29,13 +29,15 @@ export const Fieldset = ({
   classNames,
   children,
   "aria-describedby": ariaDescribedBy,
+  "aria-invalid": callerAriaInvalid,
   ...props
 }: FieldsetProps) => {
   const reactId = useId();
   const baseId = props.id ?? `kb-fieldset-${reactId}`;
-  const invalid = Boolean(error);
+  const hasError = Boolean(error);
+  const { invalid, ariaInvalid } = resolveInvalid(hasError, callerAriaInvalid);
   const descriptionId = description ? `${baseId}-description` : undefined;
-  const errorId = invalid ? `${baseId}-error` : undefined;
+  const errorId = hasError ? `${baseId}-error` : undefined;
   const describedBy =
     [descriptionId, errorId, ariaDescribedBy].filter(Boolean).join(" ") || undefined;
 
@@ -44,6 +46,7 @@ export const Fieldset = ({
       {...props}
       ref={ref}
       disabled={disabled}
+      aria-invalid={ariaInvalid}
       aria-describedby={describedBy}
       {...kb("fieldset", { disabled: Boolean(disabled), invalid }, className)}
     >
@@ -58,7 +61,7 @@ export const Fieldset = ({
         </p>
       ) : null}
       <div className={clsx("kb-fieldset-fields", classNames?.fields)}>{children}</div>
-      {invalid ? (
+      {hasError ? (
         <div id={errorId} className={clsx("kb-fieldset-error", classNames?.error)}>
           {error}
         </div>

@@ -2,7 +2,7 @@ import { Field } from "@base-ui/react/field";
 import { Input as BaseInput } from "@base-ui/react/input";
 import { clsx } from "clsx";
 import type { ReactNode } from "react";
-import { type ClassNames, kb } from "../../utils/kb";
+import { type ClassNames, kb, resolveInvalid } from "../../utils/kb";
 
 export type InputSize = "sm" | "md" | "lg";
 
@@ -40,15 +40,17 @@ export function Input({
   className,
   startContent,
   endContent,
+  "aria-invalid": callerAriaInvalid,
   ...props
 }: InputProps) {
-  const invalid = Boolean(error);
+  const { invalid, ariaInvalid } = resolveInvalid(Boolean(error), callerAriaInvalid);
   return (
     <Field.Root
       {...kb(
         "input",
         {
           size,
+          invalid,
           "start-adornment": Boolean(startContent),
           "end-adornment": Boolean(endContent),
         },
@@ -66,7 +68,15 @@ export function Input({
         {startContent && (
           <span className={clsx("kb-input-start", classNames?.start)}>{startContent}</span>
         )}
-        <BaseInput {...props} className={clsx("kb-input-control", classNames?.control)} />
+        <BaseInput
+          {...props}
+          aria-invalid={ariaInvalid}
+          render={
+            props.render ??
+            (typeof ariaInvalid === "string" ? <input aria-invalid={ariaInvalid} /> : undefined)
+          }
+          className={clsx("kb-input-control", classNames?.control)}
+        />
         {endContent && <span className={clsx("kb-input-end", classNames?.end)}>{endContent}</span>}
       </div>
       {description ? (
