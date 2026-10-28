@@ -422,6 +422,10 @@ Use Switch for a preference that takes effect as soon as it changes. Pass `check
 | `label` | `string` | required | Associated visible label and accessible name |
 | `checked` | `boolean` | required | Current controlled state |
 | `onCheckedChange` | `(checked: boolean) => void` | required | Requests next state; owner updates checked |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Visual track size (`36×20px`, `44×24px`, `56×32px`); `Fieldset` defaults nested switches to `"sm"` while keeping a 44px touch target |
+| `tone` | `"accent" \| "neutral" \| "info" \| "success" \| "warning" \| "danger"` | `"accent"` | Checked-state track tone when `onTone` is unset |
+| `offTone` / `onTone` | `SwitchTone` | `"neutral"` / `tone` | Independent track tone for unchecked and checked sides |
+| `offColor` / `onColor` | `string` | | Custom CSS color for the unchecked or checked track |
 | `description` / `error` | `string` | | Associated helper/error text; error sets aria-invalid |
 | `disabled` / `readOnly` | `boolean` | `false` | Disabled blocks focus/changes; read-only keeps focus and form value while blocking edits |
 | `visuallyHidden` | `boolean` | `false` | Hide label visually, keep its accessible name |
@@ -441,7 +445,7 @@ export function Preference() {
 }
 ```
 
-Import `useState` from React and `Switch` from `@kbui/react`. Clicking or pressing Space calls `onCheckedChange`. Unchecked or disabled controls submit no value; a checked control submits its native value (`"on"` unless you supply one). Reset `checked` in the form’s `onReset` handler when needed. The `switch` token group controls its appearance in both themes, and reduced motion removes the thumb’s travel animation.
+Import `useState` from React and `Switch` from `@kbui/react`. Clicking or pressing Space calls `onCheckedChange`. Unchecked or disabled controls submit no value; a checked control submits its native value (`"on"` unless you supply one). Reset `checked` in the form’s `onReset` handler when needed. Use `offTone`/`onTone` or `offColor`/`onColor` when both sides of a toggle carry distinct state colors. The `switch` token group controls its appearance in both themes, and reduced motion removes the thumb’s travel animation.
 
 ## NumberField
 

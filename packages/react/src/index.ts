@@ -120,7 +120,12 @@ export {
   type StatusProps,
   type StatusTone,
 } from "./components/Status/Status";
-export { Switch, type SwitchProps } from "./components/Switch/Switch";
+export {
+  Switch,
+  type SwitchProps,
+  type SwitchSize,
+  type SwitchTone,
+} from "./components/Switch/Switch";
 export {
   Text,
   type TextElement,

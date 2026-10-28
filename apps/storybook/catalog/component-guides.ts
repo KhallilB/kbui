@@ -435,7 +435,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
     },
     tips: [
       "Update checked in onCheckedChange and let your app handle saving.",
-      "Handle controlled form reset explicitly; decorative icon slots should not contain controls.",
+      "Use size ('sm', 'md', 'lg') and offTone/onTone or offColor/onColor for bilateral state colors; decorative icon slots should not contain controls.",
     ],
     accessibility: [
       "Use a stable label that names the preference, not its current state.",
@@ -484,7 +484,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Related text, multiline, and switch controls share one legend and supporting description.",
     },
     tips: [
-      "Use Fieldset when several controls answer a shared question or belong to the same settings section.",
+      "Use Fieldset when several controls answer a shared question or belong to the same settings section; nested Switch controls default to the compact sm track.",
       "Pass disabled on Fieldset to lock every descendant control during saving or archival states.",
     ],
     accessibility: [

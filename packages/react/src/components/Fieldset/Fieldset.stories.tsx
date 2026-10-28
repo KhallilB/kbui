@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
-import { expect, within } from "storybook/test";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Input } from "../Input/Input";
 import { Switch } from "../Switch/Switch";
 import { Textarea } from "../Textarea/Textarea";
@@ -21,6 +21,8 @@ function WorkspaceSection(props: FieldsetProps) {
         description="Members can discover and request access."
         checked={listed}
         onCheckedChange={setListed}
+        offTone="neutral"
+        onTone="success"
       />
     </Fieldset>
   );
@@ -41,6 +43,33 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: (args) => <WorkspaceSection {...args} />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const control = canvas.getByRole("switch", { name: "List in organization directory" });
+    const target = canvasElement.querySelector<HTMLElement>(".kb-switch-target");
+    const track = canvasElement.querySelector<HTMLElement>(".kb-switch-track");
+    expect(target).not.toBeNull();
+    expect(track).not.toBeNull();
+    if (!target || !track) {
+      throw new Error("Expected switch target and track in Fieldset.");
+    }
+    const targetRect = target.getBoundingClientRect();
+    const trackRect = track.getBoundingClientRect();
+    expect(targetRect.width).toBeGreaterThanOrEqual(44);
+    expect(targetRect.height).toBeGreaterThanOrEqual(44);
+    expect(Math.round(trackRect.width)).toBe(36);
+    expect(Math.round(trackRect.height)).toBe(20);
+
+    const forced = matchMedia("(forced-colors: active)").matches;
+    const onBg = getComputedStyle(track).backgroundColor;
+    await userEvent.click(control);
+    expect(control).not.toBeChecked();
+    if (!forced) {
+      await waitFor(() => expect(getComputedStyle(track).backgroundColor).not.toBe(onBg));
+    }
+    await userEvent.click(control);
+    expect(control).toBeChecked();
+  },
 };
 export const Dark: Story = {
   tags: ["!dev", "!autodocs"],

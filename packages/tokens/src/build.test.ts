@@ -393,9 +393,18 @@ test("dark scopes rebind aliases against their own semantic values", () => {
   expect(darkBlock).toContain("--kb-material-raised-face: linear-gradient(");
 });
 
-test("switch material tokens retain recessed track and raised thumb in each theme", () => {
+test("switch material tokens retain recessed track, raised thumb and compact size scale", () => {
   const css = buildTokens(real as TokenTree).css;
   const dark = css.slice(css.indexOf(':where([data-theme="dark"]) {'), css.indexOf("@media"));
+  expect(css).toContain("--kb-switch-width: 44px;");
+  expect(css).toContain("--kb-switch-height: 24px;");
+  expect(css).toContain("--kb-switch-inset: 2px;");
+  expect(css).toContain("--kb-switch-icon-size: 12px;");
+  expect(css).toContain("--kb-switch-sm-width: 36px;");
+  expect(css).toContain("--kb-switch-sm-height: 20px;");
+  expect(css).toContain("--kb-switch-md-width: var(--kb-switch-width);");
+  expect(css).toContain("--kb-switch-lg-width: 56px;");
+  expect(css).toContain("--kb-switch-lg-height: 32px;");
   for (const scope of [css, dark]) {
     expect(scope).toContain("--kb-switch-track-background: var(--kb-material-recessed-face);");
     expect(scope).toContain("--kb-switch-track-shadow: var(--kb-material-field-shadow);");
