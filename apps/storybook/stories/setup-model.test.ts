@@ -39,6 +39,22 @@ test("from 0.7.0 one React tarball carries the stylesheet", () => {
   expect(stylesheetImport("0.6.0")).toBe("@kb.ui/css/styles.css");
 });
 
+test("legacy scope stays on release tarballs for every package manager", () => {
+  for (const [manager, prefix] of [
+    ["bun", "bun add"],
+    ["npm", "npm install"],
+    ["pnpm", "pnpm add"],
+    ["yarn", "yarn add"],
+  ] as const) {
+    const base = "https://github.com/KhallilB/kbui/releases/download/v0.9.1";
+    expect(installCommand(manager, false, "0.9.1")).toBe(`${prefix} ${base}/kbui-react-0.9.1.tgz`);
+    expect(installCommand(manager, true, "0.9.1")).toBe(
+      `${prefix} ${base}/kbui-react-0.9.1.tgz ${base}/kbui-tokens-0.9.1.tgz`,
+    );
+  }
+  expect(installCommand("npm", false, "0.8.0")).toContain("/releases/download/v0.8.0/");
+});
+
 test("from 0.10.0 every package manager installs @kb.ui from the npm registry", () => {
   for (const [manager, prefix] of [
     ["bun", "bun add"],

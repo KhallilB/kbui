@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Setup } from "../site/Setup";
-import { installCommand } from "../site/setup-model";
+import { releaseVersion } from "../site/setup-model";
 
 const meta = {
   title: "Site/Setup",
@@ -23,13 +23,25 @@ export const Installation: Story = {
     const canvas = within(canvasElement);
     const command = canvas.getByRole("region", { name: "Install command" });
     expect(command.querySelector('[data-syntax="function"]')).toHaveTextContent("pnpm");
-    expect(command).toHaveTextContent(installCommand("pnpm", true));
+    const registry =
+      Number(releaseVersion.split(".")[0]) > 0 || Number(releaseVersion.split(".")[1]) >= 10;
+    const base = `https://github.com/KhallilB/kbui/releases/download/v${releaseVersion}`;
+    expect(command).toHaveTextContent(
+      registry
+        ? `pnpm add @kb.ui/react@${releaseVersion}`
+        : `pnpm add ${base}/kbui-react-${releaseVersion}.tgz`,
+    );
+    expect(command).toHaveTextContent(
+      registry ? `@kb.ui/tokens@${releaseVersion}` : `${base}/kbui-tokens-${releaseVersion}.tgz`,
+    );
+    expect(command).not.toHaveTextContent("kbui-css-");
     expect(canvas.queryByRole("checkbox", { name: "Include typed tokens" })).toBeNull();
     await userEvent.click(canvas.getByRole("button", { name: "Remove typed tokens" }));
-    expect(command).toHaveTextContent(installCommand("pnpm", false));
     expect(command).not.toHaveTextContent("tokens");
     await userEvent.click(canvas.getByRole("button", { name: "Add typed tokens" }));
-    expect(command).toHaveTextContent(installCommand("pnpm", true));
+    expect(command).toHaveTextContent(
+      registry ? `@kb.ui/tokens@${releaseVersion}` : `${base}/kbui-tokens-${releaseVersion}.tgz`,
+    );
     await userEvent.click(canvas.getByRole("button", { name: "Remove typed tokens" }));
     await userEvent.click(canvas.getByRole("combobox", { name: "Package manager" }));
     await userEvent.click(await within(document.body).findByRole("option", { name: "Bun" }));
