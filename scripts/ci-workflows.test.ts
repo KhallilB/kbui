@@ -3,7 +3,13 @@ import { readFileSync } from "node:fs";
 import { posix, resolve } from "node:path";
 
 type Workflow = {
-  on: { push: { branches?: string[]; paths?: string[] }; pull_request?: unknown };
+  on: {
+    push: { branches?: string[]; paths?: string[] };
+    pull_request?: unknown;
+    workflow_dispatch?: {
+      inputs: { tag: { description: string; required: boolean; type: string } };
+    };
+  };
   jobs: Record<
     string,
     {
@@ -14,6 +20,7 @@ type Workflow = {
       if?: string;
       needs?: string | string[];
       permissions?: Record<string, string>;
+      outputs?: Record<string, string>;
       environment?: { name: string; url?: string };
       steps: {
         name?: string;
@@ -245,6 +252,142 @@ test("npm publish trusts GitHub OIDC only after every OS installs the release", 
   expect(steps).toContain("actions/download-artifact");
   expect(steps).toContain("npm publish");
   expect(steps).not.toMatch(/NPM_TOKEN|NODE_AUTH_TOKEN|secrets\./);
+});
+
+test("manual publishing retries validate the tag and require a published release", async () => {
+  expect(workflow("release").on.workflow_dispatch?.inputs.tag).toEqual({
+    description: "Existing release tag (vX.Y.Z)",
+    required: true,
+    type: "string",
+  });
+  const retry = job("release", "release-please").steps.find(
+    (step) => step.name === "Resolve release retry",
+  );
+  expect(retry?.if).toBe("github.event_name == 'workflow_dispatch'");
+  if (!retry?.with?.script) throw new Error("Missing retry resolver");
+  const outputs: Record<string, string> = {};
+  const resolveRetry = new Function(
+    "github",
+    "context",
+    "core",
+    "process",
+    `return (async () => { ${retry.with.script} })();`,
+  );
+  const github = {
+    rest: {
+      repos: { getReleaseByTag: async () => ({ data: { tag_name: "v0.10.1", draft: false } }) },
+    },
+  };
+  await resolveRetry(
+    github,
+    { repo: { owner: "KhallilB", repo: "kbui" } },
+    {
+      setOutput: (key: string, value: string) => {
+        outputs[key] = value;
+      },
+    },
+    { env: { RETRY_TAG: "v0.10.1" } },
+  );
+  expect(outputs).toEqual({ release_created: "true", tag_name: "v0.10.1", version: "0.10.1" });
+  await expect(
+    resolveRetry(github, { repo: {} }, {}, { env: { RETRY_TAG: "main; echo unsafe" } }),
+  ).rejects.toThrow("Expected release tag vX.Y.Z");
+  await expect(
+    resolveRetry(
+      { rest: { repos: { getReleaseByTag: async () => ({ data: { draft: true } }) } } },
+      { repo: {} },
+      {},
+      { env: { RETRY_TAG: "v0.10.1" } },
+    ),
+  ).rejects.toThrow("Release is a draft");
+  expect(job("release", "release-please").outputs?.tag_name).toBe(
+    `\${{ steps.release.outputs.tag_name || steps.retry.outputs.tag_name }}`,
+  );
+  for (const step of job("release", "release-please").steps.filter(
+    (step) => step.uses === "googleapis/release-please-action@v4",
+  ))
+    expect(step.if).toBe("github.event_name == 'push'");
+});
+
+test("manual retries reuse uploaded bytes and never repack or replace release assets", async () => {
+  const download = job("release", "assets").steps.find(
+    (step) => step.name === "Reuse uploaded release tarballs",
+  );
+  expect(download?.if).toBe("github.event_name == 'workflow_dispatch'");
+  if (!download?.with?.script) throw new Error("Missing tarball download");
+  const files: Record<string, number[]> = {};
+  const downloadAssets = new Function(
+    "github",
+    "context",
+    "process",
+    "require",
+    "fetch",
+    `return (async () => { ${download.with.script} })();`,
+  );
+  const github = {
+    rest: {
+      repos: {
+        getReleaseByTag: async () => ({
+          data: {
+            assets: ["tokens", "css", "react"].map((name) => ({
+              name: `kb.ui-${name}-0.10.1.tgz`,
+              browser_download_url: `https://example.com/${name}`,
+            })),
+          },
+        }),
+      },
+    },
+  };
+  await downloadAssets(
+    github,
+    { repo: {} },
+    { env: { TAG: "v0.10.1", VERSION: "0.10.1" } },
+    () => ({
+      mkdirSync: () => {},
+      writeFileSync: (path: string, data: Uint8Array) => {
+        files[path] = [...data];
+      },
+    }),
+    async () => ({ ok: true, arrayBuffer: async () => new Uint8Array([1, 2, 3]).buffer }),
+  );
+  expect(files).toEqual({
+    "release/kb.ui-tokens-0.10.1.tgz": [1, 2, 3],
+    "release/kb.ui-css-0.10.1.tgz": [1, 2, 3],
+    "release/kb.ui-react-0.10.1.tgz": [1, 2, 3],
+  });
+  await expect(
+    downloadAssets(
+      { rest: { repos: { getReleaseByTag: async () => ({ data: { assets: [] } }) } } },
+      { repo: {} },
+      { env: { TAG: "v0.10.1", VERSION: "0.10.1" } },
+      () => ({}),
+      async () => {
+        throw new Error("Unexpected download");
+      },
+    ),
+  ).rejects.toThrow("Missing release asset kb.ui-tokens-0.10.1.tgz");
+  await expect(
+    downloadAssets(
+      github,
+      { repo: {} },
+      { env: { TAG: "v0.10.1", VERSION: "0.10.1" } },
+      () => ({
+        mkdirSync: () => {},
+        writeFileSync: () => {
+          throw new Error("Unexpected write");
+        },
+      }),
+      async () => ({ ok: false, status: 503 }),
+    ),
+  ).rejects.toThrow("Download failed for kb.ui-tokens-0.10.1.tgz: 503");
+  const pack = job("release", "assets").steps.find(
+    (step) => step.name === "Pack every published package",
+  );
+  expect(pack?.if).toBe("github.event_name != 'workflow_dispatch'");
+  const upload = job("release", "upload").steps.find((step) =>
+    step.run?.includes("gh release upload"),
+  );
+  expect(upload?.if).toBe("github.event_name != 'workflow_dispatch'");
 });
 
 test("PR previews reuse either existing CI Storybook build", () => {

@@ -2,6 +2,12 @@ name: release
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag (vX.Y.Z)
+        required: true
+        type: string
 
 concurrency: release
 
@@ -12,15 +18,31 @@ jobs:
       contents: write
       pull-requests: write
     outputs:
-      release_created: ${{ steps.release.outputs.release_created }}
-      tag_name: ${{ steps.release.outputs.tag_name }}
-      version: ${{ steps.release.outputs.version }}
+      release_created: ${{ steps.release.outputs.release_created || steps.retry.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name || steps.retry.outputs.tag_name }}
+      version: ${{ steps.release.outputs.version || steps.retry.outputs.version }}
     steps:
       - uses: actions/checkout@v4
       # Releases first and alone: a flaky PR update must not hide a created release.
       - id: release
+        if: github.event_name == 'push'
         uses: googleapis/release-please-action@v4
         with: { skip-github-pull-request: true }
+      - name: Resolve release retry
+        id: retry
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/github-script@v7
+        env:
+          RETRY_TAG: ${{ inputs.tag }}
+        with:
+          script: |
+            const tag = process.env.RETRY_TAG;
+            if (!/^v\d+\.\d+\.\d+$/.test(tag)) throw new Error('Expected release tag vX.Y.Z');
+            const { data: release } = await github.rest.repos.getReleaseByTag({ ...context.repo, tag });
+            if (release.draft) throw new Error('Release is a draft');
+            core.setOutput('release_created', 'true');
+            core.setOutput('tag_name', release.tag_name);
+            core.setOutput('version', tag.slice(1));
       - name: Keep npm scopes out of contributors
         if: steps.release.outputs.release_created == 'true'
         uses: actions/github-script@v7
@@ -31,6 +53,7 @@ jobs:
             const { cleanReleaseNotes } = await import(`${process.env.GITHUB_WORKSPACE}/scripts/release-mentions.mjs`);
             await cleanReleaseNotes(github, context.repo, process.env.TAG);
       - uses: googleapis/release-please-action@v4
+        if: github.event_name == 'push'
         with: { skip-github-release: true }
 
   assets:
@@ -47,6 +70,7 @@ jobs:
       contents: read
     env:
       TAG: ${{ needs.release-please.outputs.tag_name }}
+      VERSION: ${{ needs.release-please.outputs.version }}
       PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
     steps:
       - uses: actions/checkout@v4
@@ -60,6 +84,7 @@ jobs:
       - run: bun run check
       - run: bun run test:stories
       - name: Pack every published package
+        if: github.event_name != 'workflow_dispatch'
         run: |
           mkdir release
           for dir in packages/*/; do
@@ -68,6 +93,27 @@ jobs:
             fi
           done
           ls release
+      - name: Reuse uploaded release tarballs
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('node:fs');
+            const { data: release } = await github.rest.repos.getReleaseByTag({
+              ...context.repo, tag: process.env.TAG,
+            });
+            const assets = ['tokens', 'css', 'react'].map((name) => {
+              const filename = `kb.ui-${name}-${process.env.VERSION}.tgz`;
+              const asset = release.assets.find((candidate) => candidate.name === filename);
+              if (!asset) throw new Error(`Missing release asset ${filename}`);
+              return asset;
+            });
+            fs.mkdirSync('release', { recursive: true });
+            for (const asset of assets) {
+              const response = await fetch(asset.browser_download_url);
+              if (!response.ok) throw new Error(`Download failed for ${asset.name}: ${response.status}`);
+              fs.writeFileSync(`release/${asset.name}`, new Uint8Array(await response.arrayBuffer()));
+            }
       - uses: actions/upload-artifact@v4
         with:
           name: release-${{ env.TAG }}
@@ -87,7 +133,8 @@ jobs:
         with:
           name: release-${{ env.TAG }}
           path: release
-      - run: gh release upload "$TAG" release/*.tgz --repo "$GITHUB_REPOSITORY" --clobber
+      - if: github.event_name != 'workflow_dispatch'
+        run: gh release upload "$TAG" release/*.tgz --repo "$GITHUB_REPOSITORY" --clobber
         env:
           GH_TOKEN: ${{ github.token }}
 
@@ -143,7 +190,7 @@ jobs:
       - run: npm install --global npm@11.6.2
       - name: Publish each tarball to npm
         run: |
-          for tgz in release/*.tgz; do
+          for tgz in ./release/*.tgz; do
             spec=$(tar -xOzf "$tgz" package/package.json | node -p 'const p = JSON.parse(require("fs").readFileSync(0)); `${p.name}@${p.version}`')
             # Legacy scope unavailable; keep those releases on GitHub tarballs.
             if [[ "$spec" == @kbui/* ]]; then
