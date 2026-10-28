@@ -15,7 +15,7 @@ Install `@kbui/react` from npm; it includes styles and CSS tokens. Your app need
 
 <!-- x-release-please-start-version -->
 ```bash
-bun add @kbui/react@0.9.0
+bun add @kbui/react@0.9.1
 ```
 <!-- x-release-please-end -->
 
