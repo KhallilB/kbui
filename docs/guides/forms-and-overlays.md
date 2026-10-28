@@ -1,6 +1,6 @@
 # Forms and overlays
 
-Field and form APIs (`Input`, `Textarea`, `Fieldset`, `FormActions`, `ErrorSummary`, `Select`, `Checkbox`, `RadioGroup`, `Switch`, `NumberField`, `FileInput`) live in the [React API](../../packages/react/README.md). This guide covers what spans components: form grouping and error recovery, theme hosts for portaled popups, structured dialogs, surface tokens and the accessibility contracts the shared suite checks.
+Field and form APIs (`Input`, `Textarea`, `Fieldset`, `FormActions`, `ErrorSummary`, `Select`, `Combobox`, `MultiSelect`, `Checkbox`, `RadioGroup`, `Switch`, `NumberField`, `FileInput`) live in the [React API](../../packages/react/README.md). This guide covers what spans components: form grouping and error recovery, theme hosts for portaled popups, structured dialogs, surface tokens and the accessibility contracts the shared suite checks.
 
 ## Form grouping and validation recovery
 
@@ -10,7 +10,7 @@ When submission fails, render `ErrorSummary` at the top of the form and focus it
 
 ## Theme hosts and portals
 
-Set tokens on a stable theme wrapper. Select mounts its popup inside its own root, so nested themes reach it. Dialog, `Menu.Content` and Tooltip mount on `document.body` by default; pass the wrapper as `container` when colors or timing live on a nested element:
+Set tokens on a stable theme wrapper. `Select`, `Combobox` and `MultiSelect` mount their popups inside their own root, so nested themes reach them. Dialog, `Menu.Content` and Tooltip mount on `document.body` by default; pass the wrapper as `container` when colors or timing live on a nested element:
 
 ```tsx
 import { useRef } from "react";

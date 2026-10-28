@@ -29,7 +29,9 @@
   max-inline-size: 400px;
 }
 
-.component-preview[data-component="select"] > .component-preview-content {
+.component-preview[data-component="select"] > .component-preview-content,
+.component-preview[data-component="combobox"] > .component-preview-content,
+.component-preview[data-component="multiselect"] > .component-preview-content {
   max-inline-size: 400px;
   padding-block-end: 200px;
 }

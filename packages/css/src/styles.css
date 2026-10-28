@@ -21,6 +21,8 @@
 @import "./components/toolbar.css" layer(kbui.components);
 @import "./components/tooltip.css" layer(kbui.components);
 @import "./components/checkbox.css" layer(kbui.components);
+@import "./components/combobox.css" layer(kbui.components);
+@import "./components/multiselect.css" layer(kbui.components);
 @import "./components/radiogroup.css" layer(kbui.components);
 @import "./components/select.css" layer(kbui.components);
 @import "./components/code.css" layer(kbui.components);

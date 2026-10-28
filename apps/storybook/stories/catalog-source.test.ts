@@ -281,9 +281,11 @@ test("search stays an Input icons and actions composition with complete generate
   expect(recipe?.snippet).not.toContain("SearchInput");
 });
 
-test("quantity and retained-file components are public and discoverable with runnable states", () => {
+test("quantity, retained-file, and search-selection components are public and discoverable with runnable states", () => {
   expect(publicApi).toHaveProperty("NumberField");
   expect(publicApi).toHaveProperty("FileInput");
+  expect(publicApi).toHaveProperty("Combobox");
+  expect(publicApi).toHaveProperty("MultiSelect");
   const entries = loadCatalogSources();
   for (const name of ["NumberField", "FileInput"]) {
     const entry = entries.find((candidate) => candidate.name === name);
@@ -292,6 +294,26 @@ test("quantity and retained-file components are public and discoverable with run
     expect(entry?.stories.some((story) => story.id.endsWith("--dark"))).toBe(true);
     expect(entry?.stories.some((story) => story.id.endsWith("--read-only"))).toBe(true);
   }
+  for (const name of ["Combobox", "MultiSelect"]) {
+    const entry = entries.find((candidate) => candidate.name === name);
+    expect(entry?.group).toBe("Forms");
+    for (const suffix of ["--default", "--invalid", "--empty", "--disabled", "--read-only"]) {
+      expect(
+        entry?.stories.some((story) => story.id.endsWith(suffix)),
+        `${name}${suffix}`,
+      ).toBe(true);
+    }
+  }
+  expect(
+    entries
+      .find((candidate) => candidate.name === "Combobox")
+      ?.stories.some((story) => story.id.endsWith("--preselected")),
+  ).toBe(true);
+  expect(
+    entries
+      .find((candidate) => candidate.name === "MultiSelect")
+      ?.stories.some((story) => story.id.endsWith("--many-selections")),
+  ).toBe(true);
 });
 
 test("dark stateful render declarations stay outside the theme wrapper", () => {

@@ -86,6 +86,8 @@ const preview: Preview = {
               "formactions",
               "errorsummary",
               "select",
+              "combobox",
+              "multiselect",
               "card",
               "callout",
               "progress",
