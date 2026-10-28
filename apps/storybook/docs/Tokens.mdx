@@ -10,6 +10,12 @@ The design tokens live in `packages/tokens/tokens.json`. This page reads from th
 
 Use semantic colors such as foreground or accent when styling your app. Spacing, radius, and type scales keep related values consistent. Component tokens let you change a particular control without changing the whole theme. Raw palette colors are the building blocks for those tokens.
 
+## Using tokens in your app
+
+The full `@kb.ui/react/styles.css` and `@kb.ui/css/styles.css` stylesheets include every CSS variable shown here. Override them in your app's CSS after loading the stylesheet.
+
+For typed variable names in JavaScript or TypeScript, add optional `@kb.ui/tokens` at the same version as your other kbui packages. [Get started with typed tokens](../setup/?tokens=1) generates the matching command. Its `tokens.color.accent` value is the name `--kb-color-accent`; use it inside `var()` in a style value. Importing the object does not load CSS. For token-only styling, load `@kb.ui/tokens/tokens.css` once. See the [token guide](https://github.com/KhallilB/kbui/blob/main/docs/tokens.md) for aliases, source JSON and theme overrides.
+
 ## Semantic colors
 
 <ColorPalette>

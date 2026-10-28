@@ -2,7 +2,17 @@
 
 All kbui styling, as plain CSS. Components are styled through `kb-` classes and `data-*` attributes, so any renderer that produces the right markup gets the kbui look: React, another framework or hand-written HTML.
 
-Current source defaults use monochrome light/dark surfaces with a persimmon accent and shared tactile materials. Locally built packages include this refresh; published v0.7.0 tarballs keep their original appearance.
+Published defaults use monochrome light/dark surfaces with a persimmon accent and shared tactile materials.
+
+## Installation
+
+For plain HTML or another renderer, add the standalone CSS package:
+
+```sh
+npm install @kb.ui/css
+```
+
+Keep it on the same version as any other kbui package your app installs. React apps receive this stylesheet through `@kb.ui/react`; see [Get Started](https://kbui.kcb.pro/setup/). The CSS package supplies styling and markup contracts. Your renderer supplies interactive behavior, state and accessibility.
 
 ## Importing
 
@@ -12,7 +22,9 @@ React apps import the same stylesheet from `@kb.ui/react/styles.css` and do not 
 import "@kb.ui/css/styles.css";
 ```
 
-Individual files are also available: `@kb.ui/css/reset.css`, or a single component such as `@kb.ui/css/components/button.css`. A single component file does not include the tokens, so load those separately.
+Individual files are also available: `@kb.ui/css/reset.css`, or a single component such as `@kb.ui/css/components/button.css`. For a partial stylesheet, install `@kb.ui/tokens` at the same version and load `@kb.ui/tokens/tokens.css`, the reset and every component's required styles. The full stylesheet already contains these assets.
+
+The examples use a bundler that resolves package imports. For a plain HTML page without a bundler, copy the built CSS into your app's served assets and link that file from the document head. A browser cannot resolve a bare npm package name as a stylesheet URL.
 
 Plain HTML works as well:
 

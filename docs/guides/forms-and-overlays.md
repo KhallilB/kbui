@@ -2,6 +2,8 @@
 
 Field and form APIs (`Input`, `Textarea`, `Fieldset`, `FormActions`, `ErrorSummary`, `Select`, `Combobox`, `MultiSelect`, `Checkbox`, `RadioGroup`, `Switch`, `NumberField`, `FileInput`) live in the [React API](../../packages/react/README.md). This guide covers what spans components: form grouping and error recovery, theme hosts for portaled popups, structured dialogs, surface tokens and the accessibility contracts the shared suite checks.
 
+Start with the [React installation guide](using-kbui.md#installing). The adapter includes all styles and CSS tokens; import `@kb.ui/react/styles.css` once at your app entry.
+
 ## Form grouping and validation recovery
 
 Group related fields with `Fieldset` so native `fieldset` and `legend` semantics stay intact for assistive technology and group-level `disabled` states propagate automatically. Place `FormActions` at the end of a form or section to align submit, reset and secondary buttons in natural Tab order without toolbar arrow-key navigation.

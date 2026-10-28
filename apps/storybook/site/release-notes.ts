@@ -4,13 +4,13 @@ export const releaseNotes: Record<string, ReleaseCopy> = {
   "0.10.0": {
     title: "New package names and more reliable forms",
     highlights: [
-      "Packages use the @kb.ui scope, with npm installation starting at 0.10.0.",
+      "Packages move to the @kb.ui scope. Stable npm publication begins with 0.10.1; 0.10.0 remains available as GitHub release tarballs.",
       "Form controls preserve explicit accessibility validation states.",
       "Focus, invalid, read-only, and high-contrast styles stay consistent.",
       "Component refs and catalog previews follow their documented contracts.",
     ],
     upgrade: [
-      "Remove @kbui/react, @kbui/css, and @kbui/tokens dependencies and legacy tarball URLs. Install @kb.ui/react@0.10.0; keep optional @kb.ui/css and @kb.ui/tokens on the same version.",
+      "Remove @kbui/react, @kbui/css, and @kbui/tokens dependencies and legacy tarball URLs. Install a published @kb.ui/react version from 0.10.1 onward; keep optional @kb.ui/css and @kb.ui/tokens on the same version. Use the GitHub release tarballs if you specifically need 0.10.0.",
       "Replace @kbui/ with @kb.ui/ in JavaScript, TypeScript, stylesheet imports, and build configuration. Import @kb.ui/react/styles.css once at the app root.",
       "Update the installed-version guard path to node_modules/@kb.ui/react/dist/check-versions.js and dependency-update patterns to @kb.ui/*.",
       "Releases before 0.10.0 keep the @kbui names and GitHub tarball installation. Do not mix old and new package names or installed versions.",

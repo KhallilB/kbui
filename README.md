@@ -1,21 +1,20 @@
 # kbui
 
-kbui is a React component library with shared design tokens and plain CSS. Use the default light and dark themes, or adjust the tokens to fit your app. Components combine native controls with [Base UI](https://base-ui.com) for interaction. Each release is published to [npm](https://www.npmjs.com/package/@kb.ui/react) and attaches the same tarballs to a [GitHub Release](https://github.com/KhallilB/kbui/releases).
+kbui is a React component library with shared design tokens and plain CSS. Use the default light and dark themes, or adjust the tokens to fit your app. Components combine native controls with [Base UI](https://base-ui.com) for interaction. Current releases are published to [npm](https://www.npmjs.com/package/@kb.ui/react) with the same tarballs attached to a [GitHub Release](https://github.com/KhallilB/kbui/releases).
 
 | Package | Contents | Docs |
 |---|---|---|
-| `@kb.ui/tokens` | Colors, spacing, type and component sizes, defined once in `tokens.json` | [packages/tokens](packages/tokens/README.md) |
-| `@kb.ui/css` | All styling, one stylesheet per component | [packages/css](packages/css/README.md) |
-| `@kb.ui/react` | React 19+ components for actions, forms, feedback, layout and typography | [packages/react](packages/react/README.md) |
-| `apps/storybook` | Live component docs and accessibility tests | [apps/storybook](apps/storybook/README.md) |
+| `@kb.ui/react` | React 19+ components, bundled styles and CSS tokens; the complete install for React apps | [React API](packages/react/README.md) |
+| `@kb.ui/css` | Standalone styles for HTML or another renderer, including CSS tokens | [CSS package](packages/css/README.md) |
+| `@kb.ui/tokens` | Optional typed CSS variable names, token-only CSS and source JSON | [Token package](packages/tokens/README.md) |
 
 ## Using kbui in a project
 
-Install `@kb.ui/react` from npm; it includes styles and CSS tokens. Your app needs React and React DOM 19 or later. The commands below use Bash (Git Bash or WSL on Windows); the [Get Started page](https://kbui.kcb.pro/setup/) also generates complete commands for npm, Bun, pnpm and Yarn.
+Add `@kb.ui/react` to an existing React app. It includes every component, the complete stylesheet and CSS tokens. Base UI and other runtime dependencies install automatically. Your app supplies React and React DOM 19 or later.
 
 <!-- x-release-please-start-version -->
 ```bash
-bun add @kb.ui/react@0.10.2
+npm install @kb.ui/react@0.10.2
 ```
 <!-- x-release-please-end -->
 
@@ -26,11 +25,15 @@ import { Button } from "@kb.ui/react";
 export const Save = () => <Button variant="primary">Save</Button>;
 ```
 
-[Using kbui in a project](docs/guides/using-kbui.md) covers upgrading, installing by path while you work on kbui itself, theming and common errors.
+Import the stylesheet once at your app entry or framework's global-style entry. Components follow the system theme; put `data-theme="light"` or `data-theme="dark"` on `<html>` to choose explicitly. A separate CSS or token package is optional for React apps.
+
+[Get Started](https://kbui.kcb.pro/setup/) generates commands for npm, Bun, pnpm and Yarn. [Using kbui in a project](docs/guides/using-kbui.md) covers React prerequisites, CSS-only use, typed tokens, upgrades, local development and troubleshooting.
 
 ## Versioning
 
-All packages share one version. release-please reads the conventional commits on `main` and opens a release PR; merging it updates `CHANGELOG.md`, tags `v<version>`, uploads the tarballs and checks installation on every OS. The legacy `@kbui` scope remains tarball-only; npm publishing starts after the scope migration. Before 1.0, a breaking change raises the minor version. Install the same version of every package. Release PRs also update the marked installation examples in this README, the usage guide and Storybook introduction. The site derives its install commands from the root package version; checks reject stale managed documentation.
+All packages share one version. Keep every kbui package your app installs on that version. Before 1.0, a minor release can include breaking changes; read the [release notes](https://kbui.kcb.pro/changelog/) before upgrading.
+
+Release Please opens a release PR from conventional commits on `main`. Merging it creates the tag and GitHub assets. GitHub Actions validates the packages and consumer installs on Linux, macOS and Windows, then publishes the same tarballs to npm through trusted publishing. Release PRs update the installation examples here, in the usage guide and in Storybook. The site derives commands from the root package version, and checks reject stale managed examples. Older `@kbui/*` releases use their original GitHub tarballs; see the [upgrade guide](docs/guides/using-kbui.md#upgrading).
 
 ## Working on kbui
 

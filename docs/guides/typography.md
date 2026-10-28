@@ -1,11 +1,11 @@
 # Typography
 
-Use Heading, Text, Link and Code to give content a predictable hierarchy and readable flow. Values live in tokens, styles in framework-free CSS, and native markup in thin React wrappers. Prepared locally after 0.7.0; unreleased.
+Use Heading, Text, Link and Code to give content a predictable hierarchy and readable flow. Values live in tokens, styles in framework-free CSS, and native markup in thin React wrappers.
 
 ## Compose content
 
 ```tsx
-import "@kb.ui/css/styles.css";
+import "@kb.ui/react/styles.css";
 import { Code, Grid, Heading, Link, Text } from "@kb.ui/react";
 
 export function Installation() {
@@ -15,7 +15,7 @@ export function Installation() {
       <Text size="lg">One shared language for every screen.</Text>
       <Heading level={2}>Load the stylesheet</Heading>
       <Text>
-        Import <Code>@kb.ui/css/styles.css</Code> once, then follow the{" "}
+        Import <Code>@kb.ui/react/styles.css</Code> once, then follow the{" "}
         <Link href="/setup">setup guide</Link>.
       </Text>
       <Text size="sm" tone="muted">Updated today</Text>
@@ -30,7 +30,7 @@ The [canonical React API](../../packages/react/README.md#heading) lists props an
 
 ## Framework-free recipes
 
-The same anatomy works with plain HTML or another renderer. Load `@kb.ui/css/styles.css`, or load tokens/reset plus each required component stylesheet.
+The same anatomy works with plain HTML or another renderer. Install `@kb.ui/css` and load `@kb.ui/css/styles.css`, or load tokens/reset plus each required component stylesheet. See the [CSS package guide](../../packages/css/README.md) for package imports and serving styles without a bundler.
 
 ```html
 <h1 class="kb-heading" data-size="xl">Install kbui</h1>

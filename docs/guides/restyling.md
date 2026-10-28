@@ -2,7 +2,7 @@
 
 Style kbui components the same way you style your own elements. kbui's CSS sits in the `kbui` cascade layer, so any rule you write outside a layer wins over it, whatever its specificity. You do not need kbui class names or tokens to change one component.
 
-The source build uses the same monochrome and persimmon defaults in installed components and the documentation site. Import `@kb.ui/react/styles.css` once; no site theme stylesheet is needed. The palette lives in `packages/tokens/tokens.json`, and Card’s face and shadow use the same material roles as raised controls. Local builds include this refresh; existing published v0.7.0 release assets keep their original appearance.
+Published packages use monochrome and persimmon defaults shared with the documentation site. Import `@kb.ui/react/styles.css` once; no site theme stylesheet is needed. The palette lives in `packages/tokens/tokens.json`, and Card’s face and shadow use the same material roles as raised controls. For package choices and upgrades, follow the [installation guide](using-kbui.md).
 
 ## Style one component
 

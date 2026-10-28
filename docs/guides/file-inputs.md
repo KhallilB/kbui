@@ -2,7 +2,7 @@
 
 Use `FileInput` when people need to choose files, review the selection, and remove individual items. For native selection alone, use `Input type="file"`. FileInput handles the picker, list, and focus after removal. Your app keeps the File objects, validates them, and handles parsing or uploading.
 
-Import `FileInput` and `FileInputItem` from `@kb.ui/react`, and load the matching stylesheet once. FileInput is available from v0.6.0. Native file dialogs differ across browsers and operating systems; the picker has been exercised in Chromium.
+Install the [React adapter](using-kbui.md#installing), import `FileInput` and `FileInputItem` from `@kb.ui/react`, and load its bundled `@kb.ui/react/styles.css` once. Native file dialogs differ across browsers and operating systems; the picker has been exercised in Chromium.
 
 ```tsx
 import { useState } from "react";

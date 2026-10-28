@@ -2,7 +2,7 @@
 
 Use `NumberField` when people need to type a quantity or adjust it with step buttons. For a plain numeric input without those buttons, use `Input type="number"`. Your app decides which units, ranges, and values make sense.
 
-Import `NumberField` from `@kb.ui/react` and load `@kb.ui/react/styles.css` once (`@kbui/css/styles.css` before 0.7.0). NumberField is available from v0.6.0 and requires React 19.
+Install the [React adapter](using-kbui.md#installing), import `NumberField` from `@kb.ui/react`, and load its bundled `@kb.ui/react/styles.css` once. Your app needs React and React DOM 19 or later.
 
 ```tsx
 import { useState } from "react";
