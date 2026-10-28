@@ -103,14 +103,14 @@ test("independent browser suites and built-site checks run on separate standard 
   const suites = job("ci", "browser-tests");
   expect(suites.strategy?.["fail-fast"]).toBe(false);
   expect(suites.strategy?.matrix.include).toEqual([
-    { suite: "stories", name: "Stories and reduced motion" },
-    { suite: "themes", name: "Component themes" },
-    { suite: "responsive", name: "Responsive layouts and accessibility" },
+    { suite: "stories", name: "Test: stories" },
+    { suite: "themes", name: "Test: themes" },
+    { suite: "responsive", name: "Test: layouts" },
   ]);
   expect(JSON.stringify(suites.steps)).toContain(`bun run validate:site \${{ matrix.suite }}`);
-  expect(job("ci", "browser-built").name).toBe("Built site and deployment dry-run");
+  expect(job("ci", "browser-built").name).toBe("Test: site");
   expect(suites.steps.some((step) => step.uses?.includes("upload-artifact"))).toBe(false);
-  expect(jobs.browser?.name).toBe("Validate site");
+  expect(jobs.browser?.name).toBe("Gate: validation");
   expect(jobs.browser?.needs).toEqual(["check", "browser-tests", "browser-built"]);
   expect(jobs.browser?.if).toBe("always() && needs.check.outputs.browser == 'true'");
 });
@@ -141,13 +141,13 @@ test("ordinary gate exposes named build and validation steps without losing chec
       .map((step) => ({ name: step.name, run: step.run })),
   ).toEqual([
     { name: "Build packages", run: "bun run build" },
-    { name: "Lint source", run: "bun run lint" },
-    { name: "Check TypeScript", run: "bun run typecheck" },
-    { name: "Compile documented examples", run: "bun run --filter @kbui/storybook verify:code" },
-    { name: "Run unit and contract tests", run: "bun run test" },
-    { name: "Check release tarballs", run: "bun run test:pack" },
+    { name: "Lint", run: "bun run lint" },
+    { name: "Typecheck", run: "bun run typecheck" },
+    { name: "Check examples", run: "bun run --filter @kbui/storybook verify:code" },
+    { name: "Run tests", run: "bun run test" },
+    { name: "Check packages", run: "bun run test:pack" },
     {
-      name: "Compile documentation without browsers",
+      name: "Build Storybook",
       run: "bun run --cwd apps/storybook build-storybook --output-dir dist/storybook",
     },
   ]);
@@ -248,7 +248,7 @@ test("preview credentials stay behind successful same-repository PR validation",
     "pull-requests": "write",
   });
   expect(JSON.stringify(workflow("ci").on)).not.toContain("pull_request_target");
-  const deploy = preview.steps.find((step) => step.name === "Publish Storybook preview");
+  const deploy = preview.steps.find((step) => step.name === "Deploy preview");
   expect(deploy?.env?.CLOUDFLARE_API_TOKEN).toBe(`\${{ secrets.CLOUDFLARE_API_TOKEN }}`);
   expect(preview.steps.filter((step) => step.env?.CLOUDFLARE_API_TOKEN)).toHaveLength(1);
   expect(deploy?.run).toContain("npm run configure:preview");
@@ -287,11 +287,11 @@ async function runPreviewComment(
   entries: Record<string, unknown>[] = [],
 ) {
   const steps = job("ci", "preview").steps;
-  const step = steps.find((step) => step.name === "Comment Storybook preview");
+  const step = steps.find((step) => step.name === "Post preview link");
   if (!step) throw new Error("Missing preview comment step");
   expect(step?.uses).toBe("actions/github-script@v7");
   expect(steps.indexOf(step)).toBeGreaterThan(
-    steps.findIndex((step) => step.name === "Publish Storybook preview"),
+    steps.findIndex((step) => step.name === "Deploy preview"),
   );
   expect(step?.if).toBeUndefined();
   const writes: { kind: string; parameters: Record<string, unknown> }[] = [];

@@ -30,14 +30,16 @@ bun run storybook
 
 `test:stories` needs Chromium and built packages. On a new machine, run `bunx playwright install chromium` and `bun run build` once before the first run.
 
-CI runs **Build, lint and unit tests** on every PR, with separate named steps for package builds, lint, TypeScript, documented examples, unit tests, and tarball checks. Docs-only changes compile Storybook without launching browsers. Runtime changes and `packages/react/README.md`, which supplies generated catalog APIs, also start four independent checks in the official Playwright image:
+CI job names use `<purpose>: <scope>`: `Check` for static/package checks, `Test` for executable suites, `Gate` for combined results, and `Deploy` for publishing. Add future jobs using the same pattern; describe detailed coverage in their steps.
 
-- **Stories and reduced motion** renders the interaction stories.
-- **Component themes** checks component stories across the default themes.
-- **Responsive layouts and accessibility** checks site viewports and accessibility.
-- **Built site and deployment dry-run** builds and stages the site, checks Chromium and WebKit journeys, and validates the deployment package.
+CI runs **Check: code** on every PR, with separate named steps for package builds, lint, TypeScript, documented examples, unit tests, and tarball checks. Docs-only changes compile Storybook without launching browsers. Runtime changes and `packages/react/README.md`, which supplies generated catalog APIs, also start four independent checks in the official Playwright image:
 
-The existing **Validate site** check waits for all four jobs and fails if any job fails, is cancelled, or is unexpectedly skipped. Preview publishing still waits for that gate. Each job builds its own packages on a standard `ubuntu-latest` runner; the split adds no artifact uploads or shared browser caches. Linux browser jobs reuse the image's installed browsers and system dependencies. Keep the exact Playwright package version and all workflow image tags aligned.
+- **Test: stories** renders interaction stories in normal and reduced motion.
+- **Test: themes** checks component stories across the default themes.
+- **Test: layouts** checks site viewports and accessibility.
+- **Test: site** builds and stages the site, checks Chromium and WebKit journeys, and validates the deployment package.
+
+The **Gate: validation** check waits for all four jobs and fails if any job fails, is cancelled, or is unexpectedly skipped. Preview publishing still waits for that gate. Each job builds its own packages on a standard `ubuntu-latest` runner; the split adds no artifact uploads or shared browser caches. Linux browser jobs reuse the image's installed browsers and system dependencies. Keep the exact Playwright package version and all workflow image tags aligned.
 
 Run one stage locally with `bun run validate:site stories`, `themes`, `responsive`, or `built`, after `bun run build`. Run `bun run validate:site` for the complete sequence used by production validation. Built validation prints named log groups and cleans its temporary servers and QA output on success or failure.
 

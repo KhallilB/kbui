@@ -20,16 +20,16 @@ run_check() {
 }
 
 validate_stories() {
-  run_check "Stories and reduced motion" bun run test:stories
+  run_check "Test: stories" bun run test:stories
 }
 
 validate_themes() {
-  run_check "Component themes" bun run --cwd apps/storybook test:themes --maxWorkers=2
+  run_check "Test: themes" bun run --cwd apps/storybook test:themes --maxWorkers=2
 }
 
 validate_responsive() {
-  run_check "Responsive layouts" bun run --cwd apps/storybook test:site
-  run_check "Accessibility" bun run --cwd apps/storybook test:a11y
+  run_check "Test: layouts" bun run --cwd apps/storybook test:site
+  run_check "Test: accessibility" bun run --cwd apps/storybook test:a11y
 }
 
 validate_built() (
