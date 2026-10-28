@@ -154,6 +154,22 @@ Use Panel for a section that needs a header, body, and actions. Its parts help k
 
 For additional lighting, use `--kb-panel-sheen`, `--kb-panel-backdrop`, `--kb-panel-glow`, `--kb-panel-glow-active`, and `--kb-panel-glow-critical`. These effects stay off by default. Active and critical tones change the upper rim and glow colors. The rail follows the panel’s rounded corners.
 
+### Resizable panels
+
+Put `Panel.Handle` between two panels in a `Panel.Group` to let people resize them. The handle sizes the panel before it, as a percentage of the group; the panel after it takes the remaining space. Name each handle with `aria-label` or `aria-labelledby`. A column group needs a height.
+
+```tsx
+<Panel.Group direction="row">
+  <Panel aria-labelledby="code-title">…</Panel>
+  <Panel.Handle aria-label="Resize code" defaultSize={50} min={25} max={75} />
+  <Panel aria-labelledby="view-title">…</Panel>
+</Panel.Group>
+```
+
+`size` (controlled) or `defaultSize` (default `50`) sets the size of the panel before the handle in percent. `min` and `max` limit it (defaults `10` and `90`), `step` sets the arrow-key change (default `5`), and `onSizeChange` receives the next size after a key press or drag.
+
+The handle follows the window splitter pattern. Arrow keys along the group's direction resize the panel, `Home` and `End` jump to the limits, and `Enter` collapses the panel to `min` and restores the previous size. Pointer drags work in both directions. Arrow keys do not flip in right-to-left layouts. Style the handle with `--kb-panel-handle-size`, `--kb-panel-handle-hit`, `--kb-panel-handle-grip`, `--kb-panel-handle-line` and `--kb-panel-handle-line-active`.
+
 ## Status
 
 Use Status for a state such as running, blocked, or complete. Always include text so the meaning is clear without relying on color or an icon.

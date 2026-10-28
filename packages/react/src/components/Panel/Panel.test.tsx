@@ -1,8 +1,8 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { createRef } from "react";
-import { describe, expect, test } from "vitest";
-import { Panel, type PanelTone } from "./Panel";
+import { createRef, useState } from "react";
+import { describe, expect, test, vi } from "vitest";
+import { Panel, type PanelHandleProps, type PanelTone } from "./Panel";
 
 describe("Panel", () => {
   test("renders a section with default tone, rail and density", () => {
@@ -176,5 +176,156 @@ describe("Panel", () => {
     const root = container.querySelector(".kb-panel") as HTMLElement;
     expect(root.style.clipPath).toBe("");
     expect(root).not.toHaveAttribute("style");
+  });
+});
+
+describe("Panel.Handle", () => {
+  function Split({
+    direction = "row",
+    ...handle
+  }: { direction?: "row" | "column" } & Omit<PanelHandleProps, "aria-label" | "aria-labelledby">) {
+    return (
+      <Panel.Group direction={direction}>
+        <Panel>code</Panel>
+        <Panel.Handle aria-label="Resize code" {...handle} />
+        <Panel>picture</Panel>
+      </Panel.Group>
+    );
+  }
+  const separator = () => screen.getByRole("separator", { name: "Resize code" });
+  const firstPanel = (container: HTMLElement) =>
+    container.querySelector(".kb-panel") as HTMLElement;
+
+  test("is a focusable separator whose orientation crosses the group direction", () => {
+    const { unmount } = render(<Split />);
+    expect(separator()).toHaveAttribute("tabindex", "0");
+    expect(separator()).toHaveAttribute("aria-orientation", "vertical");
+    expect(separator()).toHaveClass("kb-panel-handle");
+    unmount();
+    render(<Split direction="column" />);
+    expect(separator()).toHaveAttribute("aria-orientation", "horizontal");
+  });
+
+  test("controls the panel before it and reports its size as a percentage", () => {
+    const { container } = render(<Split defaultSize={40} min={20} max={70} />);
+    const pane = firstPanel(container);
+    expect(pane.id).not.toBe("");
+    expect(separator()).toHaveAttribute("aria-controls", pane.id);
+    expect(separator()).toHaveAttribute("aria-valuenow", "40");
+    expect(separator()).toHaveAttribute("aria-valuemin", "20");
+    expect(separator()).toHaveAttribute("aria-valuemax", "70");
+    expect(pane.style.getPropertyValue("--kb-panel-size")).toBe("40%");
+  });
+
+  test("keeps an id the caller already gave the panel", () => {
+    render(
+      <Panel.Group direction="row">
+        <Panel id="editor">code</Panel>
+        <Panel.Handle aria-label="Resize code" />
+        <Panel>picture</Panel>
+      </Panel.Group>,
+    );
+    expect(separator()).toHaveAttribute("aria-controls", "editor");
+  });
+
+  test("moves with the arrows along its axis and stops at the limits", async () => {
+    const user = userEvent.setup();
+    render(<Split defaultSize={50} min={30} max={60} step={5} />);
+    separator().focus();
+    await user.keyboard("{ArrowRight}");
+    expect(separator()).toHaveAttribute("aria-valuenow", "55");
+    await user.keyboard("{ArrowRight}{ArrowRight}");
+    expect(separator()).toHaveAttribute("aria-valuenow", "60");
+    await user.keyboard("{ArrowDown}");
+    expect(separator()).toHaveAttribute("aria-valuenow", "60");
+    await user.keyboard("{ArrowLeft}");
+    expect(separator()).toHaveAttribute("aria-valuenow", "55");
+    await user.keyboard("{Home}");
+    expect(separator()).toHaveAttribute("aria-valuenow", "30");
+    await user.keyboard("{End}");
+    expect(separator()).toHaveAttribute("aria-valuenow", "60");
+  });
+
+  test("uses up and down in a column group", async () => {
+    const user = userEvent.setup();
+    render(<Split direction="column" defaultSize={50} step={10} />);
+    separator().focus();
+    await user.keyboard("{ArrowDown}");
+    expect(separator()).toHaveAttribute("aria-valuenow", "60");
+    await user.keyboard("{ArrowUp}{ArrowUp}");
+    expect(separator()).toHaveAttribute("aria-valuenow", "40");
+    await user.keyboard("{ArrowRight}");
+    expect(separator()).toHaveAttribute("aria-valuenow", "40");
+  });
+
+  test("Enter collapses the panel to its minimum and restores the last size", async () => {
+    const user = userEvent.setup();
+    render(<Split defaultSize={45} min={15} />);
+    separator().focus();
+    await user.keyboard("{Enter}");
+    expect(separator()).toHaveAttribute("aria-valuenow", "15");
+    await user.keyboard("{Enter}");
+    expect(separator()).toHaveAttribute("aria-valuenow", "45");
+  });
+
+  test("follows a controlled size and reports changes", async () => {
+    const user = userEvent.setup();
+    const onSizeChange = vi.fn();
+    function Controlled() {
+      const [size, setSize] = useState(50);
+      return (
+        <Split
+          size={size}
+          onSizeChange={(next) => {
+            onSizeChange(next);
+            setSize(next);
+          }}
+        />
+      );
+    }
+    render(<Controlled />);
+    separator().focus();
+    await user.keyboard("{ArrowLeft}");
+    expect(onSizeChange).toHaveBeenLastCalledWith(45);
+    expect(separator()).toHaveAttribute("aria-valuenow", "45");
+  });
+
+  test("stays put when controlled and the owner ignores the change", async () => {
+    const user = userEvent.setup();
+    render(<Split size={50} />);
+    separator().focus();
+    await user.keyboard("{ArrowRight}");
+    expect(separator()).toHaveAttribute("aria-valuenow", "50");
+  });
+
+  test("drags the panel edge with the pointer, within limits", () => {
+    const onSizeChange = vi.fn();
+    const { container } = render(<Split min={20} max={80} onSizeChange={onSizeChange} />);
+    const group = container.querySelector(".kb-panel-group") as HTMLElement;
+    const rect = (left: number, top: number, width: number, height: number) =>
+      ({ left, top, width, height, right: left + width, bottom: top + height }) as DOMRect;
+    group.getBoundingClientRect = () => rect(100, 0, 1000, 400);
+    firstPanel(container).getBoundingClientRect = () => rect(100, 0, 500, 400);
+    fireEvent.pointerDown(separator(), { pointerId: 1, button: 0, clientX: 600 });
+    expect(separator()).toHaveAttribute("data-dragging");
+    fireEvent.pointerMove(separator(), { pointerId: 1, clientX: 400 });
+    expect(separator()).toHaveAttribute("aria-valuenow", "30");
+    fireEvent.pointerMove(separator(), { pointerId: 1, clientX: 1100 });
+    expect(separator()).toHaveAttribute("aria-valuenow", "80");
+    fireEvent.pointerUp(separator(), { pointerId: 1 });
+    expect(separator()).not.toHaveAttribute("data-dragging");
+    expect(onSizeChange).toHaveBeenLastCalledWith(80);
+  });
+
+  test("forwards ref to the separator element", () => {
+    const ref = createRef<HTMLDivElement>();
+    render(
+      <Panel.Group direction="row">
+        <Panel>a</Panel>
+        <Panel.Handle ref={ref} aria-label="Resize a" />
+        <Panel>b</Panel>
+      </Panel.Group>,
+    );
+    expect(ref.current).toBe(screen.getByRole("separator"));
   });
 });
