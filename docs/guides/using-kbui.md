@@ -8,7 +8,7 @@ Projects install kbui from a release: one tarball per package, attached to a [Gi
 
    <!-- x-release-please-start-version -->
    ```bash
-   KBUI_VERSION=0.9.0
+   KBUI_VERSION=0.9.1
    bun add "https://github.com/KhallilB/kbui/releases/download/v${KBUI_VERSION}/kbui-react-${KBUI_VERSION}.tgz"
    ```
    <!-- x-release-please-end -->
