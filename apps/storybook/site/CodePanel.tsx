@@ -78,7 +78,7 @@ export function CodePanel({
     <section className="example-code" aria-label={`${name} ${language} example`}>
       <div className="example-code-bar">
         <Button
-          variant="ghost"
+          variant={open ? "primary" : "secondary"}
           size="sm"
           type="button"
           className="example-code-toggle"

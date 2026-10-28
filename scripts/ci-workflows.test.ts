@@ -121,6 +121,7 @@ test("PR browser validation retains staged WebKit journeys and deployment dry-ru
     "test:themes",
     "bun scripts/site-stage.ts",
     "verify:release",
+    "test:themes",
     "npm run build --prefix deployment/site",
     "npm run check --prefix deployment/site",
   ])

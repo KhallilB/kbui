@@ -46,13 +46,6 @@
     color: var(--muted);
     font-size: 11px;
   }
-  .comparison-controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px 32px;
-    padding-block: 20px 28px;
-    border-top: 1px solid var(--review-line);
-  }
   .comparison-previews {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
@@ -313,22 +306,6 @@
     color: var(--kb-color-muted);
     margin-top: 10px;
   }
-  .release-card {
-    display: grid;
-    grid-template-columns: 1fr 0.8fr;
-    align-items: center;
-    gap: 24px;
-    margin-bottom: 24px;
-  }
-  .release-title {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    align-items: center;
-    font-size: 10px;
-    color: var(--kb-color-muted);
-    margin-bottom: 10px;
-  }
   .queue-card {
     padding: 0;
     overflow: hidden;
@@ -473,9 +450,6 @@
     .workspace-heading h2 {
       font-size: 23px;
     }
-    .release-card {
-      grid-template-columns: 1fr;
-    }
     .operations-stats {
       gap: 8px;
     }
@@ -533,9 +507,6 @@
   @media (max-width: 600px) {
     .comparison-foot {
       grid-template-columns: 1fr;
-      gap: 16px;
-    }
-    .comparison-controls {
       gap: 16px;
     }
     .comparison-intro a {

@@ -96,7 +96,8 @@ Values that cannot be written with `light-dark()`, such as a shadow list that di
 
 | Goal | Tokens to set |
 |---|---|
-| Brand color | `--kb-color-accent`, `--kb-color-accent-hover`, `--kb-color-accent-fg`, `--kb-color-ring` |
+| Brand accents and indicators | `--kb-color-accent`, `--kb-color-accent-hover`, `--kb-color-accent-fg`, `--kb-color-ring` |
+| Filled actions and primary selection | `--kb-color-action`, `--kb-color-action-hover`, `--kb-color-action-fg` |
 | Page and surface colors | `--kb-color-bg`, `--kb-color-fg`, `--kb-color-muted`, `--kb-color-surface`, `--kb-color-border` |
 | Typeface | `--kb-font-sans`, `--kb-font-mono`, `--kb-font-weight-regular`, `--kb-font-weight-medium`, `--kb-font-weight-strong` |
 | Type sizes | `--kb-text-body-size`, `--kb-text-control-size`, `--kb-text-small-size`, `--kb-text-caption-size`, `--kb-text-h1-size` to `--kb-text-h4-size` |
@@ -104,6 +105,20 @@ Values that cannot be written with `light-dark()`, such as a shadow list that di
 | Density | `--kb-space-1` to `--kb-space-8`, `--kb-button-height-*`, `--kb-button-padding-*`, `--kb-input-height-*` |
 | Motion | `--kb-motion-duration-*`, `--kb-motion-easing-*`, `--kb-button-motion-duration`, `--kb-dialog-motion-duration`, `--kb-popup-motion-duration`, `--kb-switch-duration` |
 | Depth and material | `--kb-material-*` for shared shadows and faces; `--kb-panel-*` and `--kb-status-*` for panels and status chips |
+
+Set action fill, hover and text together. Dark primary actions use a deeper fill with white text; the bright brand accent remains available for indicators. A custom palette can override both modes on the same theme scope:
+
+```css
+:root, [data-theme] {
+  --kb-color-action: light-dark(#0b6e4f, #145c45);
+  --kb-color-action-hover: light-dark(#084f39, #0b4936);
+  --kb-color-action-fg: #ffffff;
+}
+```
+
+Keep action text at least 4.5:1 against both rendered fills, including any sheen or overlay. The default dark action uses white text; a custom palette should choose its foreground for contrast rather than assume dark mode always needs white. Segmented RadioGroup defaults share the action pair. Changing the brand accent alone does not replace the dark action colors.
+
+Use Button variants when they fit. Local classes may change colors as well as layout and shape; check intentional overrides in both themes, including hover, focus and disabled states. For component contributions, follow [Theme and state support](adding-a-component.md#theme-and-state-support).
 
 Global scale tokens move every component that aliases them. Component tokens, such as `--kb-button-height-md`, adjust one component and take precedence for it. `packages/tokens/tokens.json` lists every token with its default.
 
@@ -118,7 +133,14 @@ To retheme a section with tokens, put `data-theme` on the wrapper together with 
 ```
 
 ```css
-.brand-b { --kb-color-bg: #f4f1ff; --kb-color-accent: #5b3cc4; }
+.brand-b {
+  --kb-color-bg: #f4f1ff;
+  --kb-color-accent: #5b3cc4;
+  --kb-color-accent-fg: #ffffff;
+  --kb-color-action: #5b3cc4;
+  --kb-color-action-hover: #462c9f;
+  --kb-color-action-fg: #ffffff;
+}
 ```
 
 Without `data-theme`, an alias such as `--kb-panel-background` keeps the value resolved at `:root`. Dialog, Menu and Tooltip render into `<body>`, outside the wrapper, so they use the page's restyle by default. Pass a stable themed wrapper as `container` to keep a nested theme; see [forms and overlays](forms-and-overlays.md#theme-hosts-and-portals).

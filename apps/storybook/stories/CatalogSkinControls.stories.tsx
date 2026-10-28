@@ -240,9 +240,12 @@ export const PreviewLocalStyling: Story = {
     expect(reloaded.frame).not.toBe(first.frame);
     await waitFor(() => expectBackground(reloaded.action, "rgb(140, 213, 232)"));
     await userEvent.click(canvas.getByRole("button", { name: "Reset styling" }));
-    await waitFor(() => expectBackground(reloaded.action, "rgb(255, 132, 87)"));
+    await waitFor(() => expectBackground(reloaded.action, "rgb(181, 69, 23)"));
     expect(getComputedStyle(reloaded.action).borderRadius).toBe("8px");
     expect(reloaded.doc.documentElement.style.getPropertyValue("--kb-color-accent")).toBe("");
+    expect(reloaded.doc.documentElement.style.getPropertyValue("--kb-color-action")).toBe("");
+    expect(reloaded.doc.documentElement.style.getPropertyValue("--kb-color-action-hover")).toBe("");
+    expect(reloaded.doc.documentElement.style.getPropertyValue("--kb-color-action-fg")).toBe("");
     expect(reloaded.doc.documentElement.style.getPropertyValue("--kb-radius-md")).toBe("");
     expect(document.documentElement.getAttribute("style")).toBe(parentStyle);
     expect(document.documentElement.dataset.theme).toBe(parentTheme);

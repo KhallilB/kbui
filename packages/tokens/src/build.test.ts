@@ -266,6 +266,51 @@ describe("tokens.json", () => {
     expect(dark).toContain("--kb-color-danger-fg: #331c20;");
   });
 
+  test("filled actions share readable resting and hover pairs across themes", () => {
+    expect(node("color.action")).toBeDefined();
+    for (const theme of ["light", "dark"] as const) {
+      const foreground = hex("color.action-fg", theme);
+      const overlay = hex("material.action-sheen", theme)
+        .match(/[\d.]+/g)
+        ?.map(Number);
+      if (overlay?.length !== 4) throw new Error("Expected rgba action sheen");
+      const [red, green, blue, alpha] = overlay as [number, number, number, number];
+      for (const path of ["color.action", "color.action-hover"]) {
+        const background = hex(path, theme);
+        expect(contrast(foreground, background)).toBeGreaterThanOrEqual(4.5);
+        const sheen = `#${[red, green, blue]
+          .map((channel, index) =>
+            Math.round(
+              Number.parseInt(background.slice(index * 2 + 1, index * 2 + 3), 16) * (1 - alpha) +
+                channel * alpha,
+            )
+              .toString(16)
+              .padStart(2, "0"),
+          )
+          .join("")}`;
+        expect(contrast(foreground, sheen)).toBeGreaterThanOrEqual(4.5);
+      }
+      expect(hex("radiogroup.primary-background", theme)).toBe(hex("color.action", theme));
+      expect(hex("radiogroup.primary-color", theme)).toBe(foreground);
+    }
+    expect(hex("color.action-fg", "dark")).toBe("#ffffff");
+  });
+
+  test("primary segmented selection uses readable theme-specific fill and text", () => {
+    for (const theme of ["light", "dark"] as const) {
+      expect(
+        contrast(
+          hex("radiogroup.primary-color", theme),
+          hex("radiogroup.primary-background", theme),
+        ),
+      ).toBeGreaterThanOrEqual(4.5);
+    }
+    expect(hex("radiogroup.primary-background", "light")).toBe(hex("color.accent", "light"));
+    expect(hex("radiogroup.primary-color", "light")).toBe(hex("color.accent-fg", "light"));
+    expect(hex("radiogroup.primary-color", "dark")).toBe("#ffffff");
+    expect(hex("radiogroup.primary-background", "dark")).not.toBe(hex("color.accent", "dark"));
+  });
+
   test("defines motion durations and easings", () => {
     for (const name of ["fast", "base", "slow"]) {
       expect(css).toMatch(new RegExp(`--kb-motion-duration-${name}: \\d+ms;`));

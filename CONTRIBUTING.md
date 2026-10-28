@@ -46,6 +46,8 @@ Behavior changes are test-first: write the test, see it fail, then write the cod
 
 ## Public docs and internal stories
 
+Follow [Adding a component](docs/guides/adding-a-component.md), including its [theme and state requirements](docs/guides/adding-a-component.md#theme-and-state-support), when introducing or changing shared controls.
+
 Public Storybook includes `apps/storybook/docs` and component stories beside `packages/react/src` implementations. Keep reusable component examples there. Site screens, restyle showcases and validation fixtures belong in `apps/storybook/stories`; they are excluded from production bundles and navigation.
 
 Each visible story should teach a distinct use, variant, or meaningful state. Use the theme toolbar instead of adding a second public story just for dark mode. Tag theme duplicates and regression-only component fixtures with `tags: ["!dev", "!autodocs"]`; keep their default `test` tag. This removes them from the sidebar and generated Docs without breaking direct story URLs, catalog previews, or automated checks. New app-only fixtures stay in the internal directory above. Keep errors, empty states, disabled controls, and useful compositions visible.

@@ -22,7 +22,7 @@
 }
 
 .kb-button[data-variant="primary"]:focus-visible {
-  outline-color: var(--kb-color-accent-fg);
+  outline-color: var(--kb-color-action-fg);
 }
 
 .kb-button[data-variant="danger"]:focus-visible {
@@ -54,12 +54,12 @@
 }
 
 .kb-button[data-variant="primary"] {
-  background: var(--kb-color-accent);
-  color: var(--kb-color-accent-fg);
+  background: var(--kb-color-action);
+  color: var(--kb-color-action-fg);
 }
 
 .kb-button[data-variant="primary"]:hover:not([data-disabled]) {
-  background-color: var(--kb-color-accent-hover);
+  background-color: var(--kb-color-action-hover);
 }
 
 .kb-button[data-variant="secondary"] {
@@ -102,7 +102,7 @@
 
 .kb-button:is([data-variant="primary"], [data-variant="danger"]) {
   background-image: linear-gradient(180deg, var(--kb-material-action-sheen), transparent);
-  border-color: color-mix(in srgb, var(--kb-color-accent) 85%, var(--kb-color-fg));
+  border-color: color-mix(in srgb, var(--kb-color-action) 85%, var(--kb-color-fg));
   box-shadow: var(--kb-material-accent-shadow);
 }
 

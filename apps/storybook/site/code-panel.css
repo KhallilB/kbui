@@ -23,21 +23,9 @@
     min-height: 44px;
     min-width: 44px;
     padding: 8px 4px;
-    border: 0;
-    background: transparent;
-    color: var(--ink);
     cursor: pointer;
     font-size: var(--kb-text-small-size);
     border-radius: 6px;
-    transition-property: color, background-color, transform;
-    transition-duration: 140ms;
-    transition-timing-function: ease;
-  }
-  .example-code-bar button:hover {
-    background: var(--review-code-hover, #e8e4d4);
-  }
-  .example-code-bar button:active {
-    transform: translateY(1px);
   }
   .example-code-caption {
     color: var(--muted);
@@ -46,7 +34,6 @@
   .example-code-bar .example-copy {
     margin-left: auto;
     min-width: 110px;
-    color: var(--rust);
   }
   .example-code-bar .example-copy[data-copy-state="copied"] {
     color: var(--review-good, #34664e);
@@ -72,15 +59,7 @@
   .example-code-bar .example-code-toggle {
     gap: 8px;
     padding-inline: 12px;
-    border: 1px solid var(--review-control, #a5af99);
     border-radius: 999px;
-    background: var(--review-paper, #fffdf5);
-    color: var(--ink);
-  }
-  .example-code-bar .example-code-toggle[aria-expanded="true"] {
-    border-color: var(--review-selected, #34664e);
-    background: var(--review-selected, #34664e);
-    color: var(--review-selected-fg, #fffdf5);
   }
   .example-code-toggle svg {
     flex: none;
@@ -160,10 +139,6 @@
     }
     .example-code-chevron {
       transition: none;
-    }
-    .example-code-bar button {
-      transition: none;
-      transform: none;
     }
   }
 }

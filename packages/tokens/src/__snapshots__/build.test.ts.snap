@@ -114,6 +114,9 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-color-ring: #ba421b;
   --kb-color-overlay: rgb(0 0 0 / 0.5);
   --kb-color-accent-ink: #b43c17;
+  --kb-color-action: var(--kb-color-accent);
+  --kb-color-action-hover: var(--kb-color-accent-hover);
+  --kb-color-action-fg: var(--kb-color-accent-fg);
   --kb-viz-current: #2f5fa8;
   --kb-viz-current-bg: #e3ebf7;
   --kb-viz-current-fg: #1f3f73;
@@ -300,6 +303,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-text-h4-size: 16px;
   --kb-text-measure: 65ch;
   --kb-text-muted: var(--kb-color-muted);
+  --kb-radiogroup-primary-background: var(--kb-color-action);
+  --kb-radiogroup-primary-color: var(--kb-color-action-fg);
   --kb-radiogroup-gap: var(--kb-space-2);
   --kb-radiogroup-size: 1.5rem;
   --kb-select-popup-min-width: 10rem;
@@ -415,6 +420,9 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-color-ring: #ba421b;
   --kb-color-overlay: rgb(0 0 0 / 0.5);
   --kb-color-accent-ink: #b43c17;
+  --kb-color-action: var(--kb-color-accent);
+  --kb-color-action-hover: var(--kb-color-accent-hover);
+  --kb-color-action-fg: var(--kb-color-accent-fg);
   --kb-viz-current: #2f5fa8;
   --kb-viz-current-bg: #e3ebf7;
   --kb-viz-current-fg: #1f3f73;
@@ -498,6 +506,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-material-recessed-face: linear-gradient(180deg, color-mix(in srgb, var(--kb-material-field-bg) 96%, var(--kb-color-fg)), var(--kb-material-field-bg));
   --kb-material-surface-bg: #ffffff;
   --kb-text-muted: var(--kb-color-muted);
+  --kb-radiogroup-primary-background: var(--kb-color-action);
+  --kb-radiogroup-primary-color: var(--kb-color-action-fg);
   --kb-switch-track-background: var(--kb-material-recessed-face);
   --kb-switch-track-border: var(--kb-material-raised-border);
   --kb-switch-track-shadow: var(--kb-material-field-shadow);
@@ -533,6 +543,9 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-color-ring: #ff8457;
   --kb-color-overlay: rgb(0 0 0 / 0.7);
   --kb-color-accent-ink: #ffa17f;
+  --kb-color-action: #b54517;
+  --kb-color-action-hover: #9e3915;
+  --kb-color-action-fg: var(--kb-white);
   --kb-viz-current: #8fb4f0;
   --kb-viz-current-bg: #1e2c44;
   --kb-viz-current-fg: #c9dbfa;
@@ -616,6 +629,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-material-recessed-face: linear-gradient(180deg, color-mix(in srgb, var(--kb-material-field-bg) 65%, var(--kb-material-chrome-bg)), var(--kb-material-field-bg));
   --kb-material-surface-bg: #252931;
   --kb-text-muted: var(--kb-color-muted);
+  --kb-radiogroup-primary-background: var(--kb-color-action);
+  --kb-radiogroup-primary-color: var(--kb-color-action-fg);
   --kb-switch-track-background: var(--kb-material-recessed-face);
   --kb-switch-track-border: var(--kb-material-raised-border);
   --kb-switch-track-shadow: var(--kb-material-field-shadow);
@@ -652,6 +667,9 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-color-ring: #ff8457;
     --kb-color-overlay: rgb(0 0 0 / 0.7);
     --kb-color-accent-ink: #ffa17f;
+    --kb-color-action: #b54517;
+    --kb-color-action-hover: #9e3915;
+    --kb-color-action-fg: var(--kb-white);
     --kb-viz-current: #8fb4f0;
     --kb-viz-current-bg: #1e2c44;
     --kb-viz-current-fg: #c9dbfa;
@@ -735,6 +753,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-material-recessed-face: linear-gradient(180deg, color-mix(in srgb, var(--kb-material-field-bg) 65%, var(--kb-material-chrome-bg)), var(--kb-material-field-bg));
     --kb-material-surface-bg: #252931;
     --kb-text-muted: var(--kb-color-muted);
+    --kb-radiogroup-primary-background: var(--kb-color-action);
+    --kb-radiogroup-primary-color: var(--kb-color-action-fg);
     --kb-switch-track-background: var(--kb-material-recessed-face);
     --kb-switch-track-border: var(--kb-material-raised-border);
     --kb-switch-track-shadow: var(--kb-material-field-shadow);

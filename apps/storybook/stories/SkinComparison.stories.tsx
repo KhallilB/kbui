@@ -77,7 +77,9 @@ export const Recovery: Story = {
 export const Operations: Story = {
   play: async ({ canvasElement }) => {
     const page = within(canvasElement);
-    await userEvent.click(page.getByRole("radio", { name: "Operations" }));
+    await userEvent.click(page.getByRole("button", { name: "Operations" }));
+    expect(page.getByRole("heading", { name: /^Operations$/ })).toBeVisible();
+    expect(page.queryByRole("progressbar", { name: "Jobs complete" })).toBeNull();
     await userEvent.click(page.getByRole("radio", { name: "Needs attention" }));
     expect(page.getByRole("status", { name: "Queue results" })).toHaveTextContent("1 job");
     await userEvent.click(page.getByRole("button", { name: "Inspect Database migration" }));
@@ -122,7 +124,7 @@ export const ThemePreservesState: Story = {
     await userEvent.type(name, " together");
     await userEvent.click(page.getByLabelText("Dark mode"));
     expect(name).toHaveValue("Northstar together");
-    await userEvent.click(page.getByRole("radio", { name: "Operations" }));
+    await userEvent.click(page.getByRole("button", { name: "Operations" }));
     await userEvent.type(page.getByRole("searchbox", { name: "Search jobs" }), "Database");
     await userEvent.click(page.getByLabelText("Dark mode"));
     expect(page.getByRole("searchbox", { name: "Search jobs" })).toHaveValue("Database");
@@ -133,7 +135,7 @@ export const ThemePreservesState: Story = {
 export const DarkOperations: Story = {
   play: async ({ canvasElement }) => {
     const page = within(canvasElement);
-    await userEvent.click(page.getByRole("radio", { name: "Operations" }));
+    await userEvent.click(page.getByRole("button", { name: "Operations" }));
     await userEvent.click(page.getByLabelText("Dark mode"));
     expect(page.getAllByRole("table", { name: "Workspace jobs" })).toHaveLength(1);
     expect(page.getByRole("region", { name: "Workspace preview" })).toHaveAttribute(
@@ -217,7 +219,7 @@ export const NotificationDraft: Story = {
 export const QueueSearch: Story = {
   play: async ({ canvasElement }) => {
     const page = within(canvasElement);
-    await userEvent.click(page.getByRole("radio", { name: "Operations" }));
+    await userEvent.click(page.getByRole("button", { name: "Operations" }));
     await userEvent.click(page.getByRole("radio", { name: "Needs attention" }));
     const search = page.getByRole("searchbox", { name: "Search jobs" });
     await userEvent.type(search, "no match");
@@ -231,15 +233,18 @@ export const QueueSearch: Story = {
   },
 };
 
-export const SegmentedKeyboard: Story = {
+export const WorkspaceNavigation: Story = {
   play: async ({ canvasElement }) => {
     const page = within(canvasElement);
     await userEvent.type(page.getByRole("textbox", { name: "Workspace name" }), " draft");
-    const screens = within(page.getByRole("radiogroup", { name: "Screen" }));
-    const settings = screens.getByRole("radio", { name: "Settings" });
-    settings.focus();
-    await userEvent.keyboard("{ArrowRight}");
-    expect(screens.getByRole("radio", { name: "Operations" })).toBeChecked();
+    expect(page.queryByRole("radiogroup", { name: "Screen" })).toBeNull();
+    const settings = page.getByRole("button", { name: "Settings" });
+    const operations = page.getByRole("button", { name: "Operations" });
+    expect(settings).toHaveAttribute("aria-current", "page");
+    operations.focus();
+    await userEvent.keyboard("{Enter}");
+    expect(operations).toHaveAttribute("aria-current", "page");
+    expect(settings).not.toHaveAttribute("aria-current");
     const filters = within(page.getByRole("radiogroup", { name: "Filter jobs" }));
     filters.getByRole("radio", { name: "All jobs" }).focus();
     await userEvent.keyboard("{ArrowRight}");
@@ -249,12 +254,12 @@ export const SegmentedKeyboard: Story = {
     expect(filters.getByRole("radio", { name: "Needs attention" })).toBeChecked();
     expect(page.getByRole("status", { name: "Queue results" })).toHaveTextContent("1 job");
     await userEvent.type(page.getByRole("searchbox", { name: "Search jobs" }), "Database");
-    screens.getByRole("radio", { name: "Operations" }).focus();
-    await userEvent.keyboard("{ArrowLeft}");
+    settings.focus();
+    await userEvent.keyboard("{Enter}");
     expect(page.getByRole("textbox", { name: "Workspace name" })).toHaveValue("Northstar draft");
     await userEvent.click(page.getByLabelText("Dark mode"));
-    screens.getByRole("radio", { name: "Settings" }).focus();
-    await userEvent.keyboard("{ArrowRight}");
+    operations.focus();
+    await userEvent.keyboard("{Enter}");
     expect(page.getByRole("searchbox", { name: "Search jobs" })).toHaveValue("Database");
     expect(page.getByRole("radio", { name: "Needs attention" })).toBeChecked();
     expect(page.getByRole("status", { name: "Queue results" })).toHaveTextContent("1 job");

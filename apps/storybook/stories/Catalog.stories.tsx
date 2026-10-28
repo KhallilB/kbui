@@ -71,6 +71,70 @@ export const BrowseComponents: Story = {
   },
 };
 
+export const SlidingFilter: Story = {
+  play: async ({ canvasElement }) => {
+    if (matchMedia("(forced-colors: active)").matches) return;
+    const canvas = within(canvasElement);
+    const group = canvas.getByRole("radiogroup", { name: "Filter by use" });
+    const indicator = group.querySelector(".kb-radiogroup-selection");
+    if (!indicator) throw new Error("Missing filter selection");
+    const typography = within(group).getByRole("radio", { name: "Typography" });
+    const label = typography.closest("label");
+    if (!label) throw new Error("Missing filter label");
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    for (const dark of [false, true]) {
+      if (dark) await userEvent.click(canvas.getByRole("switch", { name: "Dark mode" }));
+      const start = indicator.getBoundingClientRect();
+      await userEvent.click(typography);
+      expect(typography).toBeChecked();
+      expect(group.querySelector(".kb-radiogroup-selection")).toBe(indicator);
+      const target = label.getBoundingClientRect();
+      expect(target.width).toBeGreaterThan(start.width);
+      if (reduced) {
+        expect(indicator.getAnimations()).toHaveLength(0);
+      } else {
+        for (const property of ["transform", "width"]) {
+          const movement = await waitFor(() => {
+            const animation = indicator
+              .getAnimations()
+              .find(
+                (item) => item instanceof CSSTransition && item.transitionProperty === property,
+              );
+            expect(animation).toBeDefined();
+            return animation as Animation;
+          });
+          movement.pause();
+          movement.currentTime = Number(movement.effect?.getTiming().duration) / 2;
+        }
+        const halfway = indicator.getBoundingClientRect();
+        expect(Math.hypot(target.x - start.x, target.y - start.y)).toBeGreaterThan(1);
+        for (const edge of ["x", "y"] as const) {
+          if (Math.abs(target[edge] - start[edge]) > 1) {
+            expect(halfway[edge]).toBeGreaterThan(Math.min(start[edge], target[edge]));
+            expect(halfway[edge]).toBeLessThan(Math.max(start[edge], target[edge]));
+          } else {
+            expect(Math.abs(halfway[edge] - target[edge])).toBeLessThan(1);
+          }
+        }
+        expect(halfway.width).toBeGreaterThan(start.width);
+        expect(halfway.width).toBeLessThan(target.width);
+        expect(getComputedStyle(indicator).opacity).toBe("1");
+        for (const animation of indicator.getAnimations()) animation.finish();
+      }
+      await waitFor(() => {
+        const final = indicator.getBoundingClientRect();
+        const selected = label.getBoundingClientRect();
+        for (const edge of ["x", "y", "width", "height"] as const)
+          expect(Math.abs(final[edge] - selected[edge])).toBeLessThan(1);
+      });
+      await userEvent.click(within(group).getByRole("radio", { name: "All" }));
+      await waitFor(() => {
+        expect(indicator.getAnimations()).toHaveLength(0);
+      });
+    }
+  },
+};
+
 export const FocusedBrowser: Story = {
   args: { initialAppearance: { theme: "light" } },
   play: async ({ canvasElement }) => {
@@ -320,7 +384,7 @@ export const WorkingCode: Story = {
 };
 
 export const LongCode: Story = {
-  args: { componentId: "panel", stateId: "components-panel--token-overrides" },
+  args: { componentId: "panel", stateId: "components-panel--compact" },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const editor = canvas.getByRole("textbox", { name: "Component code" }) as HTMLTextAreaElement;
@@ -341,7 +405,7 @@ export const LongCode: Story = {
     expect(next.scrollTop).toBe(0);
     expect((next as HTMLTextAreaElement).value).not.toContain("Long draft line");
     expect(next.scrollWidth).toBeLessThanOrEqual(next.clientWidth + 1);
-    await userEvent.click(canvas.getByRole("radio", { name: "Token Overrides" }));
+    await userEvent.click(canvas.getByRole("radio", { name: "Compact" }));
     expect(
       (canvas.getByRole("textbox", { name: "Component code" }) as HTMLTextAreaElement).value,
     ).toContain("// Long draft line 79");
@@ -387,10 +451,10 @@ export const StateContinuity: Story = {
     const codeBar = canvasElement.querySelector(".catalog-editor-panel");
     if (!codeBar) throw new Error("Missing code toolbar");
     const codeTop = codeBar.getBoundingClientRect().top + window.scrollY;
-    await userEvent.click(canvas.getByRole("radio", { name: "Tones" }));
+    await userEvent.click(canvas.getByRole("radio", { name: "Colors" }));
     // Focus may scroll page; document position still must stay fixed.
     expect(codeBar.getBoundingClientRect().top + window.scrollY).toBe(codeTop);
-    const next = canvas.getByTitle("Badge — Tones live example") as HTMLIFrameElement;
+    const next = canvas.getByTitle("Badge — Colors live example") as HTMLIFrameElement;
     expect(next.parentElement).toBe(stage);
     expect(frame).toHaveAttribute("data-visible", "true");
     expect(frame.getBoundingClientRect().height).toBeGreaterThan(400);
@@ -515,7 +579,7 @@ export const FullPageCatalog: Story = {
       );
     const input = navigation.getByRole("link", { name: "Input" });
     expect(input).toHaveAccessibleDescription(
-      /Collect text with a clear label, help text, and error feedback.*7 examples/,
+      /Collect text with a clear label, help text, and error feedback.*5 examples/,
     );
     const summary = input.closest(".catalog-component-item");
     if (!summary) throw new Error("Missing component summary");
@@ -524,7 +588,7 @@ export const FullPageCatalog: Story = {
         "Collect text with a clear label, help text, and error feedback.",
       ),
     ).toBeVisible();
-    expect(within(summary as HTMLElement).getByText("7 examples")).toBeVisible();
+    expect(within(summary as HTMLElement).getByText("5 examples")).toBeVisible();
     expect(canvasElement.querySelectorAll("iframe")).toHaveLength(0);
     expect(canvas.queryByRole("link", { name: "Component QA" })).toBeNull();
     const list = canvas.getByRole("navigation", { name: "Browse components" });

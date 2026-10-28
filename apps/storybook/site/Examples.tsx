@@ -9,7 +9,6 @@ import {
   Heading,
   Link,
   Progress,
-  Stat,
   Status,
   Text,
 } from "@kbui/react";
@@ -48,26 +47,24 @@ function CompositionView({
       <Card className="composition editorial">
         <div className="sample-top">
           <Text as="span" size="sm" tone="muted">
-            FIELD NOTES
+            SUPPORT HANDBOOK
           </Text>
-          <Badge>Issue 004</Badge>
+          <Badge>Team guide</Badge>
         </div>
-        <span className="editorial-mark" aria-hidden="true">
-          04
-        </span>
-        <Heading level={headingLevel} size="display" className="composition-title">
-          Notes from the workshop.
+        <Heading level={headingLevel} size="xl" className="composition-title">
+          Writing a useful bug report.
         </Heading>
         <Text size="lg">
-          Start with a clear heading, then give each idea room to breathe. Use <Code>Heading</Code>{" "}
-          for the outline and <Code>Text</Code> for reading rhythm.
+          Include the steps to reproduce the issue, what you expected, and what happened instead.
+          Copy any error code, such as <Code>PAYMENT_TIMEOUT</Code>, exactly as it appears so your
+          team can trace the problem.
         </Text>
         <div className="sample-bottom">
           <Text as="span" size="sm" tone="muted">
-            4 minute read · Issue 004
+            3 min read · Updated by the support team
           </Text>
           <Link href={docs("Heading", storybookRoot)}>
-            Explore Heading <LinkArrow />
+            Heading docs <LinkArrow />
           </Link>
         </div>
       </Card>
@@ -77,7 +74,7 @@ function CompositionView({
       <Card className="composition operations">
         <div className="sample-top">
           <Text as="span" size="sm" tone="muted">
-            RELEASE CHECKLIST
+            RELEASE REVIEW
           </Text>
           <Status
             live
@@ -85,15 +82,15 @@ function CompositionView({
             appearance="chip"
             aria-label="Release checks"
           >
-            {completed === checks.length ? "Checks complete" : "Checks pending"}
+            {completed === checks.length ? "Ready to publish" : "In review"}
           </Status>
         </div>
         <Heading level={headingLevel} size="xl" className="composition-title">
-          Release overview
+          Customer portal 2.8
         </Heading>
-        <Text tone="muted">Complete the checklist. Readiness follows your selections.</Text>
+        <Text tone="muted">Billing history updates and clearer payment errors.</Text>
         <fieldset className="release-checks">
-          <legend>Before you release</legend>
+          <legend>Before publishing</legend>
           <Grid layout="stack">
             {releaseSteps.map((label, index) => (
               <Checkbox
@@ -109,15 +106,12 @@ function CompositionView({
             ))}
           </Grid>
         </fieldset>
-        <div className="stats">
-          <Stat label="Checks complete" value={`${completed}/${checks.length}`} size="display" />
-          <Stat label="Checks remaining" value={checks.length - completed} />
-        </div>
-        <Progress label="Release readiness" value={Math.round((completed / checks.length) * 100)} />
+        <Progress
+          label="Review progress"
+          value={Math.round((completed / checks.length) * 100)}
+          valueText={`${completed} of ${checks.length} complete`}
+        />
         <div className="sample-bottom">
-          <Text as="span" size="sm" tone="muted">
-            Local demo
-          </Text>
           <Button
             variant="secondary"
             size="sm"
@@ -136,16 +130,17 @@ function CompositionView({
     >
       <div className="sample-top">
         <Text as="span" size="sm" tone="muted">
-          A change of palette
+          COMMUNITY EVENT
         </Text>
-        <Badge>Semantic tokens</Badge>
+        <Badge>Draft invitation</Badge>
       </div>
       <Geometry alternate={palette} />
       <div className="sample-bottom">
         <div>
           <Heading level={headingLevel} size="lg" className="composition-title">
-            Color and composition
+            Design systems, over coffee.
           </Heading>
+          <Text size="sm">Thursday, 9:30 AM · Studio café</Text>
           <Text size="sm" role="status" aria-label="Palette">
             <span className="palette-words" key={palette ? 1 : 0}>
               {palette ? "Persimmon / Marigold / Lilac · vivid" : "Persimmon / Marigold / Lilac"}
@@ -208,26 +203,22 @@ const examples = [
   {
     id: "editorial",
     surface: "Editorial",
-    title: "A quiet place to read",
-    description:
-      "Keep heading rank separate from visual size. Compose readable text, literal code and recognizable links inside one semantic article.",
-    parts: ["Card", "Badge", "Heading", "Text", "Link", "Code"],
+    title: "Help-center article",
+    description: "Use this for support articles, onboarding guides, or product updates.",
   },
   {
     id: "operations",
     surface: "Operations",
-    title: "A release overview",
+    title: "Release checklist",
     description:
-      "Own checkbox state once. Derive Status, Stat and Progress from the same selections, then reset the workflow without duplicating state.",
-    parts: ["Card", "Checkbox", "Grid", "Stat", "Status", "Progress", "Button"],
+      "A final review before publishing a release. Keep the checks and their progress together.",
   },
   {
     id: "creative",
     surface: "Creative",
-    title: "A space to play with color",
+    title: "Campaign preview",
     description:
-      "Keep shared controls and behavior. Change a Card border with a semantic color token and switch Button variants; both follow the page theme.",
-    parts: ["Card", "Badge", "Heading", "Text", "Button"],
+      "Use this for an event invitation, email banner, or announcement preview. Try the palette button to compare two treatments without changing the content.",
   },
 ] as const;
 
@@ -249,38 +240,28 @@ export function Examples({
         <div className="page-heading">
           <p className="page-kicker">Examples</p>
           <h1>
-            See what you can <em>build with it.</em>
+            See components <em>in context.</em>
           </h1>
-          <p>
-            Content, a controlled workflow, a change of visual character. Try each pattern, explore
-            its components and copy the code with its current state.
-          </p>
+          <p>Try a complete app demo, or explore three smaller examples with code you can adapt.</p>
         </div>
-        <nav className="example-index" aria-label="Example navigation">
+        <section className="workspace-example" aria-label="Interactive demo">
+          <div>
+            <p className="workspace-example-label">Interactive demo</p>
+            <h2>See kbui in a working app.</h2>
+            <p>Update workspace settings, filter the job queue, and retry a failed check.</p>
+          </div>
           <Button
-            variant="secondary"
+            variant="primary"
             nativeButton={false}
             role="link"
             render={<SiteLink href={`${siteRoot}compare/`} />}
           >
-            Try the workspace <LinkArrow />
+            Explore the workspace <LinkArrow />
           </Button>
-          {examples.map(({ id, title }) => (
-            <a key={id} href={`#${id}`}>
-              {title}
-            </a>
-          ))}
-        </nav>
-        {examples.map(({ id, surface, title, description, parts }) => (
+        </section>
+        {examples.map(({ id, surface, title, description }) => (
           <section key={id} id={id} className="example-section" aria-labelledby={`${id}-title`}>
             <div className="example-description">
-              <nav className="example-components" aria-label={`${surface} components`}>
-                {parts.map((name) => (
-                  <Link key={name} href={docs(name, storybookRoot)}>
-                    {name}
-                  </Link>
-                ))}
-              </nav>
               <h2 id={`${id}-title`}>{title}</h2>
               <p>{description}</p>
             </div>

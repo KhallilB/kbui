@@ -183,13 +183,11 @@
 }
 
 .kbui-site:is(.kbui-examples, .kbui-setup) {
-  .example-index,
   .setup-nav {
     gap: 10px;
     padding-bottom: 28px;
     margin-bottom: 0;
   }
-  .example-index > a:not(.kb-button),
   .setup-nav > a {
     padding: 8px 16px;
     border: 1px solid var(--review-line);
@@ -198,9 +196,6 @@
     background: var(--review-paper);
     text-decoration: none;
     font-size: var(--kb-text-small-size);
-  }
-  .example-index > .kb-button {
-    text-decoration: none;
   }
   .setup-nav a[aria-current="page"] {
     border-color: var(--kb-color-accent-hover);
@@ -215,7 +210,7 @@
     letter-spacing: -0.045em;
     line-height: 1.12;
   }
-  .example-description > p:last-child {
+  .example-description > p {
     line-height: 1.75;
   }
   .setup-step {
@@ -270,7 +265,6 @@
     .setup-help[open] > p {
       animation: kbui-surface-arrive 260ms var(--surface-ease) both;
     }
-    .example-index > a,
     .setup-nav > a {
       transition:
         color 180ms ease,
@@ -286,7 +280,6 @@
         border-color 180ms ease,
         box-shadow 240ms var(--surface-ease);
     }
-    .example-index .link-arrow,
     .sample-bottom .link-arrow {
       transition: transform 220ms var(--surface-ease);
     }
@@ -296,19 +289,16 @@
         border-color 200ms ease;
     }
     @media (hover: hover) and (pointer: fine) and (forced-colors: none) {
-      .example-index > a:hover,
       .setup-nav > a:not([aria-current]):hover {
         border-color: var(--review-control);
         color: var(--ink);
         background: var(--review-hover);
         transform: translateY(-2px);
       }
-      .example-index a:hover .link-arrow,
       .sample-bottom a:hover .link-arrow {
         transform: translate(2px, -2px);
       }
     }
-    .example-index > a:active,
     .setup-nav > a:active {
       transform: translateY(1px);
     }
