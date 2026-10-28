@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.10.0](https://github.com/KhallilB/kbui/compare/v0.9.1...v0.10.0) (2026-10-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* Replace @kbui package imports and dependencies with the matching @kb.ui packages and keep package versions synchronized.
+
+### Features
+
+* publish packages under the [@kb](https://github.com/kb).ui npm scope ([b7d6546](https://github.com/KhallilB/kbui/commit/b7d6546919fb065138cee69bbb9d8bac9c29b298))
+* publish releases to npm with trusted publishing ([99fec62](https://github.com/KhallilB/kbui/commit/99fec62bdae66f5d96465668fd7209ab873bcb6d))
+
+
+### Bug Fixes
+
+* **components:** align aria-invalid, css states, and catalog contracts ([b4f7765](https://github.com/KhallilB/kbui/commit/b4f77650fe43f02a83b80ced454572a87aded5d6))
+* **release:** keep legacy scope installs usable during npm rollout ([a63dfd6](https://github.com/KhallilB/kbui/commit/a63dfd699e43a6010aa6fc76766c30fe7dbed742))
+
 ## [0.9.1](https://github.com/KhallilB/kbui/compare/v0.9.0...v0.9.1) (2026-10-28)
 
 
