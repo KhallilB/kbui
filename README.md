@@ -30,7 +30,7 @@ export const Save = () => <Button variant="primary">Save</Button>;
 
 ## Versioning
 
-All packages share one version. release-please reads the conventional commits on `main` and opens a release PR; merging it updates `CHANGELOG.md`, tags `v<version>`, uploads the tarballs and, once they install on every OS, publishes them to npm. Before 1.0, a breaking change raises the minor version. Install the same version of every package. Release PRs also update the marked installation examples in this README, the usage guide and Storybook introduction. The site derives its install commands from the root package version; checks reject stale managed documentation.
+All packages share one version. release-please reads the conventional commits on `main` and opens a release PR; merging it updates `CHANGELOG.md`, tags `v<version>`, uploads the tarballs and checks installation on every OS. The legacy `@kbui` scope remains tarball-only; npm publishing starts after the scope migration. Before 1.0, a breaking change raises the minor version. Install the same version of every package. Release PRs also update the marked installation examples in this README, the usage guide and Storybook introduction. The site derives its install commands from the root package version; checks reject stale managed documentation.
 
 ## Working on kbui
 

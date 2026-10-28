@@ -1,6 +1,6 @@
 # Using kbui in a project
 
-Projects install kbui from npm. Each release also attaches the same tarballs to a [GitHub Release](https://github.com/KhallilB/kbui/releases). While you change kbui itself, a project can install it by path instead and receive every rebuild immediately.
+Projects install kbui from package tarballs attached to a [GitHub Release](https://github.com/KhallilB/kbui/releases). While you change kbui itself, a project can install it by path instead and receive every rebuild immediately.
 
 ## Installing
 

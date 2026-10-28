@@ -5,6 +5,7 @@ import {
   Callout,
   Checkbox,
   Combobox,
+  Dialog,
   ErrorSummary,
   Fieldset,
   FileInput,
@@ -15,6 +16,7 @@ import {
   RadioGroup,
   ScrollArea,
   Select,
+  Split,
   Stat,
   Status,
   Switch,
@@ -110,6 +112,7 @@ const cases: [string, () => ReactElement][] = [
         description="d"
         error="e"
         value="a"
+        defaultOpen
         options={[{ value: "a", label: "A" }]}
         onValueChange={() => {}}
         classNames={every}
@@ -124,6 +127,7 @@ const cases: [string, () => ReactElement][] = [
         description="d"
         error="e"
         value={["a"]}
+        defaultOpen
         options={[{ value: "a", label: "A" }]}
         onValueChange={() => {}}
         classNames={every}
@@ -167,7 +171,7 @@ const cases: [string, () => ReactElement][] = [
         label="L"
         description="d"
         error="e"
-        items={[{ id: "a", name: "a.txt" }]}
+        items={[{ id: "a", name: "a.txt", description: "1 KB" }]}
         onFiles={() => {}}
         onRemove={() => {}}
         classNames={every}
@@ -205,6 +209,15 @@ const cases: [string, () => ReactElement][] = [
       </ScrollArea>
     ),
   ],
+  [
+    "split",
+    () => (
+      <Split classNames={every}>
+        <div>A</div>
+        <div>B</div>
+      </Split>
+    ),
+  ],
 ];
 
 describe("classNames", () => {
@@ -218,5 +231,19 @@ describe("classNames", () => {
         expect(el.classList, cls).toContain(`slot-${camel(cls.slice(name.length + 4))}`);
       }
     }
+  });
+
+  test("dialog content passes classNames to its backdrop", () => {
+    const host = document.createElement("div");
+    document.body.append(host);
+    render(
+      <Dialog defaultOpen>
+        <Dialog.Content title="T" container={host} classNames={every}>
+          Body
+        </Dialog.Content>
+      </Dialog>,
+    );
+    expect(host.querySelector(".kb-dialog-backdrop")).toHaveClass("slot-backdrop");
+    host.remove();
   });
 });

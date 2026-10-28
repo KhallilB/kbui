@@ -53,6 +53,20 @@ describe("Select", () => {
     expect(ref.current).toContainElement(trigger);
     expect(trigger).toHaveAccessibleDescription("Choose one Unavailable date");
     expect(trigger).toHaveAttribute("aria-invalid", "true");
+
+    render(
+      <Select
+        label="Grammar class"
+        value="review"
+        options={options}
+        aria-invalid="grammar"
+        onValueChange={() => {}}
+      />,
+    );
+    const grammar = screen.getByRole("combobox", { name: "Grammar class" });
+    expect(grammar).toHaveAttribute("aria-invalid", "grammar");
+    expect(grammar.closest(".kb-select")).toHaveAttribute("data-invalid", "");
+    expect(grammar.closest(".kb-select")).not.toHaveAttribute("aria-invalid");
   });
   it("disables an empty collection and explains unavailable choices", async () => {
     const change = vi.fn();

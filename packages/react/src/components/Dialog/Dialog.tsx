@@ -6,6 +6,14 @@ import type { ClassNames } from "../../utils/kb";
 export type DialogProps = Base.Root.Props;
 export type DialogTriggerProps = Base.Trigger.Props;
 export type DialogCloseProps = Base.Close.Props;
+export type DialogTitleProps = Omit<Base.Title.Props, "className"> & {
+  /** Plain class string; Base UI's function form is not supported. */
+  className?: string;
+};
+export type DialogDescriptionProps = Omit<Base.Description.Props, "className"> & {
+  /** Plain class string; Base UI's function form is not supported. */
+  className?: string;
+};
 export type DialogActionsProps = ComponentProps<"div">;
 export type DialogSectionProps = ComponentProps<"div">;
 
@@ -34,17 +42,11 @@ function DialogClose(props: DialogCloseProps) {
   return <Base.Close {...props} />;
 }
 
-function DialogTitle({
-  className,
-  ...props
-}: Omit<Base.Title.Props, "className"> & { className?: string }) {
+function DialogTitle({ className, ...props }: DialogTitleProps) {
   return <Base.Title {...props} className={clsx("kb-dialog-title", className)} />;
 }
 
-function DialogDescription({
-  className,
-  ...props
-}: Omit<Base.Description.Props, "className"> & { className?: string }) {
+function DialogDescription({ className, ...props }: DialogDescriptionProps) {
   return <Base.Description {...props} className={clsx("kb-dialog-description", className)} />;
 }
 

@@ -1,15 +1,18 @@
 import { render, screen } from "@testing-library/react";
+import { createRef } from "react";
 import { describe, expect, test } from "vitest";
 import { Callout } from "./Callout";
 
 describe("Callout", () => {
-  test("renders title, body and actions with the neutral tone", () => {
+  test("renders title, body and actions with the neutral tone and forwards ref", () => {
+    const ref = createRef<HTMLDivElement>();
     const { container } = render(
-      <Callout title="Needs an answer" actions={<button type="button">Answer</button>}>
+      <Callout ref={ref} title="Needs an answer" actions={<button type="button">Answer</button>}>
         Overwrite the file?
       </Callout>,
     );
     const root = container.querySelector(".kb-callout");
+    expect(ref.current).toBe(root);
     expect(root).toHaveAttribute("data-tone", "neutral");
     expect(root?.querySelector(".kb-callout-title")).toHaveTextContent("Needs an answer");
     expect(root?.querySelector(".kb-callout-body")).toHaveTextContent("Overwrite the file?");

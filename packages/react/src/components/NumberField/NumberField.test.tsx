@@ -98,6 +98,19 @@ describe("NumberField", () => {
     expect(input.current).toBe(field);
     expect(root.current).toHaveClass("kb-numberfield");
     expect(field).toHaveClass("number");
+
+    render(
+      <NumberField
+        label="Grammar count"
+        value={null}
+        aria-invalid="grammar"
+        onValueChange={() => {}}
+      />,
+    );
+    const grammar = screen.getByRole("textbox", { name: "Grammar count" });
+    expect(grammar).toHaveAttribute("aria-invalid", "grammar");
+    expect(grammar.closest(".kb-numberfield")).toHaveAttribute("data-invalid", "");
+    expect(grammar.closest(".kb-numberfield")).not.toHaveAttribute("aria-invalid");
     expect(root.current?.querySelector(".kb-numberfield-group")).toHaveClass("well");
     expect(root.current?.querySelector(".kb-numberfield-error")?.parentElement).toBe(root.current);
   });

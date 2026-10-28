@@ -43,6 +43,15 @@ describe("RadioGroup", () => {
     expect(ref.current).toBe(screen.getByRole("radiogroup", { name: "Day" }));
     expect(ref.current).toHaveAccessibleDescription("Choose a day Required");
     expect(screen.getByRole("radio")).not.toBeChecked();
+
+    render(
+      <RadioGroup label="Grammar day" value={null} aria-invalid="grammar" onValueChange={() => {}}>
+        <RadioGroup.Item value="fri">Friday</RadioGroup.Item>
+      </RadioGroup>,
+    );
+    const grammar = screen.getByRole("radiogroup", { name: "Grammar day" });
+    expect(grammar).toHaveAttribute("aria-invalid", "grammar");
+    expect(grammar).toHaveAttribute("data-invalid", "");
   });
   it("blocks disabled group changes", async () => {
     const change = vi.fn();

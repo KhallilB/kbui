@@ -195,6 +195,20 @@ describe("MultiSelect", () => {
     expect(input).toHaveAccessibleDescription(
       "Select at least one API scope. At least one scope is required.",
     );
+
+    render(
+      <MultiSelect
+        label="Grammar scopes"
+        options={options}
+        value={[]}
+        aria-invalid="grammar"
+        onValueChange={() => {}}
+      />,
+    );
+    const grammar = screen.getByRole("combobox", { name: "Grammar scopes" });
+    expect(grammar).toHaveAttribute("aria-invalid", "grammar");
+    expect(grammar.closest(".kb-multiselect")).toHaveAttribute("data-invalid", "");
+    expect(grammar.closest(".kb-multiselect")).not.toHaveAttribute("aria-invalid");
   });
 
   it("preserves page scroll and dismisses nonmodally on outside click", async () => {

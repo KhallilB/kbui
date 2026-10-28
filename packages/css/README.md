@@ -41,6 +41,7 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | `multiselect.css` | `.kb-multiselect` with labeled chip toolbar, removable selection chips, search input, clear/trigger actions and portaled listbox popup |
 | `input.css` | `.kb-input` with `data-size`, `data-invalid` and `data-disabled`, wrapping `-label`, `-shell`, `-start`, `-control`, `-end`, `-description` and `-error` parts |
 | `textarea.css` | `.kb-textarea` with `data-resize`, `data-invalid`, `data-disabled` and `data-readonly`, wrapping `-label`, `-control`, `-description` and `-error` parts |
+| `switch.css` | `.kb-switch` with `data-size`, `data-off-tone`, `data-on-tone`, `data-checked`, `data-disabled`, `data-readonly` and `data-invalid`, wrapping `-field`, `-target`, `-control`, `-track`, `-thumb`, `-off`, `-on`, `-label`, `-description` and `-error` parts |
 | `fieldset.css` | Native `fieldset` with `.kb-fieldset`, `data-disabled` and `data-invalid`, wrapping `-legend`, `-description`, `-fields` and `-error` parts |
 | `formactions.css` | `.kb-formactions` with `data-align` (`end`, `start`, `between`) and optional `data-divider` |
 | `errorsummary.css` | `.kb-errorsummary` alert container with `-title`, `-description`, `-list`, `-item` and `-link` parts |

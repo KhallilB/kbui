@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
 import { type ComponentProps, useId } from "react";
-import { type ClassNames, kb } from "../../utils/kb";
+import { type ClassNames, kb, resolveInvalid } from "../../utils/kb";
 
 export type TextareaResize = "vertical" | "none" | "both";
 export type TextareaPart = "label" | "control" | "description" | "error";
@@ -41,14 +41,12 @@ export const Textarea = ({
   className,
   classNames,
   "aria-describedby": ariaDescribedBy,
-  "aria-invalid": ariaInvalid,
+  "aria-invalid": callerAriaInvalid,
   ...props
 }: TextareaProps) => {
   const reactId = useId();
   const controlId = id ?? `kb-textarea-${reactId}`;
-  const hasAriaInvalid =
-    ariaInvalid !== undefined && ariaInvalid !== false && ariaInvalid !== "false";
-  const invalid = Boolean(error) || hasAriaInvalid;
+  const { invalid, ariaInvalid } = resolveInvalid(Boolean(error), callerAriaInvalid);
   const descriptionId = description ? `${controlId}-description` : undefined;
   const errorId = error ? `${controlId}-error` : undefined;
   const describedBy =
@@ -69,7 +67,7 @@ export const Textarea = ({
         rows={rows}
         disabled={disabled}
         readOnly={readOnly}
-        aria-invalid={hasAriaInvalid ? ariaInvalid : invalid ? true : ariaInvalid}
+        aria-invalid={ariaInvalid}
         aria-describedby={describedBy}
         className={clsx("kb-textarea-control", classNames?.control)}
         onChange={(event) => {
