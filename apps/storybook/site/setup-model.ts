@@ -15,10 +15,6 @@ const atLeastMinor = (version: string, floor: number) => {
 export function bundlesCss(version = releaseVersion): boolean {
   return atLeastMinor(version, 7);
 }
-// npm has 0.9.0 onward; older releases exist only as GitHub tarballs.
-function onRegistry(version = releaseVersion): boolean {
-  return atLeastMinor(version, 9);
-}
 export function stylesheetImport(version = releaseVersion): string {
   return bundlesCss(version) ? "@kbui/react/styles.css" : "@kbui/css/styles.css";
 }
@@ -34,9 +30,7 @@ export function installCommand(
     ...(tokens ? ["tokens"] : []),
   ];
   const source = (name: string) =>
-    onRegistry(version)
-      ? `@kbui/${name}@${version}`
-      : `https://github.com/KhallilB/kbui/releases/download/v${version}/kbui-${name}-${version}.tgz`;
+    `https://github.com/KhallilB/kbui/releases/download/v${version}/kbui-${name}-${version}.tgz`;
   return `${prefix} ${packages.map(source).join(" ")}`;
 }
 export function readSetup(search: string): SetupOptions {

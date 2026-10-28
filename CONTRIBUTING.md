@@ -121,3 +121,11 @@ Local instruction files and tool settings are ignored too. Ignored files have no
 ## Feature documentation
 
 When a capability changes, update its canonical documentation and the [maintained feature map](docs/features.md). The `kbui-docs-features` skill supports this workflow. Link shared examples rather than copying them; distinguish local implementation from publication. `bun test scripts/feature-docs.test.ts` checks the register's local file destinations and runs inside `bun run check`.
+
+### npm rollout
+
+The legacy `@kbui` scope is unavailable on npm. Keep its install examples on GitHub release tarballs; the publish step skips that scope. Merge the publishing infrastructure PR #77 before the `@kb.ui` migration PR #78. Do not merge an intermediate release PR between them.
+
+After #78, let release-please prepare 0.10.0, add its public release summary and migration notes, then merge that release PR. The new scope needs a one-time bootstrap: after tarballs are uploaded and consumer installation passes on all three operating systems, download the `kb.ui-{tokens,css,react}-0.10.0.tgz` assets and publish each with `npm publish <file> --access public` from an authenticated owner session. Configure each package's trusted publisher for GitHub Actions, repository `KhallilB/kbui`, workflow `release.yml`. Rerun the failed publish job; it skips versions already published. Later releases use OIDC automatically.
+
+Do not publish the legacy `@kbui` packages or require them on npm before merging #77.
