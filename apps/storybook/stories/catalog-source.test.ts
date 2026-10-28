@@ -166,6 +166,13 @@ test("site samples cover every playground state and current composition palette"
   expect(Object.keys(samples.surfaces)).toEqual([
     "editorial",
     "operations",
+    "operations-1",
+    "operations-2",
+    "operations-3",
+    "operations-4",
+    "operations-5",
+    "operations-6",
+    "operations-7",
     "creative-false",
     "creative-true",
   ]);
@@ -180,7 +187,19 @@ test("site samples cover every playground state and current composition palette"
   expect(selected?.snippet).toContain('import { Button } from "@kbui/react"');
   expect(samples.surfaces["creative-true"]?.snippet).toContain("useState(true)");
   expect(samples.surfaces["creative-false"]?.snippet).toContain("useState(false)");
-  expect(samples.surfaces.operations?.snippet).toContain("value={84}");
+  expect(samples.surfaces.operations?.snippet).toContain("<Checkbox");
+  expect(samples.surfaces.operations?.snippet).toContain("useState([false, false, false])");
+  expect(samples.surfaces["operations-7"]?.snippet).toContain("useState([true, true, true])");
+  expect(samples.surfaces.editorial?.snippet).toContain("<Heading");
+  expect(samples.surfaces.editorial?.snippet).toContain("<Text");
+  expect(samples.surfaces.editorial?.snippet).toContain("<Link");
+  expect(samples.surfaces.editorial?.snippet).toContain("<Code");
+  expect(samples.surfaces.editorial?.snippet).toContain(
+    "https://kbui.kcb.pro/storybook/?path=/docs/components-heading--docs",
+  );
+  expect(samples.surfaces["creative-false"]?.snippet).toContain("borderColor");
+  expect(samples.surfaces["creative-false"]?.snippet).toContain("--kb-color-accent-ink");
+  expect(samples.surfaces["creative-false"]?.snippet).toContain("aria-pressed={palette}");
   expect(samples.surfaces.editorial?.code).toContain(".composition");
 });
 

@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { babelParseFile, extractSource, loadCsf } from "storybook/internal/csf-tools";
+import { releaseSampleKey, releaseSteps } from "../site/example-model.ts";
 import { playgroundKey, sizes, variants } from "../site/playground-model.ts";
 import { exampleCode } from "./code.ts";
 import { highlightSample } from "./highlight.ts";
@@ -9,6 +10,7 @@ import type { CodeSample } from "./types";
 const site = (name: string) => fileURLToPath(new URL(`../site/${name}`, import.meta.url));
 export const siteSampleFiles = [
   "Examples.tsx",
+  "example-model.ts",
   "Brand.tsx",
   "LinkArrow.tsx",
   "examples.css",
@@ -23,7 +25,7 @@ function fromRender(
   component = "Card",
   theme: "light" | "dark" = "light",
 ): CodeSample {
-  const source = `import { Badge, Button, Card, Progress, Stat, Status } from "./components.tsx";
+  const source = `import { Badge, Button, Card, Checkbox, Code, Grid, Heading, Link, Progress, Stat, Status, Text } from "./components.tsx";
 import { useState } from "react";
 ${helpers}
 const meta = { title: "Example", component: ${component}, globals: { theme: "${theme}" } };
@@ -59,6 +61,15 @@ export function loadSiteSamples(): {
     return result.type === "ReturnStatement" && result.argument ? [result.argument] : [];
   });
   if (returns.length !== 3) throw new Error("Expected three canonical composition branches");
+  const completed = view.body.body.find(
+    (statement) =>
+      statement.type === "VariableDeclaration" &&
+      statement.declarations.some(
+        (declaration) =>
+          declaration.id.type === "Identifier" && declaration.id.name === "completed",
+      ),
+  );
+  if (!completed) throw new Error("Missing checklist derivation");
   const arrow = babelParseFile({ code: readFileSync(site("LinkArrow.tsx"), "utf8") });
   const arrowDeclaration = arrow.path.scope.bindings.LinkArrow?.path.node;
   const arrowReturn =
@@ -120,9 +131,11 @@ export function loadSiteSamples(): {
     const node = returns[index];
     if (!node) throw new Error(`Missing ${surface} composition`);
     const bodySource = extractSource(node)
-      .replace(/<(\/?)Heading\b/g, "<$1h3")
+      .replaceAll("level={headingLevel}", "level={3}")
       .replace(/docs\("(\w+)", storybookRoot\)/g, (_, component: string) =>
-        JSON.stringify(`./storybook/?path=/docs/components-${component.toLowerCase()}--docs`),
+        JSON.stringify(
+          `https://kbui.kcb.pro/storybook/?path=/docs/components-${component.toLowerCase()}--docs`,
+        ),
       );
     const bodyFile = babelParseFile({ code: bodySource });
     bodyFile.path.traverse({
@@ -159,17 +172,21 @@ export function loadSiteSamples(): {
     const usageExpression = usageFile.ast.program.body[0];
     if (usageExpression?.type !== "ExpressionStatement") throw new Error("Missing component usage");
     const componentUsage = extractSource(usageExpression.expression);
-    for (const palette of surface === "creative" ? [false, true] : [false]) {
-      const render =
+    const states =
+      surface === "operations" ? 2 ** releaseSteps.length : surface === "creative" ? 2 : 1;
+    for (let state = 0; state < states; state++) {
+      const checks = releaseSteps.map((_, index) => Boolean(state & (1 << index)));
+      const setup =
         surface === "creative"
-          ? `() => { const [palette, setPalette] = useState(${palette}); return (${body}); }`
-          : `() => (${body})`;
-      const sample = fromRender(render);
-      const usageRender =
-        surface === "creative"
-          ? `() => { const [palette, setPalette] = useState(${palette}); return (${componentUsage}); }`
-          : `() => (${componentUsage})`;
-      sample.snippet = fromRender(usageRender).snippet;
+          ? `const [palette, setPalette] = useState(${state === 1});`
+          : surface === "operations"
+            ? `const [checks, setChecks] = useState(${JSON.stringify(checks)}); ${extractSource(completed)}`
+            : "";
+      const helpers =
+        surface === "operations" ? `const releaseSteps = ${JSON.stringify(releaseSteps)};` : "";
+      const render = (jsx: string) => `() => { ${setup} return (${jsx}); }`;
+      const sample = fromRender(render(body), helpers);
+      sample.snippet = fromRender(render(componentUsage), helpers).snippet;
       // Layout stays site-owned; complete setup includes its actual stylesheet.
       sample.code = sample.code
         .replace(
@@ -177,8 +194,13 @@ export function loadSiteSamples(): {
           `  return (\n    <>\n    <style>{${JSON.stringify(css)}}</style>\n    <div className="kbui-site" style=`,
         )
         .replace("    </div>\n  );", "    </div>\n    </>\n  );");
-      surfaces[surface === "creative" ? `${surface}-${palette}` : surface] =
-        highlightSample(sample);
+      const key =
+        surface === "creative"
+          ? `${surface}-${state === 1}`
+          : surface === "operations"
+            ? releaseSampleKey(checks)
+            : surface;
+      surfaces[key] = highlightSample(sample);
     }
   }
   return { playground, surfaces };

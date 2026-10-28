@@ -29,13 +29,38 @@ export const Browse: Story = {
     const nav = within(canvas.getByRole("navigation", { name: "Main navigation" }));
     expect(nav.getByRole("link", { name: "Examples" })).toHaveAttribute("aria-current", "page");
     expect(nav.getByRole("link", { name: "Playground" })).toHaveAttribute("href", "../playground/");
-    expect(canvas.getByRole("link", { name: /Explore Card/ })).toHaveAttribute(
+    expect(canvas.getByRole("link", { name: /Explore Heading/ })).toHaveAttribute(
       "href",
-      "./?path=/docs/components-card--docs",
+      "./?path=/docs/components-heading--docs",
+    );
+    expect(canvas.getByRole("link", { name: /^Grid$/ })).toHaveAttribute(
+      "href",
+      "./?path=/docs/layout-grid--docs",
     );
     expect(canvas.getByRole("progressbar", { name: "Release readiness" })).toHaveAttribute(
       "aria-valuenow",
-      "84",
+      "0",
+    );
+    const reset = canvas.getByRole("button", { name: "Reset checklist" });
+    expect(reset).toBeDisabled();
+    await userEvent.click(canvas.getByRole("checkbox", { name: "Build packages" }));
+    expect(canvas.getByRole("progressbar", { name: "Release readiness" })).toHaveAttribute(
+      "aria-valuenow",
+      "33",
+    );
+    await userEvent.click(canvas.getByRole("checkbox", { name: "Review accessibility" }));
+    await userEvent.click(canvas.getByRole("checkbox", { name: "Verify examples" }));
+    expect(canvas.getByRole("progressbar", { name: "Release readiness" })).toHaveAttribute(
+      "aria-valuenow",
+      "100",
+    );
+    expect(canvas.getByRole("status", { name: "Release checks" })).toHaveTextContent(
+      "Checks complete",
+    );
+    await userEvent.click(reset);
+    expect(canvas.getByRole("progressbar", { name: "Release readiness" })).toHaveAttribute(
+      "aria-valuenow",
+      "0",
     );
     await userEvent.click(canvas.getByRole("button", { name: "Change palette" }));
     expect(canvas.getByRole("status", { name: "Palette" })).toHaveTextContent(
@@ -60,6 +85,12 @@ export const Code: Story = {
     expect(code).toHaveTextContent('from "@kbui/react"');
     expect(code).not.toHaveTextContent("<svg");
     expect(code).not.toHaveTextContent(".composition");
+    const operations = within(canvas.getByRole("region", { name: "A release overview" }));
+    await userEvent.click(operations.getByRole("button", { name: "View code" }));
+    const checklistCode = operations.getByRole("region", { name: "Operations example code" });
+    expect(checklistCode).toHaveTextContent("useState([false, false, false])");
+    await userEvent.click(operations.getByRole("checkbox", { name: "Build packages" }));
+    expect(checklistCode).toHaveTextContent("useState([true, false, false])");
   },
 };
 
