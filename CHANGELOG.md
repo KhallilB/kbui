@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.9.1](https://github.com/KhallilB/kbui/compare/v0.9.0...v0.9.1) (2026-10-28)
+
+
+### Bug Fixes
+
+* **site:** restore release notes and dark editor selection ([1babe07](https://github.com/KhallilB/kbui/commit/1babe0721c6fc51f4625c709f9430a23ba01d2aa))
+* **site:** restore release notes and dark editor selection ([ffbc6ab](https://github.com/KhallilB/kbui/commit/ffbc6ab98afcf64c7486f3fd5bbcb4ba7ad0af4d))
+* **site:** restore release notes and dark editor selection ([#75](https://github.com/KhallilB/kbui/issues/75)) ([1babe07](https://github.com/KhallilB/kbui/commit/1babe0721c6fc51f4625c709f9430a23ba01d2aa))
+
 ## [0.9.0](https://github.com/KhallilB/kbui/compare/v0.8.0...v0.9.0) (2026-10-28)
 
 
