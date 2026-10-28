@@ -20,8 +20,9 @@ bun run storybook
 
 | Command | What it does |
 |---|---|
-| `bun run check` | Builds every package, then runs Biome, the typecheck, generated/documented React example compilation, the unit tests and `test:pack`. CI runs it. |
+| `bun run check` | Builds every package, then runs Biome, the typecheck, generated/documented React example compilation, unit tests, `test:pack` and `test:consumer`. CI runs these checks. |
 | `bun run test:pack` | Packs each published package and checks the tarball's name and contents. Needs built packages. |
+| `bun run test:consumer` | Installs the packed React tarball outside the workspace, checks installed versions, typechecks the consumer and runs its smoke check. Needs built packages. |
 | `bun run test:stories` | Renders every story in headless Chromium and runs an accessibility scan on each. CI runs it. |
 | `bun run validate:site` | After `bun run build`, runs the complete site/browser and deployment dry-run checks. PR and main validation share these stages; without an argument this command runs all stages. Needs Bash and the documented deployment Node version. |
 | `bun run new <Name>` | Generates a new component. See [Adding a component](docs/guides/adding-a-component.md). |
@@ -32,7 +33,7 @@ bun run storybook
 
 CI job names use `<purpose>: <scope>`: `Check` for static/package checks, `Test` for executable suites, `Gate` for combined results, and `Deploy` for publishing. Add future jobs using the same pattern; describe detailed coverage in their steps.
 
-CI runs **Check: code** on every PR, with separate named steps for package builds, lint, TypeScript, documented examples, unit tests, and tarball checks. Docs-only changes compile Storybook without launching browsers. Runtime changes and `packages/react/README.md`, which supplies generated catalog APIs, also start four independent checks in the official Playwright image:
+CI runs **Check: code** on every PR, with separate named steps for package builds, lint, TypeScript, documented examples, unit tests, tarball contents, and packed-tarball consumer installation. Consumer installation uses the [shared fixture](.github/consumer/README.md) without publishing to npm. Docs-only changes compile Storybook without launching browsers. Runtime changes and `packages/react/README.md`, which supplies generated catalog APIs, also start four independent checks in the official Playwright image:
 
 - **Test: stories** renders interaction stories in normal and reduced motion.
 - **Test: themes** checks component stories across the default themes.
