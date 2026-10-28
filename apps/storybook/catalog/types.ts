@@ -31,3 +31,10 @@ export type CatalogEntry = {
   defaultStoryId: string;
   docsId: string;
 };
+
+export type ComponentReference = {
+  name: string;
+  description: string;
+  guide: import("./component-guides").ComponentGuide;
+  tables: Extract<ApiBlock, { kind: "table" }>[];
+};

@@ -11,7 +11,7 @@ const meta = {
   title: "Components/Heading",
   component: Heading,
   tags: ["autodocs"],
-  args: { children: "Make room for clear thinking." },
+  args: { children: "Project overview" },
   argTypes: {
     level: { control: "select", options: [1, 2, 3, 4, 5, 6] },
     size: { control: "select", options: ["sm", "md", "lg", "xl", "display"] },

@@ -8,7 +8,9 @@ const meta = {
   title: "Components/Text",
   component: Text,
   tags: ["autodocs"],
-  args: { children: "Clear content gives every decision a little more room." },
+  args: {
+    children: "Review the changes, add your feedback, and share the draft when it is ready.",
+  },
   argTypes: {
     as: { control: "select", options: ["p", "span", "div"] },
     size: { control: "select", options: ["sm", "md", "lg"] },

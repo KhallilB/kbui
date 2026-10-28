@@ -37,7 +37,7 @@ The fixture restyle in `stories/skin-fixture-values.ts` is checked by `bun test 
 |---|---|
 | Introduction | `docs/Introduction.mdx` |
 | Foundations / Tokens | `docs/Tokens.mdx`. Reads its list from `@kbui/tokens`, so it always matches `tokens.json`. |
-| Each component | That component's `.stories.tsx` file |
+| Each component | Colocated `.stories.tsx` examples, canonical API tables from `packages/react/README.md`, and practical usage/accessibility guidance from `catalog/component-guides.ts`, rendered by `.storybook/docs.tsx` |
 | Showcase / Restyle | `stories/Skins.stories.tsx`, one composition from stock `Button`, `Dialog`, `Panel` and `Status`, rendered with default tokens and with the fixture restyle from `stories/skin-fixture.tsx` |
 
 ## Story visibility

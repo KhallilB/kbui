@@ -85,7 +85,7 @@ test("example code retains inherited props, render helpers and global themes", (
       .find((entry) => entry.name === name)
       ?.stories.find((story) => story.id.endsWith(`--${id}`))?.code ?? "";
   expect(code("Button", "danger")).toContain('"variant": "danger"');
-  expect(code("Button", "danger")).toContain('"children": "Button"');
+  expect(code("Button", "secondary")).toContain('"children": "Save changes"');
   const panel = code("Panel", "compact");
   expect(panel).toContain("function Sample(");
   expect(panel).toContain('"density": "compact"');
@@ -149,7 +149,7 @@ test("default snippets show selected usage without generated setup", () => {
     ?.stories.find((story) => story.id.endsWith("--danger"));
   expect(button).toHaveProperty(
     "snippet",
-    'import { Button } from "@kbui/react";\n\n<Button variant="danger">Button</Button>',
+    'import { Button } from "@kbui/react";\n\n<Button variant="danger">Delete draft</Button>',
   );
   const input = entries
     .find((entry) => entry.id === "input")

@@ -23,7 +23,7 @@ For fast home edits, use `bun run --filter @kbui/storybook dev:site`. Live catal
 | --- | --- | --- |
 | `SiteFrame.tsx` | Shared brand, navigation, current-page state, skip link and footer | `stories/Home.stories.tsx`, `stories/Workbench.stories.tsx`, `stories/Examples.stories.tsx` |
 | `Home.tsx` | Product home, links, and the latest-release pill | `stories/Home.stories.tsx` |
-| `Changelog.tsx`, `changelog-model.ts` | Release notes built from the root `CHANGELOG.md` at build time. Groups entries into breaking changes, new components, improvements, and fixes; hides `build`, `ci`, `release`, and `test` scopes. Commit subjects like `add NumberField and FileInput` become catalog links when every name is a catalog component | `stories/Changelog.stories.tsx`, `stories/changelog-model.test.ts` |
+| `Changelog.tsx`, `changelog-model.ts`, `release-notes.ts` | Release versions, dates, links, and component names come from the generated root `CHANGELOG.md`. Edited titles, highlights, and upgrade steps come from `release-notes.ts`; the public page omits commit categories and counts. Version links open the selected release | `stories/Changelog.stories.tsx`, `stories/changelog-model.test.ts`, `stories/release-notes.test.ts` |
 | `PlanDemo.tsx` | Day-off composition, rendered directly by the home | `stories/PlanDemo.stories.tsx` |
 | `Workbench.tsx` | Prop playground, copied JSX, and six searchable component entries | `stories/Workbench.stories.tsx` |
 | `Catalog.tsx` | Searchable catalog, shareable component pages, canonical API summaries and live Storybook previews | `stories/Catalog.stories.tsx`, `stories/catalog-source.test.ts` |

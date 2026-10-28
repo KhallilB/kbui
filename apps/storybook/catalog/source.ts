@@ -6,10 +6,11 @@ import type { Plugin } from "vite";
 import { parseChangelog } from "../site/changelog-model.ts";
 import { firstComponent, themeMarkup, themes } from "../site/setup-model.ts";
 import { exampleCode } from "./code.ts";
+import { componentGuides } from "./component-guides.ts";
 import { definitions } from "./definitions.ts";
 import { highlightSample } from "./highlight.ts";
 import { loadSiteSamples, siteSampleFiles } from "./site-samples.ts";
-import type { ApiBlock, CatalogEntry } from "./types";
+import type { ApiBlock, CatalogEntry, ComponentReference } from "./types";
 
 const reactRoot = fileURLToPath(new URL("../../../packages/react/", import.meta.url));
 const componentsRoot = resolve(reactRoot, "src/components");
@@ -21,6 +22,8 @@ const virtualId = "virtual:kbui-catalog";
 const sampleId = "virtual:kbui-site-samples";
 const resolvedSampleId = "\0virtual:kbui-site-samples";
 const resolvedId = `\0${virtualId}`;
+const referenceId = "\0virtual:kbui-reference";
+const guidancePath = fileURLToPath(new URL("./component-guides.ts", import.meta.url));
 
 function cells(line: string): string[] {
   return line
@@ -86,6 +89,19 @@ export function parseApiSection(guide: string, heading: string, rowName?: string
   return blocks;
 }
 
+export function loadComponentReferences(): Record<string, ComponentReference> {
+  const guide = readFileSync(guidePath, "utf8");
+  return Object.fromEntries(
+    Object.entries(definitions).map(([name, definition]) => {
+      const guidance = componentGuides[name];
+      if (!guidance) throw new Error(`Add usage and accessibility guidance for ${name}`);
+      const tables = parseApiSection(guide, name).filter((block) => block.kind === "table");
+      if (!tables.length) throw new Error(`Add a prop or composition table for ${name}`);
+      return [name, { name, description: definition.description, guide: guidance, tables }];
+    }),
+  );
+}
+
 export function loadCatalogSources(): CatalogEntry[] {
   const guide = readFileSync(guidePath, "utf8");
   const folders = readdirSync(componentsRoot, { withFileTypes: true })
@@ -115,14 +131,14 @@ export function loadCatalogSources(): CatalogEntry[] {
     const first =
       stories.find((story) => /--(default|primary|confirm|on-hover)$/.test(story.id)) ?? stories[0];
     if (!first) throw new Error(`Missing Storybook examples: ${name}`);
-    const heading = definition.section ?? name;
+    const heading = name;
     return {
       id: name.toLowerCase(),
       name,
       group: definition.group,
       description: definition.description,
       apiHeading: heading,
-      api: parseApiSection(guide, heading, definition.row ? name : undefined),
+      api: parseApiSection(guide, heading),
       stories,
       defaultStoryId: first.id,
       docsId: `${first.id.split("--")[0]}--docs`,
@@ -147,12 +163,14 @@ export function catalogPlugin(): Plugin {
   return {
     name: "kbui-catalog-source",
     resolveId(id) {
+      if (id === "virtual:kbui-reference") return referenceId;
       if (id === "virtual:kbui-setup-samples") return "\0virtual:kbui-setup-samples";
       if (id === virtualId) return resolvedId;
       if (id === "virtual:kbui-changelog") return changelogId;
       if (id === sampleId) return resolvedSampleId;
     },
     load(id) {
+      if (id === referenceId) return `export default ${JSON.stringify(loadComponentReferences())};`;
       if (id === "\0virtual:kbui-setup-samples") {
         const sample = (code: string) => highlightSample({ code, snippet: code });
         return `export default ${JSON.stringify({ usage: sample(firstComponent), ...Object.fromEntries(themes.map((theme) => [theme, sample(themeMarkup(theme))])), styling: { code: restyleSample, snippet: restyleSample, tokens: [], snippetTokens: [] } })};`;
@@ -164,6 +182,7 @@ export function catalogPlugin(): Plugin {
     },
     buildStart() {
       this.addWatchFile(guidePath);
+      this.addWatchFile(guidancePath);
       this.addWatchFile(setupPath);
       this.addWatchFile(changelogPath);
       for (const path of siteSampleFiles) this.addWatchFile(path);
@@ -173,6 +192,7 @@ export function catalogPlugin(): Plugin {
     handleHotUpdate({ file, server }) {
       if (
         file !== guidePath &&
+        file !== guidancePath &&
         file !== setupPath &&
         file !== changelogPath &&
         !file.startsWith(componentsRoot) &&
@@ -181,6 +201,8 @@ export function catalogPlugin(): Plugin {
         return;
       const module = server.moduleGraph.getModuleById(resolvedId);
       if (module) server.moduleGraph.invalidateModule(module);
+      const reference = server.moduleGraph.getModuleById(referenceId);
+      if (reference) server.moduleGraph.invalidateModule(reference);
       const samples = server.moduleGraph.getModuleById(resolvedSampleId);
       if (samples) server.moduleGraph.invalidateModule(samples);
       const setup = server.moduleGraph.getModuleById("\0virtual:kbui-setup-samples");

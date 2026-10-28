@@ -1,4 +1,23 @@
 .kbui-site {
+  .release-navigation {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+  .release-navigation a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 8px 16px;
+    border: 1px solid var(--review-line);
+    border-radius: var(--kb-radius-full);
+    color: var(--kb-color-accent-ink);
+  }
+  .release-navigation a:hover {
+    background: var(--review-hover);
+    text-decoration: none;
+  }
   .release-list {
     display: grid;
   }
@@ -77,12 +96,24 @@
     flex: 1 1 240px;
     font-weight: 500;
   }
-  .release-counts {
-    color: var(--muted);
-    font-size: var(--kb-text-small-size);
+  .release-title {
+    margin-bottom: 16px;
+    font-size: clamp(22px, 2.4vw, 28px);
+    font-weight: 550;
+    letter-spacing: -0.025em;
   }
   .change-group + .change-group {
     margin-top: 24px;
+  }
+  .release-highlights + .change-group {
+    margin-top: 24px;
+  }
+  .release-highlights {
+    padding: 0;
+    list-style: none;
+  }
+  .release:target .release-rail h2 {
+    color: var(--kb-color-accent-ink);
   }
   .change-group h3 {
     margin: 0 0 8px;

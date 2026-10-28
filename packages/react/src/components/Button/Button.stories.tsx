@@ -7,7 +7,7 @@ const meta = {
   title: "Components/Button",
   component: Button,
   tags: ["autodocs"],
-  args: { children: "Button" },
+  args: { children: "Save changes" },
   argTypes: {
     variant: { control: "select", options: ["primary", "secondary", "ghost", "danger"] },
     size: { control: "select", options: ["sm", "md", "lg", "icon"] },
@@ -20,7 +20,7 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   play: async ({ canvasElement }) => {
     if (window.matchMedia("(forced-colors: active)").matches) return;
-    const button = within(canvasElement).getByRole("button", { name: "Button" });
+    const button = within(canvasElement).getByRole("button", { name: "Save changes" });
     const accent = document.createElement("span");
     accent.style.color = "var(--kb-color-accent)";
     button.append(accent);
@@ -34,7 +34,7 @@ export const Primary: Story = {
 };
 export const Secondary: Story = { args: { variant: "secondary" } };
 export const Ghost: Story = { args: { variant: "ghost" } };
-export const Danger: Story = { args: { variant: "danger" } };
+export const Danger: Story = { args: { variant: "danger", children: "Delete draft" } };
 export const Sizes: Story = {
   render: (args) => (
     <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
@@ -53,7 +53,7 @@ export const Sizes: Story = {
 export const Disabled: Story = { args: { disabled: true } };
 export const AsLink: Story = {
   // biome-ignore lint/a11y/useAnchorContent: Base UI render injects children
-  args: { render: <a href="#docs" />, nativeButton: false, role: "link", children: "Link" },
+  args: { render: <a href="#docs" />, nativeButton: false, role: "link", children: "View project" },
 };
 export const IconOnly: Story = {
   args: {
@@ -78,7 +78,7 @@ export const MotionTokens: Story = {
   ),
   play: async ({ canvasElement }) => {
     if (!window.matchMedia("(prefers-reduced-motion: no-preference)").matches) return;
-    const button = within(canvasElement).getByRole("button", { name: "Button" });
+    const button = within(canvasElement).getByRole("button", { name: "Save changes" });
     expect(getComputedStyle(button).transitionDuration).toBe("0.3s, 0.3s, 0.3s, 0.3s");
   },
 };

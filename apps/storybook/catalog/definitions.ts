@@ -3,8 +3,6 @@ import type { CatalogGroup } from "./types";
 type Definition = {
   group: CatalogGroup;
   description: string;
-  section?: string;
-  row?: boolean;
 };
 export const definitions: Record<string, Definition> = {
   Checkbox: {
@@ -16,8 +14,6 @@ export const definitions: Record<string, Definition> = {
   Badge: {
     group: "Feedback",
     description: "Add a short label, category, or piece of metadata.",
-    section: "Display and layout helpers",
-    row: true,
   },
   Button: {
     group: "Actions",
@@ -26,13 +22,10 @@ export const definitions: Record<string, Definition> = {
   Callout: {
     group: "Feedback",
     description: "Highlight a message and offer a useful next step.",
-    section: "Display and layout helpers",
-    row: true,
   },
   Card: {
     group: "Layout",
     description: "Group related content, with room for links and actions.",
-    section: "Card and Grid",
   },
   Code: { group: "Typography", description: "Literal inline code that wraps long paths." },
   Dialog: {
@@ -46,7 +39,6 @@ export const definitions: Record<string, Definition> = {
   Grid: {
     group: "Layout",
     description: "Arrange content in responsive columns or a single stack.",
-    section: "Card and Grid",
   },
   Heading: {
     group: "Typography",
@@ -63,8 +55,6 @@ export const definitions: Record<string, Definition> = {
   Menu: {
     group: "Actions",
     description: "Keep related actions in a compact popup menu.",
-    section: "Overlays and actions",
-    row: true,
   },
   NumberField: {
     group: "Forms",
@@ -77,20 +67,14 @@ export const definitions: Record<string, Definition> = {
   Progress: {
     group: "Feedback",
     description: "Show how much of a task is complete.",
-    section: "Display and layout helpers",
-    row: true,
   },
   ScrollArea: {
     group: "Layout",
     description: "Keep longer content in a scrollable, keyboard-accessible region.",
-    section: "Display and layout helpers",
-    row: true,
   },
   Stat: {
     group: "Feedback",
     description: "Show a number alongside the label that explains it.",
-    section: "Display and layout helpers",
-    row: true,
   },
   Status: {
     group: "Feedback",
@@ -107,13 +91,9 @@ export const definitions: Record<string, Definition> = {
   Toolbar: {
     group: "Actions",
     description: "Group related actions with arrow-key navigation.",
-    section: "Overlays and actions",
-    row: true,
   },
   Tooltip: {
     group: "Feedback",
     description: "Add brief context on hover or keyboard focus.",
-    section: "Overlays and actions",
-    row: true,
   },
 };
