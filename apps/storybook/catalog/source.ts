@@ -201,7 +201,7 @@ export function catalogPlugin(): Plugin {
             ),
           ),
           versionCheck: sample(
-            "node node_modules/@kbui/react/dist/check-versions.js",
+            "node node_modules/@kb.ui/react/dist/check-versions.js",
             "shellscript",
           ),
         })};`;

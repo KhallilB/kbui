@@ -344,7 +344,7 @@ export const WorkingCode: Story = {
       if (!panel) throw new Error("Missing code editor");
       await waitFor(() => expect(panel.querySelector('[data-syntax="tag"]')).not.toBeNull());
       expect((editor() as HTMLTextAreaElement).value).toContain("<Input");
-      expect((editor() as HTMLTextAreaElement).value).toContain('from "@kbui/react"');
+      expect((editor() as HTMLTextAreaElement).value).toContain('from "@kb.ui/react"');
       expect(canvas.queryByRole("button", { name: "Include setup" })).toBeNull();
       expect(canvas.queryByRole("status", { name: "Editor notification" })).toBeNull();
       await userEvent.click(canvas.getByRole("button", { name: "Copy code" }));

@@ -11,16 +11,16 @@ const atLeastMinor = (version: string, floor: number) => {
   const [major = 0, minor = 0] = version.split(".").map(Number);
   return major > 0 || minor >= floor;
 };
-// @kbui/react ships styles.css from 0.7.0; earlier releases also need @kbui/css.
+// React ships styles.css from 0.7.0; earlier releases also need the css package.
 export function bundlesCss(version = releaseVersion): boolean {
   return atLeastMinor(version, 7);
 }
-// npm has 0.9.0 onward; older releases exist only as GitHub tarballs.
+// npm has @kb.ui from 0.10.0; older releases are @kbui GitHub tarballs only.
 function onRegistry(version = releaseVersion): boolean {
-  return atLeastMinor(version, 9);
+  return atLeastMinor(version, 10);
 }
 export function stylesheetImport(version = releaseVersion): string {
-  return bundlesCss(version) ? "@kbui/react/styles.css" : "@kbui/css/styles.css";
+  return bundlesCss(version) ? "@kb.ui/react/styles.css" : "@kb.ui/css/styles.css";
 }
 export function installCommand(
   manager: Manager,
@@ -35,7 +35,7 @@ export function installCommand(
   ];
   const source = (name: string) =>
     onRegistry(version)
-      ? `@kbui/${name}@${version}`
+      ? `@kb.ui/${name}@${version}`
       : `https://github.com/KhallilB/kbui/releases/download/v${version}/kbui-${name}-${version}.tgz`;
   return `${prefix} ${packages.map(source).join(" ")}`;
 }
@@ -56,7 +56,7 @@ export function themeMarkup(theme: Theme): string {
   return `<html lang="en"${theme === "system" ? "" : ` data-theme="${theme}"`}>`;
 }
 export const firstComponent = `import "${stylesheetImport()}";
-import { Button } from "@kbui/react";
+import { Button } from "@kb.ui/react";
 
 export function App() {
   return <Button>Save changes</Button>;

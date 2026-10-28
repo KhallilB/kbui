@@ -1,15 +1,15 @@
 import { expect, test } from "bun:test";
-import * as components from "@kbui/react";
-import { Badge } from "@kbui/react";
+import * as components from "@kb.ui/react";
+import { Badge } from "@kb.ui/react";
 import * as React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { loadCatalogSources } from "../catalog/source";
 import { compileComponentExample } from "../site/component-code";
 
-const modules = { react: React, "@kbui/react": { Badge } };
+const modules = { react: React, "@kb.ui/react": { Badge } };
 test("component code renders edited JSX content, props and expressions", () => {
   const Example = compileComponentExample(
-    'import { Badge } from "@kbui/react"; const label: string = "Ready"; <Badge tone="success">{label}</Badge>',
+    'import { Badge } from "@kb.ui/react"; const label: string = "Ready"; <Badge tone="success">{label}</Badge>',
     modules,
   );
   const markup = renderToStaticMarkup(React.createElement(Example));
@@ -43,7 +43,7 @@ test("every provided catalog snippet compiles in the editable preview", () => {
         expect(
           typeof compileComponentExample(story.snippet, {
             react: React,
-            "@kbui/react": components,
+            "@kb.ui/react": components,
           }),
         ).toBe("function");
       } catch (cause) {

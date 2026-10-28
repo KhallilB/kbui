@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import { extractDocumentationExamples, loadDocumentationExamples } from "../catalog/documentation";
 
 const example =
-  'import { Button } from "@kbui/react";\nexport function App() { return <Button>Save</Button>; }\n';
+  'import { Button } from "@kb.ui/react";\nexport function App() { return <Button>Save</Button>; }\n';
 
 test("extracts complete React modules from installation documentation", () => {
   const markdown = `# Usage\n\n\`\`\`tsx\n${example}\`\`\`\n`;
@@ -29,7 +29,7 @@ test("does not treat prose inside a comment as module declarations", () => {
 test("rejects broken syntax in a complete documented module", () => {
   expect(() =>
     extractDocumentationExamples(
-      '```tsx\nimport { Button } from "@kbui/react";\nexport function App( {\n```',
+      '```tsx\nimport { Button } from "@kb.ui/react";\nexport function App( {\n```',
     ),
   ).toThrow();
 });

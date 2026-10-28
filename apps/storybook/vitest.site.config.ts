@@ -22,7 +22,7 @@ export default defineConfig({
           "prettier/plugins/babel",
           "prettier/plugins/estree",
           "prettier/plugins/postcss",
-          "@kbui/react > @base-ui/react/number-field",
+          "@kb.ui/react > @base-ui/react/number-field",
         ],
       },
       plugins: [

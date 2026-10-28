@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Setup } from "../site/Setup";
+import { installCommand } from "../site/setup-model";
 
 const meta = {
   title: "Site/Setup",
@@ -22,14 +23,13 @@ export const Installation: Story = {
     const canvas = within(canvasElement);
     const command = canvas.getByRole("region", { name: "Install command" });
     expect(command.querySelector('[data-syntax="function"]')).toHaveTextContent("pnpm");
-    expect(command).toHaveTextContent("pnpm add @kbui/react@");
-    expect(command).toHaveTextContent("@kbui/tokens@");
-    expect(command).not.toHaveTextContent("@kbui/css");
+    expect(command).toHaveTextContent(installCommand("pnpm", true));
     expect(canvas.queryByRole("checkbox", { name: "Include typed tokens" })).toBeNull();
     await userEvent.click(canvas.getByRole("button", { name: "Remove typed tokens" }));
-    expect(command).not.toHaveTextContent("@kbui/tokens");
+    expect(command).toHaveTextContent(installCommand("pnpm", false));
+    expect(command).not.toHaveTextContent("tokens");
     await userEvent.click(canvas.getByRole("button", { name: "Add typed tokens" }));
-    expect(command).toHaveTextContent("@kbui/tokens@");
+    expect(command).toHaveTextContent(installCommand("pnpm", true));
     await userEvent.click(canvas.getByRole("button", { name: "Remove typed tokens" }));
     await userEvent.click(canvas.getByRole("combobox", { name: "Package manager" }));
     await userEvent.click(await within(document.body).findByRole("option", { name: "Bun" }));
@@ -41,7 +41,7 @@ export const Installation: Story = {
       "../setup/themes/",
     );
     expect(canvas.getByRole("region", { name: "Example code" })).toHaveTextContent(
-      'import "@kbui/react/styles.css";',
+      'import "@kb.ui/react/styles.css";',
     );
   },
 };

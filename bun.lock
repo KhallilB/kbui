@@ -12,12 +12,12 @@
       },
     },
     "apps/storybook": {
-      "name": "@kbui/storybook",
+      "name": "@kb.ui/storybook",
       "version": "0.0.0",
       "dependencies": {
-        "@kbui/css": "workspace:*",
-        "@kbui/react": "workspace:*",
-        "@kbui/tokens": "workspace:*",
+        "@kb.ui/css": "workspace:*",
+        "@kb.ui/react": "workspace:*",
+        "@kb.ui/tokens": "workspace:*",
       },
       "devDependencies": {
         "@babel/standalone": "7.29.0",
@@ -43,15 +43,15 @@
       },
     },
     "packages/css": {
-      "name": "@kbui/css",
-      "version": "0.8.0",
+      "name": "@kb.ui/css",
+      "version": "0.9.0",
       "devDependencies": {
         "lightningcss": "1.33.0",
       },
     },
     "packages/react": {
-      "name": "@kbui/react",
-      "version": "0.8.0",
+      "name": "@kb.ui/react",
+      "version": "0.9.0",
       "dependencies": {
         "@base-ui/react": "1.9.0",
         "clsx": "^2.1.1",
@@ -78,8 +78,8 @@
       },
     },
     "packages/tokens": {
-      "name": "@kbui/tokens",
-      "version": "0.8.0",
+      "name": "@kb.ui/tokens",
+      "version": "0.9.0",
     },
   },
   "packages": {
@@ -243,13 +243,13 @@
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
 
-    "@kbui/css": ["@kbui/css@workspace:packages/css"],
+    "@kb.ui/css": ["@kb.ui/css@workspace:packages/css"],
 
-    "@kbui/react": ["@kbui/react@workspace:packages/react"],
+    "@kb.ui/react": ["@kb.ui/react@workspace:packages/react"],
 
-    "@kbui/storybook": ["@kbui/storybook@workspace:apps/storybook"],
+    "@kb.ui/storybook": ["@kb.ui/storybook@workspace:apps/storybook"],
 
-    "@kbui/tokens": ["@kbui/tokens@workspace:packages/tokens"],
+    "@kb.ui/tokens": ["@kb.ui/tokens@workspace:packages/tokens"],
 
     "@mdx-js/react": ["@mdx-js/react@3.1.1", "", { "dependencies": { "@types/mdx": "^2.0.0" }, "peerDependencies": { "@types/react": ">=16", "react": ">=16" } }, "sha512-f++rKLQgUVYDAtECQ6fn/is15GkEH9+nZPM3MS0RcxVqoTfawHvDlSCH7JbMhAM6uJ32v3eXLvLmLvjGu7PTQw=="],
 

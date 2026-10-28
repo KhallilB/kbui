@@ -1,4 +1,4 @@
-import { tokens } from "@kbui/tokens";
+import { tokens } from "@kb.ui/tokens";
 
 type VariableTree = { readonly [key: string]: string | VariableTree };
 

@@ -1,5 +1,5 @@
 {
-  "name": "@kbui/storybook",
+  "name": "@kb.ui/storybook",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -28,9 +28,9 @@
     "build:internal": "KBUI_STORYBOOK_INTERNAL=1 storybook build --quiet --disable-telemetry"
   },
   "dependencies": {
-    "@kbui/css": "workspace:*",
-    "@kbui/react": "workspace:*",
-    "@kbui/tokens": "workspace:*"
+    "@kb.ui/css": "workspace:*",
+    "@kb.ui/react": "workspace:*",
+    "@kb.ui/tokens": "workspace:*"
   },
   "devDependencies": {
     "@babel/standalone": "7.29.0",

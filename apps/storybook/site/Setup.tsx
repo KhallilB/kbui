@@ -1,5 +1,5 @@
 import samples from "virtual:kbui-setup-samples";
-import { Button, RadioGroup } from "@kbui/react";
+import { Button, RadioGroup } from "@kb.ui/react";
 import { useEffect, useId, useState } from "react";
 import { CodePanel } from "./CodePanel";
 import { ControlSelect } from "./ControlSelect";
@@ -76,7 +76,7 @@ export function InstallBuilder({
       >
         <summary>Using tokens in JavaScript or TypeScript?</summary>
         <p>
-          CSS variables work straight away. The optional <code>@kbui/tokens</code> package adds
+          CSS variables work straight away. The optional <code>@kb.ui/tokens</code> package adds
           typed variable names, such as <code>tokens.color.accent</code>. It returns
           <code> --kb-color-accent</code>, so use it inside <code>var()</code> in your styles.
         </p>

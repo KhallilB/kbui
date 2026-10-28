@@ -5,8 +5,8 @@ Use Container for page boundaries, Inline for wrapping rows, Split for two-colum
 ## Compose a page
 
 ```tsx
-import "@kbui/react/styles.css";
-import { Button, Container, Grid, Heading, Inline, Separator, Split, Text } from "@kbui/react";
+import "@kb.ui/react/styles.css";
+import { Button, Container, Grid, Heading, Inline, Separator, Split, Text } from "@kb.ui/react";
 
 export function Workspace() {
   return (

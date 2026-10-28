@@ -1,5 +1,5 @@
 import entries from "virtual:kbui-catalog";
-import { Button, Card, Checkbox, Input, RadioGroup, Select, Tooltip } from "@kbui/react";
+import { Button, Card, Checkbox, Input, RadioGroup, Select, Tooltip } from "@kb.ui/react";
 import { type CSSProperties, useCallback, useId, useLayoutEffect, useRef, useState } from "react";
 import type { ApiBlock, CatalogEntry, CatalogGroup } from "../catalog/types";
 import { CatalogComparisonPreview } from "./CatalogComparison";

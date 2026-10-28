@@ -1,6 +1,6 @@
 # Adding a component
 
-A component lives in two places: a stylesheet in `@kbui/css`, and a component file with its test and story in `@kbui/react`. The generator creates all four files.
+A component lives in two places: a stylesheet in `@kb.ui/css`, and a component file with its test and story in `@kb.ui/react`. The generator creates all four files.
 
 ## 1. Generate the files
 
@@ -71,7 +71,7 @@ Write a story for each variant, size and notable state. Storybook builds the pro
 ```bash
 bun run check
 bun run test:stories
-bun run --filter @kbui/storybook test:themes
+bun run --filter @kb.ui/storybook test:themes
 ```
 
 Then open the component in Storybook and review it in both light and dark.

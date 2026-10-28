@@ -1,6 +1,6 @@
 import type { Preview } from "@storybook/react-vite";
 import "../site/layers.css";
-import "@kbui/css/styles.css";
+import "@kb.ui/css/styles.css";
 import type { ReactNode } from "react";
 import { readThemePreference, type ThemePreference } from "../site/site-theme";
 import { ReferenceDocs, ReferencePage, useReferenceTheme } from "./docs";

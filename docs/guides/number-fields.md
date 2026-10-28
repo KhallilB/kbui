@@ -2,11 +2,11 @@
 
 Use `NumberField` when people need to type a quantity or adjust it with step buttons. For a plain numeric input without those buttons, use `Input type="number"`. Your app decides which units, ranges, and values make sense.
 
-Import `NumberField` from `@kbui/react` and load `@kbui/react/styles.css` once (`@kbui/css/styles.css` before 0.7.0). NumberField is available from v0.6.0 and requires React 19.
+Import `NumberField` from `@kb.ui/react` and load `@kb.ui/react/styles.css` once (`@kbui/css/styles.css` before 0.7.0). NumberField is available from v0.6.0 and requires React 19.
 
 ```tsx
 import { useState } from "react";
-import { NumberField } from "@kbui/react";
+import { NumberField } from "@kb.ui/react";
 
 export function ReturnedTowels() {
   const [count, setCount] = useState<number | null>(76);

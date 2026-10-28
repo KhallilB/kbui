@@ -1,4 +1,4 @@
-import { Button, Callout, Card, Checkbox, Input, Status } from "@kbui/react";
+import { Button, Callout, Card, Checkbox, Input, Status } from "@kb.ui/react";
 import { useEffect, useId, useRef, useState } from "react";
 import { ControlSelect } from "./ControlSelect";
 

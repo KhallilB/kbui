@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { createServer } from "node:http";
 import { chromium, type Page, webkit } from "playwright";
 import release from "../../../package.json" with { type: "json" };
+import { installCommand, stylesheetImport } from "../site/setup-model.ts";
 import { chooseRadio, radioChoice } from "./native-controls.ts";
 import { loadCatalogSources } from "./source.ts";
 
@@ -320,23 +321,13 @@ for (const profile of profiles) {
     await page.waitForURL("**/setup/?manager=bun&tokens=1");
     await page.reload();
     const command = page.getByRole("region", { name: "Install command", exact: true });
-    assert.match(await command.innerText(), /^bun add /);
+    assert.equal((await command.innerText()).trim(), installCommand("bun", true, release.version));
     assert.ok(
-      (await command.innerText()).includes(
-        `/v${release.version}/kbui-react-${release.version}.tgz`,
-      ),
-    );
-    assert.ok(
-      (await command.innerText()).includes(
-        `/v${release.version}/kbui-tokens-${release.version}.tgz`,
-      ),
-    );
-    assert.doesNotMatch(await command.innerText(), /kbui-css/);
-    assert.match(
-      await page
-        .getByRole("region", { name: "First component React example", exact: true })
-        .innerText(),
-      /@kbui\/react\/styles\.css/,
+      (
+        await page
+          .getByRole("region", { name: "First component React example", exact: true })
+          .innerText()
+      ).includes(stylesheetImport(release.version)),
     );
     await page
       .getByRole("region", { name: "Install Shell example", exact: true })

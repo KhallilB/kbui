@@ -1,27 +1,27 @@
 # kbui
 
-kbui is a React component library with shared design tokens and plain CSS. Use the default light and dark themes, or adjust the tokens to fit your app. Components combine native controls with [Base UI](https://base-ui.com) for interaction. Each release is published to [npm](https://www.npmjs.com/package/@kbui/react) and attaches the same tarballs to a [GitHub Release](https://github.com/KhallilB/kbui/releases).
+kbui is a React component library with shared design tokens and plain CSS. Use the default light and dark themes, or adjust the tokens to fit your app. Components combine native controls with [Base UI](https://base-ui.com) for interaction. Each release is published to [npm](https://www.npmjs.com/package/@kb.ui/react) and attaches the same tarballs to a [GitHub Release](https://github.com/KhallilB/kbui/releases).
 
 | Package | Contents | Docs |
 |---|---|---|
-| `@kbui/tokens` | Colors, spacing, type and component sizes, defined once in `tokens.json` | [packages/tokens](packages/tokens/README.md) |
-| `@kbui/css` | All styling, one stylesheet per component | [packages/css](packages/css/README.md) |
-| `@kbui/react` | React 19+ components for actions, forms, feedback, layout and typography | [packages/react](packages/react/README.md) |
+| `@kb.ui/tokens` | Colors, spacing, type and component sizes, defined once in `tokens.json` | [packages/tokens](packages/tokens/README.md) |
+| `@kb.ui/css` | All styling, one stylesheet per component | [packages/css](packages/css/README.md) |
+| `@kb.ui/react` | React 19+ components for actions, forms, feedback, layout and typography | [packages/react](packages/react/README.md) |
 | `apps/storybook` | Live component docs and accessibility tests | [apps/storybook](apps/storybook/README.md) |
 
 ## Using kbui in a project
 
-Install `@kbui/react` from npm; it includes styles and CSS tokens. Your app needs React and React DOM 19 or later. The commands below use Bash (Git Bash or WSL on Windows); the [Get Started page](https://kbui.kcb.pro/setup/) also generates complete commands for npm, Bun, pnpm and Yarn.
+Install `@kb.ui/react` from npm; it includes styles and CSS tokens. Your app needs React and React DOM 19 or later. The commands below use Bash (Git Bash or WSL on Windows); the [Get Started page](https://kbui.kcb.pro/setup/) also generates complete commands for npm, Bun, pnpm and Yarn.
 
 <!-- x-release-please-start-version -->
 ```bash
-bun add @kbui/react@0.9.0
+bun add @kb.ui/react@0.9.0
 ```
 <!-- x-release-please-end -->
 
 ```tsx
-import "@kbui/react/styles.css";
-import { Button } from "@kbui/react";
+import "@kb.ui/react/styles.css";
+import { Button } from "@kb.ui/react";
 
 export const Save = () => <Button variant="primary">Save</Button>;
 ```
