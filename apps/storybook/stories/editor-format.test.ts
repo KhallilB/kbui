@@ -19,3 +19,10 @@ test("incomplete source rejects without inventing code", async () => {
   await expect(formatEditorCode("<Badge", "tsx")).rejects.toThrow();
   await expect(formatEditorCode(".brand{", "css")).rejects.toThrow();
 });
+
+test("Tailwind formatting preserves inactive multiline examples", async () => {
+  const comment = "/* Try these:\nbg-sky-500 text-white\n*/";
+  const formatted = await formatEditorCode(`${comment}\n  px-4   hover:bg-black `, "classes");
+  expect(formatted).toContain(comment);
+  expect(formatted).toContain("px-4 hover:bg-black");
+});

@@ -154,9 +154,23 @@ export function componentStyleUsage(name: string, classes = "brand") {
 }
 
 export function presetComponentCss(name: string, skin: CatalogSkin) {
-  if (skin.palette === "default" && skin.corners === "default")
-    return ".brand {\n  /* Add your styles here. */\n}";
   const example = examples[name] ?? { css: outline };
+  if (skin.palette === "default" && skin.corners === "default")
+    return [
+      ".brand {",
+      "  /* Uncomment to try:",
+      ...example
+        .css("var(--kb-color-accent)", "999px", "var(--kb-color-accent-fg)")
+        .map((line) => `  ${line}`),
+      "  */",
+      "}",
+      "",
+      "/* Hover state:",
+      ".brand:hover {",
+      "  opacity: 0.8;",
+      "}",
+      "*/",
+    ].join("\n");
   const radius = { default: "var(--kb-radius-md)", sharp: "0px", soft: "0.875rem" }[skin.corners];
   return [
     ".brand {",
@@ -166,3 +180,15 @@ export function presetComponentCss(name: string, skin: CatalogSkin) {
     "}",
   ].join("\n");
 }
+
+export const defaultTailwindSource = `/* Color — uncomment to try:
+bg-sky-500 text-slate-950
+*/
+
+/* Shape and spacing:
+rounded-full px-3 py-1
+*/
+
+/* Hover and dark mode:
+hover:bg-sky-400 dark:bg-sky-300 dark:text-slate-950
+*/`;

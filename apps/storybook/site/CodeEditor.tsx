@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import type { CodeToken } from "../catalog/types";
 import { HighlightedCode } from "./CodePanel";
+import { classSourceParts } from "./class-source";
 import "./code-editor.css";
 
 export function CodeEditor({
@@ -43,7 +44,14 @@ export function CodeEditor({
   const [highlight, setHighlight] = useState<{ source: string; tokens: CodeToken[] }>();
   useEffect(() => {
     if (language === "classes") {
-      setHighlight({ source: value, tokens: value ? [[0, value.length, "string"]] : [] });
+      setHighlight({
+        source: value,
+        tokens: classSourceParts(value).map<CodeToken>((part) => [
+          part.start,
+          part.start + part.text.length,
+          part.comment ? "comment" : "string",
+        ]),
+      });
       return;
     }
     let current = true;

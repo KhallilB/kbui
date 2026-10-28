@@ -8,8 +8,10 @@ import {
   catalogSkinCss,
   componentStyleUsage,
   defaultCatalogSkin,
+  defaultTailwindSource,
   presetComponentCss,
 } from "./catalog-skin";
+import { activeClassNames } from "./class-source";
 import type { Theme } from "./theme-foundations";
 
 export function CatalogSkinControls({
@@ -35,7 +37,10 @@ export function CatalogSkinControls({
   const [drafts, setDrafts] = useState({
     css:
       value.custom?.classes === "brand" ? value.custom.css : presetComponentCss(component, value),
-    tailwind: value.custom && value.custom.classes !== "brand" ? value.custom.classes : "",
+    tailwind:
+      value.custom && value.custom.classes !== "brand"
+        ? value.custom.classes
+        : defaultTailwindSource,
   });
   const [dirty, setDirty] = useState(false);
   const [touched, setTouched] = useState({ css: false, tailwind: false });
@@ -79,7 +84,10 @@ export function CatalogSkinControls({
   const css = catalogSkinCss(value, theme);
   const resetStyles = () => {
     setTouched((current) => ({ ...current, css: true }));
-    setDrafts({ css: presetComponentCss(component, defaultCatalogSkin), tailwind: "" });
+    setDrafts({
+      css: presetComponentCss(component, defaultCatalogSkin),
+      tailwind: defaultTailwindSource,
+    });
     setMode("css");
     setDirty(false);
     setError("");
@@ -87,7 +95,7 @@ export function CatalogSkinControls({
     setStatus("Styles reset");
     onChange(defaultCatalogSkin);
   };
-  const classes = mode === "tailwind" ? source : "brand";
+  const classes = mode === "tailwind" ? activeClassNames(source).join(" ") : "brand";
   const usage = componentStyleUsage(component, classes);
   const copiedCode =
     mode === "css"

@@ -1,4 +1,5 @@
 import { type CatalogSkin, componentStyleTarget } from "./catalog-skin";
+import { activeClassNames } from "./class-source";
 
 // Preview documents isolate arbitrary CSS from catalog navigation and editor controls.
 export function applyComponentStyle(doc: Document, custom: CatalogSkin["custom"]) {
@@ -7,7 +8,7 @@ export function applyComponentStyle(doc: Document, custom: CatalogSkin["custom"]
   style.dataset.catalogStyle = "";
   style.textContent = custom.css;
   doc.head.append(style);
-  const classes = custom.classes.split(/\s+/).filter(Boolean);
+  const classes = activeClassNames(custom.classes);
   const targets = new Map<Element, string[]>();
   const apply = () => {
     for (const target of doc.querySelectorAll(componentStyleTarget(custom.component))) {

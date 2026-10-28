@@ -2,7 +2,7 @@ import previewCss from "@kbui/css/styles.css?inline";
 import { Button } from "@kbui/react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
-import { expect, userEvent, waitFor, within } from "storybook/test";
+import { expect, fireEvent, userEvent, waitFor, within } from "storybook/test";
 import { StoryPreview } from "../site/CatalogPreview";
 import { CatalogSkinControls } from "../site/CatalogSkinControls";
 import { type CatalogSkin, defaultCatalogSkin } from "../site/catalog-skin";
@@ -104,6 +104,77 @@ export const EditComponentCss: Story = {
     await userEvent.click(page.getByRole("button", { name: "Reset styling" }));
     await waitFor(() => expect(button).not.toHaveClass("brand"));
     expect(canvasElement.querySelector("iframe")).toBe(frame);
+  },
+};
+
+export const CommentedStarters: Story = {
+  play: async ({ canvasElement }) => {
+    const page = within(canvasElement);
+    const frame = canvasElement.querySelector<HTMLIFrameElement>("iframe");
+    if (!frame) throw new Error("Missing preview frame");
+    await waitFor(() => expect(frame.contentDocument?.readyState).toBe("complete"));
+    const doc = frame.contentDocument;
+    if (!doc) throw new Error("Missing preview document");
+    const style = doc.createElement("style");
+    style.textContent = previewCss;
+    doc.head.append(style);
+    doc.body.innerHTML =
+      '<div id="storybook-root"><button class="kb-button" data-variant="primary">Preview action</button></div>';
+    const button = doc.querySelector("button");
+    if (!button) throw new Error("Missing preview action");
+    const css = page.getByRole("textbox", { name: "Style this component" }) as HTMLTextAreaElement;
+    expect(css.value).toContain("/* Uncomment to try:");
+    await userEvent.click(page.getByRole("radio", { name: "CSS" }));
+    await waitFor(() => expect(page.getByRole("button", { name: "Copy styling" })).toBeEnabled());
+    expect(getComputedStyle(button).borderRadius).toBe("8px");
+    fireEvent.change(css, {
+      target: { value: css.value.replace("  /* Uncomment to try:\n", "").replace("  */", "") },
+    });
+    await waitFor(() => expect(getComputedStyle(button).borderRadius).toBe("999px"));
+    await userEvent.click(page.getByRole("radio", { name: "Tailwind" }));
+    const classes = page.getByRole("textbox", { name: "Tailwind classes" }) as HTMLTextAreaElement;
+    expect(classes.value).toContain("bg-sky-500 text-slate-950");
+    await waitFor(() => expect(getComputedStyle(button).borderRadius).toBe("8px"));
+    expect(button).not.toHaveClass("bg-sky-500");
+    expect(button).not.toHaveClass("/*");
+    expect(classes.parentElement?.querySelector('[data-syntax="comment"]')).toHaveTextContent(
+      "Color",
+    );
+    const original = Object.getOwnPropertyDescriptor(navigator, "clipboard");
+    let copied = "";
+    try {
+      Object.defineProperty(navigator, "clipboard", {
+        configurable: true,
+        value: {
+          writeText: async (text: string) => {
+            copied = text;
+          },
+        },
+      });
+      await userEvent.click(page.getByRole("button", { name: "Copy styling" }));
+      expect(copied).not.toContain("bg-sky-500");
+      fireEvent.change(classes, {
+        target: {
+          value: classes.value.replace("/* Color — uncomment to try:\n", "").replace("*/", ""),
+        },
+      });
+      await waitFor(() => expect(button).toHaveClass("bg-sky-500"));
+      expect(button).not.toHaveClass("px-3");
+      await userEvent.click(page.getByRole("button", { name: "Copy styling" }));
+      expect(copied).toContain('className={"bg-sky-500 text-slate-950"}');
+      expect(copied).not.toContain("rounded-full");
+      await userEvent.click(page.getByRole("radio", { name: "CSS" }));
+      await userEvent.click(page.getByRole("radio", { name: "Tailwind" }));
+      expect(classes.value).toContain("/* Shape and spacing:\nrounded-full px-3 py-1\n*/");
+      await userEvent.click(page.getByRole("button", { name: "Reset styling" }));
+      expect(css.value).toContain("/* Uncomment to try:");
+      await userEvent.click(page.getByRole("radio", { name: "Tailwind" }));
+      expect(classes.value).toContain("/* Color — uncomment to try:");
+      await waitFor(() => expect(button).not.toHaveClass("bg-sky-500"));
+    } finally {
+      if (original) Object.defineProperty(navigator, "clipboard", original);
+      else Reflect.deleteProperty(navigator, "clipboard");
+    }
   },
 };
 

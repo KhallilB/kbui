@@ -1,7 +1,12 @@
 import { format } from "prettier/standalone";
+import { classSourceParts } from "./class-source";
 
 export async function formatEditorCode(source: string, language: "tsx" | "css" | "classes") {
-  if (language === "classes") return source.trim().replace(/\s+/g, " ");
+  if (language === "classes")
+    return classSourceParts(source)
+      .map((part) => (part.comment ? part.text : part.text.trim().replace(/\s+/g, " ")))
+      .filter(Boolean)
+      .join("\n\n");
   const plugins =
     language === "css"
       ? [await import("prettier/plugins/postcss")]
