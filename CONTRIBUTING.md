@@ -103,7 +103,7 @@ Sign every commit with `git commit -S`; the repository uses SSH signing. Subject
 
 ## Pull requests
 
-Use the [PR template](.github/pull_request_template.md): a short summary of the problem and result, review notes for the parts that need attention, and checks actually run. Include an issue link or rollout risk where relevant. Keep routine changes brief; add detail only when it helps review. Repository templates take precedence over generic PR-description helpers.
+Use the [PR template](.github/pull_request_template.md): **What changed** and **Why**. Explain the result and its reason in clear, professional prose. Include supporting context, checks actually run, review guidance or relevant risks in short paragraphs where they help the reader. Avoid canned phrasing, unnecessary headings and a fixed checklist for every change. Repository templates take precedence over generic PR-description helpers.
 
 ## Releases
 
