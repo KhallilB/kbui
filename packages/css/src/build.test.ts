@@ -264,4 +264,24 @@ describe("buildCss", () => {
     expect(await readdir(out)).not.toContain("stale.css");
     await rm(out, { recursive: true, force: true });
   });
+
+  test("basic forms css uses only defined tokens and preserves legend spacing and forced-colors states", async () => {
+    const tokensCss = await readFile(join(dist, "styles.css"), "utf8");
+    const definedVars = new Set(
+      [...tokensCss.matchAll(/(--kb-[a-z0-9-]+)\s*:/g)].map((match) => match[1]),
+    );
+    for (const file of ["textarea.css", "fieldset.css", "formactions.css", "errorsummary.css"]) {
+      const css = await readFile(join(src, "components", file), "utf8");
+      const refs = [...css.matchAll(/var\(\s*(--kb-[a-z0-9-]+)/g)].map((match) => match[1]);
+      for (const ref of refs) {
+        expect(definedVars.has(ref)).toBe(true);
+      }
+    }
+    const fieldsetCss = await readFile(join(src, "components", "fieldset.css"), "utf8");
+    expect(fieldsetCss).toContain(".kb-fieldset-legend:not(.kb-sr-only)");
+    expect(fieldsetCss).toContain("margin-block-end: var(--kb-fieldset-gap)");
+    const textareaCss = await readFile(join(src, "components", "textarea.css"), "utf8");
+    expect(textareaCss).toContain("max-inline-size: 100%");
+    expect(textareaCss).toContain(".kb-textarea[data-invalid] .kb-textarea-control:focus-visible");
+  });
 });

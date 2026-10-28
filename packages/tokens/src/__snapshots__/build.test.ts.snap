@@ -352,6 +352,17 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-separator-color: var(--kb-color-border);
   --kb-separator-width: 1px;
   --kb-separator-min-length: var(--kb-space-4);
+  --kb-textarea-min-height: 6rem;
+  --kb-textarea-padding-block: var(--kb-space-2);
+  --kb-textarea-padding-inline: var(--kb-space-3);
+  --kb-fieldset-gap: var(--kb-space-3);
+  --kb-fieldset-fields-gap: var(--kb-space-4);
+  --kb-fieldset-legend-size: var(--kb-text-h4-size);
+  --kb-formactions-gap: var(--kb-space-2);
+  --kb-formactions-padding-top: var(--kb-space-4);
+  --kb-errorsummary-padding: var(--kb-space-4);
+  --kb-errorsummary-radius: var(--kb-radius-md);
+  --kb-errorsummary-gap: var(--kb-space-2);
   color-scheme: light;
 }
 

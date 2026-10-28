@@ -590,3 +590,62 @@ Native hr thematic break; decorative dividers are hidden from assistive technolo
 | `decorative` | Hide a visual-only divider from assistive technology | `false` |
 
 Vertical rules stretch inside Inline and have a 1rem minimum height. No tab stop or resizing interaction is added. See [Layout composition](../../docs/guides/layout.md).
+
+## Textarea
+
+Use Textarea for multiline notes, summaries, or configuration payloads. It pairs a native textarea with a persistent label, optional help text, and validation feedback.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `label` | `string` | required | Visible field label and accessible name |
+| `visuallyHidden` | `boolean` | `false` | Hides the label visually while keeping its accessible name |
+| `description` | `string` | unset | Supporting help text below the control |
+| `error` | `string` | unset | Validation message; marks the control invalid |
+| `rows` | `number` | `4` | Initial visible line count on the native textarea |
+| `resize` | `"vertical" \| "none" \| "both"` | `"vertical"` | Controls user drag-resizing axis |
+| `onValueChange` | `(value: string) => void` | unset | Called with the next string value on change |
+| `classNames` | `ClassNames<"label" \| "control" \| "description" \| "error">` | unset | Classes for inner parts |
+
+Other native textarea props (`value`, `defaultValue`, `onChange`, `placeholder`, `disabled`, `readOnly`, `required`, `name`, `form`, `ref`) pass through to the `<textarea>` element. Adjust minimum height and padding with `--kb-textarea-min-height`, `--kb-textarea-padding-block`, and `--kb-textarea-padding-inline`.
+
+## Fieldset
+
+Use Fieldset to group related controls into a named form section using native `fieldset` and `legend` semantics. Setting `disabled` disables descendant form controls natively.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `legend` | `ReactNode` | required | Section heading rendered inside the native legend |
+| `visuallyHidden` | `boolean` | `false` | Hides the legend visually while keeping the group name |
+| `description` | `ReactNode` | unset | Section help text linked through aria-describedby |
+| `error` | `ReactNode` | unset | Group-level error linked through aria-describedby |
+| `disabled` | `boolean` | `false` | Disables all descendant controls in the fieldset |
+| `classNames` | `ClassNames<"legend" \| "description" \| "fields" \| "error">` | unset | Classes for inner parts |
+
+Other native fieldset props and `ref` pass through to the `<fieldset>` element. Use `--kb-fieldset-gap`, `--kb-fieldset-fields-gap`, and `--kb-fieldset-legend-size` to tune spacing and legend typography.
+
+## FormActions
+
+Use FormActions at the bottom of a form or section to align submit, reset, and secondary buttons with consistent wrapping and spacing. Buttons stay in natural Tab order without toolbar arrow-key navigation.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `align` | `"end" \| "start" \| "between"` | `"end"` | Horizontal button alignment |
+| `divider` | `boolean` | `false` | Adds a top border and spacing above the action row |
+| `children` | `ReactNode` | unset | Form buttons in reading and Tab order |
+
+Other native div props and `ref` pass through. Use `--kb-formactions-gap` and `--kb-formactions-padding-top` to adjust spacing.
+
+## ErrorSummary
+
+Place ErrorSummary at the top of a form when submission fails so people can see what went wrong and jump directly to each invalid field. When `items` is empty, nothing is rendered.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `items` | `readonly ErrorSummaryItem[]` | required | Ordered `{ id?, href, label }` entries linking to invalid fields |
+| `title` | `ReactNode` | `"There is a problem"` | Heading text naming the alert region |
+| `description` | `ReactNode` | unset | Optional recovery guidance above the error list |
+| `headingLevel` | `2 \| 3 \| 4` | `2` | Heading rank for the summary title |
+| `onItemSelect` | `(href: string, event: MouseEvent<HTMLAnchorElement>) => void` | unset | Called when a recovery link is clicked |
+| `classNames` | `ClassNames<"title" \| "description" \| "list" \| "item" \| "link">` | unset | Classes for inner parts |
+
+ErrorSummary renders an alert region with `tabIndex={-1}` so your submit handler can focus it when validation fails. Clicking an `#id` link focuses the matching control or the first enabled control inside a referenced group. Pair ErrorSummary with inline `error` props on each invalid field.

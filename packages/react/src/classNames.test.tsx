@@ -4,6 +4,8 @@ import { describe, expect, test } from "vitest";
 import {
   Callout,
   Checkbox,
+  ErrorSummary,
+  Fieldset,
   FileInput,
   Input,
   NumberField,
@@ -14,6 +16,7 @@ import {
   Stat,
   Status,
   Switch,
+  Textarea,
 } from "./index";
 
 // Every key resolves to `slot-<key>`, so any rendered part can be checked without listing slots.
@@ -33,6 +36,26 @@ const cases: [string, () => ReactElement][] = [
         error="e"
         startContent="s"
         endContent="x"
+        classNames={every}
+      />
+    ),
+  ],
+  ["textarea", () => <Textarea label="L" description="d" error="e" classNames={every} />],
+  [
+    "fieldset",
+    () => (
+      <Fieldset legend="L" description="d" error="e" classNames={every}>
+        Child
+      </Fieldset>
+    ),
+  ],
+  [
+    "errorsummary",
+    () => (
+      <ErrorSummary
+        title="T"
+        description="d"
+        items={[{ href: "#a", label: "Err" }]}
         classNames={every}
       />
     ),

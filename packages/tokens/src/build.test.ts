@@ -416,3 +416,20 @@ describe("typography role integration", () => {
     expect(css).toContain("--kb-text-muted: var(--kb-color-muted);");
   });
 });
+
+describe("form component tokens", () => {
+  test("defines sizing and spacing tokens for textarea, fieldset, formactions and errorsummary", () => {
+    const { css } = buildTokens(real as TokenTree);
+    expect(css).toContain("--kb-textarea-min-height: 6rem;");
+    expect(css).toContain("--kb-textarea-padding-block: var(--kb-space-2);");
+    expect(css).toContain("--kb-textarea-padding-inline: var(--kb-space-3);");
+    expect(css).toContain("--kb-fieldset-gap: var(--kb-space-3);");
+    expect(css).toContain("--kb-fieldset-fields-gap: var(--kb-space-4);");
+    expect(css).toContain("--kb-fieldset-legend-size: var(--kb-text-h4-size);");
+    expect(css).toContain("--kb-formactions-gap: var(--kb-space-2);");
+    expect(css).toContain("--kb-formactions-padding-top: var(--kb-space-4);");
+    expect(css).toContain("--kb-errorsummary-padding: var(--kb-space-4);");
+    expect(css).toContain("--kb-errorsummary-radius: var(--kb-radius-md);");
+    expect(css).toContain("--kb-errorsummary-gap: var(--kb-space-2);");
+  });
+});

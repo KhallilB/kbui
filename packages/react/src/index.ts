@@ -30,10 +30,27 @@ export {
   type DialogTriggerProps,
 } from "./components/Dialog/Dialog";
 export {
+  ErrorSummary,
+  type ErrorSummaryHeadingLevel,
+  type ErrorSummaryItem,
+  type ErrorSummaryPart,
+  type ErrorSummaryProps,
+} from "./components/ErrorSummary/ErrorSummary";
+export {
+  Fieldset,
+  type FieldsetPart,
+  type FieldsetProps,
+} from "./components/Fieldset/Fieldset";
+export {
   FileInput,
   type FileInputItem,
   type FileInputProps,
 } from "./components/FileInput/FileInput";
+export {
+  FormActions,
+  type FormActionsAlign,
+  type FormActionsProps,
+} from "./components/FormActions/FormActions";
 export { Grid, type GridProps } from "./components/Grid/Grid";
 export {
   Heading,
@@ -111,6 +128,12 @@ export {
   type TextSize,
   type TextTone,
 } from "./components/Text/Text";
+export {
+  Textarea,
+  type TextareaPart,
+  type TextareaProps,
+  type TextareaResize,
+} from "./components/Textarea/Textarea";
 export {
   Toolbar,
   type ToolbarButtonProps,
