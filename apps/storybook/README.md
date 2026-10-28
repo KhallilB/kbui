@@ -27,7 +27,7 @@ This builds the packages and serves Storybook on port 6006. The theme switch in 
 bun run test:stories
 ```
 
-Every story is rendered in headless Chromium and scanned for accessibility violations. Any violation fails the run, so each story is also a test. The suite runs twice, once by default and once with the reduced-motion preference on (`vitest.config.ts`). Dark coverage comes from stories that set `globals: { theme: "dark" }`. Complete React modules in installation and usage documentation are typechecked by `verify:code` within `bun run check`. MDX pages are compiled by the Storybook build; they do not run story play functions. Responsive site stories and staged Chromium/WebKit journeys exercise the website separately through `test:site` and `verify:release`.
+Every story is rendered in headless Chromium and scanned for accessibility violations. Any violation fails the run, so each story is also a test. The suite runs twice, once by default and once with the reduced-motion preference on (`vitest.config.ts`). `test:themes` (`vitest.themes.config.ts`) renders every component story again in light and dark, with and without reduced motion, so stories need no dark copies. Complete React modules in installation and usage documentation are typechecked by `verify:code` within `bun run check`. MDX pages are compiled by the Storybook build; they do not run story play functions. Responsive site stories and staged Chromium/WebKit journeys exercise the website separately through `test:site` and `verify:release`.
 
 The fixture restyle in `stories/skin-fixture-values.ts` is checked by `bun test apps/storybook/stories`, which runs inside `bun run check`.
 

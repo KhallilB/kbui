@@ -303,6 +303,7 @@ export const LegacyThemeExample: Story = {
       "data-preview-src",
       expect.stringContaining("layout-grid--default"),
     );
+    expect(within(canvasElement).queryByText(/State not found/)).toBeNull();
   },
 };
 

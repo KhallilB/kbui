@@ -3,7 +3,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { loadCsf } from "storybook/internal/csf-tools";
 
-test("theme duplicates and regression fixtures stay testable without crowding public docs", () => {
+test("regression fixtures stay testable without crowding public docs", () => {
   const root = new URL("../../../packages/react/src/components/", import.meta.url);
   let hidden = 0;
   for (const name of readdirSync(root)) {
@@ -14,7 +14,7 @@ test("theme duplicates and regression fixtures stay testable without crowding pu
     }).parse();
     for (const story of csf.stories) {
       if (
-        !/--(?:.*-dark|dark|motion-tokens|token-overrides(?:-light)?|nested-theme|controlled-refusal|focus-visible|selected-material)$/.test(
+        !/--(?:motion-tokens|token-overrides(?:-light)?|nested-theme|controlled-refusal|focus-visible|selected-material)$/.test(
           story.id,
         )
       )
@@ -25,5 +25,5 @@ test("theme duplicates and regression fixtures stay testable without crowding pu
       hidden++;
     }
   }
-  expect(hidden).toBeGreaterThan(20);
+  expect(hidden).toBeGreaterThan(10);
 });

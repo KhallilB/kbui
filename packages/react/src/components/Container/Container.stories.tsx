@@ -23,7 +23,6 @@ export const Default: Story = {
     </Container>
   ),
 };
-export const Dark: Story = { tags: ["!dev", "!autodocs"], ...Default, globals: { theme: "dark" } };
 export const Sizes: Story = {
   render: () => (
     <Grid layout="stack">
@@ -119,4 +118,3 @@ export const Page: Story = {
     expect(canvasElement.scrollWidth).toBeLessThanOrEqual(canvasElement.clientWidth);
   },
 };
-export const PageDark: Story = { tags: ["!dev", "!autodocs"], ...Page, globals: { theme: "dark" } };

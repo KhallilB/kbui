@@ -20,11 +20,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-export const Dark: Story = {
-  tags: ["!dev", "!autodocs"],
-  ...Default,
-  globals: { theme: "dark" },
-};
 export const WithDescription: Story = {
   args: { description: "Plain text up to 500 characters." },
 };

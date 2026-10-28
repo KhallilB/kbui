@@ -117,6 +117,8 @@ test("PR browser validation retains staged WebKit journeys and deployment dry-ru
   const validation = readFileSync(`${root}/scripts/validate-site.sh`, "utf8");
   for (const command of [
     "npm test --prefix deployment/site",
+    // Only dark-theme pass over component stories.
+    "test:themes",
     "bun scripts/site-stage.ts",
     "verify:release",
     "npm run build --prefix deployment/site",

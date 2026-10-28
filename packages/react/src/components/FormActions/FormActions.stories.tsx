@@ -27,11 +27,6 @@ export const Default: Story = {
     </FormActions>
   ),
 };
-export const Dark: Story = {
-  tags: ["!dev", "!autodocs"],
-  ...Default,
-  globals: { theme: "dark" },
-};
 export const WithDivider: Story = {
   args: { divider: true },
   render: (args) => (

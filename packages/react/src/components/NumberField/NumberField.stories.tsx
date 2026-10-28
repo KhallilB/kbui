@@ -36,10 +36,6 @@ export const Default: Story = {
     await expect(canvas.getByRole("textbox")).toHaveValue("77");
   },
 };
-export const Dark: Story = {
-  tags: ["!dev", "!autodocs"],
-  globals: { theme: "dark" },
-};
 export const Empty: Story = { args: { value: null, description: "Enter the returned count." } };
 export const Invalid: Story = {
   args: { value: 1.5, error: "Enter a whole number from 0 to 9999." },

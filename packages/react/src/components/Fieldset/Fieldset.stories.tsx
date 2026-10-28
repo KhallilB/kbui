@@ -71,11 +71,6 @@ export const Default: Story = {
     expect(control).toBeChecked();
   },
 };
-export const Dark: Story = {
-  tags: ["!dev", "!autodocs"],
-  ...Default,
-  globals: { theme: "dark" },
-};
 export const WithError: Story = {
   args: {
     legend: "Incident contact",

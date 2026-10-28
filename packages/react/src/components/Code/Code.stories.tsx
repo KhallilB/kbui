@@ -12,10 +12,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
-export const Dark: Story = {
-  tags: ["!dev", "!autodocs"],
-  globals: { theme: "dark" },
-};
 export const InText: Story = {
   render: () => (
     <Text>

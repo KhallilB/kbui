@@ -141,12 +141,6 @@ export const Depth: Story = {
   play: async ({ canvasElement }) => expectDepth(canvasElement),
 };
 
-export const DepthDark: Story = {
-  tags: ["!dev", "!autodocs"],
-  ...Depth,
-  globals: { theme: "dark" },
-};
-
 /** Optional tokens set on a wrapper: sheen, glass, tone-colored light, pill chips. Layout is unchanged. */
 const overrides = {
   "--kb-panel-radius": "24px",
@@ -383,16 +377,4 @@ export const FocusVisible: Story = {
     expect(inner.top).toBeGreaterThanOrEqual(outer.top);
     expect(inner.bottom).toBeLessThanOrEqual(outer.bottom);
   },
-};
-
-export const Dark: Story = {
-  tags: ["!dev", "!autodocs"],
-  globals: { theme: "dark" },
-  render: (args) => (
-    <div style={row}>
-      {(["quiet", "default", "sunken", "active", "critical"] as const).map((tone) => (
-        <Sample {...args} key={tone} id={`dark-${tone}`} tone={tone} title={tone} />
-      ))}
-    </div>
-  ),
 };

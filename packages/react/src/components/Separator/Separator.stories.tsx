@@ -18,7 +18,6 @@ export const Default: Story = {
     </div>
   ),
 };
-export const Dark: Story = { tags: ["!dev", "!autodocs"], ...Default, globals: { theme: "dark" } };
 export const Vertical: Story = {
   render: () => (
     <Inline>

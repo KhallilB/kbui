@@ -22,8 +22,3 @@ export const Default: Story = {
     </Toolbar>
   ),
 };
-export const DefaultDark: Story = {
-  tags: ["!dev", "!autodocs"],
-  ...Default,
-  globals: { theme: "dark" },
-};

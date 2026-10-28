@@ -28,8 +28,3 @@ export const Default: Story = {
     </div>
   ),
 };
-export const DefaultDark: Story = {
-  tags: ["!dev", "!autodocs"],
-  ...Default,
-  globals: { theme: "dark" },
-};

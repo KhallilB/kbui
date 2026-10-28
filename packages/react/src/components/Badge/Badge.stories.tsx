@@ -46,11 +46,6 @@ export const Tones: Story = {
     </div>
   ),
 };
-export const TonesDark: Story = {
-  tags: ["!dev", "!autodocs"],
-  ...Tones,
-  globals: { theme: "dark" },
-};
 export const PlainMono: Story = {
   args: { appearance: "plain", mono: true, children: "production · read/write" },
 };
