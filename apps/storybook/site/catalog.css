@@ -1020,42 +1020,12 @@
     font-size: 12px;
     overflow-wrap: anywhere;
   }
-  .catalog-style-usage {
-    margin-top: 20px;
-    font-size: 11px;
-  }
-  .catalog-style-usage > span {
-    color: var(--muted);
-  }
-  .catalog-style-usage pre {
-    margin-top: 8px;
-    padding: 12px;
-    border-radius: 8px;
-    background: var(--review-plane);
-    font-family: var(--kb-font-mono);
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-    line-height: 1.65;
-  }
-  .catalog-style-output > .catalog-skin-code {
-    font-size: 11px;
-  }
-  .catalog-style-output > .catalog-skin-code textarea {
-    padding: 12px;
-    border-radius: 8px;
-    background: var(--review-plane);
-    box-shadow: none;
-    font-size: 11px;
-  }
   .catalog-styling-workspace .catalog-editor-buffer .code-editor textarea {
     flex: 1;
     height: 100%;
     min-height: 160px;
     max-height: none;
     resize: none;
-  }
-  .catalog-skin-default {
-    font-size: 11px;
   }
   .catalog-styling-workspace[data-compare] {
     grid-template-columns: minmax(0, 1fr);

@@ -143,6 +143,7 @@ export function CatalogSkinControls({
             onReset={resetStyles}
           />
           <CodeEditor
+            showCaption={false}
             label={mode === "css" ? "Style this component" : "Tailwind classes"}
             value={source}
             language={mode === "css" ? "css" : "classes"}
@@ -180,27 +181,6 @@ export function CatalogSkinControls({
             </CatalogEditorNotice>
           )}
         </div>
-      </div>
-      <div className="catalog-style-output" hidden={editor !== "styles"}>
-        <div className="catalog-style-usage">
-          <span>Use on {component}</span>
-          <pre>
-            <code>{usage}</code>
-          </pre>
-        </div>
-        {css ? (
-          <label className="catalog-skin-code">
-            <span>Theme CSS overrides</span>
-            <textarea
-              readOnly
-              spellCheck={false}
-              value={css}
-              rows={Math.min(7, css.split("\n").length)}
-            />
-          </label>
-        ) : (
-          <p className="catalog-skin-default">Default KBUI tokens. No CSS overrides needed.</p>
-        )}
       </div>
     </section>
   );

@@ -153,9 +153,7 @@ export const PreviewLocalStyling: Story = {
     expect(currentFrame()).toBe(first.frame);
     expect(currentFrame().contentDocument).toBe(first.doc);
     expect(first.draft.value).toBe("Keep my draft");
-    expect(
-      (canvas.getByRole("textbox", { name: "Theme CSS overrides" }) as HTMLTextAreaElement).value,
-    ).toContain("--kb-color-accent: #21637a;");
+    expect(first.doc.documentElement.style.getPropertyValue("--kb-color-accent")).toBe("#21637a");
     await userEvent.click(canvas.getByRole("button", { name: "Change preview theme" }));
     await waitFor(() => expectBackground(first.action, "rgb(140, 213, 232)"));
     expect(first.draft.value).toBe("Keep my draft");
@@ -175,7 +173,6 @@ export const PreviewLocalStyling: Story = {
     expect(getComputedStyle(reloaded.action).borderRadius).toBe("8px");
     expect(reloaded.doc.documentElement.style.getPropertyValue("--kb-color-accent")).toBe("");
     expect(reloaded.doc.documentElement.style.getPropertyValue("--kb-radius-md")).toBe("");
-    expect(canvas.queryByRole("textbox", { name: "Theme CSS overrides" })).not.toBeInTheDocument();
     expect(document.documentElement.getAttribute("style")).toBe(parentStyle);
     expect(document.documentElement.dataset.theme).toBe(parentTheme);
     expect(

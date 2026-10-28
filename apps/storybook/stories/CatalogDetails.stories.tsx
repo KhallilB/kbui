@@ -96,6 +96,24 @@ export const WindowControls: Story = {
   },
 };
 
+export const CohesiveEditors: Story = {
+  args: { componentId: "badge" },
+  play: async ({ canvasElement }) => {
+    const page = within(canvasElement);
+    const pane = page.getByRole("region", { name: "Preview styling" });
+    const editor = pane.querySelector(".catalog-editor-panel");
+    for (const mode of ["Component", "CSS", "Tailwind"]) {
+      await userEvent.click(page.getByRole("radio", { name: mode }));
+      expect(pane.querySelector(".catalog-editor-panel")).toBe(editor);
+      expect(within(pane).getAllByRole("textbox")).toHaveLength(1);
+      expect(within(pane).getByRole("textbox")).not.toHaveAttribute("readonly");
+      expect(pane.querySelector(".code-editor-caption")).toBeNull();
+      expect(page.queryByText("Use on Badge", { exact: true })).toBeNull();
+      expect(page.queryByText("Default KBUI tokens. No CSS overrides needed.")).toBeNull();
+    }
+  },
+};
+
 export const EditableDrafts: Story = {
   args: { componentId: "badge" },
   play: async ({ canvasElement }) => {
