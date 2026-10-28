@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
 import { type ComponentProps, useId, useImperativeHandle, useLayoutEffect, useRef } from "react";
-import { type ClassNames, kb } from "../../utils/kb";
+import { type ClassNames, kb, resolveInvalid } from "../../utils/kb";
 export type CheckboxProps = Omit<
   ComponentProps<"input">,
   "type" | "checked" | "defaultChecked" | "onChange" | "size"
@@ -42,6 +42,7 @@ export function Checkbox({
   id: providedId,
   ref,
   style,
+  "aria-invalid": callerAriaInvalid,
   ...props
 }: CheckboxProps) {
   const generated = useId();
@@ -51,6 +52,7 @@ export function Checkbox({
   useLayoutEffect(() => {
     if (input.current) input.current.indeterminate = indeterminate;
   });
+  const { invalid, ariaInvalid } = resolveInvalid(Boolean(error), callerAriaInvalid);
   const described =
     [
       description ? `${id}-description` : null,
@@ -63,7 +65,7 @@ export function Checkbox({
     Object.entries(style ?? {}).filter(([property]) => property.startsWith("--")),
   );
   return (
-    <div {...kb("checkbox", { disabled, invalid: Boolean(error) }, className)} style={theme}>
+    <div {...kb("checkbox", { disabled, invalid }, className)} style={theme}>
       <input
         {...props}
         style={style}
@@ -75,7 +77,7 @@ export function Checkbox({
         disabled={disabled}
         readOnly={readOnly}
         aria-readonly={readOnly || undefined}
-        aria-invalid={error ? true : props["aria-invalid"]}
+        aria-invalid={ariaInvalid}
         aria-describedby={described}
         className={clsx("kb-checkbox-control", classNames?.control, controlClassName)}
         onChange={(event) => {

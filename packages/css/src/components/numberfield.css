@@ -5,9 +5,10 @@
   min-width: 0;
 }
 .kb-numberfield-label {
+  overflow-wrap: anywhere;
   color: var(--kb-color-fg);
-  font-size: var(--kb-size-sm);
-  font-weight: var(--kb-font-weight-medium);
+  font-size: var(--kb-text-small-size);
+  font-weight: var(--kb-font-weight-strong);
 }
 .kb-numberfield-editor {
   min-width: 0;
@@ -68,7 +69,7 @@
 .kb-numberfield-description,
 .kb-numberfield-error {
   margin: 0;
-  font-size: var(--kb-size-sm);
+  font-size: var(--kb-text-small-size);
   overflow-wrap: anywhere;
 }
 .kb-numberfield-description {
@@ -102,8 +103,23 @@
     color: CanvasText;
     border-color: CanvasText;
   }
+  .kb-numberfield[data-invalid] .kb-numberfield-group {
+    border-color: Highlight;
+  }
+  .kb-numberfield-input:focus-visible,
+  .kb-numberfield-decrement:focus-visible,
+  .kb-numberfield-increment:focus-visible {
+    outline-color: Highlight;
+  }
+  .kb-numberfield[data-disabled] {
+    opacity: 1;
+  }
+  .kb-numberfield[data-disabled] .kb-numberfield-label,
+  .kb-numberfield[data-disabled] .kb-numberfield-description,
+  .kb-numberfield[data-disabled] .kb-numberfield-group,
   .kb-numberfield-decrement[data-disabled],
   .kb-numberfield-increment[data-disabled] {
+    border-color: GrayText;
     color: GrayText;
   }
 }

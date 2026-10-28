@@ -1,7 +1,7 @@
 import { NumberField as Base } from "@base-ui/react/number-field";
 import { clsx } from "clsx";
 import { type ComponentProps, type Ref, useId } from "react";
-import { type ClassNames, kb } from "../../utils/kb";
+import { type ClassNames, kb, resolveInvalid } from "../../utils/kb";
 
 export type NumberFieldSize = "sm" | "md" | "lg";
 export type NumberFieldProps = Omit<
@@ -98,9 +98,14 @@ export function NumberField({
   incrementLabel = `Increase ${label}`,
   className,
   "aria-describedby": callerDescription,
+  "aria-invalid": callerAriaInvalid,
   ...props
 }: NumberFieldProps) {
   const id = useId();
+  const { invalid, ariaInvalid } = resolveInvalid(
+    Boolean(error),
+    inputProps?.["aria-invalid"] ?? callerAriaInvalid,
+  );
   const described =
     [
       description ? `${id}-description` : null,
@@ -113,11 +118,7 @@ export function NumberField({
   return (
     <div
       {...props}
-      {...kb(
-        "numberfield",
-        { size, disabled, readonly: readOnly, invalid: Boolean(error) },
-        className,
-      )}
+      {...kb("numberfield", { size, disabled, readonly: readOnly, invalid }, className)}
     >
       <label
         htmlFor={id}
@@ -158,7 +159,7 @@ export function NumberField({
             {...inputProps}
             ref={inputRef}
             aria-describedby={described}
-            aria-invalid={Boolean(error) || undefined}
+            aria-invalid={ariaInvalid}
             className={clsx("kb-numberfield-input", classNames?.input, inputClassName)}
           />
           <Base.Increment

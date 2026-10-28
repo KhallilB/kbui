@@ -314,4 +314,130 @@ describe("buildCss", () => {
     expect(textareaCss).toContain("max-inline-size: 100%");
     expect(textareaCss).toContain(".kb-textarea[data-invalid] .kb-textarea-control:focus-visible");
   });
+
+  test("every component stylesheet references only defined tokens and styles.css imports stay sorted", async () => {
+    const bundled = await readFile(join(dist, "styles.css"), "utf8");
+    const definedVars = new Set(
+      [...bundled.matchAll(/(--kb-[a-z0-9-]+)\s*:/g)].map((match) => match[1]),
+    );
+    const runtimeVars = new Set([
+      "--kb-panel-size",
+      "--kb-switch-off-color",
+      "--kb-switch-on-color",
+    ]);
+    const files = (await readdir(join(src, "components"))).filter((f) => f.endsWith(".css")).sort();
+    for (const file of files) {
+      const css = await readFile(join(src, "components", file), "utf8");
+      const refs = [...css.matchAll(/var\(\s*(--kb-[a-z0-9-]+)/g)]
+        .map((match) => match[1])
+        .filter((ref): ref is string => ref !== undefined && !runtimeVars.has(ref));
+      for (const ref of refs) {
+        expect(definedVars.has(ref), `${file}: ${ref}`).toBe(true);
+      }
+    }
+    const stylesCss = await readFile(join(src, "styles.css"), "utf8");
+    const imports = [...stylesCss.matchAll(/@import "\.\/components\/([^"]+)"/g)].map((m) => m[1]);
+    expect(imports).toEqual([...imports].sort());
+  });
+
+  test("controls and overlays preserve focus-visible over invalid, forced-colors states, and anatomy headers", async () => {
+    const read = (file: string) => readFile(join(src, "components", file), "utf8");
+    const inputCss = await read("input.css");
+    expect(inputCss).toContain(".kb-input[data-invalid] .kb-input-control:focus-visible");
+    expect(inputCss).toContain("@media (forced-colors: active)");
+
+    const menuCss = await read("menu.css");
+    expect(menuCss).toContain("@media (forced-colors: active)");
+    expect(menuCss).not.toMatch(/\.kb-menu-item\[data-highlighted\]\s*\{/);
+    expect(menuCss).toContain(".kb-menu-item[data-highlighted]:not([data-disabled])");
+
+    const dialogCss = await read("dialog.css");
+    expect(dialogCss).toContain("@media (forced-colors: active)");
+
+    const scrollareaCss = await read("scrollarea.css");
+    expect(scrollareaCss).toContain("@media (forced-colors: active)");
+
+    const numberfieldCss = await read("numberfield.css");
+    expect(numberfieldCss).toMatch(
+      /@media \(forced-colors: active\)[\s\S]*\.kb-numberfield-input:focus-visible/,
+    );
+    expect(numberfieldCss).toMatch(
+      /@media \(forced-colors: active\)[\s\S]*\.kb-numberfield\[data-disabled\] \.kb-numberfield-group/,
+    );
+
+    const radiogroupCss = await read("radiogroup.css");
+    expect(radiogroupCss).toContain(
+      ".kb-radiogroup[data-invalid] .kb-radiogroup-control:not([data-checked])",
+    );
+    expect(radiogroupCss).toContain(
+      '.kb-radiogroup[data-appearance="segmented"][data-invalid] .kb-radiogroup-options',
+    );
+
+    const fileinputCss = await read("fileinput.css");
+    expect(fileinputCss).toContain(".kb-fileinput[data-invalid] .kb-fileinput-trigger");
+
+    const selectCss = await read("select.css");
+    expect(selectCss.split("\n")[0]).toContain(".kb-select-portal");
+    expect(selectCss.split("\n")[0]).toContain("[data-pointer-focus]");
+    expect(selectCss.split("\n")[0]).toContain("[data-starting-style]");
+    expect(selectCss).toMatch(
+      /@media \(forced-colors: active\)[\s\S]*\.kb-select\[data-invalid\] \.kb-select-control/,
+    );
+    expect(selectCss).toMatch(
+      /@media \(forced-colors: active\)[\s\S]*\.kb-select\[data-disabled\] \.kb-select-control/,
+    );
+
+    expect(await anatomyRoots(src)).toContain(".kb-radiogroup");
+    expect(radiogroupCss.split("\n")[0]).toContain("[data-selection]");
+    expect(menuCss.split("\n")[0]).toContain("[data-kb-menu-trigger][data-pointer-focus]");
+
+    const comboboxCss = await read("combobox.css");
+    expect(comboboxCss.split("\n")[0]).toContain("[data-starting-style]");
+    expect(comboboxCss).toMatch(
+      /\.kb-combobox:not\(\[data-disabled\]\):not\(\[data-readonly\]\):not\(\[data-invalid\]\)\s+\.kb-combobox-shell:hover:not\(:focus-within\)/,
+    );
+    expect(comboboxCss).not.toContain("outline-color: var(--kb-color-danger)");
+    expect(comboboxCss).toMatch(
+      /@media \(forced-colors: active\)[\s\S]*\.kb-combobox\[data-invalid\] \.kb-combobox-shell/,
+    );
+
+    const multiselectCss = await read("multiselect.css");
+    expect(multiselectCss.split("\n")[0]).toContain("[data-starting-style]");
+    expect(multiselectCss).toMatch(
+      /\.kb-multiselect:not\(\[data-disabled\]\):not\(\[data-readonly\]\):not\(\[data-invalid\]\)\s+\.kb-multiselect-shell:hover:not\(:focus-within\)/,
+    );
+    expect(multiselectCss).not.toContain("outline-color: var(--kb-color-danger)");
+    expect(multiselectCss).toMatch(
+      /@media \(forced-colors: active\)[\s\S]*\.kb-multiselect\[data-invalid\] \.kb-multiselect-shell/,
+    );
+
+    expect(inputCss).toContain(
+      ".kb-input:not([data-invalid]) .kb-input-control:hover:not(:disabled):not(:focus-visible)",
+    );
+
+    const textareaCss = await read("textarea.css");
+    expect(textareaCss).toContain(
+      ".kb-textarea:not([data-invalid]) .kb-textarea-control:hover:not(:disabled):not(:focus-visible)",
+    );
+    expect(textareaCss).toContain(".kb-textarea[data-readonly] .kb-textarea-control:focus-visible");
+
+    const buttonCss = await read("button.css");
+    expect(buttonCss).toMatch(
+      /@media \(forced-colors: active\)[\s\S]*\.kb-button:focus-visible[\s\S]*outline-color: Highlight/,
+    );
+    expect(buttonCss.slice(buttonCss.lastIndexOf("@media (forced-colors: active)"))).not.toContain(
+      "var(--kb-color-danger)",
+    );
+
+    const switchCss = await read("switch.css");
+    expect(switchCss).toMatch(
+      /@media \(forced-colors: active\)[\s\S]*\.kb-switch\[data-invalid\] \.kb-switch-control \+ \.kb-switch-track/,
+    );
+    expect(switchCss).toMatch(
+      /@media \(forced-colors: active\)[\s\S]*\.kb-switch \.kb-switch-control:disabled \+ \.kb-switch-track/,
+    );
+
+    const tooltipCss = await read("tooltip.css");
+    expect(tooltipCss).toContain("@media (forced-colors: active)");
+  });
 });

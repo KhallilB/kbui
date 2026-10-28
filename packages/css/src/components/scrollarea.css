@@ -51,3 +51,13 @@
     transition: none;
   }
 }
+
+@media (forced-colors: active) {
+  .kb-scrollarea-viewport:focus-visible {
+    outline-color: Highlight;
+  }
+  .kb-scrollarea-thumb {
+    background: ButtonText;
+    box-shadow: none;
+  }
+}

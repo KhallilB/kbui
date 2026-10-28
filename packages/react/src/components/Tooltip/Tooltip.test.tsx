@@ -1,12 +1,14 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { createRef } from "react";
 import { describe, expect, test } from "vitest";
 import { Tooltip } from "./Tooltip";
 
 describe("Tooltip", () => {
-  test("shows its content when the trigger is hovered", async () => {
+  test("shows its content when the trigger is hovered and forwards popup ref", async () => {
+    const ref = createRef<HTMLDivElement>();
     render(
-      <Tooltip content="Stop worker" delay={0}>
+      <Tooltip ref={ref} content="Stop worker" delay={0}>
         <button type="button" aria-label="Stop">
           x
         </button>
@@ -16,6 +18,7 @@ describe("Tooltip", () => {
     await userEvent.hover(screen.getByRole("button", { name: "Stop" }));
     const popup = await screen.findByText("Stop worker");
     expect(popup.closest(".kb-tooltip")).not.toBeNull();
+    expect(ref.current).toBe(popup.closest(".kb-tooltip"));
   });
   test("supports a themed portal host and popup class", async () => {
     const host = document.createElement("div");

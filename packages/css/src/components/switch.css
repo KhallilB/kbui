@@ -259,10 +259,19 @@
     border-color: ButtonText;
     box-shadow: none;
   }
-  .kb-switch .kb-switch-control:checked + .kb-switch-track {
+  .kb-switch .kb-switch-control:checked + .kb-switch-track,
+  .kb-switch[data-invalid] .kb-switch-control + .kb-switch-track {
     border-color: Highlight;
   }
   .kb-switch .kb-switch-control:focus-visible + .kb-switch-track {
     outline-color: Highlight;
+  }
+  .kb-switch .kb-switch-control:disabled + .kb-switch-track,
+  .kb-switch .kb-switch-control:disabled + .kb-switch-track .kb-switch-thumb,
+  .kb-switch:has(.kb-switch-control:disabled) .kb-switch-label,
+  .kb-switch[data-disabled] .kb-switch-description {
+    color: GrayText;
+    border-color: GrayText;
+    opacity: 1;
   }
 }

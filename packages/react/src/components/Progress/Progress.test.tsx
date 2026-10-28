@@ -1,11 +1,14 @@
 import { render, screen } from "@testing-library/react";
+import { createRef } from "react";
 import { describe, expect, test } from "vitest";
 import { Progress } from "./Progress";
 
 describe("Progress", () => {
-  test("is a named progressbar with its value", () => {
-    render(<Progress label="Build" value={40} />);
+  test("is a named progressbar with its value and forwards ref", () => {
+    const ref = createRef<HTMLDivElement>();
+    render(<Progress ref={ref} label="Build" value={40} />);
     const bar = screen.getByRole("progressbar", { name: "Build" });
+    expect(ref.current).toBe(bar);
     expect(bar).toHaveClass("kb-progress");
     expect(bar).toHaveAttribute("aria-valuenow", "40");
     expect(bar).toHaveAttribute("aria-valuemax", "100");

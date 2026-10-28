@@ -5,9 +5,10 @@
   min-width: 0;
 }
 .kb-fileinput-label {
+  overflow-wrap: anywhere;
   color: var(--kb-color-fg);
-  font-size: var(--kb-size-sm);
-  font-weight: var(--kb-font-weight-medium);
+  font-size: var(--kb-text-small-size);
+  font-weight: var(--kb-font-weight-strong);
 }
 .kb-fileinput .kb-fileinput-trigger {
   max-width: 100%;
@@ -19,11 +20,14 @@
   padding: var(--kb-space-2) var(--kb-space-4);
   border-radius: var(--kb-fileinput-radius);
 }
+.kb-fileinput[data-invalid] .kb-fileinput-trigger {
+  border-color: var(--kb-color-danger);
+}
 .kb-fileinput-description,
 .kb-fileinput-error,
 .kb-fileinput-empty {
   margin: 0;
-  font-size: var(--kb-size-sm);
+  font-size: var(--kb-text-small-size);
   overflow-wrap: anywhere;
 }
 .kb-fileinput-description,
@@ -61,7 +65,7 @@
 .kb-fileinput-metadata {
   display: block;
   color: var(--kb-color-muted);
-  font-size: var(--kb-size-sm);
+  font-size: var(--kb-text-small-size);
   margin-top: var(--kb-space-1);
 }
 .kb-fileinput .kb-fileinput-remove {
@@ -72,4 +76,14 @@
 }
 .kb-fileinput[data-disabled] .kb-fileinput-label {
   color: var(--kb-color-muted);
+}
+@media (forced-colors: active) {
+  .kb-fileinput[data-invalid] .kb-fileinput-trigger {
+    border-color: Highlight;
+  }
+  .kb-fileinput[data-disabled] .kb-fileinput-label,
+  .kb-fileinput[data-disabled] .kb-fileinput-description,
+  .kb-fileinput[data-disabled] .kb-fileinput-empty {
+    color: GrayText;
+  }
 }

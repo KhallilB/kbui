@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { type ClassNames, kb } from "../../utils/kb";
+import { type ClassNames, kb, resolveInvalid } from "../../utils/kb";
 import { Button } from "../Button/Button";
 
 export type FileInputItem = {
@@ -116,6 +116,7 @@ export function FileInput({
   className,
   onBlurCapture,
   "aria-describedby": callerDescription,
+  "aria-invalid": callerAriaInvalid,
   ...props
 }: FileInputProps) {
   const id = useId();
@@ -128,6 +129,7 @@ export function FileInput({
   const [announcement, setAnnouncement] = useState("");
   useImperativeHandle(inputRef, () => input.current as HTMLInputElement);
   useImperativeHandle(triggerRef, () => trigger.current as HTMLButtonElement);
+  const { invalid, ariaInvalid } = resolveInvalid(Boolean(error), callerAriaInvalid);
   const blocked = disabled || readOnly;
   const described =
     [description ? `${id}-description` : null, error ? `${id}-error` : null, callerDescription]
@@ -147,7 +149,7 @@ export function FileInput({
   return (
     <div
       {...props}
-      {...kb("fileinput", { disabled, readonly: readOnly, invalid: Boolean(error) }, className)}
+      {...kb("fileinput", { disabled, readonly: readOnly, invalid }, className)}
       onBlurCapture={(event) => {
         if (
           pending.current?.button.isSameNode(event.target) &&
@@ -192,7 +194,7 @@ export function FileInput({
         disabled={blocked}
         aria-labelledby={`${id}-label ${id}-action`}
         aria-describedby={described}
-        aria-invalid={Boolean(error) || undefined}
+        aria-invalid={ariaInvalid}
         className={clsx("kb-fileinput-trigger", classNames?.trigger, triggerClassName)}
         onClick={() => {
           if (!blocked) input.current?.click();

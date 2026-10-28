@@ -17,6 +17,10 @@ export type ToolbarButtonProps = Omit<Base.Button.Props, "className" | "render">
   /** Button weight; toolbars default to ghost. */
   variant?: ButtonVariant;
 };
+export type ToolbarSeparatorProps = Omit<Base.Separator.Props, "className"> & {
+  /** Plain class string; Base UI's function form is not supported. */
+  className?: string;
+};
 
 function ToolbarRoot({ className, ...props }: ToolbarProps) {
   return <Base.Root {...props} className={clsx("kb-toolbar", className)} />;
@@ -35,8 +39,8 @@ function ToolbarButton({ variant = "ghost", className, ...props }: ToolbarButton
   );
 }
 
-function ToolbarSeparator() {
-  return <Base.Separator className="kb-toolbar-separator" />;
+function ToolbarSeparator({ className, ...props }: ToolbarSeparatorProps) {
+  return <Base.Separator {...props} className={clsx("kb-toolbar-separator", className)} />;
 }
 
 export const Toolbar = Object.assign(ToolbarRoot, {

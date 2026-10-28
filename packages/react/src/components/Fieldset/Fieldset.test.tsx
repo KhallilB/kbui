@@ -57,6 +57,16 @@ describe("Fieldset", () => {
     expect(document.getElementById(ids[1] ?? "")?.textContent).toBe(
       "Complete all required address fields.",
     );
+
+    render(
+      <Fieldset legend="Grammar address" aria-invalid="grammar">
+        <Input label="Street" />
+      </Fieldset>,
+    );
+    const grammar = screen.getByRole("group", { name: "Grammar address" });
+    expect(grammar.getAttribute("aria-invalid")).toBe("grammar");
+    expect(grammar.hasAttribute("data-invalid")).toBe(true);
+    expect(grammar.querySelector(".kb-fieldset-error")).toBeNull();
   });
 
   test("disables descendant form controls natively when disabled", () => {
