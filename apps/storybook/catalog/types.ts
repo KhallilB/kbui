@@ -28,6 +28,7 @@ export type CatalogEntry = {
   apiHeading: string;
   api: ApiBlock[];
   stories: ({ id: string; name: string } & CodeSample)[];
+  examples?: { id: string; name: string }[];
   defaultStoryId: string;
   docsId: string;
 };

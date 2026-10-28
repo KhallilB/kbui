@@ -19,6 +19,12 @@ Every component takes `className` and `style`. Components with inner parts, such
 <Input label="Email" className="w-full" classNames={{ control: "rounded-none" }} />
 ```
 
+### Themes and customization
+
+Components follow the current light or dark theme through shared semantic tokens. Use `Button` for actions and its `render` prop for links styled as actions. Custom classes and token overrides are supported; preserve readable color pairs, visible focus and clear disabled states in both themes.
+
+See [Restyling kbui](../../docs/guides/restyling.md#theme-every-component-with-tokens) for paired color overrides and nested themes. Contributors should follow [Theme and state support](../../docs/guides/adding-a-component.md#theme-and-state-support).
+
 ## Button
 
 Use a Button for an action such as saving a form or opening a dialog. Choose a variant to match the action’s importance.
@@ -370,6 +376,8 @@ Use RadioGroup when people need to choose one option and see all the choices at 
 | `value` | `string \| null` | required | Controlled choice; null means no choice |
 | `onValueChange` | `(value: string) => void` | required | Next choice request |
 | `appearance` | `"standard" \| "segmented"` | `"standard"` | Segmented tray for compact single-choice controls |
+| `selectionMotion` | `"slide" \| "none"` | `"slide"` | Segmented selection background glides or moves instantly |
+| `selectionTone` | `"primary" \| "neutral"` | `"primary"` | Accent pill by default; neutral uses the raised surface |
 | `disabled` | `boolean` | `false` | Disable every item |
 | `name` | `string` | | Native form field name |
 | `description` / `error` | `string` | | Associated help and invalid-state text |
@@ -386,6 +394,10 @@ Use RadioGroup when people need to choose one option and see all the choices at 
 `RadioGroup.Item` forwards Base UI Radio props, including `value`, `disabled` and the native control ref. `className` styles the item label; `controlClassName` styles its radio slot. The group uses the shared theme colors and shadows. Adjust the control size with `--kb-radiogroup-size` and the spacing with `--kb-radiogroup-gap`.
 
 Set `appearance="segmented"` for compact choices such as view, density, or a filter. The control still behaves as a radio group, rather than tabs with associated panels. Your app manages the value and resets it when the form resets. An item’s `required` prop participates in native form validation. Changing the appearance keeps the same controls and focus.
+
+The segmented selection uses a pill shape with the primary accent color by default. Set `selectionTone="neutral"` for a raised surface with neutral text and borders. Both tones follow the current light or dark theme. The background slides along the padded track and follows option widths, wrapped rows and layout changes. Set `selectionMotion="none"` for instant changes. Reduced-motion preferences disable movement regardless of this setting; forced-colors mode uses the selected option’s system highlight.
+
+In dark mode, the primary pill uses a darker orange with white text for contrast. Override `--kb-radiogroup-primary-background` and `--kb-radiogroup-primary-color` together to customize this pair without changing other primary controls.
 
 ## Select
 

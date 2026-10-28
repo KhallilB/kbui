@@ -50,6 +50,85 @@ export const CompareThemes: Story = {
   },
 };
 
+export const RadioGroupToneControl: Story = {
+  args: { componentId: "radiogroup" },
+  play: async ({ canvasElement }) => {
+    const page = within(canvasElement);
+    const tone = page.getByRole("combobox", { name: "Selected pill color" });
+    await userEvent.click(tone);
+    await userEvent.click(await within(document.body).findByRole("option", { name: "Primary" }));
+    expect(page.getByRole("radio", { name: "Segmented" })).toBeChecked();
+    expect(page.getByTitle("RadioGroup — Segmented live example")).toHaveAttribute(
+      "data-preview-src",
+      expect.stringContaining("components-radiogroup--segmented"),
+    );
+    await userEvent.click(tone);
+    await userEvent.click(await within(document.body).findByRole("option", { name: "Neutral" }));
+    expect(page.getByRole("radio", { name: "Segmented" })).toBeChecked();
+    expect(page.getByTitle("RadioGroup — Neutral Selection live example")).toHaveAttribute(
+      "data-preview-src",
+      expect.stringContaining("components-radiogroup--neutral-selection"),
+    );
+    await userEvent.click(page.getByRole("button", { name: "View code" }));
+    expect(page.getByRole("region", { name: "Neutral Selection React example" })).toHaveTextContent(
+      "selectionTone",
+    );
+    await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
+    expect(tone).toHaveTextContent("Neutral");
+    await userEvent.click(tone);
+    await userEvent.click(await within(document.body).findByRole("option", { name: "Primary" }));
+    expect(page.getByRole("radio", { name: "Segmented" })).toBeChecked();
+    await waitFor(() =>
+      expect(canvasElement.querySelector(".kb-select-positioner")).not.toBeVisible(),
+    );
+  },
+};
+
+export const CuratedExamples: Story = {
+  args: { componentId: "radiogroup", stateId: "components-radiogroup--segmented" },
+  play: async ({ canvasElement }) => {
+    const page = within(canvasElement);
+    const choices = within(page.getByRole("radiogroup", { name: "Example state" }));
+    expect(choices.getAllByRole("radio")).toHaveLength(4);
+    for (const name of ["Default", "Segmented", "Disabled", "Invalid"])
+      expect(choices.getByRole("radio", { name })).toBeInTheDocument();
+    expect(choices.queryByRole("radio", { name: "Segmented Updates" })).toBeNull();
+    expect(choices.queryByRole("radio", { name: "Neutral Selection" })).toBeNull();
+    await userEvent.click(page.getByRole("combobox", { name: "Selected pill color" }));
+    await userEvent.click(await within(document.body).findByRole("option", { name: "Neutral" }));
+    expect(choices.getByRole("radio", { name: "Segmented" })).toBeChecked();
+    expect(page.getByTitle("RadioGroup — Neutral Selection live example")).toHaveAttribute(
+      "data-preview-src",
+      expect.stringContaining("--neutral-selection"),
+    );
+    await waitFor(() =>
+      expect(canvasElement.querySelector(".kb-select-positioner")).not.toBeVisible(),
+    );
+  },
+};
+
+export const SingleExample: Story = {
+  args: { componentId: "toolbar" },
+  play: async ({ canvasElement }) => {
+    const page = within(canvasElement);
+    expect(page.queryByRole("radiogroup", { name: "Example state" })).toBeNull();
+    expect(page.getByTitle("Toolbar — Default live example")).toBeInTheDocument();
+  },
+};
+
+export const AdditionalExampleLink: Story = {
+  args: { componentId: "panel", stateId: "components-panel--token-overrides" },
+  play: async ({ canvasElement }) => {
+    const page = within(canvasElement);
+    expect(page.queryByRole("radio", { name: "Token Overrides" })).toBeNull();
+    expect(page.getByText("Additional example: Token Overrides.")).toBeVisible();
+    expect(page.getByTitle("Panel — Token Overrides live example")).toBeInTheDocument();
+    await userEvent.click(page.getByRole("radio", { name: "Depth" }));
+    expect(page.queryByText("Additional example: Token Overrides.")).toBeNull();
+    expect(page.getByRole("radio", { name: "Depth" })).toBeChecked();
+  },
+};
+
 export const PreviewStyling: Story = {
   play: async ({ canvasElement }) => {
     const page = within(canvasElement);

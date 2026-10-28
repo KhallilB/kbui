@@ -22,7 +22,7 @@ export const Primary: Story = {
     if (window.matchMedia("(forced-colors: active)").matches) return;
     const button = within(canvasElement).getByRole("button", { name: "Save changes" });
     const accent = document.createElement("span");
-    accent.style.color = "var(--kb-color-accent)";
+    accent.style.color = "var(--kb-color-action)";
     button.append(accent);
     try {
       expect(getComputedStyle(button).backgroundColor).toBe(getComputedStyle(accent).color);
@@ -65,6 +65,32 @@ export const IconOnly: Story = {
         <rect x="4" y="4" width="8" height="8" rx="1" />
       </svg>
     ),
+  },
+};
+
+export const ThemeScopes: Story = {
+  tags: ["!dev", "!autodocs"],
+  render: () => (
+    <div data-theme="light" style={{ background: "var(--kb-color-bg)", padding: 16 }}>
+      <Button>Outer light action</Button>
+      <div data-theme="dark" style={{ background: "var(--kb-color-bg)", padding: 16 }}>
+        <Button>Dark action</Button>
+        <div data-theme="light" style={{ background: "var(--kb-color-bg)", padding: 16 }}>
+          <Button>Inner light action</Button>
+        </div>
+      </div>
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    if (window.matchMedia("(forced-colors: active)").matches) return;
+    const canvas = within(canvasElement);
+    const outer = getComputedStyle(canvas.getByRole("button", { name: "Outer light action" }));
+    const dark = getComputedStyle(canvas.getByRole("button", { name: "Dark action" }));
+    const inner = getComputedStyle(canvas.getByRole("button", { name: "Inner light action" }));
+    expect(inner.backgroundColor).toBe(outer.backgroundColor);
+    expect(inner.color).toBe(outer.color);
+    expect(dark.backgroundColor).not.toBe(outer.backgroundColor);
+    expect(dark.color).toBe("rgb(255, 255, 255)");
   },
 };
 

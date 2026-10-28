@@ -29,8 +29,17 @@ for (const theme of ["light", "dark"] as const) {
   for (const palette of ["ocean", "plum"] as const) {
     test(`${palette} ${theme} keeps readable filled text and theme-specific colors`, () => {
       const tokens = catalogSkinTokens({ ...defaultCatalogSkin, palette }, theme);
-      expect(Object.keys(tokens)).toHaveLength(4);
-      for (const fill of ["--kb-color-accent", "--kb-color-accent-hover"]) {
+      expect(Object.keys(tokens)).toHaveLength(9);
+      expect(tokens["--kb-radiogroup-primary-background"]).toBe(tokens["--kb-color-accent"]);
+      expect(tokens["--kb-radiogroup-primary-color"]).toBe(tokens["--kb-color-accent-fg"]);
+      expect(tokens["--kb-color-action"]).toBe(tokens["--kb-radiogroup-primary-background"]);
+      expect(tokens["--kb-color-action-fg"]).toBe(tokens["--kb-radiogroup-primary-color"]);
+      for (const fill of [
+        "--kb-color-accent",
+        "--kb-color-accent-hover",
+        "--kb-color-action",
+        "--kb-color-action-hover",
+      ]) {
         expect(
           contrast(tokens[fill] ?? "", tokens["--kb-color-accent-fg"] ?? ""),
         ).toBeGreaterThanOrEqual(4.5);

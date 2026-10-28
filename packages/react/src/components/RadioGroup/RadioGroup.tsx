@@ -24,6 +24,10 @@ export type RadioGroupProps = Omit<ComponentProps<"div">, "onChange" | "defaultV
   disabled?: boolean;
   /** Segmented visual treatment; native single-choice behavior stays shared. */
   appearance?: "standard" | "segmented";
+  /** Segmented background movement; reduced motion always wins. */
+  selectionMotion?: "slide" | "none";
+  /** Segmented selection color. */
+  selectionTone?: "primary" | "neutral";
   /** Native form field name. */
   name?: string;
   /** Helper text for group. */
@@ -57,6 +61,92 @@ type EntryState = {
   inside: boolean;
 };
 const EntryContext = createContext<EntryState | null>(null);
+
+type SelectionBounds = { x: number; y: number; width: number; height: number; disabled: boolean };
+
+function RadioOptions({
+  segmented,
+  className,
+  children,
+}: {
+  segmented: boolean;
+  className: string | undefined;
+  children: ReactNode;
+}) {
+  const track = useRef<HTMLDivElement>(null);
+  const [selection, setSelection] = useState<SelectionBounds | null>(null);
+  useLayoutEffect(() => {
+    const options = track.current;
+    if (!options || !segmented) {
+      setSelection(null);
+      return;
+    }
+    const measure = () => {
+      const control = options.querySelector<HTMLElement>(".kb-radiogroup-control[data-checked]");
+      const item = control?.closest<HTMLLabelElement>(".kb-radiogroup-item");
+      const next =
+        item && item.offsetWidth > 0 && item.offsetHeight > 0
+          ? {
+              x: item.offsetLeft,
+              y: item.offsetTop,
+              width: item.offsetWidth,
+              height: item.offsetHeight,
+              disabled: control?.hasAttribute("data-disabled") ?? false,
+            }
+          : null;
+      setSelection((current) =>
+        current?.x === next?.x &&
+        current?.y === next?.y &&
+        current?.width === next?.width &&
+        current?.height === next?.height &&
+        current?.disabled === next?.disabled
+          ? current
+          : next,
+      );
+    };
+    const resize = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
+    const observeItems = () => {
+      resize?.disconnect();
+      resize?.observe(options);
+      for (const item of options.querySelectorAll(".kb-radiogroup-item")) resize?.observe(item);
+      measure();
+    };
+    // Observe committed selection and layout; focus may move before owner accepts value.
+    const changes = new MutationObserver(observeItems);
+    changes.observe(options, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ["data-checked", "data-disabled"],
+    });
+    observeItems();
+    return () => {
+      resize?.disconnect();
+      changes.disconnect();
+    };
+  }, [segmented]);
+  return (
+    <div
+      ref={track}
+      className={clsx("kb-radiogroup-options", className)}
+      data-selection={segmented && selection ? "" : undefined}
+    >
+      {segmented && selection && (
+        <span
+          aria-hidden="true"
+          className="kb-radiogroup-selection"
+          data-disabled={selection.disabled ? "" : undefined}
+          style={{
+            width: selection.width,
+            height: selection.height,
+            transform: `translate(${selection.x}px, ${selection.y}px)`,
+          }}
+        />
+      )}
+      {children}
+    </div>
+  );
+}
 
 function RadioControl({
   checked,
@@ -112,6 +202,8 @@ function RadioGroupRoot({
   onValueChange,
   disabled = false,
   appearance = "standard",
+  selectionMotion = "slide",
+  selectionTone = "primary",
   name,
   description,
   error,
@@ -188,7 +280,17 @@ function RadioGroupRoot({
         }}
         disabled={disabled}
         {...(name ? { name } : {})}
-        {...kb("radiogroup", { invalid: Boolean(error), disabled, appearance }, className)}
+        {...kb(
+          "radiogroup",
+          {
+            invalid: Boolean(error),
+            disabled,
+            appearance,
+            "selection-motion": selectionMotion,
+            "selection-tone": selectionTone,
+          },
+          className,
+        )}
         aria-labelledby={`${id}-label`}
         aria-describedby={described}
         aria-invalid={Boolean(error) || undefined}
@@ -199,7 +301,9 @@ function RadioGroupRoot({
         >
           {label}
         </div>
-        <div className={clsx("kb-radiogroup-options", classNames?.options)}>{children}</div>
+        <RadioOptions segmented={appearance === "segmented"} className={classNames?.options}>
+          {children}
+        </RadioOptions>
         {description && (
           <p
             id={`${id}-description`}

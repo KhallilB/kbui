@@ -1,15 +1,4 @@
-import {
-  Badge,
-  Button,
-  Callout,
-  Card,
-  Dialog,
-  Input,
-  Progress,
-  RadioGroup,
-  Stat,
-  Status,
-} from "@kbui/react";
+import { Button, Callout, Card, Dialog, Input, RadioGroup, Stat, Status } from "@kbui/react";
 import { useEffect, useRef, useState } from "react";
 import { LinkArrow } from "./LinkArrow";
 
@@ -164,9 +153,9 @@ export function OperationsScreen({
     <div>
       <div className="workspace-heading">
         <div>
-          <p className="workspace-eyebrow">Workspace / Operations</p>
-          <h2>A clear view of what’s moving.</h2>
-          <p>Follow the work. Catch what needs you.</p>
+          <p className="workspace-eyebrow">Workspace</p>
+          <h2>Operations</h2>
+          <p>Review recent jobs and retry any failed checks.</p>
         </div>
         <Button
           variant="secondary"
@@ -183,32 +172,15 @@ export function OperationsScreen({
         </Card>
         <Card>
           <Stat label="Completed" value={String(complete)} size="display" />
-          <small>Ready for the next step</small>
         </Card>
         <Card>
           <Stat label="Needs attention" value={String(blocked)} size="display" />
-          <small>{blocked ? "One check to look into" : "Nothing holding you back"}</small>
         </Card>
       </div>
-      <Card className="release-card">
-        <div>
-          <div className="release-title">
-            <Badge tone="info">Release 2.8</Badge>
-            <span>Production rollout</span>
-          </div>
-          <h3>A little closer to shipped.</h3>
-        </div>
-        <Progress
-          label="Jobs complete"
-          value={(complete / model.jobs.length) * 100}
-          valueText={`${complete} of ${model.jobs.length}`}
-        />
-      </Card>
       <Card className="queue-card">
         <div className="queue-heading">
           <div>
-            <h3>Work queue</h3>
-            <p>Latest runs from your workspace.</p>
+            <h3>Recent jobs</h3>
           </div>
           <Input
             ref={queryControl}
@@ -276,13 +248,12 @@ export function OperationsScreen({
               </Button>
             }
           >
-            We could not load the latest runs. Your current work is safe.
+            We couldn’t load the job queue. Try again in a moment.
           </Callout>
         ) : model.phase === "loading" ? (
           <div className="queue-empty" role="status">
             <span className="loading-mark" aria-hidden="true" />
             <h4>Refreshing queue…</h4>
-            <p>Getting your latest runs.</p>
           </div>
         ) : (
           <>

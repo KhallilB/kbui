@@ -131,6 +131,13 @@ export function loadCatalogSources(): CatalogEntry[] {
     const first =
       stories.find((story) => /--(default|primary|confirm|on-hover)$/.test(story.id)) ?? stories[0];
     if (!first) throw new Error(`Missing Storybook examples: ${name}`);
+    const examples = Object.entries(definition.examples).map(([exportName, label]) => {
+      const story = csf._stories[exportName];
+      if (!story) throw new Error(`Unknown catalog example: ${name}.${exportName}`);
+      return { id: story.id, name: label };
+    });
+    if (!examples.some((example) => example.id === first.id))
+      throw new Error(`Default catalog example missing: ${name}`);
     const heading = name;
     return {
       id: name.toLowerCase(),
@@ -140,6 +147,7 @@ export function loadCatalogSources(): CatalogEntry[] {
       apiHeading: heading,
       api: parseApiSection(guide, heading),
       stories,
+      examples,
       defaultStoryId: first.id,
       docsId: `${first.id.split("--")[0]}--docs`,
     };

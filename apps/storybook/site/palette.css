@@ -10,10 +10,10 @@
   --review-line: var(--kb-color-border);
   --review-control: var(--kb-material-control-border);
   --review-hover: light-dark(#e7ebf2, #303640);
-  --review-selected: var(--site-accent);
-  --review-selected-top: var(--site-accent-hover);
+  --review-selected: var(--kb-color-action);
+  --review-selected-top: var(--kb-color-action-hover);
   --review-selected-edge: light-dark(#b53c16, #c86744);
-  --review-selected-fg: var(--site-accent-fg);
+  --review-selected-fg: var(--kb-color-action-fg);
   --review-good: var(--kb-color-success);
   --review-well-top: light-dark(#e3e7ed, #101318);
   --review-well-bottom: var(--kb-material-field-bg);

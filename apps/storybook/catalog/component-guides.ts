@@ -283,7 +283,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
     example: {
       title: "Choose a display density",
       description:
-        "The example stores one selected value. Compare the segmented appearance for compact choices that still behave as a radio group.",
+        "Compact and Roomy smoothly change option height, padding and spacing. Reset restores the starting density; reduced motion switches instantly.",
     },
     tips: [
       "Give every item a unique value and update value in onValueChange.",

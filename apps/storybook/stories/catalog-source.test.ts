@@ -2,10 +2,52 @@ import { expect, test } from "bun:test";
 import * as publicApi from "@kbui/react";
 import { babelParse, loadCsf } from "storybook/internal/csf-tools";
 import { exampleCode } from "../catalog/code";
+import { definitions } from "../catalog/definitions";
 import { highlightCode } from "../catalog/highlight";
 import { loadSiteSamples } from "../catalog/site-samples";
 import { loadCatalogSources, parseApiSection } from "../catalog/source";
+import { browsableStories } from "../site/catalog-model";
 import { playgroundKey } from "../site/playground-model";
+
+test("catalog offers a curated set of useful examples while retaining internal stories", () => {
+  const entries = loadCatalogSources();
+  for (const entry of entries) {
+    const choices = browsableStories(entry);
+    expect(choices.length, entry.name).toBeGreaterThan(0);
+    expect(choices.length, entry.name).toBeLessThanOrEqual(5);
+    expect(
+      choices.some((choice) => choice.id === entry.defaultStoryId),
+      entry.name,
+    ).toBe(true);
+    expect(choices.map((choice) => choice.name).join(" "), entry.name).not.toMatch(
+      /Token Overrides|Motion Tokens|Evidence|Controlled Refusal|Selected Material|Segmented Updates|Density Motion|Primary Contrast/,
+    );
+  }
+  const radio = entries.find((entry) => entry.name === "RadioGroup");
+  if (!radio) throw new Error("Missing RadioGroup");
+  expect(browsableStories(radio).map((story) => story.name)).toEqual([
+    "Default",
+    "Segmented",
+    "Disabled",
+    "Invalid",
+  ]);
+  expect(radio.stories.some((story) => story.id.endsWith("--segmented-updates"))).toBe(true);
+  expect(radio.stories.some((story) => story.id.endsWith("--density-motion"))).toBe(true);
+});
+
+test("catalog rejects a missing curated export or an omitted default", () => {
+  const radio = definitions.RadioGroup;
+  if (!radio) throw new Error("Missing RadioGroup definition");
+  const examples = radio.examples;
+  try {
+    radio.examples = { Default: "Default", MissingExample: "Missing" };
+    expect(loadCatalogSources).toThrow("Unknown catalog example: RadioGroup.MissingExample");
+    radio.examples = { Segmented: "Segmented" };
+    expect(loadCatalogSources).toThrow("Default catalog example missing: RadioGroup");
+  } finally {
+    radio.examples = examples;
+  }
+});
 
 test("typography is public and discoverable with light, dark and composed examples", () => {
   const entries = loadCatalogSources();

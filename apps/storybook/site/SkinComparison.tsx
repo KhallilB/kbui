@@ -1,4 +1,4 @@
-import { Button, Checkbox, RadioGroup } from "@kbui/react";
+import { Button, Checkbox } from "@kbui/react";
 import { useState } from "react";
 import { BackArrow, LinkArrow } from "./LinkArrow";
 import { OperationsScreen, useOperations } from "./OperationsScreen";
@@ -49,19 +49,6 @@ export function SkinComparison() {
             </span>
           </div>
         </header>
-        <div className="comparison-controls">
-          <RadioGroup
-            label="Screen"
-            value={screen}
-            appearance="segmented"
-            onValueChange={(value) => {
-              if (value === "settings" || value === "operations") setScreen(value);
-            }}
-          >
-            <RadioGroup.Item value="settings">Settings</RadioGroup.Item>
-            <RadioGroup.Item value="operations">Operations</RadioGroup.Item>
-          </RadioGroup>
-        </div>
         <div className="comparison-previews">
           <section className="comparison-pane" data-theme={theme} aria-label="Workspace preview">
             <div className="preview-caption">

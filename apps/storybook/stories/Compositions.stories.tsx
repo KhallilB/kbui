@@ -62,7 +62,7 @@ export const Editorial: Story = {
       expect(Number.parseFloat(getComputedStyle(paragraph).animationDelay)).toBeGreaterThan(
         Number.parseFloat(getComputedStyle(title).animationDelay),
       );
-    expect(within(canvasElement).getByRole("link", { name: /Explore Heading/ })).toHaveAttribute(
+    expect(within(canvasElement).getByRole("link", { name: /Heading docs/ })).toHaveAttribute(
       "href",
       "./?path=/docs/components-heading--docs",
     );

@@ -1,5 +1,5 @@
 import entries from "virtual:kbui-catalog";
-import { Button, Card, Checkbox, Input, RadioGroup } from "@kbui/react";
+import { Button, Card, Checkbox, Input, RadioGroup, Select } from "@kbui/react";
 import { useCallback, useId, useLayoutEffect, useRef, useState } from "react";
 import type { ApiBlock, CatalogEntry, CatalogGroup } from "../catalog/types";
 import { CatalogComparisonPreview } from "./CatalogComparison";
@@ -199,35 +199,43 @@ function CatalogIndex({
       </div>
       <div className="catalog-browser">
         <nav aria-label="Browse components" className="catalog-grid">
-          {matches.map((entry) => (
-            <Card key={entry.id} className="catalog-card catalog-component-item">
-              <a
-                href={`./?component=${entry.id}${appearanceQuery(appearance)}`}
-                aria-describedby={`${id}-${entry.id}-description ${id}-${entry.id}-count`}
-                onClick={(event) => {
-                  if (
-                    event.button !== 0 ||
-                    event.metaKey ||
-                    event.ctrlKey ||
-                    event.altKey ||
-                    event.shiftKey
-                  )
-                    return;
-                  event.preventDefault();
-                  onChoose(entry.id);
-                }}
-              >
-                {entry.name}
-              </a>
-              <span className="catalog-component-description" id={`${id}-${entry.id}-description`}>
-                {entry.description}
-              </span>
-              <small id={`${id}-${entry.id}-count`}>
-                <span>{entry.group}</span>
-                <span>{browsableStories(entry).length} examples</span>
-              </small>
-            </Card>
-          ))}
+          {matches.map((entry) => {
+            const exampleCount = browsableStories(entry).length;
+            return (
+              <Card key={entry.id} className="catalog-card catalog-component-item">
+                <a
+                  href={`./?component=${entry.id}${appearanceQuery(appearance)}`}
+                  aria-describedby={`${id}-${entry.id}-description ${id}-${entry.id}-count`}
+                  onClick={(event) => {
+                    if (
+                      event.button !== 0 ||
+                      event.metaKey ||
+                      event.ctrlKey ||
+                      event.altKey ||
+                      event.shiftKey
+                    )
+                      return;
+                    event.preventDefault();
+                    onChoose(entry.id);
+                  }}
+                >
+                  {entry.name}
+                </a>
+                <span
+                  className="catalog-component-description"
+                  id={`${id}-${entry.id}-description`}
+                >
+                  {entry.description}
+                </span>
+                <small id={`${id}-${entry.id}-count`}>
+                  <span>{entry.group}</span>
+                  <span>
+                    {exampleCount} {exampleCount === 1 ? "example" : "examples"}
+                  </span>
+                </small>
+              </Card>
+            );
+          })}
         </nav>
       </div>
       {matches.length === 0 && (
@@ -301,11 +309,39 @@ function CatalogDetail({
       : stateId;
   const requested = entry.stories.find((story) => story.id === requestedId);
   const alias = requested?.name.replace(/(?:^|\s)(?:Dark|Light)$/, "").trim();
+  const canonical =
+    requested && /(?:^|\s)(?:Dark|Light)$/.test(requested.name)
+      ? (entry.stories.find((story) => story.id === requestedId.replace(/-(dark|light)$/, "")) ??
+        entry.stories.find((story) => story.name === alias) ??
+        entry.stories.find((story) => story.id === entry.defaultStoryId))
+      : requested;
   const selected =
-    stories.find((story) => story.id === requestedId) ??
-    stories.find((story) => story.name === alias) ??
+    stories.find((story) => story.id === canonical?.id) ??
+    canonical ??
     stories.find((story) => story.id === entry.defaultStoryId);
   if (!selected) throw new Error(`Missing default catalog story: ${entry.name}`);
+  const selectedChoice =
+    stories.find((story) => story.id === selected.id) ??
+    (selected.id === "components-radiogroup--neutral-selection"
+      ? stories.find((story) => story.id === "components-radiogroup--segmented")
+      : undefined);
+  const chooseStory = (value: string) => {
+    if (!entry.stories.some((story) => story.id === value) || selected.id === value) return;
+    setStateId(value);
+    compactOnReady.current = true;
+    setLoaded(false);
+    setSlow(false);
+    setFailed(false);
+    onStateChange?.(value);
+  };
+  const pillTone =
+    selected.id === "components-radiogroup--neutral-selection"
+      ? "neutral"
+      : ["segmented", "sliding-selection", "instant-selection"].some(
+            (name) => selected.id === `components-radiogroup--${name}`,
+          )
+        ? "primary"
+        : null;
   return (
     <>
       <div className="catalog-topline">
@@ -340,34 +376,40 @@ function CatalogDetail({
           </div>
           <span className="catalog-source">Live preview</span>
         </div>
-        <RadioGroup
-          className="catalog-states"
-          label="Example state"
-          appearance="segmented"
-          value={selected.id}
-          onValueChange={(value) => {
-            if (
-              !isChoice(
-                value,
-                stories.map((story) => story.id),
-              ) ||
-              selected.id === value
-            )
-              return;
-            setStateId(value);
-            compactOnReady.current = true;
-            setLoaded(false);
-            setSlow(false);
-            setFailed(false);
-            onStateChange?.(value);
-          }}
-        >
-          {stories.map((story) => (
-            <RadioGroup.Item key={story.id} value={story.id}>
-              {story.name}
-            </RadioGroup.Item>
-          ))}
-        </RadioGroup>
+        {stories.length > 1 && (
+          <RadioGroup
+            className="catalog-states"
+            label="Example state"
+            appearance="segmented"
+            value={selectedChoice?.id ?? null}
+            onValueChange={chooseStory}
+          >
+            {stories.map((story) => (
+              <RadioGroup.Item key={story.id} value={story.id}>
+                {story.name}
+              </RadioGroup.Item>
+            ))}
+          </RadioGroup>
+        )}
+        {requested && !selectedChoice && (
+          <p className="catalog-source">Additional example: {selected.name}.</p>
+        )}
+        {entry.id === "radiogroup" && (
+          <Select
+            className="catalog-pill-tone"
+            label="Selected pill color"
+            placeholder="Choose a pill color"
+            value={pillTone}
+            options={[
+              { value: "primary", label: "Primary" },
+              { value: "neutral", label: "Neutral" },
+            ]}
+            onValueChange={(value) => {
+              if (value === "primary") chooseStory("components-radiogroup--segmented");
+              if (value === "neutral") chooseStory("components-radiogroup--neutral-selection");
+            }}
+          />
+        )}
         {!requested && <p role="status">State not found. Choose one of the available examples.</p>}
         <Checkbox
           className="catalog-compare-control"

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect, userEvent, within } from "storybook/test";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Examples } from "../site/Examples";
 
 const meta = {
@@ -29,36 +29,38 @@ export const Browse: Story = {
     const nav = within(canvas.getByRole("navigation", { name: "Main navigation" }));
     expect(nav.getByRole("link", { name: "Examples" })).toHaveAttribute("aria-current", "page");
     expect(nav.getByRole("link", { name: "Playground" })).toHaveAttribute("href", "../playground/");
-    expect(canvas.getByRole("link", { name: /Explore Heading/ })).toHaveAttribute(
+    expect(canvas.getByRole("link", { name: /Heading docs/ })).toHaveAttribute(
       "href",
       "./?path=/docs/components-heading--docs",
     );
-    expect(canvas.getByRole("link", { name: /^Grid$/ })).toHaveAttribute(
-      "href",
-      "./?path=/docs/layout-grid--docs",
-    );
-    expect(canvas.getByRole("progressbar", { name: "Release readiness" })).toHaveAttribute(
+    expect(canvas.getByRole("progressbar", { name: "Review progress" })).toHaveAttribute(
       "aria-valuenow",
       "0",
     );
     const reset = canvas.getByRole("button", { name: "Reset checklist" });
     expect(reset).toBeDisabled();
-    await userEvent.click(canvas.getByRole("checkbox", { name: "Build packages" }));
-    expect(canvas.getByRole("progressbar", { name: "Release readiness" })).toHaveAttribute(
+    expect(canvas.getByRole("progressbar", { name: "Review progress" })).toHaveAttribute(
+      "aria-valuetext",
+      "0 of 3 complete",
+    );
+    expect(canvas.queryByText("Checks remaining")).toBeNull();
+    expect(canvas.queryByText("Checks complete", { exact: true })).toBeNull();
+    await userEvent.click(canvas.getByRole("checkbox", { name: "Run checkout tests" }));
+    expect(canvas.getByRole("progressbar", { name: "Review progress" })).toHaveAttribute(
       "aria-valuenow",
       "33",
     );
-    await userEvent.click(canvas.getByRole("checkbox", { name: "Review accessibility" }));
-    await userEvent.click(canvas.getByRole("checkbox", { name: "Verify examples" }));
-    expect(canvas.getByRole("progressbar", { name: "Release readiness" })).toHaveAttribute(
+    await userEvent.click(canvas.getByRole("checkbox", { name: "Review keyboard navigation" }));
+    await userEvent.click(canvas.getByRole("checkbox", { name: "Confirm rollback plan" }));
+    expect(canvas.getByRole("progressbar", { name: "Review progress" })).toHaveAttribute(
       "aria-valuenow",
       "100",
     );
     expect(canvas.getByRole("status", { name: "Release checks" })).toHaveTextContent(
-      "Checks complete",
+      "Ready to publish",
     );
     await userEvent.click(reset);
-    expect(canvas.getByRole("progressbar", { name: "Release readiness" })).toHaveAttribute(
+    expect(canvas.getByRole("progressbar", { name: "Review progress" })).toHaveAttribute(
       "aria-valuenow",
       "0",
     );
@@ -72,7 +74,7 @@ export const Browse: Story = {
 export const Code: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const creative = within(canvas.getByRole("region", { name: "A space to play with color" }));
+    const creative = within(canvas.getByRole("region", { name: "Campaign preview" }));
     expect(canvas.getAllByRole("button", { name: "Copy code" })).toHaveLength(3);
     await userEvent.click(creative.getByRole("button", { name: "View code" }));
     const code = creative.getByRole("region", { name: "Creative example code" });
@@ -85,11 +87,11 @@ export const Code: Story = {
     expect(code).toHaveTextContent('from "@kbui/react"');
     expect(code).not.toHaveTextContent("<svg");
     expect(code).not.toHaveTextContent(".composition");
-    const operations = within(canvas.getByRole("region", { name: "A release overview" }));
+    const operations = within(canvas.getByRole("region", { name: "Release checklist" }));
     await userEvent.click(operations.getByRole("button", { name: "View code" }));
     const checklistCode = operations.getByRole("region", { name: "Operations example code" });
     expect(checklistCode).toHaveTextContent("useState([false, false, false])");
-    await userEvent.click(operations.getByRole("checkbox", { name: "Build packages" }));
+    await userEvent.click(operations.getByRole("checkbox", { name: "Run checkout tests" }));
     expect(checklistCode).toHaveTextContent("useState([true, false, false])");
   },
 };
@@ -103,7 +105,84 @@ export const DarkPage: Story = {
       expect(card.closest("[data-theme]")).toBe(canvas.getByRole("main").closest(".kbui-site"));
       expect(card).toHaveAttribute("data-appearance", "outlined");
     }
-    expect(canvas.getByRole("heading", { name: "Notes from the workshop." })).toBeVisible();
+    expect(canvas.getByRole("heading", { name: "Writing a useful bug report." })).toBeVisible();
     expect(canvas.getByRole("button", { name: "Change palette" })).toBeEnabled();
+  },
+};
+
+export const SimpleExamples: Story = {
+  play: async ({ canvasElement }) => {
+    const page = within(canvasElement);
+    expect(page.queryByRole("button", { name: /Inspect components/ })).toBeNull();
+    expect(canvasElement.querySelector("[data-inspected]")).toBeNull();
+    expect(canvasElement.querySelector(".component-inspector")).toBeNull();
+    expect(page.queryByRole("navigation", { name: "Example navigation" })).toBeNull();
+    expect(page.queryByText("On this page")).toBeNull();
+    const workspace = within(page.getByRole("region", { name: "Interactive demo" }));
+    expect(workspace.getByRole("link", { name: "Explore the workspace" })).toHaveAttribute(
+      "href",
+      "../compare/",
+    );
+    expect(canvasElement.querySelectorAll(".composition")).toHaveLength(3);
+    expect(page.getByRole("button", { name: "Change palette" })).toBeEnabled();
+  },
+};
+
+export const ThemeContracts: Story = {
+  play: async ({ canvasElement }) => {
+    const page = within(canvasElement);
+    const root = canvasElement.querySelector(".kbui-site");
+    if (!root) throw new Error("Missing site theme root");
+    const verify = async () => {
+      expect(
+        root.querySelectorAll('button:not(.kb-button):not([role="switch"]):not([role="combobox"])'),
+        "Site actions must use shared Button; shared field controls keep their own semantics",
+      ).toHaveLength(0);
+      const controls = [...root.querySelectorAll<HTMLElement>(".kb-button")];
+      const host = document.createElement("div");
+      host.style.cssText = "position:fixed;left:-10000px;pointer-events:none";
+      host.setAttribute("aria-hidden", "true");
+      const references = controls.map((control) => {
+        const reference = document.createElement(control.tagName.toLowerCase());
+        if (control.hasAttribute("href"))
+          reference.setAttribute("href", control.getAttribute("href") ?? "");
+        reference.className = "kb-button";
+        reference.style.transition = "none";
+        reference.dataset.variant = control.dataset.variant;
+        reference.toggleAttribute("data-disabled", control.hasAttribute("data-disabled"));
+        host.append(reference);
+        return reference;
+      });
+      const material = (node: Element) => {
+        const style = getComputedStyle(node);
+        return [
+          style.color,
+          style.backgroundColor,
+          style.backgroundImage,
+          style.borderTopColor,
+          style.boxShadow,
+        ];
+      };
+      root.append(host);
+      try {
+        await waitFor(() => {
+          controls.forEach((control, index) => {
+            expect(
+              material(control),
+              `${control.textContent?.trim()} in ${root.getAttribute("data-theme")}`,
+            ).toEqual(material(references[index] as Element));
+          });
+        });
+      } finally {
+        host.remove();
+      }
+    };
+    await verify();
+    await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
+    await verify();
+    await userEvent.click(page.getAllByRole("button", { name: "View code" })[0] as HTMLElement);
+    await verify();
+    await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
+    await verify();
   },
 };

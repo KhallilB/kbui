@@ -1,4 +1,4 @@
-/* Anatomy: .kb-radiogroup-options, .kb-radiogroup[data-appearance="segmented"]; .kb-radiogroup [data-disabled] [data-invalid] > .kb-radiogroup-label, .kb-radiogroup-item > .kb-radiogroup-control [data-checked] [data-disabled] > .kb-radiogroup-indicator; .kb-radiogroup-content, .kb-radiogroup-description, .kb-radiogroup-error */
+/* Anatomy: .kb-radiogroup-options, .kb-radiogroup[data-appearance="segmented"] [data-selection-motion=slide|none] [data-selection-tone=primary|neutral]; .kb-radiogroup [data-disabled] [data-invalid] > .kb-radiogroup-label, .kb-radiogroup-selection, .kb-radiogroup-item > .kb-radiogroup-control [data-checked] [data-disabled] > .kb-radiogroup-indicator; .kb-radiogroup-content, .kb-radiogroup-description, .kb-radiogroup-error */
 .kb-radiogroup {
   color: var(--kb-color-fg);
   display: flex;
@@ -104,15 +104,42 @@
 .kb-radiogroup-control[data-checked]:focus-visible {
   outline-color: var(--kb-color-accent-fg);
 }
+.kb-radiogroup[data-appearance="segmented"] {
+  --kb-radiogroup-selection-bg: var(--kb-radiogroup-primary-background);
+  --kb-radiogroup-selection-fg: var(--kb-radiogroup-primary-color);
+  --kb-radiogroup-selection-border: var(--kb-radiogroup-primary-background);
+  --kb-radiogroup-selection-ring: var(--kb-radiogroup-primary-color);
+}
+.kb-radiogroup[data-appearance="segmented"][data-selection-tone="neutral"] {
+  --kb-radiogroup-selection-bg: var(--kb-material-raised-face);
+  --kb-radiogroup-selection-fg: var(--kb-color-fg);
+  --kb-radiogroup-selection-border: var(--kb-material-control-border);
+  --kb-radiogroup-selection-ring: var(--kb-color-ring);
+}
 .kb-radiogroup[data-appearance="segmented"] .kb-radiogroup-options {
+  position: relative;
+  isolation: isolate;
   flex-direction: row;
   flex-wrap: wrap;
   gap: var(--kb-space-1);
   padding: var(--kb-space-1);
-  border: 1px solid var(--kb-material-control-border);
-  border-radius: var(--kb-input-radius);
+  border: 1px solid var(--kb-color-border);
+  border-radius: calc(var(--kb-input-height-md) / 2 + var(--kb-space-1) + 1px);
   background: var(--kb-material-recessed-face);
-  box-shadow: var(--kb-material-field-shadow);
+}
+.kb-radiogroup-selection {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  pointer-events: none;
+  border: 1px solid var(--kb-radiogroup-selection-border);
+  border-radius: var(--kb-radius-full);
+  background: var(--kb-radiogroup-selection-bg);
+  box-shadow: var(--kb-material-inlay-shadow);
+}
+.kb-radiogroup-selection[data-disabled] {
+  opacity: 0.5;
 }
 .kb-radiogroup[data-appearance="segmented"] .kb-radiogroup-item {
   position: relative;
@@ -121,12 +148,11 @@
   min-inline-size: 0;
   padding: var(--kb-space-2) var(--kb-space-3);
   border: 1px solid transparent;
-  border-radius: max(0px, calc(var(--kb-input-radius) - var(--kb-space-1)));
+  border-radius: var(--kb-radius-full);
   text-align: center;
   overflow-wrap: anywhere;
-  color: var(--kb-color-fg);
-  background-color: color-mix(in srgb, var(--kb-color-accent) 6%, var(--kb-material-surface-bg));
-  border-color: color-mix(in srgb, var(--kb-color-accent) 20%, var(--kb-color-border));
+  color: var(--kb-color-muted);
+  background-color: transparent;
 }
 .kb-radiogroup[data-appearance="segmented"] .kb-radiogroup-control {
   position: absolute;
@@ -140,29 +166,40 @@
   white-space: nowrap;
 }
 .kb-radiogroup[data-appearance="segmented"] .kb-radiogroup-item:has([data-checked]) {
-  background-color: var(--kb-color-accent);
-  background-image: linear-gradient(var(--kb-material-action-sheen), transparent);
-  color: var(--kb-color-accent-fg);
-  border-color: var(--kb-color-accent-hover);
-  box-shadow: var(--kb-material-accent-shadow);
+  border-color: var(--kb-radiogroup-selection-border);
+  background: var(--kb-radiogroup-selection-bg);
+  color: var(--kb-radiogroup-selection-fg);
+  box-shadow: var(--kb-material-inlay-shadow);
+}
+.kb-radiogroup[data-appearance="segmented"]
+  .kb-radiogroup-options[data-selection]
+  .kb-radiogroup-item:has([data-checked]) {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
 }
 .kb-radiogroup[data-appearance="segmented"] .kb-radiogroup-item:has(:focus-visible) {
   outline: 2px solid var(--kb-color-ring);
   outline-offset: -2px;
 }
-
 .kb-radiogroup[data-appearance="segmented"]
   .kb-radiogroup-item:has([data-checked]):has(:focus-visible) {
-  outline-color: var(--kb-color-accent-fg);
+  outline-color: var(--kb-radiogroup-selection-ring);
 }
+
 @media (hover: hover) and (pointer: fine) and (forced-colors: none) {
   .kb-radiogroup[data-appearance="segmented"]
     .kb-radiogroup-item:not(:has([data-checked], [data-disabled])):hover {
-    background-color: color-mix(in srgb, var(--kb-color-accent) 14%, var(--kb-material-surface-bg));
-    border-color: var(--kb-color-fg);
+    background-color: var(--kb-color-surface);
+    color: var(--kb-color-fg);
   }
 }
 @media (prefers-reduced-motion: no-preference) {
+  .kb-radiogroup[data-selection-motion="slide"] .kb-radiogroup-selection {
+    transition-property: transform, width, height;
+    transition-duration: calc(var(--kb-motion-duration-slow) + var(--kb-motion-duration-fast));
+    transition-timing-function: var(--kb-motion-easing-smooth);
+  }
   .kb-radiogroup[data-appearance="segmented"] .kb-radiogroup-item {
     transition:
       background-color var(--kb-motion-duration-base) var(--kb-motion-easing-standard),
@@ -172,6 +209,9 @@
   }
 }
 @media (forced-colors: active) {
+  .kb-radiogroup-selection {
+    display: none;
+  }
   .kb-radiogroup-control:focus-visible,
   .kb-radiogroup-control[data-checked]:focus-visible,
   .kb-radiogroup[data-appearance="segmented"] .kb-radiogroup-item:has(:focus-visible) {
@@ -180,7 +220,10 @@
   .kb-radiogroup-control[data-checked]:focus-visible {
     outline-color: HighlightText;
   }
-  .kb-radiogroup[data-appearance="segmented"] .kb-radiogroup-item:has([data-checked]) {
+  .kb-radiogroup[data-appearance="segmented"] .kb-radiogroup-item:has([data-checked]),
+  .kb-radiogroup[data-appearance="segmented"]
+    .kb-radiogroup-options[data-selection]
+    .kb-radiogroup-item:has([data-checked]) {
     border-color: Highlight;
     color: HighlightText;
     background: Highlight;

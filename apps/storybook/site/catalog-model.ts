@@ -5,6 +5,12 @@ import type { Theme } from "./theme-foundations";
 export type CatalogAppearance = { theme: Theme; skin?: CatalogSkin };
 
 export function browsableStories(entry: CatalogEntry) {
+  if (entry.examples)
+    return entry.examples.map((example) => {
+      const story = entry.stories.find((candidate) => candidate.id === example.id);
+      if (!story) throw new Error(`Missing catalog example: ${example.id}`);
+      return { ...story, name: example.name };
+    });
   return entry.stories.filter((story) => !/(?:^|\s)(?:Dark|Light)$/.test(story.name));
 }
 

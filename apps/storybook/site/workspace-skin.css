@@ -7,7 +7,6 @@
   .workspace-sidebar-note > span:last-child,
   .section-intro p,
   .workspace-context p,
-  .release-title,
   .queue-heading p,
   .queue-empty p {
     font-size: var(--kb-text-small-size);
@@ -133,23 +132,6 @@
   }
   .operations-stats small {
     margin-top: 14px;
-    font-size: var(--kb-text-small-size);
-  }
-  .release-card {
-    padding-block: 24px;
-    border-color: color-mix(in srgb, var(--kb-color-accent) 25%, var(--kb-color-border));
-    background: linear-gradient(
-      100deg,
-      var(--kb-color-bg) 40%,
-      color-mix(in srgb, var(--kb-color-accent) 4%, var(--kb-color-bg))
-    );
-  }
-  .release-card h3 {
-    font-size: 18px;
-    font-weight: 600;
-  }
-  .release-card .kb-progress-label,
-  .release-card .kb-progress-value {
     font-size: var(--kb-text-small-size);
   }
   .queue-card {

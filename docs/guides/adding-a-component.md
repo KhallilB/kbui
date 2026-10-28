@@ -40,6 +40,18 @@ This line is the contract. The React component must render exactly these classes
 - Make the `md` size the base style and write overrides for the other sizes, so the component still renders correctly when the size attribute is missing.
 - Disable any animation inside a `prefers-reduced-motion` block.
 
+### Theme and state support
+
+Components must remain readable and usable in light, dark and nested theme scopes.
+
+- Use semantic tokens for surfaces, text, borders and interaction states. Component color tokens should alias those roles so theme changes reach them.
+- Treat background and foreground as a pair. Verify text contrast against the rendered background, including gradients or overlays, in each relevant state. Filled primary actions use the shared action roles; see [paired overrides](restyling.md#common-changes).
+- Keep focus visible and disabled, selected and invalid states distinguishable where supported. Decorative icons should inherit `currentColor`; state icons may use semantic status colors.
+- Reuse shared controls in examples. Intentional visual overrides are supported, but must preserve theme support, focus visibility and disabled states.
+- Add canonical stories for meaningful states. Check both themes, nested scopes when theme-dependent aliases or portals are involved, reduced motion for animation, and forced colors for custom control styling.
+
+Canonical component stories run in both themes and motion preferences during site validation. Accessibility scans catch covered failures; they do not prove every state or color pairing is correct. Review the rendered states as well as the test results.
+
 ## 4. Build the React side, test first
 
 Describe the behavior in `Notice.test.tsx` and run it to see it fail:
@@ -52,13 +64,14 @@ Build on a Base UI primitive when one fits; otherwise render a plain element. Fo
 
 ## 5. Add stories
 
-Write a story for each variant, size and notable state. Storybook builds the props table from the JSDoc comments. Every story runs through the accessibility scan, so a contrast or labeling problem fails CI.
+Write a story for each variant, size and notable state. Storybook builds the props table from the JSDoc comments. Every story runs through the accessibility scan; reported violations fail CI. Follow the [story conventions](../../CONTRIBUTING.md#public-docs-and-internal-stories) to keep regression-only fixtures out of public navigation.
 
 ## 6. Check it
 
 ```bash
 bun run check
 bun run test:stories
+bun run --filter @kbui/storybook test:themes
 ```
 
 Then open the component in Storybook and review it in both light and dark.

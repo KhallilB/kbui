@@ -110,10 +110,13 @@ export const PreviewLocalStyling: Story = {
     );
     await userEvent.click(canvas.getByRole("button", { name: "Reset styling" }));
     await waitFor(() =>
-      expect(getComputedStyle(reloaded.action).backgroundColor).toBe("rgb(255, 132, 87)"),
+      expect(getComputedStyle(reloaded.action).backgroundColor).toBe("rgb(181, 69, 23)"),
     );
     expect(getComputedStyle(reloaded.action).borderRadius).toBe("8px");
     expect(reloaded.doc.documentElement.style.getPropertyValue("--kb-color-accent")).toBe("");
+    expect(reloaded.doc.documentElement.style.getPropertyValue("--kb-color-action")).toBe("");
+    expect(reloaded.doc.documentElement.style.getPropertyValue("--kb-color-action-hover")).toBe("");
+    expect(reloaded.doc.documentElement.style.getPropertyValue("--kb-color-action-fg")).toBe("");
     expect(reloaded.doc.documentElement.style.getPropertyValue("--kb-radius-md")).toBe("");
     expect(canvas.queryByRole("textbox", { name: "Theme CSS overrides" })).not.toBeInTheDocument();
     expect(document.documentElement.getAttribute("style")).toBe(parentStyle);

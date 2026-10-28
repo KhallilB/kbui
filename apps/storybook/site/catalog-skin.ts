@@ -21,6 +21,11 @@ const paletteProperties = [
   "--kb-color-accent-hover",
   "--kb-color-accent-fg",
   "--kb-color-ring",
+  "--kb-color-action",
+  "--kb-color-action-hover",
+  "--kb-color-action-fg",
+  "--kb-radiogroup-primary-background",
+  "--kb-radiogroup-primary-color",
 ] as const;
 const cornerProperties = [
   "--kb-radius-sm",
@@ -39,6 +44,11 @@ export function catalogSkinTokens(skin: CatalogSkin, theme: Theme): Record<strin
       "--kb-color-accent-hover": hover,
       "--kb-color-accent-fg": foreground,
       "--kb-color-ring": ring,
+      "--kb-color-action": accent,
+      "--kb-color-action-hover": hover,
+      "--kb-color-action-fg": foreground,
+      "--kb-radiogroup-primary-background": accent,
+      "--kb-radiogroup-primary-color": foreground,
     });
   }
   if (skin.corners !== "default") {
