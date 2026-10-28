@@ -28,11 +28,24 @@ export function previewLayout(component: string, _story: string) {
   if (component === "dialog") return { width: 800, minimum: 360 };
   if (component === "menu") return { width: 520, minimum: 240 };
   if (component === "tooltip") return { width: 520, minimum: 160 };
-  if (component === "select") return { width: 1120, minimum: 240 };
+  if (["select", "combobox", "multiselect"].includes(component))
+    return { width: 1120, minimum: 240 };
   if (["grid", "container", "inline", "split"].includes(component))
     return { width: 1120, minimum: 160 };
   if (component === "panel") return { width: 1120, minimum: 160 };
-  if (["input", "card", "callout", "progress", "scrollarea"].includes(component))
+  if (
+    [
+      "input",
+      "textarea",
+      "fieldset",
+      "formactions",
+      "errorsummary",
+      "card",
+      "callout",
+      "progress",
+      "scrollarea",
+    ].includes(component)
+  )
     return { width: 1120, minimum: 96 };
   return { width: 520, minimum: 96 };
 }

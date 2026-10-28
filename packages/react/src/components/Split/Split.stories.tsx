@@ -27,7 +27,6 @@ export const Default: Story = {
     </Split>
   ),
 };
-export const Dark: Story = { tags: ["!dev", "!autodocs"], ...Default, globals: { theme: "dark" } };
 export const Ratios: Story = {
   render: () => (
     <Grid layout="stack">

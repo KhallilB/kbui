@@ -90,26 +90,6 @@ export const Chip: Story = {
   ),
 };
 
-export const ChipDark: Story = {
-  tags: ["!dev", "!autodocs"],
-  ...Chip,
-  globals: { theme: "dark" },
-};
-
 export const Live: Story = {
   args: { live: true, tone: "running", children: "Running", icon: <Dot /> },
-};
-
-export const Dark: Story = {
-  tags: ["!dev", "!autodocs"],
-  globals: { theme: "dark" },
-  render: (args) => (
-    <div style={row}>
-      {tones.map((tone) => (
-        <Status {...args} key={tone} tone={tone} icon={<Dot />}>
-          {labels[tone]}
-        </Status>
-      ))}
-    </div>
-  ),
 };

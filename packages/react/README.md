@@ -160,6 +160,22 @@ Use Panel for a section that needs a header, body, and actions. Its parts help k
 
 For additional lighting, use `--kb-panel-sheen`, `--kb-panel-backdrop`, `--kb-panel-glow`, `--kb-panel-glow-active`, and `--kb-panel-glow-critical`. These effects stay off by default. Active and critical tones change the upper rim and glow colors. The rail follows the panel’s rounded corners.
 
+### Resizable panels
+
+Put `Panel.Handle` between two panels in a `Panel.Group` to let people resize them. The handle sizes the panel before it, as a percentage of the group; the panel after it takes the remaining space. Name each handle with `aria-label` or `aria-labelledby`. A column group needs a height.
+
+```tsx
+<Panel.Group direction="row">
+  <Panel aria-labelledby="code-title">…</Panel>
+  <Panel.Handle aria-label="Resize code" defaultSize={50} min={25} max={75} />
+  <Panel aria-labelledby="view-title">…</Panel>
+</Panel.Group>
+```
+
+`size` (controlled) or `defaultSize` (default `50`) sets the size of the panel before the handle in percent. `min` and `max` limit it (defaults `10` and `90`), `step` sets the arrow-key change (default `5`), and `onSizeChange` receives the next size after a key press or drag.
+
+The handle follows the window splitter pattern. Arrow keys along the group's direction resize the panel, `Home` and `End` jump to the limits, and `Enter` collapses the panel to `min` and restores the previous size. Pointer drags work in both directions. Arrow keys do not flip in right-to-left layouts. Style the handle with `--kb-panel-handle-size`, `--kb-panel-handle-hit`, `--kb-panel-handle-grip`, `--kb-panel-handle-line` and `--kb-panel-handle-line-active`.
+
 ## Status
 
 Use Status for a state such as running, blocked, or complete. Always include text so the meaning is clear without relying on color or an icon.
@@ -425,6 +441,91 @@ Use the arrow keys or type to find an option, Enter to select it, and Escape to 
 
 By default, the popup mounts inside the field root and inherits its theme. If you provide a custom `container`, apply the theme there too. Use `--kb-select-popup-min-width`, `--kb-select-max-height`, and `--kb-select-layer` to adjust the popup’s size and stacking order.
 
+## Combobox
+
+Use Combobox when people need to filter a longer option list by typing before choosing one value. Each option has a string `value`, a visible `label`, and an optional `disabled` flag. Pass `null` when nothing is selected.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `label` | `string` | required | Visible field label and accessible combobox name |
+| `options` | `readonly ComboboxOption[]` | required | Selectable options filtered by label |
+| `value` | `string \| null` | required | Controlled selection; `null` means unset |
+| `onValueChange` | `(value: string \| null) => void` | required | Called when an option is selected or cleared |
+| `placeholder` | `string` | unset | Input placeholder shown when empty |
+| `emptyMessage` | `ReactNode` | `"No matching options"` | Polite status text when no options match |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Control height and text scale |
+| `description` / `error` | `ReactNode` | unset | Associated help and invalid-state text |
+| `disabled` / `readOnly` | `boolean` | `false` | Prevent edits; disabled also blocks form submission |
+| `clearLabel` / `toggleLabel` | `string` | derived from `label` | Accessible names for the clear and toggle buttons |
+| `container` | `Combobox.Portal.Props["container"]` | field root | Portal host; default retains nested theme |
+| `classNames` | `ClassNames<ComboboxSlot>` | unset | Extra classes for inner parts |
+
+```tsx
+import { useState } from "react";
+import { Combobox } from "@kbui/react";
+
+const regions = [
+  { value: "us-east-1", label: "US East (N. Virginia)" },
+  { value: "eu-central-1", label: "EU Central (Frankfurt)" },
+];
+
+export function RegionCombobox() {
+  const [region, setRegion] = useState<string | null>("us-east-1");
+  return (
+    <Combobox
+      label="Deployment region"
+      options={regions}
+      value={region}
+      onValueChange={setRegion}
+      placeholder="Search regions..."
+    />
+  );
+}
+```
+
+## MultiSelect
+
+Use MultiSelect when people need to search a longer list and keep multiple selections visible as removable chips. Selected values render inside a named chip toolbar with keyboard arrow/Backspace/Delete support and per-chip remove buttons.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `label` | `string` | required | Visible field label and accessible combobox name |
+| `options` | `readonly MultiSelectOption[]` | required | Selectable options filtered by label |
+| `value` | `readonly string[]` | required | Controlled array of selected option values |
+| `onValueChange` | `(value: string[]) => void` | required | Called when selections are added, removed, or cleared |
+| `placeholder` | `string` | unset | Input placeholder |
+| `emptyMessage` | `ReactNode` | `"No matching options"` | Polite status text when no options match |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Control height and text scale |
+| `description` / `error` | `ReactNode` | unset | Associated help and invalid-state text |
+| `disabled` / `readOnly` | `boolean` | `false` | Prevent edits and chip removal |
+| `removeLabel` | `(option: MultiSelectOption) => string` | `"Remove {option.label}"` | Accessible name for each chip remove button |
+| `container` | `Combobox.Portal.Props["container"]` | field root | Portal host; default retains nested theme |
+| `classNames` | `ClassNames<MultiSelectSlot>` | unset | Extra classes for inner parts |
+
+```tsx
+import { useState } from "react";
+import { MultiSelect } from "@kbui/react";
+
+const scopes = [
+  { value: "payments:read", label: "Payments read" },
+  { value: "webhooks:manage", label: "Webhooks" },
+  { value: "reporting:export", label: "Reporting export" },
+];
+
+export function ScopeMultiSelect() {
+  const [selected, setSelected] = useState<string[]>(["payments:read"]);
+  return (
+    <MultiSelect
+      label="API scopes"
+      options={scopes}
+      value={selected}
+      onValueChange={setSelected}
+      placeholder="Filter scopes..."
+    />
+  );
+}
+```
+
 ## Switch
 
 Use Switch for a preference that takes effect as soon as it changes. Pass `checked` and update it in `onCheckedChange`; your app handles saving and form reset. Switch uses a labelled native checkbox with `role="switch"`. Use Checkbox when people are selecting items instead.
@@ -434,6 +535,10 @@ Use Switch for a preference that takes effect as soon as it changes. Pass `check
 | `label` | `string` | required | Associated visible label and accessible name |
 | `checked` | `boolean` | required | Current controlled state |
 | `onCheckedChange` | `(checked: boolean) => void` | required | Requests next state; owner updates checked |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Visual track size (`36×20px`, `44×24px`, `56×32px`); `Fieldset` defaults nested switches to `"sm"` while keeping a 44px touch target |
+| `tone` | `"accent" \| "neutral" \| "info" \| "success" \| "warning" \| "danger"` | `"accent"` | Checked-state track tone when `onTone` is unset |
+| `offTone` / `onTone` | `SwitchTone` | `"neutral"` / `tone` | Independent track tone for unchecked and checked sides |
+| `offColor` / `onColor` | `string` | | Custom CSS color for the unchecked or checked track |
 | `description` / `error` | `string` | | Associated helper/error text; error sets aria-invalid |
 | `disabled` / `readOnly` | `boolean` | `false` | Disabled blocks focus/changes; read-only keeps focus and form value while blocking edits |
 | `visuallyHidden` | `boolean` | `false` | Hide label visually, keep its accessible name |
@@ -453,7 +558,7 @@ export function Preference() {
 }
 ```
 
-Import `useState` from React and `Switch` from `@kbui/react`. Clicking or pressing Space calls `onCheckedChange`. Unchecked or disabled controls submit no value; a checked control submits its native value (`"on"` unless you supply one). Reset `checked` in the form’s `onReset` handler when needed. The `switch` token group controls its appearance in both themes, and reduced motion removes the thumb’s travel animation.
+Import `useState` from React and `Switch` from `@kbui/react`. Clicking or pressing Space calls `onCheckedChange`. Unchecked or disabled controls submit no value; a checked control submits its native value (`"on"` unless you supply one). Reset `checked` in the form’s `onReset` handler when needed. Use `offTone`/`onTone` or `offColor`/`onColor` when both sides of a toggle carry distinct state colors. The `switch` token group controls its appearance in both themes, and reduced motion removes the thumb’s travel animation.
 
 ## NumberField
 
@@ -602,3 +707,62 @@ Native hr thematic break; decorative dividers are hidden from assistive technolo
 | `decorative` | Hide a visual-only divider from assistive technology | `false` |
 
 Vertical rules stretch inside Inline and have a 1rem minimum height. No tab stop or resizing interaction is added. See [Layout composition](../../docs/guides/layout.md).
+
+## Textarea
+
+Use Textarea for multiline notes, summaries, or configuration payloads. It pairs a native textarea with a persistent label, optional help text, and validation feedback.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `label` | `string` | required | Visible field label and accessible name |
+| `visuallyHidden` | `boolean` | `false` | Hides the label visually while keeping its accessible name |
+| `description` | `string` | unset | Supporting help text below the control |
+| `error` | `string` | unset | Validation message; marks the control invalid |
+| `rows` | `number` | `4` | Initial visible line count on the native textarea |
+| `resize` | `"vertical" \| "none" \| "both"` | `"vertical"` | Controls user drag-resizing axis |
+| `onValueChange` | `(value: string) => void` | unset | Called with the next string value on change |
+| `classNames` | `ClassNames<"label" \| "control" \| "description" \| "error">` | unset | Classes for inner parts |
+
+Other native textarea props (`value`, `defaultValue`, `onChange`, `placeholder`, `disabled`, `readOnly`, `required`, `name`, `form`, `ref`) pass through to the `<textarea>` element. Adjust minimum height and padding with `--kb-textarea-min-height`, `--kb-textarea-padding-block`, and `--kb-textarea-padding-inline`.
+
+## Fieldset
+
+Use Fieldset to group related controls into a named form section using native `fieldset` and `legend` semantics. Setting `disabled` disables descendant form controls natively.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `legend` | `ReactNode` | required | Section heading rendered inside the native legend |
+| `visuallyHidden` | `boolean` | `false` | Hides the legend visually while keeping the group name |
+| `description` | `ReactNode` | unset | Section help text linked through aria-describedby |
+| `error` | `ReactNode` | unset | Group-level error linked through aria-describedby |
+| `disabled` | `boolean` | `false` | Disables all descendant controls in the fieldset |
+| `classNames` | `ClassNames<"legend" \| "description" \| "fields" \| "error">` | unset | Classes for inner parts |
+
+Other native fieldset props and `ref` pass through to the `<fieldset>` element. Use `--kb-fieldset-gap`, `--kb-fieldset-fields-gap`, and `--kb-fieldset-legend-size` to tune spacing and legend typography.
+
+## FormActions
+
+Use FormActions at the bottom of a form or section to align submit, reset, and secondary buttons with consistent wrapping and spacing. Buttons stay in natural Tab order without toolbar arrow-key navigation.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `align` | `"end" \| "start" \| "between"` | `"end"` | Horizontal button alignment |
+| `divider` | `boolean` | `false` | Adds a top border and spacing above the action row |
+| `children` | `ReactNode` | unset | Form buttons in reading and Tab order |
+
+Other native div props and `ref` pass through. Use `--kb-formactions-gap` and `--kb-formactions-padding-top` to adjust spacing.
+
+## ErrorSummary
+
+Place ErrorSummary at the top of a form when submission fails so people can see what went wrong and jump directly to each invalid field. When `items` is empty, nothing is rendered.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `items` | `readonly ErrorSummaryItem[]` | required | Ordered `{ id?, href, label }` entries linking to invalid fields |
+| `title` | `ReactNode` | `"There is a problem"` | Heading text naming the alert region |
+| `description` | `ReactNode` | unset | Optional recovery guidance above the error list |
+| `headingLevel` | `2 \| 3 \| 4` | `2` | Heading rank for the summary title |
+| `onItemSelect` | `(href: string, event: MouseEvent<HTMLAnchorElement>) => void` | unset | Called when a recovery link is clicked |
+| `classNames` | `ClassNames<"title" \| "description" \| "list" \| "item" \| "link">` | unset | Classes for inner parts |
+
+ErrorSummary renders an alert region with `tabIndex={-1}` so your submit handler can focus it when validation fails. Clicking an `#id` link focuses the matching control or the first enabled control inside a referenced group. Pair ErrorSummary with inline `error` props on each invalid field.

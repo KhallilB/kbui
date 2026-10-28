@@ -58,6 +58,28 @@ export const definitions: Record<string, Definition> = {
     description: "Choose one option from a dropdown list.",
     examples: { Default: "Default", Invalid: "Invalid", Disabled: "Disabled" },
   },
+  Combobox: {
+    group: "Forms",
+    description: "Search and choose one option from a longer list.",
+    examples: {
+      Default: "Default",
+      Preselected: "Preselected",
+      Invalid: "Invalid",
+      Empty: "Empty",
+      Disabled: "Disabled",
+    },
+  },
+  MultiSelect: {
+    group: "Forms",
+    description: "Search a list and keep multiple selections visible as removable chips.",
+    examples: {
+      Default: "Default",
+      ManySelections: "Many Selections",
+      Invalid: "Invalid",
+      Empty: "Empty",
+      Disabled: "Disabled",
+    },
+  },
   Badge: {
     group: "Feedback",
     description: "Add a short label, category, or piece of metadata.",
@@ -192,6 +214,43 @@ export const definitions: Record<string, Definition> = {
     group: "Typography",
     description: "Readable paragraphs, inline text and supporting content.",
     examples: { Default: "Default", SizesAndTones: "Sizes and tones", Inline: "Inline" },
+  },
+  Textarea: {
+    group: "Forms",
+    description: "Collect multiline text with a label, help text, and error feedback.",
+    examples: {
+      Default: "Default",
+      WithDescription: "With Description",
+      WithError: "With Error",
+      Disabled: "Disabled",
+      ReadOnly: "Read Only",
+    },
+  },
+  Fieldset: {
+    group: "Forms",
+    description: "Group related fields with a native fieldset, legend, and section help.",
+    examples: {
+      Default: "Default",
+      WithError: "With Error",
+      Disabled: "Disabled",
+    },
+  },
+  FormActions: {
+    group: "Forms",
+    description: "Align submit, reset, and secondary actions at the end of a form.",
+    examples: {
+      Default: "Default",
+      WithDivider: "With Divider",
+      SplitAlignment: "Split Alignment",
+    },
+  },
+  ErrorSummary: {
+    group: "Forms",
+    description: "Summarize form validation errors with links that focus each field.",
+    examples: {
+      Default: "Default",
+      FormRecovery: "Form Recovery",
+    },
   },
   Toolbar: {
     group: "Actions",

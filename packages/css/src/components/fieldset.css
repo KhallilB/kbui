@@ -1,0 +1,59 @@
+/* Anatomy: .kb-fieldset [data-disabled] [data-invalid] > .kb-fieldset-legend, .kb-fieldset-description, .kb-fieldset-fields, .kb-fieldset-error */
+.kb-fieldset {
+  display: grid;
+  gap: var(--kb-fieldset-gap);
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: var(--kb-color-fg);
+}
+.kb-fieldset-legend {
+  padding: 0;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+  font-family: var(--kb-font-sans);
+  font-size: var(--kb-fieldset-legend-size);
+  font-weight: var(--kb-font-weight-strong);
+  line-height: var(--kb-heading-leading);
+  color: var(--kb-color-fg);
+}
+.kb-fieldset-legend:not(.kb-sr-only) {
+  inline-size: 100%;
+  margin: 0;
+  margin-block-end: var(--kb-fieldset-gap);
+}
+.kb-fieldset-description,
+.kb-fieldset-error {
+  margin: 0;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+  font-size: var(--kb-text-small-size);
+  line-height: var(--kb-text-leading-body);
+}
+.kb-fieldset-description {
+  color: var(--kb-color-muted);
+}
+.kb-fieldset-fields {
+  display: grid;
+  gap: var(--kb-fieldset-fields-gap);
+  min-inline-size: 0;
+}
+.kb-fieldset-error {
+  color: var(--kb-color-danger);
+}
+.kb-fieldset:is(:disabled, [data-disabled]) > :is(.kb-fieldset-legend, .kb-fieldset-description) {
+  opacity: 0.5;
+}
+@media (forced-colors: active) {
+  .kb-fieldset,
+  .kb-fieldset-legend,
+  .kb-fieldset-description,
+  .kb-fieldset-error {
+    color: CanvasText;
+  }
+  .kb-fieldset:is(:disabled, [data-disabled]) > :is(.kb-fieldset-legend, .kb-fieldset-description) {
+    color: GrayText;
+    opacity: 1;
+  }
+}

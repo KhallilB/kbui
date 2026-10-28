@@ -9,14 +9,19 @@ import {
   requestPreview,
 } from "./catalog-preview-cache";
 import { applyCatalogSkin, defaultCatalogSkin } from "./catalog-skin";
+import type { CodeRequest, CodeResult } from "./component-code";
+import { applyComponentStyle } from "./component-style-preview";
 import { themeStyle } from "./theme-foundations";
 
 type Appearance = CatalogAppearance;
 type Props = {
+  code?: CodeRequest | undefined;
+  onCodeResult?: ((result: CodeResult) => void) | undefined;
   src: string;
   title: string;
   layout: { width: number; minimum: number };
   expanded: boolean;
+  fill?: boolean;
   appearance: Appearance;
   active?: boolean;
   generation?: number;
@@ -33,17 +38,23 @@ function CachedFrame({
   current,
   visible,
   expanded,
+  fill,
   appearance,
   pending,
   onReady,
   onMeasure,
   onSlow,
   onError,
+  code,
+  onCodeResult,
 }: {
+  code?: CodeRequest | undefined;
+  onCodeResult?: ((result: CodeResult) => void) | undefined;
   entry: PreviewEntry;
   current: boolean;
   visible: boolean;
   expanded: boolean;
+  fill: boolean;
   appearance: Appearance;
   pending: boolean;
   onReady: (id: string) => void;
@@ -58,6 +69,60 @@ function CachedFrame({
   }, [onReady, onMeasure, onSlow]);
   const palette = appearance.skin?.palette ?? defaultCatalogSkin.palette;
   const corners = appearance.skin?.corners ?? defaultCatalogSkin.corners;
+  const custom = appearance.skin?.custom;
+  const codeCallback = useRef(onCodeResult);
+  useLayoutEffect(() => {
+    codeCallback.current = onCodeResult;
+  }, [onCodeResult]);
+  const codeId = code?.id;
+  const source = code?.source;
+  useLayoutEffect(() => {
+    const element = frame.current;
+    if (!element || !current || codeId === undefined || source === undefined) return;
+    const send = () =>
+      element.contentWindow?.postMessage(
+        { type: "kbui:code", id: codeId, source },
+        location.origin,
+      );
+    const receive = (event: MessageEvent) => {
+      if (event.origin !== location.origin || event.source !== element.contentWindow) return;
+      if (event.data?.type === "kbui:code-ready") send();
+      if (event.data?.type === "kbui:code-result" && event.data.id === codeId) {
+        codeCallback.current?.({
+          id: codeId,
+          ...(typeof event.data.error === "string" ? { error: event.data.error } : {}),
+        });
+      }
+    };
+    const timer = window.setTimeout(send, 200);
+    element.addEventListener("load", send);
+    window.addEventListener("message", receive);
+    return () => {
+      window.clearTimeout(timer);
+      element.removeEventListener("load", send);
+      window.removeEventListener("message", receive);
+    };
+  }, [codeId, source, current]);
+  useLayoutEffect(() => {
+    const element = frame.current;
+    if (!element) return;
+    let cleanup = () => {};
+    const apply = () => {
+      cleanup();
+      try {
+        if (element.contentDocument?.body)
+          cleanup = applyComponentStyle(element.contentDocument, custom);
+      } catch {
+        /* External previews keep their own styles. */
+      }
+    };
+    element.addEventListener("load", apply);
+    apply();
+    return () => {
+      element.removeEventListener("load", apply);
+      cleanup();
+    };
+  }, [custom]);
   useLayoutEffect(() => {
     const element = frame.current;
     if (!element) return;
@@ -187,6 +252,8 @@ function CachedFrame({
       disconnect();
     };
   }, [entry.id, entry.src]);
+  const minimumHeight = Math.max(entry.layout.minimum, entry.height);
+  const expandedHeight = `max(${minimumHeight}px, min(480px, 60svh))`;
   return (
     <iframe
       ref={frame}
@@ -202,10 +269,9 @@ function CachedFrame({
       inert={!current || !visible || pending}
       tabIndex={current && visible ? 0 : -1}
       style={{
-        maxWidth: entry.layout.width,
-        height: expanded
-          ? `max(${Math.max(entry.layout.minimum, entry.height)}px, min(480px, 60svh))`
-          : Math.max(entry.layout.minimum, entry.height),
+        maxWidth: fill ? undefined : entry.layout.width,
+        height: fill ? "100%" : expanded ? expandedHeight : minimumHeight,
+        minHeight: fill ? (expanded ? expandedHeight : minimumHeight) : undefined,
       }}
       onError={onError}
     />
@@ -213,10 +279,13 @@ function CachedFrame({
 }
 
 export function StoryPreview({
+  code,
+  onCodeResult,
   src,
   title,
   layout,
   expanded,
+  fill = false,
   appearance,
   active = true,
   generation = 0,
@@ -261,19 +330,26 @@ export function StoryPreview({
       className="catalog-preview-frame"
       data-theme={appearance.theme}
       data-cache-size={cache.entries.length}
+      data-fill={fill || undefined}
       style={{
         ...themeStyle(appearance.theme),
-        maxWidth: `calc(${displayed?.layout.width ?? layout.width}px + 2 * var(--preview-inset))`,
+        maxWidth: fill
+          ? undefined
+          : `calc(${displayed?.layout.width ?? layout.width}px + 2 * var(--preview-inset))`,
+        height: fill ? "100%" : undefined,
         minHeight: `calc(${Math.max(displayed?.layout.minimum ?? layout.minimum, displayed?.height ?? 0)}px + 2 * var(--preview-inset) + 2px)`,
       }}
     >
       {cache.entries.map((entry) => (
         <CachedFrame
+          code={code}
+          onCodeResult={onCodeResult}
           key={entry.id}
           entry={entry}
           current={active && cache.requested === entry.id}
           visible={active && cache.displayed === entry.id && entry.ready}
           expanded={expanded}
+          fill={fill}
           appearance={appearance}
           pending={cache.requested === entry.id && pending}
           onReady={ready}

@@ -18,7 +18,6 @@ export const Default: Story = {
     </Inline>
   ),
 };
-export const Dark: Story = { tags: ["!dev", "!autodocs"], ...Default, globals: { theme: "dark" } };
 export const Wrapping: Story = {
   render: () => (
     <div style={{ inlineSize: 240, maxInlineSize: "100%" }}>

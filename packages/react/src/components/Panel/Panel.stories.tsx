@@ -141,12 +141,6 @@ export const Depth: Story = {
   play: async ({ canvasElement }) => expectDepth(canvasElement),
 };
 
-export const DepthDark: Story = {
-  tags: ["!dev", "!autodocs"],
-  ...Depth,
-  globals: { theme: "dark" },
-};
-
 /** Optional tokens set on a wrapper: sheen, glass, tone-colored light, pill chips. Layout is unchanged. */
 const overrides = {
   "--kb-panel-radius": "24px",
@@ -311,6 +305,40 @@ export const Group: Story = {
   ),
 };
 
+export const Resizable: Story = {
+  render: (args) => (
+    <Panel.Group direction="row" style={{ width: "100%", minHeight: 220 }}>
+      <Panel {...args} aria-labelledby="r1-title">
+        <Panel.Header>
+          <h3 id="r1-title">Code</h3>
+        </Panel.Header>
+        <Panel.Body>Drag the handle, or focus it and use the arrow keys.</Panel.Body>
+      </Panel>
+      <Panel.Handle aria-label="Resize code" defaultSize={50} min={25} max={75} />
+      <Panel {...args} aria-labelledby="r2-title">
+        <Panel.Header>
+          <h3 id="r2-title">Picture</h3>
+        </Panel.Header>
+        <Panel.Body>Enter collapses the code panel to its minimum and restores it.</Panel.Body>
+      </Panel>
+    </Panel.Group>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const handle = canvas.getByRole("separator", { name: "Resize code" });
+    const code = canvas.getByRole("region", { name: "Code" });
+    const before = code.getBoundingClientRect().width;
+    handle.focus();
+    await userEvent.keyboard("{ArrowRight}");
+    await expect(handle).toHaveAttribute("aria-valuenow", "55");
+    await expect(code.getBoundingClientRect().width).toBeGreaterThan(before);
+    await userEvent.keyboard("{Enter}");
+    await expect(handle).toHaveAttribute("aria-valuenow", "25");
+    await userEvent.keyboard("{Enter}");
+    await expect(handle).toHaveAttribute("aria-valuenow", "55");
+  },
+};
+
 export const Compact: Story = {
   args: { density: "compact" },
   render: (args) => <Sample {...args} id="compact" title="Compact panel" />,
@@ -349,16 +377,4 @@ export const FocusVisible: Story = {
     expect(inner.top).toBeGreaterThanOrEqual(outer.top);
     expect(inner.bottom).toBeLessThanOrEqual(outer.bottom);
   },
-};
-
-export const Dark: Story = {
-  tags: ["!dev", "!autodocs"],
-  globals: { theme: "dark" },
-  render: (args) => (
-    <div style={row}>
-      {(["quiet", "default", "sunken", "active", "critical"] as const).map((tone) => (
-        <Sample {...args} key={tone} id={`dark-${tone}`} tone={tone} title={tone} />
-      ))}
-    </div>
-  ),
 };

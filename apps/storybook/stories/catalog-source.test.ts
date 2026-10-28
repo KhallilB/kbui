@@ -49,20 +49,25 @@ test("catalog rejects a missing curated export or an omitted default", () => {
   }
 });
 
-test("typography is public and discoverable with light, dark and composed examples", () => {
+test("typography is public and discoverable with default and composed examples", () => {
   const entries = loadCatalogSources();
   for (const name of ["Heading", "Text", "Link", "Code"]) {
     expect(publicApi).toHaveProperty(name);
     const entry = entries.find((candidate) => candidate.name === name);
     expect(entry?.group).toBe("Typography");
     expect(entry?.stories.some((story) => story.id.endsWith("--default"))).toBe(true);
-    expect(entry?.stories.some((story) => story.id.endsWith("--dark"))).toBe(true);
   }
   const article = entries
     .find((entry) => entry.name === "Heading")
     ?.stories.find((story) => story.id.endsWith("--article"));
   for (const component of ["Heading", "Text", "Link", "Code"])
     expect(article?.code).toContain(component);
+});
+
+// test:themes renders every story in dark; a dark copy only duplicates it.
+test("component stories have no dark duplicates", () => {
+  const ids = loadCatalogSources().flatMap((entry) => entry.stories.map((story) => story.id));
+  expect(ids.filter((id) => /-dark$/.test(id))).toEqual([]);
 });
 
 test("catalog covers every public component with canonical API and CSF stories", () => {
@@ -133,12 +138,11 @@ test("example code retains inherited props, render helpers and global themes", (
   expect(panel).toContain('"density": "compact"');
   expect(panel).toContain("type PanelProps");
   expect(panel).not.toContain("expectDepth");
-  const dark = code("Status", "chip-dark");
+  const dark = code("Panel", "token-overrides");
   expect(dark).toContain("const row =");
-  expect(dark).toContain("function Dot(");
-  expect(dark).toContain("const labels");
+  expect(dark).toContain("const overrides =");
   expect(dark).toContain('root.setAttribute("data-theme", "dark")');
-  expect(dark).toContain('"appearance": "chip"');
+  expect(dark).toContain('"density": "standard"');
 });
 
 test("syntax ranges preserve every example's exact source", () => {
@@ -323,17 +327,38 @@ test("search stays an Input icons and actions composition with complete generate
   expect(recipe?.snippet).not.toContain("SearchInput");
 });
 
-test("quantity and retained-file components are public and discoverable with runnable states", () => {
+test("quantity, retained-file, and search-selection components are public and discoverable with runnable states", () => {
   expect(publicApi).toHaveProperty("NumberField");
   expect(publicApi).toHaveProperty("FileInput");
+  expect(publicApi).toHaveProperty("Combobox");
+  expect(publicApi).toHaveProperty("MultiSelect");
   const entries = loadCatalogSources();
   for (const name of ["NumberField", "FileInput"]) {
     const entry = entries.find((candidate) => candidate.name === name);
     expect(entry?.group).toBe("Forms");
     expect(entry?.stories.some((story) => story.id.endsWith("--default"))).toBe(true);
-    expect(entry?.stories.some((story) => story.id.endsWith("--dark"))).toBe(true);
     expect(entry?.stories.some((story) => story.id.endsWith("--read-only"))).toBe(true);
   }
+  for (const name of ["Combobox", "MultiSelect"]) {
+    const entry = entries.find((candidate) => candidate.name === name);
+    expect(entry?.group).toBe("Forms");
+    for (const suffix of ["--default", "--invalid", "--empty", "--disabled", "--read-only"]) {
+      expect(
+        entry?.stories.some((story) => story.id.endsWith(suffix)),
+        `${name}${suffix}`,
+      ).toBe(true);
+    }
+  }
+  expect(
+    entries
+      .find((candidate) => candidate.name === "Combobox")
+      ?.stories.some((story) => story.id.endsWith("--preselected")),
+  ).toBe(true);
+  expect(
+    entries
+      .find((candidate) => candidate.name === "MultiSelect")
+      ?.stories.some((story) => story.id.endsWith("--many-selections")),
+  ).toBe(true);
 });
 
 test("dark stateful render declarations stay outside the theme wrapper", () => {

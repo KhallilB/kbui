@@ -438,9 +438,18 @@ test("dark scopes rebind aliases against their own semantic values", () => {
   expect(darkBlock).toContain("--kb-material-raised-face: linear-gradient(");
 });
 
-test("switch material tokens retain recessed track and raised thumb in each theme", () => {
+test("switch material tokens retain recessed track, raised thumb and compact size scale", () => {
   const css = buildTokens(real as TokenTree).css;
   const dark = css.slice(css.indexOf(':where([data-theme="dark"]) {'), css.indexOf("@media"));
+  expect(css).toContain("--kb-switch-width: 44px;");
+  expect(css).toContain("--kb-switch-height: 24px;");
+  expect(css).toContain("--kb-switch-inset: 2px;");
+  expect(css).toContain("--kb-switch-icon-size: 12px;");
+  expect(css).toContain("--kb-switch-sm-width: 36px;");
+  expect(css).toContain("--kb-switch-sm-height: 20px;");
+  expect(css).toContain("--kb-switch-md-width: var(--kb-switch-width);");
+  expect(css).toContain("--kb-switch-lg-width: 56px;");
+  expect(css).toContain("--kb-switch-lg-height: 32px;");
   for (const scope of [css, dark]) {
     expect(scope).toContain("--kb-switch-track-background: var(--kb-material-recessed-face);");
     expect(scope).toContain("--kb-switch-track-shadow: var(--kb-material-field-shadow);");
@@ -459,5 +468,38 @@ describe("typography role integration", () => {
     expect(css).toContain("--kb-heading-weight: var(--kb-font-weight-strong);");
     expect(css).toContain("--kb-link-color: var(--kb-color-accent-ink);");
     expect(css).toContain("--kb-text-muted: var(--kb-color-muted);");
+  });
+});
+
+describe("search and selection tokens", () => {
+  test("defines combobox and multiselect popup, chip, and action sizing tokens", () => {
+    const { css } = buildTokens(real as TokenTree);
+    expect(css).toContain("--kb-combobox-popup-min-width: 12rem;");
+    expect(css).toContain("--kb-combobox-max-height: 20rem;");
+    expect(css).toContain("--kb-combobox-layer: 50;");
+    expect(css).toContain("--kb-combobox-action-size: 1.75rem;");
+    expect(css).toContain("--kb-multiselect-popup-min-width: 12rem;");
+    expect(css).toContain("--kb-multiselect-max-height: 20rem;");
+    expect(css).toContain("--kb-multiselect-layer: 50;");
+    expect(css).toContain("--kb-multiselect-chip-gap: var(--kb-space-1);");
+    expect(css).toContain("--kb-multiselect-chip-radius: var(--kb-radius-sm);");
+    expect(css).toContain("--kb-multiselect-action-size: 1.75rem;");
+  });
+});
+
+describe("form component tokens", () => {
+  test("defines sizing and spacing tokens for textarea, fieldset, formactions and errorsummary", () => {
+    const { css } = buildTokens(real as TokenTree);
+    expect(css).toContain("--kb-textarea-min-height: 6rem;");
+    expect(css).toContain("--kb-textarea-padding-block: var(--kb-space-2);");
+    expect(css).toContain("--kb-textarea-padding-inline: var(--kb-space-3);");
+    expect(css).toContain("--kb-fieldset-gap: var(--kb-space-3);");
+    expect(css).toContain("--kb-fieldset-fields-gap: var(--kb-space-4);");
+    expect(css).toContain("--kb-fieldset-legend-size: var(--kb-text-h4-size);");
+    expect(css).toContain("--kb-formactions-gap: var(--kb-space-2);");
+    expect(css).toContain("--kb-formactions-padding-top: var(--kb-space-4);");
+    expect(css).toContain("--kb-errorsummary-padding: var(--kb-space-4);");
+    expect(css).toContain("--kb-errorsummary-radius: var(--kb-radius-md);");
+    expect(css).toContain("--kb-errorsummary-gap: var(--kb-space-2);");
   });
 });

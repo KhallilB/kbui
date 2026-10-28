@@ -20,11 +20,6 @@ export const Default: Story = {
     </Grid>
   ),
 };
-export const Dark: Story = {
-  tags: ["!dev", "!autodocs"],
-  ...Default,
-  globals: { theme: "dark" },
-};
 export const StackedList: Story = {
   render: () => (
     <Grid as="ul" layout="stack" aria-label="Projects">
