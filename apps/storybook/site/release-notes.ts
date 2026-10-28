@@ -1,6 +1,13 @@
 export type ReleaseCopy = { title: string; highlights: string[]; upgrade?: string[] };
 
 export const releaseNotes: Record<string, ReleaseCopy> = {
+  "0.9.1": {
+    title: "Clearer release notes and dark editor selections",
+    highlights: [
+      "Read the public summary of the components and editable examples introduced in 0.9.0.",
+      "The selected editor mode stays readable in dark theme.",
+    ],
+  },
   "0.9.0": {
     title: "More components and editable examples",
     highlights: [
