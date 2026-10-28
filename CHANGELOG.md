@@ -1,5 +1,39 @@
 # Changelog
 
+## [0.9.0](https://github.com/KhallilB/kbui/compare/v0.8.0...v0.9.0) (2026-10-28)
+
+
+### Features
+
+* **catalog:** add commented CSS and Tailwind starters ([26d2991](https://github.com/KhallilB/kbui/commit/26d2991bba51cc89d2e7760673bcb01630290440))
+* **catalog:** make component examples editable ([ff30c42](https://github.com/KhallilB/kbui/commit/ff30c4215137411760290845784891eb880f8af3))
+* **catalog:** make component examples editable ([01d201e](https://github.com/KhallilB/kbui/commit/01d201e254d018b88118f82bb1a79973eb120ce9))
+* **ci:** comment Storybook preview links on pull requests ([b5fc15e](https://github.com/KhallilB/kbui/commit/b5fc15ea3fca63c1aa585a014debbb5413b6becf))
+* **ci:** link changed stories in PR previews ([9c5ee91](https://github.com/KhallilB/kbui/commit/9c5ee913f56778a3ccdbf6b34fe1ddf7133ff5bd))
+* **ci:** publish per-PR Storybook previews ([738fe74](https://github.com/KhallilB/kbui/commit/738fe74bc5a800d8572640dd16afb41b83ececd0))
+* **forms:** add compact Switch sizing, Fieldset sm default, and bilateral on/off tones ([b52e1b0](https://github.com/KhallilB/kbui/commit/b52e1b00c1c81ceca0e09a7a7ad339030287ffcd))
+* improve segmented controls, examples, and theme consistency ([2e5f0dc](https://github.com/KhallilB/kbui/commit/2e5f0dc05777af16f2dd9392833a4d4d6212e440))
+* **react:** add basic form primitives ([934df69](https://github.com/KhallilB/kbui/commit/934df69e6f4aa1209a111e6c590860b429206093))
+* **react:** add basic form primitives ([22451df](https://github.com/KhallilB/kbui/commit/22451df05b14ed506dacd5c8b81fcc90610d4ce8))
+* **react:** add Combobox and MultiSelect search and selection components ([c271207](https://github.com/KhallilB/kbui/commit/c27120725962434a497eaa0e57d4079f6f1b4625))
+* **react:** add Combobox and MultiSelect search and selection components ([f963cec](https://github.com/KhallilB/kbui/commit/f963cecab4f03108ac08b0083fa1648677df2317))
+* **react:** add native typography primitives ([4ddeaa5](https://github.com/KhallilB/kbui/commit/4ddeaa59af4107ed566b7e714e1c2c6091609286))
+* **react:** add resizable Panel.Handle ([cb4f7e3](https://github.com/KhallilB/kbui/commit/cb4f7e3bed295e299f1c192eaf761d7c25a8036b))
+* **react:** add resizable Panel.Handle ([f588633](https://github.com/KhallilB/kbui/commit/f5886339b4d4bbff3543e6c59b99fc4e302c41c0))
+* **react:** add responsive layout primitives ([#70](https://github.com/KhallilB/kbui/issues/70)) ([f3ab30b](https://github.com/KhallilB/kbui/commit/f3ab30b52d15852ec1e9ab39eefc11b2091ce6a6))
+* refine segmented controls, examples, and theme consistency ([454861f](https://github.com/KhallilB/kbui/commit/454861ff5f7bbe9665c6642ed664be5e54e0cb88))
+* **site:** improve component examples and responsive navigation ([#67](https://github.com/KhallilB/kbui/issues/67)) ([11afd63](https://github.com/KhallilB/kbui/commit/11afd63900ccbc88180ebf9aef4bc0ec3638b5ec))
+* **site:** integrate typography and PR Storybook previews ([b56a218](https://github.com/KhallilB/kbui/commit/b56a218d7cdfdc4208834d23aba7ad7b7cbf5708))
+* **site:** integrate typography catalog and guides ([c50645e](https://github.com/KhallilB/kbui/commit/c50645ec811af8a571273537424153098fa97e3c))
+
+
+### Bug Fixes
+
+* **catalog:** unify styling editor presentation ([9712f8b](https://github.com/KhallilB/kbui/commit/9712f8b807c8981f83bd6a0e24c08547abef069f))
+* **ci:** grant PR permission for preview comments ([2c6985a](https://github.com/KhallilB/kbui/commit/2c6985a3b945b08e8eb98eb156c4dffaf50df1e8))
+* **docs:** render nested typography tokens safely ([cf01141](https://github.com/KhallilB/kbui/commit/cf01141e04624640cffe146217ca427d10bd0339))
+* **tokens:** preserve inline link contrast across themes ([95ca739](https://github.com/KhallilB/kbui/commit/95ca739470d9559622bd95e7ba0c57891752a280))
+
 ## [0.8.0](https://github.com/KhallilB/kbui/compare/v0.7.0...v0.8.0) (2026-10-27)
 
 
