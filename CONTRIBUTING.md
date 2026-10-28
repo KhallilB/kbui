@@ -97,7 +97,7 @@ Review usage, migration guidance and component API documentation whenever behavi
 
 Commit subjects on `main` set the next version: `fix` raises the patch, `feat` the minor, and a breaking change (`feat!:` or a `BREAKING CHANGE:` footer) the minor until 1.0. Merge pull requests by rebase, or squash with a conventional title, so subjects and footers reach `main` intact.
 
-release-please keeps a release PR open on `main`. Merging it releases: the release workflow checks the tag and attaches a tarball per package. Do not edit versions or `CHANGELOG.md` by hand. A new published package needs an `extra-files` entry in `release-please-config.json`; `bun run test` fails without it.
+release-please keeps a release PR open on `main`. Merging it releases: the release workflow checks the tag, attaches a tarball per package, and publishes the same tarballs to npm once they install on every OS. Each npm package trusts `release.yml` in this repository as its trusted publisher, so no npm token is stored. A new published package must be published once by hand and given the same trusted publisher before the workflow can publish it. Do not edit versions or `CHANGELOG.md` by hand. A new published package needs an `extra-files` entry in `release-please-config.json`; `bun run test` fails without it.
 
 When a release PR adds a version, add a short public title and highlights in `apps/storybook/site/release-notes.ts`. Keep required migration steps in its `upgrade` list. The site shows this edited copy; generated commit categories and internal work stay in the source history. `release-notes.test.ts` requires a public summary for every published version and upgrade notes for breaking changes, so a version bump cannot silently leave the public notes behind.
 

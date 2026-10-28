@@ -12,7 +12,7 @@ import { tokens } from "@kbui/tokens";
 tokens.color.accent; // "--kb-color-accent"
 ```
 
-Install the optional token tarball from the same release as your other kbui packages; [Get Started](https://kbui.kcb.pro/setup/?tokens=1) generates the command. Wrap names in `var()` when using them as styles, for example ``color: `var(${tokens.color.accent})` ``. Importing the object does not load CSS.
+Install the optional `@kbui/tokens` package at the same version as your other kbui packages; [Get Started](https://kbui.kcb.pro/setup/?tokens=1) generates the command. Wrap names in `var()` when using them as styles, for example ``color: `var(${tokens.color.accent})` ``. Importing the object does not load CSS.
 
 ## Exports
 

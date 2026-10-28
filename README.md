@@ -1,6 +1,6 @@
 # kbui
 
-kbui is a React component library with shared design tokens and plain CSS. Use the default light and dark themes, or adjust the tokens to fit your app. Components combine native controls with [Base UI](https://base-ui.com) for interaction. Each release attaches one tarball per package to a [GitHub Release](https://github.com/KhallilB/kbui/releases); nothing is published to a registry.
+kbui is a React component library with shared design tokens and plain CSS. Use the default light and dark themes, or adjust the tokens to fit your app. Components combine native controls with [Base UI](https://base-ui.com) for interaction. Each release is published to [npm](https://www.npmjs.com/package/@kbui/react) and attaches the same tarballs to a [GitHub Release](https://github.com/KhallilB/kbui/releases).
 
 | Package | Contents | Docs |
 |---|---|---|
@@ -11,12 +11,11 @@ kbui is a React component library with shared design tokens and plain CSS. Use t
 
 ## Using kbui in a project
 
-Install `@kbui/react` from a release; it includes styles and CSS tokens. Your app needs React and React DOM 19 or later. The commands below use Bash (Git Bash or WSL on Windows); the [Get Started page](https://kbui.kcb.pro/setup/) also generates complete commands for npm, Bun, pnpm and Yarn.
+Install `@kbui/react` from npm; it includes styles and CSS tokens. Your app needs React and React DOM 19 or later. The commands below use Bash (Git Bash or WSL on Windows); the [Get Started page](https://kbui.kcb.pro/setup/) also generates complete commands for npm, Bun, pnpm and Yarn.
 
 <!-- x-release-please-start-version -->
 ```bash
-KBUI_VERSION=0.9.0
-bun add "https://github.com/KhallilB/kbui/releases/download/v${KBUI_VERSION}/kbui-react-${KBUI_VERSION}.tgz"
+bun add @kbui/react@0.9.0
 ```
 <!-- x-release-please-end -->
 
@@ -31,7 +30,7 @@ export const Save = () => <Button variant="primary">Save</Button>;
 
 ## Versioning
 
-All packages share one version. release-please reads the conventional commits on `main` and opens a release PR; merging it updates `CHANGELOG.md`, tags `v<version>` and uploads the tarballs. Before 1.0, a breaking change raises the minor version. Install the same version of every package. Release PRs also update the marked installation examples in this README, the usage guide and Storybook introduction. The site derives its install commands from the root package version; checks reject stale managed documentation.
+All packages share one version. release-please reads the conventional commits on `main` and opens a release PR; merging it updates `CHANGELOG.md`, tags `v<version>`, uploads the tarballs and, once they install on every OS, publishes them to npm. Before 1.0, a breaking change raises the minor version. Install the same version of every package. Release PRs also update the marked installation examples in this README, the usage guide and Storybook introduction. The site derives its install commands from the root package version; checks reject stale managed documentation.
 
 ## Working on kbui
 

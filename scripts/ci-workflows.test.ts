@@ -143,6 +143,17 @@ test("release publishing uses host tools after container validation", () => {
   expect(job("release", "install").needs).toEqual(["release-please", "upload"]);
 });
 
+test("npm publish trusts GitHub OIDC only after every OS installs the release", () => {
+  const publish = job("release", "publish");
+  expect(publish.needs).toEqual(["release-please", "install"]);
+  expect(publish.if).toContain("needs.install.result == 'success'");
+  expect(publish.permissions).toEqual({ contents: "read", "id-token": "write" });
+  const steps = JSON.stringify(publish.steps);
+  expect(steps).toContain("actions/download-artifact");
+  expect(steps).toContain("npm publish");
+  expect(steps).not.toMatch(/NPM_TOKEN|NODE_AUTH_TOKEN|secrets\./);
+});
+
 test("PR previews reuse either existing CI Storybook build", () => {
   for (const key of ["check", "browser"]) {
     const upload = job("ci", key).steps.find((step) => step.uses === "actions/upload-artifact@v4");

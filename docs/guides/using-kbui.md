@@ -1,19 +1,20 @@
 # Using kbui in a project
 
-Projects install kbui from a release: one tarball per package, attached to a [GitHub Release](https://github.com/KhallilB/kbui/releases). There is no registry. While you change kbui itself, a project can install it by path instead and receive every rebuild immediately.
+Projects install kbui from npm. Each release also attaches the same tarballs to a [GitHub Release](https://github.com/KhallilB/kbui/releases). While you change kbui itself, a project can install it by path instead and receive every rebuild immediately.
 
 ## Installing
 
-1. Add `@kbui/react` from a release. It includes all component styles and CSS tokens. These examples use Bash; use Git Bash or WSL on Windows, or copy a complete command for your package manager from the [Get Started page](https://kbui.kcb.pro/setup/).
+1. Add `@kbui/react` from npm. It includes all component styles and CSS tokens. These examples use Bash; use Git Bash or WSL on Windows, or copy a complete command for your package manager from the [Get Started page](https://kbui.kcb.pro/setup/).
 
    <!-- x-release-please-start-version -->
    ```bash
-   KBUI_VERSION=0.9.0
-   bun add "https://github.com/KhallilB/kbui/releases/download/v${KBUI_VERSION}/kbui-react-${KBUI_VERSION}.tgz"
+   bun add @kbui/react@0.9.0
    ```
    <!-- x-release-please-end -->
 
-   The release workflow checks installation on Windows, macOS and Linux; a failed install shows as a failed `install` job on that release's workflow run. The stylesheet already includes the tokens. Add `kbui-tokens-<version>.tgz` from the same release only if you need the typed `tokens` object in TypeScript.
+   The release workflow checks installation on Windows, macOS and Linux; a failed install shows as a failed `install` job on that release's workflow run. npm publishes a release only after those installs pass. The stylesheet already includes the tokens. Add `@kbui/tokens` at the same version only if you need the typed `tokens` object in TypeScript.
+
+   Releases before 0.9.0 are not on npm. Install them from their tarball, `https://github.com/KhallilB/kbui/releases/download/v<version>/kbui-react-<version>.tgz`.
 
 2. Install `react` and `react-dom` 19 if the project does not have them. They are peer dependencies; keep them as dependencies of your app.
 
@@ -102,13 +103,31 @@ The [React package README](../../packages/react/README.md) documents component A
 
 ## Upgrading
 
-Read the [release notes](https://github.com/KhallilB/kbui/releases), also kept in `CHANGELOG.md`, for the versions between yours and the new one. Before 1.0, a minor version can contain breaking changes. Update `KBUI_VERSION` and run the install command again. From 0.7.0, the React tarball carries the stylesheet, so a React app does not need a separate CSS package. If migrating from an earlier release, switch the import to `@kbui/react/styles.css` and remove a separate `@kbui/css` dependency unless your app uses its individual CSS entry points. Update optional `@kbui/tokens` to the same release. kbui does not support mixed installed package versions. Run the installed-version guard after installing and before building:
+Read the [release notes](https://github.com/KhallilB/kbui/releases), also kept in `CHANGELOG.md`, for the versions between yours and the new one. Before 1.0, a minor version can contain breaking changes. Run the install command again with the new version. From 0.7.0, the React tarball carries the stylesheet, so a React app does not need a separate CSS package. If migrating from an earlier release, switch the import to `@kbui/react/styles.css` and remove a separate `@kbui/css` dependency unless your app uses its individual CSS entry points. Update optional `@kbui/tokens` to the same release. kbui does not support mixed installed package versions. Run the installed-version guard after installing and before building:
 
 ```bash
 bun node_modules/@kbui/react/dist/check-versions.js
 ```
 
 Add this command to the consumer build or check script. It requires `@kbui/react`, treats separate CSS and tokens packages as optional, compares every top-level `node_modules/@kbui/*/package.json` (including optional tokens), and exits nonzero on mismatches, missing required packages, unreadable files or malformed manifests. It does not inspect nested dependency trees. There are no package exemptions.
+
+### Hearing about new releases
+
+Because kbui is on npm, the usual tools see new versions: `bun outdated` or `npm outdated` lists them, and Dependabot or Renovate opens upgrade pull requests. kbui packages must share a version, so group them into one Dependabot update:
+
+```yaml
+# .github/dependabot.yml
+version: 2
+updates:
+  - package-ecosystem: npm # use bun for a bun.lock project
+    directory: /
+    schedule: { interval: weekly }
+    groups:
+      kbui:
+        patterns: ["@kbui/*"]
+```
+
+These tools cannot see a project that installs kbui from a tarball URL; switch it to the command in [Installing](#installing). Without a bot, choose **Watch → Custom → Releases** on [the repository](https://github.com/KhallilB/kbui), or subscribe to [its releases feed](https://github.com/KhallilB/kbui/releases.atom).
 
 ## Installing by path while you work on kbui
 
@@ -132,7 +151,7 @@ This setup works only on a machine that has kbui checked out next to the project
 | Add a component | `bun run build` in kbui, then `bun install` once in the project, so Bun links the new files. |
 | Pull kbui from git | `bun install && bun run build` in kbui |
 
-To return to a release, run the `bun add` command from [Installing](#installing) again.
+To return to a published release, run the `bun add` command from [Installing](#installing) again.
 
 ## Troubleshooting
 
@@ -143,7 +162,7 @@ To return to a release, run the `bun add` command from [Installing](#installing)
 | `Cannot find module '@kbui/react'`, or missing types, with a path install | kbui has not been built | Run `bun run build` in kbui |
 | Components render unstyled | The stylesheet is not imported | Import `@kbui/react/styles.css` once at the root |
 | Dark mode never applies | `data-theme` is on the wrong element | Put it on `<html>` |
-| CI or a deploy cannot find `@kbui/*` | The project installs kbui by path, and `../kbui` exists only on this machine | Install from a release instead; see [Installing](#installing) |
+| CI or a deploy cannot find `@kbui/*` | The project installs kbui by path, and `../kbui` exists only on this machine | Install from npm instead; see [Installing](#installing) |
 | Styles do not match the components | `@kbui/css/styles.css` is imported from a different release than `@kbui/react` | Import `@kbui/react/styles.css` and remove `@kbui/css` |
 | `Invalid hook call` in jsdom tests, while the browser build works | Bun symlinks each path-installed file into `../kbui`, so Node resolves kbui's own `react` and `@base-ui/react` next to the project's copies | In the test config set `resolve: { preserveSymlinks: true, dedupe: ["react", "react-dom"] }` and inline `/@kbui\//` for jsdom; the Vite build needs nothing |
 | `Element type is invalid` in Vitest browser tests after rebuilding kbui | Vite keeps the previous build of `@kbui/*` in its prebundled dependency cache | Delete `node_modules/.vite` in the project and rerun the tests |
