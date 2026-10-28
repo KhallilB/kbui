@@ -1,6 +1,15 @@
 export type ReleaseCopy = { title: string; highlights: string[]; upgrade?: string[] };
 
 export const releaseNotes: Record<string, ReleaseCopy> = {
+  "0.9.0": {
+    title: "More components and editable examples",
+    highlights: [
+      "Build with native typography, responsive layouts, and resizable panels.",
+      "Search and select options with Combobox and MultiSelect.",
+      "Edit component examples in the catalog, with CSS and Tailwind starters.",
+      "Segmented controls have sliding selections and primary or neutral colors.",
+    ],
+  },
   "0.8.0": {
     title: "A new look, in both themes",
     highlights: [

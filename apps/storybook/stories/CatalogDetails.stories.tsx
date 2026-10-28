@@ -145,7 +145,6 @@ export const DarkEditorContrast: Story = {
     const page = within(canvasElement);
     const selected = page.getByRole("radio", { name: "Component" }).closest(".kb-radiogroup-item");
     if (!selected) throw new Error("Missing editor mode control");
-    const style = getComputedStyle(selected);
     const luminance = (color: string) => {
       const channels = color
         .match(/[\d.]+/g)
@@ -159,12 +158,20 @@ export const DarkEditorContrast: Story = {
         (channels[0] ?? 0) * 0.2126 + (channels[1] ?? 0) * 0.7152 + (channels[2] ?? 0) * 0.0722
       );
     };
-    const foreground = luminance(style.color);
-    const background = luminance(style.backgroundColor);
-    expect(
-      (Math.max(foreground, background) + 0.05) / (Math.min(foreground, background) + 0.05),
-    ).toBeGreaterThanOrEqual(4.5);
-    if (!matchMedia("(forced-colors: active)").matches) expect(background).toBeLessThan(0.1);
+    await waitFor(() => {
+      const forcedColors = matchMedia("(forced-colors: active)").matches;
+      const pill = selected
+        .closest(".kb-radiogroup-options")
+        ?.querySelector(".kb-radiogroup-selection");
+      const surface = forcedColors ? selected : pill;
+      if (!surface) throw new Error("Missing editor mode selection");
+      const foreground = luminance(getComputedStyle(selected).color);
+      const background = luminance(getComputedStyle(surface).backgroundColor);
+      expect(
+        (Math.max(foreground, background) + 0.05) / (Math.min(foreground, background) + 0.05),
+      ).toBeGreaterThanOrEqual(4.5);
+      if (!forcedColors) expect(background).toBeLessThan(0.1);
+    });
   },
 };
 
