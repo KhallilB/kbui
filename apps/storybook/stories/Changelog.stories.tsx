@@ -1,9 +1,8 @@
 import releases from "virtual:kbui-changelog";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
-import { Changelog } from "../site/Changelog";
-import { releaseHeadline } from "../site/changelog-model";
-import { releaseNotes } from "../site/release-notes";
+import { Changelog, ReleaseChanges } from "../site/Changelog";
+import { releaseCopy, releaseHeadline } from "../site/changelog-model";
 
 const [latest, previous] = releases;
 if (!latest || !previous) throw new Error("Changelog stories need two releases");
@@ -19,6 +18,36 @@ const meta = {
 } satisfies Meta<typeof Changelog>;
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+export const FutureRelease: Story = {
+  render: () => (
+    <ReleaseChanges
+      siteRoot="../"
+      latest
+      release={{
+        version: "9.0.0",
+        date: "2030-01-01",
+        components: ["Card"],
+        improvements: ["Support nested layouts"],
+        fixes: ["Preserve keyboard focus"],
+        breaking: ["Replace the old layout prop with columns."],
+        compareUrl: "https://github.com/KhallilB/kbui/compare/v8.0.0...v9.0.0",
+      }}
+    />
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.getByRole("list", { name: "Highlights in 9.0.0" })).toBeVisible();
+    expect(canvas.getByText("Support nested layouts")).toBeVisible();
+    expect(canvas.getByText("Preserve keyboard focus")).toBeVisible();
+    expect(canvas.getByRole("heading", { name: "Before you upgrade" })).toBeVisible();
+    expect(canvas.getByText("Replace the old layout prop with columns.")).toBeVisible();
+    expect(canvas.getByRole("link", { name: "Card" })).toHaveAttribute(
+      "href",
+      "../components/?component=card",
+    );
+  },
+};
 
 export const Browse: Story = {
   play: async ({ canvasElement }) => {
@@ -44,8 +73,9 @@ export const Browse: Story = {
         navigation.getByRole("link", { name: `Version ${item.version}: ${releaseHeadline(item)}` }),
       ).toHaveAttribute("href", `#v${item.version}`);
     expect(release.getByRole("heading", { name: releaseHeadline(latest) })).toBeVisible();
-    for (const text of releaseNotes[latest.version]?.highlights ?? [])
+    for (const text of releaseCopy(latest).highlights)
       expect(release.getByText(text)).toBeVisible();
+    for (const text of releaseCopy(latest).upgrade) expect(release.getByText(text)).toBeVisible();
     expect(canvas.queryByText(/Install Bun/)).toBeNull();
     if (latest.compareUrl)
       expect(release.getByRole("link", { name: /Full history on GitHub/ })).toHaveAttribute(

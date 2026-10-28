@@ -1,4 +1,4 @@
-import { releaseNotes } from "./release-notes.ts";
+import { type ReleaseCopy, releaseNotes } from "./release-notes.ts";
 
 export type Release = {
   version: string;
@@ -58,7 +58,8 @@ export function parseChangelog(markdown: string, components: readonly string[]):
     const change = entry.exec(line);
     if (!current || !kind || !change) continue;
     const [, scope = "", raw = ""] = change;
-    if (scope.split(",").some((part) => internalScopes.has(part.trim()))) continue;
+    if (kind !== "breaking" && scope.split(",").some((part) => internalScopes.has(part.trim())))
+      continue;
     const text = raw.replace(/\s*\(\[[0-9a-f]{7,}\]\(.*$/, "").trim();
     const added = kind === "feature" ? addedComponents(text, known) : [];
     const target =
@@ -85,4 +86,22 @@ export function releaseHeadline({ components, version }: Changes & { version?: s
     return `${components.slice(0, 3).join(", ")} and ${components.length - 3} more`;
   }
   return "Release notes";
+}
+
+export function releaseCopy(release: Changes & { version?: string }): Required<ReleaseCopy> {
+  const edited = release.version ? releaseNotes[release.version] : undefined;
+  const highlights = [
+    ...(release.components.length ? [`New components: ${release.components.join(", ")}.`] : []),
+    ...release.improvements,
+    ...release.fixes,
+  ].map((text) => text.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/`([^`]+)`/g, "$1"));
+  return {
+    title: releaseHeadline(release),
+    highlights: edited?.highlights.length
+      ? edited.highlights
+      : highlights.length
+        ? highlights
+        : ["Maintenance release. See the full history on GitHub."],
+    upgrade: edited?.upgrade?.length ? edited.upgrade : release.breaking,
+  };
 }

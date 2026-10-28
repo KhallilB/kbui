@@ -12,7 +12,7 @@ type Workflow = {
       strategy?: { "fail-fast": boolean; matrix: { include: { suite: string; name: string }[] } };
       container?: { image: string };
       if?: string;
-      needs?: string[];
+      needs?: string | string[];
       permissions?: Record<string, string>;
       environment?: { name: string; url?: string };
       steps: {
@@ -222,6 +222,18 @@ test("release publishing uses host tools after container validation", () => {
   expect(JSON.stringify(jobs.upload?.steps)).toContain("gh release upload");
   expect(JSON.stringify(jobs.upload?.steps)).toContain("$GITHUB_REPOSITORY");
   expect(job("release", "install").needs).toEqual(["release-please", "upload"]);
+});
+
+test("release notes clean npm mentions before assets run without changing real contributors", () => {
+  const release = job("release", "release-please");
+  const cleanup = release.steps.find((step) => step.name === "Keep npm scopes out of contributors");
+  expect(cleanup?.if).toBe("steps.release.outputs.release_created == 'true'");
+  expect(cleanup?.uses).toBe("actions/github-script@v7");
+  expect(cleanup?.env?.TAG).toBe(`\${{ steps.release.outputs.tag_name }}`);
+  const script = String(cleanup?.with?.script);
+  expect(script).toContain("/scripts/release-mentions.mjs");
+  expect(script).toContain("cleanReleaseNotes(github, context.repo, process.env.TAG)");
+  expect(job("release", "assets").needs).toBe("release-please");
 });
 
 test("npm publish trusts GitHub OIDC only after every OS installs the release", () => {

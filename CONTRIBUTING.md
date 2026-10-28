@@ -101,6 +101,10 @@ Comments are one line. Write one only when the code cannot say it: a constraint,
 
 Sign every commit with `git commit -S`; the repository uses SSH signing. Subjects follow Conventional Commits, for example `feat(react): add Badge` or `fix(css): keep focus ring on invalid inputs`. Each commit must pass `bun run check` on its own. Do not add AI attribution lines or trailers.
 
+## Pull requests
+
+Use the [PR template](.github/pull_request_template.md): a short summary of the problem and result, review notes for the parts that need attention, and checks actually run. Include an issue link or rollout risk where relevant. Keep routine changes brief; add detail only when it helps review. Repository templates take precedence over generic PR-description helpers.
+
 ## Releases
 
 The root package version drives the site install builder and generated first-component example. Release Please updates the marked version blocks in `README.md`, `docs/guides/using-kbui.md` and `apps/storybook/docs/Introduction.mdx`. Keep one version literal per managed line and reuse `KBUI_VERSION` in URLs: the generic updater replaces only the first version on a line. `bun run check` rejects stale, missing or unsafe version blocks, and verifies that each installation entry point is registered with the updater.
@@ -111,7 +115,11 @@ Commit subjects on `main` set the next version: `fix` raises the patch, `feat` t
 
 release-please keeps a release PR open on `main`. Merging it releases: the release workflow checks the tag, attaches a tarball per package, and publishes the same tarballs to npm once they install on every OS. Each npm package trusts `release.yml` in this repository as its trusted publisher, so no npm token is stored. A new published package must be published once by hand and given the same trusted publisher before the workflow can publish it. Do not edit versions or `CHANGELOG.md` by hand. A new published package needs an `extra-files` entry in `release-please-config.json`; `bun run test` fails without it.
 
-When a release PR adds a version, add a short public title and highlights in `apps/storybook/site/release-notes.ts`. Keep required migration steps in its `upgrade` list. The site shows this edited copy; generated commit categories and internal work stay in the source history. `release-notes.test.ts` requires a public summary for every published version and upgrade notes for breaking changes, so a version bump cannot silently leave the public notes behind.
+The site resolves public notes through `releaseCopy` in `apps/storybook/site/changelog-model.ts`. Every new version gets highlights from the generated changelog, with internal scopes filtered out and breaking instructions retained. Maintenance-only releases get a short summary and a full-history link. A version bump must work without a new handwritten entry. Optional titles, highlights and detailed migration instructions in `apps/storybook/site/release-notes.ts` override the generated copy; an absent or empty upgrade list falls back to the changelog's breaking instructions. Keep migration instructions accurate when behavior or package names change.
+
+Before merging a release PR, run `bun test apps/storybook/stories/release-notes.test.ts apps/storybook/stories/changelog-model.test.ts scripts/release-mentions.test.js scripts/ci-workflows.test.ts` and the normal release checks. These tests cover current notes, an unknown future version, breaking migrations, and maintenance-only releases. Check the final release PR head after release-please refreshes it; edits to a generated release branch can be overwritten.
+
+Put npm scopes and package names inside backticks in commit subjects, breaking-change footers, PR titles and release prose: `@kbui`, `@kb.ui`, and `@kb.ui/react` are package names. Bare scopes can mention unrelated GitHub accounts or be auto-linked as contributor handles. The release workflow runs `scripts/release-mentions.mjs` after creating each release to remove those scope mentions while preserving real contributor credit. Repair an existing release by editing its notes; do not rewrite its tag or publish different tarballs under the same version.
 
 ## Private documentation
 

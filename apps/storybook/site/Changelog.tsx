@@ -1,9 +1,8 @@
 import releases from "virtual:kbui-changelog";
 import { Badge } from "@kb.ui/react";
 import { useEffect } from "react";
-import { type Release, releaseHeadline } from "./changelog-model";
+import { type Release, releaseCopy, releaseHeadline } from "./changelog-model";
 import { LinkArrow } from "./LinkArrow";
-import { releaseNotes } from "./release-notes";
 import { SiteFrame } from "./SiteFrame";
 import "./changelog.css";
 
@@ -31,7 +30,7 @@ function ChangeList({ title, items, tone }: { title: string; items: string[]; to
   );
 }
 
-function ReleaseChanges({
+export function ReleaseChanges({
   release,
   siteRoot,
   latest = false,
@@ -40,25 +39,19 @@ function ReleaseChanges({
   siteRoot: string;
   latest?: boolean;
 }) {
-  const copy = releaseNotes[release.version];
+  const copy = releaseCopy(release);
   return (
     <>
-      {latest && <h3 className="release-title">{releaseHeadline(release)}</h3>}
-      {copy && (
-        <ul
-          className="change-list release-highlights"
-          aria-label={`Highlights in ${release.version}`}
-        >
-          {copy.highlights.map((text) => (
-            <li key={text}>{text}</li>
-          ))}
-        </ul>
-      )}
-      <ChangeList
-        title="Before you upgrade"
-        items={copy?.upgrade ?? release.breaking}
-        tone="breaking"
-      />
+      {latest && <h3 className="release-title">{copy.title}</h3>}
+      <ul
+        className="change-list release-highlights"
+        aria-label={`Highlights in ${release.version}`}
+      >
+        {copy.highlights.map((text) => (
+          <li key={text}>{text}</li>
+        ))}
+      </ul>
+      <ChangeList title="Before you upgrade" items={copy.upgrade} tone="breaking" />
       {release.components.length > 0 && (
         <div className="change-group">
           <h3>New components</h3>
@@ -73,7 +66,6 @@ function ReleaseChanges({
           </ul>
         </div>
       )}
-      {!copy && <p className="release-quiet">See the full history for this release on GitHub.</p>}
       {release.compareUrl && (
         <a className="compare-link" href={release.compareUrl}>
           Full history on GitHub <LinkArrow />
