@@ -6,6 +6,69 @@ export type ComponentGuide = {
 };
 
 export const componentGuides: Record<string, ComponentGuide> = {
+  Container: {
+    use: "Align page sections with shared maximum widths and responsive gutters.",
+    example: {
+      title: "Give a workspace a shared page boundary",
+      description:
+        "Compose headings, actions and content inside one centered page width. Compare sizes and the composed page example.",
+    },
+    tips: [
+      "Maximum widths include gutters; use the same size across aligned page sections.",
+      "Disable gutters when a parent already owns inline padding.",
+    ],
+    accessibility: [
+      "Choose main, section or another native element from document structure.",
+      "Container adds no focus stop or interactive role.",
+    ],
+  },
+  Inline: {
+    use: "Arrange independent content or actions in a row that wraps when space runs out.",
+    example: {
+      title: "Keep related actions together",
+      description:
+        "Actions retain their native tab order while the row wraps. Compare spacing and alignment examples.",
+    },
+    tips: [
+      "Use gap for shared spacing between items and wrapped rows.",
+      "Use Toolbar when actions need coordinated arrow-key navigation.",
+    ],
+    accessibility: [
+      "Wrapping preserves source and keyboard order.",
+      "Use li children when rendering a native list.",
+    ],
+  },
+  Split: {
+    use: "Compose two columns that stack when their available width falls below a shared threshold.",
+    example: {
+      title: "Pair primary content with supporting context",
+      description:
+        "Use equal or weighted columns, then compare the same composition inside narrower parents.",
+    },
+    tips: [
+      "Provide two children; Split owns the tracks while content retains its own measure.",
+      "Thresholds follow available width; style tracks with classNames.track and use Grid for variable counts.",
+    ],
+    accessibility: [
+      "Place primary content first so stacked reading order remains meaningful.",
+      "Split adds no ARIA grid role or keyboard model.",
+    ],
+  },
+  Separator: {
+    use: "Divide related content with a horizontal or vertical static rule.",
+    example: {
+      title: "Separate content groups",
+      description: "Compare a native thematic break with a vertical divider in an Inline row.",
+    },
+    tips: [
+      "Use decorative when the rule repeats an existing visual grouping.",
+      "Vertical rules stretch inside Inline; Separator provides no resize interaction.",
+    ],
+    accessibility: [
+      "Semantic rules announce their orientation without adding a tab stop.",
+      "Decorative rules are hidden from assistive technology.",
+    ],
+  },
   Badge: {
     use: "Label a role, category, or version beside the thing it describes. Use Status for a state that changes.",
     example: {

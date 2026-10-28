@@ -107,8 +107,15 @@ export const SlidingFilter: Story = {
           movement.currentTime = Number(movement.effect?.getTiming().duration) / 2;
         }
         const halfway = indicator.getBoundingClientRect();
-        expect(halfway.x).toBeGreaterThan(start.x);
-        expect(halfway.x).toBeLessThan(target.x);
+        expect(Math.hypot(target.x - start.x, target.y - start.y)).toBeGreaterThan(1);
+        for (const edge of ["x", "y"] as const) {
+          if (Math.abs(target[edge] - start[edge]) > 1) {
+            expect(halfway[edge]).toBeGreaterThan(Math.min(start[edge], target[edge]));
+            expect(halfway[edge]).toBeLessThan(Math.max(start[edge], target[edge]));
+          } else {
+            expect(Math.abs(halfway[edge] - target[edge])).toBeLessThan(1);
+          }
+        }
         expect(halfway.width).toBeGreaterThan(start.width);
         expect(halfway.width).toBeLessThan(target.width);
         expect(getComputedStyle(indicator).opacity).toBe("1");

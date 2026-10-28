@@ -6,6 +6,38 @@ type Definition = {
   examples: Record<string, string>;
 };
 export const definitions: Record<string, Definition> = {
+  Split: {
+    group: "Layout",
+    description: "Two columns that stack when their parent narrows.",
+    examples: {
+      Default: "Default",
+      Ratios: "Ratios",
+      Responsive: "Responsive",
+      Nested: "Nested",
+      ContentMeasures: "Content Measures",
+    },
+  },
+  Separator: {
+    group: "Layout",
+    description: "Semantic or decorative horizontal and vertical rules.",
+    examples: { Default: "Default", Vertical: "Vertical", Decorative: "Decorative" },
+  },
+  Inline: {
+    group: "Layout",
+    description: "Wrapping rows with shared spacing and alignment.",
+    examples: {
+      Default: "Default",
+      Wrapping: "Wrapping",
+      Alignment: "Alignment",
+      Gaps: "Gaps",
+      List: "List",
+    },
+  },
+  Container: {
+    group: "Layout",
+    description: "Shared page widths and responsive gutters.",
+    examples: { Default: "Default", Sizes: "Sizes", Responsive: "Responsive", Page: "Page" },
+  },
   Checkbox: {
     group: "Forms",
     description: "Let people select options independently, including a mixed selection.",

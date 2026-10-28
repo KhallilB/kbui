@@ -344,6 +344,19 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-code-background: var(--kb-color-surface);
   --kb-code-border: var(--kb-color-border);
   --kb-code-radius: var(--kb-radius-sm);
+  --kb-container-size-sm: 40rem;
+  --kb-container-size-md: 64rem;
+  --kb-container-size-lg: 80rem;
+  --kb-container-gutter: clamp(1rem, 4vw, 2rem);
+  --kb-layout-gap-sm: var(--kb-space-2);
+  --kb-layout-gap-md: var(--kb-space-4);
+  --kb-layout-gap-lg: var(--kb-space-6);
+  --kb-split-collapse-sm: 32rem;
+  --kb-split-collapse-md: 48rem;
+  --kb-split-collapse-lg: 64rem;
+  --kb-separator-color: var(--kb-color-border);
+  --kb-separator-width: 1px;
+  --kb-separator-min-length: var(--kb-space-4);
   color-scheme: light;
 }
 
@@ -464,6 +477,7 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-link-hover: var(--kb-color-fg);
   --kb-code-background: var(--kb-color-surface);
   --kb-code-border: var(--kb-color-border);
+  --kb-separator-color: var(--kb-color-border);
   color-scheme: light;
 }
 
@@ -584,6 +598,7 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-link-hover: var(--kb-color-fg);
   --kb-code-background: var(--kb-color-surface);
   --kb-code-border: var(--kb-color-border);
+  --kb-separator-color: var(--kb-color-border);
   color-scheme: dark;
 }
 
@@ -705,6 +720,7 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-link-hover: var(--kb-color-fg);
     --kb-code-background: var(--kb-color-surface);
     --kb-code-border: var(--kb-color-border);
+    --kb-separator-color: var(--kb-color-border);
     color-scheme: dark;
   }
 }

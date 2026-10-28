@@ -60,7 +60,7 @@ Spacing has three local foundations: `--page-gutter` for shared page edges, `--s
 
 ## Catalog source contract
 
-The catalog covers all 25 public components. `catalog/source.ts` uses Storybook's own CSF parser to derive the 144 example names and IDs from colocated component stories. It reads API tables and usage blocks from `packages/react/README.md`; `catalog/definitions.ts` holds only grouping, short descriptions and API section mapping. The source test compares the catalog against public exports and rejects malformed API rows or missing guide entries.
+The catalog covers every public component. `catalog/source.ts` uses Storybook's own CSF parser to derive example names and IDs from colocated component stories. It reads API tables and usage blocks from `packages/react/README.md`; `catalog/definitions.ts` holds grouping, short descriptions and curated example exports and labels. The source test compares the catalog against public exports and rejects malformed API rows or missing guide entries.
 
 A build-time virtual module supplies that data to the site and Storybook without bundling the Node parser into the browser. Guide and component-story changes invalidate the module during development. `build:site` ends with `verify:catalog`, which checks every story and documentation ID against the built Storybook index. An ID mismatch fails the build.
 

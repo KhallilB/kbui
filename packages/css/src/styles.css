@@ -27,3 +27,7 @@
 @import "./components/heading.css" layer(kbui.components);
 @import "./components/link.css" layer(kbui.components);
 @import "./components/text.css" layer(kbui.components);
+@import "./components/container.css" layer(kbui.components);
+@import "./components/inline.css" layer(kbui.components);
+@import "./components/separator.css" layer(kbui.components);
+@import "./components/split.css" layer(kbui.components);

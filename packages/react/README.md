@@ -551,3 +551,54 @@ Literal inline code, commands and paths in native `code`. Prepared locally after
 | `className`, `ref` | Native code props | unset | Ref targets code element |
 
 Monospace text inherits surrounding ink and line height, uses a relative size and wraps long tokens. Case and whitespace remain intact; no HTML parsing occurs. This component styles inline fragments; multiline listings need a separate `pre`/`code` recipe without inline padding. Syntax highlighting and copy controls are outside this component.
+
+## Container
+
+Centered page boundary with responsive inline gutters. Native props and matching ref pass through. See [Layout composition](../../docs/guides/layout.md) for rules, CSS recipes and token overrides. Prepared locally after 0.8.0; unreleased.
+
+| Prop | Values | Default |
+|---|---|---|
+| `as` | `div` `main` `section` `article` `aside` `header` `footer` | `div` |
+| `size` | `sm` (40rem) `md` (64rem) `lg` (80rem) `full` (unbounded) | `lg` |
+| `gutter` | Shared 1–2rem inline padding; false removes it | `true` |
+
+Non-default generic native elements require an explicit `as`; native props and refs follow that element. Explicit `gutter` owns its data attribute even when caller attributes conflict. Widths include gutters. Use one page boundary; nested containers should disable gutters when the parent owns padding.
+
+## Inline
+
+Wrapping row for independent content or controls. Adds no toolbar role or keyboard handling; controls retain native tab order. Native props and matching ref pass through.
+
+| Prop | Values | Default |
+|---|---|---|
+| `as` | `div` `ul` `ol` `nav` | `div` |
+| `gap` | `none` `sm` (0.5rem) `md` (1rem) `lg` (1.5rem) | `md` |
+| `align` | `start` `center` `end` `baseline` `stretch` | `center` |
+| `justify` | `start` `center` `end` `between` | `start` |
+
+Non-default generic native elements require an explicit `as`. Lists retain markers and native list spacing. Use li children. Choose Toolbar when actions require its coordinated arrow-key model. See [Layout composition](../../docs/guides/layout.md).
+
+## Split
+
+Two children form equal or weighted columns through layout-owned `.kb-split-track` wrappers. Below the available-width threshold, columns stack in source order. Layout uses CSS alone, including inside nested panels. Native props and matching ref pass through.
+
+| Prop | Values | Default |
+|---|---|---|
+| `as` | `div` `section` `article` | `div` |
+| `ratio` | `equal` (1:1) `wide-start` (2:1) `wide-end` (1:2) | `equal` |
+| `collapse` | `sm` (32rem) `md` (48rem) `lg` (64rem) | `md` |
+| `gap` | `none` `sm` `md` `lg`, same scale as Inline | `md` |
+| `align` | `start` `center` `end` `baseline` `stretch` | `stretch` |
+| `classNames` | `{ track?: string }`, applied to each column track | unset |
+
+Provide two children; empty conditional children add no track. Each track owns column sizing, so Text keeps its reading measure and nested token overrides stay local. Non-default generic native elements require an explicit `as`. Use Grid for variable child counts. See [Layout composition](../../docs/guides/layout.md).
+
+## Separator
+
+Native hr thematic break; decorative dividers are hidden from assistive technology. Native hr props and ref pass through; orientation and decorative own role, aria-hidden and aria-orientation.
+
+| Prop | Values | Default |
+|---|---|---|
+| `orientation` | `horizontal` `vertical` | `horizontal` |
+| `decorative` | Hide a visual-only divider from assistive technology | `false` |
+
+Vertical rules stretch inside Inline and have a 1rem minimum height. No tab stop or resizing interaction is added. See [Layout composition](../../docs/guides/layout.md).

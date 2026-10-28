@@ -65,10 +65,18 @@ const preview: Preview = {
             ? globals.theme
             : "system";
       const component =
-        title.startsWith("Components/") || title === "Layout/Grid"
+        title.startsWith("Components/") || title.startsWith("Layout/")
           ? title.split("/").at(-1)?.toLowerCase()
           : undefined;
-      const layout = ["grid", "panel", "scrollarea"].includes(component ?? "")
+      const layout = [
+        "grid",
+        "container",
+        "inline",
+        "split",
+        "separator",
+        "panel",
+        "scrollarea",
+      ].includes(component ?? "")
         ? "layout"
         : ["input", "select", "card", "callout", "progress"].includes(component ?? "")
           ? "surface"
