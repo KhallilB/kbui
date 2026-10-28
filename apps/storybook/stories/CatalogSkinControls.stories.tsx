@@ -16,6 +16,12 @@ function PreviewFixture() {
   return (
     <div>
       <CatalogSkinControls value={skin} onChange={setSkin} theme={theme} />
+      <Button onClick={() => setSkin((current) => ({ ...current, palette: "ocean" }))}>
+        Fixture Palette Ocean
+      </Button>
+      <Button onClick={() => setSkin((current) => ({ ...current, corners: "sharp" }))}>
+        Fixture Corners Sharp
+      </Button>
       <Button onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
         Change preview theme
       </Button>
@@ -41,9 +47,74 @@ const meta = { title: "Site/CatalogSkinControls", component: PreviewFixture } sa
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+export const EditComponentCss: Story = {
+  play: async ({ canvasElement }) => {
+    const page = within(canvasElement);
+    const forced = matchMedia("(forced-colors: active)").matches;
+    const frame = canvasElement.querySelector<HTMLIFrameElement>("iframe");
+    if (!frame) throw new Error("Missing preview frame");
+    await waitFor(() => expect(frame.contentDocument?.readyState).toBe("complete"));
+    const doc = frame.contentDocument;
+    if (!doc) throw new Error("Missing preview document");
+    const style = doc.createElement("style");
+    style.textContent = previewCss;
+    doc.head.append(style);
+    doc.body.innerHTML =
+      '<div id="storybook-root"><input aria-label="Draft"><button class="kb-button" data-variant="primary">Preview action</button></div>';
+    const button = doc.querySelector<HTMLButtonElement>("button");
+    const draft = doc.querySelector<HTMLInputElement>("input");
+    if (!button || !draft) throw new Error("Missing fixture controls");
+    draft.value = "Keep draft";
+    const editor = page.getByRole("textbox", { name: "Style this component" });
+    expect(editor).not.toHaveAttribute("readonly");
+    await userEvent.clear(editor);
+    await userEvent.type(editor, ".brand {{ background: rgb(1 2 3); border-radius: 2px; }");
+    await waitFor(() => expect(getComputedStyle(button).borderRadius).toBe("2px"), {
+      timeout: 10000,
+    });
+    if (!forced)
+      await waitFor(() => expect(getComputedStyle(button).backgroundColor).toBe("rgb(1, 2, 3)"));
+    expect(getComputedStyle(button).borderRadius).toBe("2px");
+    expect(draft.value).toBe("Keep draft");
+    expect(canvasElement.querySelector("iframe")).toBe(frame);
+    await userEvent.type(editor, " broken {{");
+    await waitFor(() => expect(page.getByRole("alert")).toBeVisible());
+    expect(editor).toHaveAttribute("aria-invalid", "true");
+    expect(getComputedStyle(button).borderRadius).toBe("2px");
+    expect(page.getByRole("button", { name: "Copy styling" })).toBeDisabled();
+    await userEvent.clear(editor);
+    await userEvent.type(editor, ".brand {{ background: rgb(1 2 3); border-radius: 2px; }");
+    await waitFor(() => expect(page.queryByRole("alert")).toBeNull());
+    await userEvent.click(page.getByRole("radio", { name: "Tailwind" }));
+    const classes = page.getByRole("textbox", { name: "Tailwind classes" });
+    await userEvent.clear(classes);
+    await userEvent.type(classes, "bg-[[#123456] text-white rounded-none px-8 hover:bg-black");
+    await waitFor(() => expect(getComputedStyle(button).paddingLeft).toBe("32px"), {
+      timeout: 10000,
+    });
+    if (!forced)
+      await waitFor(() => expect(getComputedStyle(button).backgroundColor).toBe("rgb(18, 52, 86)"));
+    expect(getComputedStyle(button).paddingLeft).toBe("32px");
+    expect(getComputedStyle(button).borderRadius).toBe("0px");
+    await userEvent.click(page.getByRole("radio", { name: "CSS" }));
+    expect((editor as HTMLTextAreaElement).value).toContain("border-radius: 2px;");
+    await waitFor(() => expect(getComputedStyle(button).borderRadius).toBe("2px"));
+    if (!forced)
+      await waitFor(() => expect(getComputedStyle(button).backgroundColor).toBe("rgb(1, 2, 3)"));
+    await userEvent.click(page.getByRole("button", { name: "Reset styling" }));
+    await waitFor(() => expect(button).not.toHaveClass("brand"));
+    expect(canvasElement.querySelector("iframe")).toBe(frame);
+  },
+};
+
 export const PreviewLocalStyling: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    const forced = matchMedia("(forced-colors: active)").matches;
+    const expectBackground = (element: HTMLElement, color: string) => {
+      if (forced) expect(getComputedStyle(element).forcedColorAdjust).toBe("auto");
+      else expect(getComputedStyle(element).backgroundColor).toBe(color);
+    };
     const parentStyle = document.documentElement.getAttribute("style");
     const parentTheme = document.documentElement.dataset.theme;
     const currentFrame = () => {
@@ -69,19 +140,16 @@ export const PreviewLocalStyling: Story = {
     const first = await fixture();
     first.draft.value = "Keep my draft";
     const choose = async (label: string, name: string) => {
-      await userEvent.click(canvas.getByRole("combobox", { name: label }));
-      await userEvent.click(await canvas.findByRole("option", { name }));
+      await userEvent.click(canvas.getByRole("button", { name: `Fixture ${label} ${name}` }));
     };
     await choose("Palette", "Ocean");
     await choose("Corners", "Sharp");
-    await waitFor(() =>
-      expect(getComputedStyle(first.action).backgroundColor).toBe("rgb(33, 99, 122)"),
-    );
+    await waitFor(() => expectBackground(first.action, "rgb(33, 99, 122)"));
     expect(getComputedStyle(first.action).borderRadius).toBe("0px");
-    expect(getComputedStyle(first.action).boxShadow).not.toBe("none");
+    if (!forced) expect(getComputedStyle(first.action).boxShadow).not.toBe("none");
     const portalAction = first.doc.querySelector<HTMLButtonElement>('[role="dialog"] button');
     if (!portalAction) throw new Error("Missing body portal control");
-    expect(getComputedStyle(portalAction).backgroundColor).toBe("rgb(33, 99, 122)");
+    expectBackground(portalAction, "rgb(33, 99, 122)");
     expect(currentFrame()).toBe(first.frame);
     expect(currentFrame().contentDocument).toBe(first.doc);
     expect(first.draft.value).toBe("Keep my draft");
@@ -89,29 +157,21 @@ export const PreviewLocalStyling: Story = {
       (canvas.getByRole("textbox", { name: "Theme CSS overrides" }) as HTMLTextAreaElement).value,
     ).toContain("--kb-color-accent: #21637a;");
     await userEvent.click(canvas.getByRole("button", { name: "Change preview theme" }));
-    await waitFor(() =>
-      expect(getComputedStyle(first.action).backgroundColor).toBe("rgb(140, 213, 232)"),
-    );
+    await waitFor(() => expectBackground(first.action, "rgb(140, 213, 232)"));
     expect(first.draft.value).toBe("Keep my draft");
     await userEvent.click(canvas.getByRole("button", { name: "Change fixture" }));
     const second = await fixture();
     expect(second.frame).not.toBe(first.frame);
-    await waitFor(() =>
-      expect(getComputedStyle(second.action).backgroundColor).toBe("rgb(140, 213, 232)"),
-    );
+    await waitFor(() => expectBackground(second.action, "rgb(140, 213, 232)"));
     await userEvent.click(canvas.getByRole("button", { name: "Change fixture" }));
     expect(currentFrame()).toBe(first.frame);
     expect(first.draft.value).toBe("Keep my draft");
     await userEvent.click(canvas.getByRole("button", { name: "Reload fixture" }));
     const reloaded = await fixture();
     expect(reloaded.frame).not.toBe(first.frame);
-    await waitFor(() =>
-      expect(getComputedStyle(reloaded.action).backgroundColor).toBe("rgb(140, 213, 232)"),
-    );
+    await waitFor(() => expectBackground(reloaded.action, "rgb(140, 213, 232)"));
     await userEvent.click(canvas.getByRole("button", { name: "Reset styling" }));
-    await waitFor(() =>
-      expect(getComputedStyle(reloaded.action).backgroundColor).toBe("rgb(255, 132, 87)"),
-    );
+    await waitFor(() => expectBackground(reloaded.action, "rgb(255, 132, 87)"));
     expect(getComputedStyle(reloaded.action).borderRadius).toBe("8px");
     expect(reloaded.doc.documentElement.style.getPropertyValue("--kb-color-accent")).toBe("");
     expect(reloaded.doc.documentElement.style.getPropertyValue("--kb-radius-md")).toBe("");

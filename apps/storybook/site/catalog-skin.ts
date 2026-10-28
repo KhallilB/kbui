@@ -3,6 +3,7 @@ import type { Theme } from "./theme-foundations";
 export type CatalogSkin = {
   palette: "default" | "ocean" | "plum";
   corners: "default" | "sharp" | "soft";
+  custom?: { component: string; css: string; classes: string };
 };
 export const defaultCatalogSkin: CatalogSkin = { palette: "default", corners: "default" };
 
@@ -131,6 +132,37 @@ export function componentStyleExample(name: string, skin: CatalogSkin, theme: Th
     "/* Your CSS beats kbui's, so no kbui names are needed. */",
     ".brand {",
     ...example.css(accent, radius, text).map((line) => `  ${line}`),
+    "}",
+  ].join("\n");
+}
+
+export function componentStyleTarget(name: string) {
+  const special: Record<string, string> = {
+    Dialog: ".kb-dialog-popup",
+    Menu: ".kb-menu",
+    Tooltip: ".kb-tooltip",
+  };
+  const slot = examples[name]?.slot;
+  return special[name] ?? `.kb-${name.toLowerCase()}${slot ? `-${slot}` : ""}`;
+}
+
+export function componentStyleUsage(name: string, classes = "brand") {
+  const example: Example = examples[name] ?? { open: `<${name}`, close: " />", css: outline };
+  const value = JSON.stringify(classes);
+  const prop = example.slot ? `classNames={{ ${example.slot}: ${value} }}` : `className={${value}}`;
+  return `${example.open} ${prop}${example.close ?? " />"}`;
+}
+
+export function presetComponentCss(name: string, skin: CatalogSkin) {
+  if (skin.palette === "default" && skin.corners === "default")
+    return ".brand {\n  /* Add your styles here. */\n}";
+  const example = examples[name] ?? { css: outline };
+  const radius = { default: "var(--kb-radius-md)", sharp: "0px", soft: "0.875rem" }[skin.corners];
+  return [
+    ".brand {",
+    ...example
+      .css("var(--kb-color-accent)", radius, "var(--kb-color-accent-fg)")
+      .map((line) => `  ${line}`),
     "}",
   ].join("\n");
 }

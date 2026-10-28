@@ -1,11 +1,11 @@
 import entries from "virtual:kbui-catalog";
-import { Button, Card, Checkbox, Input, RadioGroup } from "@kbui/react";
-import { useCallback, useId, useLayoutEffect, useRef, useState } from "react";
+import { Button, Card, Checkbox, Input, RadioGroup, Tooltip } from "@kbui/react";
+import { type CSSProperties, useCallback, useId, useLayoutEffect, useRef, useState } from "react";
 import type { ApiBlock, CatalogEntry, CatalogGroup } from "../catalog/types";
 import { CatalogComparisonPreview } from "./CatalogComparison";
+import { CatalogComponentEditor } from "./CatalogComponentEditor";
 import { StoryPreview } from "./CatalogPreview";
 import { CatalogSkinControls } from "./CatalogSkinControls";
-import { CodePanel } from "./CodePanel";
 import {
   appearanceQuery,
   browsableStories,
@@ -15,9 +15,11 @@ import {
   storybookGlobals,
 } from "./catalog-model";
 import { defaultCatalogSkin } from "./catalog-skin";
+import type { CodeResult } from "./component-code";
 import { LinkArrow } from "./LinkArrow";
 import { SiteFrame } from "./SiteFrame";
 import { readSiteTheme } from "./site-theme";
+import { useCatalogPaneResize } from "./useCatalogPaneResize";
 
 export type { CatalogAppearance } from "./catalog-model";
 
@@ -265,7 +267,14 @@ function CatalogDetail({
   const id = useId();
   const [stateId, setStateId] = useState(initialStateId ?? entry.defaultStoryId);
   const [generation, setGeneration] = useState(0);
-  const [skin, setSkin] = useState(appearance.skin ?? defaultCatalogSkin);
+  const [skins, setSkins] = useState<Record<string, typeof defaultCatalogSkin>>({});
+  const [codeDrafts, setCodeDrafts] = useState<
+    Record<string, { source: string | null; version: number }>
+  >({});
+  const [codeResult, setCodeResult] = useState<CodeResult>();
+  const skin = skins[entry.id] ?? appearance.skin ?? defaultCatalogSkin;
+  const setSkin = (next: typeof defaultCatalogSkin) =>
+    setSkins((current) => ({ ...current, [entry.id]: next }));
   const [compare, setCompare] = useState(initialCompare);
   const [compared, setCompared] = useState(initialCompare);
   useLayoutEffect(() => {
@@ -273,6 +282,7 @@ function CatalogDetail({
     if (initialCompare) setCompared(true);
   }, [initialCompare]);
   const [expanded, setExpanded] = useState(false);
+  const paneResize = useCatalogPaneResize();
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
   const [slow, setSlow] = useState(false);
@@ -306,6 +316,14 @@ function CatalogDetail({
     stories.find((story) => story.name === alias) ??
     stories.find((story) => story.id === entry.defaultStoryId);
   if (!selected) throw new Error(`Missing default catalog story: ${entry.name}`);
+  const draft = codeDrafts[selected.id];
+  const code = { id: `${selected.id}:${draft?.version ?? 0}`, source: draft?.source ?? null };
+  const editCode = (source: string | null) =>
+    setCodeDrafts((current) => ({
+      ...current,
+      [selected.id]: { source, version: (current[selected.id]?.version ?? 0) + 1 },
+    }));
+  const layout = previewLayout(entry.id, selected.id);
   return (
     <>
       <div className="catalog-topline">
@@ -338,142 +356,244 @@ function CatalogDetail({
             <p className="page-kicker">Interactive example</p>
             <h2 id={`${id}-live`}>Get a feel for it.</h2>
           </div>
-          <span className="catalog-source">Live preview</span>
         </div>
-        <RadioGroup
-          className="catalog-states"
-          label="Example state"
-          appearance="segmented"
-          value={selected.id}
-          onValueChange={(value) => {
-            if (
-              !isChoice(
-                value,
-                stories.map((story) => story.id),
-              ) ||
-              selected.id === value
-            )
-              return;
-            setStateId(value);
-            compactOnReady.current = true;
-            setLoaded(false);
-            setSlow(false);
-            setFailed(false);
-            onStateChange?.(value);
-          }}
+        <div
+          className="catalog-styling-workspace"
+          ref={paneResize.root}
+          data-compare={compare || undefined}
+          data-resizing={paneResize.dragging || undefined}
+          style={
+            {
+              "--catalog-preview-minimum": `${layout.minimum}px`,
+              ...paneResize.style,
+            } as CSSProperties
+          }
         >
-          {stories.map((story) => (
-            <RadioGroup.Item key={story.id} value={story.id}>
-              {story.name}
-            </RadioGroup.Item>
-          ))}
-        </RadioGroup>
-        {!requested && <p role="status">State not found. Choose one of the available examples.</p>}
-        <Checkbox
-          className="catalog-compare-control"
-          label="Compare light and dark"
-          checked={compare}
-          onCheckedChange={(value) => {
-            setCompare(value);
-            if (value) setCompared(true);
-            onCompareChange?.(value);
-          }}
-        />
-        <div className="catalog-preview-panes" data-compare={compare || undefined}>
-          <section
-            className="catalog-preview-pane"
-            data-qa-theme={compare ? "light" : undefined}
-            aria-label={compare ? "Light preview" : `${entry.name} preview`}
-          >
-            {compare && <h3>Light</h3>}
-            <StoryPreview
-              active={active}
-              appearance={{ ...appearance, theme: compare ? "light" : appearance.theme, skin }}
-              generation={generation}
-              pending={!loaded}
-              status={
-                failed
-                  ? "Preview unavailable here. Open the example in Storybook."
-                  : !loaded
-                    ? slow
-                      ? "Still loading. Try reloading, or open this example in Storybook."
-                      : "Loading live example…"
-                    : ""
-              }
-              layout={previewLayout(entry.id, selected.id)}
-              expanded={expanded}
-              title={`${entry.name} — ${selected.name} live example`}
-              src={`${storybookRoot}iframe.html?id=${encodeURIComponent(selected.id)}&viewMode=story${previewGlobals(appearance)}&embed=true`}
-              onLoad={markReady}
-              onSlow={markSlow}
-              onError={() => {
-                setFailed(true);
-                setLoaded(true);
-              }}
-            />
-          </section>
-          {compared && (
-            <section
-              className="catalog-preview-pane"
-              data-qa-theme="dark"
-              hidden={!compare}
-              inert={!compare}
-              aria-label="Dark comparison"
-            >
-              <h3>Dark</h3>
-              <CatalogComparisonPreview
-                active={active && compare}
-                entry={entry}
-                story={selected}
-                appearance={{ theme: "dark", skin }}
-                generation={generation}
-                storybookRoot={storybookRoot}
-              />
-            </section>
-          )}
-        </div>
-        <div className="catalog-preview-actions">
-          <a
-            className="plain-link"
-            href={`${storybookRoot}?path=/story/${selected.id}${storybookGlobals(appearance)}`}
-          >
-            Open example in Storybook
-          </a>
-          <div className="catalog-preview-tools">
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              aria-expanded={expanded}
-              onClick={() => {
-                compactOnReady.current = false;
-                setExpanded((value) => !value);
-              }}
-            >
-              {expanded ? "Compact preview" : "Expand preview"}
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => {
+          <div className="catalog-example-toolbar">
+            <RadioGroup
+              className="catalog-states"
+              label="Example state"
+              appearance="segmented"
+              value={selected.id}
+              onValueChange={(value) => {
+                if (
+                  !isChoice(
+                    value,
+                    stories.map((story) => story.id),
+                  ) ||
+                  selected.id === value
+                )
+                  return;
+                setStateId(value);
+                compactOnReady.current = true;
                 setLoaded(false);
                 setSlow(false);
                 setFailed(false);
-                setGeneration((value) => value + 1);
+                onStateChange?.(value);
               }}
             >
-              Reload preview
-            </Button>
+              {stories.map((story) => (
+                <RadioGroup.Item key={story.id} value={story.id}>
+                  {story.name}
+                </RadioGroup.Item>
+              ))}
+            </RadioGroup>
+            {!requested && (
+              <p role="status">State not found. Choose one of the available examples.</p>
+            )}
+            <Checkbox
+              className="catalog-compare-control"
+              label="Compare light and dark"
+              checked={compare}
+              onCheckedChange={(value) => {
+                setCompare(value);
+                if (value) setCompared(true);
+                onCompareChange?.(value);
+              }}
+            />
           </div>
+          <div id={`${id}-preview-pane`} className="catalog-styling-preview">
+            <div className="catalog-preview-caption">
+              <span>
+                {entry.name} <span className="catalog-preview-state">/ {selected.name}</span>
+              </span>
+              <div className="catalog-preview-tools">
+                <Tooltip content={expanded ? "Compact preview" : "Expand preview"}>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    aria-label={expanded ? "Compact preview" : "Expand preview"}
+                    aria-expanded={expanded}
+                    onClick={() => {
+                      compactOnReady.current = false;
+                      setExpanded((value) => !value);
+                    }}
+                  >
+                    <svg
+                      aria-hidden="true"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path
+                        d={
+                          expanded
+                            ? "M1 5h4V1m10 4h-4V1M1 11h4v4m10-4h-4v4"
+                            : "M5 1H1v4m10-4h4v4M1 11v4h4m10-4v4h-4"
+                        }
+                      />
+                    </svg>
+                  </Button>
+                </Tooltip>
+                <Tooltip content="Reload preview">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    aria-label="Reload preview"
+                    onClick={() => {
+                      setLoaded(false);
+                      setSlow(false);
+                      setFailed(false);
+                      setGeneration((value) => value + 1);
+                    }}
+                  >
+                    <svg
+                      aria-hidden="true"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M13 2v4H9M13 6a5 5 0 1 0 0 5" />
+                    </svg>
+                  </Button>
+                </Tooltip>
+                <Tooltip content="Open example in Storybook">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    nativeButton={false}
+                    role="link"
+                    aria-label="Open example in Storybook"
+                    render={
+                      <a
+                        href={`${storybookRoot}?path=/story/${selected.id}${storybookGlobals(appearance)}`}
+                      />
+                    }
+                  >
+                    <svg
+                      aria-hidden="true"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M9 2h5v5m0-5L7 9M6 3H2v11h11v-4" />
+                    </svg>
+                  </Button>
+                </Tooltip>
+              </div>
+            </div>
+            <div className="catalog-preview-panes" data-compare={compare || undefined}>
+              <section
+                className="catalog-preview-pane"
+                data-qa-theme={compare ? "light" : undefined}
+                aria-label={compare ? "Light preview" : `${entry.name} preview`}
+              >
+                {compare && <h3>Light</h3>}
+                <StoryPreview
+                  code={code}
+                  onCodeResult={setCodeResult}
+                  fill={!compare && paneResize.split}
+                  active={active}
+                  appearance={{ ...appearance, theme: compare ? "light" : appearance.theme, skin }}
+                  generation={generation}
+                  pending={!loaded}
+                  status={
+                    failed
+                      ? "Preview unavailable here. Open the example in Storybook."
+                      : !loaded
+                        ? slow
+                          ? "Still loading. Try reloading, or open this example in Storybook."
+                          : "Loading live example…"
+                        : ""
+                  }
+                  layout={layout}
+                  expanded={expanded}
+                  title={`${entry.name} — ${selected.name} live example`}
+                  src={`${storybookRoot}iframe.html?id=${encodeURIComponent(selected.id)}&viewMode=story${previewGlobals(appearance)}&embed=true`}
+                  onLoad={markReady}
+                  onSlow={markSlow}
+                  onError={() => {
+                    setFailed(true);
+                    setLoaded(true);
+                  }}
+                />
+              </section>
+              {compared && (
+                <section
+                  className="catalog-preview-pane"
+                  data-qa-theme="dark"
+                  hidden={!compare}
+                  inert={!compare}
+                  aria-label="Dark comparison"
+                >
+                  <h3>Dark</h3>
+                  <CatalogComparisonPreview
+                    code={code}
+                    active={active && compare}
+                    entry={entry}
+                    story={selected}
+                    appearance={{ theme: "dark", skin }}
+                    generation={generation}
+                    storybookRoot={storybookRoot}
+                  />
+                </section>
+              )}
+            </div>
+          </div>
+          <hr
+            className="catalog-pane-divider"
+            tabIndex={0}
+            aria-label="Resize preview and editor"
+            aria-orientation="vertical"
+            aria-controls={`${id}-preview-pane ${id}-editor-pane`}
+            title="Drag or use arrow keys to resize. Enter or double-click resets."
+            {...paneResize.divider}
+          />
+          <CatalogSkinControls
+            id={`${id}-editor-pane`}
+            key={entry.id}
+            value={skin}
+            onChange={setSkin}
+            theme={appearance.theme}
+            component={entry.name}
+            example={
+              <CatalogComponentEditor
+                key={selected.id}
+                original={selected.snippet}
+                request={code}
+                result={codeResult}
+                onChange={editCode}
+              />
+            }
+          />
         </div>
-        <CatalogSkinControls
-          value={skin}
-          onChange={setSkin}
-          theme={appearance.theme}
-          component={entry.name}
-        />
-        <CodePanel sample={selected} name={selected.name} />
       </section>
       <section className="catalog-api" aria-labelledby={`${id}-api`}>
         <div className="catalog-section-heading">

@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { CatalogEntry } from "../catalog/types";
 import { StoryPreview } from "./CatalogPreview";
 import { type CatalogAppearance, previewGlobals, previewLayout } from "./catalog-model";
+import type { CodeRequest } from "./component-code";
 
 export function CatalogComparisonPreview({
   active,
@@ -10,7 +11,9 @@ export function CatalogComparisonPreview({
   appearance,
   generation,
   storybookRoot,
+  code,
 }: {
+  code?: CodeRequest;
   active: boolean;
   entry: CatalogEntry;
   story: CatalogEntry["stories"][number];
@@ -23,6 +26,7 @@ export function CatalogComparisonPreview({
   const phase = load.key === key ? load.phase : "loading";
   return (
     <StoryPreview
+      code={code}
       active={active}
       appearance={appearance}
       generation={generation}
