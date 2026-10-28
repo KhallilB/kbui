@@ -416,3 +416,19 @@ describe("typography role integration", () => {
     expect(css).toContain("--kb-text-muted: var(--kb-color-muted);");
   });
 });
+
+describe("search and selection tokens", () => {
+  test("defines combobox and multiselect popup, chip, and action sizing tokens", () => {
+    const { css } = buildTokens(real as TokenTree);
+    expect(css).toContain("--kb-combobox-popup-min-width: 12rem;");
+    expect(css).toContain("--kb-combobox-max-height: 20rem;");
+    expect(css).toContain("--kb-combobox-layer: 50;");
+    expect(css).toContain("--kb-combobox-action-size: 1.75rem;");
+    expect(css).toContain("--kb-multiselect-popup-min-width: 12rem;");
+    expect(css).toContain("--kb-multiselect-max-height: 20rem;");
+    expect(css).toContain("--kb-multiselect-layer: 50;");
+    expect(css).toContain("--kb-multiselect-chip-gap: var(--kb-space-1);");
+    expect(css).toContain("--kb-multiselect-chip-radius: var(--kb-radius-sm);");
+    expect(css).toContain("--kb-multiselect-action-size: 1.75rem;");
+  });
+});

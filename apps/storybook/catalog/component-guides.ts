@@ -290,6 +290,40 @@ export const componentGuides: Record<string, ComponentGuide> = {
       "Use action text on each item; do not nest another button inside it.",
     ],
   },
+  Combobox: {
+    use: "Let people filter a longer option list by typing before choosing one value. Use Select when the list is short enough to scan without typing.",
+    example: {
+      title: "Find a deployment region",
+      description:
+        "Type to narrow the region list, choose a region with the keyboard or pointer, and clear the selection when needed.",
+    },
+    tips: [
+      "Pass null when nothing is selected and update value in onValueChange.",
+      "Keep emptyMessage specific so people know whether no options exist or none match their filter.",
+    ],
+    accessibility: [
+      "Always provide a visible label; placeholder text only hints at what to type.",
+      "Empty results announce politely without moving focus away from the input.",
+      "Clear and toggle buttons carry explicit accessible names.",
+    ],
+  },
+  MultiSelect: {
+    use: "Let people search a longer list and keep multiple selected values visible as removable chips. Use Checkbox when every choice should stay visible on the page.",
+    example: {
+      title: "Assign API permission scopes",
+      description:
+        "Filter scopes by typing, toggle multiple options in the popup, and remove individual chips with the pointer or keyboard.",
+    },
+    tips: [
+      "Keep option labels concise so multiple chips wrap cleanly inside bounded containers.",
+      "Customize removeLabel when option labels need extra context in screen reader announcements.",
+    ],
+    accessibility: [
+      "Selected chips live in a named toolbar with Left/Right arrow navigation and Backspace/Delete removal.",
+      "Each chip remove button has a distinct accessible name such as Remove Webhooks.",
+      "Read-only and disabled states block chip removal as well as list changes.",
+    ],
+  },
   NumberField: {
     use: "Collect a numeric quantity that people can type or adjust with steps. Use Input for identifiers such as postal codes.",
     example: {

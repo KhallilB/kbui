@@ -413,6 +413,91 @@ Use the arrow keys or type to find an option, Enter to select it, and Escape to 
 
 By default, the popup mounts inside the field root and inherits its theme. If you provide a custom `container`, apply the theme there too. Use `--kb-select-popup-min-width`, `--kb-select-max-height`, and `--kb-select-layer` to adjust the popup’s size and stacking order.
 
+## Combobox
+
+Use Combobox when people need to filter a longer option list by typing before choosing one value. Each option has a string `value`, a visible `label`, and an optional `disabled` flag. Pass `null` when nothing is selected.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `label` | `string` | required | Visible field label and accessible combobox name |
+| `options` | `readonly ComboboxOption[]` | required | Selectable options filtered by label |
+| `value` | `string \| null` | required | Controlled selection; `null` means unset |
+| `onValueChange` | `(value: string \| null) => void` | required | Called when an option is selected or cleared |
+| `placeholder` | `string` | unset | Input placeholder shown when empty |
+| `emptyMessage` | `ReactNode` | `"No matching options"` | Polite status text when no options match |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Control height and text scale |
+| `description` / `error` | `ReactNode` | unset | Associated help and invalid-state text |
+| `disabled` / `readOnly` | `boolean` | `false` | Prevent edits; disabled also blocks form submission |
+| `clearLabel` / `toggleLabel` | `string` | derived from `label` | Accessible names for the clear and toggle buttons |
+| `container` | `Combobox.Portal.Props["container"]` | field root | Portal host; default retains nested theme |
+| `classNames` | `ClassNames<ComboboxSlot>` | unset | Extra classes for inner parts |
+
+```tsx
+import { useState } from "react";
+import { Combobox } from "@kbui/react";
+
+const regions = [
+  { value: "us-east-1", label: "US East (N. Virginia)" },
+  { value: "eu-central-1", label: "EU Central (Frankfurt)" },
+];
+
+export function RegionCombobox() {
+  const [region, setRegion] = useState<string | null>("us-east-1");
+  return (
+    <Combobox
+      label="Deployment region"
+      options={regions}
+      value={region}
+      onValueChange={setRegion}
+      placeholder="Search regions..."
+    />
+  );
+}
+```
+
+## MultiSelect
+
+Use MultiSelect when people need to search a longer list and keep multiple selections visible as removable chips. Selected values render inside a named chip toolbar with keyboard arrow/Backspace/Delete support and per-chip remove buttons.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `label` | `string` | required | Visible field label and accessible combobox name |
+| `options` | `readonly MultiSelectOption[]` | required | Selectable options filtered by label |
+| `value` | `readonly string[]` | required | Controlled array of selected option values |
+| `onValueChange` | `(value: string[]) => void` | required | Called when selections are added, removed, or cleared |
+| `placeholder` | `string` | unset | Input placeholder |
+| `emptyMessage` | `ReactNode` | `"No matching options"` | Polite status text when no options match |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Control height and text scale |
+| `description` / `error` | `ReactNode` | unset | Associated help and invalid-state text |
+| `disabled` / `readOnly` | `boolean` | `false` | Prevent edits and chip removal |
+| `removeLabel` | `(option: MultiSelectOption) => string` | `"Remove {option.label}"` | Accessible name for each chip remove button |
+| `container` | `Combobox.Portal.Props["container"]` | field root | Portal host; default retains nested theme |
+| `classNames` | `ClassNames<MultiSelectSlot>` | unset | Extra classes for inner parts |
+
+```tsx
+import { useState } from "react";
+import { MultiSelect } from "@kbui/react";
+
+const scopes = [
+  { value: "payments:read", label: "Payments read" },
+  { value: "webhooks:manage", label: "Webhooks" },
+  { value: "reporting:export", label: "Reporting export" },
+];
+
+export function ScopeMultiSelect() {
+  const [selected, setSelected] = useState<string[]>(["payments:read"]);
+  return (
+    <MultiSelect
+      label="API scopes"
+      options={scopes}
+      value={selected}
+      onValueChange={setSelected}
+      placeholder="Filter scopes..."
+    />
+  );
+}
+```
+
 ## Switch
 
 Use Switch for a preference that takes effect as soon as it changes. Pass `checked` and update it in `onCheckedChange`; your app handles saving and form reset. Switch uses a labelled native checkbox with `role="switch"`. Use Checkbox when people are selecting items instead.

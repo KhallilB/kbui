@@ -15,6 +15,12 @@ export { Card, type CardProps } from "./components/Card/Card";
 export { Checkbox, type CheckboxProps } from "./components/Checkbox/Checkbox";
 export { Code, type CodeProps } from "./components/Code/Code";
 export {
+  Combobox,
+  type ComboboxOption,
+  type ComboboxProps,
+  type ComboboxSlot,
+} from "./components/Combobox/Combobox";
+export {
   Container,
   type ContainerElement,
   type ContainerProps,
@@ -56,6 +62,12 @@ export {
   type MenuProps,
   type MenuTriggerProps,
 } from "./components/Menu/Menu";
+export {
+  MultiSelect,
+  type MultiSelectOption,
+  type MultiSelectProps,
+  type MultiSelectSlot,
+} from "./components/MultiSelect/MultiSelect";
 export {
   NumberField,
   type NumberFieldProps,

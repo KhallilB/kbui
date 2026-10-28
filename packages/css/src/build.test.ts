@@ -264,4 +264,21 @@ describe("buildCss", () => {
     expect(await readdir(out)).not.toContain("stale.css");
     await rm(out, { recursive: true, force: true });
   });
+
+  test("combobox and multiselect stylesheets reference only defined tokens and include reduced-motion and forced-colors rules", async () => {
+    const bundled = await readFile(join(dist, "styles.css"), "utf8");
+    const definedVars = new Set(
+      [...bundled.matchAll(/(--kb-[a-z0-9-]+)\s*:/g)].map((match) => match[1]),
+    );
+    for (const file of ["combobox.css", "multiselect.css"]) {
+      const css = await readFile(join(src, "components", file), "utf8");
+      expect(css).toContain("@media (prefers-reduced-motion: reduce)");
+      expect(css).toContain("@media (forced-colors: active)");
+      const usedVars = [...css.matchAll(/var\((--kb-[a-z0-9-]+)/g)].map((match) => match[1]);
+      expect(usedVars.length).toBeGreaterThan(0);
+      for (const tokenVar of usedVars) {
+        expect(definedVars.has(tokenVar)).toBe(true);
+      }
+    }
+  });
 });

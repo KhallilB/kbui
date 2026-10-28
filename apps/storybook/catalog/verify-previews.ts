@@ -138,7 +138,15 @@ try {
             };
           });
           const isLayout = ["grid", "panel", "scrollarea"].includes(entry.id);
-          const isSurface = ["input", "select", "card", "callout", "progress"].includes(entry.id);
+          const isSurface = [
+            "input",
+            "select",
+            "combobox",
+            "multiselect",
+            "card",
+            "callout",
+            "progress",
+          ].includes(entry.id);
           if (isLayout) {
             if (Math.abs(alignment.left - 16) > 1 || Math.abs(alignment.top - 16) > 1)
               throw new Error(`Layout lost start alignment: ${JSON.stringify(alignment)}`);
@@ -157,6 +165,8 @@ try {
           if (alignment.text === "center") throw new Error("Example text became center-aligned");
           const fluidSelectors: Record<string, string> = {
             input: ".kb-input",
+            combobox: ".kb-combobox",
+            multiselect: ".kb-multiselect",
             card: ".kb-card",
             callout: ".kb-callout",
             progress: ".kb-progress",
@@ -207,6 +217,8 @@ try {
           const reserves: Record<string, number> = {
             dialog: 360,
             select: 240,
+            combobox: 240,
+            multiselect: 240,
             menu: 240,
             tooltip: 160,
             panel: 160,

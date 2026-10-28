@@ -299,6 +299,16 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-select-popup-min-width: 10rem;
   --kb-select-max-height: 20rem;
   --kb-select-layer: 50;
+  --kb-combobox-popup-min-width: 12rem;
+  --kb-combobox-max-height: 20rem;
+  --kb-combobox-layer: 50;
+  --kb-combobox-action-size: 1.75rem;
+  --kb-multiselect-popup-min-width: 12rem;
+  --kb-multiselect-max-height: 20rem;
+  --kb-multiselect-layer: 50;
+  --kb-multiselect-chip-gap: var(--kb-space-1);
+  --kb-multiselect-chip-radius: var(--kb-radius-sm);
+  --kb-multiselect-action-size: 1.75rem;
   --kb-switch-width: 78px;
   --kb-switch-height: 44px;
   --kb-switch-inset: 4px;

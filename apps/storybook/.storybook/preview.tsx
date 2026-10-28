@@ -78,7 +78,9 @@ const preview: Preview = {
         "scrollarea",
       ].includes(component ?? "")
         ? "layout"
-        : ["input", "select", "card", "callout", "progress"].includes(component ?? "")
+        : ["input", "select", "combobox", "multiselect", "card", "callout", "progress"].includes(
+              component ?? "",
+            )
           ? "surface"
           : "compact";
       return (

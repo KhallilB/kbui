@@ -4,8 +4,10 @@ import { describe, expect, test } from "vitest";
 import {
   Callout,
   Checkbox,
+  Combobox,
   FileInput,
   Input,
+  MultiSelect,
   NumberField,
   Progress,
   RadioGroup,
@@ -71,6 +73,34 @@ const cases: [string, () => ReactElement][] = [
         description="d"
         error="e"
         value={null}
+        options={[{ value: "a", label: "A" }]}
+        onValueChange={() => {}}
+        classNames={every}
+      />
+    ),
+  ],
+  [
+    "combobox",
+    () => (
+      <Combobox
+        label="L"
+        description="d"
+        error="e"
+        value="a"
+        options={[{ value: "a", label: "A" }]}
+        onValueChange={() => {}}
+        classNames={every}
+      />
+    ),
+  ],
+  [
+    "multiselect",
+    () => (
+      <MultiSelect
+        label="L"
+        description="d"
+        error="e"
+        value={["a"]}
         options={[{ value: "a", label: "A" }]}
         onValueChange={() => {}}
         classNames={every}

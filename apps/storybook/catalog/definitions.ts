@@ -16,6 +16,14 @@ export const definitions: Record<string, Definition> = {
     group: "Forms",
     description: "Let people select options independently, including a mixed selection.",
   },
+  Combobox: {
+    group: "Forms",
+    description: "Search and choose one option from a longer list.",
+  },
+  MultiSelect: {
+    group: "Forms",
+    description: "Search a list and keep multiple selections visible as removable chips.",
+  },
   RadioGroup: { group: "Forms", description: "Choose one option from a visible group." },
   Select: { group: "Forms", description: "Choose one option from a dropdown list." },
   Badge: {

@@ -1,10 +1,10 @@
 # Forms and overlays
 
-Field APIs (`Select`, `Checkbox`, `RadioGroup`, `Switch`) live in the [React API](../../packages/react/README.md). This guide covers what spans components: theme hosts for portaled popups, structured dialogs, surface tokens and the accessibility contracts the shared suite checks.
+Field APIs (`Select`, `Combobox`, `MultiSelect`, `Checkbox`, `RadioGroup`, `Switch`) live in the [React API](../../packages/react/README.md). This guide covers what spans components: theme hosts for portaled popups, structured dialogs, surface tokens and the accessibility contracts the shared suite checks.
 
 ## Theme hosts and portals
 
-Set tokens on a stable theme wrapper. Select mounts its popup inside its own root, so nested themes reach it. Dialog, `Menu.Content` and Tooltip mount on `document.body` by default; pass the wrapper as `container` when colors or timing live on a nested element:
+Set tokens on a stable theme wrapper. `Select`, `Combobox` and `MultiSelect` mount their popups inside their own root, so nested themes reach them. Dialog, `Menu.Content` and Tooltip mount on `document.body` by default; pass the wrapper as `container` when colors or timing live on a nested element:
 
 ```tsx
 import { useRef } from "react";
