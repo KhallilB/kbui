@@ -146,11 +146,21 @@ test("ordinary gate exposes named build and validation steps without losing chec
     { name: "Check examples", run: "bun run --filter @kbui/storybook verify:code" },
     { name: "Run tests", run: "bun run test" },
     { name: "Check packages", run: "bun run test:pack" },
+    { name: "Test consumer", run: "bun run test:consumer" },
     {
       name: "Build Storybook",
       run: "bun run --cwd apps/storybook build-storybook --output-dir dist/storybook",
     },
   ]);
+});
+
+test("PR consumer validation uses the local check without npm publishing", () => {
+  const manifest = JSON.parse(readFileSync(`${root}/package.json`, "utf8"));
+  expect(manifest.scripts["test:consumer"]).toBe("bun scripts/check-consumer.ts");
+  expect(manifest.scripts.check).toEndWith("&& bun run test:consumer");
+  expect(JSON.stringify(workflow("ci").jobs)).not.toMatch(/\bnpm publish\b/);
+  expect(workflow("release").on.push.branches).toEqual(["main"]);
+  expect(workflow("release").on.pull_request).toBeUndefined();
 });
 
 test("deployment workflow runs only on main and excludes Markdown-only pushes", () => {

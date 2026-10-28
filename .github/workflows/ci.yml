@@ -39,6 +39,8 @@ jobs:
         run: bun run test
       - name: Check packages
         run: bun run test:pack
+      - name: Test consumer
+        run: bun run test:consumer
       - name: Build Storybook
         if: steps.scope.outputs.browser != 'true'
         run: bun run --cwd apps/storybook build-storybook --output-dir dist/storybook
