@@ -53,7 +53,7 @@ bun run check            # build, lint, types, examples, unit and package checks
 | [Using kbui in a project](docs/guides/using-kbui.md) | Installing, theming, updating and troubleshooting |
 | [Restyling kbui](docs/guides/restyling.md) | Style components with your own classes or Tailwind; tokens for app-wide changes |
 | [Adding a component](docs/guides/adding-a-component.md) | The generator, styles, tests and stories |
-| [Forms and overlays](docs/guides/forms-and-overlays.md) | Theme hosts for popups, structured dialogs, surface tokens and accessibility checks |
+| [Forms and overlays](docs/guides/forms-and-overlays.md) | Form sections, action rows, error summaries, theme hosts for popups, structured dialogs, surface tokens and accessibility checks |
 
 ## License
 

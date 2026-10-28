@@ -1,0 +1,83 @@
+/* Anatomy: .kb-errorsummary > .kb-errorsummary-title, .kb-errorsummary-description, .kb-errorsummary-list > .kb-errorsummary-item > .kb-errorsummary-link */
+.kb-errorsummary {
+  display: grid;
+  gap: var(--kb-errorsummary-gap);
+  min-inline-size: 0;
+  padding: var(--kb-errorsummary-padding);
+  border: 1px solid var(--kb-color-danger);
+  border-inline-start-width: var(--kb-space-1);
+  border-radius: var(--kb-errorsummary-radius);
+  background: color-mix(in oklab, var(--kb-color-danger) 8%, transparent);
+  color: var(--kb-color-fg);
+}
+.kb-errorsummary:focus,
+.kb-errorsummary:focus-visible {
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: 2px;
+}
+.kb-errorsummary-title {
+  margin: 0;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+  font-family: var(--kb-font-sans);
+  font-size: var(--kb-text-control-size);
+  font-weight: var(--kb-font-weight-strong);
+  line-height: var(--kb-heading-leading);
+  color: var(--kb-color-fg);
+}
+.kb-errorsummary-description {
+  margin: 0;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+  font-size: var(--kb-text-small-size);
+  line-height: var(--kb-text-leading-body);
+  color: var(--kb-color-muted);
+}
+.kb-errorsummary-list {
+  display: grid;
+  gap: var(--kb-space-1);
+  margin: 0;
+  padding-inline-start: var(--kb-space-4);
+  font-size: var(--kb-text-small-size);
+  line-height: var(--kb-text-leading-body);
+}
+.kb-errorsummary-item {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+  color: var(--kb-color-danger);
+}
+.kb-errorsummary-link {
+  color: var(--kb-color-danger);
+  font-weight: var(--kb-font-weight-medium);
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
+  border-radius: var(--kb-radius-sm);
+}
+.kb-errorsummary-link:hover {
+  color: var(--kb-color-fg);
+}
+.kb-errorsummary-link:focus-visible {
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: 2px;
+}
+@media (forced-colors: active) {
+  .kb-errorsummary {
+    background: Canvas;
+    color: CanvasText;
+    border-color: CanvasText;
+  }
+  .kb-errorsummary:focus,
+  .kb-errorsummary:focus-visible,
+  .kb-errorsummary-link:focus-visible {
+    outline-color: Highlight;
+  }
+  .kb-errorsummary-title,
+  .kb-errorsummary-description,
+  .kb-errorsummary-item {
+    color: CanvasText;
+  }
+  .kb-errorsummary-link,
+  .kb-errorsummary-link:hover {
+    color: LinkText;
+  }
+}

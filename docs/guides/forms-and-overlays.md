@@ -1,6 +1,12 @@
 # Forms and overlays
 
-Field APIs (`Select`, `Checkbox`, `RadioGroup`, `Switch`) live in the [React API](../../packages/react/README.md). This guide covers what spans components: theme hosts for portaled popups, structured dialogs, surface tokens and the accessibility contracts the shared suite checks.
+Field and form APIs (`Input`, `Textarea`, `Fieldset`, `FormActions`, `ErrorSummary`, `Select`, `Checkbox`, `RadioGroup`, `Switch`, `NumberField`, `FileInput`) live in the [React API](../../packages/react/README.md). This guide covers what spans components: form grouping and error recovery, theme hosts for portaled popups, structured dialogs, surface tokens and the accessibility contracts the shared suite checks.
+
+## Form grouping and validation recovery
+
+Group related fields with `Fieldset` so native `fieldset` and `legend` semantics stay intact for assistive technology and group-level `disabled` states propagate automatically. Place `FormActions` at the end of a form or section to align submit, reset and secondary buttons in natural Tab order without toolbar arrow-key navigation.
+
+When submission fails, render `ErrorSummary` at the top of the form and focus its container ref so keyboard and screen-reader users hear the summary immediately. Pair each summary link (`href="#field-id"`) with the matching `id` and inline `error` message on the invalid control.
 
 ## Theme hosts and portals
 

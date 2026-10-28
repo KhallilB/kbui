@@ -26,7 +26,19 @@ export function previewLayout(component: string, _story: string) {
   if (["grid", "container", "inline", "split"].includes(component))
     return { width: 1120, minimum: 160 };
   if (component === "panel") return { width: 1120, minimum: 160 };
-  if (["input", "card", "callout", "progress", "scrollarea"].includes(component))
+  if (
+    [
+      "input",
+      "textarea",
+      "fieldset",
+      "formactions",
+      "errorsummary",
+      "card",
+      "callout",
+      "progress",
+      "scrollarea",
+    ].includes(component)
+  )
     return { width: 1120, minimum: 96 };
   return { width: 520, minimum: 96 };
 }

@@ -138,7 +138,17 @@ try {
             };
           });
           const isLayout = ["grid", "panel", "scrollarea"].includes(entry.id);
-          const isSurface = ["input", "select", "card", "callout", "progress"].includes(entry.id);
+          const isSurface = [
+            "input",
+            "textarea",
+            "fieldset",
+            "formactions",
+            "errorsummary",
+            "select",
+            "card",
+            "callout",
+            "progress",
+          ].includes(entry.id);
           if (isLayout) {
             if (Math.abs(alignment.left - 16) > 1 || Math.abs(alignment.top - 16) > 1)
               throw new Error(`Layout lost start alignment: ${JSON.stringify(alignment)}`);
@@ -157,6 +167,10 @@ try {
           if (alignment.text === "center") throw new Error("Example text became center-aligned");
           const fluidSelectors: Record<string, string> = {
             input: ".kb-input",
+            textarea: ".kb-textarea",
+            fieldset: ".kb-fieldset",
+            formactions: ".kb-formactions",
+            errorsummary: ".kb-errorsummary",
             card: ".kb-card",
             callout: ".kb-callout",
             progress: ".kb-progress",
