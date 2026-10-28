@@ -8,7 +8,7 @@ Projects install kbui from package tarballs attached to a [GitHub Release](https
 
    <!-- x-release-please-start-version -->
    ```bash
-   bun add @kb.ui/react@0.10.1
+   bun add @kb.ui/react@0.10.2
    ```
    <!-- x-release-please-end -->
 

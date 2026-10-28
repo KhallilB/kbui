@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.10.2](https://github.com/KhallilB/kbui/compare/v0.10.1...v0.10.2) (2026-10-28)
+
+
+### Bug Fixes
+
+* **release:** publish local tarballs and safely retry releases ([b26e839](https://github.com/KhallilB/kbui/commit/b26e8394758a7d604a6880680c5ff3eb305fbeff))
+* **release:** publish local tarballs and safely retry releases ([80a5f95](https://github.com/KhallilB/kbui/commit/80a5f957b44a42a8a9d7cf0b3bf67fc4ab8990bc))
+
 ## [0.10.1](https://github.com/KhallilB/kbui/compare/v0.10.0...v0.10.1) (2026-10-28)
 
 
