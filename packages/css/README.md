@@ -26,6 +26,10 @@ The first line of each stylesheet describes the markup it expects. The table sho
 
 | File | Expected markup |
 |---|---|
+| `container.css` | `.kb-container` with `data-size` (`sm`, `md`, `lg`, `full`) and optional `data-gutter="none"` |
+| `inline.css` | `.kb-inline` with `data-gap`, `data-align` and `data-justify`; wraps in source order |
+| `split.css` | `.kb-split` with `data-ratio`, `data-collapse`, `data-gap` and `data-align`; two `.kb-split-track` children containing the column content |
+| `separator.css` | Native hr with `.kb-separator` and `data-orientation`; decorative rules need aria-hidden and role none |
 | `heading.css` | Native heading with `.kb-heading` and `data-size` (`sm`, `md`, `lg`, `xl`, `display`); rank follows document outline |
 | `text.css` | `p`, `span` or `div` with `.kb-text`, `data-size` (`sm`, `md`, `lg`) and `data-tone` (`default`, `muted`) |
 | `link.css` | Native anchor with href and `.kb-link`; underline and visible keyboard focus |
@@ -51,3 +55,5 @@ The tests check that each component file starts with its `Anatomy:` line and sty
 [Adding a component](../../docs/guides/adding-a-component.md) describes the anatomy contract and its checks.
 
 [Typography](../../docs/guides/typography.md) covers hierarchy, composition, plain HTML recipes and theme tokens.
+
+See [Layout composition](../../docs/guides/layout.md) for widths, gutters, collapse thresholds and plain HTML recipes.

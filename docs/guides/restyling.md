@@ -16,7 +16,7 @@ Pass a class with `className`. It lands on the component's root element:
 .checkout { background: #0b6e4f; border-radius: 999px; }
 ```
 
-Components with inner parts also take `classNames`, keyed by part. The props type lists every part, so your editor completes the names:
+Components with inner parts also take `classNames`, keyed by part. Split uses `classNames={{ track: "project-column" }}` for its column tracks. The props type lists every part, so your editor completes the names:
 
 ```tsx
 <Input label="Email" classNames={{ control: "signup-input", label: "signup-label" }} />

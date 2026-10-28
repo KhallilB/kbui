@@ -15,6 +15,12 @@ export { Card, type CardProps } from "./components/Card/Card";
 export { Checkbox, type CheckboxProps } from "./components/Checkbox/Checkbox";
 export { Code, type CodeProps } from "./components/Code/Code";
 export {
+  Container,
+  type ContainerElement,
+  type ContainerProps,
+  type ContainerSize,
+} from "./components/Container/Container";
+export {
   Dialog,
   type DialogActionsProps,
   type DialogCloseProps,
@@ -35,6 +41,12 @@ export {
   type HeadingProps,
   type HeadingSize,
 } from "./components/Heading/Heading";
+export {
+  Inline,
+  type InlineElement,
+  type InlineJustify,
+  type InlineProps,
+} from "./components/Inline/Inline";
 export { Input, type InputProps, type InputSize } from "./components/Input/Input";
 export { Link, type LinkProps } from "./components/Link/Link";
 export {
@@ -72,6 +84,18 @@ export {
 } from "./components/RadioGroup/RadioGroup";
 export { ScrollArea, type ScrollAreaProps } from "./components/ScrollArea/ScrollArea";
 export { Select, type SelectOption, type SelectProps } from "./components/Select/Select";
+export {
+  Separator,
+  type SeparatorOrientation,
+  type SeparatorProps,
+} from "./components/Separator/Separator";
+export {
+  Split,
+  type SplitCollapse,
+  type SplitElement,
+  type SplitProps,
+  type SplitRatio,
+} from "./components/Split/Split";
 export { Stat, type StatProps, type StatSize } from "./components/Stat/Stat";
 export {
   Status,
@@ -95,3 +119,4 @@ export {
 } from "./components/Toolbar/Toolbar";
 export { Tooltip, type TooltipProps } from "./components/Tooltip/Tooltip";
 export { type ClassNames, kb } from "./utils/kb";
+export type { LayoutAlign, LayoutGap } from "./utils/layout";

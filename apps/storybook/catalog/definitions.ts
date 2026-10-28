@@ -5,6 +5,13 @@ type Definition = {
   description: string;
 };
 export const definitions: Record<string, Definition> = {
+  Split: { group: "Layout", description: "Two columns that stack when their parent narrows." },
+  Separator: {
+    group: "Layout",
+    description: "Semantic or decorative horizontal and vertical rules.",
+  },
+  Inline: { group: "Layout", description: "Wrapping rows with shared spacing and alignment." },
+  Container: { group: "Layout", description: "Shared page widths and responsive gutters." },
   Checkbox: {
     group: "Forms",
     description: "Let people select options independently, including a mixed selection.",
