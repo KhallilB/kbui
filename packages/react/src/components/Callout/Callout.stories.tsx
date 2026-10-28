@@ -16,7 +16,10 @@ const meta = {
   title: "Components/Callout",
   component: Callout,
   tags: ["autodocs"],
-  args: { title: "Needs an answer", children: "Overwrite src/policy.rs?" },
+  args: {
+    title: "A file with this name already exists",
+    children: "Choose whether to replace the existing file or keep both versions.",
+  },
   argTypes: {
     tone: { control: "select", options: ["neutral", "info", "success", "warning", "danger"] },
   },

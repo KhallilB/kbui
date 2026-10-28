@@ -28,6 +28,7 @@ export const Confirm: Story = {
 };
 
 export const Open: Story = {
+  tags: ["!autodocs"],
   play: async ({ canvasElement }) => {
     const popup = await waitFor(() => {
       const node = canvasElement.ownerDocument.querySelector<HTMLElement>(".kb-dialog-popup");
@@ -54,6 +55,7 @@ export const Open: Story = {
 };
 
 export const CustomLayout: Story = {
+  tags: ["!autodocs"],
   render: () => (
     <Dialog defaultOpen>
       <Dialog.Content>
@@ -123,6 +125,7 @@ export const TokenOverrides: Story = {
 };
 
 export const Sections: Story = {
+  tags: ["!autodocs"],
   render: () => (
     <Dialog defaultOpen>
       <Dialog.Content

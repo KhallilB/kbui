@@ -2,6 +2,8 @@ import releases from "virtual:kbui-changelog";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Changelog } from "../site/Changelog";
+import { releaseHeadline } from "../site/changelog-model";
+import { releaseNotes } from "../site/release-notes";
 
 const [latest, previous] = releases;
 if (!latest || !previous) throw new Error("Changelog stories need two releases");
@@ -21,7 +23,7 @@ type Story = StoryObj<typeof meta>;
 export const Browse: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    expect(canvas.getByRole("heading", { level: 1 })).toHaveTextContent("What changed lately.");
+    expect(canvas.getByRole("heading", { level: 1 })).toHaveTextContent("What's new in kbui.");
     expect(canvas.getByRole("link", { name: /What's new/ })).toHaveAttribute(
       "href",
       "../changelog/",
@@ -34,11 +36,19 @@ export const Browse: Story = {
         "href",
         `../components/?component=${name.toLowerCase()}`,
       );
-    for (const text of [...latest.breaking, ...latest.improvements, ...latest.fixes])
+    expect(canvas.queryByRole("heading", { name: "Improvements" })).toBeNull();
+    expect(canvas.queryByRole("heading", { name: "Fixes" })).toBeNull();
+    const navigation = within(canvas.getByRole("navigation", { name: "Browse releases" }));
+    for (const item of releases)
+      expect(
+        navigation.getByRole("link", { name: `Version ${item.version}: ${releaseHeadline(item)}` }),
+      ).toHaveAttribute("href", `#v${item.version}`);
+    expect(release.getByRole("heading", { name: releaseHeadline(latest) })).toBeVisible();
+    for (const text of releaseNotes[latest.version]?.highlights ?? [])
       expect(release.getByText(text)).toBeVisible();
     expect(canvas.queryByText(/Install Bun/)).toBeNull();
     if (latest.compareUrl)
-      expect(release.getByRole("link", { name: /Compare on GitHub/ })).toHaveAttribute(
+      expect(release.getByRole("link", { name: /Full history on GitHub/ })).toHaveAttribute(
         "href",
         latest.compareUrl,
       );

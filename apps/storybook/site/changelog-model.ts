@@ -1,3 +1,5 @@
+import { releaseNotes } from "./release-notes.ts";
+
 export type Release = {
   version: string;
   date: string;
@@ -73,29 +75,14 @@ export function parseChangelog(markdown: string, components: readonly string[]):
   return releases;
 }
 
-const plural = (count: number, one: string, many: string) => `${count} ${count === 1 ? one : many}`;
-
-export function releaseHeadline({ components, improvements, fixes }: Changes): string {
+export function releaseHeadline({ components, version }: Changes & { version?: string }): string {
+  const copy = version ? releaseNotes[version] : undefined;
+  if (copy) return copy.title;
   if (components.length) {
     if (components.length === 1) return components[0] ?? "";
     if (components.length === 2) return components.join(" and ");
     if (components.length === 3) return `${components.slice(0, 2).join(", ")} and ${components[2]}`;
     return `${components.slice(0, 3).join(", ")} and ${components.length - 3} more`;
   }
-  if (improvements.length === 1 && !fixes.length) return improvements[0] ?? "";
-  const counts = [
-    improvements.length && plural(improvements.length, "improvement", "improvements"),
-    fixes.length && plural(fixes.length, "fix", "fixes"),
-  ].filter(Boolean);
-  return counts.length ? counts.join(" and ") : "Maintenance";
-}
-
-export function releaseCounts({ components, improvements, fixes }: Changes): string {
-  return [
-    components.length && `${components.length} new`,
-    improvements.length && plural(improvements.length, "improvement", "improvements"),
-    fixes.length && plural(fixes.length, "fix", "fixes"),
-  ]
-    .filter(Boolean)
-    .join(" · ");
+  return "Release notes";
 }

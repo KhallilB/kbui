@@ -7,7 +7,7 @@ export type ButtonSize = "sm" | "md" | "lg" | "icon";
 type ButtonBaseProps = Omit<Base.Props, "className"> & {
   /** Plain class string; Base UI's function form is not supported. */
   className?: string;
-  /** Visual weight. */
+  /** Action emphasis: primary main, secondary supporting, ghost quiet, danger destructive. */
   variant?: ButtonVariant;
 };
 

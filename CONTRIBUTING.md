@@ -52,6 +52,8 @@ Each visible story should teach a distinct use, variant, or meaningful state. Us
 
 Storybook chrome and Docs read the package palette from `.storybook/theme.ts`; do not copy color values into manager overrides. Docs styling stays scoped to documentation classes so it cannot restyle the components being demonstrated. `verify:storybook` checks the built manager, curated navigation, retained QA URLs, and synchronized System/Light/Dark themes. It runs as part of `validate:site`.
 
+Each component has a named API section in `packages/react/README.md` and usage/accessibility guidance in `apps/storybook/catalog/component-guides.ts`. Storybook reads the canonical API tables through `virtual:kbui-reference`; edit that source instead of copying types into a Docs page. Keep primary examples practical and compilable. Stories that render an already-open modal need `!autodocs` so reading a page never launches a dialog; keep them reachable in the canvas. `verify:component-docs` checks every component in both themes, mobile layouts, editable controls, and dialog focus as part of site validation.
+
 Run `bun run --filter @kbui/storybook dev:internal` to inspect those fixtures at http://localhost:6008. Browser test commands opt into the same internal scope with `KBUI_STORYBOOK_INTERNAL=1`. Keep validation fixtures while they protect unique behavior; delete one only after equivalent coverage exists elsewhere. Do not remove tests just to tidy navigation. `build:site` rejects internal stories in its public index and verifies every catalog link. `validate:site` builds a separate temporary QA Storybook for built control-edge checks, then removes it; deployment staging contains only public docs. Set `SITE_VALIDATION_PORT` when local ports 4175/4176 are occupied; QA uses the next port.
 
 ## Component conventions
@@ -94,6 +96,8 @@ Review usage, migration guidance and component API documentation whenever behavi
 Commit subjects on `main` set the next version: `fix` raises the patch, `feat` the minor, and a breaking change (`feat!:` or a `BREAKING CHANGE:` footer) the minor until 1.0. Merge pull requests by rebase, or squash with a conventional title, so subjects and footers reach `main` intact.
 
 release-please keeps a release PR open on `main`. Merging it releases: the release workflow checks the tag and attaches a tarball per package. Do not edit versions or `CHANGELOG.md` by hand. A new published package needs an `extra-files` entry in `release-please-config.json`; `bun run test` fails without it.
+
+When a release PR adds a version, add a short public title and highlights in `apps/storybook/site/release-notes.ts`. Keep required migration steps in its `upgrade` list. The site shows this edited copy; generated commit categories and internal work stay in the source history. `release-notes.test.ts` requires a public summary for every published version and upgrade notes for breaking changes, so a version bump cannot silently leave the public notes behind.
 
 ## Private documentation
 

@@ -1,8 +1,9 @@
 import releases from "virtual:kbui-changelog";
 import { Badge } from "@kbui/react";
 import { useEffect } from "react";
-import { type Release, releaseCounts, releaseHeadline } from "./changelog-model";
+import { type Release, releaseHeadline } from "./changelog-model";
 import { LinkArrow } from "./LinkArrow";
+import { releaseNotes } from "./release-notes";
 import { SiteFrame } from "./SiteFrame";
 import "./changelog.css";
 
@@ -30,10 +31,34 @@ function ChangeList({ title, items, tone }: { title: string; items: string[]; to
   );
 }
 
-function ReleaseChanges({ release, siteRoot }: { release: Release; siteRoot: string }) {
+function ReleaseChanges({
+  release,
+  siteRoot,
+  latest = false,
+}: {
+  release: Release;
+  siteRoot: string;
+  latest?: boolean;
+}) {
+  const copy = releaseNotes[release.version];
   return (
     <>
-      <ChangeList title="Breaking changes" items={release.breaking} tone="breaking" />
+      {latest && <h3 className="release-title">{releaseHeadline(release)}</h3>}
+      {copy && (
+        <ul
+          className="change-list release-highlights"
+          aria-label={`Highlights in ${release.version}`}
+        >
+          {copy.highlights.map((text) => (
+            <li key={text}>{text}</li>
+          ))}
+        </ul>
+      )}
+      <ChangeList
+        title="Before you upgrade"
+        items={copy?.upgrade ?? release.breaking}
+        tone="breaking"
+      />
       {release.components.length > 0 && (
         <div className="change-group">
           <h3>New components</h3>
@@ -48,14 +73,10 @@ function ReleaseChanges({ release, siteRoot }: { release: Release; siteRoot: str
           </ul>
         </div>
       )}
-      <ChangeList title="Improvements" items={release.improvements} />
-      <ChangeList title="Fixes" items={release.fixes} />
-      {!releaseCounts(release) && !release.breaking.length && (
-        <p className="release-quiet">Internal maintenance only.</p>
-      )}
+      {!copy && <p className="release-quiet">See the full history for this release on GitHub.</p>}
       {release.compareUrl && (
         <a className="compare-link" href={release.compareUrl}>
-          Compare on GitHub <LinkArrow />
+          Full history on GitHub <LinkArrow />
         </a>
       )}
     </>
@@ -92,12 +113,26 @@ export function Changelog({
     >
       <main id="main" className="inner-page">
         <div className="page-heading">
-          <p className="page-kicker">Changelog</p>
+          <p className="page-kicker">Release notes</p>
           <h1>
-            What changed <em>lately.</em>
+            What's new <em>in kbui.</em>
           </h1>
-          <p>Every release, newest first. New components open in the catalog.</p>
+          <p>
+            A short guide to each release. Choose a version, or explore the latest changes below.
+          </p>
         </div>
+        <nav className="release-navigation" aria-label="Browse releases">
+          {releases.map((release) => (
+            <a
+              key={release.version}
+              href={`#${releaseAnchor(release.version)}`}
+              aria-label={`Version ${release.version}: ${releaseHeadline(release)}`}
+              title={releaseHeadline(release)}
+            >
+              {release.version}
+            </a>
+          ))}
+        </nav>
         <div className="release-list">
           {releases.map((release, index) => {
             const anchor = releaseAnchor(release.version);
@@ -118,13 +153,12 @@ export function Changelog({
                 </div>
                 {index === 0 ? (
                   <div className="release-card">
-                    <ReleaseChanges release={release} siteRoot={siteRoot} />
+                    <ReleaseChanges release={release} siteRoot={siteRoot} latest />
                   </div>
                 ) : (
                   <details className="release-card">
                     <summary>
                       <span className="release-headline">{releaseHeadline(release)}</span>
-                      <span className="release-counts">{releaseCounts(release)}</span>
                     </summary>
                     <ReleaseChanges release={release} siteRoot={siteRoot} />
                   </details>

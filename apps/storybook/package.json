@@ -14,6 +14,7 @@
     "preview:site": "vite preview --config vite.site.config.ts --host 127.0.0.1 --port 4174 --strictPort",
     "verify:catalog": "bun catalog/verify.ts",
     "verify:storybook": "bun catalog/verify-storybook.ts",
+    "verify:component-docs": "bun catalog/verify-component-docs.ts",
     "verify:previews": "node --experimental-strip-types catalog/verify-previews.ts",
     "verify:release": "node --experimental-strip-types catalog/verify-release.ts",
     "verify:controls": "node --experimental-strip-types catalog/verify-control-edges.ts",

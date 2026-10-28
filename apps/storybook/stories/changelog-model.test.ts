@@ -1,7 +1,7 @@
 import { expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { definitions } from "../catalog/definitions";
-import { parseChangelog, releaseCounts, releaseHeadline } from "../site/changelog-model";
+import { parseChangelog, releaseHeadline } from "../site/changelog-model";
 
 const components = ["Card", "Checkbox", "Grid", "Input", "NumberField", "FileInput", "Status"];
 const sha = (id: string) => ` ([${id}](https://github.com/KhallilB/kbui/commit/${id}0000))`;
@@ -73,7 +73,7 @@ test("changes group by meaning and drop scopes, hashes, duplicates and internal 
   });
 });
 
-test("release headline names new components before counting other changes", () => {
+test("release headline keeps component names as the fallback instead of technical counts", () => {
   const release = { breaking: [], improvements: [], fixes: [] };
   expect(releaseHeadline({ ...release, components: ["Card"] })).toBe("Card");
   expect(releaseHeadline({ ...release, components: ["Card", "Grid"] })).toBe("Card and Grid");
@@ -81,25 +81,10 @@ test("release headline names new components before counting other changes", () =
     releaseHeadline({ ...release, components: ["Checkbox", "Select", "Switch", "RadioGroup"] }),
   ).toBe("Checkbox, Select, Switch and 1 more");
   expect(releaseHeadline({ ...release, components: [], improvements: ["Faster menus"] })).toBe(
-    "Faster menus",
+    "Release notes",
   );
-  expect(
-    releaseHeadline({ ...release, components: [], improvements: ["A", "B"], fixes: ["C"] }),
-  ).toBe("2 improvements and 1 fix");
-  expect(releaseHeadline({ ...release, components: [], fixes: ["C", "D"] })).toBe("2 fixes");
-  expect(releaseHeadline({ ...release, components: [] })).toBe("Maintenance");
-});
-
-test("release counts summarize collapsed releases", () => {
-  const release = { breaking: [], components: [], improvements: [], fixes: [] };
-  expect(releaseCounts({ ...release, components: ["Card", "Grid"], fixes: ["A"] })).toBe(
-    "2 new · 1 fix",
-  );
-  expect(releaseCounts({ ...release, improvements: ["A", "B"], fixes: ["C", "D"] })).toBe(
-    "2 improvements · 2 fixes",
-  );
-  expect(releaseCounts({ ...release, improvements: ["A"] })).toBe("1 improvement");
-  expect(releaseCounts(release)).toBe("");
+  expect(releaseHeadline({ ...release, components: [], fixes: ["C", "D"] })).toBe("Release notes");
+  expect(releaseHeadline({ ...release, components: [] })).toBe("Release notes");
 });
 
 test("repository changelog parses every release against the catalog", () => {

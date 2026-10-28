@@ -1,3 +1,4 @@
+import references from "virtual:kbui-reference";
 import {
   Controls,
   Description,
@@ -10,7 +11,7 @@ import {
 } from "@storybook/addon-docs/blocks";
 import { type PropsWithChildren, useEffect, useLayoutEffect, useState } from "react";
 import { GLOBALS_UPDATED } from "storybook/internal/core-events";
-import { definitions } from "../catalog/definitions";
+import type { ComponentReference } from "../catalog/types";
 import { readThemePreference, type ThemePreference } from "../site/site-theme";
 import { referencePreference, resolveTheme, storybookThemes } from "./theme";
 
@@ -79,18 +80,164 @@ export function ReferenceDocs({ children, context }: PropsWithChildren<DocsConta
 export function ReferencePage() {
   const { preparedMeta } = useOf("meta");
   const name = preparedMeta.title.split("/").at(-1) ?? "";
+  const reference = references[name];
+  const { story } = useOf("story");
+  const controls = Object.entries(story.argTypes)
+    .filter(([key, field]) => {
+      if (
+        ["className", "classNames", "style", "ref", "render", "value", "checked", "items"].includes(
+          key,
+        )
+      )
+        return false;
+      if (story.initialArgs[key] !== null && typeof story.initialArgs[key] === "object")
+        return false;
+      const control = field.control;
+      return control && (typeof control !== "object" || !["object", "file"].includes(control.type));
+    })
+    .map(([key]) => key);
+  if (!reference)
+    return (
+      <>
+        <Title />
+        <Description />
+        <Primary />
+        <Controls />
+        <Stories includePrimary={false} />
+      </>
+    );
   return (
     <>
       <p className="reference-kicker">Component reference</p>
       <Title />
-      {definitions[name] ? (
-        <p className="reference-description">{definitions[name].description}</p>
-      ) : (
-        <Description />
-      )}
-      <Primary />
-      <Controls />
-      <Stories title="Examples" includePrimary={false} />
+      <p className="reference-description">{reference.description}</p>
+      <p className="reference-use">{reference.guide.use}</p>
+      <nav className="reference-sections" aria-label={`${name} on this page`}>
+        <a href="#reference-preview">Example</a>
+        <a href="#reference-props">Props & parts</a>
+        <a href="#reference-accessibility">Accessibility</a>
+        <a href="#reference-examples">More examples</a>
+      </nav>
+      <section
+        id="reference-preview"
+        className="reference-section"
+        aria-labelledby="reference-preview-title"
+      >
+        <h2 id="reference-preview-title">{reference.guide.example.title}</h2>
+        <p>{reference.guide.example.description}</p>
+        <Primary />
+        {Object.keys(story.initialArgs).length > 0 && controls.length > 0 && (
+          <details className="reference-controls">
+            <summary>Try the props</summary>
+            <p>
+              Adjust the example’s arguments here. Stateful examples keep their own current value.
+            </p>
+            <Controls include={controls} />
+          </details>
+        )}
+      </section>
+      <section
+        id="reference-props"
+        className="reference-section"
+        aria-labelledby="reference-props-title"
+      >
+        <h2 id="reference-props-title">Props & parts</h2>
+        <ul>
+          {reference.guide.tips.map((tip) => (
+            <li key={tip}>{tip}</li>
+          ))}
+        </ul>
+        <ReferenceProps reference={reference} />
+        <p className="reference-api-note">
+          Types and defaults follow the same{" "}
+          <a
+            href={`https://github.com/KhallilB/kbui/blob/main/packages/react/README.md#${name.toLowerCase()}`}
+          >
+            package reference
+          </a>{" "}
+          used by the component site. Native props remain available where the component supports
+          them.
+        </p>
+      </section>
+      <section
+        id="reference-accessibility"
+        className="reference-section reference-accessibility"
+        aria-labelledby="reference-accessibility-title"
+      >
+        <h2 id="reference-accessibility-title">Accessibility</h2>
+        <ul>
+          {reference.guide.accessibility.map((note) => (
+            <li key={note}>{note}</li>
+          ))}
+        </ul>
+      </section>
+      <section id="reference-examples" className="reference-section">
+        <Stories title="More examples" includePrimary={false} />
+        {name === "Dialog" && (
+          <>
+            <h2>Explore dialog layouts</h2>
+            <p>Inspect open layouts in their own preview so they do not cover these docs.</p>
+            <div className="reference-sections">
+              <a href="./?path=/story/components-dialog--custom-layout" target="_top">
+                Custom title and description
+              </a>
+              <a href="./?path=/story/components-dialog--sections" target="_top">
+                Header, body, and footer
+              </a>
+              <a href="./?path=/story/components-dialog--open" target="_top">
+                Open state
+              </a>
+            </div>
+          </>
+        )}
+      </section>
     </>
+  );
+}
+
+function InlineCode({ text }: { text: string }) {
+  let offset = 0;
+  return text.split(/(`[^`]+`)/g).map((part) => {
+    const key = offset;
+    offset += part.length;
+    return part.startsWith("`") ? <code key={key}>{part.slice(1, -1)}</code> : part;
+  });
+}
+
+function ReferenceProps({ reference }: { reference: ComponentReference }) {
+  return (
+    <div className="reference-api">
+      {reference.tables.map((table) => (
+        <section
+          className="reference-table-scroll"
+          key={table.headers.join("|")}
+          aria-label={`${reference.name} API columns`}
+        >
+          <table>
+            <caption>{reference.name} API</caption>
+            <thead>
+              <tr>
+                {table.headers.map((header) => (
+                  <th scope="col" key={header}>
+                    {header}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {table.rows.map((row) => (
+                <tr key={row.join("|")}>
+                  {row.map((cell, index) => (
+                    <td key={table.headers[index]}>
+                      <InlineCode text={cell} />
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+      ))}
+    </div>
   );
 }

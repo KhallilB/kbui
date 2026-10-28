@@ -11,10 +11,10 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => (
     <Grid>
-      {["First", "Second", "Third"].map((name) => (
+      {["Website refresh", "Mobile checkout", "Help center"].map((name) => (
         <Card key={name}>
           <h2>{name}</h2>
-          <p>Content in equal columns.</p>
+          <p>Review the latest draft and share feedback.</p>
         </Card>
       ))}
     </Grid>
@@ -29,10 +29,10 @@ export const StackedList: Story = {
   render: () => (
     <Grid as="ul" layout="stack" aria-label="Projects">
       <Card as="li" appearance="plain">
-        First
+        Website refresh
       </Card>
       <Card as="li" appearance="plain">
-        Second
+        Mobile checkout
       </Card>
     </Grid>
   ),
@@ -52,7 +52,7 @@ export const Responsive: Story = {
       {[280, 720, 1040].map((width) => (
         <div key={width} style={{ width, maxWidth: "100%" }}>
           <Grid data-testid={`grid-${width}`}>
-            {["First", "Second", "Third"].map((name) => (
+            {["Website refresh", "Mobile checkout", "Help center"].map((name) => (
               <Card key={name}>
                 <h2>{name}</h2>
               </Card>

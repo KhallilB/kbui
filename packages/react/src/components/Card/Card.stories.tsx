@@ -9,8 +9,8 @@ const meta = {
   args: {
     children: (
       <>
-        <h2>Project</h2>
-        <p>A neutral content surface.</p>
+        <h2>Website refresh</h2>
+        <p>Design review is ready. Next, share the draft with your team.</p>
       </>
     ),
   },

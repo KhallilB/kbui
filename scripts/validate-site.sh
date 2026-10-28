@@ -29,6 +29,7 @@ qa_server_pid=$!
 curl --fail --retry 8 --retry-connrefused --retry-delay 1 "http://127.0.0.1:$site_port/" > /dev/null
 curl --fail --retry 8 --retry-connrefused --retry-delay 1 "http://127.0.0.1:$qa_port/storybook/index.json" > /dev/null
 STORYBOOK_URL=http://127.0.0.1:$site_port/storybook bun run --cwd apps/storybook verify:storybook
+STORYBOOK_URL=http://127.0.0.1:$site_port/storybook bun run --cwd apps/storybook verify:component-docs
 CATALOG_PREVIEW_URL=http://127.0.0.1:$site_port bun run --cwd apps/storybook verify:release
 CONTROL_EDGES_URL=http://127.0.0.1:$qa_port/storybook bun run --cwd apps/storybook verify:controls
 

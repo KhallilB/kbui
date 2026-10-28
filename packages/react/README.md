@@ -2,7 +2,7 @@
 
 React components for forms, navigation, feedback, and layout. kbui uses [Base UI](https://base-ui.com) 1.9 for interaction and `@kbui/css` for styling, which this package includes as `@kbui/react/styles.css`. Import the stylesheet once, then use components throughout your app.
 
-Current source defaults use monochrome light/dark surfaces with a persimmon accent and shared tactile materials. Locally built packages include this refresh; published v0.7.0 tarballs keep their original appearance.
+Default themes use monochrome light/dark surfaces, a persimmon accent, and shared tactile materials. This reference follows the source on `main`; check the [release notes](https://github.com/KhallilB/kbui/releases) for the exports available in an installed version.
 
 ```tsx
 import "@kbui/react/styles.css";
@@ -25,11 +25,13 @@ Use a Button for an action such as saving a form or opening a dialog. Choose a v
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
-| `variant` | `"primary" \| "secondary" \| "ghost" \| "danger"` | `"primary"` | How much emphasis the action receives |
-| `size` | `"sm" \| "md" \| "lg" \| "icon"` | `"md"` | Height and padding; icon-only buttons require `aria-label` |
-| `className` | `string` | | Added after `kb-button` |
-| `render` | element | | Renders a different element, such as a link |
-| `disabled` | `boolean` | | Dims the button and blocks interaction |
+| `children` | `ReactNode` | unset | Visible action label, or an icon paired with aria-label |
+| `variant` | `"primary" \| "secondary" \| "ghost" \| "danger"` | `"primary"` | Main, supporting, quiet, or destructive action emphasis |
+| `size` | `sm` / `md` / `lg` / `icon` | `md` | Height and padding; icon is square and requires aria-label |
+| `type` | native button type | `button` | Set submit for form submission; use button for other form actions |
+| `disabled` | `boolean` | `false` | Blocks interaction; explain unavailable actions in nearby text when needed |
+| `render` | element | unset | Use an anchor with nativeButton=false and role=link for navigation |
+| `className` | `string` | unset | Extra classes on the rendered control; function values are not supported |
 
 All props accepted by a native button or Base UI's `Button` also work. To render a link, pass an anchor and tell Base UI it is not a native button:
 
@@ -99,6 +101,15 @@ The field label names the input. Give each action its own accessible name, and h
 | `Dialog.Actions` | Aligns buttons along the bottom right. |
 | `Dialog.Close` | Closes the dialog. |
 
+| Prop on root or Content | Type | Default | Notes |
+|---|---|---|---|
+| `open` on Dialog | `boolean` | uncontrolled | Current visibility when your app controls the dialog |
+| `defaultOpen` on Dialog | `boolean` | `false` | Initial visibility; avoid starting open in a reading surface |
+| `onOpenChange` on Dialog | Base UI callback | unset | Receives the next visibility and change details |
+| `title` on Content | `ReactNode` | unset | Visible title and accessible name; use Dialog.Title for custom markup instead |
+| `description` on Content | `ReactNode` | unset | Supporting description; use Dialog.Description for custom markup instead |
+| `container` on Content | portal container | document body | Themed host for a nested dialog |
+
 ```tsx
 <Dialog>
   <Dialog.Trigger render={<Button />}>Open</Dialog.Trigger>
@@ -129,12 +140,15 @@ Use Panel for a section that needs a header, body, and actions. Its parts help k
 </Panel>
 ```
 
-| Prop | Values | Default |
-|---|---|---|
-| `tone` | `quiet` `default` `sunken` `active` `critical` | `default` |
-| `rail` | `none` `accent` `status` | `none` |
-| `density` | `compact` `standard` | `standard` |
-| `collapsible`, `open`, `defaultOpen`, `onOpenChange` | Body collapses and expands from `Panel.Toggle` | off |
+| Prop | Values | Default | Notes |
+|---|---|---|---|
+| `tone` | `quiet` / `default` / `sunken` / `active` / `critical` | `default` | Changes the surface emphasis; pair state colors with explanatory text |
+| `rail` | `none` / `accent` / `status` | `none` | Accent stays the accent color; status follows the current tone |
+| `density` | `compact` / `standard` | `standard` | Changes padding without changing semantics |
+| `collapsible` | `boolean` | `false` | Enables Panel.Toggle and collapsible body behavior |
+| `open` | `boolean` | uncontrolled | Current body visibility when collapsible is enabled |
+| `defaultOpen` | `boolean` | `false` | Initial visibility for an uncontrolled collapsible panel |
+| `onOpenChange` | `(open: boolean) => void` | unset | Update open here when your app controls visibility |
 
 `quiet` removes the panel background; `sunken` gives it a recessed surface. Use `Panel.Well` for logs or other output that should sit inside the panel. Customize the shape with `--kb-panel-radius`, the rim with `--kb-panel-rim-top`, `--kb-panel-border`, and `--kb-panel-rim-bottom`, and the depth with `--kb-panel-shadow` or `--kb-panel-shadow-active`.
 
@@ -148,34 +162,130 @@ Use Status for a state such as running, blocked, or complete. Always include tex
 <Status tone="running" appearance="chip" icon={<PlayIcon />} live>Running</Status>
 ```
 
-| Prop | Values | Default |
-|---|---|---|
-| `tone` | `neutral` `info` `running` `success` `warning` `blocked` | `neutral` |
-| `appearance` | `plain` `chip` (tinted from the tone's own color; `--kb-status-radius` rounds it, `--kb-status-glow` makes the icon glow) | `plain` |
-| `live` | adds `role="status"` only | `false` |
-| `compact` | tighter spacing, smaller text | `false` |
+| Prop | Values | Default | Notes |
+|---|---|---|---|
+| `children` | `ReactNode` | unset | State text such as Running or Blocked; keep it meaningful without color |
+| `tone` | `neutral` / `info` / `running` / `success` / `warning` / `blocked` | `neutral` | Reinforces the written state |
+| `appearance` | `plain` / `chip` | `plain` | Plain stays inline; chip adds separation with a tinted surface |
+| `icon` | `ReactNode` | unset | Optional decorative icon; the text still names the state |
+| `live` | `boolean` | `false` | Adds role=status for changing text; does not move focus |
+| `compact` | `boolean` | `false` | Tighter spacing and smaller text for dense layouts |
 
 ## Display and layout helpers
 
-| Component | Use | Key props |
-|---|---|---|
-| `Badge` | Static metadata such as a role or provider. Use `Status` for a state that changes. | `tone` (`neutral` `info` `success` `warning` `danger`), `appearance` (`chip` `plain`), `mono` (small uppercase monospace), `preserveCase` (keeps the case of branches and paths) |
-| `Stat` | A labelled number. The label is read first, and figures are tabular. | `label`, `value`, `size` (`md` `display`) |
-| `Progress` | Determinate progress with a visible label. | `label`, `value`, `max`, `valueText` (for example `"3 of 5"`, shown and announced) |
-| `Callout` | Highlight information and, when useful, offer a next step. | `tone`, `title`, `icon`, `actions`, `live` |
-| `ScrollArea` | Long content in a named region that keyboard users can focus. | `label`, `maxHeight` |
+Use [Badge](#badge) for metadata, [Status](#status) for changing states, [Stat](#stat) for a headline value, [Progress](#progress) for completion, and [Callout](#callout) for a message. [ScrollArea](#scrollarea) keeps long content in a named region.
+
+## Badge
+
+Add a short label to a person, record, or resource. Keep the text meaningful without its color. Use Status when the information changes over time.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `children` | `ReactNode` | unset | Short metadata such as Reviewer, Draft, or a branch name |
+| `tone` | `neutral` / `info` / `success` / `warning` / `danger` | `neutral` | Reinforces the text with ink and tint |
+| `appearance` | `chip` / `plain` | `chip` | Chip adds a tinted surface; plain stays inline |
+| `mono` | `boolean` | `false` | Small uppercase monospace for short identifiers |
+| `preserveCase` | `boolean` | `false` | Preserve case and spacing for branch names, paths, and other literal values |
+
+Native span props pass through. Badge adds no focus stop or live announcement.
+
+## Stat
+
+Show a value with the label that explains it. Include units and a time period in the label or value when they affect the meaning.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `label` | `ReactNode` | required | What the value measures; read before the value |
+| `value` | `ReactNode` | required | Number or short text; include units where needed |
+| `size` | `md` / `display` | `md` | Use display for one headline number, md for groups |
+| `classNames` | keyed classes | unset | Style the label and value separately |
+
+## Progress
+
+Show how much of a known task is complete. Use a task label rather than a percentage as the accessible name.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `label` | `ReactNode` | required | Visible task name and accessible progressbar label |
+| `value` | `number` | required | Completed amount, from zero to max |
+| `max` | `number` | `100` | Total amount; set it for counts such as three of five steps |
+| `valueText` | `string` | formatted percentage | Visible and announced value, such as 3 of 5 files |
+| `classNames` | keyed classes | unset | Style head, label, value, track, or indicator |
+
+The current value stays available to assistive technology. Your app owns task completion and any separate completion announcement.
+
+## Callout
+
+Keep a useful message close to the content it explains. Give people a concrete next step when they can resolve the issue.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `children` | `ReactNode` | unset | Message body; explain what happened and what to do next |
+| `title` | `ReactNode` | unset | Short summary above the message |
+| `tone` | `neutral` / `info` / `success` / `warning` / `danger` | `neutral` | Reinforces the message without replacing its wording |
+| `icon` | `ReactNode` | unset | Decorative icon; hidden from assistive technology |
+| `actions` | `ReactNode` | unset | Named buttons or links that help resolve the message |
+| `live` | `boolean` | `false` | Adds role=status for changing message text; does not move focus |
+| `classNames` | keyed classes | unset | Style icon, content, title, body, or actions |
+
+## ScrollArea
+
+Keep logs, activity, or other long content inside a height cap. Let ordinary page content scroll with the page when a separate region is unnecessary.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `label` | `string` | required | Accessible name of the focusable scrolling region |
+| `children` | `ReactNode` | required | Content inside the viewport |
+| `maxHeight` | CSS length string | unset | Height cap, such as 12rem; longer content scrolls |
+| `classNames` | keyed classes | unset | Style viewport, scrollbar, or thumb |
+
+Tab reaches the viewport so keyboard users can scroll it. Keep the focus indicator visible and give the region a specific name such as Build output.
 
 ## Overlays and actions
 
-| Component | Use | Key props |
-|---|---|---|
-| `Tooltip` | A visual hint on hover and focus. The trigger still needs its own accessible name. | `content`, `side`, `delay`, `container`, `className` |
-| `Menu` | Overflow actions: `Menu.Trigger`, `Menu.Content`, `Menu.Item`, `Menu.Separator`. | `side`, `align`, `container` on `Menu.Content` |
-| `Toolbar` | A row of actions with one tab stop, moved through with the arrow keys. Name it with `aria-label`. | `Toolbar.Group`, `Toolbar.Button` (`variant`, ghost by default), `Toolbar.Separator` |
+Use [Menu](#menu) for a short list of actions, [Tooltip](#tooltip) for optional hints, and [Toolbar](#toolbar) for related actions that belong in a row. Use Dialog for a focused task with fields or a confirmation.
 
-`Button size="icon"` is a square button for a lone icon. Its type requires `aria-label`.
+## Tooltip
 
-Pass a themed element as `container` to keep a portaled Menu, Tooltip or Dialog inside a nested theme scope; the default mounts on `document.body`.
+Add a brief, optional hint to an already named control. Put essential instructions in visible text or a field description instead.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `children` | `ReactElement` | required | Focusable trigger that accepts Base UI props and a ref |
+| `content` | `ReactNode` | required | Short, non-interactive hint shown on hover or focus |
+| `side` | positioner side | `top` | Preferred side; placement can adjust near viewport edges |
+| `delay` | `number` | `400` | Hover delay in milliseconds |
+| `container` | portal container | document body | Use a themed host when the popup belongs to a nested theme |
+| `className` | `string` | unset | Class on the popup |
+
+Give icon-only triggers their own aria-label. The tooltip is a description, not a replacement for the control's name. Do not put links, buttons, or required instructions in the popup.
+
+## Menu
+
+Offer a short list of actions without leaving the current context. Use a Select when people are choosing a saved field value.
+
+| Part | Props and responsibility |
+|---|---|
+| `Menu` | Root; use open/defaultOpen and onOpenChange when your app controls visibility |
+| `Menu.Trigger` | Named trigger; render a Button for shared styling |
+| `Menu.Content` | Popup; side defaults to bottom, align to start; container chooses the themed portal host |
+| `Menu.Item` | Action text and click handler; disabled prevents selection |
+| `Menu.Separator` | Divides related groups without adding a focus stop |
+
+Name the trigger, keep action labels specific, and retain the default arrow-key and Escape behavior. A menu item should perform an action rather than contain another button.
+
+## Toolbar
+
+Group related actions, such as editing or filtering controls. Give the row an accessible name so people know what its controls affect.
+
+| Part | Props and responsibility |
+|---|---|
+| `Toolbar` | Root; name with aria-label; Base UI orientation controls the keyboard direction |
+| `Toolbar.Group` | Groups related controls inside the toolbar |
+| `Toolbar.Button` | Action; variant accepts Button variants and defaults to ghost |
+| `Toolbar.Separator` | Visual division between groups |
+
+Tab enters the toolbar once; arrow keys move between its controls. Give icon-only actions their own accessible names. Use Checkbox or RadioGroup when a control represents a persistent choice rather than an action.
 
 ## `kb()`
 
@@ -193,17 +303,39 @@ Tests use Vitest and Testing Library in jsdom.
 
 ## Card and Grid
 
-Use `Card` to group related content. It renders an article by default and adds no link, button, keyboard handler, or tab stop. Add links and actions where your content needs them. Use `as="li"` inside a list and `appearance="plain"` for a simpler row with a dividing line. If a link covers the whole card, style its focus state and keep other controls outside that link.
+Combine [Card](#card) for related content and [Grid](#grid) for responsive arrangements.
 
-`Grid` arranges content into equal columns that fit the available width. Use `layout="stack"` for a single column, or `as="ul"` and `as="ol"` for lists. It uses ordinary CSS layout, without an ARIA grid role or special keyboard navigation.
+## Card
+
+Group related content with an optional title, summary, links, and actions. Card renders an article by default and adds no interaction of its own.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `as` | `article` / `div` / `li` | `article` | Choose the container for the document structure; use li inside a list |
+| `appearance` | `outlined` / `plain` | `outlined` | Outlined adds a raised surface; plain stays flat with a dividing line |
+| `children` | `ReactNode` | unset | Related content; your app provides headings, links, and actions |
+| `className`, `style`, `ref` | native element props | unset | Style and reference the chosen container |
+
+Card adds no link, button, keyboard handler, or tab stop. If a link covers the whole card, keep other controls outside that link and style its focus state. Restyle with the card background, face, shadow, color, border, radius, and padding tokens; they share the theme's tactile materials.
+
+## Grid
+
+Arrange cards or other content in equal columns that fit the available width. Grid uses ordinary CSS layout, without an ARIA grid role or special keyboard navigation.
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `as` | `div` / `ul` / `ol` | `div` | Use ul or ol for a collection; children must then be list items |
+| `layout` | `auto` / `stack` | `auto` | Auto fits equal columns to available width; stack uses one column |
+| `children` | `ReactNode` | unset | Content in document and keyboard order |
+| `className`, `style`, `ref` | native element props | unset | Style and reference the chosen container |
 
 ```tsx
-<Grid>
-  <Card><h2><a href="/project">Project</a></h2><p>Summary</p></Card>
+<Grid as="ul" aria-label="Projects">
+  <Card as="li"><h2><a href="/project">Project</a></h2><p>Summary</p></Card>
 </Grid>
 ```
 
-Restyle with `--kb-card-background`, `--kb-card-face`, `--kb-card-shadow`, `--kb-card-color`, `--kb-card-border`, `--kb-card-border-width`, `--kb-card-radius`, `--kb-card-padding`, `--kb-grid-gap` and `--kb-grid-min-item-width`. Outlined cards share raised controls’ edge light and contact shading, plus a lower ledge and soft shadow. Plain cards stay flat. Defaults use semantic tokens in both themes.
+Use --kb-grid-gap and --kb-grid-min-item-width to adjust spacing and column fit. Keep the visual order the same as the reading order.
 
 ## Checkbox
 
@@ -315,20 +447,22 @@ Import `useState` from React and `Switch` from `@kbui/react`. Clicking or pressi
 
 Use NumberField for quantities people can type or adjust with step buttons. Your app sets the range and validates the value. See [Numeric fields](../../docs/guides/number-fields.md) for examples, keyboard behavior, and styling. Available since v0.6.0.
 
-| Prop | Default | Responsibility |
-|---|---|---|
-| label, value, onValueChange | required | Accessible name and controlled number/null |
-| min, max | unbounded | Clamp stepping; permit direct drafts outside bounds |
-| step | 1 | Positive numeric step and alignment |
-| locale | runtime | Intl numeric editing/display locale |
-| name, form, required | unset/false | Native form behavior |
-| disabled, readOnly | false | Prevent changes; disabled also prevents submission |
-| size | md | sm 2.25rem, md 2.75rem, lg 3rem; prefer lg for touch |
-| description, error |unset | Associated help/error; error sets invalid state |
-| visuallyHidden | false | Keep label accessible without visible label |
-| decrementLabel, incrementLabel |Decrease/Increase + label | Localized step action names |
-| className, groupClassName, inputClassName |unset | Classes for styling the root, group, and input |
-| inputRef, inputProps |unset | Visible input ref and native event/ARIA extensions |
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `label` | `string` | required | Visible field name; include the quantity or unit |
+| `value` | `number` or `null` | required | Controlled number; null means no answer |
+| `onValueChange` | `(value: number \| null) => void` | required | Update your stored value after an edit |
+| `min`, `max` | `number` | unbounded | Bounds for stepping; your app validates direct drafts |
+| `step` | `number` | `1` | Positive increment and alignment |
+| `locale` | `Intl.LocalesArgument` | runtime locale | Number formatting and editing locale |
+| `size` | `sm` / `md` / `lg` | `md` | Control size; lg suits touch-heavy tasks |
+| `description`, `error` | `string` | unset | Associated help or a specific correction; error marks the field invalid |
+| `disabled`, `readOnly` | `boolean` | `false` | Prevent changes; disabled also prevents submission |
+| `name`, `form`, `required` | native form props | unset / false | Form ownership and validation |
+| `visuallyHidden` | `boolean` | `false` | Hide the visual label while keeping its accessible name |
+| `decrementLabel`, `incrementLabel` | `string` | Decrease/Increase + label | Localized names for the step actions |
+| `inputRef`, `inputProps` | input ref / native props | unset | Visible input access and supported native event or ARIA extensions |
+| `className`, `groupClassName`, `inputClassName` | `string` | unset | Classes for root, step group, and input |
 
 Native div props and the root ref pass through to the wrapper. Any `aria-describedby` values from the root and `inputProps` are added after the help and error IDs. Use the explicit NumberField props for the input’s value, type, disabled/read-only state, name, required state, and ref; `inputProps` cannot override those. Custom event handlers can prevent defaults, so take care to preserve keyboard behavior.
 
@@ -336,22 +470,25 @@ Native div props and the root ref pass through to the wrapper. Any `aria-describ
 
 Use FileInput to choose files, review the selected list, and remove items. Your app decides which files to accept, keeps the File objects, and handles uploads. See [Retained file selection](../../docs/guides/file-inputs.md) for examples, keyboard behavior, and styling. Available since v0.6.0.
 
-| Prop | Default | Responsibility |
-|---|---|---|
-| label, items, onFiles, onRemove | required | Field label, selected files, and callbacks for choosing and removing files |
-| accept |unset | Native file-type hint |
-| multiple | true | Permit native multiple selection |
-| disabled, readOnly | false | Prevent changes while keeping the list visible |
-| description, error |unset | Associated help/rejection text |
-| visuallyHidden | false | Accessible field label without visible label |
-| chooseLabel |Choose files | Localized picker action; use singular text for single mode |
-| emptyMessage |No files added. | Localized empty state |
-| removeLabel(item) |Remove + name | Localized accessible remove action |
-| removedMessage(item) |name + removed. | Localized confirmed-removal announcement |
-| selectionMessage(count) |count + files selected. | Localized native-selection announcement |
-| renderItem(item) |name + description | Caller content; preserve visible file identity |
-| triggerClassName, listClassName, itemClassName |unset | Classes for styling the picker, list, and items |
-| inputRef, triggerRef |unset | Native hidden input and visible picker refs |
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `label` | `string` | required | Visible field name and accessible picker context |
+| `items` | `readonly FileInputItem[]` | required | Retained files with stable ids, names, and optional descriptions |
+| `onFiles` | `(files: File[]) => void` | required | Check the selection and update retained files in your app |
+| `onRemove` | `(id: string) => void` | required | Request removal; update items to confirm it |
+| `accept` | `string` | unset | Native picker hint, such as image/*; does not validate files |
+| `multiple` | `boolean` | `true` | Allow multiple selection; use a singular chooseLabel for single mode |
+| `disabled`, `readOnly` | `boolean` | `false` | Prevent edits while keeping the retained list visible |
+| `description`, `error` | `string` | unset | Help or actionable rejection text associated with the field |
+| `visuallyHidden` | `boolean` | `false` | Hide the visual label while preserving its accessible name |
+| `chooseLabel` | `string` | Choose files | Localized visible picker action |
+| `emptyMessage` | `string` | No files added. | Localized empty-state text |
+| `removeLabel` | `(item: FileInputItem) => string` | Remove + filename | Accessible remove action; keep the filename in the name |
+| `removedMessage` | `(item: FileInputItem) => string` | filename + removed. | Announcement after removal is confirmed |
+| `selectionMessage` | `(count: number) => string` | count + files selected. | Announcement after native selection |
+| `renderItem` | `(item: FileInputItem) => ReactNode` | name + description | Custom item content; keep visible file identity |
+| `inputRef`, `triggerRef` | element refs | unset | Hidden native input and visible picker access |
+| `triggerClassName`, `listClassName`, `itemClassName` | `string` | unset | Classes for picker, retained list, and items |
 
 Root native div props/ref and className pass through. Root aria-describedby merges after helper/error. Item button refs remain internal to preserve focus; use public item/content classes and renderItem for presentation. Use these props and classes rather than reaching into individual item buttons. The `×` mark is decorative; removal has a full accessible filename label.
 

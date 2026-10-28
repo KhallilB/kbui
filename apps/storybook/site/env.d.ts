@@ -1,5 +1,10 @@
 /// <reference types="vite/client" />
 
+declare module "virtual:kbui-reference" {
+  const references: Record<string, import("../catalog/types").ComponentReference>;
+  export default references;
+}
+
 declare module "virtual:kbui-catalog" {
   const entries: import("../catalog/types").CatalogEntry[];
   export default entries;

@@ -52,5 +52,5 @@ export const TonesDark: Story = {
   globals: { theme: "dark" },
 };
 export const PlainMono: Story = {
-  args: { appearance: "plain", mono: true, children: "Primary · Codex · writes" },
+  args: { appearance: "plain", mono: true, children: "production · read/write" },
 };
