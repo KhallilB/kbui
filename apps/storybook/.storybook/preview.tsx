@@ -6,6 +6,7 @@ import { readThemePreference, type ThemePreference } from "../site/site-theme";
 import { ReferenceDocs, ReferencePage, useReferenceTheme } from "./docs";
 import "./component-preview.css";
 import "./docs.css";
+import { ComponentCodePreview } from "./ComponentCodePreview";
 
 function ThemePreview({ theme, children }: { theme: ThemePreference; children: ReactNode }) {
   useReferenceTheme(theme);
@@ -101,7 +102,9 @@ const preview: Preview = {
               data-viewport={viewMode === "story" || undefined}
             >
               <div className="component-preview-content">
-                <Story />
+                <ComponentCodePreview>
+                  <Story />
+                </ComponentCodePreview>
               </div>
             </div>
           ) : (

@@ -1,16 +1,23 @@
 import { createHighlighterCore } from "shiki/core";
 import { createOnigurumaEngine } from "shiki/engine/oniguruma";
+import css from "shiki/langs/css.mjs";
+import html from "shiki/langs/html.mjs";
+import shellscript from "shiki/langs/shellscript.mjs";
 import tsx from "shiki/langs/tsx.mjs";
 import type { CodeSample, CodeToken, SyntaxKind } from "./types";
 
-// Grammar stays build-only; semantic names leave presentation in CSS.
+// Semantic names leave presentation in CSS; editors load grammars lazily.
 const scopes: Record<SyntaxKind, string[]> = {
   keyword: ["keyword", "storage", "constant.language"],
   string: ["string"],
   comment: ["comment"],
-  number: ["constant.numeric"],
-  tag: ["entity.name.tag", "support.class.component"],
-  attribute: ["entity.other.attribute-name"],
+  number: ["constant.numeric", "constant.other.color"],
+  tag: ["entity.name.tag", "support.class.component", "entity.other.attribute-name.class.css"],
+  attribute: [
+    "entity.other.attribute-name",
+    "support.type.property-name.css",
+    "constant.other.option",
+  ],
   type: ["entity.name.type", "support.type", "support.class"],
   function: ["entity.name.function", "support.function"],
 };
@@ -18,7 +25,7 @@ const names = new Map(
   Object.keys(scopes).map((kind) => [`var(--syntax-${kind})`, kind as SyntaxKind]),
 );
 const highlighter = await createHighlighterCore({
-  langs: tsx,
+  langs: [...tsx, ...css, ...html, ...shellscript],
   themes: [
     {
       name: "kbui-paper",
@@ -35,9 +42,11 @@ const highlighter = await createHighlighterCore({
   engine: createOnigurumaEngine(import("shiki/wasm")),
 });
 
-export function highlightCode(code: string): CodeToken[] {
+export type CodeLanguage = "tsx" | "css" | "html" | "shellscript";
+
+export function highlightCode(code: string, language: CodeLanguage = "tsx"): CodeToken[] {
   const result: CodeToken[] = [];
-  const { tokens } = highlighter.codeToTokens(code, { lang: "tsx", theme: "kbui-paper" });
+  const { tokens } = highlighter.codeToTokens(code, { lang: language, theme: "kbui-paper" });
   for (const line of tokens) {
     for (const token of line) {
       const kind = names.get(token.color ?? "");
@@ -52,10 +61,13 @@ export function highlightCode(code: string): CodeToken[] {
   return result;
 }
 
-export function highlightSample(source: { code: string; snippet: string }): CodeSample {
+export function highlightSample(
+  source: { code: string; snippet: string },
+  language: CodeLanguage = "tsx",
+): CodeSample {
   return {
     ...source,
-    tokens: highlightCode(source.code),
-    snippetTokens: highlightCode(source.snippet),
+    tokens: highlightCode(source.code, language),
+    snippetTokens: highlightCode(source.snippet, language),
   };
 }

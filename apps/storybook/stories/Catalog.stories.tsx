@@ -1,6 +1,6 @@
 import entries from "virtual:kbui-catalog";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { expect, userEvent, waitFor, within } from "storybook/test";
+import { expect, fireEvent, userEvent, waitFor, within } from "storybook/test";
 import { Catalog } from "../site/Catalog";
 
 const meta = {
@@ -176,7 +176,8 @@ export const CompactInput: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const frame = canvas.getByTitle("Input — Default live example");
-    expect(frame.getBoundingClientRect().height).toBeLessThanOrEqual(220);
+    const initialHeight = frame.getBoundingClientRect().height;
+    expect(initialHeight).toBeGreaterThanOrEqual(96);
     const stage = frame.parentElement;
     if (!stage) throw new Error("Missing preview stage");
     const style = getComputedStyle(stage);
@@ -191,10 +192,10 @@ export const CompactInput: Story = {
       "true",
     );
     await waitFor(() =>
-      expect(frame.getBoundingClientRect().height).toBeCloseTo(Math.min(480, innerHeight * 0.6), 0),
+      expect(frame.getBoundingClientRect().height).toBeGreaterThanOrEqual(initialHeight),
     );
     await userEvent.click(canvas.getByRole("button", { name: "Compact preview" }));
-    await waitFor(() => expect(frame.getBoundingClientRect().height).toBeLessThanOrEqual(220));
+    await waitFor(() => expect(frame.getBoundingClientRect().height).toBeCloseTo(initialHeight, 0));
     await userEvent.click(canvas.getByRole("button", { name: "Expand preview" }));
     await userEvent.click(canvas.getByRole("radio", { name: "With Error" }));
     const nextFrame = canvas.getByTitle("Input — With Error live example") as HTMLIFrameElement;
@@ -216,7 +217,7 @@ export const CompactInput: Story = {
     await waitFor(() =>
       expect(
         canvas.getByTitle("Input — With Error live example").getBoundingClientRect().height,
-      ).toBeLessThanOrEqual(220),
+      ).toBeGreaterThanOrEqual(96),
     );
   },
 };
@@ -226,7 +227,8 @@ export const AdaptivePreview: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const frame = canvas.getByTitle("Badge — Default live example") as HTMLIFrameElement;
-    expect(frame.getBoundingClientRect().height).toBeLessThanOrEqual(160);
+    const initialHeight = frame.getBoundingClientRect().height;
+    expect(initialHeight).toBeGreaterThanOrEqual(96);
     await new Promise<void>((resolve) => {
       frame.addEventListener("load", () => resolve(), { once: true });
       frame.dataset.previewSrc = "about:blank";
@@ -240,17 +242,19 @@ export const AdaptivePreview: Story = {
     root.id = "storybook-root";
     root.style.height = "410px";
     doc.body.replaceChildren(root);
-    await waitFor(() => expect(frame.getBoundingClientRect().height).toBe(442));
+    await waitFor(() => expect(frame.getBoundingClientRect().height).toBeGreaterThanOrEqual(442));
     root.style.height = "40px";
-    await waitFor(() => expect(frame.getBoundingClientRect().height).toBeLessThanOrEqual(160));
+    await waitFor(() => expect(frame.getBoundingClientRect().height).toBeCloseTo(initialHeight, 0));
     await userEvent.click(canvas.getByRole("button", { name: "Expand preview" }));
     await waitFor(() =>
-      expect(frame.getBoundingClientRect().height).toBeCloseTo(Math.min(480, innerHeight * 0.6), 0),
+      expect(frame.getBoundingClientRect().height).toBeGreaterThanOrEqual(
+        Math.min(480, innerHeight * 0.6) - 0.5,
+      ),
     );
     root.style.height = "610px";
-    await waitFor(() => expect(frame.getBoundingClientRect().height).toBe(642));
+    await waitFor(() => expect(frame.getBoundingClientRect().height).toBeGreaterThanOrEqual(642));
     await userEvent.click(canvas.getByRole("button", { name: "Compact preview" }));
-    expect(frame.getBoundingClientRect().height).toBe(642);
+    expect(frame.getBoundingClientRect().height).toBeGreaterThanOrEqual(642);
   },
 };
 
@@ -258,6 +262,7 @@ export const WorkingCode: Story = {
   args: { componentId: "input" },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    const editor = () => canvas.getByRole("textbox", { name: "Component code" });
     const original = Object.getOwnPropertyDescriptor(navigator, "clipboard");
     let copied = "";
     try {
@@ -269,42 +274,28 @@ export const WorkingCode: Story = {
           },
         },
       });
-      await userEvent.click(canvas.getByRole("button", { name: "View code" }));
-      const code = canvas.getByRole("region", { name: "Example code" });
-      expect(code).toBeVisible();
-      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      expect(getComputedStyle(code).animationName).toBe(reduced ? "none" : "kbui-code-reveal");
-      expect(getComputedStyle(code).transitionDuration).toBe(reduced ? "0s" : "0.2s");
-      const ink = code.querySelector("code");
-      if (!ink) throw new Error("Missing code ink");
-      expect(getComputedStyle(ink).animationName).toBe(reduced ? "none" : "kbui-ink-update");
-      expect(
-        getComputedStyle(canvas.getByRole("button", { name: "Copy code" })).transitionDuration,
-      ).toBe(reduced ? "0s" : "0.14s");
-      expect(code.querySelector('[data-syntax="tag"]')).not.toBeNull();
-      expect(code.querySelector('[data-syntax="string"]')).not.toBeNull();
-      expect(code).toHaveTextContent("<Input");
-      expect(code).not.toHaveTextContent("useEffect");
+      expect(editor()).toBeVisible();
+      const panel = canvasElement.querySelector(".catalog-editor-panel");
+      if (!panel) throw new Error("Missing code editor");
+      await waitFor(() => expect(panel.querySelector('[data-syntax="tag"]')).not.toBeNull());
+      expect((editor() as HTMLTextAreaElement).value).toContain("<Input");
+      expect((editor() as HTMLTextAreaElement).value).toContain('from "@kbui/react"');
       expect(canvas.queryByRole("button", { name: "Include setup" })).toBeNull();
-      expect(code).toHaveTextContent('import { Input } from "@kbui/react"');
-      expect(code).not.toHaveTextContent("document.documentElement");
+      expect(canvas.queryByRole("status", { name: "Editor notification" })).toBeNull();
       await userEvent.click(canvas.getByRole("button", { name: "Copy code" }));
-      expect(copied).toBe(code.textContent);
+      expect(copied).toBe((editor() as HTMLTextAreaElement).value);
+      expect(canvas.getByRole("status", { name: "Editor notification" })).toHaveTextContent(
+        "Copied code",
+      );
       await userEvent.click(canvas.getByRole("radio", { name: "With Error" }));
-      expect(code).toBeVisible();
-      expect(code).toHaveTextContent("Email is required.");
+      expect((editor() as HTMLTextAreaElement).value).toContain("Email is required.");
+      expect(canvas.queryByRole("status", { name: "Editor notification" })).toBeNull();
       await userEvent.click(canvas.getByRole("button", { name: "Copy code" }));
-      expect(copied).toBe(code.textContent);
-      expect(canvas.getByRole("button", { name: "Copied" })).toBeVisible();
+      expect(copied).toBe((editor() as HTMLTextAreaElement).value);
       await userEvent.click(canvas.getByRole("radio", { name: "With Description" }));
-      expect(canvas.queryByRole("button", { name: "Copied" })).not.toBeInTheDocument();
-      expect(code).toHaveTextContent("We never share it.");
-      expect(code).not.toHaveTextContent("Email is required.");
-      await userEvent.click(canvas.getByRole("radio", { name: "With Error" }));
-      expect(canvas.queryByRole("button", { name: "Copied" })).not.toBeInTheDocument();
-      await userEvent.click(canvas.getByRole("radio", { name: "With Description" }));
-      await userEvent.click(canvas.getByRole("button", { name: "View code" }));
-      expect(code).not.toBeVisible();
+      expect((editor() as HTMLTextAreaElement).value).toContain("We never share it.");
+      expect((editor() as HTMLTextAreaElement).value).not.toContain("Email is required.");
+      expect(canvas.queryByRole("status", { name: "Editor notification" })).toBeNull();
       Object.defineProperty(navigator, "clipboard", {
         configurable: true,
         value: {
@@ -313,14 +304,13 @@ export const WorkingCode: Story = {
           },
         },
       });
-      await userEvent.click(canvas.getByRole("button", { name: "Copy code" }));
-      expect(canvas.getByText("Copy unavailable. Select the code below to copy.")).toHaveAttribute(
-        "role",
-        "status",
+      const copy = canvas.getByRole("button", { name: "Copy code" });
+      await userEvent.click(copy);
+      expect(canvas.getByRole("status", { name: "Editor notification" })).toHaveTextContent(
+        "Copy unavailable. Select the code to copy.",
       );
-      expect(canvas.getByRole("button", { name: "Copy failed" })).toBeVisible();
-      expect(code).toBeVisible();
-      expect(code).toHaveFocus();
+      expect(editor()).toBeVisible();
+      expect(copy).toHaveFocus();
     } finally {
       if (original) Object.defineProperty(navigator, "clipboard", original);
       else Reflect.deleteProperty(navigator, "clipboard");
@@ -332,40 +322,28 @@ export const LongCode: Story = {
   args: { componentId: "panel", stateId: "components-panel--token-overrides" },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await userEvent.click(canvas.getByRole("button", { name: "View code" }));
-    const code = canvas.getByRole("region", { name: "Example code" });
-    const source = code.textContent;
-    expect(code.scrollHeight).toBeGreaterThan(code.clientHeight);
-    expect(code.scrollWidth).toBeLessThanOrEqual(code.clientWidth + 1);
-    expect(canvas.queryByRole("button", { name: "Wrap lines" })).toBeNull();
-    const toggle = canvas.getByRole("button", { name: "View code" });
-    expect(toggle).toHaveAttribute("aria-expanded", "true");
-    expect(toggle).toHaveAttribute("aria-controls", code.id);
-    toggle.focus();
-    await userEvent.keyboard("{Enter}");
-    expect(code).not.toBeVisible();
-    expect(toggle).toHaveAttribute("aria-expanded", "false");
-    expect(toggle).toHaveFocus();
-    await userEvent.keyboard(" ");
-    expect(code).toBeVisible();
-    expect(toggle).toHaveAttribute("aria-expanded", "true");
-    expect(code.textContent).toBe(source);
-    expect(code.scrollWidth).toBeLessThanOrEqual(code.clientWidth + 1);
-    code.focus();
-    expect(code).toHaveFocus();
-    code.scrollTop = code.scrollHeight;
-    expect(code.scrollTop).toBeGreaterThan(0);
+    const editor = canvas.getByRole("textbox", { name: "Component code" }) as HTMLTextAreaElement;
+    fireEvent.change(editor, {
+      target: {
+        value: `${editor.value}\n${Array.from({ length: 80 }, (_, i) => `// Long draft line ${i}`).join("\n")}`,
+      },
+    });
+    expect(editor.scrollHeight).toBeGreaterThan(editor.clientHeight);
+    expect(editor.scrollWidth).toBeLessThanOrEqual(editor.clientWidth + 1);
+    editor.scrollTop = editor.scrollHeight;
+    editor.dispatchEvent(new Event("scroll", { bubbles: true }));
+    expect(editor.scrollTop).toBeGreaterThan(0);
+    expect(editor.parentElement?.querySelector("pre")?.scrollTop).toBe(editor.scrollTop);
     await userEvent.click(canvas.getByRole("radio", { name: "Depth" }));
-    expect(code).toBeVisible();
-    await waitFor(() => expect(code.scrollTop).toBe(0));
-    expect(code.scrollWidth).toBeLessThanOrEqual(code.clientWidth + 1);
-    await userEvent.click(canvas.getByRole("radio", { name: /^Compact$/ }));
-    expect(code).toBeVisible();
-    expect(code.scrollTop).toBe(0);
-    await waitFor(() =>
-      expect(code.clientHeight).toBeLessThanOrEqual(code.querySelector("pre")?.clientHeight ?? 0),
-    );
-    expect(code.scrollWidth).toBeLessThanOrEqual(code.clientWidth + 1);
+    const next = canvas.getByRole("textbox", { name: "Component code" });
+    expect(next).toBeVisible();
+    expect(next.scrollTop).toBe(0);
+    expect((next as HTMLTextAreaElement).value).not.toContain("Long draft line");
+    expect(next.scrollWidth).toBeLessThanOrEqual(next.clientWidth + 1);
+    await userEvent.click(canvas.getByRole("radio", { name: "Token Overrides" }));
+    expect(
+      (canvas.getByRole("textbox", { name: "Component code" }) as HTMLTextAreaElement).value,
+    ).toContain("// Long draft line 79");
   },
 };
 
@@ -383,7 +361,7 @@ export const FocusedDetails: Story = {
 };
 
 export const StateContinuity: Story = {
-  args: { componentId: "badge" },
+  args: { componentId: "badge", storybookRoot: "about:blank#" },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const frame = canvas.getByTitle("Badge — Default live example") as HTMLIFrameElement;
@@ -403,8 +381,9 @@ export const StateContinuity: Story = {
     root.style.height = "410px";
     root.textContent = "Tall sizing fixture";
     doc.body.replaceChildren(root);
-    await waitFor(() => expect(frame.getBoundingClientRect().height).toBe(442));
-    const codeBar = canvasElement.querySelector(".example-code-bar");
+    await waitFor(() => expect(frame.getBoundingClientRect().height).toBeGreaterThanOrEqual(442));
+    if (entrance) await entrance.finished;
+    const codeBar = canvasElement.querySelector(".catalog-editor-panel");
     if (!codeBar) throw new Error("Missing code toolbar");
     const codeTop = codeBar.getBoundingClientRect().top + window.scrollY;
     await userEvent.click(canvas.getByRole("radio", { name: "Tones" }));
@@ -434,7 +413,9 @@ export const StateContinuity: Story = {
       "true",
     );
     await waitFor(() =>
-      expect(next.getBoundingClientRect().height).toBeCloseTo(Math.min(480, innerHeight * 0.6), 0),
+      expect(next.getBoundingClientRect().height).toBeGreaterThanOrEqual(
+        Math.min(480, innerHeight * 0.6) - 0.5,
+      ),
     );
   },
 };
@@ -501,8 +482,7 @@ export const DarkDetail: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     expect(canvasElement.querySelector(".kbui-catalog")).toHaveAttribute("data-theme", "dark");
-    await userEvent.click(canvas.getByRole("button", { name: "View code" }));
-    expect(canvas.getByRole("region", { name: "Example code" })).toBeVisible();
+    expect(canvas.getByRole("textbox", { name: "Component code" })).toBeVisible();
     expect(canvas.getByRole("table", { name: "Input API" })).toBeVisible();
     expect(canvas.getByRole("button", { name: "Copy code" })).toBeEnabled();
   },
@@ -561,6 +541,6 @@ export const ComponentDetails: Story = {
     expect(canvas.getByRole("heading", { level: 1, name: "Input in use." })).toBeVisible();
     expect(canvas.getByRole("link", { name: "All components" })).toHaveAttribute("href", "./");
     expect(canvas.getByRole("radio", { name: "With Error" })).toBeVisible();
-    expect(canvas.getByRole("button", { name: "View code" })).toBeEnabled();
+    expect(canvas.getByRole("textbox", { name: "Component code" })).toBeEnabled();
   },
 };

@@ -6,6 +6,11 @@ export default defineConfig({
   plugins: [storybookTest({ configDir: ".storybook" })],
   optimizeDeps: {
     include: [
+      "@babel/standalone",
+      "prettier/standalone",
+      "prettier/plugins/babel",
+      "prettier/plugins/estree",
+      "prettier/plugins/postcss",
       "@kbui/react > @base-ui/react/number-field",
       "@kbui/react > @base-ui/react/radio",
       "@kbui/react > @base-ui/react/radio-group",
@@ -14,6 +19,8 @@ export default defineConfig({
   },
   test: {
     name: "storybook",
+    // Bound compiler-heavy browser pages to avoid startup contention.
+    maxWorkers: 2,
     browser: {
       enabled: true,
       headless: true,
