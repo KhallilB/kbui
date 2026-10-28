@@ -36,6 +36,12 @@ const job = (name: string, key: string) => {
   return found;
 };
 
+test("CI compiles examples in the configured Storybook workspace", () => {
+  const manifest = JSON.parse(readFileSync(`${root}/apps/storybook/package.json`, "utf8"));
+  const examples = job("ci", "check").steps.find((step) => step.name === "Check examples");
+  expect(examples?.run).toBe(`bun run --filter ${manifest.name} verify:code`);
+});
+
 test("Linux browser jobs use the image matching the pinned client", () => {
   const manifest = JSON.parse(readFileSync(`${root}/apps/storybook/package.json`, "utf8"));
   expect(manifest.devDependencies.playwright).toBe("1.64.1");
@@ -143,7 +149,7 @@ test("ordinary gate exposes named build and validation steps without losing chec
     { name: "Build packages", run: "bun run build" },
     { name: "Lint", run: "bun run lint" },
     { name: "Typecheck", run: "bun run typecheck" },
-    { name: "Check examples", run: "bun run --filter @kbui/storybook verify:code" },
+    { name: "Check examples", run: "bun run --filter @kb.ui/storybook verify:code" },
     { name: "Run tests", run: "bun run test" },
     { name: "Check packages", run: "bun run test:pack" },
     { name: "Test consumer", run: "bun run test:consumer" },

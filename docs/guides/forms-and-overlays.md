@@ -14,7 +14,7 @@ Set tokens on a stable theme wrapper. `Select`, `Combobox` and `MultiSelect` mou
 
 ```tsx
 import { useRef } from "react";
-import { Button, Menu } from "@kbui/react";
+import { Button, Menu } from "@kb.ui/react";
 
 export function ThemedActions() {
   const host = useRef<HTMLDivElement>(null);

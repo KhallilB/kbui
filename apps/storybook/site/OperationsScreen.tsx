@@ -1,4 +1,4 @@
-import { Button, Callout, Card, Dialog, Input, RadioGroup, Stat, Status } from "@kbui/react";
+import { Button, Callout, Card, Dialog, Input, RadioGroup, Stat, Status } from "@kb.ui/react";
 import { useEffect, useRef, useState } from "react";
 import { LinkArrow } from "./LinkArrow";
 

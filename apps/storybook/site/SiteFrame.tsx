@@ -1,4 +1,4 @@
-import { Button } from "@kbui/react";
+import { Button } from "@kb.ui/react";
 import {
   type ComponentProps,
   createContext,

@@ -1,4 +1,4 @@
-# @kbui/css
+# @kb.ui/css
 
 All kbui styling, as plain CSS. Components are styled through `kb-` classes and `data-*` attributes, so any renderer that produces the right markup gets the kbui look: React, another framework or hand-written HTML.
 
@@ -6,13 +6,13 @@ Current source defaults use monochrome light/dark surfaces with a persimmon acce
 
 ## Importing
 
-React apps import the same stylesheet from `@kbui/react/styles.css` and do not need this package. Every file wraps its rules in the `kbui` cascade layer (`kbui.tokens`, `kbui.reset`, `kbui.components`), so app CSS outside a layer wins. Other apps import the full stylesheet once at the root. It contains the tokens, a small reset and every component:
+React apps import the same stylesheet from `@kb.ui/react/styles.css` and do not need this package. Every file wraps its rules in the `kbui` cascade layer (`kbui.tokens`, `kbui.reset`, `kbui.components`), so app CSS outside a layer wins. Other apps import the full stylesheet once at the root. It contains the tokens, a small reset and every component:
 
 ```ts
-import "@kbui/css/styles.css";
+import "@kb.ui/css/styles.css";
 ```
 
-Individual files are also available: `@kbui/css/reset.css`, or a single component such as `@kbui/css/components/button.css`. A single component file does not include the tokens, so load those separately.
+Individual files are also available: `@kb.ui/css/reset.css`, or a single component such as `@kb.ui/css/components/button.css`. A single component file does not include the tokens, so load those separately.
 
 Plain HTML works as well:
 

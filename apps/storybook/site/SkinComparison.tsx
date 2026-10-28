@@ -1,4 +1,4 @@
-import { Button, Checkbox } from "@kbui/react";
+import { Button, Checkbox } from "@kb.ui/react";
 import { useState } from "react";
 import { BackArrow, LinkArrow } from "./LinkArrow";
 import { OperationsScreen, useOperations } from "./OperationsScreen";

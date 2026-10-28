@@ -1,5 +1,5 @@
 import "../layers.css";
-import "@kbui/css/styles.css";
+import "@kb.ui/css/styles.css";
 import { StrictMode, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { Catalog } from "../Catalog";

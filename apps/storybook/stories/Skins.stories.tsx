@@ -1,4 +1,4 @@
-import { Button, Dialog, Panel, type PanelTone, Status, type StatusTone } from "@kbui/react";
+import { Button, Dialog, Panel, type PanelTone, Status, type StatusTone } from "@kb.ui/react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import type { ReactNode } from "react";
 import { withSkinFixture } from "./skin-fixture";

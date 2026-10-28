@@ -14,20 +14,20 @@
   },
   "scripts": {
     "prepare": "lefthook install",
-    "build": "bun run --filter @kbui/tokens build && bun run --filter @kbui/css build && bun run --filter @kbui/react build",
+    "build": "bun run --filter @kb.ui/tokens build && bun run --filter @kb.ui/css build && bun run --filter @kb.ui/react build",
     "test": "bun run --filter './packages/*' test && bun test scripts apps/storybook/stories",
-    "test:stories": "bun run --filter @kbui/storybook test",
+    "test:stories": "bun run --filter @kb.ui/storybook test",
     "validate:site": "bash scripts/validate-site.sh",
     "test:pack": "bun test ./scripts/pack.check.ts",
-    "test:consumer": "bun scripts/check-consumer.ts",
-    "typecheck": "bun run --filter '@kbui/*' typecheck && tsc --noEmit -p tsconfig.json",
+    "typecheck": "bun run --filter '@kb.ui/*' typecheck && tsc --noEmit -p tsconfig.json",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
-    "check": "bun run build && bun run lint && bun run typecheck && bun run --filter @kbui/storybook verify:code && bun run test && bun run test:pack && bun run test:consumer",
-    "storybook": "bun run build && bun run --filter @kbui/storybook dev",
+    "check": "bun run build && bun run lint && bun run typecheck && bun run --filter @kb.ui/storybook verify:code && bun run test && bun run test:pack && bun run test:consumer",
+    "storybook": "bun run build && bun run --filter @kb.ui/storybook dev",
     "docs:up": "docker compose -f docker/compose.yml up -d --build docs",
     "docs:down": "docker compose -f docker/compose.yml stop docs",
-    "new": "bun scripts/new-component.ts"
+    "new": "bun scripts/new-component.ts",
+    "test:consumer": "bun scripts/check-consumer.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.15",

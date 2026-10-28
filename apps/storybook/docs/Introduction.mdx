@@ -20,14 +20,13 @@ The React package includes component styles and CSS tokens. Bring React and Reac
 
 {/* x-release-please-start-version */}
 ```bash
-KBUI_VERSION=0.9.1
-bun add "https://github.com/KhallilB/kbui/releases/download/v${KBUI_VERSION}/kbui-react-${KBUI_VERSION}.tgz"
+bun add @kb.ui/react@0.9.1
 ```
 {/* x-release-please-end */}
 
 ```tsx
-import "@kbui/react/styles.css";
-import { Button } from "@kbui/react";
+import "@kb.ui/react/styles.css";
+import { Button } from "@kb.ui/react";
 
 export function App() {
   return <Button>Save changes</Button>;

@@ -31,12 +31,12 @@ test("from 0.7.0 one React tarball carries the stylesheet", () => {
     `npm install ${react} https://github.com/KhallilB/kbui/releases/download/v0.7.0/kbui-tokens-0.7.0.tgz`,
   );
   expect(installCommand("pnpm", false, "0.10.0")).not.toContain("kbui-css");
-  expect(stylesheetImport("0.7.0")).toBe("@kbui/react/styles.css");
-  expect(stylesheetImport("1.0.0")).toBe("@kbui/react/styles.css");
+  expect(stylesheetImport("0.7.0")).toBe("@kb.ui/react/styles.css");
+  expect(stylesheetImport("1.0.0")).toBe("@kb.ui/react/styles.css");
   expect(installCommand("npm", false, "0.6.0")).toBe(
     "npm install https://github.com/KhallilB/kbui/releases/download/v0.6.0/kbui-react-0.6.0.tgz https://github.com/KhallilB/kbui/releases/download/v0.6.0/kbui-css-0.6.0.tgz",
   );
-  expect(stylesheetImport("0.6.0")).toBe("@kbui/css/styles.css");
+  expect(stylesheetImport("0.6.0")).toBe("@kb.ui/css/styles.css");
 });
 
 test("legacy scope stays on release tarballs for every package manager", () => {
@@ -53,6 +53,23 @@ test("legacy scope stays on release tarballs for every package manager", () => {
     );
   }
   expect(installCommand("npm", false, "0.8.0")).toContain("/releases/download/v0.8.0/");
+});
+
+test("from 0.10.0 every package manager installs @kb.ui from the npm registry", () => {
+  for (const [manager, prefix] of [
+    ["bun", "bun add"],
+    ["npm", "npm install"],
+    ["pnpm", "pnpm add"],
+    ["yarn", "yarn add"],
+  ] as const) {
+    expect(installCommand(manager, false, "0.10.0")).toBe(`${prefix} @kb.ui/react@0.10.0`);
+    expect(installCommand(manager, true, "0.10.0")).toBe(
+      `${prefix} @kb.ui/react@0.10.0 @kb.ui/tokens@0.10.0`,
+    );
+  }
+  expect(installCommand("npm", false, "0.9.0")).toBe(
+    "npm install https://github.com/KhallilB/kbui/releases/download/v0.9.0/kbui-react-0.9.0.tgz",
+  );
 });
 
 test("shared setup links preserve supported settings and reject unknown options", () => {
@@ -77,14 +94,8 @@ test("default setup follows future manifest bumps without editing the model", as
       "0.8.0",
       "npm install https://github.com/KhallilB/kbui/releases/download/v0.8.0/kbui-react-0.8.0.tgz",
     ],
-    [
-      "0.10.0",
-      "npm install https://github.com/KhallilB/kbui/releases/download/v0.10.0/kbui-react-0.10.0.tgz",
-    ],
-    [
-      "1.0.0",
-      "npm install https://github.com/KhallilB/kbui/releases/download/v1.0.0/kbui-react-1.0.0.tgz",
-    ],
+    ["0.10.0", "npm install @kb.ui/react@0.10.0"],
+    ["1.0.0", "npm install @kb.ui/react@1.0.0"],
   ]) {
     const root = await mkdtemp(join(tmpdir(), "kbui-setup-release-"));
     fixtures.push(root);
@@ -94,7 +105,7 @@ test("default setup follows future manifest bumps without editing the model", as
     await writeFile(join(site, "setup-model.ts"), source);
     const model = await import(join(site, "setup-model.ts"));
     expect(model.installCommand("npm", false)).toBe(command);
-    expect(model.stylesheetImport()).toBe("@kbui/react/styles.css");
-    expect(model.firstComponent).toContain('import "@kbui/react/styles.css";');
+    expect(model.stylesheetImport()).toBe("@kb.ui/react/styles.css");
+    expect(model.firstComponent).toContain('import "@kb.ui/react/styles.css";');
   }
 });

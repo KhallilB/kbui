@@ -1,4 +1,4 @@
-import { Switch } from "@kbui/react";
+import { Switch } from "@kb.ui/react";
 import type { Theme } from "./site-theme";
 import "./theme-toggle.css";
 

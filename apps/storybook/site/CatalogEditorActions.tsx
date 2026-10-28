@@ -1,4 +1,4 @@
-import { Button, Tooltip } from "@kbui/react";
+import { Button, Tooltip } from "@kb.ui/react";
 
 export function CatalogEditorActions({
   copyLabel,

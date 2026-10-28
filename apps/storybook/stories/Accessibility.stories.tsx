@@ -1,4 +1,4 @@
-import { Button, Checkbox, Dialog, RadioGroup, Select } from "@kbui/react";
+import { Button, Checkbox, Dialog, RadioGroup, Select } from "@kb.ui/react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { type CSSProperties, useRef, useState } from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";

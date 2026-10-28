@@ -1,5 +1,5 @@
-import previewCss from "@kbui/css/styles.css?inline";
-import { Button } from "@kbui/react";
+import previewCss from "@kb.ui/css/styles.css?inline";
+import { Button } from "@kb.ui/react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
 import { expect, fireEvent, userEvent, waitFor, within } from "storybook/test";

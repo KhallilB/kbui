@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import * as publicApi from "@kbui/react";
+import * as publicApi from "@kb.ui/react";
 import { babelParse, loadCsf } from "storybook/internal/csf-tools";
 import { exampleCode } from "../catalog/code";
 import { definitions } from "../catalog/definitions";
@@ -115,9 +115,9 @@ test("every canonical story supplies standalone working code", () => {
       const code = "code" in story ? story.code : undefined;
       expect(code, story.id).toBeString();
       if (typeof code !== "string") throw new Error(`Missing code: ${story.id}`);
-      expect(code).toContain('import "@kbui/react/styles.css"');
-      expect(code).not.toContain('import "@kbui/css/styles.css"');
-      expect(code).toContain('from "@kbui/react"');
+      expect(code).toContain('import "@kb.ui/react/styles.css"');
+      expect(code).not.toContain('import "@kb.ui/css/styles.css"');
+      expect(code).toContain('from "@kb.ui/react"');
       expect(code).toContain("export default function Example()");
       expect(code).not.toMatch(/storybook|from ["']\.\.?\//);
       expect(() => babelParse(code), story.id).not.toThrow();
@@ -195,14 +195,14 @@ test("default snippets show selected usage without generated setup", () => {
     ?.stories.find((story) => story.id.endsWith("--danger"));
   expect(button).toHaveProperty(
     "snippet",
-    'import { Button } from "@kbui/react";\n\n<Button variant="danger">Delete draft</Button>',
+    'import { Button } from "@kb.ui/react";\n\n<Button variant="danger">Delete draft</Button>',
   );
   const input = entries
     .find((entry) => entry.id === "input")
     ?.stories.find((story) => story.id.endsWith("--with-error"));
   expect(input).toHaveProperty(
     "snippet",
-    'import { Input } from "@kbui/react";\n\n<Input label="Email" placeholder="you@example.com" error="Email is required." />',
+    'import { Input } from "@kb.ui/react";\n\n<Input label="Email" placeholder="you@example.com" error="Email is required." />',
   );
 });
 
@@ -230,7 +230,7 @@ test("site samples cover every playground state and current composition palette"
   expect(selected?.snippet).toContain('data-theme="dark"');
   expect(selected?.snippet).toContain('transition: "none"');
   expect(selected?.code).toContain('root.setAttribute("data-theme", "dark")');
-  expect(selected?.snippet).toContain('import { Button } from "@kbui/react"');
+  expect(selected?.snippet).toContain('import { Button } from "@kb.ui/react"');
   expect(samples.surfaces["creative-true"]?.snippet).toContain("useState(true)");
   expect(samples.surfaces["creative-false"]?.snippet).toContain("useState(false)");
   expect(samples.surfaces.operations?.snippet).toContain("<Checkbox");
@@ -286,8 +286,8 @@ test("visible code needs only component imports and usage", () => {
     ...Object.values(samples.playground),
     ...Object.values(samples.surfaces),
   ]) {
-    expect(sample.snippet).toContain('from "@kbui/react"');
-    expect(sample.snippet).not.toContain('import "@kbui/css/styles.css"');
+    expect(sample.snippet).toContain('from "@kb.ui/react"');
+    expect(sample.snippet).not.toContain('import "@kb.ui/css/styles.css"');
     expect(sample.snippet).not.toContain("renderExample");
     expect(sample.snippet).not.toContain("document.documentElement");
   }
@@ -307,7 +307,7 @@ test("default playground example is a direct import and Button", () => {
       })
     ];
   expect(sample?.snippet).toBe(
-    'import { Button } from "@kbui/react";\n\n<Button variant="primary" size="md">Save changes</Button>',
+    'import { Button } from "@kb.ui/react";\n\n<Button variant="primary" size="md">Save changes</Button>',
   );
 });
 

@@ -4,7 +4,7 @@ kbui's live documentation and accessibility tests. Stories live next to each com
 
 ## Maintained home
 
-[The maintained home](site/README.md) introduces kbui through a live day-off composition. The site also serves a matching playground, searchable featured entries, curated examples, and a component catalog. Storybook and the site render the same demo source; Catalog previews embed the actual component stories and its API summaries come from the React guide; full typed API documentation stays in Storybook. Build both with `bun run --filter @kbui/storybook build:site`; serve `dist/` as one static site.
+[The maintained home](site/README.md) introduces kbui through a live day-off composition. The site also serves a matching playground, searchable featured entries, curated examples, and a component catalog. Storybook and the site render the same demo source; Catalog previews embed the actual component stories and its API summaries come from the React guide; full typed API documentation stays in Storybook. Build both with `bun run --filter @kb.ui/storybook build:site`; serve `dist/` as one static site.
 
 ## Running
 
@@ -18,7 +18,7 @@ This builds the packages and serves Storybook on port 6006. The theme switch in 
 
 | Task | Command |
 |---|---|
-| Build a static copy | `bun run --filter @kbui/storybook build-storybook` |
+| Build a static copy | `bun run --filter @kb.ui/storybook build-storybook` |
 | Build and serve a static copy in Docker on port 6007 | `bun run docs:up` |
 
 ## Tests
@@ -36,10 +36,10 @@ The fixture restyle in `stories/skin-fixture-values.ts` is checked by `bun test 
 | Page | Source |
 |---|---|
 | Introduction | `docs/Introduction.mdx` |
-| Foundations / Tokens | `docs/Tokens.mdx`. Reads its list from `@kbui/tokens`, so it always matches `tokens.json`. |
+| Foundations / Tokens | `docs/Tokens.mdx`. Reads its list from `@kb.ui/tokens`, so it always matches `tokens.json`. |
 | Each component | Colocated `.stories.tsx` examples, canonical API tables from `packages/react/README.md`, and practical usage/accessibility guidance from `catalog/component-guides.ts`, rendered by `.storybook/docs.tsx` |
 | Showcase / Restyle | `stories/Skins.stories.tsx`, one composition from stock `Button`, `Dialog`, `Panel` and `Status`, rendered with default tokens and with the fixture restyle from `stories/skin-fixture.tsx` |
 
 ## Story visibility
 
-The default development server and production build expose component documentation and public guides. Internal Site, Showcase and Validation stories stay in `stories/` and are not shipped. Use `bun run --filter @kbui/storybook dev:internal` for the full QA view on port 6008. Test commands enable that scope automatically; the public catalog gate rejects internal entries in production output. Site validation builds a temporary internal artifact for built control-edge checks and removes it afterward; it never enters deployment staging. See [Contributing](../../CONTRIBUTING.md#public-docs-and-internal-stories) for placement and deletion rules.
+The default development server and production build expose component documentation and public guides. Internal Site, Showcase and Validation stories stay in `stories/` and are not shipped. Use `bun run --filter @kb.ui/storybook dev:internal` for the full QA view on port 6008. Test commands enable that scope automatically; the public catalog gate rejects internal entries in production output. Site validation builds a temporary internal artifact for built control-edge checks and removes it afterward; it never enters deployment staging. See [Contributing](../../CONTRIBUTING.md#public-docs-and-internal-stories) for placement and deletion rules.

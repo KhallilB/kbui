@@ -11,7 +11,7 @@ import {
   Progress,
   Status,
   Text,
-} from "@kbui/react";
+} from "@kb.ui/react";
 import { type Dispatch, type SetStateAction, useState } from "react";
 import { Geometry } from "./Brand";
 import { CodePanel } from "./CodePanel";

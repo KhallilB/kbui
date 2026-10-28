@@ -1,4 +1,4 @@
-import { Button, Input, Menu } from "@kbui/react";
+import { Button, Input, Menu } from "@kb.ui/react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 import { SiteFrame } from "../site/SiteFrame";
