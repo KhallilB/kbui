@@ -7,10 +7,17 @@ export type SetupOptions = { manager: Manager; tokens: boolean };
 export const themes = ["system", "light", "dark"] as const;
 export type Theme = (typeof themes)[number];
 
+const atLeastMinor = (version: string, floor: number) => {
+  const [major = 0, minor = 0] = version.split(".").map(Number);
+  return major > 0 || minor >= floor;
+};
 // @kbui/react ships styles.css from 0.7.0; earlier releases also need @kbui/css.
 export function bundlesCss(version = releaseVersion): boolean {
-  const [major = 0, minor = 0] = version.split(".").map(Number);
-  return major > 0 || minor >= 7;
+  return atLeastMinor(version, 7);
+}
+// npm has 0.9.0 onward; older releases exist only as GitHub tarballs.
+function onRegistry(version = releaseVersion): boolean {
+  return atLeastMinor(version, 9);
 }
 export function stylesheetImport(version = releaseVersion): string {
   return bundlesCss(version) ? "@kbui/react/styles.css" : "@kbui/css/styles.css";
@@ -26,7 +33,11 @@ export function installCommand(
     ...(bundlesCss(version) ? [] : ["css"]),
     ...(tokens ? ["tokens"] : []),
   ];
-  return `${prefix} ${packages.map((name) => `https://github.com/KhallilB/kbui/releases/download/v${version}/kbui-${name}-${version}.tgz`).join(" ")}`;
+  const source = (name: string) =>
+    onRegistry(version)
+      ? `@kbui/${name}@${version}`
+      : `https://github.com/KhallilB/kbui/releases/download/v${version}/kbui-${name}-${version}.tgz`;
+  return `${prefix} ${packages.map(source).join(" ")}`;
 }
 export function readSetup(search: string): SetupOptions {
   const query = new URLSearchParams(search);

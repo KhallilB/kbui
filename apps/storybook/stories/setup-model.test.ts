@@ -39,6 +39,21 @@ test("from 0.7.0 one React tarball carries the stylesheet", () => {
   expect(stylesheetImport("0.6.0")).toBe("@kbui/css/styles.css");
 });
 
+test("from 0.9.0 every package manager installs from the npm registry", () => {
+  for (const [manager, prefix] of [
+    ["bun", "bun add"],
+    ["npm", "npm install"],
+    ["pnpm", "pnpm add"],
+    ["yarn", "yarn add"],
+  ] as const) {
+    expect(installCommand(manager, false, "0.9.0")).toBe(`${prefix} @kbui/react@0.9.0`);
+    expect(installCommand(manager, true, "0.9.0")).toBe(
+      `${prefix} @kbui/react@0.9.0 @kbui/tokens@0.9.0`,
+    );
+  }
+  expect(installCommand("npm", false, "0.8.0")).toContain("/releases/download/v0.8.0/");
+});
+
 test("shared setup links preserve supported settings and reject unknown options", () => {
   expect(readSetup("?manager=pnpm&tokens=1")).toEqual({ manager: "pnpm", tokens: true });
   expect(readSetup("?manager=oops&tokens=yes")).toEqual({ manager: "npm", tokens: false });
@@ -61,14 +76,8 @@ test("default setup follows future manifest bumps without editing the model", as
       "0.8.0",
       "npm install https://github.com/KhallilB/kbui/releases/download/v0.8.0/kbui-react-0.8.0.tgz",
     ],
-    [
-      "0.10.0",
-      "npm install https://github.com/KhallilB/kbui/releases/download/v0.10.0/kbui-react-0.10.0.tgz",
-    ],
-    [
-      "1.0.0",
-      "npm install https://github.com/KhallilB/kbui/releases/download/v1.0.0/kbui-react-1.0.0.tgz",
-    ],
+    ["0.10.0", "npm install @kbui/react@0.10.0"],
+    ["1.0.0", "npm install @kbui/react@1.0.0"],
   ]) {
     const root = await mkdtemp(join(tmpdir(), "kbui-setup-release-"));
     fixtures.push(root);

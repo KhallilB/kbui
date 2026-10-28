@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { releaseProblems } from "./release";
+import { publishedPackages, releaseProblems } from "./release";
 
 let root: string;
 
@@ -91,6 +91,19 @@ describe("releaseProblems", () => {
 
 test("this repository releases in lockstep", async () => {
   expect(await releaseProblems(join(import.meta.dir, ".."))).toEqual([]);
+});
+
+test("published packages name their source so npm provenance can verify them", async () => {
+  for (const { path, pkg } of await publishedPackages(join(import.meta.dir, ".."))) {
+    expect({ name: pkg.name, repository: (pkg as { repository?: unknown }).repository }).toEqual({
+      name: pkg.name,
+      repository: {
+        type: "git",
+        url: "git+https://github.com/KhallilB/kbui.git",
+        directory: path.replace("/package.json", ""),
+      },
+    });
+  }
 });
 
 async function documentedRelease(content: string) {

@@ -320,18 +320,10 @@ for (const profile of profiles) {
     await page.waitForURL("**/setup/?manager=bun&tokens=1");
     await page.reload();
     const command = page.getByRole("region", { name: "Install command", exact: true });
-    assert.match(await command.innerText(), /^bun add /);
-    assert.ok(
-      (await command.innerText()).includes(
-        `/v${release.version}/kbui-react-${release.version}.tgz`,
-      ),
+    assert.equal(
+      await command.innerText(),
+      `bun add @kbui/react@${release.version} @kbui/tokens@${release.version}`,
     );
-    assert.ok(
-      (await command.innerText()).includes(
-        `/v${release.version}/kbui-tokens-${release.version}.tgz`,
-      ),
-    );
-    assert.doesNotMatch(await command.innerText(), /kbui-css/);
     assert.match(
       await page
         .getByRole("region", { name: "First component React example", exact: true })
