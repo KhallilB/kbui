@@ -135,6 +135,11 @@ jobs:
         run: |
           for tgz in release/*.tgz; do
             spec=$(tar -xOzf "$tgz" package/package.json | node -p 'const p = JSON.parse(require("fs").readFileSync(0)); `${p.name}@${p.version}`')
+            # Legacy scope unavailable; keep those releases on GitHub tarballs.
+            if [[ "$spec" == @kbui/* ]]; then
+              echo "$spec is distributed through GitHub Releases only"
+              continue
+            fi
             # npm refuses a version twice, so a rerun skips what already landed.
             if npm view "$spec" version >/dev/null 2>&1; then
               echo "$spec is already on npm"

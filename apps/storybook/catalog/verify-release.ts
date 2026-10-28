@@ -322,7 +322,7 @@ for (const profile of profiles) {
     const command = page.getByRole("region", { name: "Install command", exact: true });
     assert.equal(
       await command.innerText(),
-      `bun add @kbui/react@${release.version} @kbui/tokens@${release.version}`,
+      `bun add https://github.com/KhallilB/kbui/releases/download/v${release.version}/kbui-react-${release.version}.tgz https://github.com/KhallilB/kbui/releases/download/v${release.version}/kbui-tokens-${release.version}.tgz`,
     );
     assert.match(
       await page
