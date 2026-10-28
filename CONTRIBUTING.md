@@ -121,6 +121,8 @@ Before merging a release PR, run `bun test apps/storybook/stories/release-notes.
 
 Put npm scopes and package names inside backticks in commit subjects, breaking-change footers, PR titles and release prose: `@kbui`, `@kb.ui`, and `@kb.ui/react` are package names. Bare scopes can mention unrelated GitHub accounts or be auto-linked as contributor handles. The release workflow runs `scripts/release-mentions.mjs` after creating each release to remove those scope mentions while preserving real contributor credit. Repair an existing release by editing its notes; do not rewrite its tag or publish different tarballs under the same version.
 
+If npm publishing fails after the release tarballs were uploaded, retry the existing release with the current workflow: `gh workflow run release.yml --ref main -f tag=v0.10.1` (replace the tag with the release being recovered). This checks the tagged source, downloads the exact uploaded tarballs, repeats consumer installation on every OS, and skips package versions already on npm. It does not create a new release or replace its assets. Rerunning an old failed job uses its old workflow definition, so it cannot pick up a later publishing fix. Local tarball arguments must start with `./` or an absolute path; npm can interpret `release/package.tgz` as a GitHub repository shorthand.
+
 ## Private documentation
 
 Keep product plans, roadmaps, architecture, decision records and research in `.internal/docs/`. This directory is ignored by Git and excluded from Docker builds. Keep installation, component, token and contribution guides in tracked documentation. Public documentation must not link to private files.

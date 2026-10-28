@@ -14,6 +14,10 @@ beforeEach(async () => {
     `#!/usr/bin/env node
 const fs = require("node:fs");
 fs.appendFileSync(process.env.CALLS, process.argv.slice(2).join(" ") + "\\n");
+if (process.argv[2] === "publish" && (!process.argv[3].startsWith("./") || !fs.existsSync(process.argv[3]))) {
+  console.error("Expected an explicit local tarball, not a GitHub shorthand");
+  process.exit(23);
+}
 process.exit(process.argv[2] === "view" ? Number(process.env.VIEW_EXIT) : Number(process.env.PUBLISH_EXIT));
 `,
   );
@@ -56,7 +60,7 @@ test("legacy scope never contacts npm or attempts publishing", async () => {
 test("new scope publishes the validated tarball", async () => {
   expect(await publish("@kb.ui/react")).toEqual({
     exitCode: 0,
-    calls: "view @kb.ui/react@0.10.0 version\npublish release/react.tgz --access public\n",
+    calls: "view @kb.ui/react@0.10.0 version\npublish ./release/react.tgz --access public\n",
   });
 });
 
