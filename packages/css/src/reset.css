@@ -130,3 +130,13 @@ body {
     transition-timing-function: var(--kb-motion-easing-smooth);
   }
 }
+
+@media (forced-colors: active) {
+  :root {
+    --kb-color-bg: Canvas;
+    --kb-color-surface: Canvas;
+    --kb-color-fg: CanvasText;
+    --kb-text-muted: CanvasText;
+    --kb-color-border: CanvasText;
+  }
+}

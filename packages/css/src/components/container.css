@@ -1,0 +1,22 @@
+/* Anatomy: .kb-container [data-size=sm|md|lg|full] [data-gutter=none] */
+.kb-container {
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: var(--kb-container-size-lg);
+  margin-inline: auto;
+  padding-inline: var(--kb-container-gutter);
+}
+
+.kb-container[data-size="sm"] {
+  max-inline-size: var(--kb-container-size-sm);
+}
+.kb-container[data-size="md"] {
+  max-inline-size: var(--kb-container-size-md);
+}
+.kb-container[data-size="full"] {
+  max-inline-size: none;
+}
+.kb-container[data-gutter="none"] {
+  padding-inline: 0;
+}
