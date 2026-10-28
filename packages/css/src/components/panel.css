@@ -1,4 +1,4 @@
-/* Anatomy: .kb-panel [data-tone=quiet|default|sunken|active|critical] [data-rail=none|accent|status] [data-density=compact|standard] [data-nested] [data-collapsible] [data-open] [data-closed] > .kb-panel-glow, .kb-panel-plate > .kb-panel-rail; .kb-panel-header > .kb-panel-toolbar, .kb-panel-toggle [data-panel-open]; .kb-panel-body > .kb-panel-well; .kb-panel-footer; sibling .kb-panel-group [data-direction=row|column] */
+/* Anatomy: .kb-panel [data-tone=quiet|default|sunken|active|critical] [data-rail=none|accent|status] [data-density=compact|standard] [data-nested] [data-collapsible] [data-open] [data-closed] > .kb-panel-glow, .kb-panel-plate > .kb-panel-rail; .kb-panel-header > .kb-panel-toolbar, .kb-panel-toggle [data-panel-open]; .kb-panel-body > .kb-panel-well; .kb-panel-footer; sibling .kb-panel-group [data-direction=row|column] > .kb-panel-handle [data-orientation=vertical|horizontal] [data-dragging] */
 .kb-panel {
   --_panel-bg: var(--kb-panel-background);
   --_panel-seam: var(--kb-panel-border);
@@ -263,4 +263,97 @@
 
 .kb-panel-toggle:active {
   box-shadow: var(--kb-material-pressed-shadow);
+}
+
+.kb-panel-group:has(> .kb-panel-handle) {
+  flex-wrap: nowrap;
+  gap: 0;
+}
+
+.kb-panel-group:has(> .kb-panel-handle) > .kb-panel {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* The handle writes --kb-panel-size on the panel it controls. */
+.kb-panel-group > .kb-panel:has(+ .kb-panel-handle) {
+  flex: 0 0 var(--kb-panel-size, 50%);
+}
+
+.kb-panel-handle {
+  position: relative;
+  flex: 0 0 var(--kb-panel-handle-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  user-select: none;
+}
+
+/* Widens the pointer target past the visible gap. */
+.kb-panel-handle::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.kb-panel-handle[data-orientation="vertical"] {
+  cursor: col-resize;
+}
+
+.kb-panel-handle[data-orientation="vertical"]::before {
+  inset-inline: calc((var(--kb-panel-handle-hit) - var(--kb-panel-handle-size)) / -2);
+}
+
+.kb-panel-handle[data-orientation="horizontal"] {
+  cursor: row-resize;
+}
+
+.kb-panel-handle[data-orientation="horizontal"]::before {
+  inset-block: calc((var(--kb-panel-handle-hit) - var(--kb-panel-handle-size)) / -2);
+}
+
+.kb-panel-handle::after {
+  content: "";
+  border-radius: var(--kb-radius-full);
+  background: var(--kb-panel-handle-line);
+  transition: background var(--kb-motion-duration-fast) var(--kb-motion-easing-standard);
+}
+
+.kb-panel-handle[data-orientation="vertical"]::after {
+  width: var(--kb-panel-handle-line-width);
+  height: var(--kb-panel-handle-grip);
+}
+
+.kb-panel-handle[data-orientation="horizontal"]::after {
+  width: var(--kb-panel-handle-grip);
+  height: var(--kb-panel-handle-line-width);
+}
+
+.kb-panel-handle:hover::after,
+.kb-panel-handle[data-dragging]::after {
+  background: var(--kb-panel-handle-line-active);
+}
+
+.kb-panel-handle:focus-visible {
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: 2px;
+  border-radius: var(--kb-radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-panel-handle::after {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .kb-panel-handle::after {
+    background: ButtonText;
+  }
+  .kb-panel-handle:hover::after,
+  .kb-panel-handle[data-dragging]::after {
+    background: Highlight;
+  }
 }

@@ -3,7 +3,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import type { CodeSample, CodeToken } from "../catalog/types";
 import "./code-panel.css";
 
-function HighlightedCode({ code, tokens }: { code: string; tokens: CodeToken[] }) {
+export function HighlightedCode({ code, tokens }: { code: string; tokens: CodeToken[] }) {
   let offset = 0;
   const content = tokens.flatMap(([start, end, kind]) => {
     const gap = code.slice(offset, start);

@@ -21,6 +21,7 @@ export const Installation: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const command = canvas.getByRole("region", { name: "Install command" });
+    expect(command.querySelector('[data-syntax="function"]')).toHaveTextContent("pnpm");
     expect(command).toHaveTextContent(
       "pnpm add https://github.com/KhallilB/kbui/releases/download/v",
     );
@@ -50,6 +51,11 @@ export const Theming: Story = {
   args: { themePage: true, siteRoot: "../../" },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    const css = canvas.getByRole("region", { name: "Restyle CSS example" });
+    expect(css.querySelector('[data-syntax="attribute"]')).not.toBeNull();
+    expect(
+      canvas.getByRole("region", { name: "Theme code" }).querySelector('[data-syntax="tag"]'),
+    ).toHaveTextContent("html");
     const preview = canvasElement.querySelector(".setup-preview");
     expect(preview).toHaveAttribute(
       "data-theme",

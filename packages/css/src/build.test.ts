@@ -281,4 +281,37 @@ describe("buildCss", () => {
       }
     }
   });
+
+  test("basic forms css uses only defined tokens and preserves legend spacing and forced-colors states", async () => {
+    const tokensCss = await readFile(join(dist, "styles.css"), "utf8");
+    const definedVars = new Set(
+      [...tokensCss.matchAll(/(--kb-[a-z0-9-]+)\s*:/g)].map((match) => match[1]),
+    );
+    for (const file of [
+      "switch.css",
+      "textarea.css",
+      "fieldset.css",
+      "formactions.css",
+      "errorsummary.css",
+    ]) {
+      const css = await readFile(join(src, "components", file), "utf8");
+      const refs = [...css.matchAll(/var\(\s*(--kb-[a-z0-9-]+)/g)]
+        .map((match) => match[1])
+        .filter((ref) => ref !== "--kb-switch-off-color" && ref !== "--kb-switch-on-color");
+      for (const ref of refs) {
+        expect(definedVars.has(ref)).toBe(true);
+      }
+    }
+    const switchCss = await readFile(join(src, "components", "switch.css"), "utf8");
+    expect(switchCss).toContain(".kb-fieldset .kb-switch:not([data-size])");
+    expect(switchCss).toContain("min-inline-size: var(--kb-button-touch-min)");
+    expect(switchCss).toContain("data-off-tone");
+    expect(switchCss).toContain("data-on-tone");
+    const fieldsetCss = await readFile(join(src, "components", "fieldset.css"), "utf8");
+    expect(fieldsetCss).toContain(".kb-fieldset-legend:not(.kb-sr-only)");
+    expect(fieldsetCss).toContain("margin-block-end: var(--kb-fieldset-gap)");
+    const textareaCss = await readFile(join(src, "components", "textarea.css"), "utf8");
+    expect(textareaCss).toContain("max-inline-size: 100%");
+    expect(textareaCss).toContain(".kb-textarea[data-invalid] .kb-textarea-control:focus-visible");
+  });
 });

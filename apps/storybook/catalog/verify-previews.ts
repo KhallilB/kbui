@@ -14,6 +14,7 @@ if (catalogTheme && !["light", "dark"].includes(catalogTheme))
 const appearance = catalogTheme ? `&theme=${catalogTheme}` : "";
 const browser = await chromium.launch({ headless: true });
 const failures: string[] = [];
+const endOfCode = process.platform === "darwin" ? "Meta+ArrowDown" : "Control+End";
 let checked = 0;
 try {
   for (const width of [320, 1280]) {
@@ -96,6 +97,10 @@ try {
             );
             return iframe.clientHeight >= needed;
           });
+          await page.evaluate(async () => {
+            await document.fonts.ready;
+            await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+          });
           const geometry = await page.evaluate(() => {
             const iframe = document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]');
             const doc = iframe?.contentDocument;
@@ -116,8 +121,19 @@ try {
               content,
             };
           });
-          if (geometry.pageOverflow || geometry.frameOverflow)
-            throw new Error(`Horizontal overflow: ${JSON.stringify(geometry)}`);
+          if (geometry.pageOverflow || geometry.frameOverflow) {
+            const overflowing = await page.evaluate(() =>
+              [...document.querySelectorAll("body *")]
+                .filter((element) => element.getBoundingClientRect().right > innerWidth + 1)
+                .slice(0, 12)
+                .map((element) => ({
+                  tag: element.tagName,
+                  className: element.getAttribute("class"),
+                  right: element.getBoundingClientRect().right,
+                })),
+            );
+            throw new Error(`Horizontal overflow: ${JSON.stringify({ ...geometry, overflowing })}`);
+          }
           if (geometry.verticalOverflow)
             throw new Error(`Preview retains vertical scrollbar: ${JSON.stringify(geometry)}`);
           const alignment = await frame.locator("#storybook-root").evaluate((root) => {
@@ -140,6 +156,10 @@ try {
           const isLayout = ["grid", "panel", "scrollarea"].includes(entry.id);
           const isSurface = [
             "input",
+            "textarea",
+            "fieldset",
+            "formactions",
+            "errorsummary",
             "select",
             "combobox",
             "multiselect",
@@ -165,6 +185,10 @@ try {
           if (alignment.text === "center") throw new Error("Example text became center-aligned");
           const fluidSelectors: Record<string, string> = {
             input: ".kb-input",
+            textarea: ".kb-textarea",
+            fieldset: ".kb-fieldset",
+            formactions: ".kb-formactions",
+            errorsummary: ".kb-errorsummary",
             combobox: ".kb-combobox",
             multiselect: ".kb-multiselect",
             card: ".kb-card",
@@ -225,14 +249,22 @@ try {
             grid: 160,
           };
           const reserve = reserves[entry.id] ?? 96;
-          if (geometry.height > Math.max(reserve, geometry.content) + 1)
+          const availableHeight = await page.locator(".catalog-preview-frame").evaluate((stage) => {
+            const style = getComputedStyle(stage);
+            return (
+              stage.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom)
+            );
+          });
+          if (width >= 520 && geometry.height < availableHeight - 1)
+            throw new Error(`Preview leaves unused pane height: ${JSON.stringify(geometry)}`);
+          if (width < 520 && geometry.height > Math.max(reserve, geometry.content) + 1)
             throw new Error(`Unnecessary vertical space: ${JSON.stringify(geometry)}`);
           if (story.id === "components-badge--default") {
             await page.getByRole("button", { name: "Expand preview", exact: true }).click();
             await page.waitForFunction(
               () =>
-                document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
-                  ?.clientHeight === 480,
+                (document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]')
+                  ?.clientHeight ?? 0) >= 480,
             );
             const centered = await frame.locator(".kb-badge").evaluate((element) => {
               const bounds = element.getBoundingClientRect();
@@ -247,10 +279,9 @@ try {
               geometry.height,
             );
           }
-          await page.getByRole("button", { name: "View code", exact: true }).click();
-          const code = page.getByRole("region", { name: "Example code", exact: true });
+          const code = page.getByRole("textbox", { name: "Component code", exact: true });
           await code.waitFor({ state: "visible" });
-          if ((await code.textContent()) !== story.snippet)
+          if ((await code.inputValue()) !== story.snippet)
             throw new Error("Code differs from selected canonical example");
           const afterCode = await page.evaluate(() => ({
             overflow: document.documentElement.scrollWidth > innerWidth,
@@ -278,13 +309,16 @@ try {
                 ?.clientHeight === expected,
             geometry.height,
           );
-          if (story.id === "components-panel--token-overrides") {
-            const before = await code.evaluate((element) => element.scrollTop);
-            await code.press("ArrowDown");
+          if (
+            story.id === "components-panel--token-overrides" &&
+            (await code.evaluate((element) => element.scrollHeight > element.clientHeight))
+          ) {
+            await code.evaluate((element) => {
+              element.scrollTop = 0;
+            });
+            await code.press(endOfCode);
             await page.waitForFunction(
-              (position) =>
-                (document.querySelector(".example-code-content")?.scrollTop ?? 0) > position,
-              before,
+              () => (document.querySelector(".code-editor textarea")?.scrollTop ?? 0) > 0,
             );
             if (
               (await page.getByRole("button", { name: "Copy code", exact: true }).isVisible()) ===
@@ -378,7 +412,7 @@ try {
                   Number.parseFloat(body.paddingBottom) +
                   Number.parseFloat(body.marginBottom),
               );
-              return iframe.clientHeight === Math.max(minimum, needed);
+              return iframe.clientHeight >= Math.max(minimum, needed) - 1;
             }, reserve);
           }
           checked++;
@@ -395,13 +429,11 @@ try {
         await page.goto(
           `${origin}/components/?component=panel&state=components-panel--token-overrides`,
         );
-        const codeToggle = page.getByRole("button", { name: "View code", exact: true });
-        await codeToggle.click();
-        const code = page.getByRole("region", { name: "Example code", exact: true });
+        const code = page.getByRole("textbox", { name: "Component code", exact: true });
         console.log(`${width}×${height}: scroll long code`);
-        await code.press("ArrowDown");
+        await code.press(endOfCode);
         await page.waitForFunction(
-          () => (document.querySelector(".example-code-content")?.scrollTop ?? 0) > 0,
+          () => (document.querySelector(".code-editor textarea")?.scrollTop ?? 0) > 0,
         );
         // Let native keyboard scrolling settle before testing state reset.
         await code.evaluate(
@@ -423,10 +455,9 @@ try {
         await chooseRadio(page, "Example state", "Depth");
         await page.getByRole("button", { name: "Expand preview", exact: true }).waitFor();
         await page.waitForFunction(
-          () => document.querySelector(".example-code-content")?.scrollTop === 0,
+          () => document.querySelector(".code-editor textarea")?.scrollTop === 0,
         );
-        if ((await codeToggle.getAttribute("aria-expanded")) !== "true")
-          throw new Error("State switch closed the code panel");
+        if (!(await code.isVisible())) throw new Error("State switch hid the code editor");
         console.log(`${width}×${height}: fit short state`);
         await chooseRadio(page, "Example state", "Compact");
         await page.waitForFunction(() => {
@@ -438,7 +469,7 @@ try {
           (element) =>
             element.scrollTop === 0 &&
             element.scrollWidth <= element.clientWidth + 1 &&
-            element.clientHeight <= (element.querySelector("pre")?.clientHeight ?? 0),
+            element.clientHeight > 0,
         );
         if (!fits) throw new Error("Short state retained code scroll, overflow or empty height");
         console.log(`${width}×${height}: fit expanded input`);

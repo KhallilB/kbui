@@ -103,6 +103,22 @@ export const definitions: Record<string, Definition> = {
     group: "Typography",
     description: "Readable paragraphs, inline text and supporting content.",
   },
+  Textarea: {
+    group: "Forms",
+    description: "Collect multiline text with a label, help text, and error feedback.",
+  },
+  Fieldset: {
+    group: "Forms",
+    description: "Group related fields with a native fieldset, legend, and section help.",
+  },
+  FormActions: {
+    group: "Forms",
+    description: "Align submit, reset, and secondary actions at the end of a form.",
+  },
+  ErrorSummary: {
+    group: "Forms",
+    description: "Summarize form validation errors with links that focus each field.",
+  },
   Toolbar: {
     group: "Actions",
     description: "Group related actions with arrow-key navigation.",
