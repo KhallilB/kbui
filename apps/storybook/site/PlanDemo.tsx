@@ -1,4 +1,4 @@
-import { Button, Card, Checkbox, Dialog, Input, Progress, Status } from "@kbui/react";
+import { Button, Card, Checkbox, Dialog, Input, Progress, Status } from "@kb.ui/react";
 import { useCallback, useId, useRef, useState } from "react";
 import { useSiteTheme } from "./SiteFrame";
 import "./plan-demo.css";

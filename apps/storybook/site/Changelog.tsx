@@ -1,5 +1,5 @@
 import releases from "virtual:kbui-changelog";
-import { Badge } from "@kbui/react";
+import { Badge } from "@kb.ui/react";
 import { useEffect } from "react";
 import { type Release, releaseHeadline } from "./changelog-model";
 import { LinkArrow } from "./LinkArrow";

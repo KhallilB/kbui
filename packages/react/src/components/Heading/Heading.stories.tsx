@@ -61,7 +61,7 @@ export const Article: Story = {
         </Panel.Header>
         <Panel.Body>
           <Text>
-            Import <Code>@kbui/css/styles.css</Code> once. Choose heading rank from document
+            Import <Code>@kb.ui/css/styles.css</Code> once. Choose heading rank from document
             structure, then adjust visual size for context.
           </Text>
           <Text>

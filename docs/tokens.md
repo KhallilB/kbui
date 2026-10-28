@@ -113,10 +113,10 @@ In CSS, reference the variable:
 
 The full React and CSS stylesheets already include these CSS variables. No extra token install is needed for CSS styling.
 
-For JavaScript or TypeScript, add the optional `@kbui/tokens` package at the same version as React. The [Get Started page](https://kbui.kcb.pro/setup/?tokens=1) generates a matching command for your package manager. Import its `tokens` object for typed variable names, not resolved values, so the same reference works in either theme:
+For JavaScript or TypeScript, add the optional `@kb.ui/tokens` package at the same version as React. The [Get Started page](https://kbui.kcb.pro/setup/?tokens=1) generates a matching command for your package manager. Import its `tokens` object for typed variable names, not resolved values, so the same reference works in either theme:
 
 ```ts
-import { tokens } from "@kbui/tokens";
+import { tokens } from "@kb.ui/tokens";
 
 const style = { color: `var(${tokens.color.muted})` };
 ```

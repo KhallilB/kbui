@@ -1,5 +1,5 @@
-import "@kbui/react/styles.css";
-import { Button, Card, Dialog, Grid, Input } from "@kbui/react";
+import "@kb.ui/react/styles.css";
+import { Button, Card, Dialog, Grid, Input } from "@kb.ui/react";
 
 export const App = () => (
   <Grid>

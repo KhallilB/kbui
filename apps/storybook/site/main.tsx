@@ -1,5 +1,5 @@
 import "./layers.css";
-import "@kbui/css/styles.css";
+import "@kb.ui/css/styles.css";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Changelog } from "./Changelog";

@@ -14,7 +14,7 @@ export function compileComponentExample(
   }).program;
   for (const statement of program.body) {
     if (statement.type === "ImportDeclaration" && !Object.hasOwn(modules, statement.source.value))
-      throw new Error('Imports support "react" and "@kbui/react" only.');
+      throw new Error('Imports support "react" and "@kb.ui/react" only.');
   }
   let runnable = source;
   if (!program.body.some((statement) => statement.type === "ExportDefaultDeclaration")) {

@@ -1,12 +1,12 @@
-# @kbui/react
+# @kb.ui/react
 
-React components for forms, navigation, feedback, and layout. kbui uses [Base UI](https://base-ui.com) 1.9 for interaction and `@kbui/css` for styling, which this package includes as `@kbui/react/styles.css`. Import the stylesheet once, then use components throughout your app.
+React components for forms, navigation, feedback, and layout. kbui uses [Base UI](https://base-ui.com) 1.9 for interaction and `@kb.ui/css` for styling, which this package includes as `@kb.ui/react/styles.css`. Import the stylesheet once, then use components throughout your app.
 
 Default themes use monochrome light/dark surfaces, a persimmon accent, and shared tactile materials. This reference follows the source on `main`; check the [release notes](https://github.com/KhallilB/kbui/releases) for the exports available in an installed version.
 
 ```tsx
-import "@kbui/react/styles.css";
-import { Button, Dialog, Input } from "@kbui/react";
+import "@kb.ui/react/styles.css";
+import { Button, Dialog, Input } from "@kb.ui/react";
 ```
 
 Requires `react` and `react-dom` 19 in the consuming project.
@@ -67,7 +67,7 @@ Use `Input type="search"` with content slots and a `Button` when search needs a 
 
 ```tsx
 import { useRef, useState } from "react";
-import { Button, Input } from "@kbui/react";
+import { Button, Input } from "@kb.ui/react";
 
 export function SearchExample() {
   const [query, setQuery] = useState("");
@@ -462,7 +462,7 @@ Use Combobox when people need to filter a longer option list by typing before ch
 
 ```tsx
 import { useState } from "react";
-import { Combobox } from "@kbui/react";
+import { Combobox } from "@kb.ui/react";
 
 const regions = [
   { value: "us-east-1", label: "US East (N. Virginia)" },
@@ -504,7 +504,7 @@ Use MultiSelect when people need to search a longer list and keep multiple selec
 
 ```tsx
 import { useState } from "react";
-import { MultiSelect } from "@kbui/react";
+import { MultiSelect } from "@kb.ui/react";
 
 const scopes = [
   { value: "payments:read", label: "Payments read" },
@@ -550,7 +550,7 @@ Use Switch for a preference that takes effect as soon as it changes. Pass `check
 
 ```tsx
 import { useState } from "react";
-import { Switch } from "@kbui/react";
+import { Switch } from "@kb.ui/react";
 
 export function Preference() {
   const [checked, setChecked] = useState(false);
@@ -558,7 +558,7 @@ export function Preference() {
 }
 ```
 
-Import `useState` from React and `Switch` from `@kbui/react`. Clicking or pressing Space calls `onCheckedChange`. Unchecked or disabled controls submit no value; a checked control submits its native value (`"on"` unless you supply one). Reset `checked` in the form’s `onReset` handler when needed. Use `offTone`/`onTone` or `offColor`/`onColor` when both sides of a toggle carry distinct state colors. The `switch` token group controls its appearance in both themes, and reduced motion removes the thumb’s travel animation.
+Import `useState` from React and `Switch` from `@kb.ui/react`. Clicking or pressing Space calls `onCheckedChange`. Unchecked or disabled controls submit no value; a checked control submits its native value (`"on"` unless you supply one). Reset `checked` in the form’s `onReset` handler when needed. Use `offTone`/`onTone` or `offColor`/`onColor` when both sides of a toggle carry distinct state colors. The `switch` token group controls its appearance in both themes, and reduced motion removes the thumb’s travel animation.
 
 ## NumberField
 

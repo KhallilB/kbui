@@ -5,8 +5,8 @@ Use Heading, Text, Link and Code to give content a predictable hierarchy and rea
 ## Compose content
 
 ```tsx
-import "@kbui/css/styles.css";
-import { Code, Grid, Heading, Link, Text } from "@kbui/react";
+import "@kb.ui/css/styles.css";
+import { Code, Grid, Heading, Link, Text } from "@kb.ui/react";
 
 export function Installation() {
   return (
@@ -15,7 +15,7 @@ export function Installation() {
       <Text size="lg">One shared language for every screen.</Text>
       <Heading level={2}>Load the stylesheet</Heading>
       <Text>
-        Import <Code>@kbui/css/styles.css</Code> once, then follow the{" "}
+        Import <Code>@kb.ui/css/styles.css</Code> once, then follow the{" "}
         <Link href="/setup">setup guide</Link>.
       </Text>
       <Text size="sm" tone="muted">Updated today</Text>
@@ -30,13 +30,13 @@ The [canonical React API](../../packages/react/README.md#heading) lists props an
 
 ## Framework-free recipes
 
-The same anatomy works with plain HTML or another renderer. Load `@kbui/css/styles.css`, or load tokens/reset plus each required component stylesheet.
+The same anatomy works with plain HTML or another renderer. Load `@kb.ui/css/styles.css`, or load tokens/reset plus each required component stylesheet.
 
 ```html
 <h1 class="kb-heading" data-size="xl">Install kbui</h1>
 <h2 class="kb-heading" data-size="lg">Load the stylesheet</h2>
 <p class="kb-text" data-size="md" data-tone="default">
-  Import <code class="kb-code">@kbui/css/styles.css</code>, then read the
+  Import <code class="kb-code">@kb.ui/css/styles.css</code>, then read the
   <a class="kb-link" href="/setup">setup guide</a>.
 </p>
 ```

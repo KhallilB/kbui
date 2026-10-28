@@ -1,4 +1,4 @@
-import { RadioGroup } from "@kbui/react";
+import { RadioGroup } from "@kb.ui/react";
 import { type ReactNode, useEffect, useId, useRef, useState } from "react";
 import { CatalogEditorActions } from "./CatalogEditorActions";
 import { CatalogEditorNotice } from "./CatalogEditorNotice";

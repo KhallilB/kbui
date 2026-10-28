@@ -1,4 +1,4 @@
-import { Button } from "@kbui/react";
+import { Button } from "@kb.ui/react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";

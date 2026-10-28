@@ -181,7 +181,7 @@ export function exampleCode(
           : "";
     usage = children ? `<${tag}>${child}</${component}>` : `<${tag} />`;
   }
-  const publicImport = `import { ${[...imports].sort().join(", ")} } from "@kbui/react";`;
+  const publicImport = `import { ${[...imports].sort().join(", ")} } from "@kb.ui/react";`;
   const themedUsage =
     theme === "dark"
       ? rendersFunction
@@ -190,7 +190,7 @@ export function exampleCode(
       : usage;
   const snippet = `${publicImport}\n${setup ? `${setup}\n` : ""}\n${themedUsage}`;
   const code = `import "${stylesheetImport()}";
-import { ${[...imports].sort().join(", ")} } from "@kbui/react";
+import { ${[...imports].sort().join(", ")} } from "@kb.ui/react";
 import { useEffect, type ComponentProps${render ? ", type ReactNode" : ""} } from "react";
 
 ${setup ? `${setup}\n\n` : ""}const args = {

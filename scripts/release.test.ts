@@ -18,7 +18,7 @@ async function writePackage(name: string, fields: Record<string, unknown>) {
   await mkdir(join(root, "packages", name), { recursive: true });
   await writeFile(
     join(root, "packages", name, "package.json"),
-    json({ name: `@kbui/${name}`, ...fields }),
+    json({ name: `@kb.ui/${name}`, ...fields }),
   );
 }
 
@@ -51,7 +51,7 @@ describe("releaseProblems", () => {
   test("reports a package whose version drifts from the root", async () => {
     await writePackage("css", { version: "0.2.0" });
     expect(await releaseProblems(root)).toEqual([
-      "@kbui/css is 0.2.0, root is 0.3.0: packages release in lockstep",
+      "@kb.ui/css is 0.2.0, root is 0.3.0: packages release in lockstep",
     ]);
   });
 
@@ -65,14 +65,14 @@ describe("releaseProblems", () => {
   test("reports a published package release-please would not bump", async () => {
     await writePackage("mcp", { version: "0.3.0" });
     expect(await releaseProblems(root)).toEqual([
-      "@kbui/mcp has no extra-files entry in release-please-config.json",
+      "@kb.ui/mcp has no extra-files entry in release-please-config.json",
     ]);
   });
 
   test("does not count an entry that bumps the wrong field", async () => {
     await writeConfig([entry("tokens"), { ...entry("css"), jsonpath: "$.name" }]);
     expect(await releaseProblems(root)).toEqual([
-      "@kbui/css has no extra-files entry in release-please-config.json",
+      "@kb.ui/css has no extra-files entry in release-please-config.json",
     ]);
   });
 

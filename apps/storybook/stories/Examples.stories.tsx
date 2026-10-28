@@ -84,7 +84,7 @@ export const Code: Story = {
     await userEvent.click(creative.getByRole("button", { name: "Change palette" }));
     expect(code).toHaveTextContent("useState(true)");
     expect(creative.queryByRole("button", { name: "Include setup" })).toBeNull();
-    expect(code).toHaveTextContent('from "@kbui/react"');
+    expect(code).toHaveTextContent('from "@kb.ui/react"');
     expect(code).not.toHaveTextContent("<svg");
     expect(code).not.toHaveTextContent(".composition");
     const operations = within(canvas.getByRole("region", { name: "Release checklist" }));

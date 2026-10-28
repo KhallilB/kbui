@@ -23,15 +23,25 @@ export const Installation: Story = {
     const canvas = within(canvasElement);
     const command = canvas.getByRole("region", { name: "Install command" });
     expect(command.querySelector('[data-syntax="function"]')).toHaveTextContent("pnpm");
+    const registry =
+      Number(releaseVersion.split(".")[0]) > 0 || Number(releaseVersion.split(".")[1]) >= 10;
     const base = `https://github.com/KhallilB/kbui/releases/download/v${releaseVersion}`;
-    expect(command).toHaveTextContent(`pnpm add ${base}/kbui-react-${releaseVersion}.tgz`);
-    expect(command).toHaveTextContent(`${base}/kbui-tokens-${releaseVersion}.tgz`);
+    expect(command).toHaveTextContent(
+      registry
+        ? `pnpm add @kb.ui/react@${releaseVersion}`
+        : `pnpm add ${base}/kbui-react-${releaseVersion}.tgz`,
+    );
+    expect(command).toHaveTextContent(
+      registry ? `@kb.ui/tokens@${releaseVersion}` : `${base}/kbui-tokens-${releaseVersion}.tgz`,
+    );
     expect(command).not.toHaveTextContent("kbui-css-");
     expect(canvas.queryByRole("checkbox", { name: "Include typed tokens" })).toBeNull();
     await userEvent.click(canvas.getByRole("button", { name: "Remove typed tokens" }));
-    expect(command).not.toHaveTextContent("kbui-tokens-");
+    expect(command).not.toHaveTextContent("tokens");
     await userEvent.click(canvas.getByRole("button", { name: "Add typed tokens" }));
-    expect(command).toHaveTextContent(`${base}/kbui-tokens-${releaseVersion}.tgz`);
+    expect(command).toHaveTextContent(
+      registry ? `@kb.ui/tokens@${releaseVersion}` : `${base}/kbui-tokens-${releaseVersion}.tgz`,
+    );
     await userEvent.click(canvas.getByRole("button", { name: "Remove typed tokens" }));
     await userEvent.click(canvas.getByRole("combobox", { name: "Package manager" }));
     await userEvent.click(await within(document.body).findByRole("option", { name: "Bun" }));
@@ -43,7 +53,7 @@ export const Installation: Story = {
       "../setup/themes/",
     );
     expect(canvas.getByRole("region", { name: "Example code" })).toHaveTextContent(
-      'import "@kbui/react/styles.css";',
+      'import "@kb.ui/react/styles.css";',
     );
   },
 };

@@ -1,5 +1,5 @@
 import releases from "virtual:kbui-changelog";
-import { Button } from "@kbui/react";
+import { Button } from "@kb.ui/react";
 import { useEffect, useRef } from "react";
 import { releaseHeadline } from "./changelog-model";
 import { LinkArrow } from "./LinkArrow";

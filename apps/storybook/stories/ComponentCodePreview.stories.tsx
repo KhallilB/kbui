@@ -1,4 +1,4 @@
-import { Badge, Button } from "@kbui/react";
+import { Badge, Button } from "@kb.ui/react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useEffect, useRef, useState } from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
@@ -35,14 +35,14 @@ function RuntimeFixture() {
     <>
       <Button
         onClick={() =>
-          send('import { Badge } from "@kbui/react"; <Badge tone="success">Ready</Badge>')
+          send('import { Badge } from "@kb.ui/react"; <Badge tone="success">Ready</Badge>')
         }
       >
         Edit content and props
       </Button>
       <Button onClick={() => send('<Badge tone="')}>Invalid JSX</Button>
       <Button
-        onClick={() => send('import { Badge } from "@kbui/react"; <Badge>{missing.value}</Badge>')}
+        onClick={() => send('import { Badge } from "@kb.ui/react"; <Badge>{missing.value}</Badge>')}
       >
         Render error
       </Button>

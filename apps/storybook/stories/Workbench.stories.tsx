@@ -48,7 +48,7 @@ export const Playground: Story = {
       ).toBeLessThanOrEqual(240);
     expect(canvas.getByTestId("working-code").querySelector('[data-syntax="tag"]')).not.toBeNull();
     expect(canvas.getByTestId("working-code")).toHaveTextContent(
-      'import { Button } from "@kbui/react"',
+      'import { Button } from "@kb.ui/react"',
     );
     expect(canvas.queryByRole("button", { name: "Include setup" })).toBeNull();
     await userEvent.click(canvas.getByRole("combobox", { name: "Variant" }));

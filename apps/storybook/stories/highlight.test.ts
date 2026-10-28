@@ -25,12 +25,12 @@ test("HTML keeps prose plain and recognizes HTML comments and attributes", () =>
 });
 
 test("shell highlights command flags and comments", () => {
-  const code = 'npm install --save "@kbui/react" # install';
+  const code = 'npm install --save "@kb.ui/react" # install';
   const parts = highlightCode(code, "shellscript").map(([start, end, kind]) => [
     code.slice(start, end),
     kind,
   ]);
   expect(parts).toContainEqual(["--save", "attribute"]);
   expect(parts).toContainEqual(["# install", "comment"]);
-  expect(parts).toContainEqual(['"@kbui/react"', "string"]);
+  expect(parts).toContainEqual(['"@kb.ui/react"', "string"]);
 });

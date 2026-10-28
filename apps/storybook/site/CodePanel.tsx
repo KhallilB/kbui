@@ -1,4 +1,4 @@
-import { Button } from "@kbui/react";
+import { Button } from "@kb.ui/react";
 import { useEffect, useId, useRef, useState } from "react";
 import type { CodeSample, CodeToken } from "../catalog/types";
 import "./code-panel.css";

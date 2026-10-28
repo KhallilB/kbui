@@ -34,7 +34,7 @@ jobs:
       - name: Typecheck
         run: bun run typecheck
       - name: Check examples
-        run: bun run --filter @kbui/storybook verify:code
+        run: bun run --filter @kb.ui/storybook verify:code
       - name: Run tests
         run: bun run test
       - name: Check packages

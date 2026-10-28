@@ -1,8 +1,8 @@
-import * as components from "@kbui/react";
+import * as components from "@kb.ui/react";
 import * as React from "react";
 import type { CodeRequest, CodeResult } from "../site/component-code";
 
-const modules = { react: React, "@kbui/react": components };
+const modules = { react: React, "@kb.ui/react": components };
 type Candidate = { request: CodeRequest; Component: React.ComponentType };
 
 class RenderBoundary extends React.Component<

@@ -2,11 +2,11 @@
 
 Use `FileInput` when people need to choose files, review the selection, and remove individual items. For native selection alone, use `Input type="file"`. FileInput handles the picker, list, and focus after removal. Your app keeps the File objects, validates them, and handles parsing or uploading.
 
-Import `FileInput` and `FileInputItem` from `@kbui/react`, and load the matching stylesheet once. FileInput is available from v0.6.0. Native file dialogs differ across browsers and operating systems; the picker has been exercised in Chromium.
+Import `FileInput` and `FileInputItem` from `@kb.ui/react`, and load the matching stylesheet once. FileInput is available from v0.6.0. Native file dialogs differ across browsers and operating systems; the picker has been exercised in Chromium.
 
 ```tsx
 import { useState } from "react";
-import { FileInput } from "@kbui/react";
+import { FileInput } from "@kb.ui/react";
 
 export function DeliveryEvidence() {
   const [files, setFiles] = useState<File[]>([]);
@@ -57,7 +57,7 @@ See the [FileInput API](../../packages/react/README.md#fileinput) for props, def
 
 Style the `.kb-fileinput` root and its parts: `-label`, `-native`, `-trigger`, `-description`, `-error`, `-list`, `-item`, `-content`, `-name`, `-metadata`, `-remove`, and `-empty`. The root exposes `data-disabled`, `data-readonly`, and `data-invalid`. The picker and remove actions use KBUI Button styles and focus behavior. Filenames wrap rather than being truncated.
 
-The full stylesheet, `@kbui/react/styles.css` or `@kbui/css/styles.css`, includes everything FileInput needs. If you import individual stylesheets, include `@kbui/css/components/button.css` with `fileinput.css`, tokens, and reset styles.
+The full stylesheet, `@kb.ui/react/styles.css` or `@kb.ui/css/styles.css`, includes everything FileInput needs. If you import individual stylesheets, include `@kb.ui/css/components/button.css` with `fileinput.css`, tokens, and reset styles.
 
 Use `--kb-fileinput-radius`, `--kb-fileinput-action-height` (48px by default), and `--kb-fileinput-border-width` to adjust the layout. Semantic foreground, muted, border, and danger colors, along with Button tokens, control the remaining colors. Apply theme variables to the field’s container, then check contrast for filenames, metadata, and errors. FileInput adds no animation; its buttons respect reduced motion and forced colors.
 

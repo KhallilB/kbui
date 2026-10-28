@@ -322,13 +322,15 @@ for (const profile of profiles) {
     const command = page.getByRole("region", { name: "Install command", exact: true });
     assert.equal(
       await command.innerText(),
-      `bun add https://github.com/KhallilB/kbui/releases/download/v${release.version}/kbui-react-${release.version}.tgz https://github.com/KhallilB/kbui/releases/download/v${release.version}/kbui-tokens-${release.version}.tgz`,
+      Number(release.version.split(".")[0]) > 0 || Number(release.version.split(".")[1]) >= 10
+        ? `bun add @kb.ui/react@${release.version} @kb.ui/tokens@${release.version}`
+        : `bun add https://github.com/KhallilB/kbui/releases/download/v${release.version}/kbui-react-${release.version}.tgz https://github.com/KhallilB/kbui/releases/download/v${release.version}/kbui-tokens-${release.version}.tgz`,
     );
     assert.match(
       await page
         .getByRole("region", { name: "First component React example", exact: true })
         .innerText(),
-      /@kbui\/react\/styles\.css/,
+      /@kb\.ui\/react\/styles\.css/,
     );
     await page
       .getByRole("region", { name: "Install Shell example", exact: true })

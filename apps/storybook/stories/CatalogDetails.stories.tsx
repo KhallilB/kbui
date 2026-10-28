@@ -88,7 +88,7 @@ export const WindowControls: Story = {
     expect(storybook).toHaveAttribute("href", expect.stringContaining("components-badge--default"));
     expect(
       page.queryByText(
-        "Edit text, props or JSX. Imports from React and @kbui/react are ready to use.",
+        "Edit text, props or JSX. Imports from React and @kb.ui/react are ready to use.",
       ),
     ).toBeNull();
     expect(page.getByRole("table", { name: "Badge API" })).toBeVisible();
@@ -402,7 +402,7 @@ export const ComponentReference: Story = {
     expect(editor.getByRole("radio", { name: "Component" })).toBeChecked();
     expect(
       (editor.getByRole("textbox", { name: "Component code" }) as HTMLTextAreaElement).value,
-    ).toContain('import { Input } from "@kbui/react";');
+    ).toContain('import { Input } from "@kb.ui/react";');
     expect(editor.getByRole("button", { name: "Copy code" })).toBeVisible();
     await userEvent.click(editor.getByRole("radio", { name: "CSS" }));
     expect(editor.getByRole("textbox", { name: "Style this component" })).toBeVisible();

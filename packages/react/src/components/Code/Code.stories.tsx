@@ -15,7 +15,7 @@ export const Default: Story = {};
 export const InText: Story = {
   render: () => (
     <Text>
-      Import <Code>@kbui/css/styles.css</Code>, then render <Code>{"<Heading level={2} />"}</Code>.
+      Import <Code>@kb.ui/css/styles.css</Code>, then render <Code>{"<Heading level={2} />"}</Code>.
       Case, punctuation and literal markup stay intact.
     </Text>
   ),

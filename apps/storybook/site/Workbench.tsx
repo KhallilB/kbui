@@ -1,5 +1,5 @@
 import samples from "virtual:kbui-site-samples";
-import { Button, Card, Checkbox, Input, RadioGroup } from "@kbui/react";
+import { Button, Card, Checkbox, Input, RadioGroup } from "@kb.ui/react";
 import { useId, useRef, useState } from "react";
 import { CodePanel } from "./CodePanel";
 import { ControlSelect } from "./ControlSelect";

@@ -1,4 +1,4 @@
-import { Select } from "@kbui/react";
+import { Select } from "@kb.ui/react";
 import "./control-select.css";
 
 export function ControlSelect<Value extends string>({
