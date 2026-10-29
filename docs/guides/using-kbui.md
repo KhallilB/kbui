@@ -9,10 +9,10 @@ Install kbui from npm in your app's folder. The React adapter includes the compo
    <!-- x-release-please-start-version -->
    | Package manager | Command |
    |---|---|
-   | npm | `npm install @kb.ui/react@0.10.2` |
-   | Bun | `bun add @kb.ui/react@0.10.2` |
-   | pnpm | `pnpm add @kb.ui/react@0.10.2` |
-   | Yarn | `yarn add @kb.ui/react@0.10.2` |
+   | npm | `npm install @kb.ui/react@0.10.3` |
+   | Bun | `bun add @kb.ui/react@0.10.3` |
+   | pnpm | `pnpm add @kb.ui/react@0.10.3` |
+   | Yarn | `yarn add @kb.ui/react@0.10.3` |
    <!-- x-release-please-end -->
 
    Base UI and `clsx` install automatically as dependencies. The stylesheet includes all component rules and CSS variables, so this one kbui package is sufficient for a React app.
