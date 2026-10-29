@@ -299,6 +299,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
     },
     tips: [
       "Pass null for an empty single selection; with multiple, pass an array and update it in onValueChange.",
+      "Multiple mode keeps the filtered list open across choices; use Escape, an outside click, or the toggle to finish.",
       "Multiple mode reuses MultiSelect behavior, chip slots, and styling; customize removeLabel for chip actions.",
       "Keep emptyMessage specific so people know whether no options exist or none match their filter.",
     ],
@@ -317,6 +318,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
     },
     tips: [
       "Keep option labels concise so multiple chips wrap cleanly inside bounded containers.",
+      "The list stays open after choices and retains the filter; dismiss with Escape, an outside click, or the toggle.",
       "Customize removeLabel when option labels need extra context in screen reader announcements.",
     ],
     accessibility: [

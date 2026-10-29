@@ -73,7 +73,7 @@ export const Multiple: Story = {
     await userEvent.click(input);
     await userEvent.type(input, "US");
     await userEvent.click(await canvas.findByRole("option", { name: "US East (N. Virginia)" }));
-    await userEvent.click(canvas.getByRole("button", { name: "Toggle Deployment region options" }));
+    await expect(input).toHaveAttribute("aria-expanded", "true");
     await userEvent.click(await canvas.findByRole("option", { name: "US West (Oregon)" }));
     await expect(canvas.getByRole("listbox")).toHaveAttribute("aria-multiselectable", "true");
     await userEvent.keyboard("{Escape}");
@@ -106,6 +106,7 @@ export const MultipleFormValidation: Story = {
     await expect(form.checkValidity()).toBe(true);
     await expect(new FormData(form).getAll("regions")).toEqual(["eu-central-1"]);
 
+    await userEvent.keyboard("{Escape}");
     await userEvent.click(canvas.getByRole("button", { name: "Clear Deployment region" }));
     await expect(form.checkValidity()).toBe(false);
     await expect(new FormData(form).getAll("regions")).toEqual([]);

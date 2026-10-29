@@ -459,7 +459,7 @@ By default, the popup mounts inside the field root and inherits its theme. If yo
 
 Use Combobox to filter a longer option list before choosing one or multiple values. Each option has a string `value`, a visible `label`, and an optional `disabled` flag. Single selection uses `string | null`; enable `multiple` to use a `readonly string[]` value and a `(value: string[]) => void` callback. Pass `null` or `[]` for the corresponding empty selection.
 
-Multiple mode delegates to [MultiSelect](#multiselect), including removable chips, keyboard navigation, clear-all, form submission, and disabled/read-only states. It uses `.kb-multiselect` CSS anatomy and `ClassNames<MultiSelectSlot>` slots, including `chips`, `chip`, `chipLabel`, and `chipRemove`. Single mode retains `.kb-combobox` anatomy. `ComboboxProps` remains the extensible single-selection interface, so existing wrappers can keep extending it. `ComboboxSingleProps` aliases that interface; use `ComboboxMultipleProps` for a multiple-selection wrapper or React's `ComponentProps<typeof Combobox>` for the complete discriminated union.
+Multiple mode delegates to [MultiSelect](#multiselect), including removable chips, keyboard navigation, clear-all, form submission, and disabled/read-only states. Its popup stays open after selections and deselections, retaining the current filter. Press Escape, click outside, or use the toggle to dismiss it. It uses `.kb-multiselect` CSS anatomy and `ClassNames<MultiSelectSlot>` slots, including `chips`, `chip`, `chipLabel`, and `chipRemove`. Single mode retains `.kb-combobox` anatomy. `ComboboxProps` remains the extensible single-selection interface, so existing wrappers can keep extending it. `ComboboxSingleProps` aliases that interface; use `ComboboxMultipleProps` for a multiple-selection wrapper or React's `ComponentProps<typeof Combobox>` for the complete discriminated union.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
@@ -525,7 +525,7 @@ export function DeploymentRegions() {
 
 ## MultiSelect
 
-Use MultiSelect when people need to search a longer list and keep multiple selections visible as removable chips. Selected values render inside a named chip toolbar with keyboard arrow/Backspace/Delete support and per-chip remove buttons.
+Use MultiSelect when people need to search a longer list and keep multiple selections visible as removable chips. Selected values render inside a named chip toolbar with keyboard arrow/Backspace/Delete support and per-chip remove buttons. Choosing or deselecting an option keeps the popup open and preserves the filter. Escape, an outside click, or the toggle closes it.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|

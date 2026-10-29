@@ -34,7 +34,7 @@ describe("Combobox multiple", () => {
     expect(screen.queryByRole("option", { name: "Europe" })).not.toBeInTheDocument();
     await user.click(await screen.findByRole("option", { name: "US East" }));
     expect(screen.getByRole("button", { name: "Remove US East" })).toBeInTheDocument();
-    await user.click(screen.getByRole("button", { name: "Toggle Regions options" }));
+    expect(input).toHaveAttribute("aria-expanded", "true");
     expect(await screen.findByRole("listbox")).toHaveAttribute("aria-multiselectable", "true");
     await user.click(screen.getByRole("option", { name: "US West" }));
     expect(screen.getByRole("button", { name: "Remove US West" })).toBeInTheDocument();
@@ -58,6 +58,7 @@ describe("Combobox multiple", () => {
     await user.clear(input);
     await user.keyboard("{Backspace}");
     expect(screen.queryByRole("button", { name: "Remove US West" })).not.toBeInTheDocument();
+    await user.keyboard("{Escape}");
     await user.click(screen.getByRole("button", { name: "Clear Regions" }));
     expect(screen.queryByRole("button", { name: "Remove US East" })).not.toBeInTheDocument();
     expect(input).toHaveValue("");
@@ -135,6 +136,7 @@ describe("Combobox multiple", () => {
     expect(form.checkValidity()).toBe(true);
     expect(new FormData(form).getAll("regions")).toEqual(["east"]);
 
+    await user.keyboard("{Escape}");
     await user.click(screen.getByRole("button", { name: "Clear Regions" }));
     expect(form.checkValidity()).toBe(false);
     expect(new FormData(form).getAll("regions")).toEqual([]);
