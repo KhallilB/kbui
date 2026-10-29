@@ -165,15 +165,16 @@ export const componentGuides: Record<string, ComponentGuide> = {
     accessibility: accessibilityGuides.FileInput,
   },
   Grid: {
-    use: "Arrange related items in responsive columns or a single vertical list. Grid is layout, not a spreadsheet widget.",
+    use: "Arrange related items in responsive columns, fixed column counts, or a single vertical list. Grid is layout, not a spreadsheet widget.",
     example: {
       title: "Arrange project summaries",
       description:
-        "Cards share the available width and stack as space gets tighter. Use the list example when the collection should have native list semantics.",
+        "Cards share the available width and stack as space gets tighter. Compare fixed column counts, minimum item widths, gap presets, and native list semantics.",
     },
     tips: [
-      "Use layout=stack for one column and auto for responsive equal columns.",
-      "Use as=ul or ol with li children; adjust gap and minimum width through tokens.",
+      "Use layout=stack or columns=1 for one column, auto for responsive columns, or columns=2, 3, or 4 for equal multi-column rows.",
+      "Use minItemWidth (sm, md, lg), gap (none, sm, md, lg), and align (start, center, end, baseline, stretch) before reaching for custom CSS tokens.",
+      "Use as=ul or ol with li children when the collection should announce native list semantics.",
     ],
     accessibility: accessibilityGuides.Grid,
   },

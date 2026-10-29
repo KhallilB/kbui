@@ -199,7 +199,7 @@ export const accessibilityGuides = {
       "It does not introduce an ARIA grid role or a separate keyboard model.",
     ],
     authoring: [
-      "Choose list semantics for a collection and keep the visual order consistent with DOM order.",
+      "Use ul/ol with li children and role=list for marker-free collections; confirm list exposure in supported browsers and keep visual order consistent with DOM order.",
       "Supply real headings, links, and controls inside each item; layout does not supply their semantics.",
     ],
     verify: [

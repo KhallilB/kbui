@@ -20,6 +20,8 @@ test("each component owns a full prop or composition reference", () => {
   expect(props("Card")).toContain("`appearance`");
   expect(props("Card")).not.toContain("`layout`");
   expect(props("Grid")).toContain("`layout`");
+  for (const prop of ["`columns`", "`minItemWidth`", "`gap`", "`align`"])
+    expect(props("Grid")).toContain(prop);
   expect(props("Grid")).not.toContain("`appearance`");
   expect(props("Tooltip")).toContain("`delay`");
   expect(props("ScrollArea")).toContain("`maxHeight`");
