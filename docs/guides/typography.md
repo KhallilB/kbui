@@ -29,7 +29,7 @@ export function Installation() {
 
 Choose heading rank from the document outline. Visual size can change independently: `Heading level={2} size="sm"` remains a section heading. Use Text for prose and native `strong` or `em` for meaningful emphasis. Use `Text as="span"` inside a sentence; use `as="div"` only when grouping block content. Components remove their own margins; spacing belongs to the parent layout.
 
-The [canonical React API](../../packages/react/README.md#heading) lists props and defaults. The [composed article](../../packages/react/src/components/Heading/Heading.stories.tsx) exercises all four inside an existing Panel, in both themes. Other colocated stories cover sizes, supporting text, links within prose, inline code paths and syntax-highlighted multiline code blocks.
+The [canonical React API](../../packages/react/docs/components/Heading.md) lists props and defaults. The [composed article](../../packages/react/src/components/Heading/Heading.stories.tsx) exercises all four inside an existing Panel, in both themes. Other colocated stories cover sizes, supporting text, links within prose, inline code paths and syntax-highlighted multiline code blocks.
 
 ## Framework-free recipes
 
@@ -55,7 +55,7 @@ The same anatomy works with plain HTML or another renderer. Install `@kb.ui/css`
 </div>
 ```
 
-CSS-only headings default to lg when no size attribute exists. Render the appropriate `data-size` explicitly to match React's rank-based defaults. Text defaults to md and primary ink without attributes. Link requires an anchor with href; Code uses a native `code` element inline or `.kb-code[data-block]` for multiline listings. In React, give router links to `Link.Provider` once (see [router links](../../packages/react/README.md#router-links)); a CSS-only router integration should emit the same native anchor and class and preserve its own ref and event handling.
+CSS-only headings default to lg when no size attribute exists. Render the appropriate `data-size` explicitly to match React's rank-based defaults. Text defaults to md and primary ink without attributes. Link requires an anchor with href; Code uses a native `code` element inline or `.kb-code[data-block]` for multiline listings. In React, give router links to `Link.Provider` once (see [router links](../../packages/react/docs/components/Link.md#router-links)); a CSS-only router integration should emit the same native anchor and class and preserve its own ref and event handling.
 
 ## Theme and scale
 

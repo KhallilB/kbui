@@ -7,6 +7,7 @@ test("private-doc cleanup and public prose need no browser", () => {
     requiresBrowserChecks([
       "README.md",
       "packages/css/README.md",
+      "packages/react/README.md",
       "docs/product.md",
       "apps/storybook/site/README.md",
       "apps/storybook/docs/Introduction.mdx",
@@ -21,7 +22,7 @@ test("private-doc cleanup and public prose need no browser", () => {
 
 test("source, executable stories and unknown files retain browser coverage", () => {
   for (const path of [
-    "packages/react/README.md",
+    "packages/react/docs/components/Button.md",
     "packages/react/src/components/Button/Button.tsx",
     "packages/tokens/tokens.json",
     "apps/storybook/stories/Test.mdx",

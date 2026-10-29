@@ -72,7 +72,7 @@ kbui imports no app library: no router, i18n, form, date or image package. Apps 
 
 Never intercept with a callback such as `navigate(href)` that re-implements the library; the app loses that library's own features.
 
-A provider follows the [`Link.Provider`](../../packages/react/README.md#router-links) shape: namespaced on its owning component, one `component` prop defaulting to the native element, which receives native props and `ref` and must pass them through. The nearest provider wins, and with no provider the output is unchanged. Expose one `use<Name>Component()` reader. Test the default, the swap and a nested override; add a story and a short adapter example per common library to the README. Add API only for a real call site. Do not add an umbrella provider until three or more seams exist.
+A provider follows the [`Link.Provider`](../../packages/react/docs/components/Link.md#router-links) shape: namespaced on its owning component, one `component` prop defaulting to the native element, which receives native props and `ref` and must pass them through. The nearest provider wins, and with no provider the output is unchanged. Expose one `use<Name>Component()` reader. Test the default, the swap and a nested override; add a story and a short adapter example per common library to the README. Add API only for a real call site. Do not add an umbrella provider until three or more seams exist.
 
 ## 5. Add stories
 
@@ -87,3 +87,7 @@ bun run --filter @kb.ui/storybook test:themes
 ```
 
 Then open the component in Storybook and review it in both light and dark.
+
+## Document the component reference
+
+Create `packages/react/docs/components/<Name>.md` and link it from the appropriate group in the [React component index](../../packages/react/README.md#components). Follow [React reference maintenance](../../CONTRIBUTING.md#react-reference-maintenance) for page structure and ownership. Keep API tables in the Markdown page; the catalog and Storybook read that same reference. Add focused links to existing stories instead of copying their implementations.

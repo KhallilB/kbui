@@ -18,7 +18,7 @@ export type CatalogGroup = "Actions" | "Forms" | "Feedback" | "Layout" | "Typogr
 export type ApiBlock =
   | { kind: "table"; headers: string[]; rows: string[][] }
   | { kind: "paragraph"; text: string }
-  | { kind: "heading"; level: 3 | 4 | 5 | 6; text: string }
+  | { kind: "heading"; level: 2 | 3 | 4 | 5 | 6; text: string }
   | { kind: "code"; text: string };
 export type CatalogEntry = {
   id: string;

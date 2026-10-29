@@ -20,7 +20,7 @@ import type { ApiBlock, CatalogEntry, ComponentReference } from "./types";
 
 const reactRoot = fileURLToPath(new URL("../../../packages/react/", import.meta.url));
 const componentsRoot = resolve(reactRoot, "src/components");
-const guidePath = resolve(reactRoot, "README.md");
+const referenceRoot = resolve(reactRoot, "docs/components");
 const setupPath = fileURLToPath(new URL("../site/setup-model.ts", import.meta.url));
 const changelogPath = fileURLToPath(new URL("../../../CHANGELOG.md", import.meta.url));
 const changelogId = "\0virtual:kbui-changelog";
@@ -40,7 +40,9 @@ function cells(line: string): string[] {
 }
 
 export function parseApiSection(guide: string, heading: string, rowName?: string): ApiBlock[] {
-  const section = guide.split(/^## /m).find((block) => block.startsWith(`${heading}\n`));
+  const section = guide.startsWith(`# ${heading}\n`)
+    ? guide.slice(2)
+    : guide.split(/^## /m).find((block) => block.startsWith(`${heading}\n`));
   if (!section) throw new Error(`Missing canonical API section: ${heading}`);
   const lines = section.slice(heading.length).trim().split("\n");
   const blocks: ApiBlock[] = [];
@@ -51,11 +53,11 @@ export function parseApiSection(guide: string, heading: string, rowName?: string
       index++;
       continue;
     }
-    const subheading = /^(#{3,6}) (.+)$/.exec(line);
+    const subheading = /^(#{2,6}) (.+)$/.exec(line);
     if (subheading) {
       blocks.push({
         kind: "heading",
-        level: subheading[1]?.length as 3 | 4 | 5 | 6,
+        level: subheading[1]?.length as 2 | 3 | 4 | 5 | 6,
         text: subheading[2] ?? "",
       });
       index++;
@@ -83,7 +85,7 @@ export function parseApiSection(guide: string, heading: string, rowName?: string
         lines[++index]?.trim() &&
         !lines[index]?.startsWith("|") &&
         !lines[index]?.startsWith("```") &&
-        !/^#{3,6} /.test(lines[index] ?? "")
+        !/^#{2,6} /.test(lines[index] ?? "")
       )
         paragraph.push(lines[index] ?? "");
       blocks.push({ kind: "paragraph", text: paragraph.join(" ") });
@@ -96,9 +98,9 @@ export function parseApiSection(guide: string, heading: string, rowName?: string
 }
 
 export function loadComponentReferences(): Record<string, ComponentReference> {
-  const guide = readFileSync(guidePath, "utf8");
   return Object.fromEntries(
     Object.entries(definitions).map(([name, definition]) => {
+      const guide = readFileSync(resolve(referenceRoot, `${name}.md`), "utf8");
       const guidance = componentGuides[name];
       if (!guidance) throw new Error(`Add usage and accessibility guidance for ${name}`);
       const tables = parseApiSection(guide, name).filter((block) => block.kind === "table");
@@ -109,12 +111,12 @@ export function loadComponentReferences(): Record<string, ComponentReference> {
 }
 
 export function loadCatalogSources(): CatalogEntry[] {
-  const guide = readFileSync(guidePath, "utf8");
   const folders = readdirSync(componentsRoot, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name)
     .sort();
   return folders.map((name) => {
+    const guide = readFileSync(resolve(referenceRoot, `${name}.md`), "utf8");
     const definition = definitions[name];
     if (!definition) throw new Error(`Add catalog metadata for ${name}`);
     const path = resolve(componentsRoot, name, `${name}.stories.tsx`);
@@ -212,7 +214,8 @@ export function catalogPlugin(): Plugin {
         return `export default ${JSON.stringify(parseChangelog(readFileSync(changelogPath, "utf8"), Object.keys(definitions)))};`;
     },
     buildStart() {
-      this.addWatchFile(guidePath);
+      for (const name of Object.keys(definitions))
+        this.addWatchFile(resolve(referenceRoot, `${name}.md`));
       this.addWatchFile(guidancePath);
       this.addWatchFile(setupPath);
       this.addWatchFile(changelogPath);
@@ -222,7 +225,7 @@ export function catalogPlugin(): Plugin {
     },
     handleHotUpdate({ file, server }) {
       if (
-        file !== guidePath &&
+        !file.startsWith(`${referenceRoot}/`) &&
         file !== guidancePath &&
         file !== setupPath &&
         file !== changelogPath &&
