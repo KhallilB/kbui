@@ -362,6 +362,45 @@ export const TokenOverrides: Story = {
     await waitFor(() => expect(popup.getBoundingClientRect().width).toBe(256));
     await userEvent.click(page.getByRole("button", { name: "Close" }));
     await waitFor(() => expect(page.queryByRole("dialog")).toBeNull());
+    const document = canvasElement.ownerDocument;
+    const reduced = document.defaultView?.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const fixture = document.createElement("div");
+    fixture.style.cssText = "position:fixed;visibility:hidden;pointer-events:none";
+    const idle = document.createElement("div");
+    idle.className = "kb-popover";
+    idle.style.cssText =
+      "position:fixed;left:100px;top:100px;width:160px;height:80px;transform-origin:0 0;--kb-popover-motion-duration:0s;--kb-popover-enter-offset:12px;--kb-popover-enter-scale:.9";
+    const edge = idle.cloneNode() as HTMLElement;
+    document.body.appendChild(fixture).append(idle, edge);
+    try {
+      for (const dir of ["ltr", "rtl"]) {
+        fixture.dir = dir;
+        const offsets = [
+          ["top", 0, 12],
+          ["bottom", 0, -12],
+          ["left", 12, 0],
+          ["right", -12, 0],
+          ["inline-start", dir === "ltr" ? 12 : -12, 0],
+          ["inline-end", dir === "ltr" ? -12 : 12, 0],
+        ] as const;
+        for (const [side, x, y] of offsets) {
+          edge.dataset.side = side;
+          for (const phase of ["data-starting-style", "data-ending-style"]) {
+            edge.setAttribute(phase, "");
+            const resting = idle.getBoundingClientRect();
+            const moving = edge.getBoundingClientRect();
+            const label = `${dir} ${side} ${phase}`;
+            await expect(moving.left - resting.left, label).toBeCloseTo(reduced ? 0 : x, 3);
+            await expect(moving.top - resting.top, label).toBeCloseTo(reduced ? 0 : y, 3);
+            await expect(moving.width, label).toBeCloseTo(reduced ? 160 : 144, 3);
+            await expect(moving.height, label).toBeCloseTo(reduced ? 80 : 72, 3);
+            edge.removeAttribute(phase);
+          }
+        }
+      }
+    } finally {
+      fixture.remove();
+    }
   },
 };
 
