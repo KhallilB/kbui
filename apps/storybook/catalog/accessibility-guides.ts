@@ -1,6 +1,22 @@
 import type { AccessibilityGuide } from "./accessibility-standards";
 
 export const accessibilityGuides = {
+  Collection: {
+    provides: [
+      "Native table headers and caption, aria-sort, named checkboxes with mixed page selection, labeled filters and pagination.",
+      "Polite result, page, selection and pending statuses; failed actions retain selection and expose an alert. Controls lock while fetching or submitting.",
+    ],
+    authoring: [
+      "Supply stable unique IDs, meaningful label and getItemLabel, readable cell content and a matches predicate for client filtering.",
+      "Own server authorization, request cancellation, confirmation of destructive actions, partial failures and focus recovery after removing records. Off-page eligibility must be rechecked by the server.",
+    ],
+    verify: [
+      "Tab through search, facets, sort, row checkboxes, actions and pagination. Use Space to select a row and confirm the page checkbox becomes mixed; page changes retain off-page selection.",
+      "With a screen reader, confirm table caption/header relationships, sort direction, checkbox names and result/action feedback. Manual screen-reader interoperability remains unverified.",
+      "At 320 CSS pixels, scroll the named table region with keyboard; controls must wrap and focus remain visible. Repeat in both themes, forced colors and enlarged text; table cells may require two-dimensional scrolling.",
+    ],
+    standards: ["1.3.1", "1.4.1", "1.4.10", "2.1.1", "2.4.7", "4.1.2", "4.1.3"],
+  },
   Container: {
     provides: [
       "The as prop selects a native landmark or section element; native naming attributes and refs pass through.",

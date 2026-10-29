@@ -25,6 +25,7 @@ export function storybookGlobals({ theme }: CatalogAppearance) {
 }
 
 export const layoutPreviewComponents = [
+  "collection",
   "grid",
   "container",
   "inline",
@@ -62,7 +63,7 @@ export function previewLayout(component: string, _story: string) {
   if (component === "tooltip") return { width: 520, minimum: 160 };
   if (["select", "combobox", "multiselect"].includes(component))
     return { width: 1120, minimum: 240 };
-  if (["grid", "container", "inline", "split", "panel"].includes(component))
+  if (["collection", "grid", "container", "inline", "split", "panel"].includes(component))
     return { width: 1120, minimum: 160 };
   if (
     [

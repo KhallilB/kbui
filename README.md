@@ -49,6 +49,7 @@ bun run check            # build, lint, types, examples, unit and package checks
 
 | Document | Covers |
 |---|---|
+| [Collection workflows](packages/react/docs/components/Collection.md) | Sorting, filtering, page selection, pagination, bulk actions and server ownership |
 | [React component guide](packages/react/README.md) | Choose components by task, read APIs, and find focused examples |
 | [Maintained features](docs/features.md) | Implementation, canonical docs, examples and current limits |
 | [Tokens](docs/tokens.md) | Token kinds, naming, aliases and dark mode |
