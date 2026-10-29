@@ -244,14 +244,16 @@ export const componentGuides: Record<string, ComponentGuide> = {
     accessibility: accessibilityGuides.Menu,
   },
   Combobox: {
-    use: "Let people filter a longer option list by typing before choosing one value. Use Select when the list is short enough to scan without typing.",
+    use: "Let people filter a longer option list by typing before choosing one or multiple values. Enable multiple for removable selection chips. Use Select when a single-choice list is short enough to scan without typing.",
     example: {
       title: "Find a deployment region",
       description:
         "Type to narrow the region list, choose a region with the keyboard or pointer, and clear the selection when needed.",
     },
     tips: [
-      "Pass null when nothing is selected and update value in onValueChange.",
+      "Pass null for an empty single selection; with multiple, pass an array and update it in onValueChange.",
+      "Multiple mode keeps the filtered list open across choices; use Escape, an outside click, or the toggle to finish.",
+      "Multiple mode reuses MultiSelect behavior, chip slots, and styling; customize removeLabel for chip actions.",
       "Keep emptyMessage specific so people know whether no options exist or none match their filter.",
     ],
     accessibility: accessibilityGuides.Combobox,
@@ -265,6 +267,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
     },
     tips: [
       "Keep option labels concise so multiple chips wrap cleanly inside bounded containers.",
+      "The list stays open after choices and retains the filter; dismiss with Escape, an outside click, or the toggle.",
       "Customize removeLabel when option labels need extra context in screen reader announcements.",
     ],
     accessibility: accessibilityGuides.MultiSelect,

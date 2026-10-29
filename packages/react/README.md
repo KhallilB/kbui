@@ -66,7 +66,7 @@ Choose by task. Each page contains a complete usage example, canonical API detai
 | Component | Use for |
 |---|---|
 | <a id="checkbox"></a>[Checkbox](docs/components/Checkbox.md) | Let people select options independently, including a mixed selection. |
-| <a id="combobox"></a>[Combobox](docs/components/Combobox.md) | Search and choose one option from a longer list. |
+| <a id="combobox"></a>[Combobox](docs/components/Combobox.md) | Search and choose one or multiple options from a longer list. |
 | <a id="errorsummary"></a>[ErrorSummary](docs/components/ErrorSummary.md) | Summarize form validation errors with links that focus each field. |
 | <a id="fieldset"></a>[Fieldset](docs/components/Fieldset.md) | Group related fields with a native fieldset, legend, and section help. |
 | <a id="fileinput"></a>[FileInput](docs/components/FileInput.md) | Choose files, review the list, and remove individual items. |

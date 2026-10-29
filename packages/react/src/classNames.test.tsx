@@ -124,6 +124,22 @@ const cases: [string, () => ReactElement][] = [
   [
     "multiselect",
     () => (
+      <Combobox
+        multiple
+        label="L"
+        description="d"
+        error="e"
+        value={["a"]}
+        defaultOpen
+        options={[{ value: "a", label: "A" }]}
+        onValueChange={() => {}}
+        classNames={every}
+      />
+    ),
+  ],
+  [
+    "multiselect",
+    () => (
       <MultiSelect
         label="L"
         description="d"

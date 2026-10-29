@@ -47,10 +47,13 @@ Components must remain readable and usable in light, dark and nested theme scope
 - Use semantic tokens for surfaces, text, borders and interaction states. Component color tokens should alias those roles so theme changes reach them.
 - Treat background and foreground as a pair. Verify text contrast against the rendered background, including gradients or overlays, in each relevant state. Filled primary actions use the shared action roles; see [paired overrides](restyling.md#common-changes).
 - Keep focus visible and disabled, selected and invalid states distinguishable where supported. Decorative icons should inherit `currentColor`; state icons may use semantic status colors.
+- For checkbox-style choices, render a visible unchecked boundary and a checked shape. Pair checked fills with their semantic foreground, retain a persistent selected-row cue, and keep keyboard highlight distinct from selection. Apply the shared [contrast checks](accessibility.md#contrast-zoom-spacing-and-motion) to the actual fill, gradient and overlay; a token name alone does not establish contrast.
 - Reuse shared controls in examples. Intentional visual overrides are supported, but must preserve theme support, focus visibility and disabled states.
 - Add canonical stories for meaningful states. Check both themes, nested scopes when theme-dependent aliases or portals are involved, reduced motion for animation, and forced colors for custom control styling.
 
 Canonical component stories run in both themes and motion preferences during site validation. Accessibility scans catch covered failures; they do not prove every state or color pairing is correct. Review the rendered states as well as the test results.
+
+In the catalog's light/dark comparison, inspect each iframe's rendered `html[data-theme]`, `color-scheme` and computed colors. Cached previews can retain their original URL while the host changes their effective theme. Check selected, unselected, highlighted and disabled choices together, including an open portaled list, a narrow viewport and forced colors. A pane label, URL global or passing accessibility scan alone is insufficient theme evidence.
 
 ## 4. Build the React side, test first
 

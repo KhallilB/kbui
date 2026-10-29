@@ -272,7 +272,7 @@
 
 .kb-multiselect-option {
   display: grid;
-  grid-template-columns: var(--kb-space-4) minmax(0, 1fr);
+  grid-template-columns: var(--kb-checkbox-size) minmax(0, 1fr);
   align-items: center;
   gap: var(--kb-space-2);
   min-block-size: var(--kb-menu-item-height);
@@ -287,13 +287,37 @@
   outline: none;
 }
 
-.kb-multiselect-option[data-highlighted] {
-  background-color: var(--kb-color-surface);
-  box-shadow: inset 0 0 0 1px var(--kb-color-border);
+.kb-multiselect-option::before {
+  content: "";
+  grid-area: 1 / 1;
+  inline-size: var(--kb-checkbox-size);
+  block-size: var(--kb-checkbox-size);
+  border: 1px solid var(--kb-color-muted);
+  border-radius: var(--kb-radius-sm);
+  background: var(--kb-material-recessed-face);
+  box-shadow: var(--kb-material-field-shadow);
 }
 
 .kb-multiselect-option[data-selected] {
-  font-weight: var(--kb-font-weight-medium);
+  background-color: var(--kb-color-surface);
+  font-weight: var(--kb-font-weight-strong);
+}
+
+@supports (background-color: color-mix(in oklab, red, blue)) {
+  .kb-multiselect-option[data-selected] {
+    background-color: color-mix(in oklab, var(--kb-color-accent) 20%, var(--kb-popup-background));
+  }
+}
+
+.kb-multiselect-option[data-selected]::before {
+  border: 2px solid var(--kb-color-ring);
+  background: var(--kb-color-action);
+  box-shadow: var(--kb-material-pressed-shadow);
+}
+
+.kb-multiselect-option[data-highlighted] {
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: -2px;
 }
 
 .kb-multiselect-option[data-disabled] {
@@ -303,14 +327,21 @@
 }
 
 .kb-multiselect-option-indicator {
+  grid-area: 1 / 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--kb-color-accent-ink);
+  visibility: hidden;
+  color: var(--kb-color-action-fg);
   font-weight: var(--kb-font-weight-strong);
 }
 
+.kb-multiselect-option[data-selected] .kb-multiselect-option-indicator {
+  visibility: visible;
+}
+
 .kb-multiselect-option-label {
+  grid-area: 1 / 2;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -392,14 +423,41 @@
     box-shadow: none;
   }
 
+  .kb-multiselect-option::before {
+    background: Canvas;
+    border-color: ButtonBorder;
+    box-shadow: none;
+    forced-color-adjust: none;
+  }
+
+  .kb-multiselect-option[data-selected] {
+    background: Canvas;
+    color: CanvasText;
+  }
+
+  .kb-multiselect-option[data-selected]::before {
+    background: Highlight;
+    border-color: Highlight;
+  }
+
   .kb-multiselect-option[data-highlighted] {
     background: Highlight;
+    color: HighlightText;
+    outline-color: Highlight;
+    forced-color-adjust: none;
+  }
+
+  .kb-multiselect-option[data-selected] .kb-multiselect-option-indicator {
     color: HighlightText;
     forced-color-adjust: none;
   }
 
-  .kb-multiselect-option[data-highlighted] .kb-multiselect-option-indicator {
-    color: HighlightText;
+  .kb-multiselect-option[data-selected][data-highlighted]::before {
+    border-color: HighlightText;
+  }
+
+  .kb-multiselect-option[data-disabled]::before {
+    border-color: GrayText;
   }
 
   .kb-multiselect[data-disabled] .kb-multiselect-shell,

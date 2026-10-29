@@ -60,10 +60,10 @@ export const definitions: Record<string, Definition> = {
   },
   Combobox: {
     group: "Forms",
-    description: "Search and choose one option from a longer list.",
+    description: "Search and choose one or multiple options from a longer list.",
     examples: {
       Default: "Default",
-      Preselected: "Preselected",
+      Multiple: "Multiple selections",
       Invalid: "Invalid",
       Empty: "Empty",
       Disabled: "Disabled",

@@ -78,7 +78,7 @@ Behavior changes are test-first: write the test, see it fail, then write the cod
 
 ## Public docs and internal stories
 
-Follow [Adding a component](docs/guides/adding-a-component.md), including its [theme and state requirements](docs/guides/adding-a-component.md#theme-and-state-support), when introducing or changing shared controls.
+Follow [Adding a component](docs/guides/adding-a-component.md), including its [theme, selection-state and rendered-contrast requirements](docs/guides/adding-a-component.md#theme-and-state-support), when introducing or changing shared controls. Verify the actual light/dark theme roots and visible control states in the rendered previews.
 
 Public Storybook includes `apps/storybook/docs` and component stories beside `packages/react/src` implementations. Keep reusable component examples there. Site screens, restyle showcases and validation fixtures belong in `apps/storybook/stories`; they are excluded from production bundles and navigation.
 

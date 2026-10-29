@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { type CSSProperties, useState } from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
-import { Combobox, type ComboboxOption, type ComboboxProps } from "./Combobox";
+import { Combobox, type ComboboxOption, type ComboboxSingleProps } from "./Combobox";
 
 const regionOptions: ComboboxOption[] = [
   { value: "us-east-1", label: "US East (N. Virginia)" },
@@ -13,7 +13,7 @@ const regionOptions: ComboboxOption[] = [
   { value: "sa-east-1", label: "South America (São Paulo)" },
 ];
 
-function ComboboxExample({ value: initial, ...props }: ComboboxProps) {
+function ComboboxExample({ value: initial, ...props }: ComboboxSingleProps) {
   const [value, setValue] = useState<string | null>(initial);
   return <Combobox {...props} value={value} onValueChange={setValue} />;
 }
@@ -31,7 +31,7 @@ const meta = {
     description: "Type to filter regions by name.",
   },
   render: (args) => <ComboboxExample {...args} />,
-} satisfies Meta<typeof Combobox>;
+} satisfies Meta<ComboboxSingleProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -56,6 +56,60 @@ export const Preselected: Story = {
   args: {
     value: "eu-west-1",
     description: "Clear the current region or type to pick another.",
+  },
+};
+
+function MultipleComboboxExample(props: ComboboxSingleProps) {
+  const [value, setValue] = useState<string[]>([]);
+  return <Combobox {...props} multiple value={value} onValueChange={setValue} />;
+}
+
+export const Multiple: Story = {
+  args: { description: "Select multiple regions. Remove chips individually or clear all." },
+  render: (args) => <MultipleComboboxExample {...args} />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole("combobox", { name: "Deployment region" });
+    await userEvent.click(input);
+    await userEvent.type(input, "US");
+    await userEvent.click(await canvas.findByRole("option", { name: "US East (N. Virginia)" }));
+    await expect(input).toHaveAttribute("aria-expanded", "true");
+    await userEvent.click(await canvas.findByRole("option", { name: "US West (Oregon)" }));
+    await expect(canvas.getByRole("listbox")).toHaveAttribute("aria-multiselectable", "true");
+    await userEvent.keyboard("{Escape}");
+    await expect(
+      await canvas.findByRole("button", { name: "Remove US East (N. Virginia)" }),
+    ).toBeVisible();
+    await expect(canvas.getByRole("button", { name: "Remove US West (Oregon)" })).toBeVisible();
+  },
+};
+
+export const MultipleFormValidation: Story = {
+  tags: ["!dev", "!autodocs"],
+  args: { required: true, name: "regions" },
+  render: (args) => (
+    <form aria-label="Deployment">
+      <MultipleComboboxExample {...args} />
+    </form>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const form = canvas.getByRole<HTMLFormElement>("form", { name: "Deployment" });
+    const input = canvas.getByRole("combobox", { name: "Deployment region" });
+    await expect(form.checkValidity()).toBe(false);
+    await userEvent.click(input);
+    await userEvent.type(input, "Frank");
+    await expect(form.checkValidity()).toBe(false);
+    await expect(new FormData(form).getAll("regions")).toEqual([]);
+
+    await userEvent.keyboard("{ArrowDown}{Enter}");
+    await expect(form.checkValidity()).toBe(true);
+    await expect(new FormData(form).getAll("regions")).toEqual(["eu-central-1"]);
+
+    await userEvent.keyboard("{Escape}");
+    await userEvent.click(canvas.getByRole("button", { name: "Clear Deployment region" }));
+    await expect(form.checkValidity()).toBe(false);
+    await expect(new FormData(form).getAll("regions")).toEqual([]);
   },
 };
 

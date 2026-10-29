@@ -9,6 +9,7 @@ import {
   useRef,
 } from "react";
 import { type ClassNames, kb, resolveInvalid } from "../../utils/kb";
+import { MultiSelect, type MultiSelectProps } from "../MultiSelect/MultiSelect";
 
 /** Single selectable option in a Combobox list. */
 export interface ComboboxOption {
@@ -41,6 +42,8 @@ export type ComboboxSlot =
 /** Props for the searchable single-select Combobox component. */
 export interface ComboboxProps
   extends Omit<ComponentPropsWithoutRef<"div">, "defaultValue" | "onChange"> {
+  /** Choose one option; omit for single selection. */
+  multiple?: false | undefined;
   /** Visible label naming the combobox input. */
   label: string;
   /** Selectable options shown and filtered in the popup list. */
@@ -89,8 +92,29 @@ export interface ComboboxProps
   classNames?: ClassNames<ComboboxSlot>;
 }
 
-/** Searchable single-choice combobox with type-to-filter and removable selection. */
-export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
+/** Multiple-choice combobox props; shares MultiSelect behavior and styling. */
+export interface ComboboxMultipleProps extends MultiSelectProps {
+  /** Enable multiple selections with removable chips. */
+  multiple: true;
+}
+
+/** Explicit single-selection props; preserves existing ComboboxProps contract. */
+export type ComboboxSingleProps = ComboboxProps;
+
+type ComboboxSelectionProps = ComboboxProps | ComboboxMultipleProps;
+
+/** Searchable single or multiple selection with removable values. */
+export const Combobox = forwardRef<HTMLInputElement, ComboboxSelectionProps>(
+  function Combobox(props, ref) {
+    if (props.multiple) {
+      const { multiple: _, ...rest } = props;
+      return <MultiSelect {...rest} ref={ref} />;
+    }
+    return <SingleCombobox {...props} ref={ref} />;
+  },
+);
+
+const SingleCombobox = forwardRef<HTMLInputElement, ComboboxSingleProps>(function SingleCombobox(
   {
     label,
     options,
@@ -117,6 +141,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
     className,
     classNames,
     id,
+    multiple: _,
     "aria-describedby": ariaDescribedBy,
     "aria-invalid": callerAriaInvalid,
     ...rest

@@ -42,6 +42,22 @@ export const Default: Story = {
     const removeWebhooks = canvas.getByRole("button", { name: "Remove Webhooks" });
     await userEvent.click(removeWebhooks);
     await expect(canvas.queryByRole("button", { name: "Remove Webhooks" })).toBeNull();
+    const input = canvas.getByRole("combobox", { name: "API scopes" });
+    await userEvent.click(input);
+    await userEvent.type(input, "Payments");
+    await userEvent.click(await canvas.findByRole("option", { name: "Payments write" }));
+    await expect(input).toHaveAttribute("aria-expanded", "true");
+    await expect(canvas.getByRole("option", { name: "Payments read" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    await expect(canvas.getByRole("option", { name: "Payments write" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    await userEvent.keyboard("{Escape}");
+    await expect(await canvas.findByRole("button", { name: "Remove Payments read" })).toBeVisible();
+    await expect(canvas.getByRole("button", { name: "Remove Payments write" })).toBeVisible();
   },
 };
 

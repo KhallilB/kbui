@@ -24,8 +24,10 @@ export {
 } from "./components/Code/Code";
 export {
   Combobox,
+  type ComboboxMultipleProps,
   type ComboboxOption,
   type ComboboxProps,
+  type ComboboxSingleProps,
   type ComboboxSlot,
 } from "./components/Combobox/Combobox";
 export {
