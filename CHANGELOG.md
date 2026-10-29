@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.10.4](https://github.com/KhallilB/kbui/compare/v0.10.3...v0.10.4) (2026-10-29)
+
+
+### Bug Fixes
+
+* **release:** keep published READMEs and documentation releases in sync ([118f274](https://github.com/KhallilB/kbui/commit/118f2743438d49fa6a4d0102179966280c92acc4))
+* **release:** verify npm READMEs and prepare documentation releases ([9283935](https://github.com/KhallilB/kbui/commit/9283935ab8a8c3a1597d8dd0cecc04389427ee70))
+
 ## [0.10.3](https://github.com/KhallilB/kbui/compare/v0.10.2...v0.10.3) (2026-10-29)
 
 
