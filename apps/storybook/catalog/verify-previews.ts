@@ -187,6 +187,10 @@ try {
             toast: ".kb-toast-viewport[data-placement=inline]",
             progress: ".kb-progress",
             scrollarea: ".kb-scrollarea",
+            table: ".kb-table-scroll",
+            descriptionlist: ".kb-descriptionlist",
+            collectionlist: ".kb-collectionlist",
+            collectionrow: ".kb-collectionlist",
           };
           const selector = fluidSelectors[entry.id];
           if (selector) {

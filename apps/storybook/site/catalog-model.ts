@@ -32,6 +32,10 @@ export const layoutPreviewComponents = [
   "separator",
   "panel",
   "scrollarea",
+  "table",
+  "descriptionlist",
+  "collectionlist",
+  "collectionrow",
 ] as const;
 
 export const surfacePreviewComponents = [
@@ -62,7 +66,19 @@ export function previewLayout(component: string, _story: string) {
   if (component === "tooltip") return { width: 520, minimum: 160 };
   if (["select", "combobox", "multiselect"].includes(component))
     return { width: 1120, minimum: 240 };
-  if (["grid", "container", "inline", "split", "panel"].includes(component))
+  if (
+    [
+      "grid",
+      "container",
+      "inline",
+      "split",
+      "panel",
+      "table",
+      "descriptionlist",
+      "collectionlist",
+      "collectionrow",
+    ].includes(component)
+  )
     return { width: 1120, minimum: 160 };
   if (
     [

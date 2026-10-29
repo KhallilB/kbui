@@ -610,3 +610,20 @@ export const ComponentDetails: Story = {
     expect(canvas.getByRole("textbox", { name: "Component code" })).toBeEnabled();
   },
 };
+
+export const StructuredData: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("radio", { name: "Structured data" }));
+    expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent(
+      `4 of ${entries.length}`,
+    );
+    for (const name of ["Table", "DescriptionList", "CollectionList", "CollectionRow"]) {
+      expect(canvas.getByRole("link", { name })).toHaveAttribute(
+        "href",
+        `./?component=${name.toLowerCase()}`,
+      );
+    }
+    expect(canvas.queryByRole("link", { name: "Button" })).toBeNull();
+  },
+};

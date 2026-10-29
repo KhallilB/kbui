@@ -9,6 +9,60 @@ export type ComponentGuide = {
 };
 
 export const componentGuides: Record<string, ComponentGuide> = {
+  DescriptionList: {
+    use: "Present named facts about one record; choose Table for column-by-column comparison.",
+    example: {
+      title: "Scan project details",
+      description:
+        "Native terms and definitions align across groups, then stack in narrow parents. Compare rich values and nested detail lists.",
+    },
+    tips: [
+      "Group one Term before one or more Detail values inside each Item.",
+      "Preserve zero values, show useful unavailable text and keep controls separately labeled.",
+    ],
+    accessibility: accessibilityGuides.DescriptionList,
+  },
+  CollectionList: {
+    use: "Group records people scan by name, summary, status and actions.",
+    example: {
+      title: "Browse projects",
+      description:
+        "Native lists retain item structure while metadata aligns and wraps. Compare ordered and filtered examples.",
+    },
+    tips: [
+      "Use stable keys and keep filtering, ordering, requests and selection policy in your app.",
+      "Use native ol for meaningful order; put useful empty/error guidance outside an empty list.",
+    ],
+    accessibility: accessibilityGuides.CollectionList,
+  },
+  CollectionRow: {
+    use: "Summarize a record with leading content, details, metadata and independent actions.",
+    example: {
+      title: "Review a project record",
+      description:
+        "Compose a title Link, optional selection Checkbox and named actions; compare selection, actions and long content.",
+    },
+    tips: [
+      "Use a title Link for navigation and Buttons or Menu for separate actions.",
+      "selected supplies visual emphasis; a Checkbox owns accessible checked state.",
+      "Compose inside CollectionList for shared alignment and responsive layout.",
+    ],
+    accessibility: accessibilityGuides.CollectionRow,
+  },
+  Table: {
+    use: "Compare related records with native table relationships and optional controlled interactions.",
+    example: {
+      title: "Review team workload",
+      description:
+        "Sort columns, select eligible people and open independent row actions. Dense layouts keep headers and edge columns visible while scrolling.",
+    },
+    tips: [
+      "Own data ordering, selected IDs and select-all scope in your app.",
+      "Use caption, scoped headers and named actions; keep ordinary Tab navigation.",
+      "Use ScrollContainer for bounded overflow and verify sticky cells at narrow widths.",
+    ],
+    accessibility: accessibilityGuides.Table,
+  },
   Container: {
     use: "Align page sections with shared maximum widths and responsive gutters.",
     example: {

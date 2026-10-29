@@ -51,7 +51,16 @@ describe("buildCss", () => {
   test("emits standalone reset and component files", async () => {
     expect(await readdir(dist)).toContain("reset.css");
     expect(await readdir(join(dist, "components"))).toEqual(
-      expect.arrayContaining(["button.css", "input.css", "dialog.css", "toast.css"]),
+      expect.arrayContaining([
+        "button.css",
+        "input.css",
+        "dialog.css",
+        "toast.css",
+        "table.css",
+        "descriptionlist.css",
+        "collectionlist.css",
+        "collectionrow.css",
+      ]),
     );
   });
 

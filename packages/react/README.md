@@ -42,6 +42,7 @@ The React adapter provides the components, styles and CSS variables together. In
 | Collect text, quantities, or files | [Input](docs/components/Input.md), [Textarea](docs/components/Textarea.md), [NumberField](docs/components/NumberField.md), or [FileInput](docs/components/FileInput.md) |
 | Arrange a responsive page | [Container](docs/components/Container.md) for the page boundary; [Inline](docs/components/Inline.md) for rows; [Grid](docs/components/Grid.md) for collections; [Split](docs/components/Split.md) for two columns |
 | Explain state or completion | [Status](docs/components/Status.md) for changing state; [Progress](docs/components/Progress.md) for completion; [Badge](docs/components/Badge.md) for metadata; [Callout](docs/components/Callout.md) for a fuller message |
+| Compare records or scan details | [Table](docs/components/Table.md), [DescriptionList](docs/components/DescriptionList.md), [CollectionList](docs/components/CollectionList.md) and [CollectionRow](docs/components/CollectionRow.md) |
 | Build readable content | [Heading](docs/components/Heading.md) and [Text](docs/components/Text.md) |
 
 Start with the complete Usage example on a component page. Its More examples section links to focused, working Storybook states; Related components explains nearby alternatives. Use the live Docs page for component-specific keyboard, focus, and labeling guidance. Check those contracts with your app’s actual content and flows.
@@ -104,6 +105,15 @@ Choose by task. Each page contains a complete usage example, canonical API detai
 | <a id="separator"></a>[Separator](docs/components/Separator.md) | Semantic or decorative horizontal and vertical rules. |
 | <a id="split"></a>[Split](docs/components/Split.md) | Two columns that stack when their parent narrows. |
 
+### Structured data
+
+| Component | Use for |
+|---|---|
+| <a id="table"></a>[Table](docs/components/Table.md) | Compare fields across records with sorting, selection, actions and sticky layouts. |
+| <a id="descriptionlist"></a>[DescriptionList](docs/components/DescriptionList.md) | Scan labeled facts with aligned, responsive key/value presentation. |
+| <a id="collectionlist"></a>[CollectionList](docs/components/CollectionList.md) | Group unordered or ordered records with shared alignment and spacing. |
+| <a id="collectionrow"></a>[CollectionRow](docs/components/CollectionRow.md) | Summarize a record with details, metadata, selection and independent actions. |
+
 ### Typography
 
 | Component | Use for |
@@ -116,6 +126,8 @@ Choose by task. Each page contains a complete usage example, canonical API detai
 ## Composition guides
 
 Use these when a task spans several components:
+
+- [Structured data](https://github.com/KhallilB/kbui/blob/main/docs/guides/structured-data.md): comparison tables, record details and collection rows.
 
 - [Layout composition](https://github.com/KhallilB/kbui/blob/main/docs/guides/layout.md): page boundaries, wrapping rows, responsive columns, and separators.
 - [Typography](https://github.com/KhallilB/kbui/blob/main/docs/guides/typography.md): heading hierarchy, readable copy, links, and inline code.

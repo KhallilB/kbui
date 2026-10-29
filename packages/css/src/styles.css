@@ -8,8 +8,11 @@
 @import "./components/card.css" layer(kbui.components);
 @import "./components/checkbox.css" layer(kbui.components);
 @import "./components/code.css" layer(kbui.components);
+@import "./components/collectionlist.css" layer(kbui.components);
+@import "./components/collectionrow.css" layer(kbui.components);
 @import "./components/combobox.css" layer(kbui.components);
 @import "./components/container.css" layer(kbui.components);
+@import "./components/descriptionlist.css" layer(kbui.components);
 @import "./components/dialog.css" layer(kbui.components);
 @import "./components/errorsummary.css" layer(kbui.components);
 @import "./components/fieldset.css" layer(kbui.components);
@@ -33,6 +36,7 @@
 @import "./components/stat.css" layer(kbui.components);
 @import "./components/status.css" layer(kbui.components);
 @import "./components/switch.css" layer(kbui.components);
+@import "./components/table.css" layer(kbui.components);
 @import "./components/text.css" layer(kbui.components);
 @import "./components/textarea.css" layer(kbui.components);
 @import "./components/toast.css" layer(kbui.components);

@@ -5,6 +5,8 @@ import {
   Callout,
   Checkbox,
   Code,
+  CollectionList,
+  CollectionRow,
   Combobox,
   Dialog,
   ErrorSummary,
@@ -21,6 +23,7 @@ import {
   Stat,
   Status,
   Switch,
+  Table,
   Textarea,
   Toast,
 } from "./index";
@@ -33,6 +36,39 @@ const every = new Proxy({} as Record<string, string>, {
 const camel = (part: string) => part.replace(/-(\w)/g, (_, c: string) => c.toUpperCase());
 
 const cases: [string, () => ReactElement][] = [
+  [
+    "collectionrow",
+    () => (
+      <CollectionList>
+        <CollectionRow
+          title="Name"
+          description="Details"
+          leading={<span>Icon</span>}
+          metadata="Status"
+          actions={<button type="button">Edit</button>}
+          classNames={every}
+        />
+      </CollectionList>
+    ),
+  ],
+  [
+    "table",
+    () => (
+      <table>
+        <thead>
+          <tr>
+            <Table.ColumnHeader
+              className={every.columnheader}
+              classNames={every}
+              onSortChange={() => {}}
+            >
+              Name
+            </Table.ColumnHeader>
+          </tr>
+        </thead>
+      </table>
+    ),
+  ],
   [
     "input",
     () => (

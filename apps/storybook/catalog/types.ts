@@ -14,7 +14,13 @@ export type SyntaxKind =
   | "type"
   | "function";
 export type CodeToken = [start: number, end: number, kind: SyntaxKind];
-export type CatalogGroup = "Actions" | "Forms" | "Feedback" | "Layout" | "Typography";
+export type CatalogGroup =
+  | "Actions"
+  | "Forms"
+  | "Feedback"
+  | "Layout"
+  | "Typography"
+  | "Structured data";
 export type ApiBlock =
   | { kind: "table"; headers: string[]; rows: string[][] }
   | { kind: "paragraph"; text: string }

@@ -461,6 +461,26 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-toast-motion-easing: cubic-bezier(0.16, 1, 0.3, 1);
   --kb-toast-enter-offset: var(--kb-space-3);
   --kb-toast-enter-scale: 0.985;
+  --kb-table-background: var(--kb-color-bg);
+  --kb-table-header-background: var(--kb-color-surface);
+  --kb-table-selected-background: var(--kb-color-surface);
+  --kb-table-border: var(--kb-color-border);
+  --kb-table-cell-padding-block: var(--kb-space-3);
+  --kb-table-cell-padding-inline: var(--kb-space-4);
+  --kb-table-dense-padding-block: var(--kb-space-1);
+  --kb-table-radius: var(--kb-radius-md);
+  --kb-table-sort-target: var(--kb-space-6);
+  --kb-descriptionlist-term-width: 12rem;
+  --kb-descriptionlist-padding-block: var(--kb-space-3);
+  --kb-descriptionlist-dense-padding-block: var(--kb-space-1);
+  --kb-descriptionlist-column-gap: var(--kb-space-6);
+  --kb-descriptionlist-row-gap: var(--kb-space-2);
+  --kb-collectionrow-padding-block: var(--kb-space-3);
+  --kb-collectionrow-padding-inline: var(--kb-space-4);
+  --kb-collectionrow-dense-padding-block: var(--kb-space-1);
+  --kb-collectionrow-leading-width: 3rem;
+  --kb-collectionrow-aside-width: 12rem;
+  --kb-collectionrow-gap: var(--kb-space-3);
   color-scheme: light;
 }
 
@@ -609,6 +629,10 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-toast-color: var(--kb-color-fg);
   --kb-toast-border: var(--kb-color-border);
   --kb-toast-shadow: var(--kb-material-float-shadow);
+  --kb-table-background: var(--kb-color-bg);
+  --kb-table-header-background: var(--kb-color-surface);
+  --kb-table-selected-background: var(--kb-color-surface);
+  --kb-table-border: var(--kb-color-border);
   color-scheme: light;
 }
 
@@ -757,6 +781,10 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-toast-color: var(--kb-color-fg);
   --kb-toast-border: var(--kb-color-border);
   --kb-toast-shadow: var(--kb-material-float-shadow);
+  --kb-table-background: var(--kb-color-bg);
+  --kb-table-header-background: var(--kb-color-surface);
+  --kb-table-selected-background: var(--kb-color-surface);
+  --kb-table-border: var(--kb-color-border);
   color-scheme: dark;
 }
 
@@ -906,6 +934,10 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-toast-color: var(--kb-color-fg);
     --kb-toast-border: var(--kb-color-border);
     --kb-toast-shadow: var(--kb-material-float-shadow);
+    --kb-table-background: var(--kb-color-bg);
+    --kb-table-header-background: var(--kb-color-surface);
+    --kb-table-selected-background: var(--kb-color-surface);
+    --kb-table-border: var(--kb-color-border);
     color-scheme: dark;
   }
 }

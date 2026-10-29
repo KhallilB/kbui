@@ -23,6 +23,12 @@ export {
   tokenizeCode,
 } from "./components/Code/Code";
 export {
+  CollectionList,
+  type CollectionListElement,
+  type CollectionListProps,
+} from "./components/CollectionList/CollectionList";
+export { CollectionRow, type CollectionRowProps } from "./components/CollectionRow/CollectionRow";
+export {
   Combobox,
   type ComboboxMultipleProps,
   type ComboboxOption,
@@ -36,6 +42,13 @@ export {
   type ContainerProps,
   type ContainerSize,
 } from "./components/Container/Container";
+export {
+  DescriptionList,
+  type DescriptionListDetailProps,
+  type DescriptionListItemProps,
+  type DescriptionListProps,
+  type DescriptionListTermProps,
+} from "./components/DescriptionList/DescriptionList";
 export {
   Dialog,
   type DialogActionsProps,
@@ -165,6 +178,23 @@ export {
   type SwitchSize,
   type SwitchTone,
 } from "./components/Switch/Switch";
+export {
+  Table,
+  type TableBodyProps,
+  type TableCaptionProps,
+  type TableCellOptions,
+  type TableCellProps,
+  type TableColumnHeaderProps,
+  type TableFootProps,
+  type TableHeadProps,
+  type TableProps,
+  type TableRowActionsProps,
+  type TableRowHeaderProps,
+  type TableRowProps,
+  type TableScrollContainerProps,
+  type TableSelectionCheckboxProps,
+  type TableSortDirection,
+} from "./components/Table/Table";
 export {
   Text,
   type TextElement,
