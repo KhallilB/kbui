@@ -167,7 +167,7 @@ export function ArchiveConfirmation({ onConfirm }: { onConfirm: () => Promise<vo
 Verify each pattern by keyboard: open, inspect the name and description, Tab/Shift+Tab within modal bounds, cancel, and confirm useful focus return. For confirmation, test rejection followed by retry, pending Escape/outside press, and repeated activation. For drawer and popover, check viewport edges at 320 CSS pixels, long content, zoom, RTL, nested themes, forced colors and reduced motion. Automated Chromium stories supplement the [manual task pass](accessibility.md#run-a-manual-task-pass); screen-reader and physical-device assessment remain application responsibilities.
 
 
-Run `bun run test:overlays` for the maintained three-engine, theme and motion matrix. The [overlay verification procedure](accessibility.md#overlay-compatibility) explains component-story coverage, the narrow Base UI focus-guard exclusion and separate manual screen-reader assessment.
+Run `bun run test:overlays` for the maintained three-engine, theme and motion matrix. The [overlay verification procedure](accessibility.md#overlay-compatibility) explains the narrow Base UI focus-guard exclusion, native keyboard coverage, scanner negative controls and separate manual screen-reader assessment.
 
 ## Popover update models and embedding
 

@@ -326,7 +326,7 @@ export const accessibilityGuides = {
     verify: [
       "Open with Enter, Tab through controls and close with Escape or Close; confirm focus returns to the trigger. An outside press must leave the outside control usable.",
       "With a screen reader inspect the name, description and expanded state. Check 320px, zoom, long content, nested themes, forced colors and a popup inside Dialog.",
-      "Run the Chromium/Firefox/WebKit overlay gate and separately assess VoiceOver. Scans exclude only Base UI implementation guards; actual controls retain naming checks.",
+      "Run the Chromium/Firefox/WebKit overlay gate and separately assess VoiceOver. Scans exclude only Base UI implementation guards; native focus-boundary tests and a real-control naming regression protect that scope.",
     ],
     standards: ["1.3.1", "1.4.10", "2.1.1", "2.1.2", "2.4.3", "2.4.7", "2.4.11", "4.1.2"],
   },
