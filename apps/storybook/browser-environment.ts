@@ -30,9 +30,14 @@ export function cleanupFirefoxHomes(): void {
 export function firefoxEnvironment(
   platform: NodeJS.Platform = process.platform,
   environment: NodeJS.ProcessEnv = process.env,
+  userId: number | undefined = process.getuid?.(),
 ): NodeJS.ProcessEnv | undefined {
-  if (platform !== "darwin") return undefined;
+  const rootContainer = platform === "linux" && userId === 0;
+  if (platform !== "darwin" && !rootContainer) return undefined;
   const home = mkdtempSync(join(tmpdir(), "kbui-firefox-home-"));
   browserHomes.push(home);
-  return { ...environment, CFFIXED_USER_HOME: home };
+  // Firefox rejects root launches when CI mounts another user's HOME.
+  return rootContainer
+    ? { ...environment, HOME: home }
+    : { ...environment, CFFIXED_USER_HOME: home };
 }

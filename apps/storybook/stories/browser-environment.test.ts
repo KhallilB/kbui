@@ -31,8 +31,24 @@ test("macOS Firefox uses distinct app-data homes without changing caller environ
   }
 });
 
-test("Linux and Windows keep the standard Firefox environment", () => {
-  expect(firefoxEnvironment("linux", { HOME: "/consumer/home" })).toBeUndefined();
+test("Linux root Firefox uses an owned home without changing caller environment", () => {
+  const environment = { HOME: "/github/home", SETTING: "retained" };
+  const browser = firefoxEnvironment("linux", environment, 0);
+  const home = browser?.HOME;
+  try {
+    expect(home).not.toBe(environment.HOME);
+    expect(home && existsSync(home)).toBe(true);
+    expect(browser?.SETTING).toBe("retained");
+    if (home) expect(statSync(home).mode & 0o777).toBe(0o700);
+    expect(environment.HOME).toBe("/github/home");
+  } finally {
+    cleanupFirefoxHomes();
+    if (home) expect(existsSync(home)).toBe(false);
+  }
+});
+
+test("Linux non-root and Windows keep the standard Firefox environment", () => {
+  expect(firefoxEnvironment("linux", { HOME: "/consumer/home" }, 1000)).toBeUndefined();
   expect(firefoxEnvironment("win32", {})).toBeUndefined();
 });
 
