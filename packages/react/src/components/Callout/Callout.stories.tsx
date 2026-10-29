@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { expect } from "storybook/test";
 import { Button } from "../Button/Button";
 import { Callout } from "./Callout";
 
@@ -63,4 +64,38 @@ export const Tones: Story = {
       ))}
     </div>
   ),
+  play: async ({ canvasElement }) => {
+    const tones = ["neutral", "info", "success", "warning", "danger"] as const;
+    const backgrounds = new Set<string>();
+    const borders = new Set<string>();
+    const titles = new Set<string>();
+
+    for (const tone of tones) {
+      const root = canvasElement.querySelector<HTMLElement>(`.kb-callout[data-tone="${tone}"]`);
+      const title = root?.querySelector<HTMLElement>(".kb-callout-title");
+      const body = root?.querySelector<HTMLElement>(".kb-callout-body");
+      expect(root).not.toBeNull();
+      expect(title).not.toBeNull();
+      expect(body).not.toBeNull();
+      if (!root || !title || !body) continue;
+
+      const rootStyle = getComputedStyle(root);
+      const titleStyle = getComputedStyle(title);
+      const bodyStyle = getComputedStyle(body);
+
+      backgrounds.add(rootStyle.backgroundColor);
+      borders.add(rootStyle.borderTopColor);
+      titles.add(titleStyle.color);
+
+      if (tone === "neutral") {
+        expect(titleStyle.color).toBe(bodyStyle.color);
+      } else {
+        expect(titleStyle.color).not.toBe(bodyStyle.color);
+      }
+    }
+
+    expect(backgrounds.size).toBe(tones.length);
+    expect(borders.size).toBe(tones.length);
+    expect(titles.size).toBe(tones.length);
+  },
 };
