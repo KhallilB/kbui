@@ -5,9 +5,9 @@
   display: flex;
   gap: var(--kb-space-3);
   padding: var(--kb-callout-padding-block) var(--kb-callout-padding-inline);
-  border: 1px solid color-mix(in oklab, var(--_callout-ink) 45%, transparent);
+  border: 1px solid color-mix(in oklab, var(--_callout-ink) 65%, transparent);
   border-radius: var(--kb-callout-radius);
-  background: color-mix(in oklab, var(--_callout-ink) 14%, transparent);
+  background: color-mix(in oklab, var(--_callout-ink) 18%, var(--kb-material-surface-bg));
   box-shadow: var(--kb-material-inlay-shadow);
   color: var(--kb-color-fg);
   font-size: var(--kb-text-control-size);
@@ -19,7 +19,7 @@
   [data-tone="warning"],
   [data-tone="danger"]
 ) {
-  --_callout-title: color-mix(in oklab, var(--_callout-ink) 75%, var(--kb-color-fg));
+  --_callout-title: var(--_callout-ink);
 }
 
 .kb-callout[data-tone="info"] {
@@ -70,9 +70,9 @@
   margin-top: var(--kb-space-2);
 }
 
-/* Ghost button muted ink drops below 4.5:1 over a 14% tone fill in light. */
+/* Ghost button muted ink drops below 4.5:1 over an 18% tone fill in light. */
 .kb-callout-actions .kb-button[data-variant="ghost"] {
-  color: color-mix(in oklab, var(--kb-color-muted) 70%, var(--kb-color-fg));
+  color: color-mix(in oklab, var(--kb-color-muted) 60%, var(--kb-color-fg));
 }
 
 @media (forced-colors: active) {

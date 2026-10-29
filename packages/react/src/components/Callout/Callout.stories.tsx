@@ -55,6 +55,14 @@ export const WithActions: Story = {
       />
     </div>
   ),
+  play: async ({ canvasElement }) => {
+    const icon = canvasElement.querySelector<HTMLElement>(".kb-callout-icon");
+    const title = canvasElement.querySelector<HTMLElement>(".kb-callout-title");
+    expect(icon).not.toBeNull();
+    expect(title).not.toBeNull();
+    if (!icon || !title) return;
+    expect(getComputedStyle(title).color).toBe(getComputedStyle(icon).color);
+  },
 };
 export const Tones: Story = {
   render: (args) => (
