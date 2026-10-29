@@ -212,7 +212,17 @@ const cases: [string, () => ReactElement][] = [
       </EmptyState>
     ),
   ],
-  ["spinner", () => <Spinner label="Loading" showLabel classNames={every} />],
+  [
+    "spinner",
+    () => (
+      <div>
+        <Spinner label="Loading" showLabel variant="ring" classNames={every} />
+        <Spinner label="Orbit" showLabel variant="orbit" classNames={every} />
+        <Spinner label="Dots" showLabel variant="dots" classNames={every} />
+        <Spinner label="Bars" showLabel variant="bars" classNames={every} />
+      </div>
+    ),
+  ],
   ["skeleton", () => <Skeleton lines={2} classNames={every} />],
   [
     "toast",

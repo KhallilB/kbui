@@ -499,6 +499,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
     tips: [
       "Wrap loading sections in a container with aria-busy='true' and toggle loading={false} to reveal children in place.",
       "Use variant='text' with lines for paragraphs, 'circle' for avatars, 'pill' for status chips, and 'rect' for panels or charts.",
+      "Choose animation='wave' for multi-line cascades, 'pulse' for quiet background refreshes, and tone='accent' for synthesis placeholders.",
     ],
     accessibility: accessibilityGuides.Skeleton,
   },
@@ -511,7 +512,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
     },
     tips: [
       "Pass decorative and tone='current' when placing Spinner inside a Button whose label already changes to 'Saving…'.",
-      "Set showLabel when the spinner stands alone in a toolbar, header, or inline status row.",
+      "Set showLabel (and optional appearance='pill' or variant='orbit' | 'dots' | 'bars') when the spinner stands alone in a toolbar, header, or inline status row.",
     ],
     accessibility: accessibilityGuides.Spinner,
   },

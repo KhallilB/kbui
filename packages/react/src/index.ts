@@ -153,15 +153,19 @@ export {
 } from "./components/Separator/Separator";
 export {
   Skeleton,
+  type SkeletonAnimation,
   type SkeletonProps,
   type SkeletonSize,
+  type SkeletonTone,
   type SkeletonVariant,
 } from "./components/Skeleton/Skeleton";
 export {
   Spinner,
+  type SpinnerAppearance,
   type SpinnerProps,
   type SpinnerSize,
   type SpinnerTone,
+  type SpinnerVariant,
 } from "./components/Spinner/Spinner";
 export {
   Split,

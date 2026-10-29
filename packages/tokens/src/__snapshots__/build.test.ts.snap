@@ -453,6 +453,14 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-spinner-duration: 760ms;
   --kb-spinner-easing: linear;
   --kb-spinner-track-opacity: 0.22;
+  --kb-spinner-orbit-duration: 1140ms;
+  --kb-spinner-pulse-duration: 960ms;
+  --kb-spinner-pulse-easing: var(--kb-motion-easing-smooth);
+  --kb-spinner-stagger: 140ms;
+  --kb-spinner-glow: 6px;
+  --kb-spinner-pill-padding-block: var(--kb-space-1);
+  --kb-spinner-pill-padding-inline: var(--kb-space-3);
+  --kb-spinner-pill-radius: var(--kb-radius-full);
   --kb-skeleton-radius-sm: var(--kb-radius-sm);
   --kb-skeleton-radius-md: var(--kb-radius-md);
   --kb-skeleton-radius-lg: var(--kb-radius-lg);
@@ -468,8 +476,11 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-skeleton-gap: var(--kb-space-2);
   --kb-skeleton-base: var(--kb-color-surface);
   --kb-skeleton-highlight: var(--kb-material-raised-top);
+  --kb-skeleton-sheen: var(--kb-material-soft-sheen);
   --kb-skeleton-border: var(--kb-material-soft-border);
   --kb-skeleton-duration: 1600ms;
+  --kb-skeleton-pulse-duration: 1800ms;
+  --kb-skeleton-stagger: 120ms;
   --kb-skeleton-easing: var(--kb-motion-easing-smooth);
   --kb-emptystate-radius: var(--kb-radius-lg);
   --kb-emptystate-padding-sm: var(--kb-space-4);

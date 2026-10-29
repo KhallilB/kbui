@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readFileSync, statSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { babelParseFile, extractSource, loadCsf } from "storybook/internal/csf-tools";
 import { releaseSampleKey, releaseSteps } from "../site/example-model.ts";
@@ -36,10 +36,24 @@ export const Selected = { render: ${render} };`;
   );
 }
 
+let cachedSiteSamples:
+  | {
+      signature: string;
+      value: {
+        playground: Record<string, CodeSample>;
+        surfaces: Record<string, CodeSample>;
+      };
+    }
+  | undefined;
+
 export function loadSiteSamples(): {
   playground: Record<string, CodeSample>;
   surfaces: Record<string, CodeSample>;
 } {
+  const signature = siteSampleFiles.map((path) => `${path}:${statSync(path).mtimeMs}`).join("|");
+  if (cachedSiteSamples && cachedSiteSamples.signature === signature) {
+    return cachedSiteSamples.value;
+  }
   const playground: Record<string, CodeSample> = {};
   for (const variant of variants)
     for (const size of sizes)
@@ -203,5 +217,7 @@ export function loadSiteSamples(): {
       surfaces[key] = highlightSample(sample);
     }
   }
-  return { playground, surfaces };
+  const value = { playground, surfaces };
+  cachedSiteSamples = { signature, value };
+  return value;
 }

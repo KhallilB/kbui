@@ -1,7 +1,13 @@
 import { render, screen } from "@testing-library/react";
 import { createRef } from "react";
 import { describe, expect, test } from "vitest";
-import { Spinner, type SpinnerSize, type SpinnerTone } from "./Spinner";
+import {
+  Spinner,
+  type SpinnerAppearance,
+  type SpinnerSize,
+  type SpinnerTone,
+  type SpinnerVariant,
+} from "./Spinner";
 
 const sizes: SpinnerSize[] = ["sm", "md", "lg"];
 const tones: SpinnerTone[] = [
@@ -13,6 +19,8 @@ const tones: SpinnerTone[] = [
   "warning",
   "danger",
 ];
+const variants: SpinnerVariant[] = ["ring", "orbit", "dots", "bars"];
+const appearances: SpinnerAppearance[] = ["plain", "pill"];
 
 describe("Spinner", () => {
   test("renders an accessible status indicator with default label and forwards ref", () => {
@@ -23,6 +31,8 @@ describe("Spinner", () => {
     expect(root).toHaveClass("kb-spinner");
     expect(root).toHaveAttribute("data-size", "md");
     expect(root).toHaveAttribute("data-tone", "accent");
+    expect(root).toHaveAttribute("data-variant", "ring");
+    expect(root).toHaveAttribute("data-appearance", "plain");
     expect(root).not.toHaveAttribute("data-show-label");
     const icon = container.querySelector(".kb-spinner-icon");
     expect(icon).toHaveAttribute("aria-hidden", "true");
@@ -60,6 +70,48 @@ describe("Spinner", () => {
   test.each(tones)("applies data-tone=%s", (tone) => {
     render(<Spinner tone={tone} />);
     expect(screen.getByRole("status")).toHaveAttribute("data-tone", tone);
+  });
+
+  test.each(variants)("applies data-variant=%s", (variant) => {
+    render(<Spinner variant={variant} />);
+    expect(screen.getByRole("status")).toHaveAttribute("data-variant", variant);
+  });
+
+  test.each(appearances)("applies data-appearance=%s", (appearance) => {
+    render(<Spinner appearance={appearance} />);
+    expect(screen.getByRole("status")).toHaveAttribute("data-appearance", appearance);
+  });
+
+  test("renders dual counter-rotating arcs and core node for orbit variant", () => {
+    const { container } = render(
+      <Spinner
+        variant="orbit"
+        classNames={{ track: "slot-track", arc: "slot-arc", core: "slot-core" }}
+      />,
+    );
+    expect(container.querySelectorAll(".kb-spinner-track")).toHaveLength(2);
+    expect(container.querySelectorAll(".kb-spinner-arc")).toHaveLength(2);
+    const core = container.querySelector(".kb-spinner-core");
+    expect(core).not.toBeNull();
+    expect(core).toHaveClass("slot-core");
+  });
+
+  test("renders three staggered wave dots for dots variant", () => {
+    const { container } = render(<Spinner variant="dots" classNames={{ dot: "slot-dot" }} />);
+    const dots = container.querySelectorAll(".kb-spinner-dot");
+    expect(dots).toHaveLength(3);
+    for (const dot of dots) {
+      expect(dot).toHaveClass("slot-dot");
+    }
+  });
+
+  test("renders four telemetry bars for bars variant", () => {
+    const { container } = render(<Spinner variant="bars" classNames={{ bar: "slot-bar" }} />);
+    const bars = container.querySelectorAll(".kb-spinner-bar");
+    expect(bars).toHaveLength(4);
+    for (const bar of bars) {
+      expect(bar).toHaveClass("slot-bar");
+    }
   });
 
   test("forwards classNames to icon, track, arc, and label slots", () => {

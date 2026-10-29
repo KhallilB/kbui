@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadCsf } from "storybook/internal/csf-tools";
@@ -110,6 +110,15 @@ export function loadComponentReferences(): Record<string, ComponentReference> {
   );
 }
 
+const storiesCache = new Map<
+  string,
+  {
+    mtimeMs: number;
+    csf: ReturnType<ReturnType<typeof loadCsf>["parse"]>;
+    stories: CatalogEntry["stories"];
+  }
+>();
+
 export function loadCatalogSources(): CatalogEntry[] {
   const folders = readdirSync(componentsRoot, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
@@ -120,22 +129,28 @@ export function loadCatalogSources(): CatalogEntry[] {
     const definition = definitions[name];
     if (!definition) throw new Error(`Add catalog metadata for ${name}`);
     const path = resolve(componentsRoot, name, `${name}.stories.tsx`);
-    const csf = loadCsf(readFileSync(path, "utf8"), {
-      fileName: path,
-      makeTitle: (title) => title,
-    }).parse();
-    const stories = csf.stories.map((story) => {
-      const localName =
-        story.localName ??
-        Object.keys(csf._stories).find((key) => csf._stories[key]?.id === story.id) ??
-        "";
-      const sample = highlightSample(exampleCode(csf, localName, name));
-      return {
-        id: story.id,
-        name: story.name ?? story.localName ?? story.id,
-        ...sample,
-      };
-    });
+    const mtimeMs = statSync(path).mtimeMs;
+    let cached = storiesCache.get(path);
+    if (!cached || cached.mtimeMs !== mtimeMs) {
+      const csf = loadCsf(readFileSync(path, "utf8"), {
+        fileName: path,
+        makeTitle: (title) => title,
+      }).parse();
+      const stories = csf.stories.map((story) => {
+        const localName =
+          story.localName ??
+          Object.keys(csf._stories).find((key) => csf._stories[key]?.id === story.id) ??
+          "";
+        return highlightSample({
+          id: story.id,
+          name: story.name ?? story.localName ?? story.id,
+          ...exampleCode(csf, localName, name),
+        });
+      });
+      cached = { mtimeMs, csf, stories };
+      storiesCache.set(path, cached);
+    }
+    const { csf, stories } = cached;
     const first =
       stories.find((story) => /--(default|primary|confirm|on-hover)$/.test(story.id)) ?? stories[0];
     if (!first) throw new Error(`Missing Storybook examples: ${name}`);

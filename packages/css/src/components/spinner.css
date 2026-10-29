@@ -1,21 +1,56 @@
-/* Anatomy: .kb-spinner [data-size=sm|md|lg] [data-tone=current|accent|neutral|info|success|warning|danger] [data-show-label] > .kb-spinner-icon > .kb-spinner-track, .kb-spinner-arc; .kb-spinner-label */
+/* Anatomy: .kb-spinner [data-size=sm|md|lg] [data-tone=current|accent|neutral|info|success|warning|danger] [data-variant=ring|orbit|dots|bars] [data-appearance=plain|pill] [data-show-label] > .kb-spinner-icon > .kb-spinner-track, .kb-spinner-arc, .kb-spinner-core, .kb-spinner-dot, .kb-spinner-bar; .kb-spinner-label */
+@keyframes kb-spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes kb-spinner-counter-rotate {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes kb-spinner-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.75);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes kb-spinner-bar-wave {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scaleY(0.45);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
 
 .kb-spinner {
   --_spinner-size: var(--kb-spinner-size-md);
-  --_spinner-ink: var(--kb-color-accent-ink);
+  --_spinner-ink: var(--kb-color-accent);
   display: inline-flex;
   align-items: center;
-  gap: var(--kb-spinner-gap);
   vertical-align: middle;
+  gap: var(--kb-spinner-gap);
   color: var(--kb-color-fg);
   font-family: var(--kb-font-sans);
-  font-size: var(--kb-text-small-size);
-  line-height: var(--kb-text-leading-control);
+  font-size: var(--kb-size-sm);
+  line-height: 1.25;
 }
 
 .kb-spinner[data-size="sm"] {
   --_spinner-size: var(--kb-spinner-size-sm);
-  font-size: var(--kb-text-caption-size);
+  font-size: var(--kb-size-xs);
 }
 
 .kb-spinner[data-size="md"] {
@@ -24,7 +59,7 @@
 
 .kb-spinner[data-size="lg"] {
   --_spinner-size: var(--kb-spinner-size-lg);
-  font-size: var(--kb-text-body-size);
+  font-size: var(--kb-size-md);
 }
 
 .kb-spinner[data-tone="current"] {
@@ -33,7 +68,7 @@
 }
 
 .kb-spinner[data-tone="accent"] {
-  --_spinner-ink: var(--kb-color-accent-ink);
+  --_spinner-ink: var(--kb-color-accent);
 }
 
 .kb-spinner[data-tone="neutral"] {
@@ -56,13 +91,37 @@
   --_spinner-ink: var(--kb-color-danger);
 }
 
+.kb-spinner[data-appearance="pill"] {
+  padding: var(--kb-spinner-pill-padding-block) var(--kb-spinner-pill-padding-inline);
+  border: 1px solid color-mix(in oklab, var(--_spinner-ink) 40%, var(--kb-color-border));
+  border-radius: var(--kb-spinner-pill-radius);
+  background: color-mix(in oklab, var(--_spinner-ink) 10%, var(--kb-material-surface-bg));
+  background-image: linear-gradient(180deg, var(--kb-material-soft-sheen), transparent);
+  box-shadow: var(--kb-material-inlay-shadow);
+  color: color-mix(in oklab, var(--_spinner-ink) 70%, var(--kb-color-fg));
+}
+
 .kb-spinner-icon {
   inline-size: var(--_spinner-size);
   block-size: var(--_spinner-size);
-  flex-shrink: 0;
+  flex: none;
   color: var(--_spinner-ink);
+  overflow: visible;
   transform-origin: center;
-  animation: kb-spinner-spin var(--kb-spinner-duration) var(--kb-spinner-easing) infinite;
+  animation: kb-spinner-rotate var(--kb-spinner-duration) var(--kb-spinner-easing) infinite;
+}
+
+.kb-spinner[data-variant="orbit"] .kb-spinner-icon,
+.kb-spinner[data-appearance="pill"] .kb-spinner-icon {
+  filter: drop-shadow(
+    0 0 var(--kb-spinner-glow) color-mix(in oklab, var(--_spinner-ink) 42%, transparent)
+  );
+}
+
+.kb-spinner[data-variant="orbit"] .kb-spinner-icon,
+.kb-spinner[data-variant="dots"] .kb-spinner-icon,
+.kb-spinner[data-variant="bars"] .kb-spinner-icon {
+  animation: none;
 }
 
 .kb-spinner-track {
@@ -77,25 +136,82 @@
   stroke: currentColor;
   stroke-width: var(--kb-spinner-stroke-width);
   stroke-linecap: round;
+  transform-origin: center;
+}
+
+.kb-spinner[data-variant="orbit"] .kb-spinner-arc:first-of-type {
+  animation: kb-spinner-rotate var(--kb-spinner-duration) var(--kb-spinner-easing) infinite;
+}
+
+.kb-spinner[data-variant="orbit"] .kb-spinner-arc:last-of-type {
+  animation: kb-spinner-counter-rotate var(--kb-spinner-orbit-duration) var(--kb-spinner-easing)
+    infinite;
+}
+
+.kb-spinner-core {
+  fill: currentColor;
+  transform-origin: center;
+  animation: kb-spinner-pulse var(--kb-spinner-pulse-duration) var(--kb-spinner-pulse-easing)
+    infinite;
+}
+
+.kb-spinner-dot {
+  fill: currentColor;
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: kb-spinner-pulse var(--kb-spinner-pulse-duration) var(--kb-spinner-pulse-easing)
+    infinite;
+}
+
+.kb-spinner-dot:nth-of-type(2) {
+  animation-delay: var(--kb-spinner-stagger);
+}
+
+.kb-spinner-dot:nth-of-type(3) {
+  animation-delay: calc(var(--kb-spinner-stagger) * 2);
+}
+
+.kb-spinner-bar {
+  fill: currentColor;
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: kb-spinner-bar-wave var(--kb-spinner-pulse-duration) var(--kb-spinner-pulse-easing)
+    infinite;
+}
+
+.kb-spinner-bar:nth-of-type(2) {
+  animation-delay: var(--kb-spinner-stagger);
+}
+
+.kb-spinner-bar:nth-of-type(3) {
+  animation-delay: calc(var(--kb-spinner-stagger) * 2);
+}
+
+.kb-spinner-bar:nth-of-type(4) {
+  animation-delay: calc(var(--kb-spinner-stagger) * 3);
 }
 
 .kb-spinner-label {
-  color: var(--kb-color-fg);
+  color: var(--kb-color-muted);
   font-weight: var(--kb-font-weight-medium);
 }
 
-.kb-spinner[data-tone="current"] .kb-spinner-label {
-  color: currentColor;
+.kb-spinner[data-appearance="pill"] .kb-spinner-label {
+  color: inherit;
+  font-weight: var(--kb-font-weight-strong);
 }
 
-@keyframes kb-spinner-spin {
-  to {
-    transform: rotate(360deg);
-  }
+.kb-spinner[data-tone="current"] .kb-spinner-label {
+  color: inherit;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .kb-spinner-icon {
+  .kb-spinner-icon,
+  .kb-spinner[data-variant="orbit"] .kb-spinner-arc:first-of-type,
+  .kb-spinner[data-variant="orbit"] .kb-spinner-arc:last-of-type,
+  .kb-spinner-core,
+  .kb-spinner-dot,
+  .kb-spinner-bar {
     animation: none;
   }
 }
@@ -106,8 +222,27 @@
     color: CanvasText;
   }
 
-  .kb-spinner[data-tone="accent"],
-  .kb-spinner[data-tone="info"] {
-    --_spinner-ink: Highlight;
+  .kb-spinner[data-appearance="pill"] {
+    background: Canvas;
+    background-image: none;
+    border-color: CanvasText;
+    box-shadow: none;
+    color: CanvasText;
+  }
+
+  .kb-spinner-icon,
+  .kb-spinner[data-variant="orbit"] .kb-spinner-icon,
+  .kb-spinner[data-appearance="pill"] .kb-spinner-icon {
+    color: Highlight;
+    filter: none;
+  }
+
+  .kb-spinner[data-tone="current"] .kb-spinner-icon {
+    color: currentColor;
+  }
+
+  .kb-spinner-label,
+  .kb-spinner[data-appearance="pill"] .kb-spinner-label {
+    color: CanvasText;
   }
 }

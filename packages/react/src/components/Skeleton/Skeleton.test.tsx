@@ -1,10 +1,18 @@
 import { render, screen } from "@testing-library/react";
 import { createRef } from "react";
 import { describe, expect, test } from "vitest";
-import { Skeleton, type SkeletonSize, type SkeletonVariant } from "./Skeleton";
+import {
+  Skeleton,
+  type SkeletonAnimation,
+  type SkeletonSize,
+  type SkeletonTone,
+  type SkeletonVariant,
+} from "./Skeleton";
 
 const variants: SkeletonVariant[] = ["text", "rect", "circle", "pill"];
 const sizes: SkeletonSize[] = ["sm", "md", "lg"];
+const animations: Exclude<SkeletonAnimation, "none">[] = ["shimmer", "pulse", "wave"];
+const tones: SkeletonTone[] = ["default", "subtle", "accent"];
 
 describe("Skeleton", () => {
   test("renders decorative animated text placeholder by default and forwards ref", () => {
@@ -14,6 +22,8 @@ describe("Skeleton", () => {
     expect(ref.current).toBe(root);
     expect(root).toHaveAttribute("data-variant", "text");
     expect(root).toHaveAttribute("data-size", "md");
+    expect(root).toHaveAttribute("data-tone", "default");
+    expect(root).toHaveAttribute("data-animation", "shimmer");
     expect(root).toHaveAttribute("data-animated", "");
     expect(root).toHaveAttribute("aria-hidden", "true");
     expect(container.querySelectorAll(".kb-skeleton-line")).toHaveLength(1);
@@ -34,9 +44,26 @@ describe("Skeleton", () => {
     expect(container.querySelector(".kb-skeleton")).toHaveAttribute("data-size", size);
   });
 
-  test("omits data-animated when animated is false", () => {
-    const { container } = render(<Skeleton animated={false} />);
+  test.each(animations)("applies data-animation=%s when animated", (animation) => {
+    const { container } = render(<Skeleton animation={animation} />);
+    const root = container.querySelector(".kb-skeleton");
+    expect(root).toHaveAttribute("data-animation", animation);
+    expect(root).toHaveAttribute("data-animated", "");
+  });
+
+  test.each(tones)("applies data-tone=%s", (tone) => {
+    const { container } = render(<Skeleton tone={tone} />);
+    expect(container.querySelector(".kb-skeleton")).toHaveAttribute("data-tone", tone);
+  });
+
+  test("omits data-animated when animated is false or animation is none", () => {
+    const { container, rerender } = render(<Skeleton animated={false} />);
     expect(container.querySelector(".kb-skeleton")).not.toHaveAttribute("data-animated");
+    expect(container.querySelector(".kb-skeleton")).not.toHaveAttribute("data-animation");
+
+    rerender(<Skeleton animation="none" />);
+    expect(container.querySelector(".kb-skeleton")).not.toHaveAttribute("data-animated");
+    expect(container.querySelector(".kb-skeleton")).not.toHaveAttribute("data-animation");
   });
 
   test("applies custom width and height dimensions to placeholder geometry", () => {

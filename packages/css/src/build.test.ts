@@ -490,14 +490,32 @@ describe("buildCss", () => {
     const spinnerCss = await read("spinner.css");
     expect(spinnerCss.split("\n")[0]).toContain(".kb-spinner");
     expect(spinnerCss.split("\n")[0]).toContain("[data-size=sm|md|lg]");
+    expect(spinnerCss.split("\n")[0]).toContain("[data-variant=ring|orbit|dots|bars]");
+    expect(spinnerCss.split("\n")[0]).toContain("[data-appearance=plain|pill]");
     expect(spinnerCss).toContain("var(--kb-spinner-duration)");
     expect(spinnerCss).toContain("var(--kb-spinner-easing)");
+    expect(spinnerCss).toContain("var(--kb-spinner-orbit-duration)");
+    expect(spinnerCss).toContain("var(--kb-spinner-pulse-duration)");
+    expect(spinnerCss).toContain("var(--kb-spinner-stagger)");
+    expect(spinnerCss).toContain("var(--kb-spinner-glow)");
+    expect(spinnerCss).toContain('.kb-spinner[data-appearance="pill"]');
+    expect(spinnerCss).toContain(".kb-spinner-core");
+    expect(spinnerCss).toContain(".kb-spinner-dot");
+    expect(spinnerCss).toContain(".kb-spinner-bar");
 
     const skeletonCss = await read("skeleton.css");
     expect(skeletonCss.split("\n")[0]).toContain(".kb-skeleton");
     expect(skeletonCss.split("\n")[0]).toContain("[data-variant=text|rect|circle|pill]");
+    expect(skeletonCss.split("\n")[0]).toContain("[data-animation=shimmer|pulse|wave]");
+    expect(skeletonCss.split("\n")[0]).toContain("[data-tone=default|subtle|accent]");
     expect(skeletonCss).toContain("var(--kb-skeleton-base)");
     expect(skeletonCss).toContain("var(--kb-skeleton-highlight)");
+    expect(skeletonCss).toContain("var(--kb-skeleton-sheen)");
+    expect(skeletonCss).toContain("var(--kb-skeleton-pulse-duration)");
+    expect(skeletonCss).toContain("var(--kb-skeleton-stagger)");
+    expect(skeletonCss).toContain('.kb-skeleton[data-animation="pulse"]');
+    expect(skeletonCss).toContain('.kb-skeleton[data-animation="wave"]');
+    expect(skeletonCss).toContain('.kb-skeleton[data-tone="accent"]');
 
     const emptyStateCss = await read("emptystate.css");
     expect(emptyStateCss.split("\n")[0]).toContain(".kb-emptystate");

@@ -44,7 +44,12 @@ const highlighter = await createHighlighterCore({
 
 export type CodeLanguage = "tsx" | "css" | "html" | "shellscript";
 
+const highlightCache = new Map<string, CodeToken[]>();
+
 export function highlightCode(code: string, language: CodeLanguage = "tsx"): CodeToken[] {
+  const key = `${language}\0${code}`;
+  const cached = highlightCache.get(key);
+  if (cached) return cached.map((token) => [...token] as CodeToken);
   const result: CodeToken[] = [];
   const { tokens } = highlighter.codeToTokens(code, { lang: language, theme: "kbui-paper" });
   for (const line of tokens) {
@@ -58,16 +63,40 @@ export function highlightCode(code: string, language: CodeLanguage = "tsx"): Cod
       else result.push([start, end, kind]);
     }
   }
-  return result;
+  highlightCache.set(key, result);
+  return result.map((token) => [...token] as CodeToken);
 }
 
-export function highlightSample(
-  source: { code: string; snippet: string },
+export function highlightSample<T extends { code: string; snippet: string }>(
+  source: T,
   language: CodeLanguage = "tsx",
-): CodeSample {
-  return {
-    ...source,
-    tokens: highlightCode(source.code, language),
-    snippetTokens: highlightCode(source.snippet, language),
-  };
+): T & CodeSample {
+  let tokens: CodeToken[] | undefined;
+  let snippetTokens: CodeToken[] | undefined;
+  const sample = { ...source } as T & CodeSample;
+  Object.defineProperties(sample, {
+    tokens: {
+      enumerable: true,
+      configurable: true,
+      get() {
+        tokens ??= highlightCode(sample.code, language);
+        return tokens;
+      },
+      set(value: CodeToken[]) {
+        tokens = value;
+      },
+    },
+    snippetTokens: {
+      enumerable: true,
+      configurable: true,
+      get() {
+        snippetTokens ??= highlightCode(sample.snippet, language);
+        return snippetTokens;
+      },
+      set(value: CodeToken[]) {
+        snippetTokens = value;
+      },
+    },
+  });
+  return sample;
 }

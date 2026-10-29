@@ -290,6 +290,7 @@ export const definitions: Record<string, Definition> = {
     description: "Reserve incoming content geometry while a section loads.",
     examples: {
       Default: "Default",
+      WaveAndPulse: "Wave and Pulse",
       CardPlaceholder: "Card Placeholder",
       ShapesAndSizes: "Shapes and Sizes",
       ContentTransition: "Content Transition",
@@ -300,6 +301,7 @@ export const definitions: Record<string, Definition> = {
     description: "Indicate an indeterminate wait or busy control.",
     examples: {
       Default: "Default",
+      FancyVariants: "Fancy Variants",
       WithVisibleLabel: "Visible Label",
       BusyButton: "Busy Button",
       SizesAndTones: "Sizes and Tones",

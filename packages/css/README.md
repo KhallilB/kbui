@@ -59,8 +59,8 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | `formactions.css` | `.kb-formactions` with `data-align` (`end`, `start`, `between`) and optional `data-divider` |
 | `errorsummary.css` | `.kb-errorsummary` alert container with `-title`, `-description`, `-list`, `-item` and `-link` parts |
 | `emptystate.css` | `.kb-emptystate` with `data-size` (`sm`, `md`, `lg`), `data-variant` (`surface`, `subtle`, `plain`) and `data-tone` (`neutral`, `info`, `warning`, `danger`), wrapping `-icon`, `-header`, `-eyebrow`, `-title`, `-description`, `-body`, `-actions` and `-footer` parts |
-| `spinner.css` | `.kb-spinner` with `data-size` (`sm`, `md`, `lg`), `data-tone` (`current`, `accent`, `neutral`, `info`, `success`, `warning`, `danger`) and optional `data-show-label`, wrapping `-icon` (`-track`, `-arc`) and `-label` |
-| `skeleton.css` | `.kb-skeleton` with `data-variant` (`text`, `rect`, `circle`, `pill`), `data-size` (`sm`, `md`, `lg`) and `data-animated`, wrapping `-line` or `-content` parts |
+| `spinner.css` | `.kb-spinner` with `data-size` (`sm`, `md`, `lg`), `data-tone` (`current`, `accent`, `neutral`, `info`, `success`, `warning`, `danger`), `data-variant` (`ring`, `orbit`, `dots`, `bars`), `data-appearance` (`plain`, `pill`) and optional `data-show-label`, wrapping `-icon` (`-track`, `-arc`, `-core`, `-dot`, `-bar`) and `-label` |
+| `skeleton.css` | `.kb-skeleton` with `data-variant` (`text`, `rect`, `circle`, `pill`), `data-size` (`sm`, `md`, `lg`), `data-animation` (`shimmer`, `pulse`, `wave`), `data-tone` (`default`, `subtle`, `accent`) and `data-animated`, wrapping `-line` or `-content` parts |
 | `toast.css` | Named `.kb-toast-viewport` with logical `data-placement`, `.kb-toast` tone/state attributes and content/title/description/action/close parts; renderer owns queue, announcements, timing and focus |
 | `dialog.css` | `.kb-dialog-popup` with `-title`, `-description` and `-actions` parts, beside a `.kb-dialog-backdrop`. Both use Base UI's open, starting and ending attributes for animation |
 

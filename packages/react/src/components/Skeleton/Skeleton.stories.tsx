@@ -5,6 +5,7 @@ import { Button } from "../Button/Button";
 import { Card } from "../Card/Card";
 import { Heading } from "../Heading/Heading";
 import { Inline } from "../Inline/Inline";
+import { Spinner } from "../Spinner/Spinner";
 import { Status } from "../Status/Status";
 import { Text } from "../Text/Text";
 import { Skeleton } from "./Skeleton";
@@ -18,11 +19,15 @@ const meta = {
     size: "md",
     lines: 3,
     animated: true,
+    animation: "shimmer",
+    tone: "default",
     loading: true,
   },
   argTypes: {
     variant: { control: "select", options: ["text", "rect", "circle", "pill"] },
     size: { control: "select", options: ["sm", "md", "lg"] },
+    animation: { control: "select", options: ["shimmer", "pulse", "wave", "none"] },
+    tone: { control: "select", options: ["default", "subtle", "accent"] },
     lines: { control: { type: "number", min: 1, max: 6 } },
     animated: { control: "boolean" },
     loading: { control: "boolean" },
@@ -48,6 +53,38 @@ export const Default: Story = {
   },
 };
 
+export const WaveAndPulse: Story = {
+  render: () => (
+    <div style={{ ...box, display: "grid", gap: "1rem" }}>
+      <Card aria-busy="true" aria-label="Synthesizing deployment report">
+        <div style={{ display: "grid", gap: "0.875rem" }}>
+          <Inline justify="between" align="center">
+            <Spinner
+              variant="orbit"
+              appearance="pill"
+              tone="accent"
+              size="sm"
+              label="Synthesizing release brief…"
+              showLabel
+            />
+            <Skeleton variant="pill" size="sm" tone="accent" animation="pulse" />
+          </Inline>
+          <Skeleton variant="text" lines={3} animation="wave" tone="accent" />
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
+            <Skeleton variant="rect" height="3.75rem" animation="shimmer" tone="subtle" />
+            <Skeleton variant="rect" height="3.75rem" animation="pulse" tone="subtle" />
+          </div>
+        </div>
+      </Card>
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    expect(canvasElement.querySelector('[data-animation="wave"]')).not.toBeNull();
+    expect(canvasElement.querySelector('[data-animation="pulse"]')).not.toBeNull();
+    expect(canvasElement.querySelector('[data-tone="accent"]')).not.toBeNull();
+  },
+};
+
 export const CardPlaceholder: Story = {
   render: () => (
     <div style={box}>
@@ -62,7 +99,7 @@ export const CardPlaceholder: Story = {
             <Skeleton variant="pill" size="sm" />
           </div>
           <Skeleton variant="rect" height="4.5rem" />
-          <Skeleton variant="text" lines={2} size="sm" />
+          <Skeleton variant="text" lines={2} size="sm" animation="wave" />
         </div>
       </Card>
     </div>
@@ -99,7 +136,7 @@ export const ContentTransition: Story = {
           </Button>
         </Inline>
         <Card aria-busy={loading}>
-          <Skeleton loading={loading} lines={3}>
+          <Skeleton loading={loading} lines={3} animation="wave">
             <div style={{ display: "grid", gap: "0.25rem" }}>
               <Heading level={3} size="sm">
                 Ingestion throughput

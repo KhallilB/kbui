@@ -602,13 +602,24 @@ describe("loading and feedback component tokens", () => {
     expect(css).toContain("--kb-spinner-size-lg: 1.5rem;");
     expect(css).toContain("--kb-spinner-duration: 760ms;");
     expect(css).toContain("--kb-spinner-easing: linear;");
+    expect(css).toContain("--kb-spinner-orbit-duration: 1140ms;");
+    expect(css).toContain("--kb-spinner-pulse-duration: 960ms;");
+    expect(css).toContain("--kb-spinner-pulse-easing: var(--kb-motion-easing-smooth);");
+    expect(css).toContain("--kb-spinner-stagger: 140ms;");
+    expect(css).toContain("--kb-spinner-glow: 6px;");
+    expect(css).toContain("--kb-spinner-pill-padding-block: var(--kb-space-1);");
+    expect(css).toContain("--kb-spinner-pill-padding-inline: var(--kb-space-3);");
+    expect(css).toContain("--kb-spinner-pill-radius: var(--kb-radius-full);");
 
     expect(css).toContain("--kb-skeleton-height-sm: 0.75rem;");
     expect(css).toContain("--kb-skeleton-height-md: 1rem;");
     expect(css).toContain("--kb-skeleton-height-lg: 1.5rem;");
     expect(css).toContain("--kb-skeleton-base: var(--kb-color-surface);");
     expect(css).toContain("--kb-skeleton-highlight: var(--kb-material-raised-top);");
+    expect(css).toContain("--kb-skeleton-sheen: var(--kb-material-soft-sheen);");
     expect(css).toContain("--kb-skeleton-duration: 1600ms;");
+    expect(css).toContain("--kb-skeleton-pulse-duration: 1800ms;");
+    expect(css).toContain("--kb-skeleton-stagger: 120ms;");
 
     expect(css).toContain("--kb-emptystate-radius: var(--kb-radius-lg);");
     expect(css).toContain("--kb-emptystate-padding-md: var(--kb-space-6);");
