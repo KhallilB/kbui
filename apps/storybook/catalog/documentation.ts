@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { babelParseFile } from "storybook/internal/csf-tools";
 
@@ -26,6 +26,10 @@ export function loadDocumentationExamples(root: string) {
     "docs/guides/using-kbui.md",
     "apps/storybook/docs/Introduction.mdx",
     "packages/react/README.md",
+    ...readdirSync(join(root, "packages/react/docs/components"))
+      .filter((name) => name.endsWith(".md"))
+      .sort()
+      .map((name) => `packages/react/docs/components/${name}`),
     "docs/guides/number-fields.md",
     "docs/guides/file-inputs.md",
     "docs/guides/forms-and-overlays.md",

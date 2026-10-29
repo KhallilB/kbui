@@ -39,6 +39,7 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | File | Expected markup |
 |---|---|
 | `container.css` | `.kb-container` with `data-size` (`sm`, `md`, `lg`, `full`) and optional `data-gutter="none"` |
+| `grid.css` | `.kb-grid` with `data-layout` (`auto`, `stack`), `data-columns` (`auto`, `1`, `2`, `3`, `4`), `data-min-item-width` (`sm`, `md`, `lg`), `data-gap` (`none`, `sm`, `md`, `lg`) and `data-align`; resets native list markers and margins |
 | `inline.css` | `.kb-inline` with `data-gap`, `data-align` and `data-justify`; wraps in source order |
 | `split.css` | `.kb-split` with `data-ratio`, `data-collapse`, `data-gap` and `data-align`; two `.kb-split-track` children containing the column content |
 | `separator.css` | Native hr with `.kb-separator` and `data-orientation`; decorative rules need aria-hidden and role none |
@@ -57,6 +58,7 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | `fieldset.css` | Native `fieldset` with `.kb-fieldset`, `data-disabled` and `data-invalid`, wrapping `-legend`, `-description`, `-fields` and `-error` parts |
 | `formactions.css` | `.kb-formactions` with `data-align` (`end`, `start`, `between`) and optional `data-divider` |
 | `errorsummary.css` | `.kb-errorsummary` alert container with `-title`, `-description`, `-list`, `-item` and `-link` parts |
+| `toast.css` | Named `.kb-toast-viewport` with logical `data-placement`, `.kb-toast` tone/state attributes and content/title/description/action/close parts; renderer owns queue, announcements, timing and focus |
 | `dialog.css` | `.kb-dialog-popup` with `-title`, `-description` and `-actions` parts, beside a `.kb-dialog-backdrop`. Both use Base UI's open, starting and ending attributes for animation |
 
 ## Build and test

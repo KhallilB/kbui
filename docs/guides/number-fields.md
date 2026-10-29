@@ -41,7 +41,7 @@ NumberField uses a native text input with `aria-roledescription="Number field"`.
 
 ## API
 
-See the [NumberField API](../../packages/react/README.md#numberfield) for props, defaults, and events.
+See the [NumberField API](../../packages/react/docs/components/NumberField.md) for props, defaults, and events.
 
 ## Styling and themes
 

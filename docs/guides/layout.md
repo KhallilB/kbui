@@ -32,20 +32,23 @@ export function Workspace() {
 }
 ```
 
-The [React API](../../packages/react/README.md#container) lists all props. [Composed page stories](../../packages/react/src/components/Container/Container.stories.tsx) cover both themes. Keep vertical rhythm with `Grid layout="stack"`; use Grid's automatic columns for variable child counts.
+The [React API](../../packages/react/docs/components/Container.md) lists all props. [Composed page stories](../../packages/react/src/components/Container/Container.stories.tsx) cover both themes. Keep vertical rhythm with `Grid layout="stack"`; use Grid's automatic columns for variable child counts.
 
 ## Responsive rules
 
 | Primitive | Composition rule | Default |
 |---|---|---|
 | Container | Center a full-width outer box capped at a shared maximum; inline gutters remain inside that width | lg: 80rem outer width, fluid 1–2rem gutters |
+| Grid | Fit equal columns above the minimum item width, use 1–4 explicit columns, or stack in a single track; reset list markers and margins on ul/ol | Auto-fit at 18.75rem minimum item width, 1.5rem gap, stretch alignment |
 | Inline | Wrap independent items onto new rows when they no longer fit; preserve source and tab order | 1rem gap, centered cross-axis, start distribution |
 | Split | Two direct element children share a row at or above the threshold; below it each fills its own row | Equal columns, 48rem available-width threshold, 1rem gap |
 | Separator | Fill inline width horizontally; stretch in a flex row vertically with a minimum visible height | Horizontal semantic hr |
 
 Container sizes are sm 40rem, md 64rem, lg 80rem and full with no cap. Use one shared size across page sections to align their edges. Container sets no block spacing. Avoid repeated nested gutters: use `gutter={false}` when an outer container or Panel already owns inline padding.
 
-Inline gap sizes are none, sm 0.5rem, md 1rem and lg 1.5rem. The same scale applies to Split. Cross-axis alignment supports start, center, end, baseline and stretch. Inline's justify supports start, center, end and between; distribution applies separately to each wrapped row. Native lists keep their markers and list spacing; use li children.
+Grid supports `layout` (`auto` or `stack`), `columns` (`auto`, `1`, `2`, `3` or `4`), `minItemWidth` (`sm` 14rem, `md` 18.75rem, `lg` 24rem), `gap` (`none`, `sm`, `md`, `lg`) and `align` (`start`, `center`, `end`, `baseline`, `stretch`). When rendered as `ul` or `ol`, Grid removes list bullets and browser list margins so `li` children align with the grid tracks.
+
+Inline gap sizes are none, sm 0.5rem, md 1rem and lg 1.5rem. The same scale applies to Grid and Split. Cross-axis alignment supports start, center, end, baseline and stretch. Inline's justify supports start, center, end and between; distribution applies separately to each wrapped row. Native lists in Inline keep their markers and list spacing; use li children.
 
 Split collapse sizes are sm 32rem, md 48rem and lg 64rem. Thresholds use the component's available width, so a narrow nested panel stacks even on a wide desktop. Ratios equal, wide-start and wide-end mean 1:1, 2:1 and 1:2. Provide two children, one per column. Split renders a `.kb-split-track` around each non-empty child, so column width and collapse stay independent of child tokens and text measures. Group related content inside a section or div; empty conditional children add no track. Source order defines reading order in both states; CSS never reverses it.
 
@@ -53,7 +56,7 @@ Tracks fill their assigned columns while children retain their own reading measu
 
 ## Semantics and accessibility
 
-Choose landmarks from document structure with Container's native `as` prop. Container, Inline and Split default to div; non-default generic element types require an explicit `as` so native props and refs stay aligned. Named sections and aside elements keep their native semantics. Layout does not add grid roles, focus management or tab stops. Inline controls remain independent tab stops; choose Toolbar for coordinated arrow-key navigation.
+Choose landmarks from document structure with Container's native `as` prop. Container, Grid, Inline and Split default to div; non-default generic element types require an explicit `as` so native props and refs stay aligned. Named sections and aside elements keep their native semantics. Layout does not add grid roles, focus management or tab stops. Inline controls remain independent tab stops; choose Toolbar for coordinated arrow-key navigation.
 
 Separator defaults to a native hr with an announced orientation. Use `decorative` when a rule only repeats an existing visual grouping; this sets aria-hidden and removes separator semantics. Vertical rules use `orientation="vertical"` and stretch inside Inline. Separator is a static divider, with no resizing interaction. Put a vertical separator inside a wrapper when using an Inline list so li remains the direct child.
 
@@ -65,7 +68,8 @@ Use `dir="rtl"` on the relevant native container for right-to-left content. Widt
 |---|---|
 | `--kb-container-size-sm`, `-md`, `-lg` | Shared maximum outer page widths |
 | `--kb-container-gutter` | Responsive inline padding |
-| `--kb-layout-gap-sm`, `-md`, `-lg` | Shared Inline and Split spacing |
+| `--kb-grid-gap`, `--kb-grid-min-item-width`, `-sm`, `-md`, `-lg` | Grid default spacing and minimum auto-fit column widths |
+| `--kb-layout-gap-sm`, `-md`, `-lg` | Shared Grid, Inline and Split spacing |
 | `--kb-split-collapse-sm`, `-md`, `-lg` | Available-width collapse thresholds |
 | `--kb-separator-color`, `-width`, `-min-length` | Rule ink, thickness and vertical minimum length |
 

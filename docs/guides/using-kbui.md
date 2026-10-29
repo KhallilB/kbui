@@ -115,7 +115,7 @@ export function Preferences() {
 
 This example keeps values in component state. Connect submission to your own storage or API when using it in an app. Your layout owns spacing between fields. Checkbox, Select, RadioGroup and Switch are controlled components; keep their value in state and pass the corresponding change callback.
 
-The [React package README](../../packages/react/README.md) documents component APIs; Storybook includes the full typed prop reference. The [Examples page](https://kbui.kcb.pro/examples/) shows complete compositions with copyable code. The [forms and overlays guide](forms-and-overlays.md) covers themed popups, structured dialogs and focus behavior.
+The [React component index](../../packages/react/README.md#components) links to a dedicated API and usage page for every component; Storybook includes the full typed prop reference. The [Examples page](https://kbui.kcb.pro/examples/) shows complete compositions with copyable code. The [forms and overlays guide](forms-and-overlays.md) covers themed popups, structured dialogs and focus behavior.
 
 ## Upgrading
 

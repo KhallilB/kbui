@@ -51,7 +51,7 @@ describe("buildCss", () => {
   test("emits standalone reset and component files", async () => {
     expect(await readdir(dist)).toContain("reset.css");
     expect(await readdir(join(dist, "components"))).toEqual(
-      expect.arrayContaining(["button.css", "input.css", "dialog.css"]),
+      expect.arrayContaining(["button.css", "input.css", "dialog.css", "toast.css"]),
     );
   });
 
@@ -468,5 +468,17 @@ describe("buildCss", () => {
     expect(codeCss).toContain("--_code-collapsed-lines");
     expect(codeCss).toContain("@media (prefers-reduced-motion: reduce)");
     expect(codeCss).toContain("@media (forced-colors: active)");
+
+    const gridCss = await read("grid.css");
+    expect(gridCss.split("\n")[0]).toContain("[data-columns=auto|1|2|3|4]");
+    expect(gridCss.split("\n")[0]).toContain("[data-min-item-width=sm|md|lg]");
+    expect(gridCss.split("\n")[0]).toContain("[data-gap=none|sm|md|lg]");
+    expect(gridCss.split("\n")[0]).toContain("[data-align=start|center|end|baseline|stretch]");
+    expect(gridCss).toContain("list-style: none;");
+    expect(gridCss).toContain(".kb-grid > *");
+    expect(gridCss).toContain('.kb-grid[data-min-item-width="sm"]');
+    expect(gridCss).toContain('.kb-grid[data-columns="3"]');
+    expect(gridCss).toContain('.kb-grid[data-gap="md"]');
+    expect(gridCss).toContain('.kb-grid[data-align="center"]');
   });
 });

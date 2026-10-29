@@ -22,6 +22,7 @@ import {
   Status,
   Switch,
   Textarea,
+  Toast,
 } from "./index";
 
 // Every key resolves to `slot-<key>`, so any rendered part can be checked without listing slots.
@@ -206,6 +207,17 @@ const cases: [string, () => ReactElement][] = [
       >
         Body
       </Callout>
+    ),
+  ],
+  [
+    "toast",
+    () => (
+      <Toast.Provider timeout={0}>
+        <Toast
+          toast={{ id: "slots", title: "T", description: "D", actionProps: { children: "Undo" } }}
+          classNames={every}
+        />
+      </Toast.Provider>
     ),
   ],
   ["progress", () => <Progress label="L" value={50} classNames={every} />],

@@ -96,6 +96,17 @@ export const definitions: Record<string, Definition> = {
       Disabled: "Disabled",
     },
   },
+  Toast: {
+    group: "Feedback",
+    description: "Manage temporary notifications with announcements and timed dismissal.",
+    examples: {
+      Default: "Default",
+      Queue: "Queue",
+      Tones: "Colors",
+      WithAction: "Undo action",
+      Timed: "Timed dismissal",
+    },
+  },
   Callout: {
     group: "Feedback",
     description: "Highlight a message and offer a useful next step.",
@@ -136,7 +147,13 @@ export const definitions: Record<string, Definition> = {
   Grid: {
     group: "Layout",
     description: "Arrange content in responsive columns or a single stack.",
-    examples: { Default: "Default", Responsive: "Responsive", StackedList: "Stacked List" },
+    examples: {
+      Default: "Default",
+      Columns: "Columns",
+      ColumnWidths: "Column Widths",
+      GapsAndAlignment: "Gaps and Alignment",
+      StackedList: "Stacked List",
+    },
   },
   Heading: {
     group: "Typography",
