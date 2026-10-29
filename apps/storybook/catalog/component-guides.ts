@@ -9,6 +9,34 @@ export type ComponentGuide = {
 };
 
 export const componentGuides: Record<string, ComponentGuide> = {
+  CopyableText: {
+    use: "Let people copy an identifier, command or reference without selecting it precisely.",
+    example: {
+      title: "Share a precise support reference",
+      description:
+        "Preserve case and whitespace, confirm completed copies and recover from denied clipboard access.",
+    },
+    tips: [
+      "value is authoritative even when children formats its display; expanding or failure reveals exact value for inspection and manual copying.",
+      "Use truncate for full-value disclosure, tone for color, highlight for literal emphasis and automatic URL/email/code detection. Override ambiguous content with format=text or format=code. Use mono=false for prose.",
+      "Success resets after two seconds by default. Errors remain until retry or content change; callbacks report only current writes.",
+    ],
+    accessibility: accessibilityGuides.CopyableText,
+  },
+  CodeBlock: {
+    use: "Present copyable commands, configuration and source in an explicit block listing.",
+    example: {
+      title: "Copy a command exactly",
+      description:
+        "Use the same source for display and clipboard, with readable syntax, optional line numbers and a collapsible viewport.",
+    },
+    tips: [
+      "CodeBlock always renders a block; use Code for inline literals or automatic block selection.",
+      "Collapsed listings still copy the full original source, without line numbers or visual emphasis.",
+      "Use title to name the scroll region and localize copy feedback through shared props. code.css supplies shared styles and codeblock.css keeps untitled toolbar actions in normal flow.",
+    ],
+    accessibility: accessibilityGuides.CodeBlock,
+  },
   Container: {
     use: "Align page sections with shared maximum widths and responsive gutters.",
     example: {

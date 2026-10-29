@@ -461,6 +461,15 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-toast-motion-easing: cubic-bezier(0.16, 1, 0.3, 1);
   --kb-toast-enter-offset: var(--kb-space-3);
   --kb-toast-enter-scale: 0.985;
+  --kb-copyabletext-gap: var(--kb-space-3);
+  --kb-copyabletext-padding: var(--kb-space-3);
+  --kb-copyabletext-radius: var(--kb-radius-lg);
+  --kb-copyabletext-border: var(--kb-color-border);
+  --kb-copyabletext-background: var(--kb-color-surface);
+  --kb-copyabletext-target-size: var(--kb-button-height-md);
+  --kb-copyabletext-copy-min-width: 5.5rem;
+  --kb-copyabletext-value-color: var(--kb-color-fg);
+  --kb-copyabletext-highlight-background: color-mix(in srgb, var(--kb-color-warning) 16%, var(--kb-color-surface));
   color-scheme: light;
 }
 
@@ -609,6 +618,10 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-toast-color: var(--kb-color-fg);
   --kb-toast-border: var(--kb-color-border);
   --kb-toast-shadow: var(--kb-material-float-shadow);
+  --kb-copyabletext-border: var(--kb-color-border);
+  --kb-copyabletext-background: var(--kb-color-surface);
+  --kb-copyabletext-value-color: var(--kb-color-fg);
+  --kb-copyabletext-highlight-background: color-mix(in srgb, var(--kb-color-warning) 16%, var(--kb-color-surface));
   color-scheme: light;
 }
 
@@ -757,6 +770,10 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-toast-color: var(--kb-color-fg);
   --kb-toast-border: var(--kb-color-border);
   --kb-toast-shadow: var(--kb-material-float-shadow);
+  --kb-copyabletext-border: var(--kb-color-border);
+  --kb-copyabletext-background: var(--kb-color-surface);
+  --kb-copyabletext-value-color: var(--kb-color-fg);
+  --kb-copyabletext-highlight-background: color-mix(in srgb, var(--kb-color-warning) 16%, var(--kb-color-surface));
   color-scheme: dark;
 }
 
@@ -906,6 +923,10 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-toast-color: var(--kb-color-fg);
     --kb-toast-border: var(--kb-color-border);
     --kb-toast-shadow: var(--kb-material-float-shadow);
+    --kb-copyabletext-border: var(--kb-color-border);
+    --kb-copyabletext-background: var(--kb-color-surface);
+    --kb-copyabletext-value-color: var(--kb-color-fg);
+    --kb-copyabletext-highlight-background: color-mix(in srgb, var(--kb-color-warning) 16%, var(--kb-color-surface));
     color-scheme: dark;
   }
 }

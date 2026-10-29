@@ -1,0 +1,238 @@
+/* Anatomy: .kb-copyabletext [data-appearance=field|plain] [data-size=sm|md] [data-mono] [data-format=text|code] [data-tone=neutral|accent|info|success|warning|danger] [data-expandable] [data-expanded] [data-truncate] [data-disabled] [data-copy-state=idle|pending|copied|failed] > .kb-copyabletext-label, .kb-copyabletext-value, .kb-copyabletext-actions > .kb-copyabletext-toggle, .kb-copyabletext-copy; .kb-copyabletext-feedback; .kb-copyabletext-link uses link.css; .kb-copyabletext-highlight; .kb-copyabletext-code uses code.css; .kb-sr-only hides non-error feedback */
+.kb-copyabletext {
+  --_copyabletext-ink: var(--kb-copyabletext-value-color);
+  display: inline-grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--kb-space-2) var(--kb-copyabletext-gap);
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  padding: var(--kb-copyabletext-padding);
+  border: 1px solid var(--kb-copyabletext-border);
+  border-radius: var(--kb-copyabletext-radius);
+  background: var(--kb-copyabletext-background);
+  box-shadow: var(--kb-material-field-shadow);
+  color: var(--kb-color-fg);
+  font-family: var(--kb-font-sans);
+  font-size: var(--kb-text-body-size);
+  line-height: var(--kb-text-leading-control);
+  vertical-align: middle;
+  text-align: start;
+}
+.kb-copyabletext-label {
+  grid-column: 1 / -1;
+  color: var(--kb-color-muted);
+  font-size: var(--kb-text-caption-size);
+  font-weight: var(--kb-font-weight-medium);
+  overflow-wrap: anywhere;
+}
+.kb-copyabletext-value {
+  min-inline-size: 0;
+  color: var(--_copyabletext-ink);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  user-select: text;
+  text-transform: none;
+  letter-spacing: normal;
+}
+.kb-copyabletext:not([data-mono]) .kb-copyabletext-value {
+  line-height: var(--kb-text-leading-body);
+}
+.kb-copyabletext[data-mono] .kb-copyabletext-value {
+  font-family: var(--kb-font-mono);
+}
+.kb-copyabletext[data-truncate] .kb-copyabletext-value {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.kb-copyabletext-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--kb-space-2);
+  min-inline-size: 0;
+}
+.kb-copyabletext[data-expandable] .kb-copyabletext-value,
+.kb-copyabletext[data-expandable] .kb-copyabletext-actions {
+  grid-column: 1 / -1;
+}
+.kb-copyabletext[data-expandable] .kb-copyabletext-actions {
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.kb-copyabletext-toggle {
+  min-block-size: var(--kb-button-height-sm);
+  max-inline-size: 100%;
+  padding: var(--kb-space-1) 0;
+  border: 0;
+  border-radius: var(--kb-radius-sm);
+  background: transparent;
+  color: var(--kb-color-muted);
+  font-family: var(--kb-font-sans);
+  font-size: var(--kb-text-caption-size);
+  line-height: var(--kb-text-leading-control);
+  text-align: start;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+.kb-copyabletext-toggle:hover {
+  color: var(--kb-color-fg);
+}
+.kb-copyabletext-toggle:focus-visible {
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: 2px;
+}
+.kb-copyabletext[data-tone="accent"] {
+  --_copyabletext-ink: var(--kb-color-accent-ink);
+}
+.kb-copyabletext[data-tone="info"] {
+  --_copyabletext-ink: var(--kb-color-info);
+}
+.kb-copyabletext[data-tone="success"] {
+  --_copyabletext-ink: var(--kb-color-success);
+}
+.kb-copyabletext[data-tone="warning"] {
+  --_copyabletext-ink: var(--kb-color-warning);
+}
+.kb-copyabletext[data-tone="danger"] {
+  --_copyabletext-ink: var(--kb-color-danger);
+}
+.kb-copyabletext:where([data-tone]:not([data-tone="neutral"]):not([data-appearance="plain"])) {
+  border-color: color-mix(in srgb, var(--_copyabletext-ink) 35%, var(--kb-copyabletext-border));
+  background: color-mix(in srgb, var(--_copyabletext-ink) 4%, var(--kb-copyabletext-background));
+}
+.kb-copyabletext-copy {
+  margin-inline-start: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--kb-copyabletext-copy-min-width);
+  min-block-size: var(--kb-copyabletext-target-size);
+  max-inline-size: 100%;
+  padding: var(--kb-space-1) var(--kb-space-3);
+  border: 1px solid var(--kb-material-control-border);
+  border-radius: var(--kb-radius-md);
+  background: var(--kb-material-raised-face);
+  box-shadow: var(--kb-material-raised-shadow);
+  color: var(--kb-color-fg);
+  font-family: var(--kb-font-sans);
+  font-size: var(--kb-text-caption-size);
+  font-weight: var(--kb-font-weight-medium);
+  line-height: var(--kb-text-leading-control);
+  white-space: normal;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+  transition: background-color var(--kb-motion-duration-fast) var(--kb-motion-easing-standard);
+}
+.kb-copyabletext-copy:not(:disabled):not([aria-disabled="true"]):hover {
+  background: var(--kb-material-raised-top);
+}
+.kb-copyabletext-copy:focus-visible {
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: 2px;
+}
+.kb-copyabletext[data-copy-state="copied"] .kb-copyabletext-copy {
+  border-color: var(--kb-color-success);
+}
+.kb-copyabletext[data-copy-state="failed"] .kb-copyabletext-copy {
+  border-color: var(--kb-color-danger);
+}
+.kb-copyabletext-feedback:not(.kb-sr-only) {
+  grid-column: 1 / -1;
+  color: var(--kb-color-danger);
+  font-family: var(--kb-font-sans);
+  font-size: var(--kb-text-caption-size);
+  overflow-wrap: anywhere;
+}
+.kb-copyabletext-copy:disabled,
+.kb-copyabletext[data-disabled] .kb-copyabletext-copy {
+  color: var(--kb-color-muted);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.kb-copyabletext-copy[aria-disabled="true"] {
+  cursor: progress;
+}
+.kb-copyabletext[data-size="sm"] {
+  padding: var(--kb-space-2);
+  font-size: var(--kb-text-caption-size);
+}
+.kb-copyabletext[data-size="sm"] .kb-copyabletext-copy {
+  min-block-size: var(--kb-button-height-sm);
+}
+.kb-copyabletext[data-appearance="plain"] {
+  inline-size: auto;
+  padding: 0;
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .kb-copyabletext-copy {
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  .kb-copyabletext {
+    background: Canvas;
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+  .kb-copyabletext[data-appearance="plain"] {
+    border-color: transparent;
+  }
+  .kb-copyabletext-copy,
+  .kb-copyabletext[data-copy-state="copied"] .kb-copyabletext-copy,
+  .kb-copyabletext[data-copy-state="failed"] .kb-copyabletext-copy {
+    border-color: ButtonText;
+    box-shadow: none;
+  }
+  .kb-copyabletext-copy:disabled,
+  .kb-copyabletext[data-disabled] .kb-copyabletext-copy {
+    color: GrayText;
+    border-color: GrayText;
+  }
+  .kb-copyabletext-value {
+    color: CanvasText;
+  }
+  .kb-copyabletext-toggle {
+    color: LinkText;
+  }
+  .kb-copyabletext-toggle:hover {
+    color: LinkText;
+  }
+  .kb-copyabletext-toggle:focus-visible,
+  .kb-copyabletext-copy:focus-visible {
+    outline-color: Highlight;
+  }
+}
+
+.kb-copyabletext-highlight {
+  border-radius: var(--kb-radius-sm);
+  background: var(--kb-copyabletext-highlight-background);
+  color: var(--kb-color-fg);
+  font-weight: var(--kb-font-weight-strong);
+  box-decoration-break: clone;
+}
+@media (forced-colors: active) {
+  .kb-copyabletext-highlight {
+    forced-color-adjust: none;
+    background: Mark;
+    color: MarkText;
+  }
+}
+
+.kb-copyabletext[data-format="code"] .kb-copyabletext-value,
+.kb-copyabletext[data-format="code"] .kb-copyabletext-actions {
+  grid-column: 1 / -1;
+}
+.kb-copyabletext[data-format="code"] .kb-copyabletext-actions {
+  justify-content: flex-end;
+}
+.kb-copyabletext-code {
+  font-size: inherit;
+  overflow-wrap: anywhere;
+}

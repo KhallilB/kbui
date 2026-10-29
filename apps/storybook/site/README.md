@@ -60,7 +60,7 @@ Spacing has three local foundations: `--page-gutter` for shared page edges, `--s
 
 ## Catalog source contract
 
-The catalog covers all 36 public components. `catalog/source.ts` uses Storybook's own CSF parser to derive example names and IDs from colocated component stories. It reads API tables and usage blocks from `packages/react/docs/components/<Name>.md`; `catalog/definitions.ts` holds grouping, short descriptions and curated example exports and labels. The source test compares the catalog against public exports and rejects malformed API rows or missing guide entries.
+The catalog covers all 38 public components. `catalog/source.ts` uses Storybook's own CSF parser to derive example names and IDs from colocated component stories. It reads API tables and usage blocks from `packages/react/docs/components/<Name>.md`; `catalog/definitions.ts` holds grouping, short descriptions and curated example exports and labels. The source test compares the catalog against public exports and rejects malformed API rows or missing guide entries.
 
 A build-time virtual module supplies that data to the site and Storybook without bundling the Node parser into the browser. Guide and component-story changes invalidate the module during development. `build:site` ends with `verify:catalog`, which checks every story and documentation ID against the built Storybook index. An ID mismatch fails the build.
 
@@ -172,7 +172,7 @@ Required name/email checks focus the first invalid field. Failed saves retain dr
 
 ### Verification
 
-`bun run --filter @kb.ui/storybook test:themes` exercises all 195 canonical component stories in light/dark and normal/reduced motion, including accessibility scans. `test:site` covers responsive routes and forced colors. `verify:theme` compares computed Button, Card, field and Dialog materials across Components, Playground, Examples, Home and Setup, and compares a standalone package stylesheet with the same previews and grid Cards in both themes, then checks real built iframe identity/input retention, workspace draft retention, keyboard focus, thumb motion, cross-route persistence and legacy URL cleanup. Run against the combined static output:
+`bun run --filter @kb.ui/storybook test:themes` exercises all 220 canonical component stories in light/dark and normal/reduced motion, including accessibility scans. `test:site` covers responsive routes and forced colors. `verify:theme` compares computed Button, Card, field and Dialog materials across Components, Playground, Examples, Home and Setup, and compares a standalone package stylesheet with the same previews and grid Cards in both themes, then checks real built iframe identity/input retention, workspace draft retention, keyboard focus, thumb motion, cross-route persistence and legacy URL cleanup. Run against the combined static output:
 
 ```bash
 CATALOG_PREVIEW_URL=http://127.0.0.1:4182 bun run --filter @kb.ui/storybook verify:theme
@@ -182,7 +182,7 @@ CATALOG_PREVIEW_URL=http://127.0.0.1:4182 CATALOG_THEME=dark bun run --filter @k
 
 `verify:depth` checks resting material roles and native hover/press states across 15 families in both themes; it complements visual review rather than scoring perceived depth.
 
-`verify:previews` checks all 127 examples at 320px/1280px, gallery theme propagation, content fitting, overlay bounds, code/copy and site panels. Automated checks do not replace human screen-reader or owner visual acceptance. These checks establish local behavior; publication and deployment are separate steps. The shared tokens and component CSS own this default.
+`verify:previews` checks all 219 examples at 320px/1280px, gallery theme propagation, content fitting, overlay bounds, code/copy and site panels. Automated checks do not replace human screen-reader or owner visual acceptance. These checks establish local behavior; publication and deployment are separate steps. The shared tokens and component CSS own this default.
 
 
 ### Shared controls and edge coverage

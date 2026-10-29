@@ -56,6 +56,7 @@ Choose by task. Each page contains a complete usage example, canonical API detai
 
 | Component | Use for |
 |---|---|
+| <a id="copyabletext"></a>[CopyableText](docs/components/CopyableText.md) | Copy identifiers and references with feedback and recovery. |
 | <a id="button"></a>[Button](docs/components/Button.md) | Trigger an action or link to another page. |
 | <a id="dialog"></a>[Dialog](docs/components/Dialog.md) | Keep a focused task in a dialog while the page waits behind it. |
 | <a id="menu"></a>[Menu](docs/components/Menu.md) | Keep related actions in a compact popup menu. |
@@ -108,6 +109,7 @@ Choose by task. Each page contains a complete usage example, canonical API detai
 
 | Component | Use for |
 |---|---|
+| <a id="codeblock"></a>[CodeBlock](docs/components/CodeBlock.md) | Explicit source listings with highlighting, line numbers and copy feedback. |
 | <a id="code"></a>[Code](docs/components/Code.md) | Literal inline code and syntax-highlighted multiline code blocks. |
 | <a id="heading"></a>[Heading](docs/components/Heading.md) | Native heading hierarchy with independent visual sizing. |
 | <a id="link"></a>[Link](docs/components/Link.md) | Recognizable navigation with visible keyboard focus. |
@@ -116,6 +118,8 @@ Choose by task. Each page contains a complete usage example, canonical API detai
 ## Composition guides
 
 Use these when a task spans several components:
+
+- [Copyable content](https://github.com/KhallilB/kbui/blob/main/docs/guides/copyable-content.md): identifiers, commands, exact source and clipboard recovery.
 
 - [Layout composition](https://github.com/KhallilB/kbui/blob/main/docs/guides/layout.md): page boundaries, wrapping rows, responsive columns, and separators.
 - [Typography](https://github.com/KhallilB/kbui/blob/main/docs/guides/typography.md): heading hierarchy, readable copy, links, and inline code.

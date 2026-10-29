@@ -174,6 +174,7 @@ try {
           }
           if (alignment.text === "center") throw new Error("Example text became center-aligned");
           const fluidSelectors: Record<string, string> = {
+            codeblock: ".kb-codeblock",
             input: ".kb-input",
             textarea: ".kb-textarea",
             fieldset: ".kb-fieldset",
@@ -396,6 +397,35 @@ try {
               );
               return iframe.clientHeight >= Math.max(minimum, needed) - 1;
             }, reserve);
+          }
+          if (
+            [
+              "components-copyabletext--default",
+              "components-copyabletext--long-value",
+              "components-codeblock--default",
+            ].includes(story.id)
+          ) {
+            await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
+            const source = await frame
+              .locator(entry.id === "copyabletext" ? ".kb-copyabletext-value" : ".kb-code-content")
+              .textContent();
+            if (story.id === "components-copyabletext--long-value") {
+              await frame.getByRole("button", { name: "Show full value", exact: true }).click();
+              await frame.getByRole("button", { name: "Show less", exact: true }).waitFor();
+            }
+            const copy = frame.getByRole("button", {
+              name:
+                story.id === "components-copyabletext--long-value"
+                  ? "Copy digest"
+                  : entry.id === "copyabletext"
+                    ? "Copy ID"
+                    : "Copy code",
+              exact: true,
+            });
+            await copy.click();
+            await frame.getByRole("button", { name: "Copied", exact: true }).waitFor();
+            if ((await page.evaluate(() => navigator.clipboard.readText())) !== source)
+              throw new Error("Copyable content clipboard differs from original source");
           }
           checked++;
         } catch (error) {

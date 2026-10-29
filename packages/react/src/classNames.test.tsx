@@ -5,7 +5,9 @@ import {
   Callout,
   Checkbox,
   Code,
+  CodeBlock,
   Combobox,
+  CopyableText,
   Dialog,
   ErrorSummary,
   Fieldset,
@@ -33,6 +35,33 @@ const every = new Proxy({} as Record<string, string>, {
 const camel = (part: string) => part.replace(/-(\w)/g, (_, c: string) => c.toUpperCase());
 
 const cases: [string, () => ReactElement][] = [
+  [
+    "copyabletext",
+    () => <CopyableText value="const count = 42;" highlight="count" classNames={every} />,
+  ],
+  [
+    "copyabletext",
+    () => (
+      <CopyableText
+        value="Request https://example.com"
+        highlight="Request"
+        linkify
+        classNames={every}
+      />
+    ),
+  ],
+  [
+    "copyabletext",
+    () => <CopyableText label="Request" value="id_123" truncate classNames={every} />,
+  ],
+  [
+    "code",
+    () => (
+      <CodeBlock title="Source" language="ts" lineNumbers collapsible classNames={every}>
+        {"const value = 1;"}
+      </CodeBlock>
+    ),
+  ],
   [
     "input",
     () => (

@@ -22,6 +22,7 @@ export {
   type CodeToken,
   tokenizeCode,
 } from "./components/Code/Code";
+export { CodeBlock, type CodeBlockProps } from "./components/CodeBlock/CodeBlock";
 export {
   Combobox,
   type ComboboxMultipleProps,
@@ -36,6 +37,13 @@ export {
   type ContainerProps,
   type ContainerSize,
 } from "./components/Container/Container";
+export {
+  CopyableText,
+  type CopyableTextFormat,
+  type CopyableTextPart,
+  type CopyableTextProps,
+  type CopyableTextTone,
+} from "./components/CopyableText/CopyableText";
 export {
   Dialog,
   type DialogActionsProps,
@@ -208,3 +216,4 @@ export {
 export { Tooltip, type TooltipProps } from "./components/Tooltip/Tooltip";
 export { type ClassNames, kb } from "./utils/kb";
 export type { LayoutAlign, LayoutGap } from "./utils/layout";
+export type { CopyFeedbackProps, CopyState } from "./utils/useClipboard";
