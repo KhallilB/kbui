@@ -47,9 +47,6 @@
 .kb-table-rowheader {
   font-weight: var(--kb-font-weight-strong);
 }
-.kb-table-columnheader {
-  overflow-wrap: normal;
-}
 .kb-table-columnheader[data-sortable] {
   /* Definite cell size lets button height follow the tallest header. */
   block-size: 1px;

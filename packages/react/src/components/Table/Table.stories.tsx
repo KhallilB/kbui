@@ -334,7 +334,7 @@ export const NestedTableIsolation: Story = {
                     <Table.ColumnHeader onSortChange={() => {}}>
                       Customer success follow-up responsibility
                     </Table.ColumnHeader>
-                    <Table.ColumnHeader>Open tasks</Table.ColumnHeader>
+                    <Table.ColumnHeader>ResponsibilityIdentifierWithoutBreaks</Table.ColumnHeader>
                   </Table.Row>
                 </Table.Head>
                 <Table.Body>
@@ -370,6 +370,9 @@ export const NestedTableIsolation: Story = {
       name: "Customer success follow-up responsibility",
     });
     expect(sort.scrollWidth).toBeLessThanOrEqual(sort.clientWidth + 1);
+    expect(sort.scrollHeight).toBeLessThanOrEqual(sort.clientHeight + 1);
+    const staticHeading = within(fixed).getByText("ResponsibilityIdentifierWithoutBreaks");
+    expect(staticHeading.scrollWidth).toBeLessThanOrEqual(staticHeading.clientWidth + 1);
   },
 };
 
