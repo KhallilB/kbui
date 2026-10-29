@@ -1373,3 +1373,15 @@
     }
   }
 }
+
+/* Keep overlay previews in page flow; pane caps hide portaled controls. */
+.kbui-catalog
+  .catalog-styling-workspace[data-component="popover"]:not([data-focused="true"])
+  > .catalog-styling-preview {
+  position: relative;
+  top: auto;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+  grid-template-rows: auto;
+}

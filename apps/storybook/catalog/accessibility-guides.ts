@@ -409,6 +409,61 @@ export const accessibilityGuides = {
     ],
     standards: ["1.4.1", "1.4.3", "2.1.1", "2.4.7", "4.1.2", "4.1.3"],
   },
+  Popover: {
+    provides: [
+      "Base UI supplies trigger/popup relationships, expanded state, Escape/outside dismissal and focus return.",
+      "Content supports title/description, composed labels, initialFocus/finalFocus and collision-aware positioning; non-modal interaction is the default.",
+      "Direct Body and Footer sections keep actions outside constrained content scrolling; title/description props form a persistent Header.",
+    ],
+    authoring: [
+      "Name the popup through title, Title or aria-label and include a visible Close action. Use modal only when the workflow requires focus containment.",
+      "Keep popovers compact and actions visible. Name a long scrollable Body and set tabIndex=0; use Dialog or Drawer for larger tasks. Keep essential information outside the popup and choose a useful finalFocus target if its trigger disappears.",
+    ],
+    verify: [
+      "Open with Enter, Tab through controls and close with Escape or Close; confirm focus returns to the trigger. An outside press must leave the outside control usable.",
+      "With a screen reader inspect the name, description and expanded state. Check 320px, zoom, long content, nested themes, forced colors and a popup inside Dialog.",
+      "Run the Chromium/Firefox/WebKit overlay gate and separately assess VoiceOver. Scans exclude only Base UI implementation guards; actual controls retain naming checks.",
+    ],
+    standards: ["1.3.1", "1.4.10", "2.1.1", "2.1.2", "2.4.3", "2.4.7", "2.4.11", "4.1.2"],
+  },
+  Disclosure: {
+    provides: [
+      "A native button exposes expanded state and its controlled panel; Enter and Space toggle without submitting a form.",
+      "Disabled and controlled states pass through. Closed panels are hidden or unmounted; keepMounted retains uncontrolled content state.",
+    ],
+    authoring: [
+      "Use a clear visible trigger label and keep essential instructions, validation feedback and required controls discoverable.",
+      "Choose heading structure around the trigger when needed. Do not put another interactive control inside the trigger; use Panel keepMounted for drafts that must survive collapse.",
+    ],
+    verify: [
+      "Tab to the trigger, toggle with Enter and Space, and confirm focus stays on it and collapsed controls leave the Tab order.",
+      "With a screen reader confirm expanded/collapsed state and the panel relationship; check retained drafts, disabled states, forced colors, zoom and long labels.",
+    ],
+    standards: ["1.3.1", "2.1.1", "2.4.3", "2.4.7", "4.1.2"],
+    pattern: {
+      title: "Disclosure pattern",
+      href: "https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/",
+    },
+  },
+  Accordion: {
+    provides: [
+      "Base UI associates heading buttons with named regions and exposes expanded/disabled state.",
+      "Tab reaches enabled triggers; Enter/Space operate them. Single, multiple, controlled and retained-panel modes are available.",
+    ],
+    authoring: [
+      "Use stable unique item values and descriptive trigger labels. Choose heading rank using Header render and keep other actions outside the heading button.",
+      "Use multiple for independent panels. Keep groups focused to avoid excessive region landmarks; keep essential information discoverable.",
+    ],
+    verify: [
+      "Tab between triggers, toggle with Enter/Space and verify single versus multiple expansion. Disabled items must reject activation; inner groups must not toggle outer groups.",
+      "Use screen-reader heading and region navigation to check names and expanded state. Check long content at 320px, enlarged text, retained drafts, visible focus and forced colors.",
+    ],
+    standards: ["1.3.1", "1.4.10", "2.1.1", "2.4.3", "2.4.6", "2.4.7", "4.1.2"],
+    pattern: {
+      title: "Accordion pattern",
+      href: "https://www.w3.org/WAI/ARIA/apg/patterns/accordion/",
+    },
+  },
   Dialog: {
     provides: [
       "Base UI supplies modal semantics, focus containment, Escape dismissal, and trigger focus restoration.",

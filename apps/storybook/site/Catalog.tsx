@@ -445,6 +445,7 @@ function CatalogDetail({
         )}
         <div
           className="catalog-styling-workspace"
+          data-component={entry.id}
           ref={paneResize.root}
           data-compare={compare || undefined}
           data-focused={focused || undefined}
@@ -654,7 +655,7 @@ function CatalogDetail({
                 <StoryPreview
                   code={code}
                   onCodeResult={setCodeResult}
-                  fill={!compare && paneResize.split}
+                  fill={entry.id !== "popover" && !compare && paneResize.split}
                   fullWidth={compare}
                   active={active}
                   appearance={{ ...appearance, theme: compare ? "light" : appearance.theme, skin }}

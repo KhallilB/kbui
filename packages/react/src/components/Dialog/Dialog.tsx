@@ -18,6 +18,8 @@ export type DialogActionsProps = ComponentProps<"div">;
 export type DialogSectionProps = ComponentProps<"div">;
 
 export type DialogContentProps = Omit<Base.Popup.Props, "className" | "title"> & {
+  /** Centered dialog or inline-end drawer with independently scrolling Body. */
+  layout?: "center" | "drawer";
   /** Accessible name; mutually exclusive with a composed Dialog.Title. */
   title?: ReactNode;
   /** Accessible description; mutually exclusive with a composed Dialog.Description. */
@@ -65,6 +67,7 @@ function DialogFooter({ className, ...props }: DialogSectionProps) {
 }
 
 function DialogContent({
+  layout = "center",
   classNames,
   title,
   description,
@@ -73,14 +76,23 @@ function DialogContent({
   className,
   ...props
 }: DialogContentProps) {
+  const hasTitle = title != null && title !== "";
+  const hasDescription = description != null && description !== "";
+  const heading = (
+    <>
+      {hasTitle ? <DialogTitle>{title}</DialogTitle> : null}
+      {hasDescription ? <DialogDescription>{description}</DialogDescription> : null}
+    </>
+  );
   return (
     <Base.Portal container={container}>
       <Base.Backdrop className={clsx("kb-dialog-backdrop", classNames?.backdrop)} />
-      <Base.Popup {...props} className={clsx("kb-dialog-popup", className)}>
-        {title != null && title !== "" ? <DialogTitle>{title}</DialogTitle> : null}
-        {description != null && description !== "" ? (
-          <DialogDescription>{description}</DialogDescription>
-        ) : null}
+      <Base.Popup {...props} data-layout={layout} className={clsx("kb-dialog-popup", className)}>
+        {layout === "drawer" && (hasTitle || hasDescription) ? (
+          <DialogHeader>{heading}</DialogHeader>
+        ) : (
+          heading
+        )}
         {children}
       </Base.Popup>
     </Base.Portal>

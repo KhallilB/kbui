@@ -1,0 +1,97 @@
+/* Anatomy: .kb-accordion > .kb-accordion-item [data-disabled] > .kb-accordion-header > .kb-accordion-trigger [data-panel-open] [data-disabled]; .kb-accordion-panel [data-open] [hidden] > .kb-accordion-panel-content */
+.kb-accordion {
+  min-inline-size: 0;
+  inline-size: 100%;
+  border: 1px solid var(--kb-accordion-border);
+  border-radius: var(--kb-accordion-radius);
+  background: var(--kb-accordion-background);
+  color: var(--kb-accordion-color);
+}
+
+.kb-accordion-item + .kb-accordion-item {
+  border-block-start: 1px solid var(--kb-accordion-border);
+}
+.kb-accordion-header {
+  margin: 0;
+  font: inherit;
+}
+
+.kb-accordion-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kb-space-3);
+  inline-size: 100%;
+  min-block-size: var(--kb-accordion-trigger-height);
+  padding: var(--kb-space-3) var(--kb-accordion-padding);
+  border: 0;
+  border-radius: var(--kb-accordion-radius);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: var(--kb-font-weight-strong);
+  text-align: start;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+.kb-accordion-trigger::after {
+  content: "";
+  flex: none;
+  inline-size: var(--kb-space-2);
+  block-size: var(--kb-space-2);
+  margin-inline-end: var(--kb-space-1);
+  border-inline-end: 1px solid currentColor;
+  border-block-end: 1px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform var(--kb-accordion-motion-duration) var(--kb-accordion-motion-easing);
+}
+.kb-accordion-trigger[data-panel-open]::after {
+  transform: rotate(225deg);
+}
+.kb-accordion-trigger:hover:not([data-disabled]):not(:disabled) {
+  background: var(--kb-color-surface);
+}
+.kb-accordion-trigger:focus-visible {
+  position: relative;
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: -2px;
+}
+.kb-accordion-trigger[data-disabled],
+.kb-accordion-trigger:disabled {
+  color: var(--kb-color-muted);
+  cursor: not-allowed;
+}
+.kb-accordion-panel {
+  height: var(--accordion-panel-height);
+  overflow: clip;
+  transition: height var(--kb-accordion-motion-duration) var(--kb-accordion-motion-easing);
+}
+.kb-accordion-panel[data-starting-style],
+.kb-accordion-panel[data-ending-style] {
+  height: 0;
+}
+.kb-accordion-panel-content {
+  display: flow-root;
+  padding: 0 var(--kb-accordion-padding) var(--kb-accordion-padding);
+  overflow-wrap: anywhere;
+  font-size: var(--kb-text-body-size);
+  line-height: var(--kb-text-leading-body);
+}
+@media (prefers-reduced-motion: reduce) {
+  .kb-accordion-trigger::after,
+  .kb-accordion-panel {
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  .kb-accordion {
+    border-color: CanvasText;
+  }
+  .kb-accordion-trigger:focus-visible {
+    outline-color: Highlight;
+  }
+  .kb-accordion-trigger[data-disabled],
+  .kb-accordion-trigger:disabled {
+    color: GrayText;
+  }
+}
