@@ -1,0 +1,682 @@
+{
+  "spec": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "header",
+          "metrics",
+          "mid-grid",
+          "bottom-grid"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "header-text",
+          "header-badge"
+        ]
+      },
+      "header-text": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "title",
+          "subtitle"
+        ]
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$state": "/project/name"
+          },
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "Phase: ${/project/phase} · Ends ${/project/endDate}"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "header-badge": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$state": "/project/status"
+          },
+          "variant": "default"
+        },
+        "children": []
+      },
+      "metrics": {
+        "type": "Grid",
+        "props": {
+          "columns": 4,
+          "gap": "md"
+        },
+        "children": [
+          "m1",
+          "m2",
+          "m3",
+          "m4"
+        ]
+      },
+      "m1": {
+        "type": "Card",
+        "props": {
+          "title": "Overall Progress"
+        },
+        "children": [
+          "m1-val",
+          "m1-bar"
+        ]
+      },
+      "m1-val": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$template": "${/project/overall}%"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "m1-bar": {
+        "type": "Progress",
+        "props": {
+          "value": {
+            "$state": "/project/overall"
+          },
+          "max": 100
+        },
+        "children": []
+      },
+      "m2": {
+        "type": "Card",
+        "props": {
+          "title": "Tasks Completed"
+        },
+        "children": [
+          "m2-val",
+          "m2-text"
+        ]
+      },
+      "m2-val": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$template": "${/project/tasksDone} / ${/project/tasksTotal}"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "m2-text": {
+        "type": "Text",
+        "props": {
+          "text": "Across all workstreams",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "m3": {
+        "type": "Card",
+        "props": {
+          "title": "Open Issues"
+        },
+        "children": [
+          "m3-val",
+          "m3-text"
+        ]
+      },
+      "m3-val": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$state": "/project/openIssues"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "m3-text": {
+        "type": "Text",
+        "props": {
+          "text": "3 high priority",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "m4": {
+        "type": "Card",
+        "props": {
+          "title": "Days Remaining"
+        },
+        "children": [
+          "m4-val",
+          "m4-text"
+        ]
+      },
+      "m4-val": {
+        "type": "Heading",
+        "props": {
+          "text": "52",
+          "level": "h2"
+        },
+        "children": []
+      },
+      "m4-text": {
+        "type": "Text",
+        "props": {
+          "text": "Until final delivery",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "mid-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "md"
+        },
+        "children": [
+          "milestones-card",
+          "completion-card"
+        ]
+      },
+      "milestones-card": {
+        "type": "Card",
+        "props": {
+          "title": "Milestones",
+          "description": "Key project checkpoints"
+        },
+        "children": [
+          "milestone-list"
+        ]
+      },
+      "milestone-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/milestones",
+          "key": "id"
+        },
+        "children": [
+          "milestone-item"
+        ]
+      },
+      "milestone-item": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "milestone-row",
+          "milestone-bar"
+        ]
+      },
+      "milestone-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "milestone-name",
+          "milestone-meta"
+        ]
+      },
+      "milestone-name": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "name"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "milestone-meta": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm",
+          "align": "center"
+        },
+        "children": [
+          "milestone-date",
+          "milestone-status"
+        ]
+      },
+      "milestone-date": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "date"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "milestone-status": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "status"
+          },
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "milestone-bar": {
+        "type": "Progress",
+        "props": {
+          "value": {
+            "$item": "progress"
+          },
+          "max": 100
+        },
+        "children": []
+      },
+      "completion-card": {
+        "type": "Card",
+        "props": {
+          "title": "Task Completion",
+          "description": "Progress by workstream"
+        },
+        "children": [
+          "completion-list"
+        ]
+      },
+      "completion-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/workstreams",
+          "key": "id"
+        },
+        "children": [
+          "ws-item"
+        ]
+      },
+      "ws-item": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "ws-row",
+          "ws-bar"
+        ]
+      },
+      "ws-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "ws-name",
+          "ws-count"
+        ]
+      },
+      "ws-name": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "name"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "ws-count": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${done}/${total} tasks"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "ws-bar": {
+        "type": "Progress",
+        "props": {
+          "value": {
+            "$item": "percent"
+          },
+          "max": 100
+        },
+        "children": []
+      },
+      "bottom-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "md"
+        },
+        "children": [
+          "team-card",
+          "deadlines-card"
+        ]
+      },
+      "team-card": {
+        "type": "Card",
+        "props": {
+          "title": "Team Workload",
+          "description": "Current capacity by member"
+        },
+        "children": [
+          "team-list"
+        ]
+      },
+      "team-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/team",
+          "key": "id"
+        },
+        "children": [
+          "team-item"
+        ]
+      },
+      "team-item": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center"
+        },
+        "children": [
+          "team-avatar",
+          "team-body"
+        ]
+      },
+      "team-avatar": {
+        "type": "Avatar",
+        "props": {
+          "name": {
+            "$item": "name"
+          },
+          "size": "md"
+        },
+        "children": []
+      },
+      "team-body": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "team-row",
+          "team-bar"
+        ]
+      },
+      "team-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "team-name",
+          "team-load"
+        ]
+      },
+      "team-name": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${name} · ${role}"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "team-load": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${tasks} tasks · ${load}%"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "team-bar": {
+        "type": "Progress",
+        "props": {
+          "value": {
+            "$item": "load"
+          },
+          "max": 100
+        },
+        "children": []
+      },
+      "deadlines-card": {
+        "type": "Card",
+        "props": {
+          "title": "Upcoming Deadlines",
+          "description": "Next 14 days"
+        },
+        "children": [
+          "deadlines-table"
+        ]
+      },
+      "deadlines-table": {
+        "type": "Table",
+        "props": {
+          "columns": [
+            "Task",
+            "Owner",
+            "Due",
+            "Priority"
+          ],
+          "rows": [
+            [
+              "API rate limiting",
+              "Jordan Ellis",
+              "Nov 2",
+              "High"
+            ],
+            [
+              "Checkout flow polish",
+              "Maya Chen",
+              "Nov 5",
+              "High"
+            ],
+            [
+              "Icon set handoff",
+              "Priya Nair",
+              "Nov 7",
+              "Medium"
+            ],
+            [
+              "Regression test suite",
+              "Lucas Moreau",
+              "Nov 9",
+              "High"
+            ],
+            [
+              "CI/CD pipeline upgrade",
+              "Sam Okafor",
+              "Nov 12",
+              "Low"
+            ]
+          ],
+          "caption": "Sorted by due date"
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "project": {
+        "name": "Apollo Platform Redesign",
+        "phase": "Build",
+        "endDate": "Dec 20, 2026",
+        "status": "On Track",
+        "overall": 68,
+        "tasksDone": 142,
+        "tasksTotal": 208,
+        "openIssues": 14
+      },
+      "milestones": [
+        {
+          "id": "1",
+          "name": "Discovery & Research",
+          "date": "Aug 15",
+          "status": "Complete",
+          "progress": 100
+        },
+        {
+          "id": "2",
+          "name": "Design System",
+          "date": "Sep 30",
+          "status": "Complete",
+          "progress": 100
+        },
+        {
+          "id": "3",
+          "name": "Core Platform Build",
+          "date": "Nov 25",
+          "status": "In Progress",
+          "progress": 72
+        },
+        {
+          "id": "4",
+          "name": "QA & Beta Testing",
+          "date": "Dec 10",
+          "status": "Upcoming",
+          "progress": 20
+        },
+        {
+          "id": "5",
+          "name": "Launch",
+          "date": "Dec 20",
+          "status": "Upcoming",
+          "progress": 0
+        }
+      ],
+      "workstreams": [
+        {
+          "id": "1",
+          "name": "Frontend",
+          "done": 48,
+          "total": 64,
+          "percent": 75
+        },
+        {
+          "id": "2",
+          "name": "Backend",
+          "done": 39,
+          "total": 58,
+          "percent": 67
+        },
+        {
+          "id": "3",
+          "name": "Design",
+          "done": 30,
+          "total": 34,
+          "percent": 88
+        },
+        {
+          "id": "4",
+          "name": "QA & Testing",
+          "done": 15,
+          "total": 32,
+          "percent": 47
+        },
+        {
+          "id": "5",
+          "name": "DevOps",
+          "done": 10,
+          "total": 20,
+          "percent": 50
+        }
+      ],
+      "team": [
+        {
+          "id": "1",
+          "name": "Maya Chen",
+          "role": "Frontend Lead",
+          "tasks": 12,
+          "load": 85
+        },
+        {
+          "id": "2",
+          "name": "Jordan Ellis",
+          "role": "Backend Engineer",
+          "tasks": 9,
+          "load": 70
+        },
+        {
+          "id": "3",
+          "name": "Priya Nair",
+          "role": "Product Designer",
+          "tasks": 6,
+          "load": 55
+        },
+        {
+          "id": "4",
+          "name": "Lucas Moreau",
+          "role": "QA Engineer",
+          "tasks": 14,
+          "load": 95
+        },
+        {
+          "id": "5",
+          "name": "Sam Okafor",
+          "role": "DevOps Engineer",
+          "tasks": 7,
+          "load": 60
+        }
+      ]
+    }
+  },
+  "patchLines": 68,
+  "skippedLines": 0,
+  "firstNodeMs": 6237,
+  "issues": [],
+  "fixes": []
+}

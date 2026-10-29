@@ -1,0 +1,170 @@
+{
+  "promptId": "d09",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:22:29.734Z",
+  "totalMs": 17244,
+  "lines": [
+    {
+      "t": 3815,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+    },
+    {
+      "t": 4169,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"children\":[\"header\",\"metrics\",\"body\",\"roles-card\"]}}"
+    },
+    {
+      "t": 4250,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"title\",\"subtitle\"]}}"
+    },
+    {
+      "t": 4571,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Hiring Pipeline Dashboard\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 4916,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtitle\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Track candidates by stage, time to hire, and open roles as of October 2026.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 5317,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metrics\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":4,\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/metrics\",\"key\":\"id\"},\"children\":[\"metric-card\"]}}"
+    },
+    {
+      "t": 5663,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metric-card\",\"value\":{\"type\":\"Card\",\"props\":{\"maxWidth\":\"full\"},\"children\":[\"metric-stack\"]}}"
+    },
+    {
+      "t": 5913,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metric-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"metric-label\",\"metric-value\",\"metric-badge\"]}}"
+    },
+    {
+      "t": 6151,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metric-label\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"label\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 6476,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metric-value\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$item\":\"value\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 6698,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metric-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"change\"},\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 6865,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics\",\"value\":[]}"
+    },
+    {
+      "t": 7020,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics/0\",\"value\":{\"id\":\"m1\",\"label\":\"Active Candidates\",\"value\":\"148\",\"change\":\"+12 this week\"}}"
+    },
+    {
+      "t": 7350,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics/1\",\"value\":{\"id\":\"m2\",\"label\":\"Avg. Time to Hire\",\"value\":\"34 days\",\"change\":\"-3 days vs last quarter\"}}"
+    },
+    {
+      "t": 7677,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics/2\",\"value\":{\"id\":\"m3\",\"label\":\"Offer Acceptance\",\"value\":\"86%\",\"change\":\"+4% vs last quarter\"}}"
+    },
+    {
+      "t": 7988,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics/3\",\"value\":{\"id\":\"m4\",\"label\":\"Open Roles\",\"value\":\"7\",\"change\":\"2 urgent\"}}"
+    },
+    {
+      "t": 8329,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/body\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"md\"},\"children\":[\"stage-card\",\"tth-card\"]}}"
+    },
+    {
+      "t": 8613,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/stage-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Candidates by Stage\",\"description\":\"Current pipeline distribution\",\"maxWidth\":\"full\"},\"children\":[\"stage-list\"]}}"
+    },
+    {
+      "t": 8977,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/stage-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/stages\",\"key\":\"id\"},\"children\":[\"stage-item\"]}}"
+    },
+    {
+      "t": 9352,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/stage-item\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$item\":\"percent\"},\"max\":100,\"label\":{\"$item\":\"label\"}},\"children\":[]}}"
+    },
+    {
+      "t": 9458,
+      "text": "{\"op\":\"add\",\"path\":\"/state/stages\",\"value\":[]}"
+    },
+    {
+      "t": 9679,
+      "text": "{\"op\":\"add\",\"path\":\"/state/stages/0\",\"value\":{\"id\":\"s1\",\"label\":\"Applied - 52 candidates\",\"percent\":100}}"
+    },
+    {
+      "t": 9912,
+      "text": "{\"op\":\"add\",\"path\":\"/state/stages/1\",\"value\":{\"id\":\"s2\",\"label\":\"Recruiter Screen - 38 candidates\",\"percent\":73}}"
+    },
+    {
+      "t": 10143,
+      "text": "{\"op\":\"add\",\"path\":\"/state/stages/2\",\"value\":{\"id\":\"s3\",\"label\":\"Technical Interview - 27 candidates\",\"percent\":52}}"
+    },
+    {
+      "t": 10412,
+      "text": "{\"op\":\"add\",\"path\":\"/state/stages/3\",\"value\":{\"id\":\"s4\",\"label\":\"Onsite - 19 candidates\",\"percent\":37}}"
+    },
+    {
+      "t": 10612,
+      "text": "{\"op\":\"add\",\"path\":\"/state/stages/4\",\"value\":{\"id\":\"s5\",\"label\":\"Offer - 8 candidates\",\"percent\":15}}"
+    },
+    {
+      "t": 10845,
+      "text": "{\"op\":\"add\",\"path\":\"/state/stages/5\",\"value\":{\"id\":\"s6\",\"label\":\"Hired - 4 candidates\",\"percent\":8}}"
+    },
+    {
+      "t": 11179,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/tth-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Time to Hire\",\"description\":\"Average days by department\",\"maxWidth\":\"full\"},\"children\":[\"tth-table\"]}}"
+    },
+    {
+      "t": 12311,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/tth-table\",\"value\":{\"type\":\"Table\",\"props\":{\"columns\":[\"Department\",\"Avg. Days\",\"Trend\"],\"rows\":[[\"Engineering\",\"41\",\"Down 2 days\"],[\"Design\",\"33\",\"Down 4 days\"],[\"Product\",\"37\",\"Flat\"],[\"Sales\",\"24\",\"Down 1 day\"],[\"Marketing\",\"29\",\"Up 2 days\"],[\"Operations\",\"26\",\"Down 3 days\"]],\"caption\":\"Days from application to accepted offer, last 90 days\"},\"children\":[]}}"
+    },
+    {
+      "t": 12643,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/roles-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Open Roles\",\"description\":\"Positions currently recruiting\",\"maxWidth\":\"full\"},\"children\":[\"roles-table\"]}}"
+    },
+    {
+      "t": 17244,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/roles-table\",\"value\":{\"type\":\"Table\",\"props\":{\"columns\":[\"Role\",\"Department\",\"Location\",\"Candidates\",\"Priority\",\"Hiring Manager\"],\"rows\":[[\"Senior Backend Engineer\",\"Engineering\",\"Remote\",\"24\",\"High\",\"Priya Nair\"],[\"Product Designer\",\"Design\",\"New York\",\"17\",\"Medium\",\"Marcus Lee\"],[\"Staff Frontend Engineer\",\"Engineering\",\"San Francisco\",\"21\",\"High\",\"Dana Whitfield\"],[\"Product Manager, Growth\",\"Product\",\"Remote\",\"15\",\"Medium\",\"Sam Ortiz\"],[\"Account Executive\",\"Sales\",\"Chicago\",\"19\",\"Medium\",\"Elena Rossi\"],[\"Content Marketing Lead\",\"Marketing\",\"Austin\",\"12\",\"Low\",\"Tom Becker\"],[\"Operations Analyst\",\"Operations\",\"Denver\",\"10\",\"Low\",\"Aisha Khan\"]],\"caption\":\"7 open roles across 6 departments\"},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 918,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 2234,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 918,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2234,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 918,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 918
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

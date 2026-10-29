@@ -1,0 +1,119 @@
+{
+  "promptId": "s09",
+  "model": "gpt-6-1-sol",
+  "resolvedModel": "gpt-6.1-sol",
+  "cli": "codex",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:19:56.640Z",
+  "totalMs": 33384,
+  "lines": [
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"integrations\"}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/integrations\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"xl\",\"className\":\"mx-auto w-full max-w-6xl p-8\"},\"children\":[\"header\",\"separator\",\"apps\",\"footer\"]}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"breadcrumb\",\"title\",\"description\"]}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/breadcrumb\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"WORKSPACE SETTINGS / INTEGRATIONS\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Your tools, working together\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/description\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Connect your team's favorite apps to keep conversations, contacts, and workflows in sync.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/separator\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/apps\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":3,\"gap\":\"lg\",\"className\":\"grid-cols-1 md:grid-cols-3\"},\"repeat\":{\"statePath\":\"/apps\",\"key\":\"id\"},\"children\":[\"app-card\"]}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/state/apps\",\"value\":[]}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/state/apps/0\",\"value\":{\"id\":\"slack\",\"name\":\"Slack\",\"category\":\"TEAM COMMUNICATION\",\"description\":\"Send deal updates and new lead notifications directly to your team's Slack channels.\",\"connected\":true,\"account\":\"Acme workspace · #sales-updates\",\"details\":\"Notifications for deal changes and new leads.\"}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/state/apps/1\",\"value\":{\"id\":\"gmail\",\"name\":\"Gmail\",\"category\":\"EMAIL & CONTACTS\",\"description\":\"Keep customer conversations alongside your contacts and automatically log sales emails.\",\"connected\":true,\"account\":\"alex@acme.co\",\"details\":\"Email activity synced to matching CRM contacts.\"}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/state/apps/2\",\"value\":{\"id\":\"zapier\",\"name\":\"Zapier\",\"category\":\"WORKFLOW AUTOMATION\",\"description\":\"Turn CRM events into automated workflows across the apps your business uses every day.\",\"connected\":false,\"account\":\"Acme automation workspace\",\"details\":\"Trigger workflows when leads arrive or deals change.\"}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/app-card\",\"value\":{\"type\":\"Card\",\"props\":{\"maxWidth\":\"full\",\"className\":\"h-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm\"},\"children\":[\"app-content\"]}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/app-content\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\",\"className\":\"h-full\"},\"children\":[\"app-heading\",\"app-category\",\"app-description\",\"app-details\",\"connection-info\",\"app-action\"]}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/app-heading\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"app-identity\",\"app-status\"]}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/app-identity\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"align\":\"center\"},\"children\":[\"app-avatar\",\"app-name\"]}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/app-avatar\",\"value\":{\"type\":\"Avatar\",\"props\":{\"name\":{\"$item\":\"name\"},\"size\":\"md\"},\"children\":[]}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/app-name\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$item\":\"name\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/app-status\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$cond\":{\"$item\":\"connected\"},\"$then\":\"Connected\",\"$else\":\"Not connected\"},\"variant\":{\"$cond\":{\"$item\":\"connected\"},\"$then\":\"secondary\",\"$else\":\"outline\"}},\"children\":[]}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/app-category\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"category\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/app-description\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"description\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/app-details\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"details\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/connection-info\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$cond\":{\"$item\":\"connected\"},\"$then\":{\"$template\":\"Linked to ${account}\"},\"$else\":\"Ready to connect to your workspace.\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/app-action\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":{\"$cond\":{\"$item\":\"connected\"},\"$then\":\"Disconnect\",\"$else\":\"Connect app\"},\"variant\":{\"$cond\":{\"$item\":\"connected\"},\"$then\":\"secondary\",\"$else\":\"primary\"}},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":{\"$item\":\"connected\"},\"value\":{\"$cond\":{\"$item\":\"connected\"},\"$then\":false,\"$else\":true}}}},\"children\":[]}}"
+    },
+    {
+      "t": 32617,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/footer\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Integration preview\",\"message\":\"Connect and disconnect update this settings preview. Live account authorization and data syncing require a connected backend.\",\"type\":\"info\"},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 28099,
+    "cached_input_tokens": 12288,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1418,
+    "reasoning_output_tokens": 189
+  },
+  "streamedLines": false
+}

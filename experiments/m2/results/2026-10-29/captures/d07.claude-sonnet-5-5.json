@@ -1,0 +1,318 @@
+{
+  "promptId": "d07",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:22:00.847Z",
+  "totalMs": 28886,
+  "lines": [
+    {
+      "t": 5883,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+    },
+    {
+      "t": 6237,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"children\":[\"header\",\"metrics\",\"mid-grid\",\"bottom-grid\"]}}"
+    },
+    {
+      "t": 6630,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"header-text\",\"header-badge\"]}}"
+    },
+    {
+      "t": 6720,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header-text\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"title\",\"subtitle\"]}}"
+    },
+    {
+      "t": 6949,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$state\":\"/project/name\"},\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 7388,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtitle\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"Phase: ${/project/phase} · Ends ${/project/endDate}\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 7733,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$state\":\"/project/status\"},\"variant\":\"default\"},\"children\":[]}}"
+    },
+    {
+      "t": 8282,
+      "text": "{\"op\":\"add\",\"path\":\"/state/project\",\"value\":{\"name\":\"Apollo Platform Redesign\",\"phase\":\"Build\",\"endDate\":\"Dec 20, 2026\",\"status\":\"On Track\",\"overall\":68,\"tasksDone\":142,\"tasksTotal\":208,\"openIssues\":14}}"
+    },
+    {
+      "t": 8584,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metrics\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":4,\"gap\":\"md\"},\"children\":[\"m1\",\"m2\",\"m3\",\"m4\"]}}"
+    },
+    {
+      "t": 8889,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m1\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Overall Progress\"},\"children\":[\"m1-val\",\"m1-bar\"]}}"
+    },
+    {
+      "t": 9195,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m1-val\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$template\":\"${/project/overall}%\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 9483,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m1-bar\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$state\":\"/project/overall\"},\"max\":100},\"children\":[]}}"
+    },
+    {
+      "t": 9716,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m2\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Tasks Completed\"},\"children\":[\"m2-val\",\"m2-text\"]}}"
+    },
+    {
+      "t": 10088,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m2-val\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$template\":\"${/project/tasksDone} / ${/project/tasksTotal}\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 10389,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m2-text\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Across all workstreams\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 10621,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m3\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Open Issues\"},\"children\":[\"m3-val\",\"m3-text\"]}}"
+    },
+    {
+      "t": 10912,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m3-val\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$state\":\"/project/openIssues\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 11188,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m3-text\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"3 high priority\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 11429,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m4\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Days Remaining\"},\"children\":[\"m4-val\",\"m4-text\"]}}"
+    },
+    {
+      "t": 11656,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m4-val\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"52\",\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 11913,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m4-text\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Until final delivery\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 12252,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/mid-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"md\"},\"children\":[\"milestones-card\",\"completion-card\"]}}"
+    },
+    {
+      "t": 12563,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/milestones-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Milestones\",\"description\":\"Key project checkpoints\"},\"children\":[\"milestone-list\"]}}"
+    },
+    {
+      "t": 12923,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/milestone-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/milestones\",\"key\":\"id\"},\"children\":[\"milestone-item\"]}}"
+    },
+    {
+      "t": 13217,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/milestone-item\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"milestone-row\",\"milestone-bar\"]}}"
+    },
+    {
+      "t": 13584,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/milestone-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"milestone-name\",\"milestone-meta\"]}}"
+    },
+    {
+      "t": 13853,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/milestone-name\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"name\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 14186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/milestone-meta\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"align\":\"center\"},\"children\":[\"milestone-date\",\"milestone-status\"]}}"
+    },
+    {
+      "t": 14449,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/milestone-date\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"date\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 14719,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/milestone-status\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"status\"},\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 15047,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/milestone-bar\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$item\":\"progress\"},\"max\":100},\"children\":[]}}"
+    },
+    {
+      "t": 15080,
+      "text": "{\"op\":\"add\",\"path\":\"/state/milestones\",\"value\":[]}"
+    },
+    {
+      "t": 15481,
+      "text": "{\"op\":\"add\",\"path\":\"/state/milestones/0\",\"value\":{\"id\":\"1\",\"name\":\"Discovery & Research\",\"date\":\"Aug 15\",\"status\":\"Complete\",\"progress\":100}}"
+    },
+    {
+      "t": 15752,
+      "text": "{\"op\":\"add\",\"path\":\"/state/milestones/1\",\"value\":{\"id\":\"2\",\"name\":\"Design System\",\"date\":\"Sep 30\",\"status\":\"Complete\",\"progress\":100}}"
+    },
+    {
+      "t": 16046,
+      "text": "{\"op\":\"add\",\"path\":\"/state/milestones/2\",\"value\":{\"id\":\"3\",\"name\":\"Core Platform Build\",\"date\":\"Nov 25\",\"status\":\"In Progress\",\"progress\":72}}"
+    },
+    {
+      "t": 16352,
+      "text": "{\"op\":\"add\",\"path\":\"/state/milestones/3\",\"value\":{\"id\":\"4\",\"name\":\"QA & Beta Testing\",\"date\":\"Dec 10\",\"status\":\"Upcoming\",\"progress\":20}}"
+    },
+    {
+      "t": 16616,
+      "text": "{\"op\":\"add\",\"path\":\"/state/milestones/4\",\"value\":{\"id\":\"5\",\"name\":\"Launch\",\"date\":\"Dec 20\",\"status\":\"Upcoming\",\"progress\":0}}"
+    },
+    {
+      "t": 16883,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/completion-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Task Completion\",\"description\":\"Progress by workstream\"},\"children\":[\"completion-list\"]}}"
+    },
+    {
+      "t": 17282,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/completion-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/workstreams\",\"key\":\"id\"},\"children\":[\"ws-item\"]}}"
+    },
+    {
+      "t": 17598,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/ws-item\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"ws-row\",\"ws-bar\"]}}"
+    },
+    {
+      "t": 17915,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/ws-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"ws-name\",\"ws-count\"]}}"
+    },
+    {
+      "t": 18148,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/ws-name\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"name\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 18472,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/ws-count\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${done}/${total} tasks\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 18751,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/ws-bar\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$item\":\"percent\"},\"max\":100},\"children\":[]}}"
+    },
+    {
+      "t": 18847,
+      "text": "{\"op\":\"add\",\"path\":\"/state/workstreams\",\"value\":[]}"
+    },
+    {
+      "t": 19125,
+      "text": "{\"op\":\"add\",\"path\":\"/state/workstreams/0\",\"value\":{\"id\":\"1\",\"name\":\"Frontend\",\"done\":48,\"total\":64,\"percent\":75}}"
+    },
+    {
+      "t": 19348,
+      "text": "{\"op\":\"add\",\"path\":\"/state/workstreams/1\",\"value\":{\"id\":\"2\",\"name\":\"Backend\",\"done\":39,\"total\":58,\"percent\":67}}"
+    },
+    {
+      "t": 19651,
+      "text": "{\"op\":\"add\",\"path\":\"/state/workstreams/2\",\"value\":{\"id\":\"3\",\"name\":\"Design\",\"done\":30,\"total\":34,\"percent\":88}}"
+    },
+    {
+      "t": 19849,
+      "text": "{\"op\":\"add\",\"path\":\"/state/workstreams/3\",\"value\":{\"id\":\"4\",\"name\":\"QA & Testing\",\"done\":15,\"total\":32,\"percent\":47}}"
+    },
+    {
+      "t": 20084,
+      "text": "{\"op\":\"add\",\"path\":\"/state/workstreams/4\",\"value\":{\"id\":\"5\",\"name\":\"DevOps\",\"done\":10,\"total\":20,\"percent\":50}}"
+    },
+    {
+      "t": 20389,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/bottom-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"md\"},\"children\":[\"team-card\",\"deadlines-card\"]}}"
+    },
+    {
+      "t": 20657,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/team-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Team Workload\",\"description\":\"Current capacity by member\"},\"children\":[\"team-list\"]}}"
+    },
+    {
+      "t": 21016,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/team-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/team\",\"key\":\"id\"},\"children\":[\"team-item\"]}}"
+    },
+    {
+      "t": 21349,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/team-item\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\"},\"children\":[\"team-avatar\",\"team-body\"]}}"
+    },
+    {
+      "t": 21615,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/team-avatar\",\"value\":{\"type\":\"Avatar\",\"props\":{\"name\":{\"$item\":\"name\"},\"size\":\"md\"},\"children\":[]}}"
+    },
+    {
+      "t": 21882,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/team-body\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"team-row\",\"team-bar\"]}}"
+    },
+    {
+      "t": 22213,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/team-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"team-name\",\"team-load\"]}}"
+    },
+    {
+      "t": 22480,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/team-name\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${name} · ${role}\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 22846,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/team-load\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${tasks} tasks · ${load}%\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 23080,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/team-bar\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$item\":\"load\"},\"max\":100},\"children\":[]}}"
+    },
+    {
+      "t": 23182,
+      "text": "{\"op\":\"add\",\"path\":\"/state/team\",\"value\":[]}"
+    },
+    {
+      "t": 23487,
+      "text": "{\"op\":\"add\",\"path\":\"/state/team/0\",\"value\":{\"id\":\"1\",\"name\":\"Maya Chen\",\"role\":\"Frontend Lead\",\"tasks\":12,\"load\":85}}"
+    },
+    {
+      "t": 23820,
+      "text": "{\"op\":\"add\",\"path\":\"/state/team/1\",\"value\":{\"id\":\"2\",\"name\":\"Jordan Ellis\",\"role\":\"Backend Engineer\",\"tasks\":9,\"load\":70}}"
+    },
+    {
+      "t": 24080,
+      "text": "{\"op\":\"add\",\"path\":\"/state/team/2\",\"value\":{\"id\":\"3\",\"name\":\"Priya Nair\",\"role\":\"Product Designer\",\"tasks\":6,\"load\":55}}"
+    },
+    {
+      "t": 24422,
+      "text": "{\"op\":\"add\",\"path\":\"/state/team/3\",\"value\":{\"id\":\"4\",\"name\":\"Lucas Moreau\",\"role\":\"QA Engineer\",\"tasks\":14,\"load\":95}}"
+    },
+    {
+      "t": 24690,
+      "text": "{\"op\":\"add\",\"path\":\"/state/team/4\",\"value\":{\"id\":\"5\",\"name\":\"Sam Okafor\",\"role\":\"DevOps Engineer\",\"tasks\":7,\"load\":60}}"
+    },
+    {
+      "t": 24986,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/deadlines-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Upcoming Deadlines\",\"description\":\"Next 14 days\"},\"children\":[\"deadlines-table\"]}}"
+    },
+    {
+      "t": 28886,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/deadlines-table\",\"value\":{\"type\":\"Table\",\"props\":{\"columns\":[\"Task\",\"Owner\",\"Due\",\"Priority\"],\"rows\":[[\"API rate limiting\",\"Jordan Ellis\",\"Nov 2\",\"High\"],[\"Checkout flow polish\",\"Maya Chen\",\"Nov 5\",\"High\"],[\"Icon set handoff\",\"Priya Nair\",\"Nov 7\",\"Medium\"],[\"Regression test suite\",\"Lucas Moreau\",\"Nov 9\",\"High\"],[\"CI/CD pipeline upgrade\",\"Sam Okafor\",\"Nov 12\",\"Low\"]],\"caption\":\"Sorted by due date\"},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 920,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 4486,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 920,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 4486,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 920,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 920
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

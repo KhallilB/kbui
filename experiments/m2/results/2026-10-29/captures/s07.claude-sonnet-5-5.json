@@ -1,0 +1,122 @@
+{
+  "promptId": "s07",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:19:20.004Z",
+  "totalMs": 12718,
+  "lines": [
+    {
+      "t": 4259,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+    },
+    {
+      "t": 4608,
+      "text": "{\"op\":\"add\",\"path\":\"/state/appearance\",\"value\":{\"theme\":\"Dark+\",\"fontSize\":14,\"lineHeight\":1.5,\"ligatures\":true}}"
+    },
+    {
+      "t": 4679,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Appearance\",\"description\":\"Customize how your code editor looks\",\"maxWidth\":\"md\",\"centered\":true},\"children\":[\"layout\"]}}"
+    },
+    {
+      "t": 5357,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/layout\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"children\":[\"theme-select\",\"font-section\",\"line-section\",\"ligatures\",\"sep\",\"preview-section\",\"actions\"]}}"
+    },
+    {
+      "t": 5858,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/theme-select\",\"value\":{\"type\":\"Select\",\"props\":{\"label\":\"Color Theme\",\"name\":\"theme\",\"options\":[\"Dark+\",\"Light+\",\"Monokai\",\"Solarized Dark\",\"Solarized Light\",\"GitHub Dark\",\"Nord\"],\"placeholder\":\"Choose a theme\",\"value\":{\"$bindState\":\"/appearance/theme\"}},\"children\":[]}}"
+    },
+    {
+      "t": 6146,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/font-section\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"font-label\",\"font-slider\"]}}"
+    },
+    {
+      "t": 6515,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/font-label\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"Font Size: ${/appearance/fontSize}px\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 6855,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/font-slider\",\"value\":{\"type\":\"Slider\",\"props\":{\"min\":8,\"max\":32,\"step\":1,\"value\":{\"$bindState\":\"/appearance/fontSize\"}},\"children\":[]}}"
+    },
+    {
+      "t": 7088,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/line-section\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"line-label\",\"line-slider\"]}}"
+    },
+    {
+      "t": 7384,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/line-label\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"Line Height: ${/appearance/lineHeight}\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 7751,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/line-slider\",\"value\":{\"type\":\"Slider\",\"props\":{\"min\":1,\"max\":2.5,\"step\":0.1,\"value\":{\"$bindState\":\"/appearance/lineHeight\"}},\"children\":[]}}"
+    },
+    {
+      "t": 8100,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/ligatures\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Enable font ligatures\",\"name\":\"ligatures\",\"checked\":{\"$bindState\":\"/appearance/ligatures\"}},\"children\":[]}}"
+    },
+    {
+      "t": 8319,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sep\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 8684,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/preview-section\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"preview-title\",\"preview-summary\",\"preview-code\"]}}"
+    },
+    {
+      "t": 8925,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/preview-title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Preview\",\"level\":\"h4\"},\"children\":[]}}"
+    },
+    {
+      "t": 9370,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/preview-summary\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${/appearance/theme} · ${/appearance/fontSize}px · line height ${/appearance/lineHeight}\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 9694,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/preview-code\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"function greet(name) { return `Hello, ${name}!`; }\",\"variant\":\"code\"},\"children\":[]}}"
+    },
+    {
+      "t": 9950,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"justify\":\"end\"},\"children\":[\"reset-btn\"]}}"
+    },
+    {
+      "t": 12718,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/reset-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Reset to Defaults\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/appearance\",\"value\":{\"theme\":\"Dark+\",\"fontSize\":14,\"lineHeight\":1.5,\"ligatures\":true}}}},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 919,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 1464,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 919,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1464,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 919,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 919
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

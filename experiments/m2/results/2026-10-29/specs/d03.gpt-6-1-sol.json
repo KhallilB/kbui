@@ -1,0 +1,606 @@
+{
+  "spec": {
+    "root": "dashboard",
+    "elements": {
+      "dashboard": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "xl",
+          "className": "mx-auto max-w-7xl bg-slate-50 p-6 md:p-10"
+        },
+        "children": [
+          "header",
+          "summary",
+          "accounts-section",
+          "activity-grid"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "align": "center",
+          "justify": "between",
+          "gap": "lg",
+          "className": "flex-wrap"
+        },
+        "children": [
+          "heading-group",
+          "month"
+        ]
+      },
+      "heading-group": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "eyebrow",
+          "title",
+          "welcome"
+        ]
+      },
+      "eyebrow": {
+        "type": "Text",
+        "props": {
+          "text": "PERSONAL FINANCE",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Your money, at a glance",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "welcome": {
+        "type": "Text",
+        "props": {
+          "text": "Welcome back, Alex. Here’s how your month is shaping up.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "month": {
+        "type": "Badge",
+        "props": {
+          "text": "October 2026 · Month to date",
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "summary": {
+        "type": "Grid",
+        "props": {
+          "columns": 3,
+          "gap": "lg",
+          "className": "max-md:grid-cols-1"
+        },
+        "repeat": {
+          "statePath": "/metrics",
+          "key": "id"
+        },
+        "children": [
+          "metric-card"
+        ]
+      },
+      "metric-card": {
+        "type": "Card",
+        "props": {
+          "className": "rounded-2xl border-slate-200 shadow-sm"
+        },
+        "children": [
+          "metric-label",
+          "metric-amount",
+          "metric-detail"
+        ]
+      },
+      "metric-label": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "label"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "metric-amount": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "amount"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "metric-detail": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "detail"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "accounts-section": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "accounts-heading",
+          "accounts"
+        ]
+      },
+      "accounts-heading": {
+        "type": "Heading",
+        "props": {
+          "text": "Your accounts",
+          "level": "h2"
+        },
+        "children": []
+      },
+      "accounts": {
+        "type": "Grid",
+        "props": {
+          "columns": 3,
+          "gap": "lg",
+          "className": "max-md:grid-cols-1"
+        },
+        "repeat": {
+          "statePath": "/accounts",
+          "key": "id"
+        },
+        "children": [
+          "account-card"
+        ]
+      },
+      "account-card": {
+        "type": "Card",
+        "props": {
+          "className": "rounded-2xl border-slate-200"
+        },
+        "children": [
+          "account-content"
+        ]
+      },
+      "account-content": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "account-name",
+          "account-institution",
+          "account-balance",
+          "account-status"
+        ]
+      },
+      "account-name": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "name"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "account-institution": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "institution"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "account-balance": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "balance"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "account-status": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "status"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "activity-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "lg",
+          "className": "max-lg:grid-cols-1"
+        },
+        "children": [
+          "spending-card",
+          "transactions-card"
+        ]
+      },
+      "spending-card": {
+        "type": "Card",
+        "props": {
+          "title": "Monthly spending",
+          "description": "October 1–29 · Category totals",
+          "className": "rounded-2xl"
+        },
+        "children": [
+          "budget",
+          "spending-list",
+          "spending-note"
+        ]
+      },
+      "budget": {
+        "type": "Progress",
+        "props": {
+          "value": 85.5,
+          "max": 100,
+          "label": "$3,420 of $4,000 monthly budget · 85.5%"
+        },
+        "children": []
+      },
+      "spending-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg",
+          "className": "py-6"
+        },
+        "repeat": {
+          "statePath": "/categories",
+          "key": "id"
+        },
+        "children": [
+          "category"
+        ]
+      },
+      "category": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "category-row",
+          "category-progress"
+        ]
+      },
+      "category-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center",
+          "gap": "md"
+        },
+        "children": [
+          "category-name",
+          "category-amount"
+        ]
+      },
+      "category-name": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "name"
+          }
+        },
+        "children": []
+      },
+      "category-amount": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "amount"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "category-progress": {
+        "type": "Progress",
+        "props": {
+          "value": {
+            "$item": "share"
+          },
+          "max": 100,
+          "label": {
+            "$item": "label"
+          }
+        },
+        "children": []
+      },
+      "spending-note": {
+        "type": "Text",
+        "props": {
+          "text": "Spending includes purchases and bills. Transfers and credit card payments are excluded.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "transactions-card": {
+        "type": "Card",
+        "props": {
+          "title": "Recent transactions",
+          "description": "Latest activity across your accounts",
+          "className": "rounded-2xl"
+        },
+        "children": [
+          "transaction-list",
+          "transaction-note"
+        ]
+      },
+      "transaction-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "none"
+        },
+        "repeat": {
+          "statePath": "/transactions",
+          "key": "id"
+        },
+        "children": [
+          "transaction-row",
+          "transaction-divider"
+        ]
+      },
+      "transaction-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center",
+          "gap": "md",
+          "className": "py-4"
+        },
+        "children": [
+          "transaction-description",
+          "transaction-value"
+        ]
+      },
+      "transaction-description": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "transaction-merchant",
+          "transaction-detail"
+        ]
+      },
+      "transaction-merchant": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "merchant"
+          }
+        },
+        "children": []
+      },
+      "transaction-detail": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "detail"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "transaction-value": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm",
+          "align": "end"
+        },
+        "children": [
+          "transaction-amount",
+          "transaction-status"
+        ]
+      },
+      "transaction-amount": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "amount"
+          },
+          "variant": {
+            "$cond": {
+              "$item": "income",
+              "eq": true
+            },
+            "$then": "default",
+            "$else": "secondary"
+          }
+        },
+        "children": []
+      },
+      "transaction-status": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "status"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "transaction-divider": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "transaction-note": {
+        "type": "Text",
+        "props": {
+          "text": "Pending transactions may change before they post.",
+          "variant": "muted"
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "metrics": [
+        {
+          "id": "available",
+          "label": "Total available",
+          "amount": "$24,850.00",
+          "detail": "Across checking and savings"
+        },
+        {
+          "id": "income",
+          "label": "Income this month",
+          "amount": "$6,800.00",
+          "detail": "Salary and freelance payments"
+        },
+        {
+          "id": "spending",
+          "label": "Spending this month",
+          "amount": "$3,420.00",
+          "detail": "$580 remaining in your monthly budget"
+        }
+      ],
+      "accounts": [
+        {
+          "id": "checking",
+          "name": "Everyday Checking",
+          "institution": "Chase · •• 4821",
+          "balance": "$4,850.00",
+          "status": "Available balance"
+        },
+        {
+          "id": "savings",
+          "name": "High-Yield Savings",
+          "institution": "Ally · •• 9073",
+          "balance": "$20,000.00",
+          "status": "Available balance"
+        },
+        {
+          "id": "credit",
+          "name": "Sapphire Preferred",
+          "institution": "Chase · •• 1138",
+          "balance": "$1,245.60",
+          "status": "Credit card balance owed"
+        }
+      ],
+      "categories": [
+        {
+          "id": "housing",
+          "name": "Housing & utilities",
+          "amount": "$1,800.00",
+          "share": 52.6,
+          "label": "52.6% of spending"
+        },
+        {
+          "id": "groceries",
+          "name": "Groceries",
+          "amount": "$620.00",
+          "share": 18.1,
+          "label": "18.1% of spending"
+        },
+        {
+          "id": "dining",
+          "name": "Dining & coffee",
+          "amount": "$450.00",
+          "share": 13.2,
+          "label": "13.2% of spending"
+        },
+        {
+          "id": "transport",
+          "name": "Transportation",
+          "amount": "$320.00",
+          "share": 9.4,
+          "label": "9.4% of spending"
+        },
+        {
+          "id": "other",
+          "name": "Shopping & subscriptions",
+          "amount": "$230.00",
+          "share": 6.7,
+          "label": "6.7% of spending"
+        }
+      ],
+      "transactions": [
+        {
+          "id": "tx-1",
+          "merchant": "Whole Foods Market",
+          "detail": "Oct 29 · Groceries · Sapphire •• 1138",
+          "amount": "−$86.42",
+          "status": "Pending",
+          "income": false
+        },
+        {
+          "id": "tx-2",
+          "merchant": "Blue Bottle Coffee",
+          "detail": "Oct 28 · Dining · Sapphire •• 1138",
+          "amount": "−$6.50",
+          "status": "Posted",
+          "income": false
+        },
+        {
+          "id": "tx-3",
+          "merchant": "Acme Studio",
+          "detail": "Oct 27 · Freelance income · Checking •• 4821",
+          "amount": "+$800.00",
+          "status": "Posted",
+          "income": true
+        },
+        {
+          "id": "tx-4",
+          "merchant": "Shell",
+          "detail": "Oct 26 · Transportation · Sapphire •• 1138",
+          "amount": "−$48.20",
+          "status": "Posted",
+          "income": false
+        },
+        {
+          "id": "tx-5",
+          "merchant": "Spotify Premium",
+          "detail": "Oct 25 · Subscriptions · Sapphire •• 1138",
+          "amount": "−$11.99",
+          "status": "Posted",
+          "income": false
+        },
+        {
+          "id": "tx-6",
+          "merchant": "Sweetgreen",
+          "detail": "Oct 24 · Dining · Sapphire •• 1138",
+          "amount": "−$18.75",
+          "status": "Posted",
+          "income": false
+        }
+      ]
+    }
+  },
+  "patchLines": 64,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [],
+  "fixes": []
+}

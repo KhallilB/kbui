@@ -1,0 +1,310 @@
+{
+  "promptId": "c03",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:14:38.019Z",
+  "totalMs": 30447,
+  "lines": [
+    {
+      "t": 4226,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"page\"}"
+    },
+    {
+      "t": 4226,
+      "text": "{\"op\":\"add\",\"path\":\"/state/selectedSize\",\"value\":\"10\"}"
+    },
+    {
+      "t": 4268,
+      "text": "{\"op\":\"add\",\"path\":\"/state/selectedColor\",\"value\":\"Cloud White\"}"
+    },
+    {
+      "t": 4534,
+      "text": "{\"op\":\"add\",\"path\":\"/state/quantity\",\"value\":\"1\"}"
+    },
+    {
+      "t": 4534,
+      "text": "{\"op\":\"add\",\"path\":\"/state/cartAdded\",\"value\":false}"
+    },
+    {
+      "t": 4635,
+      "text": "{\"op\":\"add\",\"path\":\"/state/reviewTab\",\"value\":\"reviews\"}"
+    },
+    {
+      "t": 4885,
+      "text": "{\"op\":\"add\",\"path\":\"/state/email\",\"value\":\"\"}"
+    },
+    {
+      "t": 4885,
+      "text": "{\"op\":\"add\",\"path\":\"/state/subscribed\",\"value\":false}"
+    },
+    {
+      "t": 5332,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/page\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"xl\",\"align\":\"stretch\"},\"children\":[\"promo\",\"hero\",\"features-section\",\"reviews-section\",\"faq-section\",\"cta-section\"]}}"
+    },
+    {
+      "t": 6092,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/promo\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Launch Offer: Free shipping + free returns\",\"message\":\"Order The Schu today and get 30 days to try them. Limited first-run pairs available.\",\"type\":\"success\"},\"children\":[]}}"
+    },
+    {
+      "t": 6430,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/hero\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"xl\"},\"children\":[\"hero-image-col\",\"hero-info-col\"]}}"
+    },
+    {
+      "t": 6785,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/hero-image-col\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"hero-image\",\"gallery-note\"]}}"
+    },
+    {
+      "t": 6997,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/hero-image\",\"value\":{\"type\":\"Image\",\"props\":{\"alt\":\"The Schu sneaker in Cloud White, side view\",\"width\":560,\"height\":480},\"children\":[]}}"
+    },
+    {
+      "t": 7563,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/gallery-note\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Handcrafted with recycled knit uppers and a responsive foam midsole.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 8165,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/hero-info-col\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"badge-row\",\"product-title\",\"rating-row\",\"price-row\",\"product-desc\",\"separator-1\",\"color-select\",\"size-select\",\"qty-row\",\"cta-row\",\"cart-confirm\",\"trust-row\"]}}"
+    },
+    {
+      "t": 8498,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/badge-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\"},\"children\":[\"badge-new\",\"badge-stock\"]}}"
+    },
+    {
+      "t": 8768,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/badge-new\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"New Release\",\"variant\":\"default\"},\"children\":[]}}"
+    },
+    {
+      "t": 9035,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/badge-stock\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Only a few left\",\"variant\":\"destructive\"},\"children\":[]}}"
+    },
+    {
+      "t": 9265,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"The Schu\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 9563,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/rating-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"align\":\"center\"},\"children\":[\"rating-text\"]}}"
+    },
+    {
+      "t": 9965,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/rating-text\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"★★★★★  4.8 average from 1,240 reviews\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 10333,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/price-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\"},\"children\":[\"price\",\"old-price\",\"save-badge\"]}}"
+    },
+    {
+      "t": 10565,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/price\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"$129\",\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 10765,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/old-price\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"$159\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 11061,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/save-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Save 19%\",\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 11832,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-desc\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"The all-day sneaker built for city streets and weekend adventures. Featherlight, cushioned, and designed to look great with everything in your closet.\",\"variant\":\"lead\"},\"children\":[]}}"
+    },
+    {
+      "t": 12065,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/separator-1\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 12802,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/color-select\",\"value\":{\"type\":\"ToggleGroup\",\"props\":{\"items\":[{\"label\":\"Cloud White\",\"value\":\"Cloud White\"},{\"label\":\"Midnight Black\",\"value\":\"Midnight Black\"},{\"label\":\"Sunset Orange\",\"value\":\"Sunset Orange\"},{\"label\":\"Forest Green\",\"value\":\"Forest Green\"}],\"type\":\"single\",\"value\":{\"$bindState\":\"/selectedColor\"}},\"children\":[]}}"
+    },
+    {
+      "t": 13404,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/size-select\",\"value\":{\"type\":\"ButtonGroup\",\"props\":{\"buttons\":[{\"label\":\"7\",\"value\":\"7\"},{\"label\":\"8\",\"value\":\"8\"},{\"label\":\"9\",\"value\":\"9\"},{\"label\":\"10\",\"value\":\"10\"},{\"label\":\"11\",\"value\":\"11\"},{\"label\":\"12\",\"value\":\"12\"}],\"selected\":{\"$bindState\":\"/selectedSize\"}},\"children\":[]}}"
+    },
+    {
+      "t": 13797,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/qty-row\",\"value\":{\"type\":\"Select\",\"props\":{\"label\":\"Quantity\",\"name\":\"quantity\",\"options\":[\"1\",\"2\",\"3\",\"4\",\"5\"],\"value\":{\"$bindState\":\"/quantity\"}},\"children\":[]}}"
+    },
+    {
+      "t": 14103,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cta-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\"},\"children\":[\"add-to-cart\",\"wishlist\"]}}"
+    },
+    {
+      "t": 14532,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/add-to-cart\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Add to Cart\",\"variant\":\"primary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/cartAdded\",\"value\":true}}},\"children\":[]}}"
+    },
+    {
+      "t": 14800,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/wishlist\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Save for Later\",\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 15432,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cart-confirm\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Added to cart\",\"message\":\"Your Schu is waiting. Complete checkout to lock in free shipping.\",\"type\":\"success\"},\"visible\":{\"$state\":\"/cartAdded\"},\"children\":[]}}"
+    },
+    {
+      "t": 15698,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/trust-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"trust-list\"]}}"
+    },
+    {
+      "t": 16065,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/trust-list\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":3,\"gap\":\"sm\"},\"repeat\":{\"statePath\":\"/trust\",\"key\":\"id\"},\"children\":[\"trust-item\"]}}"
+    },
+    {
+      "t": 16341,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/trust-item\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"label\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 16432,
+      "text": "{\"op\":\"add\",\"path\":\"/state/trust\",\"value\":[]}"
+    },
+    {
+      "t": 16632,
+      "text": "{\"op\":\"add\",\"path\":\"/state/trust/0\",\"value\":{\"id\":\"t1\",\"label\":\"🚚 Free shipping\"}}"
+    },
+    {
+      "t": 16818,
+      "text": "{\"op\":\"add\",\"path\":\"/state/trust/1\",\"value\":{\"id\":\"t2\",\"label\":\"↩️ 30-day returns\"}}"
+    },
+    {
+      "t": 16997,
+      "text": "{\"op\":\"add\",\"path\":\"/state/trust/2\",\"value\":{\"id\":\"t3\",\"label\":\"🔒 Secure checkout\"}}"
+    },
+    {
+      "t": 17303,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/features-section\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"children\":[\"features-heading\",\"features-grid\"]}}"
+    },
+    {
+      "t": 17584,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/features-heading\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Why you'll love The Schu\",\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 17932,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/features-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":3,\"gap\":\"lg\"},\"repeat\":{\"statePath\":\"/features\",\"key\":\"id\"},\"children\":[\"feature-card\"]}}"
+    },
+    {
+      "t": 18267,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/feature-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":{\"$item\":\"title\"},\"description\":{\"$item\":\"description\"}},\"children\":[]}}"
+    },
+    {
+      "t": 18369,
+      "text": "{\"op\":\"add\",\"path\":\"/state/features\",\"value\":[]}"
+    },
+    {
+      "t": 18866,
+      "text": "{\"op\":\"add\",\"path\":\"/state/features/0\",\"value\":{\"id\":\"f1\",\"title\":\"Cloud-soft comfort\",\"description\":\"Responsive foam midsole keeps your feet fresh from morning commute to late-night walks.\"}}"
+    },
+    {
+      "t": 19333,
+      "text": "{\"op\":\"add\",\"path\":\"/state/features/1\",\"value\":{\"id\":\"f2\",\"title\":\"Made from recycled materials\",\"description\":\"Each pair keeps 11 plastic bottles out of landfills without compromising on style.\"}}"
+    },
+    {
+      "t": 19739,
+      "text": "{\"op\":\"add\",\"path\":\"/state/features/2\",\"value\":{\"id\":\"f3\",\"title\":\"Built to last\",\"description\":\"Reinforced stitching and a durable rubber outsole for thousands of miles.\"}}"
+    },
+    {
+      "t": 20039,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/reviews-section\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"children\":[\"reviews-heading\",\"reviews-grid\"]}}"
+    },
+    {
+      "t": 20367,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/reviews-heading\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Loved by thousands of customers\",\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 20700,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/reviews-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":3,\"gap\":\"lg\"},\"repeat\":{\"statePath\":\"/reviews\",\"key\":\"id\"},\"children\":[\"review-card\"]}}"
+    },
+    {
+      "t": 21267,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/review-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":{\"$item\":\"headline\"},\"description\":{\"$template\":\"${stars}  —  ${author}, ${location}\"}},\"children\":[\"review-text\"]}}"
+    },
+    {
+      "t": 21464,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/review-text\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"body\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 21600,
+      "text": "{\"op\":\"add\",\"path\":\"/state/reviews\",\"value\":[]}"
+    },
+    {
+      "t": 22204,
+      "text": "{\"op\":\"add\",\"path\":\"/state/reviews/0\",\"value\":{\"id\":\"r1\",\"stars\":\"★★★★★\",\"author\":\"Maya R.\",\"location\":\"Brooklyn, NY\",\"headline\":\"My new daily sneaker\",\"body\":\"I wore them on a 12-hour travel day and my feet felt great. They look even better in person.\"}}"
+    },
+    {
+      "t": 22802,
+      "text": "{\"op\":\"add\",\"path\":\"/state/reviews/1\",\"value\":{\"id\":\"r2\",\"stars\":\"★★★★★\",\"author\":\"Devon T.\",\"location\":\"Austin, TX\",\"headline\":\"Worth every penny\",\"body\":\"Super comfortable right out of the box, no break-in period. I've already ordered a second pair.\"}}"
+    },
+    {
+      "t": 23507,
+      "text": "{\"op\":\"add\",\"path\":\"/state/reviews/2\",\"value\":{\"id\":\"r3\",\"stars\":\"★★★★☆\",\"author\":\"Priya S.\",\"location\":\"Seattle, WA\",\"headline\":\"Clean and comfy\",\"body\":\"Gets compliments everywhere I go. Runs true to size and the knit is really breathable.\"}}"
+    },
+    {
+      "t": 23801,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/faq-section\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"faq-heading\",\"faq-accordion\"]}}"
+    },
+    {
+      "t": 24104,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/faq-heading\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Questions? We've got answers\",\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 25634,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/faq-accordion\",\"value\":{\"type\":\"Accordion\",\"props\":{\"type\":\"single\",\"items\":[{\"title\":\"How does The Schu fit?\",\"content\":\"The Schu runs true to size. If you're between sizes, we recommend sizing up for a roomier fit.\"},{\"title\":\"What is your return policy?\",\"content\":\"Try them for 30 days. If you don't love them, return them for free for a full refund.\"},{\"title\":\"How long does shipping take?\",\"content\":\"Orders ship free within 1 business day and typically arrive in 3 to 5 business days.\"},{\"title\":\"How do I clean my pair?\",\"content\":\"Spot clean with mild soap and a soft brush, then air dry. Do not machine wash or tumble dry.\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 26335,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cta-section\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Get 10% off your first order\",\"description\":\"Join the Schu list for early drops, restock alerts, and exclusive offers.\",\"maxWidth\":\"full\",\"centered\":true},\"children\":[\"signup-form\",\"signup-success\"]}}"
+    },
+    {
+      "t": 26803,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/signup-form\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"end\",\"justify\":\"center\"},\"visible\":{\"$state\":\"/subscribed\",\"not\":true},\"children\":[\"email-input\",\"signup-button\"]}}"
+    },
+    {
+      "t": 27367,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/email-input\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Email\",\"name\":\"email\",\"type\":\"email\",\"placeholder\":\"you@example.com\",\"value\":{\"$bindState\":\"/email\"},\"checks\":[{\"type\":\"required\",\"message\":\"Email is required\"},{\"type\":\"email\",\"message\":\"Enter a valid email\"}],\"validateOn\":\"blur\"},\"children\":[]}}"
+    },
+    {
+      "t": 27966,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/signup-button\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Claim My 10%\",\"variant\":\"primary\"},\"on\":{\"press\":[{\"action\":\"validateForm\",\"params\":{\"statePath\":\"/formValidation\"}},{\"action\":\"setState\",\"params\":{\"statePath\":\"/subscribed\",\"value\":true}}]},\"children\":[]}}"
+    },
+    {
+      "t": 30447,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/signup-success\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"You're in!\",\"message\":\"Check your inbox for your 10% off code.\",\"type\":\"success\"},\"visible\":{\"$state\":\"/subscribed\"},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 917,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 4829,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 917,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 4829,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 917,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 917
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

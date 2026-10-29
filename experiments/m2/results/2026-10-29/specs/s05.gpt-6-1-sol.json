@@ -1,0 +1,685 @@
+{
+  "spec": {
+    "root": "billing",
+    "elements": {
+      "billing": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "xl",
+          "className": "mx-auto max-w-5xl p-6 md:p-10"
+        },
+        "children": [
+          "header",
+          "overview",
+          "invoices",
+          "change-dialog",
+          "cancel-dialog"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "eyebrow",
+          "title",
+          "subtitle"
+        ]
+      },
+      "eyebrow": {
+        "type": "Text",
+        "props": {
+          "text": "WORKSPACE SETTINGS / BILLING",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Billing & subscription",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Manage your plan, payment details, and billing history.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "overview": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "lg",
+          "className": "grid-cols-1 md:grid-cols-2"
+        },
+        "children": [
+          "plan-card",
+          "payment-card"
+        ]
+      },
+      "plan-card": {
+        "type": "Card",
+        "props": {
+          "title": "Current plan"
+        },
+        "children": [
+          "plan-content"
+        ]
+      },
+      "plan-content": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "plan-heading",
+          "price",
+          "billing-period",
+          "features",
+          "subscription-status",
+          "plan-actions"
+        ]
+      },
+      "plan-heading": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center"
+        },
+        "children": [
+          "plan-name",
+          "plan-badge"
+        ]
+      },
+      "plan-name": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$state": "/planName"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "plan-badge": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$cond": {
+              "$state": "/cancelAtEnd"
+            },
+            "$then": "Ends this period",
+            "$else": "Active"
+          },
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "price": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$cond": {
+              "$state": "/planName",
+              "eq": "Pro"
+            },
+            "$then": "$29 / month",
+            "$else": "$79 / month"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "billing-period": {
+        "type": "Text",
+        "props": {
+          "text": "Billed monthly in USD · Taxes may apply",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "features": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$cond": {
+              "$state": "/planName",
+              "eq": "Pro"
+            },
+            "$then": "10 projects · 100 GB storage · Priority support",
+            "$else": "Unlimited projects · 1 TB storage · Dedicated support"
+          }
+        },
+        "children": []
+      },
+      "subscription-status": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$cond": {
+              "$state": "/cancelAtEnd"
+            },
+            "$then": "Your plan ends November 15, 2026. Access continues until then.",
+            "$else": "Your next billing date is November 15, 2026."
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "plan-actions": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm",
+          "className": "flex-wrap"
+        },
+        "children": [
+          "change-plan",
+          "cancel-plan",
+          "resume-plan"
+        ]
+      },
+      "change-plan": {
+        "type": "Button",
+        "props": {
+          "label": "Change plan",
+          "variant": "primary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/changeOpen",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "cancel-plan": {
+        "type": "Button",
+        "props": {
+          "label": "Cancel subscription",
+          "variant": "secondary"
+        },
+        "visible": {
+          "$state": "/cancelAtEnd",
+          "not": true
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/cancelOpen",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "resume-plan": {
+        "type": "Button",
+        "props": {
+          "label": "Keep subscription",
+          "variant": "secondary"
+        },
+        "visible": {
+          "$state": "/cancelAtEnd"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/cancelAtEnd",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      },
+      "payment-card": {
+        "type": "Card",
+        "props": {
+          "title": "Payment method",
+          "description": "Your default method for subscription payments."
+        },
+        "children": [
+          "payment-content"
+        ]
+      },
+      "payment-content": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "payment-heading",
+          "payment-expiry",
+          "payment-separator",
+          "billing-email-label",
+          "billing-email",
+          "payment-note"
+        ]
+      },
+      "payment-heading": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center"
+        },
+        "children": [
+          "payment-name",
+          "payment-badge"
+        ]
+      },
+      "payment-name": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$state": "/payment/method"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "payment-badge": {
+        "type": "Badge",
+        "props": {
+          "text": "Default",
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "payment-expiry": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$state": "/payment/expiry"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "payment-separator": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "billing-email-label": {
+        "type": "Text",
+        "props": {
+          "text": "Billing email",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "billing-email": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$state": "/payment/email"
+          }
+        },
+        "children": []
+      },
+      "payment-note": {
+        "type": "Text",
+        "props": {
+          "text": "Receipts and subscription updates are sent to this address.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "invoices": {
+        "type": "Card",
+        "props": {
+          "title": "Invoice history",
+          "description": "Your recent subscription payments."
+        },
+        "children": [
+          "invoice-headings",
+          "invoice-list",
+          "demo-note"
+        ]
+      },
+      "invoice-headings": {
+        "type": "Grid",
+        "props": {
+          "columns": 4,
+          "gap": "md",
+          "className": "py-3 text-sm text-slate-500"
+        },
+        "children": [
+          "invoice-label",
+          "date-label",
+          "amount-label",
+          "status-label"
+        ]
+      },
+      "invoice-label": {
+        "type": "Text",
+        "props": {
+          "text": "Invoice",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "date-label": {
+        "type": "Text",
+        "props": {
+          "text": "Date",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "amount-label": {
+        "type": "Text",
+        "props": {
+          "text": "Amount",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "status-label": {
+        "type": "Text",
+        "props": {
+          "text": "Status",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "invoice-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "none"
+        },
+        "repeat": {
+          "statePath": "/invoices",
+          "key": "id"
+        },
+        "children": [
+          "invoice-row"
+        ]
+      },
+      "invoice-row": {
+        "type": "Grid",
+        "props": {
+          "columns": 4,
+          "gap": "md",
+          "className": "items-center border-t py-4"
+        },
+        "children": [
+          "invoice-id",
+          "invoice-date",
+          "invoice-amount",
+          "invoice-status"
+        ]
+      },
+      "invoice-id": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "id"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "invoice-date": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "date"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "invoice-amount": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "amount"
+          }
+        },
+        "children": []
+      },
+      "invoice-status": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "status"
+          },
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "demo-note": {
+        "type": "Text",
+        "props": {
+          "text": "Sample billing workspace. Plan changes in this preview update this page only.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "change-dialog": {
+        "type": "Dialog",
+        "props": {
+          "title": "Choose your plan",
+          "description": "Compare monthly plans. Your selection takes effect immediately in this preview.",
+          "openPath": "/changeOpen"
+        },
+        "children": [
+          "plan-options",
+          "plan-select",
+          "apply-plan",
+          "change-applied",
+          "close-change"
+        ]
+      },
+      "plan-options": {
+        "type": "Text",
+        "props": {
+          "text": "Pro — $29/month: 10 projects, 100 GB, priority support. Business — $79/month: unlimited projects, 1 TB, dedicated support."
+        },
+        "children": []
+      },
+      "plan-select": {
+        "type": "Radio",
+        "props": {
+          "label": "Monthly plan",
+          "name": "plan",
+          "options": [
+            "Pro",
+            "Business"
+          ],
+          "value": {
+            "$bindState": "/selectedPlan"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Choose a plan."
+            }
+          ]
+        },
+        "children": []
+      },
+      "apply-plan": {
+        "type": "Button",
+        "props": {
+          "label": "Apply selected plan",
+          "variant": "primary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/planName",
+              "value": {
+                "$state": "/selectedPlan"
+              }
+            }
+          }
+        },
+        "children": []
+      },
+      "change-applied": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "Current plan: ${/planName}"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "close-change": {
+        "type": "Button",
+        "props": {
+          "label": "Done",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/changeOpen",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      },
+      "cancel-dialog": {
+        "type": "Dialog",
+        "props": {
+          "title": "Cancel your subscription?",
+          "description": "Your plan will remain available until November 15, 2026. After that date, renewal stops.",
+          "openPath": "/cancelOpen"
+        },
+        "children": [
+          "cancel-explanation",
+          "confirm-cancel",
+          "cancel-confirmation",
+          "close-cancel"
+        ]
+      },
+      "cancel-explanation": {
+        "type": "Text",
+        "props": {
+          "text": "You can keep your subscription at any time before the end of your billing period."
+        },
+        "children": []
+      },
+      "confirm-cancel": {
+        "type": "Button",
+        "props": {
+          "label": "Cancel at end of billing period",
+          "variant": "danger"
+        },
+        "visible": {
+          "$state": "/cancelAtEnd",
+          "not": true
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/cancelAtEnd",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "cancel-confirmation": {
+        "type": "Alert",
+        "props": {
+          "title": "Cancellation scheduled in preview",
+          "message": "Your subscription is set to end November 15, 2026.",
+          "type": "success"
+        },
+        "visible": {
+          "$state": "/cancelAtEnd"
+        },
+        "children": []
+      },
+      "close-cancel": {
+        "type": "Button",
+        "props": {
+          "label": {
+            "$cond": {
+              "$state": "/cancelAtEnd"
+            },
+            "$then": "Done",
+            "$else": "Keep my plan"
+          },
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/cancelOpen",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "planName": "Pro",
+      "cancelAtEnd": false,
+      "changeOpen": false,
+      "cancelOpen": false,
+      "payment": {
+        "method": "Visa ending in 4242",
+        "expiry": "Expires 08/2028",
+        "email": "billing@northstar.studio"
+      },
+      "invoices": [
+        {
+          "id": "INV-2026-010",
+          "date": "Oct 15, 2026",
+          "amount": "$29.00",
+          "status": "Paid"
+        },
+        {
+          "id": "INV-2026-009",
+          "date": "Sep 15, 2026",
+          "amount": "$29.00",
+          "status": "Paid"
+        },
+        {
+          "id": "INV-2026-008",
+          "date": "Aug 15, 2026",
+          "amount": "$29.00",
+          "status": "Paid"
+        }
+      ],
+      "selectedPlan": "Pro"
+    }
+  },
+  "patchLines": 64,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [],
+  "fixes": []
+}

@@ -1,0 +1,250 @@
+{
+  "promptId": "d02",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:20:30.286Z",
+  "totalMs": 19214,
+  "lines": [
+    {
+      "t": 1568,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+    },
+    {
+      "t": 1579,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"children\":[\"header\",\"kpis\",\"middle\",\"queue-card\"]}}"
+    },
+    {
+      "t": 2039,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"title-stack\",\"filters\"]}}"
+    },
+    {
+      "t": 2304,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"title\",\"subtitle\"]}}"
+    },
+    {
+      "t": 2650,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Support Operations Dashboard\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 3053,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtitle\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Live overview of ticket volume, response times and agent workload\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 3407,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/filters\",\"value\":{\"type\":\"ButtonGroup\",\"props\":{\"buttons\":[{\"label\":\"Today\",\"value\":\"today\"},{\"label\":\"7 days\",\"value\":\"week\"},{\"label\":\"30 days\",\"value\":\"month\"}],\"selected\":{\"$bindState\":\"/range\"}},\"children\":[]}}"
+    },
+    {
+      "t": 3504,
+      "text": "{\"op\":\"add\",\"path\":\"/state/range\",\"value\":\"today\"}"
+    },
+    {
+      "t": 3839,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/kpis\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":4,\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/kpis\",\"key\":\"id\"},\"children\":[\"kpi-card\"]}}"
+    },
+    {
+      "t": 4175,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/kpi-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":{\"$item\":\"label\"}},\"children\":[\"kpi-value\",\"kpi-delta\"]}}"
+    },
+    {
+      "t": 4510,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/kpi-value\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$item\":\"value\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 4742,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/kpi-delta\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"delta\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 4809,
+      "text": "{\"op\":\"add\",\"path\":\"/state/kpis\",\"value\":[]}"
+    },
+    {
+      "t": 5186,
+      "text": "{\"op\":\"add\",\"path\":\"/state/kpis/0\",\"value\":{\"id\":\"open\",\"label\":\"Open Tickets\",\"value\":\"142\",\"delta\":\"▲ 12 since yesterday\"}}"
+    },
+    {
+      "t": 5508,
+      "text": "{\"op\":\"add\",\"path\":\"/state/kpis/1\",\"value\":{\"id\":\"resp\",\"label\":\"Avg. Response Time\",\"value\":\"18m 42s\",\"delta\":\"▼ 2m 10s faster than last week\"}}"
+    },
+    {
+      "t": 5838,
+      "text": "{\"op\":\"add\",\"path\":\"/state/kpis/2\",\"value\":{\"id\":\"resolved\",\"label\":\"Resolved Today\",\"value\":\"87\",\"delta\":\"▲ 9% vs. average\"}}"
+    },
+    {
+      "t": 6138,
+      "text": "{\"op\":\"add\",\"path\":\"/state/kpis/3\",\"value\":{\"id\":\"csat\",\"label\":\"CSAT Score\",\"value\":\"4.6 / 5\",\"delta\":\"▲ 0.2 this month\"}}"
+    },
+    {
+      "t": 6405,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/middle\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"md\"},\"children\":[\"priority-card\",\"sla-card\"]}}"
+    },
+    {
+      "t": 6782,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/priority-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Tickets by Priority\",\"description\":\"Open tickets grouped by urgency\"},\"children\":[\"priority-list\"]}}"
+    },
+    {
+      "t": 7112,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/priority-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/priorities\",\"key\":\"id\"},\"children\":[\"priority-row\"]}}"
+    },
+    {
+      "t": 7469,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/priority-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"priority-head\",\"priority-bar\"]}}"
+    },
+    {
+      "t": 7812,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/priority-head\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"priority-name\",\"priority-count\"]}}"
+    },
+    {
+      "t": 8078,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/priority-name\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"name\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 8386,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/priority-count\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$template\":\"${count} tickets\"},\"variant\":\"outline\"},\"children\":[]}}"
+    },
+    {
+      "t": 8664,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/priority-bar\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$item\":\"percent\"},\"max\":100},\"children\":[]}}"
+    },
+    {
+      "t": 8779,
+      "text": "{\"op\":\"add\",\"path\":\"/state/priorities\",\"value\":[]}"
+    },
+    {
+      "t": 9013,
+      "text": "{\"op\":\"add\",\"path\":\"/state/priorities/0\",\"value\":{\"id\":\"urgent\",\"name\":\"Urgent\",\"count\":14,\"percent\":10}}"
+    },
+    {
+      "t": 9173,
+      "text": "{\"op\":\"add\",\"path\":\"/state/priorities/1\",\"value\":{\"id\":\"high\",\"name\":\"High\",\"count\":38,\"percent\":27}}"
+    },
+    {
+      "t": 9428,
+      "text": "{\"op\":\"add\",\"path\":\"/state/priorities/2\",\"value\":{\"id\":\"medium\",\"name\":\"Medium\",\"count\":56,\"percent\":39}}"
+    },
+    {
+      "t": 9609,
+      "text": "{\"op\":\"add\",\"path\":\"/state/priorities/3\",\"value\":{\"id\":\"low\",\"name\":\"Low\",\"count\":34,\"percent\":24}}"
+    },
+    {
+      "t": 9979,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sla-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"SLA & Alerts\",\"description\":\"Service level health\"},\"children\":[\"sla-stack\"]}}"
+    },
+    {
+      "t": 10307,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sla-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"sla-progress\",\"sla-alert-1\",\"sla-alert-2\"]}}"
+    },
+    {
+      "t": 10641,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sla-progress\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":94,\"max\":100,\"label\":\"First-response SLA compliance: 94%\"},\"children\":[]}}"
+    },
+    {
+      "t": 11212,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sla-alert-1\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"5 tickets nearing SLA breach\",\"message\":\"Urgent tickets waiting more than 45 minutes without a reply.\",\"type\":\"warning\"},\"children\":[]}}"
+    },
+    {
+      "t": 11706,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sla-alert-2\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Backlog trending down\",\"message\":\"Open ticket volume is 8% lower than the weekly average.\",\"type\":\"success\"},\"children\":[]}}"
+    },
+    {
+      "t": 12040,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/queue-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Agent Queue\",\"description\":\"Current workload and availability per agent\"},\"children\":[\"queue-list\"]}}"
+    },
+    {
+      "t": 12424,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/queue-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/agents\",\"key\":\"id\"},\"children\":[\"agent-row\"]}}"
+    },
+    {
+      "t": 12779,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/agent-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"agent-info\",\"agent-load\",\"agent-status\"]}}"
+    },
+    {
+      "t": 13117,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/agent-info\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\"},\"children\":[\"agent-avatar\",\"agent-name-stack\"]}}"
+    },
+    {
+      "t": 13384,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/agent-avatar\",\"value\":{\"type\":\"Avatar\",\"props\":{\"name\":{\"$item\":\"name\"},\"size\":\"md\"},\"children\":[]}}"
+    },
+    {
+      "t": 13693,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/agent-name-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"none\"},\"children\":[\"agent-name\",\"agent-role\"]}}"
+    },
+    {
+      "t": 13946,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/agent-name\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"name\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 14378,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/agent-role\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${role} · avg reply ${reply}\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 14704,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/agent-load\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$item\":\"load\"},\"max\":100,\"label\":{\"$template\":\"${tickets} active tickets\"}},\"children\":[]}}"
+    },
+    {
+      "t": 15132,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/agent-status\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"status\"},\"variant\":{\"$cond\":{\"$item\":\"status\",\"eq\":\"Online\"},\"$then\":\"default\",\"$else\":\"secondary\"}},\"children\":[]}}"
+    },
+    {
+      "t": 15211,
+      "text": "{\"op\":\"add\",\"path\":\"/state/agents\",\"value\":[]}"
+    },
+    {
+      "t": 15576,
+      "text": "{\"op\":\"add\",\"path\":\"/state/agents/0\",\"value\":{\"id\":\"a1\",\"name\":\"Maya Patel\",\"role\":\"Tier 2\",\"reply\":\"12m\",\"tickets\":18,\"load\":82,\"status\":\"Online\"}}"
+    },
+    {
+      "t": 15904,
+      "text": "{\"op\":\"add\",\"path\":\"/state/agents/1\",\"value\":{\"id\":\"a2\",\"name\":\"Daniel Okafor\",\"role\":\"Tier 1\",\"reply\":\"15m\",\"tickets\":14,\"load\":64,\"status\":\"Online\"}}"
+    },
+    {
+      "t": 16273,
+      "text": "{\"op\":\"add\",\"path\":\"/state/agents/2\",\"value\":{\"id\":\"a3\",\"name\":\"Sofia Alvarez\",\"role\":\"Tier 1\",\"reply\":\"21m\",\"tickets\":11,\"load\":50,\"status\":\"Away\"}}"
+    },
+    {
+      "t": 16640,
+      "text": "{\"op\":\"add\",\"path\":\"/state/agents/3\",\"value\":{\"id\":\"a4\",\"name\":\"Liam Chen\",\"role\":\"Tier 3\",\"reply\":\"26m\",\"tickets\":9,\"load\":41,\"status\":\"Online\"}}"
+    },
+    {
+      "t": 19214,
+      "text": "{\"op\":\"add\",\"path\":\"/state/agents/4\",\"value\":{\"id\":\"a5\",\"name\":\"Hannah Brooks\",\"role\":\"Tier 2\",\"reply\":\"17m\",\"tickets\":6,\"load\":28,\"status\":\"Offline\"}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 928,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 3392,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 928,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 3392,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 928,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 928
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

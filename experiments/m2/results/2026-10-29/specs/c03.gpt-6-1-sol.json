@@ -1,0 +1,684 @@
+{
+  "spec": {
+    "root": "page",
+    "elements": {
+      "page": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "xl",
+          "className": "mx-auto max-w-7xl bg-stone-50 px-6 py-6 text-stone-950 md:px-12"
+        },
+        "children": [
+          "header",
+          "divider",
+          "product-layout",
+          "added-feedback",
+          "benefits",
+          "details",
+          "closing",
+          "bag"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "align": "center",
+          "justify": "between",
+          "gap": "md"
+        },
+        "children": [
+          "wordmark",
+          "brand-line",
+          "bag-button"
+        ]
+      },
+      "wordmark": {
+        "type": "Heading",
+        "props": {
+          "text": "THE SCHU.",
+          "level": "h2"
+        },
+        "children": []
+      },
+      "brand-line": {
+        "type": "Text",
+        "props": {
+          "text": "YOUR EVERYDAY, UPGRADED.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "bag-button": {
+        "type": "Button",
+        "props": {
+          "label": "Shopping bag",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/bagOpen",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "divider": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "product-layout": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "xl",
+          "className": "grid-cols-1 items-start md:grid-cols-2"
+        },
+        "children": [
+          "gallery",
+          "purchase"
+        ]
+      },
+      "gallery": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md",
+          "className": "md:sticky md:top-6"
+        },
+        "children": [
+          "hero-image",
+          "image-caption",
+          "gallery-statement"
+        ]
+      },
+      "hero-image": {
+        "type": "Image",
+        "props": {
+          "src": {
+            "$state": "/product/image"
+          },
+          "alt": {
+            "$state": "/product/imageAlt"
+          },
+          "width": 900,
+          "height": 1000
+        },
+        "children": []
+      },
+      "image-caption": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$state": "/product/imageCaption"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "gallery-statement": {
+        "type": "Heading",
+        "props": {
+          "text": "Less overthinking.\nMore out the door.",
+          "level": "h2"
+        },
+        "children": []
+      },
+      "purchase": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg",
+          "className": "py-4 md:px-6"
+        },
+        "children": [
+          "edition",
+          "product-title",
+          "price-row",
+          "description",
+          "purchase-divider",
+          "color",
+          "size-row",
+          "sizes",
+          "add-button",
+          "purchase-note",
+          "fit-panel"
+        ]
+      },
+      "edition": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$state": "/product/edition"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "product-title": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$state": "/product/name"
+          },
+          "level": "h1"
+        },
+        "children": []
+      },
+      "price-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center",
+          "gap": "md"
+        },
+        "children": [
+          "price",
+          "edition-badge"
+        ]
+      },
+      "price": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$state": "/product/price"
+          },
+          "variant": "lead"
+        },
+        "children": []
+      },
+      "edition-badge": {
+        "type": "Badge",
+        "props": {
+          "text": "Original silhouette",
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "description": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$state": "/product/description"
+          },
+          "variant": "lead"
+        },
+        "children": []
+      },
+      "purchase-divider": {
+        "type": "Separator",
+        "props": {},
+        "children": []
+      },
+      "color": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "Color · ${/product/color}"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "size-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center",
+          "gap": "md"
+        },
+        "children": [
+          "size-heading",
+          "size-help"
+        ]
+      },
+      "size-heading": {
+        "type": "Heading",
+        "props": {
+          "text": "Find your fit",
+          "level": "h3"
+        },
+        "children": []
+      },
+      "size-help": {
+        "type": "Popover",
+        "props": {
+          "trigger": "Sizing help",
+          "content": "Sizes shown are US sizes. Compare your usual sneaker size before selecting. Between sizes? Confirm measurements with our team before ordering."
+        },
+        "children": []
+      },
+      "sizes": {
+        "type": "Radio",
+        "props": {
+          "label": "US shoe size",
+          "name": "shoe-size",
+          "options": [
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13"
+          ],
+          "value": {
+            "$bindState": "/selectedSize"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Choose a size to add your Schu."
+            }
+          ],
+          "validateOn": "change"
+        },
+        "children": []
+      },
+      "add-button": {
+        "type": "Button",
+        "props": {
+          "label": {
+            "$cond": {
+              "$state": "/selectedSize"
+            },
+            "$then": "Add to bag — $128",
+            "$else": "Select your size"
+          },
+          "variant": "primary",
+          "disabled": {
+            "$cond": {
+              "$state": "/selectedSize"
+            },
+            "$then": false,
+            "$else": true
+          }
+        },
+        "on": {
+          "press": {
+            "action": "pushState",
+            "params": {
+              "statePath": "/cart",
+              "value": {
+                "id": "$id",
+                "name": {
+                  "$state": "/product/name"
+                },
+                "price": {
+                  "$state": "/product/price"
+                },
+                "color": {
+                  "$state": "/product/color"
+                },
+                "size": {
+                  "$state": "/selectedSize"
+                }
+              }
+            }
+          }
+        },
+        "watch": {
+          "/cart": {
+            "action": "setState",
+            "params": {
+              "statePath": "/added",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "purchase-note": {
+        "type": "Text",
+        "props": {
+          "text": "Pick your size, add your pair, make them yours.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "fit-panel": {
+        "type": "Card",
+        "props": {
+          "title": "One pair. Plenty of possibilities.",
+          "description": "Your favorite denim. Relaxed trousers. Whatever the weekend brings.",
+          "className": "border-stone-200 bg-stone-100"
+        },
+        "children": []
+      },
+      "added-feedback": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "align": "center",
+          "justify": "between",
+          "gap": "md"
+        },
+        "visible": {
+          "$state": "/added"
+        },
+        "children": [
+          "added-message",
+          "view-bag"
+        ]
+      },
+      "added-message": {
+        "type": "Alert",
+        "props": {
+          "title": "Your Schu is in the bag.",
+          "message": "Review your selected size and color before placing an order.",
+          "type": "success"
+        },
+        "children": []
+      },
+      "view-bag": {
+        "type": "Button",
+        "props": {
+          "label": "View bag",
+          "variant": "primary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/bagOpen",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "benefits": {
+        "type": "Grid",
+        "props": {
+          "columns": 3,
+          "gap": "lg",
+          "className": "grid-cols-1 border-y border-stone-200 py-10 md:grid-cols-3"
+        },
+        "repeat": {
+          "statePath": "/benefits",
+          "key": "id"
+        },
+        "children": [
+          "benefit"
+        ]
+      },
+      "benefit": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "benefit-title",
+          "benefit-copy"
+        ]
+      },
+      "benefit-title": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "title"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "benefit-copy": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "description"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "details": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "xl",
+          "className": "grid-cols-1 py-6 md:grid-cols-2"
+        },
+        "children": [
+          "story",
+          "questions"
+        ]
+      },
+      "story": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "story-eyebrow",
+          "story-title",
+          "story-copy"
+        ]
+      },
+      "story-eyebrow": {
+        "type": "Text",
+        "props": {
+          "text": "MEET YOUR NEXT GO-TO",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "story-title": {
+        "type": "Heading",
+        "props": {
+          "text": "Good style starts\nwith a great pair.",
+          "level": "h2"
+        },
+        "children": []
+      },
+      "story-copy": {
+        "type": "Text",
+        "props": {
+          "text": "The Schu is our take on the everyday sneaker: easy to style, full of character, and ready to become part of your routine. Dress them up. Keep it casual. Make them your own.",
+          "variant": "body"
+        },
+        "children": []
+      },
+      "questions": {
+        "type": "Accordion",
+        "props": {
+          "type": "single",
+          "items": [
+            {
+              "title": "How should I choose my size?",
+              "content": "Choose from the US sizes above. Start with your usual sneaker size, and confirm measurements with our team if you are between sizes."
+            },
+            {
+              "title": "How do I style The Schu?",
+              "content": "Start with straight-leg denim and a favorite tee, or pair them with relaxed trousers for a more polished everyday look."
+            },
+            {
+              "title": "How should I care for my pair?",
+              "content": "Follow the care instructions supplied with your pair. Use a soft cloth for light cleaning and allow shoes to air-dry away from direct heat."
+            }
+          ]
+        },
+        "children": []
+      },
+      "closing": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "align": "center",
+          "justify": "between",
+          "gap": "lg",
+          "className": "rounded-2xl bg-stone-900 p-8 text-stone-50"
+        },
+        "children": [
+          "closing-title",
+          "closing-copy"
+        ]
+      },
+      "closing-title": {
+        "type": "Heading",
+        "props": {
+          "text": "Find your everyday.",
+          "level": "h2"
+        },
+        "children": []
+      },
+      "closing-copy": {
+        "type": "Text",
+        "props": {
+          "text": "THE SCHU. Make them yours.",
+          "variant": "body"
+        },
+        "children": []
+      },
+      "bag": {
+        "type": "Drawer",
+        "props": {
+          "title": "Your bag",
+          "description": "Review your pair and selected size.",
+          "openPath": "/bagOpen"
+        },
+        "children": [
+          "empty-bag",
+          "bag-items",
+          "bag-note",
+          "continue-shopping"
+        ]
+      },
+      "empty-bag": {
+        "type": "Text",
+        "props": {
+          "text": "Your next favorite pair belongs here. Choose a size to get started.",
+          "variant": "muted"
+        },
+        "visible": {
+          "$state": "/added",
+          "not": true
+        },
+        "children": []
+      },
+      "bag-items": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/cart",
+          "key": "id"
+        },
+        "children": [
+          "bag-item"
+        ]
+      },
+      "bag-item": {
+        "type": "Card",
+        "props": {
+          "title": {
+            "$item": "name"
+          },
+          "description": {
+            "$template": "${color} · US ${size} · ${price}"
+          }
+        },
+        "children": [
+          "remove-item"
+        ]
+      },
+      "remove-item": {
+        "type": "Button",
+        "props": {
+          "label": "Remove pair",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "removeState",
+            "params": {
+              "statePath": "/cart",
+              "index": {
+                "$index": true
+              }
+            }
+          }
+        },
+        "children": []
+      },
+      "bag-note": {
+        "type": "Text",
+        "props": {
+          "text": "This preview saves your selections locally. Checkout is not connected yet.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "continue-shopping": {
+        "type": "Button",
+        "props": {
+          "label": "Continue shopping",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/bagOpen",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "bagOpen": false,
+      "product": {
+        "id": "the-schu-01",
+        "name": "The Schu",
+        "edition": "The everyday sneaker",
+        "price": "$128",
+        "color": "Chalk / Moss",
+        "image": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=1200&q=85",
+        "imageAlt": "Sneaker editorial reference photographed against a warm background",
+        "imageCaption": "Style inspiration pictured. Final product photography coming soon.",
+        "description": "A clean silhouette with a little personality. Meet the sneaker that makes getting dressed the easiest part of your day."
+      },
+      "selectedSize": "",
+      "cart": [],
+      "added": false,
+      "benefits": [
+        {
+          "id": "style",
+          "title": "Clean lines. Real personality.",
+          "description": "An understated shape that gives your outfit room to breathe."
+        },
+        {
+          "id": "wardrobe",
+          "title": "Less outfit math.",
+          "description": "An easy starting point for denim, everyday layers, and your own sense of style."
+        },
+        {
+          "id": "signature",
+          "title": "Your signature pair.",
+          "description": "Keep the rotation simple. Let the way you wear them do the talking."
+        }
+      ]
+    }
+  },
+  "patchLines": 60,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [],
+  "fixes": []
+}

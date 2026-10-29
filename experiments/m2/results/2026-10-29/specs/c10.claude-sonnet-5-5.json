@@ -1,0 +1,579 @@
+{
+  "spec": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Card",
+        "props": {
+          "title": "Create your FreshCrate account",
+          "description": "Tell us about yourself and how you like to eat. Your first box ships free.",
+          "maxWidth": "lg",
+          "centered": true
+        },
+        "children": [
+          "form-stack"
+        ]
+      },
+      "form-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "success-alert",
+          "account-heading",
+          "name-grid",
+          "email",
+          "password-grid",
+          "sep-1",
+          "plan-heading",
+          "plan-grid",
+          "meals-slider",
+          "sep-2",
+          "diet-heading",
+          "diet",
+          "allergy-label",
+          "allergy-grid",
+          "spice",
+          "dislikes",
+          "sep-3",
+          "delivery-heading",
+          "delivery-day",
+          "terms",
+          "newsletter",
+          "submit-row"
+        ]
+      },
+      "success-alert": {
+        "type": "Alert",
+        "props": {
+          "title": "Welcome aboard!",
+          "message": "Your account is created. Check your inbox to confirm your email and pick your first recipes.",
+          "type": "success"
+        },
+        "visible": {
+          "$state": "/submitted"
+        },
+        "children": []
+      },
+      "account-heading": {
+        "type": "Heading",
+        "props": {
+          "text": "Account details",
+          "level": "h3"
+        },
+        "children": []
+      },
+      "name-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "md"
+        },
+        "children": [
+          "first-name",
+          "last-name"
+        ]
+      },
+      "first-name": {
+        "type": "Input",
+        "props": {
+          "label": "First name",
+          "name": "firstName",
+          "type": "text",
+          "placeholder": "Jane",
+          "value": {
+            "$bindState": "/form/firstName"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "First name is required"
+            }
+          ]
+        },
+        "children": []
+      },
+      "last-name": {
+        "type": "Input",
+        "props": {
+          "label": "Last name",
+          "name": "lastName",
+          "type": "text",
+          "placeholder": "Doe",
+          "value": {
+            "$bindState": "/form/lastName"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Last name is required"
+            }
+          ]
+        },
+        "children": []
+      },
+      "email": {
+        "type": "Input",
+        "props": {
+          "label": "Email",
+          "name": "email",
+          "type": "email",
+          "placeholder": "jane@example.com",
+          "value": {
+            "$bindState": "/form/email"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Email is required"
+            },
+            {
+              "type": "email",
+              "message": "Enter a valid email address"
+            }
+          ]
+        },
+        "children": []
+      },
+      "password-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "md"
+        },
+        "children": [
+          "password",
+          "confirm-password"
+        ]
+      },
+      "password": {
+        "type": "Input",
+        "props": {
+          "label": "Password",
+          "name": "password",
+          "type": "password",
+          "placeholder": "At least 8 characters",
+          "value": {
+            "$bindState": "/form/password"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Password is required"
+            },
+            {
+              "type": "minLength",
+              "message": "Must be at least 8 characters",
+              "args": {
+                "min": 8
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "confirm-password": {
+        "type": "Input",
+        "props": {
+          "label": "Confirm password",
+          "name": "confirmPassword",
+          "type": "password",
+          "placeholder": "Re-enter password",
+          "value": {
+            "$bindState": "/form/confirmPassword"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Please confirm your password"
+            },
+            {
+              "type": "matches",
+              "message": "Passwords do not match",
+              "args": {
+                "other": {
+                  "$state": "/form/password"
+                }
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "sep-1": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "plan-heading": {
+        "type": "Heading",
+        "props": {
+          "text": "Your plan",
+          "level": "h3"
+        },
+        "children": []
+      },
+      "plan-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 1,
+          "gap": "md"
+        },
+        "children": [
+          "plan"
+        ]
+      },
+      "plan": {
+        "type": "Select",
+        "props": {
+          "label": "Household size",
+          "name": "plan",
+          "options": [
+            "Single (1 person)",
+            "Couple (2 people)",
+            "Family (4 people)",
+            "Large family (6 people)"
+          ],
+          "placeholder": "Choose a plan",
+          "value": {
+            "$bindState": "/form/plan"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Please choose a plan"
+            }
+          ]
+        },
+        "children": []
+      },
+      "meals-slider": {
+        "type": "Slider",
+        "props": {
+          "label": "Meals per week (1-7)",
+          "min": 1,
+          "max": 7,
+          "step": 1,
+          "value": {
+            "$bindState": "/form/mealsPerWeek"
+          }
+        },
+        "children": []
+      },
+      "sep-2": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "diet-heading": {
+        "type": "Heading",
+        "props": {
+          "text": "Dietary preferences",
+          "level": "h3"
+        },
+        "children": []
+      },
+      "diet": {
+        "type": "Radio",
+        "props": {
+          "label": "Which best describes your diet?",
+          "name": "diet",
+          "options": [
+            "Omnivore",
+            "Pescatarian",
+            "Vegetarian",
+            "Vegan",
+            "Keto",
+            "Paleo"
+          ],
+          "value": {
+            "$bindState": "/form/diet"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Please pick a diet"
+            }
+          ]
+        },
+        "children": []
+      },
+      "allergy-label": {
+        "type": "Text",
+        "props": {
+          "text": "Allergies and intolerances (we'll exclude these from your recipes)",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "allergy-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 3,
+          "gap": "sm"
+        },
+        "children": [
+          "al-nuts",
+          "al-dairy",
+          "al-gluten",
+          "al-shellfish",
+          "al-eggs",
+          "al-soy"
+        ]
+      },
+      "al-nuts": {
+        "type": "Checkbox",
+        "props": {
+          "label": "Nuts",
+          "name": "nuts",
+          "checked": {
+            "$bindState": "/form/allergies/nuts"
+          }
+        },
+        "children": []
+      },
+      "al-dairy": {
+        "type": "Checkbox",
+        "props": {
+          "label": "Dairy",
+          "name": "dairy",
+          "checked": {
+            "$bindState": "/form/allergies/dairy"
+          }
+        },
+        "children": []
+      },
+      "al-gluten": {
+        "type": "Checkbox",
+        "props": {
+          "label": "Gluten",
+          "name": "gluten",
+          "checked": {
+            "$bindState": "/form/allergies/gluten"
+          }
+        },
+        "children": []
+      },
+      "al-shellfish": {
+        "type": "Checkbox",
+        "props": {
+          "label": "Shellfish",
+          "name": "shellfish",
+          "checked": {
+            "$bindState": "/form/allergies/shellfish"
+          }
+        },
+        "children": []
+      },
+      "al-eggs": {
+        "type": "Checkbox",
+        "props": {
+          "label": "Eggs",
+          "name": "eggs",
+          "checked": {
+            "$bindState": "/form/allergies/eggs"
+          }
+        },
+        "children": []
+      },
+      "al-soy": {
+        "type": "Checkbox",
+        "props": {
+          "label": "Soy",
+          "name": "soy",
+          "checked": {
+            "$bindState": "/form/allergies/soy"
+          }
+        },
+        "children": []
+      },
+      "spice": {
+        "type": "ButtonGroup",
+        "props": {
+          "buttons": [
+            {
+              "label": "Mild",
+              "value": "Mild"
+            },
+            {
+              "label": "Medium",
+              "value": "Medium"
+            },
+            {
+              "label": "Hot",
+              "value": "Hot"
+            }
+          ],
+          "selected": {
+            "$bindState": "/form/spice"
+          }
+        },
+        "children": []
+      },
+      "dislikes": {
+        "type": "Textarea",
+        "props": {
+          "label": "Ingredients you dislike (optional)",
+          "name": "dislikes",
+          "placeholder": "e.g. cilantro, mushrooms, olives",
+          "rows": 3,
+          "value": {
+            "$bindState": "/form/dislikes"
+          }
+        },
+        "children": []
+      },
+      "sep-3": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "delivery-heading": {
+        "type": "Heading",
+        "props": {
+          "text": "Delivery",
+          "level": "h3"
+        },
+        "children": []
+      },
+      "delivery-day": {
+        "type": "Select",
+        "props": {
+          "label": "Preferred delivery day",
+          "name": "deliveryDay",
+          "options": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+          ],
+          "value": {
+            "$bindState": "/form/deliveryDay"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Choose a delivery day"
+            }
+          ]
+        },
+        "children": []
+      },
+      "terms": {
+        "type": "Checkbox",
+        "props": {
+          "label": "I agree to the Terms of Service and Privacy Policy",
+          "name": "terms",
+          "checked": {
+            "$bindState": "/form/terms"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "You must accept the terms to continue"
+            }
+          ]
+        },
+        "children": []
+      },
+      "newsletter": {
+        "type": "Switch",
+        "props": {
+          "label": "Send me weekly recipe inspiration and offers",
+          "name": "newsletter",
+          "checked": {
+            "$bindState": "/form/newsletter"
+          }
+        },
+        "children": []
+      },
+      "submit-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "justify": "between",
+          "align": "center"
+        },
+        "children": [
+          "signin-link",
+          "submit"
+        ]
+      },
+      "signin-link": {
+        "type": "Link",
+        "props": {
+          "label": "Already have an account? Sign in",
+          "href": "/signin"
+        },
+        "children": []
+      },
+      "submit": {
+        "type": "Button",
+        "props": {
+          "label": "Create account",
+          "variant": "primary"
+        },
+        "on": {
+          "press": [
+            {
+              "action": "validateForm",
+              "params": {
+                "statePath": "/formValidation"
+              }
+            },
+            {
+              "action": "setState",
+              "params": {
+                "statePath": "/submitted",
+                "value": true
+              }
+            }
+          ]
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "form": {
+        "firstName": "",
+        "lastName": "",
+        "email": "",
+        "password": "",
+        "confirmPassword": "",
+        "plan": "Family (4 people)",
+        "mealsPerWeek": 3,
+        "diet": "Omnivore",
+        "allergies": {
+          "nuts": false,
+          "dairy": false,
+          "gluten": false,
+          "shellfish": false,
+          "eggs": false,
+          "soy": false
+        },
+        "dislikes": "",
+        "spice": "Medium",
+        "deliveryDay": "Wednesday",
+        "terms": false,
+        "newsletter": true
+      },
+      "submitted": false
+    }
+  },
+  "patchLines": 40,
+  "skippedLines": 0,
+  "firstNodeMs": 3883,
+  "issues": [],
+  "fixes": []
+}

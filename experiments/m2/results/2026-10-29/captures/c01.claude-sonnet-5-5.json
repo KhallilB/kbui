@@ -1,0 +1,282 @@
+{
+  "promptId": "c01",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:14:08.418Z",
+  "totalMs": 29597,
+  "lines": [
+    {
+      "t": 4579,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"page\"}"
+    },
+    {
+      "t": 4880,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/page\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"xl\"},\"children\":[\"hero\",\"filters-card\",\"tabs-section\",\"promo-alert\",\"footer-cta\"]}}"
+    },
+    {
+      "t": 5268,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/hero\",\"value\":{\"type\":\"Card\",\"props\":{\"maxWidth\":\"full\",\"centered\":true},\"children\":[\"hero-stack\"]}}"
+    },
+    {
+      "t": 5625,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/hero-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\",\"align\":\"center\"},\"children\":[\"hero-badge\",\"hero-title\",\"hero-text\",\"hero-actions\"]}}"
+    },
+    {
+      "t": 5979,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/hero-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"New Season · Free shipping over $100\",\"variant\":\"default\"},\"children\":[]}}"
+    },
+    {
+      "t": 6190,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/hero-title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Meet The Schu. Your next favorite sneaker.\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 6761,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/hero-text\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Designed in-house for all-day comfort and everyday style. Shop The Schu alongside the sneaker brands you already love.\",\"variant\":\"lead\"},\"children\":[]}}"
+    },
+    {
+      "t": 7124,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/hero-actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"justify\":\"center\"},\"children\":[\"hero-btn-schu\",\"hero-btn-all\"]}}"
+    },
+    {
+      "t": 7593,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/hero-btn-schu\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Shop The Schu\",\"variant\":\"primary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/activeTab\",\"value\":\"schu\"}}},\"children\":[]}}"
+    },
+    {
+      "t": 8060,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/hero-btn-all\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Browse All Sneakers\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/activeTab\",\"value\":\"all\"}}},\"children\":[]}}"
+    },
+    {
+      "t": 8189,
+      "text": "{\"op\":\"add\",\"path\":\"/state/activeTab\",\"value\":\"all\"}"
+    },
+    {
+      "t": 8557,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/filters-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Find your pair\",\"maxWidth\":\"full\"},\"children\":[\"filters-grid\"]}}"
+    },
+    {
+      "t": 8856,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/filters-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":3,\"gap\":\"md\"},\"children\":[\"filter-search\",\"filter-brand\",\"filter-sort\"]}}"
+    },
+    {
+      "t": 9223,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/filter-search\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Search\",\"name\":\"search\",\"type\":\"text\",\"placeholder\":\"Search sneakers...\",\"value\":{\"$bindState\":\"/filters/search\"}},\"children\":[]}}"
+    },
+    {
+      "t": 9691,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/filter-brand\",\"value\":{\"type\":\"Select\",\"props\":{\"label\":\"Brand\",\"name\":\"brand\",\"options\":[\"All\",\"The Schu\",\"Nike\",\"Adidas\",\"New Balance\",\"Converse\"],\"value\":{\"$bindState\":\"/filters/brand\"}},\"children\":[]}}"
+    },
+    {
+      "t": 10126,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/filter-sort\",\"value\":{\"type\":\"Select\",\"props\":{\"label\":\"Sort by\",\"name\":\"sort\",\"options\":[\"Featured\",\"Price: Low to High\",\"Price: High to Low\",\"Newest\"],\"value\":{\"$bindState\":\"/filters/sort\"}},\"children\":[]}}"
+    },
+    {
+      "t": 10323,
+      "text": "{\"op\":\"add\",\"path\":\"/state/filters\",\"value\":{\"search\":\"\",\"brand\":\"All\",\"sort\":\"Featured\"}}"
+    },
+    {
+      "t": 10737,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/tabs-section\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"children\":[\"tabs\",\"schu-feature\",\"products-all-heading\",\"products-grid\"]}}"
+    },
+    {
+      "t": 11256,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/tabs\",\"value\":{\"type\":\"ButtonGroup\",\"props\":{\"buttons\":[{\"label\":\"All Sneakers\",\"value\":\"all\"},{\"label\":\"The Schu\",\"value\":\"schu\"},{\"label\":\"Brands\",\"value\":\"brands\"}],\"selected\":{\"$bindState\":\"/activeTab\"}},\"children\":[]}}"
+    },
+    {
+      "t": 11992,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/schu-feature\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"The Schu — Our Signature Sneaker\",\"description\":\"Cloud-soft cushioning, recycled knit upper, and a clean silhouette that goes with everything.\",\"maxWidth\":\"full\"},\"children\":[\"schu-grid\"]}}"
+    },
+    {
+      "t": 12291,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/schu-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"lg\"},\"children\":[\"schu-image\",\"schu-details\"]}}"
+    },
+    {
+      "t": 12556,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/schu-image\",\"value\":{\"type\":\"Image\",\"props\":{\"alt\":\"The Schu sneaker\",\"width\":480,\"height\":320},\"children\":[]}}"
+    },
+    {
+      "t": 12926,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/schu-details\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"schu-badges\",\"schu-price\",\"schu-points\",\"schu-actions\"]}}"
+    },
+    {
+      "t": 13346,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/schu-badges\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\"},\"children\":[\"schu-b1\",\"schu-b2\",\"schu-b3\"]}}"
+    },
+    {
+      "t": 13527,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/schu-b1\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Best Seller\",\"variant\":\"default\"},\"children\":[]}}"
+    },
+    {
+      "t": 13789,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/schu-b2\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Exclusive\",\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 14183,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/schu-b3\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"4.9 ★ (1,284)\",\"variant\":\"outline\"},\"children\":[]}}"
+    },
+    {
+      "t": 14495,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/schu-price\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"$89 — less than most big brands\",\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 14956,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/schu-points\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"• Recycled knit upper • 60-day comfort guarantee • Available in 6 colorways • Free returns\",\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 15289,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/schu-actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\"},\"children\":[\"schu-add\",\"schu-learn\"]}}"
+    },
+    {
+      "t": 15830,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/schu-add\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Add to Cart — $89\",\"variant\":\"primary\"},\"on\":{\"press\":{\"action\":\"pushState\",\"params\":{\"statePath\":\"/cart\",\"value\":{\"id\":\"$id\",\"name\":\"The Schu\",\"price\":89}}}},\"children\":[]}}"
+    },
+    {
+      "t": 16257,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/schu-learn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Learn More\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/activeTab\",\"value\":\"schu\"}}},\"children\":[]}}"
+    },
+    {
+      "t": 16360,
+      "text": "{\"op\":\"add\",\"path\":\"/state/cart\",\"value\":[]}"
+    },
+    {
+      "t": 16622,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/products-all-heading\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"All Sneakers\",\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 16958,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/products-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":3,\"gap\":\"lg\"},\"repeat\":{\"statePath\":\"/products\",\"key\":\"id\"},\"children\":[\"product-card\"]}}"
+    },
+    {
+      "t": 17191,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-card\",\"value\":{\"type\":\"Card\",\"props\":{\"maxWidth\":\"full\"},\"children\":[\"product-stack\"]}}"
+    },
+    {
+      "t": 17623,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"product-image\",\"product-meta\",\"product-name\",\"product-desc\",\"product-price-row\",\"product-add\"]}}"
+    },
+    {
+      "t": 17935,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-image\",\"value\":{\"type\":\"Image\",\"props\":{\"alt\":{\"$item\":\"name\"},\"width\":320,\"height\":220},\"children\":[]}}"
+    },
+    {
+      "t": 18300,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-meta\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"product-brand\",\"product-tag\"]}}"
+    },
+    {
+      "t": 18526,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-brand\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"brand\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 18838,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-tag\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"tag\"},\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 19096,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-name\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$item\":\"name\"},\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 19326,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-desc\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"description\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 19793,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-price-row\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"$${price}  ·  ${rating} ★\"},\"variant\":\"lead\"},\"children\":[]}}"
+    },
+    {
+      "t": 20324,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-add\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Add to Cart\",\"variant\":\"primary\"},\"on\":{\"press\":{\"action\":\"pushState\",\"params\":{\"statePath\":\"/cart\",\"value\":{\"id\":\"$id\",\"name\":{\"$item\":\"name\"},\"price\":{\"$item\":\"price\"}}}}},\"children\":[]}}"
+    },
+    {
+      "t": 20389,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products\",\"value\":[]}"
+    },
+    {
+      "t": 20923,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/0\",\"value\":{\"id\":\"1\",\"name\":\"The Schu Classic\",\"brand\":\"The Schu\",\"tag\":\"Best Seller\",\"description\":\"Recycled knit upper with cloud-soft cushioning.\",\"price\":89,\"rating\":4.9}}"
+    },
+    {
+      "t": 21456,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/1\",\"value\":{\"id\":\"2\",\"name\":\"The Schu Trail\",\"brand\":\"The Schu\",\"tag\":\"New\",\"description\":\"Grippy outsole and water-resistant knit for any terrain.\",\"price\":99,\"rating\":4.8}}"
+    },
+    {
+      "t": 21926,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/2\",\"value\":{\"id\":\"3\",\"name\":\"Air Max 90\",\"brand\":\"Nike\",\"tag\":\"Popular\",\"description\":\"Iconic visible Air cushioning and retro styling.\",\"price\":130,\"rating\":4.7}}"
+    },
+    {
+      "t": 22490,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/3\",\"value\":{\"id\":\"4\",\"name\":\"Ultraboost Light\",\"brand\":\"Adidas\",\"tag\":\"Running\",\"description\":\"Responsive Boost midsole for energized miles.\",\"price\":190,\"rating\":4.6}}"
+    },
+    {
+      "t": 23066,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/4\",\"value\":{\"id\":\"5\",\"name\":\"574 Core\",\"brand\":\"New Balance\",\"tag\":\"Classic\",\"description\":\"Heritage suede and mesh with all-day support.\",\"price\":90,\"rating\":4.7}}"
+    },
+    {
+      "t": 23556,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/5\",\"value\":{\"id\":\"6\",\"name\":\"Chuck 70 High\",\"brand\":\"Converse\",\"tag\":\"Streetwear\",\"description\":\"Premium canvas with extra cushioning and vintage details.\",\"price\":95,\"rating\":4.8}}"
+    },
+    {
+      "t": 24228,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/promo-alert\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Try The Schu risk-free\",\"message\":\"Wear it for 60 days. Don't love it? Return it for a full refund. Use code SCHU10 for 10% off your first pair.\",\"type\":\"success\"},\"children\":[]}}"
+    },
+    {
+      "t": 24934,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/footer-cta\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Get early access to new Schu drops\",\"description\":\"Join our list for exclusive colorways and member-only deals.\",\"maxWidth\":\"md\",\"centered\":true},\"children\":[\"signup-stack\"]}}"
+    },
+    {
+      "t": 25189,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/signup-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"signup-email\",\"signup-btn\",\"signup-success\"]}}"
+    },
+    {
+      "t": 25790,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/signup-email\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Email\",\"name\":\"signupEmail\",\"type\":\"email\",\"placeholder\":\"you@example.com\",\"value\":{\"$bindState\":\"/signup/email\"},\"checks\":[{\"type\":\"required\",\"message\":\"Email is required\"},{\"type\":\"email\",\"message\":\"Enter a valid email\"}],\"validateOn\":\"blur\"},\"children\":[]}}"
+    },
+    {
+      "t": 26355,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/signup-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Join the List\",\"variant\":\"primary\"},\"on\":{\"press\":[{\"action\":\"validateForm\",\"params\":{\"statePath\":\"/signup/validation\"}},{\"action\":\"setState\",\"params\":{\"statePath\":\"/signup/done\",\"value\":true}}]},\"children\":[]}}"
+    },
+    {
+      "t": 26793,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/signup-success\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Thanks! Check your inbox for your SCHU10 code.\",\"variant\":\"muted\"},\"visible\":{\"$state\":\"/signup/done\"},\"children\":[]}}"
+    },
+    {
+      "t": 29597,
+      "text": "{\"op\":\"add\",\"path\":\"/state/signup\",\"value\":{\"email\":\"\",\"done\":false}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 940,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 4622,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 940,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 4622,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 940,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 940
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

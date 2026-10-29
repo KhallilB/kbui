@@ -1,0 +1,206 @@
+{
+  "promptId": "d01",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:20:22.835Z",
+  "totalMs": 21683,
+  "lines": [
+    {
+      "t": 4949,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+    },
+    {
+      "t": 5386,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"children\":[\"header\",\"range\",\"metrics\",\"mid\",\"products-card\"]}}"
+    },
+    {
+      "t": 5430,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"title\",\"subtitle\"]}}"
+    },
+    {
+      "t": 5728,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Sales Dashboard\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 6147,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtitle\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Performance overview for your online store\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 6503,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/range\",\"value\":{\"type\":\"ButtonGroup\",\"props\":{\"buttons\":[{\"label\":\"7 days\",\"value\":\"7d\"},{\"label\":\"30 days\",\"value\":\"30d\"},{\"label\":\"90 days\",\"value\":\"90d\"}],\"selected\":{\"$bindState\":\"/range\"}},\"children\":[]}}"
+    },
+    {
+      "t": 6576,
+      "text": "{\"op\":\"add\",\"path\":\"/state/range\",\"value\":\"30d\"}"
+    },
+    {
+      "t": 6929,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metrics\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":4,\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/metrics\",\"key\":\"id\"},\"children\":[\"metric-card\"]}}"
+    },
+    {
+      "t": 7346,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metric-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":{\"$item\":\"label\"}},\"children\":[\"metric-value\",\"metric-change\"]}}"
+    },
+    {
+      "t": 7696,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metric-value\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$item\":\"value\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 7743,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metric-change\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"change\"},\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 7801,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics\",\"value\":[]}"
+    },
+    {
+      "t": 8165,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics/0\",\"value\":{\"id\":\"revenue\",\"label\":\"Total Revenue\",\"value\":\"$128,450\",\"change\":\"+12.4% vs last period\"}}"
+    },
+    {
+      "t": 8462,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics/1\",\"value\":{\"id\":\"orders\",\"label\":\"Orders\",\"value\":\"2,184\",\"change\":\"+8.1% vs last period\"}}"
+    },
+    {
+      "t": 8850,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics/2\",\"value\":{\"id\":\"conversion\",\"label\":\"Conversion Rate\",\"value\":\"3.42%\",\"change\":\"+0.3% vs last period\"}}"
+    },
+    {
+      "t": 9198,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics/3\",\"value\":{\"id\":\"aov\",\"label\":\"Avg. Order Value\",\"value\":\"$58.82\",\"change\":\"+3.9% vs last period\"}}"
+    },
+    {
+      "t": 9479,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/mid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"md\"},\"children\":[\"goals-card\",\"channels-card\"]}}"
+    },
+    {
+      "t": 9764,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/goals-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Monthly Goals\",\"description\":\"Progress toward targets\"},\"children\":[\"goal-revenue\",\"goal-orders\",\"goal-conversion\"]}}"
+    },
+    {
+      "t": 10161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/goal-revenue\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":86,\"max\":100,\"label\":\"Revenue: $128k of $150k\"},\"children\":[]}}"
+    },
+    {
+      "t": 10467,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/goal-orders\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":73,\"max\":100,\"label\":\"Orders: 2,184 of 3,000\"},\"children\":[]}}"
+    },
+    {
+      "t": 10759,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/goal-conversion\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":68,\"max\":100,\"label\":\"Conversion: 3.42% of 5%\"},\"children\":[]}}"
+    },
+    {
+      "t": 11135,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/channels-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Revenue by Channel\",\"description\":\"Where your sales come from\"},\"children\":[\"channels-table\"]}}"
+    },
+    {
+      "t": 11970,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/channels-table\",\"value\":{\"type\":\"Table\",\"props\":{\"columns\":[\"Channel\",\"Revenue\",\"Share\"],\"rows\":[[\"Organic Search\",\"$46,240\",\"36%\"],[\"Paid Ads\",\"$32,110\",\"25%\"],[\"Email\",\"$24,380\",\"19%\"],[\"Social\",\"$15,410\",\"12%\"],[\"Direct\",\"$10,310\",\"8%\"]]},\"children\":[]}}"
+    },
+    {
+      "t": 12227,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/products-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Top Products\",\"description\":\"Best sellers this period\"},\"children\":[\"products-list\"]}}"
+    },
+    {
+      "t": 12603,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/products-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/products\",\"key\":\"id\"},\"children\":[\"product-row\"]}}"
+    },
+    {
+      "t": 12932,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"product-info\",\"product-stats\"]}}"
+    },
+    {
+      "t": 13288,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-info\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\"},\"children\":[\"product-avatar\",\"product-text\"]}}"
+    },
+    {
+      "t": 13524,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-avatar\",\"value\":{\"type\":\"Avatar\",\"props\":{\"name\":{\"$item\":\"name\"},\"size\":\"md\"},\"children\":[]}}"
+    },
+    {
+      "t": 13806,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-text\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"none\"},\"children\":[\"product-name\",\"product-category\"]}}"
+    },
+    {
+      "t": 14077,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-name\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"name\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 14358,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-category\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${category} · ${units} units sold\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 14672,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-stats\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\"},\"children\":[\"product-revenue\",\"product-badge\"]}}"
+    },
+    {
+      "t": 14979,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-revenue\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"revenue\"},\"variant\":\"lead\"},\"children\":[]}}"
+    },
+    {
+      "t": 15268,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"trend\"},\"variant\":\"outline\"},\"children\":[]}}"
+    },
+    {
+      "t": 15331,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products\",\"value\":[]}"
+    },
+    {
+      "t": 15727,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/0\",\"value\":{\"id\":\"p1\",\"name\":\"Wireless Noise-Cancelling Headphones\",\"category\":\"Electronics\",\"units\":412,\"revenue\":\"$32,960\",\"trend\":\"+14%\"}}"
+    },
+    {
+      "t": 16091,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/1\",\"value\":{\"id\":\"p2\",\"name\":\"Smart Fitness Watch\",\"category\":\"Wearables\",\"units\":356,\"revenue\":\"$28,480\",\"trend\":\"+9%\"}}"
+    },
+    {
+      "t": 16527,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/2\",\"value\":{\"id\":\"p3\",\"name\":\"Ergonomic Office Chair\",\"category\":\"Furniture\",\"units\":148,\"revenue\":\"$22,200\",\"trend\":\"+5%\"}}"
+    },
+    {
+      "t": 16937,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/3\",\"value\":{\"id\":\"p4\",\"name\":\"Portable Bluetooth Speaker\",\"category\":\"Electronics\",\"units\":503,\"revenue\":\"$20,120\",\"trend\":\"+11%\"}}"
+    },
+    {
+      "t": 21683,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/4\",\"value\":{\"id\":\"p5\",\"name\":\"Organic Cotton Hoodie\",\"category\":\"Apparel\",\"units\":389,\"revenue\":\"$15,560\",\"trend\":\"-2%\"}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 918,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 2685,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 918,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2685,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 918,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 918
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

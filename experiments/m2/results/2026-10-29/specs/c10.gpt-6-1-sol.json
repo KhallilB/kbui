@@ -1,0 +1,460 @@
+{
+  "spec": {
+    "root": "signup",
+    "elements": {
+      "signup": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "xl",
+          "className": "mx-auto max-w-6xl px-6 py-8"
+        },
+        "children": [
+          "navigation",
+          "signup-layout",
+          "footer"
+        ]
+      },
+      "navigation": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center",
+          "gap": "md"
+        },
+        "children": [
+          "brand",
+          "signin"
+        ]
+      },
+      "brand": {
+        "type": "Heading",
+        "props": {
+          "text": "sprig & spoon",
+          "level": "h2"
+        },
+        "children": []
+      },
+      "signin": {
+        "type": "Link",
+        "props": {
+          "label": "Already a member? Sign in",
+          "href": "/login"
+        },
+        "children": []
+      },
+      "signup-layout": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "xl",
+          "className": "grid-cols-1 items-start md:grid-cols-2"
+        },
+        "children": [
+          "welcome",
+          "account-card"
+        ]
+      },
+      "welcome": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg",
+          "className": "rounded-3xl bg-emerald-950 p-8 text-white"
+        },
+        "children": [
+          "eyebrow",
+          "welcome-title",
+          "welcome-copy",
+          "meal-image",
+          "welcome-note"
+        ]
+      },
+      "eyebrow": {
+        "type": "Text",
+        "props": {
+          "text": "FRESH INGREDIENTS. A LITTLE MORE JOY.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "welcome-title": {
+        "type": "Heading",
+        "props": {
+          "text": "Good food starts with you.",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "welcome-copy": {
+        "type": "Text",
+        "props": {
+          "text": "Make room for dinners you look forward to. Discover seasonal recipes and pre-portioned ingredients, delivered to your door.",
+          "variant": "lead"
+        },
+        "children": []
+      },
+      "meal-image": {
+        "type": "Image",
+        "props": {
+          "src": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1000&q=85",
+          "alt": "A colorful bowl of fresh vegetables, greens, and seasonal ingredients",
+          "width": 640,
+          "height": 420
+        },
+        "children": []
+      },
+      "welcome-note": {
+        "type": "Text",
+        "props": {
+          "text": "Less dinner planning. More around-the-table time.",
+          "variant": "body"
+        },
+        "children": []
+      },
+      "account-card": {
+        "type": "Card",
+        "props": {
+          "maxWidth": "full",
+          "className": "rounded-3xl border-stone-200 bg-white p-6 shadow-sm"
+        },
+        "children": [
+          "form-stack"
+        ]
+      },
+      "form-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "form-title",
+          "form-copy",
+          "name",
+          "email",
+          "password",
+          "divider",
+          "diet-heading",
+          "diet-copy",
+          "diet-options",
+          "allergy-note",
+          "terms",
+          "create-account",
+          "validation-errors",
+          "validation-success",
+          "checkout-note"
+        ]
+      },
+      "form-title": {
+        "type": "Heading",
+        "props": {
+          "text": "A fresher routine awaits.",
+          "level": "h2"
+        },
+        "children": []
+      },
+      "form-copy": {
+        "type": "Text",
+        "props": {
+          "text": "Create your account, then find meals that fit your table.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "name": {
+        "type": "Input",
+        "props": {
+          "label": "Full name",
+          "name": "fullName",
+          "type": "text",
+          "placeholder": "Jamie Taylor",
+          "value": {
+            "$bindState": "/fullName"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter your full name."
+            }
+          ],
+          "validateOn": "blur"
+        },
+        "children": []
+      },
+      "email": {
+        "type": "Input",
+        "props": {
+          "label": "Email address",
+          "name": "email",
+          "type": "email",
+          "placeholder": "jamie@example.com",
+          "value": {
+            "$bindState": "/email"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter your email address."
+            },
+            {
+              "type": "email",
+              "message": "Enter a valid email address."
+            }
+          ],
+          "validateOn": "blur"
+        },
+        "children": []
+      },
+      "password": {
+        "type": "Input",
+        "props": {
+          "label": "Password",
+          "name": "password",
+          "type": "password",
+          "placeholder": "At least 8 characters",
+          "value": {
+            "$bindState": "/password"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Choose a password."
+            },
+            {
+              "type": "minLength",
+              "message": "Use at least 8 characters.",
+              "args": {
+                "min": 8
+              }
+            }
+          ],
+          "validateOn": "blur"
+        },
+        "children": []
+      },
+      "divider": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "diet-heading": {
+        "type": "Heading",
+        "props": {
+          "text": "What feels good on your plate?",
+          "level": "h3"
+        },
+        "children": []
+      },
+      "diet-copy": {
+        "type": "Text",
+        "props": {
+          "text": "Optional · Select any preferences that apply. Leave blank for a little of everything. You can update these later.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "diet-options": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/dietaryPreferences",
+          "key": "id"
+        },
+        "children": [
+          "diet-checkbox"
+        ]
+      },
+      "diet-checkbox": {
+        "type": "Checkbox",
+        "props": {
+          "label": {
+            "$item": "label"
+          },
+          "name": {
+            "$item": "id"
+          },
+          "checked": {
+            "$bindItem": "selected"
+          }
+        },
+        "children": []
+      },
+      "allergy-note": {
+        "type": "Text",
+        "props": {
+          "text": "Preferences help tailor your recommendations. For food allergies, review each recipe’s ingredients and allergen information before ordering.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "terms": {
+        "type": "Checkbox",
+        "props": {
+          "label": "I agree to the Terms of Service and acknowledge the Privacy Policy.",
+          "name": "termsAccepted",
+          "checked": {
+            "$bindState": "/termsAccepted"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Accept the terms to continue."
+            }
+          ],
+          "validateOn": "change"
+        },
+        "children": []
+      },
+      "create-account": {
+        "type": "Button",
+        "props": {
+          "label": "Create my account",
+          "variant": "primary"
+        },
+        "on": {
+          "press": {
+            "action": "validateForm",
+            "params": {
+              "statePath": "/formValidation"
+            }
+          }
+        },
+        "children": []
+      },
+      "validation-errors": {
+        "type": "Alert",
+        "props": {
+          "title": "A few details need attention",
+          "message": "Check the highlighted fields and accept the terms to continue.",
+          "type": "error"
+        },
+        "visible": {
+          "$state": "/formValidation/valid",
+          "eq": false
+        },
+        "children": []
+      },
+      "validation-success": {
+        "type": "Alert",
+        "props": {
+          "title": "Your details look good",
+          "message": "This preview has validated your information. Account creation requires a connected sign-up service.",
+          "type": "success"
+        },
+        "visible": {
+          "$state": "/formValidation/valid",
+          "eq": true
+        },
+        "children": []
+      },
+      "checkout-note": {
+        "type": "Text",
+        "props": {
+          "text": "No payment details needed to get started.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "footer": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center",
+          "gap": "md",
+          "className": "flex-wrap text-stone-500"
+        },
+        "children": [
+          "copyright",
+          "legal-links"
+        ]
+      },
+      "copyright": {
+        "type": "Text",
+        "props": {
+          "text": "© 2026 Sprig & Spoon",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "legal-links": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "lg"
+        },
+        "children": [
+          "terms-link",
+          "privacy-link"
+        ]
+      },
+      "terms-link": {
+        "type": "Link",
+        "props": {
+          "label": "Terms of Service",
+          "href": "/terms"
+        },
+        "children": []
+      },
+      "privacy-link": {
+        "type": "Link",
+        "props": {
+          "label": "Privacy Policy",
+          "href": "/privacy"
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "fullName": "",
+      "email": "",
+      "password": "",
+      "dietaryPreferences": [
+        {
+          "id": "vegetarian",
+          "label": "Vegetarian",
+          "selected": false
+        },
+        {
+          "id": "vegan",
+          "label": "Vegan",
+          "selected": false
+        },
+        {
+          "id": "pescatarian",
+          "label": "Pescatarian",
+          "selected": false
+        },
+        {
+          "id": "gluten-free",
+          "label": "Gluten-free",
+          "selected": false
+        },
+        {
+          "id": "dairy-free",
+          "label": "Dairy-free",
+          "selected": false
+        },
+        {
+          "id": "high-protein",
+          "label": "High-protein",
+          "selected": false
+        }
+      ],
+      "termsAccepted": false,
+      "formValidation": null
+    }
+  },
+  "patchLines": 47,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [],
+  "fixes": []
+}

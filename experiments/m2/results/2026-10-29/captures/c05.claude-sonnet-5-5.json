@@ -1,0 +1,262 @@
+{
+  "promptId": "c05",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:15:16.497Z",
+  "totalMs": 21691,
+  "lines": [
+    {
+      "t": 1331,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"page\"}"
+    },
+    {
+      "t": 1717,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/page\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"xl\",\"align\":\"center\",\"className\":\"max-w-6xl mx-auto p-6\"},\"children\":[\"header\",\"billing\",\"plans\",\"faq-card\"]}}"
+    },
+    {
+      "t": 2045,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\",\"align\":\"center\"},\"children\":[\"title\",\"subtitle\"]}}"
+    },
+    {
+      "t": 2364,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Simple pricing for every thinker\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 2839,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtitle\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Start free. Upgrade to Pro when you're ready to unlock unlimited notes, AI search and sync across every device.\",\"variant\":\"lead\"},\"children\":[]}}"
+    },
+    {
+      "t": 3189,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/billing\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"center\"},\"children\":[\"billing-toggle\",\"savings-badge\"]}}"
+    },
+    {
+      "t": 3701,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/billing-toggle\",\"value\":{\"type\":\"ButtonGroup\",\"props\":{\"buttons\":[{\"label\":\"Monthly\",\"value\":\"monthly\"},{\"label\":\"Yearly\",\"value\":\"yearly\"}],\"selected\":{\"$bindState\":\"/billing\"}},\"children\":[]}}"
+    },
+    {
+      "t": 4031,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/savings-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Save 20% yearly\",\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 4118,
+      "text": "{\"op\":\"add\",\"path\":\"/state/billing\",\"value\":\"yearly\"}"
+    },
+    {
+      "t": 4545,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/plans\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":3,\"gap\":\"lg\",\"className\":\"items-stretch w-full\"},\"children\":[\"free-card\",\"pro-card\",\"team-card\"]}}"
+    },
+    {
+      "t": 4975,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/free-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Free\",\"description\":\"For casual note-taking\"},\"children\":[\"free-price\",\"free-sep\",\"free-features\",\"free-btn\"]}}"
+    },
+    {
+      "t": 5223,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/free-price\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"$0\",\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 5480,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/free-sep\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 5917,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/free-features\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"repeat\":{\"statePath\":\"/freeFeatures\",\"key\":\"id\"},\"children\":[\"free-feature-text\"]}}"
+    },
+    {
+      "t": 6188,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/free-feature-text\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"text\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 6295,
+      "text": "{\"op\":\"add\",\"path\":\"/state/freeFeatures\",\"value\":[]}"
+    },
+    {
+      "t": 6548,
+      "text": "{\"op\":\"add\",\"path\":\"/state/freeFeatures/0\",\"value\":{\"id\":\"f1\",\"text\":\"✓ Up to 100 notes\"}}"
+    },
+    {
+      "t": 6794,
+      "text": "{\"op\":\"add\",\"path\":\"/state/freeFeatures/1\",\"value\":{\"id\":\"f2\",\"text\":\"✓ Sync on 1 device\"}}"
+    },
+    {
+      "t": 7008,
+      "text": "{\"op\":\"add\",\"path\":\"/state/freeFeatures/2\",\"value\":{\"id\":\"f3\",\"text\":\"✓ Basic search\"}}"
+    },
+    {
+      "t": 7297,
+      "text": "{\"op\":\"add\",\"path\":\"/state/freeFeatures/3\",\"value\":{\"id\":\"f4\",\"text\":\"✓ 100 MB attachments\"}}"
+    },
+    {
+      "t": 7767,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/free-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Get started free\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/selectedPlan\",\"value\":\"free\"}}},\"children\":[]}}"
+    },
+    {
+      "t": 8412,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pro-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Pro\",\"description\":\"Most popular — for power users\",\"className\":\"border-2 border-primary shadow-xl scale-105\"},\"children\":[\"pro-badge\",\"pro-price\",\"pro-note\",\"pro-sep\",\"pro-features\",\"pro-btn\",\"pro-guarantee\"]}}"
+    },
+    {
+      "t": 8759,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pro-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"★ Most Popular · Best Value\",\"variant\":\"default\"},\"children\":[]}}"
+    },
+    {
+      "t": 9223,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pro-price\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$cond\":{\"$state\":\"/billing\",\"eq\":\"yearly\"},\"$then\":\"$8 / month\",\"$else\":\"$10 / month\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 9879,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pro-note\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$cond\":{\"$state\":\"/billing\",\"eq\":\"yearly\"},\"$then\":\"Billed $96 yearly — you save $24\",\"$else\":\"Billed monthly. Switch to yearly and save 20%\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 10121,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pro-sep\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 10517,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pro-features\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"repeat\":{\"statePath\":\"/proFeatures\",\"key\":\"id\"},\"children\":[\"pro-feature-text\"]}}"
+    },
+    {
+      "t": 10796,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pro-feature-text\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"text\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 10913,
+      "text": "{\"op\":\"add\",\"path\":\"/state/proFeatures\",\"value\":[]}"
+    },
+    {
+      "t": 11178,
+      "text": "{\"op\":\"add\",\"path\":\"/state/proFeatures/0\",\"value\":{\"id\":\"p1\",\"text\":\"✓ Everything in Free, plus:\"}}"
+    },
+    {
+      "t": 11437,
+      "text": "{\"op\":\"add\",\"path\":\"/state/proFeatures/1\",\"value\":{\"id\":\"p2\",\"text\":\"✓ Unlimited notes & notebooks\"}}"
+    },
+    {
+      "t": 11689,
+      "text": "{\"op\":\"add\",\"path\":\"/state/proFeatures/2\",\"value\":{\"id\":\"p3\",\"text\":\"✓ Sync across unlimited devices\"}}"
+    },
+    {
+      "t": 11902,
+      "text": "{\"op\":\"add\",\"path\":\"/state/proFeatures/3\",\"value\":{\"id\":\"p4\",\"text\":\"✓ AI-powered search & summaries\"}}"
+    },
+    {
+      "t": 12174,
+      "text": "{\"op\":\"add\",\"path\":\"/state/proFeatures/4\",\"value\":{\"id\":\"p5\",\"text\":\"✓ 50 GB attachments\"}}"
+    },
+    {
+      "t": 12402,
+      "text": "{\"op\":\"add\",\"path\":\"/state/proFeatures/5\",\"value\":{\"id\":\"p6\",\"text\":\"✓ Offline mode & version history\"}}"
+    },
+    {
+      "t": 12666,
+      "text": "{\"op\":\"add\",\"path\":\"/state/proFeatures/6\",\"value\":{\"id\":\"p7\",\"text\":\"✓ Priority support\"}}"
+    },
+    {
+      "t": 13121,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pro-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Start 14-day free trial\",\"variant\":\"primary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/selectedPlan\",\"value\":\"pro\"}}},\"children\":[]}}"
+    },
+    {
+      "t": 13403,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pro-guarantee\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"No credit card required · Cancel anytime\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 13832,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/team-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Team\",\"description\":\"For teams that think together\"},\"children\":[\"team-price\",\"team-note\",\"team-sep\",\"team-features\",\"team-btn\"]}}"
+    },
+    {
+      "t": 14297,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/team-price\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$cond\":{\"$state\":\"/billing\",\"eq\":\"yearly\"},\"$then\":\"$20 / user / month\",\"$else\":\"$25 / user / month\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 14583,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/team-note\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Minimum 3 users\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 14835,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/team-sep\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 15232,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/team-features\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"repeat\":{\"statePath\":\"/teamFeatures\",\"key\":\"id\"},\"children\":[\"team-feature-text\"]}}"
+    },
+    {
+      "t": 15508,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/team-feature-text\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"text\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 15623,
+      "text": "{\"op\":\"add\",\"path\":\"/state/teamFeatures\",\"value\":[]}"
+    },
+    {
+      "t": 15876,
+      "text": "{\"op\":\"add\",\"path\":\"/state/teamFeatures/0\",\"value\":{\"id\":\"t1\",\"text\":\"✓ Everything in Pro, plus:\"}}"
+    },
+    {
+      "t": 16123,
+      "text": "{\"op\":\"add\",\"path\":\"/state/teamFeatures/1\",\"value\":{\"id\":\"t2\",\"text\":\"✓ Shared workspaces & permissions\"}}"
+    },
+    {
+      "t": 16370,
+      "text": "{\"op\":\"add\",\"path\":\"/state/teamFeatures/2\",\"value\":{\"id\":\"t3\",\"text\":\"✓ Real-time collaboration\"}}"
+    },
+    {
+      "t": 16581,
+      "text": "{\"op\":\"add\",\"path\":\"/state/teamFeatures/3\",\"value\":{\"id\":\"t4\",\"text\":\"✓ Admin controls & SSO\"}}"
+    },
+    {
+      "t": 16831,
+      "text": "{\"op\":\"add\",\"path\":\"/state/teamFeatures/4\",\"value\":{\"id\":\"t5\",\"text\":\"✓ 1 TB shared storage\"}}"
+    },
+    {
+      "t": 17299,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/team-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Contact sales\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/selectedPlan\",\"value\":\"team\"}}},\"children\":[]}}"
+    },
+    {
+      "t": 17412,
+      "text": "{\"op\":\"add\",\"path\":\"/state/selectedPlan\",\"value\":\"\"}"
+    },
+    {
+      "t": 17725,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/faq-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Frequently asked questions\",\"maxWidth\":\"lg\",\"centered\":true},\"children\":[\"faq\"]}}"
+    },
+    {
+      "t": 21691,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/faq\",\"value\":{\"type\":\"Accordion\",\"props\":{\"type\":\"single\",\"items\":[{\"title\":\"Can I try Pro before paying?\",\"content\":\"Yes. Every Pro plan starts with a 14-day free trial, no credit card required.\"},{\"title\":\"What happens to my notes if I downgrade?\",\"content\":\"Your notes are never deleted. On the Free plan you can view and export everything, and edit up to 100 notes.\"},{\"title\":\"Can I switch plans anytime?\",\"content\":\"Absolutely. Upgrade, downgrade or cancel whenever you like, and we'll prorate the difference.\"},{\"title\":\"Do you offer discounts for students?\",\"content\":\"Yes, students and educators get 50% off Pro with a valid school email.\"}]},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 935,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 3697,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 935,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 3697,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 935,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 935
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

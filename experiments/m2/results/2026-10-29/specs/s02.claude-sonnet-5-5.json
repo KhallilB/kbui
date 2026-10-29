@@ -1,0 +1,526 @@
+{
+  "spec": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Card",
+        "props": {
+          "title": "Notification Settings",
+          "description": "Choose how and when you're notified about project activity",
+          "maxWidth": "lg",
+          "centered": true
+        },
+        "children": [
+          "layout"
+        ]
+      },
+      "layout": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "saved-alert",
+          "tabs",
+          "email-section",
+          "push-section",
+          "inapp-section",
+          "sep",
+          "quiet-heading",
+          "quiet-switch",
+          "quiet-times",
+          "actions"
+        ]
+      },
+      "saved-alert": {
+        "type": "Alert",
+        "props": {
+          "title": "Preferences saved",
+          "message": "Your notification settings have been updated.",
+          "type": "success"
+        },
+        "visible": {
+          "$state": "/saved"
+        },
+        "children": []
+      },
+      "tabs": {
+        "type": "Tabs",
+        "props": {
+          "tabs": [
+            {
+              "label": "Email",
+              "value": "email"
+            },
+            {
+              "label": "Push",
+              "value": "push"
+            },
+            {
+              "label": "In-App",
+              "value": "inapp"
+            }
+          ],
+          "value": {
+            "$bindState": "/activeTab"
+          }
+        },
+        "children": []
+      },
+      "email-section": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "visible": {
+          "$state": "/activeTab",
+          "eq": "email"
+        },
+        "children": [
+          "email-head",
+          "email-master",
+          "email-digest",
+          "email-assigned",
+          "email-mentioned",
+          "email-comments",
+          "email-due",
+          "email-status"
+        ]
+      },
+      "email-head": {
+        "type": "Heading",
+        "props": {
+          "text": "Email notifications",
+          "level": "h3"
+        },
+        "children": []
+      },
+      "email-master": {
+        "type": "Switch",
+        "props": {
+          "label": "Enable email notifications",
+          "name": "emailEnabled",
+          "checked": {
+            "$bindState": "/prefs/email/enabled"
+          }
+        },
+        "children": []
+      },
+      "email-digest": {
+        "type": "Select",
+        "props": {
+          "label": "Email frequency",
+          "name": "emailDigest",
+          "options": [
+            "Instant",
+            "Hourly",
+            "Daily",
+            "Weekly"
+          ],
+          "value": {
+            "$bindState": "/prefs/email/digest"
+          }
+        },
+        "children": []
+      },
+      "email-assigned": {
+        "type": "Checkbox",
+        "props": {
+          "label": "Task assigned to me",
+          "name": "emailAssigned",
+          "checked": {
+            "$bindState": "/prefs/email/assigned"
+          }
+        },
+        "children": []
+      },
+      "email-mentioned": {
+        "type": "Checkbox",
+        "props": {
+          "label": "I'm @mentioned",
+          "name": "emailMentioned",
+          "checked": {
+            "$bindState": "/prefs/email/mentioned"
+          }
+        },
+        "children": []
+      },
+      "email-comments": {
+        "type": "Checkbox",
+        "props": {
+          "label": "New comments on my tasks",
+          "name": "emailComments",
+          "checked": {
+            "$bindState": "/prefs/email/comments"
+          }
+        },
+        "children": []
+      },
+      "email-due": {
+        "type": "Checkbox",
+        "props": {
+          "label": "Due date reminders",
+          "name": "emailDue",
+          "checked": {
+            "$bindState": "/prefs/email/dueDate"
+          }
+        },
+        "children": []
+      },
+      "email-status": {
+        "type": "Checkbox",
+        "props": {
+          "label": "Project status changes",
+          "name": "emailStatus",
+          "checked": {
+            "$bindState": "/prefs/email/statusChange"
+          }
+        },
+        "children": []
+      },
+      "push-section": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "visible": {
+          "$state": "/activeTab",
+          "eq": "push"
+        },
+        "children": [
+          "push-head",
+          "push-master",
+          "push-assigned",
+          "push-mentioned",
+          "push-comments",
+          "push-due",
+          "push-status"
+        ]
+      },
+      "push-head": {
+        "type": "Heading",
+        "props": {
+          "text": "Push notifications",
+          "level": "h3"
+        },
+        "children": []
+      },
+      "push-master": {
+        "type": "Switch",
+        "props": {
+          "label": "Enable push notifications",
+          "name": "pushEnabled",
+          "checked": {
+            "$bindState": "/prefs/push/enabled"
+          }
+        },
+        "children": []
+      },
+      "push-assigned": {
+        "type": "Checkbox",
+        "props": {
+          "label": "Task assigned to me",
+          "name": "pushAssigned",
+          "checked": {
+            "$bindState": "/prefs/push/assigned"
+          }
+        },
+        "children": []
+      },
+      "push-mentioned": {
+        "type": "Checkbox",
+        "props": {
+          "label": "I'm @mentioned",
+          "name": "pushMentioned",
+          "checked": {
+            "$bindState": "/prefs/push/mentioned"
+          }
+        },
+        "children": []
+      },
+      "push-comments": {
+        "type": "Checkbox",
+        "props": {
+          "label": "New comments on my tasks",
+          "name": "pushComments",
+          "checked": {
+            "$bindState": "/prefs/push/comments"
+          }
+        },
+        "children": []
+      },
+      "push-due": {
+        "type": "Checkbox",
+        "props": {
+          "label": "Due date reminders",
+          "name": "pushDue",
+          "checked": {
+            "$bindState": "/prefs/push/dueDate"
+          }
+        },
+        "children": []
+      },
+      "push-status": {
+        "type": "Checkbox",
+        "props": {
+          "label": "Project status changes",
+          "name": "pushStatus",
+          "checked": {
+            "$bindState": "/prefs/push/statusChange"
+          }
+        },
+        "children": []
+      },
+      "inapp-section": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "visible": {
+          "$state": "/activeTab",
+          "eq": "inapp"
+        },
+        "children": [
+          "inapp-head",
+          "inapp-master",
+          "inapp-assigned",
+          "inapp-mentioned",
+          "inapp-comments",
+          "inapp-due",
+          "inapp-status"
+        ]
+      },
+      "inapp-head": {
+        "type": "Heading",
+        "props": {
+          "text": "In-app notifications",
+          "level": "h3"
+        },
+        "children": []
+      },
+      "inapp-master": {
+        "type": "Switch",
+        "props": {
+          "label": "Enable in-app notifications",
+          "name": "inAppEnabled",
+          "checked": {
+            "$bindState": "/prefs/inApp/enabled"
+          }
+        },
+        "children": []
+      },
+      "inapp-assigned": {
+        "type": "Checkbox",
+        "props": {
+          "label": "Task assigned to me",
+          "name": "inAppAssigned",
+          "checked": {
+            "$bindState": "/prefs/inApp/assigned"
+          }
+        },
+        "children": []
+      },
+      "inapp-mentioned": {
+        "type": "Checkbox",
+        "props": {
+          "label": "I'm @mentioned",
+          "name": "inAppMentioned",
+          "checked": {
+            "$bindState": "/prefs/inApp/mentioned"
+          }
+        },
+        "children": []
+      },
+      "inapp-comments": {
+        "type": "Checkbox",
+        "props": {
+          "label": "New comments on my tasks",
+          "name": "inAppComments",
+          "checked": {
+            "$bindState": "/prefs/inApp/comments"
+          }
+        },
+        "children": []
+      },
+      "inapp-due": {
+        "type": "Checkbox",
+        "props": {
+          "label": "Due date reminders",
+          "name": "inAppDue",
+          "checked": {
+            "$bindState": "/prefs/inApp/dueDate"
+          }
+        },
+        "children": []
+      },
+      "inapp-status": {
+        "type": "Checkbox",
+        "props": {
+          "label": "Project status changes",
+          "name": "inAppStatus",
+          "checked": {
+            "$bindState": "/prefs/inApp/statusChange"
+          }
+        },
+        "children": []
+      },
+      "sep": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "quiet-heading": {
+        "type": "Heading",
+        "props": {
+          "text": "Quiet hours",
+          "level": "h3"
+        },
+        "children": []
+      },
+      "quiet-switch": {
+        "type": "Switch",
+        "props": {
+          "label": "Pause push and email during quiet hours",
+          "name": "quietEnabled",
+          "checked": {
+            "$bindState": "/quiet/enabled"
+          }
+        },
+        "children": []
+      },
+      "quiet-times": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "visible": {
+          "$state": "/quiet/enabled"
+        },
+        "children": [
+          "quiet-start",
+          "quiet-end"
+        ]
+      },
+      "quiet-start": {
+        "type": "Slider",
+        "props": {
+          "label": "Start hour (0-23)",
+          "min": 0,
+          "max": 23,
+          "step": 1,
+          "value": {
+            "$bindState": "/quiet/start"
+          }
+        },
+        "children": []
+      },
+      "quiet-end": {
+        "type": "Slider",
+        "props": {
+          "label": "End hour (0-23)",
+          "min": 0,
+          "max": 23,
+          "step": 1,
+          "value": {
+            "$bindState": "/quiet/end"
+          }
+        },
+        "children": []
+      },
+      "actions": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "justify": "end"
+        },
+        "children": [
+          "reset-btn",
+          "save-btn"
+        ]
+      },
+      "reset-btn": {
+        "type": "Button",
+        "props": {
+          "label": "Reset",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/saved",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      },
+      "save-btn": {
+        "type": "Button",
+        "props": {
+          "label": "Save preferences",
+          "variant": "primary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/saved",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "prefs": {
+        "email": {
+          "enabled": true,
+          "digest": "Daily",
+          "assigned": true,
+          "mentioned": true,
+          "comments": false,
+          "dueDate": true,
+          "statusChange": false
+        },
+        "push": {
+          "enabled": true,
+          "assigned": true,
+          "mentioned": true,
+          "comments": false,
+          "dueDate": true,
+          "statusChange": false
+        },
+        "inApp": {
+          "enabled": true,
+          "assigned": true,
+          "mentioned": true,
+          "comments": true,
+          "dueDate": true,
+          "statusChange": true
+        }
+      },
+      "quiet": {
+        "enabled": false,
+        "start": 22,
+        "end": 7
+      },
+      "activeTab": "email",
+      "saved": false
+    }
+  },
+  "patchLines": 43,
+  "skippedLines": 0,
+  "firstNodeMs": 5266,
+  "issues": [],
+  "fixes": []
+}

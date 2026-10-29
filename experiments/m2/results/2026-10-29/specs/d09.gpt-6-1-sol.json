@@ -1,0 +1,724 @@
+{
+  "spec": {
+    "root": "dashboard",
+    "elements": {
+      "dashboard": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "xl",
+          "className": "mx-auto max-w-7xl p-8 bg-slate-50 min-h-screen"
+        },
+        "children": [
+          "header",
+          "metrics",
+          "pipeline",
+          "details"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center",
+          "gap": "lg"
+        },
+        "children": [
+          "header-copy",
+          "period"
+        ]
+      },
+      "header-copy": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "eyebrow",
+          "title",
+          "subtitle"
+        ]
+      },
+      "eyebrow": {
+        "type": "Text",
+        "props": {
+          "text": "PEOPLE OPERATIONS / RECRUITING",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Your next great team.",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "A clear view of your hiring pipeline, from first hello to signed offer.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "period": {
+        "type": "Badge",
+        "props": {
+          "text": "October 2026 · Monthly overview",
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "metrics": {
+        "type": "Grid",
+        "props": {
+          "columns": 4,
+          "gap": "md",
+          "className": "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+        },
+        "repeat": {
+          "statePath": "/metrics",
+          "key": "id"
+        },
+        "children": [
+          "metric-card"
+        ]
+      },
+      "metric-card": {
+        "type": "Card",
+        "props": {
+          "maxWidth": "full"
+        },
+        "children": [
+          "metric-label",
+          "metric-value",
+          "metric-context"
+        ]
+      },
+      "metric-label": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "label"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "metric-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "value"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "metric-context": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "context"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "pipeline": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "pipeline-heading",
+          "pipeline-description",
+          "stages"
+        ]
+      },
+      "pipeline-heading": {
+        "type": "Heading",
+        "props": {
+          "text": "Candidate pipeline",
+          "level": "h2"
+        },
+        "children": []
+      },
+      "pipeline-description": {
+        "type": "Text",
+        "props": {
+          "text": "Stage totals include all active candidates. Two upcoming candidate actions are highlighted per stage.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "stages": {
+        "type": "Grid",
+        "props": {
+          "columns": 4,
+          "gap": "md",
+          "className": "grid-cols-1 md:grid-cols-2 xl:grid-cols-4"
+        },
+        "repeat": {
+          "statePath": "/stages",
+          "key": "id"
+        },
+        "children": [
+          "stage-card"
+        ]
+      },
+      "stage-card": {
+        "type": "Card",
+        "props": {
+          "maxWidth": "full",
+          "className": "h-full bg-white"
+        },
+        "children": [
+          "stage-content"
+        ]
+      },
+      "stage-content": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "stage-header",
+          "stage-note",
+          "stage-divider",
+          "candidate-list"
+        ]
+      },
+      "stage-header": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center"
+        },
+        "children": [
+          "stage-name",
+          "stage-count"
+        ]
+      },
+      "stage-name": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "name"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "stage-count": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$template": "${count} candidates"
+          },
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "stage-note": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "note"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "stage-divider": {
+        "type": "Separator",
+        "props": {},
+        "children": []
+      },
+      "candidate-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": {
+            "$item": "candidates"
+          },
+          "key": "id"
+        },
+        "children": [
+          "candidate"
+        ]
+      },
+      "candidate": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm",
+          "className": "rounded-lg border border-slate-100 p-3"
+        },
+        "children": [
+          "candidate-identity",
+          "candidate-role",
+          "candidate-action"
+        ]
+      },
+      "candidate-identity": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm",
+          "align": "center"
+        },
+        "children": [
+          "candidate-avatar",
+          "candidate-name"
+        ]
+      },
+      "candidate-avatar": {
+        "type": "Avatar",
+        "props": {
+          "name": {
+            "$item": "name"
+          },
+          "size": "sm"
+        },
+        "children": []
+      },
+      "candidate-name": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "name"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "candidate-role": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "role"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "candidate-action": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "action"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "details": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "lg",
+          "className": "grid-cols-1 lg:grid-cols-2"
+        },
+        "children": [
+          "hiring-speed",
+          "open-roles"
+        ]
+      },
+      "hiring-speed": {
+        "type": "Card",
+        "props": {
+          "title": "Time to hire",
+          "description": "Average calendar days from application to accepted offer, by month.",
+          "maxWidth": "full"
+        },
+        "children": [
+          "speed-content"
+        ]
+      },
+      "speed-content": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "speed-target",
+          "speed-months",
+          "speed-note"
+        ]
+      },
+      "speed-target": {
+        "type": "Badge",
+        "props": {
+          "text": "October is 6 days under the 30-day target",
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "speed-months": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "repeat": {
+          "statePath": "/hiringTimes",
+          "key": "id"
+        },
+        "children": [
+          "month-row"
+        ]
+      },
+      "month-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "month-summary",
+          "month-bar"
+        ]
+      },
+      "month-summary": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "gap": "sm"
+        },
+        "children": [
+          "month-name",
+          "month-days"
+        ]
+      },
+      "month-name": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "month"
+          }
+        },
+        "children": []
+      },
+      "month-days": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${days} days · ${hires} hires"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "month-bar": {
+        "type": "Progress",
+        "props": {
+          "value": {
+            "$item": "days"
+          },
+          "max": 45,
+          "label": {
+            "$template": "${month}: ${days} days out of a 45-day scale"
+          }
+        },
+        "children": []
+      },
+      "speed-note": {
+        "type": "Text",
+        "props": {
+          "text": "Shorter bars mean faster hiring. October includes offers accepted through Oct 29.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "open-roles": {
+        "type": "Card",
+        "props": {
+          "title": "Open roles",
+          "description": "Where your team is growing next.",
+          "maxWidth": "full"
+        },
+        "children": [
+          "role-list"
+        ]
+      },
+      "role-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "repeat": {
+          "statePath": "/roles",
+          "key": "id"
+        },
+        "children": [
+          "role-row"
+        ]
+      },
+      "role-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm",
+          "className": "rounded-lg border border-slate-200 p-4"
+        },
+        "children": [
+          "role-header",
+          "role-details",
+          "role-pipeline",
+          "role-owner",
+          "role-age"
+        ]
+      },
+      "role-header": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "start",
+          "gap": "sm"
+        },
+        "children": [
+          "role-title",
+          "role-status"
+        ]
+      },
+      "role-title": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "title"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "role-status": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "status"
+          },
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "role-details": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "details"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "role-pipeline": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "pipeline"
+          }
+        },
+        "children": []
+      },
+      "role-owner": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "owner"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "role-age": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "age"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "metrics": [
+        {
+          "id": "candidates",
+          "label": "Active candidates",
+          "value": "57",
+          "context": "Across 4 hiring stages"
+        },
+        {
+          "id": "time",
+          "label": "Average time to hire",
+          "value": "24 days",
+          "context": "↓ 6 days vs. September · 5 hires"
+        },
+        {
+          "id": "roles",
+          "label": "Open roles",
+          "value": "3",
+          "context": "8 positions to fill"
+        },
+        {
+          "id": "acceptance",
+          "label": "Offer acceptance",
+          "value": "83%",
+          "context": "5 of 6 resolved offers accepted"
+        }
+      ],
+      "stages": [
+        {
+          "id": "applied",
+          "name": "Applied",
+          "count": 34,
+          "note": "New talent, ready for review",
+          "candidates": [
+            {
+              "id": "maya",
+              "name": "Maya Chen",
+              "role": "Senior Product Designer",
+              "action": "Review application · Today"
+            },
+            {
+              "id": "jordan",
+              "name": "Jordan Williams",
+              "role": "Senior Software Engineer",
+              "action": "Review application · Today"
+            }
+          ]
+        },
+        {
+          "id": "screening",
+          "name": "Screening",
+          "count": 12,
+          "note": "Finding the right fit",
+          "candidates": [
+            {
+              "id": "alex",
+              "name": "Alex Rivera",
+              "role": "Senior Software Engineer",
+              "action": "Recruiter call · Oct 30"
+            },
+            {
+              "id": "priya",
+              "name": "Priya Shah",
+              "role": "Product Marketing Manager",
+              "action": "Recruiter call · Oct 30"
+            }
+          ]
+        },
+        {
+          "id": "interview",
+          "name": "Interview",
+          "count": 8,
+          "note": "Meeting your future teammates",
+          "candidates": [
+            {
+              "id": "sam",
+              "name": "Sam Okafor",
+              "role": "Senior Product Designer",
+              "action": "Portfolio review · Oct 30"
+            },
+            {
+              "id": "elena",
+              "name": "Elena García",
+              "role": "Senior Software Engineer",
+              "action": "Technical interview · Oct 31"
+            }
+          ]
+        },
+        {
+          "id": "offer",
+          "name": "Offer",
+          "count": 3,
+          "note": "One step from joining",
+          "candidates": [
+            {
+              "id": "noah",
+              "name": "Noah Kim",
+              "role": "Senior Software Engineer",
+              "action": "Offer follow-up · Today"
+            },
+            {
+              "id": "amara",
+              "name": "Amara Johnson",
+              "role": "Product Marketing Manager",
+              "action": "Decision expected · Oct 30"
+            }
+          ]
+        }
+      ],
+      "hiringTimes": [
+        {
+          "id": "aug",
+          "month": "August",
+          "days": 34,
+          "hires": 4
+        },
+        {
+          "id": "sep",
+          "month": "September",
+          "days": 30,
+          "hires": 6
+        },
+        {
+          "id": "oct",
+          "month": "October",
+          "days": 24,
+          "hires": 5
+        }
+      ],
+      "roles": [
+        {
+          "id": "eng",
+          "title": "Senior Software Engineer",
+          "details": "Engineering · Remote, US · 4 positions",
+          "pipeline": "27 active candidates",
+          "status": "Priority",
+          "owner": "Hiring manager · Taylor Brooks",
+          "age": "Open 21 days"
+        },
+        {
+          "id": "design",
+          "title": "Senior Product Designer",
+          "details": "Design · New York, hybrid · 2 positions",
+          "pipeline": "18 active candidates",
+          "status": "Active",
+          "owner": "Hiring manager · Morgan Lee",
+          "age": "Open 14 days"
+        },
+        {
+          "id": "marketing",
+          "title": "Product Marketing Manager",
+          "details": "Marketing · Remote, US · 2 positions",
+          "pipeline": "12 active candidates",
+          "status": "Active",
+          "owner": "Hiring manager · Casey Patel",
+          "age": "Open 9 days"
+        }
+      ]
+    }
+  },
+  "patchLines": 71,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [],
+  "fixes": []
+}

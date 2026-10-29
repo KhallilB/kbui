@@ -1,0 +1,623 @@
+{
+  "spec": {
+    "root": "api-keys",
+    "elements": {
+      "api-keys": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg",
+          "className": "mx-auto w-full max-w-6xl p-8"
+        },
+        "children": [
+          "header",
+          "demo-notice",
+          "summary",
+          "keys-section",
+          "security-note",
+          "create-dialog",
+          "copy-panel"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center",
+          "gap": "lg"
+        },
+        "children": [
+          "header-text",
+          "create-trigger"
+        ]
+      },
+      "header-text": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "breadcrumb",
+          "page-title",
+          "page-description"
+        ]
+      },
+      "breadcrumb": {
+        "type": "Text",
+        "props": {
+          "text": "DEVELOPER CONSOLE / SETTINGS",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "page-title": {
+        "type": "Heading",
+        "props": {
+          "text": "API keys",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "page-description": {
+        "type": "Text",
+        "props": {
+          "text": "Manage credentials for your applications and integrations.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "create-trigger": {
+        "type": "Button",
+        "props": {
+          "label": "+ Create API key",
+          "variant": "primary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/createOpen",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "demo-notice": {
+        "type": "Alert",
+        "props": {
+          "title": "Interactive preview",
+          "message": "These are sample credentials. Creation and revocation update this preview only. View a key to select and copy its value.",
+          "type": "info"
+        },
+        "children": []
+      },
+      "summary": {
+        "type": "Grid",
+        "props": {
+          "columns": 3,
+          "gap": "md"
+        },
+        "children": [
+          "workspace-card",
+          "access-card",
+          "storage-card"
+        ]
+      },
+      "workspace-card": {
+        "type": "Card",
+        "props": {
+          "title": "Workspace",
+          "description": "Acme Engineering",
+          "maxWidth": "full"
+        },
+        "children": [
+          "workspace-badge"
+        ]
+      },
+      "workspace-badge": {
+        "type": "Badge",
+        "props": {
+          "text": "Team workspace",
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "access-card": {
+        "type": "Card",
+        "props": {
+          "title": "Access control",
+          "description": "Separate credentials for each integration.",
+          "maxWidth": "full"
+        },
+        "children": [
+          "access-badge"
+        ]
+      },
+      "access-badge": {
+        "type": "Badge",
+        "props": {
+          "text": "Scoped permissions",
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "storage-card": {
+        "type": "Card",
+        "props": {
+          "title": "Keep secrets secure",
+          "description": "Use environment variables or a secret manager.",
+          "maxWidth": "full"
+        },
+        "children": [
+          "storage-link"
+        ]
+      },
+      "storage-link": {
+        "type": "Tooltip",
+        "props": {
+          "text": "Never commit keys to source control",
+          "content": "Keep credentials out of browser code, repositories, and application logs."
+        },
+        "children": []
+      },
+      "keys-section": {
+        "type": "Card",
+        "props": {
+          "title": "Workspace keys",
+          "description": "Use a dedicated key for each service so access stays easy to manage.",
+          "maxWidth": "full"
+        },
+        "children": [
+          "key-list"
+        ]
+      },
+      "key-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/keys",
+          "key": "id"
+        },
+        "children": [
+          "key-card"
+        ]
+      },
+      "key-card": {
+        "type": "Card",
+        "props": {
+          "maxWidth": "full"
+        },
+        "children": [
+          "key-top",
+          "key-masked",
+          "key-metadata",
+          "revoke-section"
+        ]
+      },
+      "key-top": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center",
+          "gap": "md"
+        },
+        "children": [
+          "key-identity",
+          "view-key"
+        ]
+      },
+      "key-identity": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "align": "center",
+          "gap": "sm"
+        },
+        "children": [
+          "key-name",
+          "key-environment",
+          "key-permission"
+        ]
+      },
+      "key-name": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "name"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "key-environment": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "environment"
+          },
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "key-permission": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "permission"
+          },
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "view-key": {
+        "type": "Button",
+        "props": {
+          "label": "View / copy",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/copyValue",
+              "value": {
+                "$template": "${secret}"
+              }
+            }
+          }
+        },
+        "children": []
+      },
+      "key-masked": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "masked"
+          },
+          "variant": "code"
+        },
+        "children": []
+      },
+      "key-metadata": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "Created ${created} by ${owner} · Last used ${lastUsed}"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "revoke-section": {
+        "type": "Collapsible",
+        "props": {
+          "title": "Revoke access",
+          "defaultOpen": false
+        },
+        "children": [
+          "revoke-warning",
+          "revoke-button"
+        ]
+      },
+      "revoke-warning": {
+        "type": "Text",
+        "props": {
+          "text": "Revoking a real key immediately stops requests using it. Update dependent services before proceeding.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "revoke-button": {
+        "type": "Button",
+        "props": {
+          "label": "Confirm revoke",
+          "variant": "danger"
+        },
+        "on": {
+          "press": {
+            "action": "removeState",
+            "params": {
+              "statePath": "/keys",
+              "index": {
+                "$index": true
+              }
+            }
+          }
+        },
+        "children": []
+      },
+      "security-note": {
+        "type": "Text",
+        "props": {
+          "text": "Give each integration the minimum permissions it needs. Rotate credentials regularly and revoke keys you no longer use.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "create-dialog": {
+        "type": "Dialog",
+        "props": {
+          "title": "Create API key",
+          "description": "Name this credential and choose its access. This preview generates a unique demo value.",
+          "openPath": "/createOpen"
+        },
+        "children": [
+          "create-form"
+        ]
+      },
+      "create-form": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "name-input",
+          "environment-input",
+          "permission-input",
+          "validate-button",
+          "create-confirm",
+          "create-close"
+        ]
+      },
+      "name-input": {
+        "type": "Input",
+        "props": {
+          "label": "Key name",
+          "name": "keyName",
+          "placeholder": "e.g. Staging backend",
+          "value": {
+            "$bindState": "/newName"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter a name for this key."
+            },
+            {
+              "type": "minLength",
+              "message": "Use at least 3 characters.",
+              "args": {
+                "min": 3
+              }
+            },
+            {
+              "type": "maxLength",
+              "message": "Use 60 characters or fewer.",
+              "args": {
+                "max": 60
+              }
+            }
+          ],
+          "validateOn": "change"
+        },
+        "watch": {
+          "/newName": {
+            "action": "setState",
+            "params": {
+              "statePath": "/keyValidation",
+              "value": {
+                "valid": false,
+                "errors": {}
+              }
+            }
+          }
+        },
+        "children": []
+      },
+      "environment-input": {
+        "type": "Select",
+        "props": {
+          "label": "Environment",
+          "name": "environment",
+          "options": [
+            "Development",
+            "Production"
+          ],
+          "value": {
+            "$bindState": "/newEnvironment"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Choose an environment."
+            }
+          ]
+        },
+        "children": []
+      },
+      "permission-input": {
+        "type": "Radio",
+        "props": {
+          "label": "Permissions",
+          "name": "permission",
+          "options": [
+            "Read only",
+            "Read and write"
+          ],
+          "value": {
+            "$bindState": "/newPermission"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Choose a permission level."
+            }
+          ]
+        },
+        "children": []
+      },
+      "validate-button": {
+        "type": "Button",
+        "props": {
+          "label": "Validate details",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "validateForm",
+            "params": {
+              "statePath": "/keyValidation"
+            }
+          }
+        },
+        "children": []
+      },
+      "create-confirm": {
+        "type": "Button",
+        "props": {
+          "label": "Create demo key",
+          "variant": "primary"
+        },
+        "visible": {
+          "$state": "/keyValidation/valid",
+          "eq": true
+        },
+        "on": {
+          "press": {
+            "action": "pushState",
+            "params": {
+              "statePath": "/keys",
+              "value": {
+                "id": "$id",
+                "name": {
+                  "$state": "/newName"
+                },
+                "environment": {
+                  "$state": "/newEnvironment"
+                },
+                "permission": {
+                  "$state": "/newPermission"
+                },
+                "masked": "•••••••••••• · View to reveal demo value",
+                "secret": "$id",
+                "created": "Oct 29, 2026",
+                "lastUsed": "Never",
+                "owner": "You"
+              },
+              "clearStatePath": "/newName"
+            }
+          }
+        },
+        "children": []
+      },
+      "create-close": {
+        "type": "Button",
+        "props": {
+          "label": "Close",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/createOpen",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      },
+      "copy-panel": {
+        "type": "Card",
+        "props": {
+          "title": "View and copy sample key",
+          "description": "Select the complete value below, then press ⌘C on Mac or Ctrl+C on Windows and Linux.",
+          "maxWidth": "full"
+        },
+        "visible": {
+          "$state": "/copyValue"
+        },
+        "children": [
+          "copy-secret",
+          "copy-dismiss"
+        ]
+      },
+      "copy-secret": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$state": "/copyValue"
+          },
+          "variant": "code"
+        },
+        "children": []
+      },
+      "copy-dismiss": {
+        "type": "Button",
+        "props": {
+          "label": "Hide key",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/copyValue",
+              "value": ""
+            }
+          }
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "createOpen": false,
+      "keys": [
+        {
+          "id": "key-production",
+          "name": "Production backend",
+          "environment": "Production",
+          "permission": "Read and write",
+          "masked": "demo_live_••••••••••••8f2a",
+          "secret": "demo_live_nonfunctional_7c9d48f2a",
+          "created": "Oct 12, 2026",
+          "lastUsed": "12 minutes ago",
+          "owner": "Maya Chen"
+        },
+        {
+          "id": "key-analytics",
+          "name": "Analytics pipeline",
+          "environment": "Production",
+          "permission": "Read only",
+          "masked": "demo_live_••••••••••••3b91",
+          "secret": "demo_live_nonfunctional_6a2e13b91",
+          "created": "Oct 8, 2026",
+          "lastUsed": "2 hours ago",
+          "owner": "Alex Rivera"
+        },
+        {
+          "id": "key-development",
+          "name": "Local development",
+          "environment": "Development",
+          "permission": "Read and write",
+          "masked": "demo_test_••••••••••••9d04",
+          "secret": "demo_test_nonfunctional_4b7c29d04",
+          "created": "Oct 24, 2026",
+          "lastUsed": "Yesterday",
+          "owner": "Maya Chen"
+        }
+      ],
+      "copyValue": "",
+      "newName": "",
+      "keyValidation": {
+        "valid": false,
+        "errors": {}
+      },
+      "newEnvironment": "Development",
+      "newPermission": "Read only"
+    }
+  },
+  "patchLines": 52,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [],
+  "fixes": []
+}

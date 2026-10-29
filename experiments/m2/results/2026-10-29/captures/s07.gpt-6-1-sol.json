@@ -1,0 +1,155 @@
+{
+  "promptId": "s07",
+  "model": "gpt-6-1-sol",
+  "resolvedModel": "gpt-6.1-sol",
+  "cli": "codex",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:19:22.897Z",
+  "totalMs": 29702,
+  "lines": [
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"appearance\"}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/appearance\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\",\"className\":\"mx-auto w-full max-w-3xl p-8\"},\"children\":[\"header\",\"settings\",\"preview\",\"footer\"]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"eyebrow\",\"title\",\"description\"]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/eyebrow\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"EDITOR SETTINGS\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Appearance\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/description\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Make your editor feel like yours. Changes apply instantly.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/settings\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Editor style\",\"description\":\"Choose your colors and fine-tune readability.\",\"maxWidth\":\"full\"},\"children\":[\"controls\"]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/controls\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"children\":[\"theme\",\"separator\",\"typography\"]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/theme\",\"value\":{\"type\":\"Select\",\"props\":{\"label\":\"Color theme\",\"name\":\"theme\",\"options\":[\"Dark\",\"Light\",\"High contrast\"],\"value\":{\"$bindState\":\"/appearance/theme\"},\"checks\":[{\"type\":\"required\",\"message\":\"Choose a color theme.\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/state/appearance\",\"value\":{}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/state/appearance/theme\",\"value\":\"Dark\"}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/separator\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/typography\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"lg\",\"className\":\"max-sm:grid-cols-1\"},\"children\":[\"fontControls\",\"lineControls\"]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/fontControls\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"fontValue\",\"fontSlider\",\"fontHint\"]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/fontSlider\",\"value\":{\"type\":\"Slider\",\"props\":{\"label\":\"Font size\",\"min\":10,\"max\":24,\"step\":1,\"value\":{\"$bindState\":\"/appearance/fontSize\"}},\"children\":[]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/state/appearance/fontSize\",\"value\":14}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/fontValue\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$template\":\"${/appearance/fontSize} px\"},\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/fontHint\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"10–24 px · Default 14 px\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/lineControls\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"lineValue\",\"lineSlider\",\"lineHint\"]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/lineSlider\",\"value\":{\"type\":\"Slider\",\"props\":{\"label\":\"Line height\",\"min\":1.2,\"max\":2.2,\"step\":0.1,\"value\":{\"$bindState\":\"/appearance/lineHeight\"}},\"children\":[]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/state/appearance/lineHeight\",\"value\":1.6}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/lineValue\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$template\":\"${/appearance/lineHeight}×\"},\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/lineHint\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"1.2–2.2× · Default 1.6×\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/preview\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Live preview\",\"description\":\"A little room to see the difference.\",\"maxWidth\":\"full\"},\"children\":[\"previewHeader\",\"code\"]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/previewHeader\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"justify\":\"between\",\"align\":\"center\",\"className\":\"mb-4\"},\"children\":[\"filename\",\"previewTheme\"]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/filename\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"welcome.ts\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/previewTheme\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$state\":\"/appearance/theme\"},\"variant\":\"outline\"},\"children\":[]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/code\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"none\",\"className\":{\"$template\":\"rounded-lg p-5 overflow-x-auto font-mono text-[${/appearance/fontSize}px] leading-[${/appearance/lineHeight}] ${/appearance/previewColors}\"}},\"children\":[\"codeText\"]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/state/appearance/previewColors\",\"value\":\"bg-slate-950 text-slate-200\"}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/codeText\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"// A workspace that feels like home.\\nconst greeting = (name: string) => {\\n  return `Hello, ${name}!`;\\n};\\n\\ngreeting('world');\",\"variant\":\"code\"},\"children\":[]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/theme\",\"value\":{\"type\":\"Select\",\"props\":{\"label\":\"Color theme\",\"name\":\"theme\",\"options\":[\"Dark\",\"Light\",\"High contrast\"],\"value\":{\"$bindState\":\"/appearance/theme\"},\"checks\":[{\"type\":\"required\",\"message\":\"Choose a color theme.\"}]},\"watch\":{\"/appearance/theme\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/appearance/previewColors\",\"value\":{\"$cond\":{\"$state\":\"/appearance/theme\",\"eq\":\"Light\"},\"$then\":\"bg-slate-50 text-slate-900\",\"$else\":{\"$cond\":{\"$state\":\"/appearance/theme\",\"eq\":\"High contrast\"},\"$then\":\"bg-black text-white ring-2 ring-yellow-400\",\"$else\":\"bg-slate-950 text-slate-200\"}}}}},\"children\":[]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/footer\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"align\":\"center\",\"justify\":\"between\",\"gap\":\"md\"},\"children\":[\"saveNote\",\"reset\"]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/saveNote\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Changes apply automatically to this workspace.\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 29118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/reset\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Reset to defaults\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/appearance\",\"value\":{\"theme\":\"Dark\",\"fontSize\":14,\"lineHeight\":1.6,\"previewColors\":\"bg-slate-950 text-slate-200\"}}}},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 28096,
+    "cached_input_tokens": 12288,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1727,
+    "reasoning_output_tokens": 148
+  },
+  "streamedLines": false
+}

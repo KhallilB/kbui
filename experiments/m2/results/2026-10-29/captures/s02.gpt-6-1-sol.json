@@ -1,0 +1,159 @@
+{
+  "promptId": "s02",
+  "model": "gpt-6-1-sol",
+  "resolvedModel": "gpt-6.1-sol",
+  "cli": "codex",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:18:08.103Z",
+  "totalMs": 31741,
+  "lines": [
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"notification-settings\"}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/notification-settings\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\",\"className\":\"mx-auto w-full max-w-5xl p-6\"},\"children\":[\"page-header\",\"preferences-card\",\"delivery-card\",\"settings-note\"]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/page-header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"page-title\",\"page-description\",\"project-badge\"]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/page-title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Notification settings\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/page-description\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Choose which project updates reach you and where they appear.\",\"variant\":\"lead\"},\"children\":[]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/project-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Applies to your notifications across all projects\",\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/preferences-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Project activity\",\"description\":\"Enable a channel for each event you want to hear about.\",\"maxWidth\":\"full\"},\"children\":[\"channel-headings\",\"channel-separator\",\"event-list\"]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/channel-headings\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":4,\"gap\":\"md\",\"className\":\"items-center\"},\"children\":[\"event-heading\",\"email-heading\",\"push-heading\",\"in-app-heading\"]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/event-heading\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"EVENT\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/email-heading\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"EMAIL\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/push-heading\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"PUSH\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/in-app-heading\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"IN-APP\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/channel-separator\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/event-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\",\"className\":\"py-4\"},\"repeat\":{\"statePath\":\"/events\",\"key\":\"id\"},\"children\":[\"event-row\",\"event-divider\"]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/state\",\"value\":{}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/state/events\",\"value\":[]}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/state/events/0\",\"value\":{\"id\":\"assignments\",\"title\":\"Task assignments\",\"description\":\"A task is assigned or reassigned to you.\",\"email\":true,\"push\":true,\"inApp\":true}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/state/events/1\",\"value\":{\"id\":\"mentions\",\"title\":\"Mentions and replies\",\"description\":\"Someone mentions you or replies to your comment.\",\"email\":true,\"push\":true,\"inApp\":true}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/state/events/2\",\"value\":{\"id\":\"deadlines\",\"title\":\"Due date reminders\",\"description\":\"Your tasks are due soon or overdue.\",\"email\":true,\"push\":false,\"inApp\":true}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/state/events/3\",\"value\":{\"id\":\"status\",\"title\":\"Task status changes\",\"description\":\"A task you follow moves to a new status.\",\"email\":false,\"push\":false,\"inApp\":true}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/state/events/4\",\"value\":{\"id\":\"project-updates\",\"title\":\"Project updates\",\"description\":\"New milestones and announcements in projects you follow.\",\"email\":true,\"push\":false,\"inApp\":true}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/event-row\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":4,\"gap\":\"md\",\"className\":\"items-center\"},\"children\":[\"event-details\",\"event-email\",\"event-push\",\"event-in-app\"]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/event-details\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"event-title\",\"event-description\"]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/event-title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$item\":\"title\"},\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/event-description\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"description\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/event-email\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":{\"$template\":\"${title}: email\"},\"name\":{\"$template\":\"${id}-email\"},\"checked\":{\"$bindItem\":\"email\"}},\"children\":[]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/event-push\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":{\"$template\":\"${title}: push\"},\"name\":{\"$template\":\"${id}-push\"},\"checked\":{\"$bindItem\":\"push\"}},\"children\":[]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/event-in-app\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":{\"$template\":\"${title}: in-app\"},\"name\":{\"$template\":\"${id}-in-app\"},\"checked\":{\"$bindItem\":\"inApp\"}},\"children\":[]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/event-divider\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/delivery-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Email delivery\",\"description\":\"Choose when enabled email notifications arrive.\",\"maxWidth\":\"full\"},\"children\":[\"email-frequency\",\"delivery-note\",\"push-note\"]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/email-frequency\",\"value\":{\"type\":\"Select\",\"props\":{\"label\":\"Email frequency\",\"name\":\"email-frequency\",\"options\":[\"Immediately\",\"Hourly digest\",\"Daily digest\"],\"value\":{\"$bindState\":\"/emailFrequency\"},\"checks\":[{\"type\":\"required\",\"message\":\"Choose an email frequency.\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/state/emailFrequency\",\"value\":\"Immediately\"}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/delivery-note\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Digests group enabled email events into one message. Push and in-app notifications arrive as activity happens.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/push-note\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Push notifications also require notification permission on your device or browser.\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 31186,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/settings-note\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"These preferences control project activity notifications. Account security and billing messages are managed separately.\",\"variant\":\"caption\"},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 28096,
+    "cached_input_tokens": 12288,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 1592,
+    "reasoning_output_tokens": 104
+  },
+  "streamedLines": false
+}

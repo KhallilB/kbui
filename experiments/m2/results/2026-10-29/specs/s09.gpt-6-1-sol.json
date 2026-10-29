@@ -1,0 +1,298 @@
+{
+  "spec": {
+    "root": "integrations",
+    "elements": {
+      "integrations": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "xl",
+          "className": "mx-auto w-full max-w-6xl p-8"
+        },
+        "children": [
+          "header",
+          "separator",
+          "apps",
+          "footer"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "breadcrumb",
+          "title",
+          "description"
+        ]
+      },
+      "breadcrumb": {
+        "type": "Text",
+        "props": {
+          "text": "WORKSPACE SETTINGS / INTEGRATIONS",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Your tools, working together",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "description": {
+        "type": "Text",
+        "props": {
+          "text": "Connect your team's favorite apps to keep conversations, contacts, and workflows in sync.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "separator": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "apps": {
+        "type": "Grid",
+        "props": {
+          "columns": 3,
+          "gap": "lg",
+          "className": "grid-cols-1 md:grid-cols-3"
+        },
+        "repeat": {
+          "statePath": "/apps",
+          "key": "id"
+        },
+        "children": [
+          "app-card"
+        ]
+      },
+      "app-card": {
+        "type": "Card",
+        "props": {
+          "maxWidth": "full",
+          "className": "h-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+        },
+        "children": [
+          "app-content"
+        ]
+      },
+      "app-content": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg",
+          "className": "h-full"
+        },
+        "children": [
+          "app-heading",
+          "app-category",
+          "app-description",
+          "app-details",
+          "connection-info",
+          "app-action"
+        ]
+      },
+      "app-heading": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "app-identity",
+          "app-status"
+        ]
+      },
+      "app-identity": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm",
+          "align": "center"
+        },
+        "children": [
+          "app-avatar",
+          "app-name"
+        ]
+      },
+      "app-avatar": {
+        "type": "Avatar",
+        "props": {
+          "name": {
+            "$item": "name"
+          },
+          "size": "md"
+        },
+        "children": []
+      },
+      "app-name": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "name"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "app-status": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$cond": {
+              "$item": "connected"
+            },
+            "$then": "Connected",
+            "$else": "Not connected"
+          },
+          "variant": {
+            "$cond": {
+              "$item": "connected"
+            },
+            "$then": "secondary",
+            "$else": "outline"
+          }
+        },
+        "children": []
+      },
+      "app-category": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "category"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "app-description": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "description"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "app-details": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "details"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "connection-info": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$cond": {
+              "$item": "connected"
+            },
+            "$then": {
+              "$template": "Linked to ${account}"
+            },
+            "$else": "Ready to connect to your workspace."
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "app-action": {
+        "type": "Button",
+        "props": {
+          "label": {
+            "$cond": {
+              "$item": "connected"
+            },
+            "$then": "Disconnect",
+            "$else": "Connect app"
+          },
+          "variant": {
+            "$cond": {
+              "$item": "connected"
+            },
+            "$then": "secondary",
+            "$else": "primary"
+          }
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": {
+                "$item": "connected"
+              },
+              "value": {
+                "$cond": {
+                  "$item": "connected"
+                },
+                "$then": false,
+                "$else": true
+              }
+            }
+          }
+        },
+        "children": []
+      },
+      "footer": {
+        "type": "Alert",
+        "props": {
+          "title": "Integration preview",
+          "message": "Connect and disconnect update this settings preview. Live account authorization and data syncing require a connected backend.",
+          "type": "info"
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "apps": [
+        {
+          "id": "slack",
+          "name": "Slack",
+          "category": "TEAM COMMUNICATION",
+          "description": "Send deal updates and new lead notifications directly to your team's Slack channels.",
+          "connected": true,
+          "account": "Acme workspace · #sales-updates",
+          "details": "Notifications for deal changes and new leads."
+        },
+        {
+          "id": "gmail",
+          "name": "Gmail",
+          "category": "EMAIL & CONTACTS",
+          "description": "Keep customer conversations alongside your contacts and automatically log sales emails.",
+          "connected": true,
+          "account": "alex@acme.co",
+          "details": "Email activity synced to matching CRM contacts."
+        },
+        {
+          "id": "zapier",
+          "name": "Zapier",
+          "category": "WORKFLOW AUTOMATION",
+          "description": "Turn CRM events into automated workflows across the apps your business uses every day.",
+          "connected": false,
+          "account": "Acme automation workspace",
+          "details": "Trigger workflows when leads arrive or deals change."
+        }
+      ]
+    }
+  },
+  "patchLines": 25,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [],
+  "fixes": []
+}

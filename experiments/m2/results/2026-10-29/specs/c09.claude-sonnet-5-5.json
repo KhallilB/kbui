@@ -1,0 +1,743 @@
+{
+  "spec": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg",
+          "className": "max-w-5xl mx-auto p-6"
+        },
+        "children": [
+          "header",
+          "layout",
+          "confirm-dialog"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "title",
+          "subtitle"
+        ]
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Book Your Stay at The Harbor Grand",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Choose your dates, pick a room and add extras. Free cancellation up to 48 hours before check-in.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "layout": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "lg"
+        },
+        "children": [
+          "left-col",
+          "right-col"
+        ]
+      },
+      "left-col": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "dates-card",
+          "rooms-card",
+          "extras-card",
+          "guest-card"
+        ]
+      },
+      "dates-card": {
+        "type": "Card",
+        "props": {
+          "title": "1. Dates & Guests",
+          "description": "When are you visiting?",
+          "maxWidth": "full"
+        },
+        "children": [
+          "dates-grid",
+          "guests-select"
+        ]
+      },
+      "dates-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "md"
+        },
+        "children": [
+          "checkin",
+          "checkout"
+        ]
+      },
+      "checkin": {
+        "type": "Input",
+        "props": {
+          "label": "Check-in",
+          "name": "checkIn",
+          "type": "text",
+          "placeholder": "YYYY-MM-DD",
+          "value": {
+            "$bindState": "/booking/checkIn"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Check-in date is required"
+            },
+            {
+              "type": "pattern",
+              "message": "Use format YYYY-MM-DD",
+              "args": {
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "checkout": {
+        "type": "Input",
+        "props": {
+          "label": "Check-out",
+          "name": "checkOut",
+          "type": "text",
+          "placeholder": "YYYY-MM-DD",
+          "value": {
+            "$bindState": "/booking/checkOut"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Check-out date is required"
+            },
+            {
+              "type": "pattern",
+              "message": "Use format YYYY-MM-DD",
+              "args": {
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "guests-select": {
+        "type": "Select",
+        "props": {
+          "label": "Guests",
+          "name": "guests",
+          "options": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "placeholder": "Select guests",
+          "value": {
+            "$bindState": "/booking/guests"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Select number of guests"
+            }
+          ]
+        },
+        "children": []
+      },
+      "rooms-card": {
+        "type": "Card",
+        "props": {
+          "title": "2. Choose Your Room",
+          "description": "Rates shown per night",
+          "maxWidth": "full"
+        },
+        "children": [
+          "room-list",
+          "room-radio"
+        ]
+      },
+      "room-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/rooms",
+          "key": "id"
+        },
+        "children": [
+          "room-item"
+        ]
+      },
+      "room-item": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "room-info",
+          "room-price"
+        ]
+      },
+      "room-info": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "none"
+        },
+        "children": [
+          "room-name",
+          "room-desc"
+        ]
+      },
+      "room-name": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "name"
+          },
+          "level": "h4"
+        },
+        "children": []
+      },
+      "room-desc": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "description"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "room-price": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$template": "$${price} / night"
+          },
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "room-radio": {
+        "type": "Radio",
+        "props": {
+          "label": "Select room type",
+          "name": "roomType",
+          "options": [
+            "Standard Queen",
+            "Deluxe King",
+            "Family Suite",
+            "Presidential Suite"
+          ],
+          "value": {
+            "$bindState": "/booking/roomType"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Please choose a room"
+            }
+          ]
+        },
+        "children": []
+      },
+      "extras-card": {
+        "type": "Card",
+        "props": {
+          "title": "3. Add Extras",
+          "description": "Make your stay even better",
+          "maxWidth": "full"
+        },
+        "children": [
+          "extra-breakfast",
+          "extra-parking",
+          "extra-airport",
+          "extra-late",
+          "requests"
+        ]
+      },
+      "extra-breakfast": {
+        "type": "Switch",
+        "props": {
+          "label": "Breakfast buffet ($22 / person / night)",
+          "name": "breakfast",
+          "checked": {
+            "$bindState": "/booking/breakfast"
+          }
+        },
+        "children": []
+      },
+      "extra-parking": {
+        "type": "Switch",
+        "props": {
+          "label": "Valet parking ($35 / night)",
+          "name": "parking",
+          "checked": {
+            "$bindState": "/booking/parking"
+          }
+        },
+        "children": []
+      },
+      "extra-airport": {
+        "type": "Switch",
+        "props": {
+          "label": "Airport transfer ($60 one-way)",
+          "name": "airport",
+          "checked": {
+            "$bindState": "/booking/airport"
+          }
+        },
+        "children": []
+      },
+      "extra-late": {
+        "type": "Switch",
+        "props": {
+          "label": "Late checkout until 3 PM ($40)",
+          "name": "lateCheckout",
+          "checked": {
+            "$bindState": "/booking/lateCheckout"
+          }
+        },
+        "children": []
+      },
+      "requests": {
+        "type": "Textarea",
+        "props": {
+          "label": "Special requests",
+          "name": "requests",
+          "placeholder": "Anniversary, quiet room, extra pillows...",
+          "rows": 3,
+          "value": {
+            "$bindState": "/booking/requests"
+          }
+        },
+        "children": []
+      },
+      "guest-card": {
+        "type": "Card",
+        "props": {
+          "title": "4. Guest Details",
+          "description": "Who is the booking for?",
+          "maxWidth": "full"
+        },
+        "children": [
+          "guest-name",
+          "guest-email",
+          "guest-phone"
+        ]
+      },
+      "guest-name": {
+        "type": "Input",
+        "props": {
+          "label": "Full name",
+          "name": "name",
+          "type": "text",
+          "placeholder": "Jane Doe",
+          "value": {
+            "$bindState": "/booking/name"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Name is required"
+            },
+            {
+              "type": "minLength",
+              "message": "Name is too short",
+              "args": {
+                "min": 2
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "guest-email": {
+        "type": "Input",
+        "props": {
+          "label": "Email",
+          "name": "email",
+          "type": "email",
+          "placeholder": "jane@example.com",
+          "value": {
+            "$bindState": "/booking/email"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Email is required"
+            },
+            {
+              "type": "email",
+              "message": "Enter a valid email"
+            }
+          ]
+        },
+        "children": []
+      },
+      "guest-phone": {
+        "type": "Input",
+        "props": {
+          "label": "Phone",
+          "name": "phone",
+          "type": "text",
+          "placeholder": "+1 555 123 4567",
+          "value": {
+            "$bindState": "/booking/phone"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Phone is required"
+            }
+          ]
+        },
+        "children": []
+      },
+      "right-col": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "summary-card",
+          "policy"
+        ]
+      },
+      "summary-card": {
+        "type": "Card",
+        "props": {
+          "title": "Booking Summary",
+          "description": "Review before confirming",
+          "maxWidth": "full"
+        },
+        "children": [
+          "sum-room",
+          "sum-dates",
+          "sum-guests",
+          "sep1",
+          "sum-extras-title",
+          "sum-breakfast",
+          "sum-parking",
+          "sum-airport",
+          "sum-late",
+          "sep2",
+          "sum-note",
+          "confirm-btn",
+          "validation-alert"
+        ]
+      },
+      "sum-room": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "Room: ${/booking/roomType}"
+          },
+          "variant": "lead"
+        },
+        "children": []
+      },
+      "sum-dates": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "Stay: ${/booking/checkIn} → ${/booking/checkOut}"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "sum-guests": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "Guests: ${/booking/guests}"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "sep1": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "sum-extras-title": {
+        "type": "Heading",
+        "props": {
+          "text": "Selected extras",
+          "level": "h4"
+        },
+        "children": []
+      },
+      "sum-breakfast": {
+        "type": "Badge",
+        "props": {
+          "text": "Breakfast buffet",
+          "variant": "outline"
+        },
+        "visible": {
+          "$state": "/booking/breakfast"
+        },
+        "children": []
+      },
+      "sum-parking": {
+        "type": "Badge",
+        "props": {
+          "text": "Valet parking",
+          "variant": "outline"
+        },
+        "visible": {
+          "$state": "/booking/parking"
+        },
+        "children": []
+      },
+      "sum-airport": {
+        "type": "Badge",
+        "props": {
+          "text": "Airport transfer",
+          "variant": "outline"
+        },
+        "visible": {
+          "$state": "/booking/airport"
+        },
+        "children": []
+      },
+      "sum-late": {
+        "type": "Badge",
+        "props": {
+          "text": "Late checkout",
+          "variant": "outline"
+        },
+        "visible": {
+          "$state": "/booking/lateCheckout"
+        },
+        "children": []
+      },
+      "sep2": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "sum-note": {
+        "type": "Text",
+        "props": {
+          "text": "Final total including taxes is shown on your confirmation email. Payment is collected at the hotel.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "confirm-btn": {
+        "type": "Button",
+        "props": {
+          "label": "Confirm Booking",
+          "variant": "primary"
+        },
+        "on": {
+          "press": [
+            {
+              "action": "validateForm",
+              "params": {
+                "statePath": "/formValidation"
+              }
+            },
+            {
+              "action": "setState",
+              "params": {
+                "statePath": "/confirmOpen",
+                "value": true
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "validation-alert": {
+        "type": "Alert",
+        "props": {
+          "title": "Please complete the highlighted fields",
+          "message": "Some required details are missing or invalid.",
+          "type": "warning"
+        },
+        "visible": {
+          "$state": "/formValidation/valid",
+          "eq": false
+        },
+        "children": []
+      },
+      "policy": {
+        "type": "Accordion",
+        "props": {
+          "type": "single",
+          "items": [
+            {
+              "title": "Cancellation policy",
+              "content": "Free cancellation up to 48 hours before check-in. After that, the first night is charged."
+            },
+            {
+              "title": "Check-in & check-out",
+              "content": "Check-in from 3 PM. Check-out by 11 AM. Late checkout is subject to availability."
+            },
+            {
+              "title": "Children & pets",
+              "content": "Children under 12 stay free in existing bedding. Small pets are welcome for a $30 nightly fee."
+            }
+          ]
+        },
+        "children": []
+      },
+      "confirm-dialog": {
+        "type": "Dialog",
+        "props": {
+          "title": "Booking confirmed 🎉",
+          "description": "Your reservation at The Harbor Grand is being processed.",
+          "openPath": "/confirmOpen"
+        },
+        "children": [
+          "dialog-body",
+          "dialog-close"
+        ]
+      },
+      "dialog-body": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "dialog-room",
+          "dialog-dates",
+          "dialog-email"
+        ]
+      },
+      "dialog-room": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${/booking/roomType} for ${/booking/guests} guest(s)"
+          },
+          "variant": "lead"
+        },
+        "children": []
+      },
+      "dialog-dates": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${/booking/checkIn} to ${/booking/checkOut}"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "dialog-email": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "A confirmation will be sent to ${/booking/email}."
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "dialog-close": {
+        "type": "Button",
+        "props": {
+          "label": "Done",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/confirmOpen",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "booking": {
+        "checkIn": "2026-11-12",
+        "checkOut": "2026-11-15",
+        "guests": "2",
+        "roomType": "Deluxe King",
+        "breakfast": true,
+        "parking": false,
+        "airport": false,
+        "lateCheckout": false,
+        "requests": "",
+        "name": "",
+        "email": "",
+        "phone": ""
+      },
+      "confirmOpen": false,
+      "confirmed": false,
+      "rooms": [
+        {
+          "id": "r1",
+          "name": "Standard Queen",
+          "description": "28 m² · Queen bed · City view",
+          "price": 149
+        },
+        {
+          "id": "r2",
+          "name": "Deluxe King",
+          "description": "36 m² · King bed · Harbor view",
+          "price": 209
+        },
+        {
+          "id": "r3",
+          "name": "Family Suite",
+          "description": "52 m² · 2 bedrooms · Sleeps 4",
+          "price": 289
+        },
+        {
+          "id": "r4",
+          "name": "Presidential Suite",
+          "description": "85 m² · Terrace · Private lounge",
+          "price": 549
+        }
+      ]
+    }
+  },
+  "patchLines": 61,
+  "skippedLines": 0,
+  "firstNodeMs": 5703,
+  "issues": [],
+  "fixes": []
+}

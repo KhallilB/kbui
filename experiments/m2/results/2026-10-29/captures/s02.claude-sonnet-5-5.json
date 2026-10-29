@@ -1,0 +1,218 @@
+{
+  "promptId": "s02",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:17:52.411Z",
+  "totalMs": 22569,
+  "lines": [
+    {
+      "t": 3771,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+    },
+    {
+      "t": 4531,
+      "text": "{\"op\":\"add\",\"path\":\"/state/prefs\",\"value\":{\"email\":{\"enabled\":true,\"digest\":\"Daily\",\"assigned\":true,\"mentioned\":true,\"comments\":false,\"dueDate\":true,\"statusChange\":false},\"push\":{\"enabled\":true,\"assigned\":true,\"mentioned\":true,\"comments\":false,\"dueDate\":true,\"statusChange\":false},\"inApp\":{\"enabled\":true,\"assigned\":true,\"mentioned\":true,\"comments\":true,\"dueDate\":true,\"statusChange\":true}}}"
+    },
+    {
+      "t": 4635,
+      "text": "{\"op\":\"add\",\"path\":\"/state/quiet\",\"value\":{\"enabled\":false,\"start\":22,\"end\":7}}"
+    },
+    {
+      "t": 4869,
+      "text": "{\"op\":\"add\",\"path\":\"/state/activeTab\",\"value\":\"email\"}"
+    },
+    {
+      "t": 4869,
+      "text": "{\"op\":\"add\",\"path\":\"/state/saved\",\"value\":false}"
+    },
+    {
+      "t": 5266,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Notification Settings\",\"description\":\"Choose how and when you're notified about project activity\",\"maxWidth\":\"lg\",\"centered\":true},\"children\":[\"layout\"]}}"
+    },
+    {
+      "t": 5722,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/layout\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"children\":[\"saved-alert\",\"tabs\",\"email-section\",\"push-section\",\"inapp-section\",\"sep\",\"quiet-heading\",\"quiet-switch\",\"quiet-times\",\"actions\"]}}"
+    },
+    {
+      "t": 6115,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/saved-alert\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Preferences saved\",\"message\":\"Your notification settings have been updated.\",\"type\":\"success\"},\"visible\":{\"$state\":\"/saved\"},\"children\":[]}}"
+    },
+    {
+      "t": 6622,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/tabs\",\"value\":{\"type\":\"Tabs\",\"props\":{\"tabs\":[{\"label\":\"Email\",\"value\":\"email\"},{\"label\":\"Push\",\"value\":\"push\"},{\"label\":\"In-App\",\"value\":\"inapp\"}],\"value\":{\"$bindState\":\"/activeTab\"}},\"children\":[]}}"
+    },
+    {
+      "t": 7099,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/email-section\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"visible\":{\"$state\":\"/activeTab\",\"eq\":\"email\"},\"children\":[\"email-head\",\"email-master\",\"email-digest\",\"email-assigned\",\"email-mentioned\",\"email-comments\",\"email-due\",\"email-status\"]}}"
+    },
+    {
+      "t": 7381,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/email-head\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Email notifications\",\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 7750,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/email-master\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Enable email notifications\",\"name\":\"emailEnabled\",\"checked\":{\"$bindState\":\"/prefs/email/enabled\"}},\"children\":[]}}"
+    },
+    {
+      "t": 8194,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/email-digest\",\"value\":{\"type\":\"Select\",\"props\":{\"label\":\"Email frequency\",\"name\":\"emailDigest\",\"options\":[\"Instant\",\"Hourly\",\"Daily\",\"Weekly\"],\"value\":{\"$bindState\":\"/prefs/email/digest\"}},\"children\":[]}}"
+    },
+    {
+      "t": 8597,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/email-assigned\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"Task assigned to me\",\"name\":\"emailAssigned\",\"checked\":{\"$bindState\":\"/prefs/email/assigned\"}},\"children\":[]}}"
+    },
+    {
+      "t": 9097,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/email-mentioned\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"I'm @mentioned\",\"name\":\"emailMentioned\",\"checked\":{\"$bindState\":\"/prefs/email/mentioned\"}},\"children\":[]}}"
+    },
+    {
+      "t": 9484,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/email-comments\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"New comments on my tasks\",\"name\":\"emailComments\",\"checked\":{\"$bindState\":\"/prefs/email/comments\"}},\"children\":[]}}"
+    },
+    {
+      "t": 9832,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/email-due\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"Due date reminders\",\"name\":\"emailDue\",\"checked\":{\"$bindState\":\"/prefs/email/dueDate\"}},\"children\":[]}}"
+    },
+    {
+      "t": 10234,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/email-status\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"Project status changes\",\"name\":\"emailStatus\",\"checked\":{\"$bindState\":\"/prefs/email/statusChange\"}},\"children\":[]}}"
+    },
+    {
+      "t": 10695,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/push-section\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"visible\":{\"$state\":\"/activeTab\",\"eq\":\"push\"},\"children\":[\"push-head\",\"push-master\",\"push-assigned\",\"push-mentioned\",\"push-comments\",\"push-due\",\"push-status\"]}}"
+    },
+    {
+      "t": 10895,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/push-head\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Push notifications\",\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 11287,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/push-master\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Enable push notifications\",\"name\":\"pushEnabled\",\"checked\":{\"$bindState\":\"/prefs/push/enabled\"}},\"children\":[]}}"
+    },
+    {
+      "t": 11641,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/push-assigned\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"Task assigned to me\",\"name\":\"pushAssigned\",\"checked\":{\"$bindState\":\"/prefs/push/assigned\"}},\"children\":[]}}"
+    },
+    {
+      "t": 11999,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/push-mentioned\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"I'm @mentioned\",\"name\":\"pushMentioned\",\"checked\":{\"$bindState\":\"/prefs/push/mentioned\"}},\"children\":[]}}"
+    },
+    {
+      "t": 12385,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/push-comments\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"New comments on my tasks\",\"name\":\"pushComments\",\"checked\":{\"$bindState\":\"/prefs/push/comments\"}},\"children\":[]}}"
+    },
+    {
+      "t": 12732,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/push-due\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"Due date reminders\",\"name\":\"pushDue\",\"checked\":{\"$bindState\":\"/prefs/push/dueDate\"}},\"children\":[]}}"
+    },
+    {
+      "t": 13096,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/push-status\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"Project status changes\",\"name\":\"pushStatus\",\"checked\":{\"$bindState\":\"/prefs/push/statusChange\"}},\"children\":[]}}"
+    },
+    {
+      "t": 13627,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/inapp-section\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"visible\":{\"$state\":\"/activeTab\",\"eq\":\"inapp\"},\"children\":[\"inapp-head\",\"inapp-master\",\"inapp-assigned\",\"inapp-mentioned\",\"inapp-comments\",\"inapp-due\",\"inapp-status\"]}}"
+    },
+    {
+      "t": 13894,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/inapp-head\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"In-app notifications\",\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 14284,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/inapp-master\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Enable in-app notifications\",\"name\":\"inAppEnabled\",\"checked\":{\"$bindState\":\"/prefs/inApp/enabled\"}},\"children\":[]}}"
+    },
+    {
+      "t": 14673,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/inapp-assigned\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"Task assigned to me\",\"name\":\"inAppAssigned\",\"checked\":{\"$bindState\":\"/prefs/inApp/assigned\"}},\"children\":[]}}"
+    },
+    {
+      "t": 15069,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/inapp-mentioned\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"I'm @mentioned\",\"name\":\"inAppMentioned\",\"checked\":{\"$bindState\":\"/prefs/inApp/mentioned\"}},\"children\":[]}}"
+    },
+    {
+      "t": 15471,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/inapp-comments\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"New comments on my tasks\",\"name\":\"inAppComments\",\"checked\":{\"$bindState\":\"/prefs/inApp/comments\"}},\"children\":[]}}"
+    },
+    {
+      "t": 15828,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/inapp-due\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"Due date reminders\",\"name\":\"inAppDue\",\"checked\":{\"$bindState\":\"/prefs/inApp/dueDate\"}},\"children\":[]}}"
+    },
+    {
+      "t": 16237,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/inapp-status\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"Project status changes\",\"name\":\"inAppStatus\",\"checked\":{\"$bindState\":\"/prefs/inApp/statusChange\"}},\"children\":[]}}"
+    },
+    {
+      "t": 16433,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sep\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 16725,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/quiet-heading\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Quiet hours\",\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 17102,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/quiet-switch\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Pause push and email during quiet hours\",\"name\":\"quietEnabled\",\"checked\":{\"$bindState\":\"/quiet/enabled\"}},\"children\":[]}}"
+    },
+    {
+      "t": 17542,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/quiet-times\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"visible\":{\"$state\":\"/quiet/enabled\"},\"children\":[\"quiet-start\",\"quiet-end\"]}}"
+    },
+    {
+      "t": 17927,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/quiet-start\",\"value\":{\"type\":\"Slider\",\"props\":{\"label\":\"Start hour (0-23)\",\"min\":0,\"max\":23,\"step\":1,\"value\":{\"$bindState\":\"/quiet/start\"}},\"children\":[]}}"
+    },
+    {
+      "t": 18293,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/quiet-end\",\"value\":{\"type\":\"Slider\",\"props\":{\"label\":\"End hour (0-23)\",\"min\":0,\"max\":23,\"step\":1,\"value\":{\"$bindState\":\"/quiet/end\"}},\"children\":[]}}"
+    },
+    {
+      "t": 18594,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"justify\":\"end\"},\"children\":[\"reset-btn\",\"save-btn\"]}}"
+    },
+    {
+      "t": 18978,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/reset-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Reset\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/saved\",\"value\":false}}},\"children\":[]}}"
+    },
+    {
+      "t": 22569,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/save-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Save preferences\",\"variant\":\"primary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/saved\",\"value\":true}}},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 911,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 3661,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 911,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 3661,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 911,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 911
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

@@ -1,0 +1,653 @@
+{
+  "spec": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg",
+          "className": "max-w-6xl mx-auto p-6"
+        },
+        "children": [
+          "header",
+          "ship-card",
+          "layout",
+          "help-card"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "title",
+          "subtitle"
+        ]
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Your Cart",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Almost there! Your sneakers are reserved for 15 minutes.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "ship-card": {
+        "type": "Card",
+        "props": {
+          "maxWidth": "full"
+        },
+        "children": [
+          "ship-text",
+          "ship-progress"
+        ]
+      },
+      "ship-text": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "You're only $${/shipping/remaining} away from FREE shipping!"
+          },
+          "variant": "lead"
+        },
+        "children": []
+      },
+      "ship-progress": {
+        "type": "Progress",
+        "props": {
+          "value": {
+            "$state": "/shipping/percent"
+          },
+          "max": 100,
+          "label": "Free shipping progress"
+        },
+        "children": []
+      },
+      "layout": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "lg"
+        },
+        "children": [
+          "items-col",
+          "summary-col"
+        ]
+      },
+      "items-col": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "items-heading",
+          "items-list",
+          "continue-link"
+        ]
+      },
+      "items-heading": {
+        "type": "Heading",
+        "props": {
+          "text": "Items in your cart",
+          "level": "h3"
+        },
+        "children": []
+      },
+      "items-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/cart/items",
+          "key": "id"
+        },
+        "children": [
+          "item-card"
+        ]
+      },
+      "item-card": {
+        "type": "Card",
+        "props": {
+          "maxWidth": "full"
+        },
+        "children": [
+          "item-row"
+        ]
+      },
+      "item-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "item-img",
+          "item-info",
+          "item-qty",
+          "item-price"
+        ]
+      },
+      "item-img": {
+        "type": "Image",
+        "props": {
+          "src": {
+            "$item": "image"
+          },
+          "alt": {
+            "$item": "name"
+          },
+          "width": 96,
+          "height": 96
+        },
+        "children": []
+      },
+      "item-info": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "item-name",
+          "item-meta",
+          "item-stock",
+          "item-remove"
+        ]
+      },
+      "item-name": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "name"
+          },
+          "level": "h4"
+        },
+        "children": []
+      },
+      "item-meta": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${color} · Size ${size}"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "item-stock": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "stockNote"
+          },
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "item-remove": {
+        "type": "Button",
+        "props": {
+          "label": "Remove",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "removeState",
+            "params": {
+              "statePath": "/cart/items",
+              "index": {
+                "$index": true
+              }
+            }
+          }
+        },
+        "children": []
+      },
+      "item-qty": {
+        "type": "Select",
+        "props": {
+          "label": "Qty",
+          "name": "qty",
+          "options": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
+          "value": {
+            "$bindItem": "quantity"
+          }
+        },
+        "children": []
+      },
+      "item-price": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "priceLabel"
+          },
+          "variant": "lead"
+        },
+        "children": []
+      },
+      "continue-link": {
+        "type": "Link",
+        "props": {
+          "label": "← Continue shopping",
+          "href": "/shop"
+        },
+        "children": []
+      },
+      "summary-col": {
+        "type": "Card",
+        "props": {
+          "title": "Order summary",
+          "description": "Shipping and taxes estimated",
+          "maxWidth": "full"
+        },
+        "children": [
+          "sum-rows",
+          "sep-1",
+          "total-row",
+          "promo-section",
+          "promo-alert",
+          "checkout-btn",
+          "checkout-alert",
+          "secure-text",
+          "trust-badges"
+        ]
+      },
+      "sum-rows": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "row-sub",
+          "row-ship",
+          "row-tax",
+          "row-disc"
+        ]
+      },
+      "row-sub": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between"
+        },
+        "children": [
+          "row-sub-l",
+          "row-sub-v"
+        ]
+      },
+      "row-sub-l": {
+        "type": "Text",
+        "props": {
+          "text": "Subtotal",
+          "variant": "body"
+        },
+        "children": []
+      },
+      "row-sub-v": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "$${/summary/subtotal}"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "row-ship": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between"
+        },
+        "children": [
+          "row-ship-l",
+          "row-ship-v"
+        ]
+      },
+      "row-ship-l": {
+        "type": "Text",
+        "props": {
+          "text": "Shipping",
+          "variant": "body"
+        },
+        "children": []
+      },
+      "row-ship-v": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "$${/summary/shipping}"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "row-tax": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between"
+        },
+        "children": [
+          "row-tax-l",
+          "row-tax-v"
+        ]
+      },
+      "row-tax-l": {
+        "type": "Text",
+        "props": {
+          "text": "Estimated tax",
+          "variant": "body"
+        },
+        "children": []
+      },
+      "row-tax-v": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "$${/summary/tax}"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "row-disc": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between"
+        },
+        "visible": {
+          "$state": "/promo/applied"
+        },
+        "children": [
+          "row-disc-l",
+          "row-disc-v"
+        ]
+      },
+      "row-disc-l": {
+        "type": "Text",
+        "props": {
+          "text": "Promo discount (WELCOME10)",
+          "variant": "body"
+        },
+        "children": []
+      },
+      "row-disc-v": {
+        "type": "Text",
+        "props": {
+          "text": "-$22.20",
+          "variant": "body"
+        },
+        "children": []
+      },
+      "sep-1": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "total-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between"
+        },
+        "children": [
+          "total-l",
+          "total-v"
+        ]
+      },
+      "total-l": {
+        "type": "Heading",
+        "props": {
+          "text": "Total",
+          "level": "h3"
+        },
+        "children": []
+      },
+      "total-v": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$template": "$${/summary/total}"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "promo-section": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm",
+          "align": "end"
+        },
+        "children": [
+          "promo-input",
+          "promo-btn"
+        ]
+      },
+      "promo-input": {
+        "type": "Input",
+        "props": {
+          "label": "Promo code",
+          "name": "promo",
+          "type": "text",
+          "placeholder": "Try WELCOME10",
+          "value": {
+            "$bindState": "/promo/code"
+          }
+        },
+        "children": []
+      },
+      "promo-btn": {
+        "type": "Button",
+        "props": {
+          "label": "Apply",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/promo/applied",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "promo-alert": {
+        "type": "Alert",
+        "props": {
+          "title": "Promo applied",
+          "message": "You saved $22.20 on this order.",
+          "type": "success"
+        },
+        "visible": {
+          "$state": "/promo/applied"
+        },
+        "children": []
+      },
+      "checkout-btn": {
+        "type": "Button",
+        "props": {
+          "label": "Continue to payment →",
+          "variant": "primary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/checkoutStarted",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "checkout-alert": {
+        "type": "Alert",
+        "props": {
+          "title": "Taking you to secure payment…",
+          "message": "No account needed. Check out as a guest in under a minute.",
+          "type": "info"
+        },
+        "visible": {
+          "$state": "/checkoutStarted"
+        },
+        "children": []
+      },
+      "secure-text": {
+        "type": "Text",
+        "props": {
+          "text": "🔒 Secure checkout · Guest checkout available · Apple Pay, PayPal & cards accepted",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "trust-badges": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm"
+        },
+        "children": [
+          "badge-1",
+          "badge-2",
+          "badge-3"
+        ]
+      },
+      "badge-1": {
+        "type": "Badge",
+        "props": {
+          "text": "Free 30-day returns",
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "badge-2": {
+        "type": "Badge",
+        "props": {
+          "text": "Arrives by Nov 3",
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "badge-3": {
+        "type": "Badge",
+        "props": {
+          "text": "Authentic guaranteed",
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "help-card": {
+        "type": "Card",
+        "props": {
+          "title": "Questions before you buy?",
+          "maxWidth": "full"
+        },
+        "children": [
+          "help-accordion"
+        ]
+      },
+      "help-accordion": {
+        "type": "Accordion",
+        "props": {
+          "type": "single",
+          "items": [
+            {
+              "title": "What's your return policy?",
+              "content": "Return any unworn pair within 30 days for free. We email you a prepaid label."
+            },
+            {
+              "title": "How fast will my order arrive?",
+              "content": "Standard shipping takes 3-5 business days. Orders placed before 2pm ship the same day."
+            },
+            {
+              "title": "What if my size doesn't fit?",
+              "content": "Exchange for a different size at no cost. We'll ship the new pair as soon as your return is scanned."
+            },
+            {
+              "title": "Is payment secure?",
+              "content": "Yes. All payments are encrypted, and we never store your full card details."
+            }
+          ]
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "shipping": {
+        "remaining": "28.00",
+        "percent": 89
+      },
+      "cart": {
+        "items": [
+          {
+            "id": "1",
+            "name": "AirRunner 2 Low",
+            "color": "Cloud White",
+            "size": "10",
+            "quantity": "1",
+            "priceLabel": "$128.00",
+            "stockNote": "Only 3 left in your size",
+            "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200"
+          },
+          {
+            "id": "2",
+            "name": "Court Classic Leather",
+            "color": "Black / Gum",
+            "size": "9.5",
+            "quantity": "1",
+            "priceLabel": "$94.00",
+            "stockNote": "In stock · Ships today",
+            "image": "https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=200"
+          }
+        ]
+      },
+      "summary": {
+        "subtotal": "222.00",
+        "shipping": "5.99",
+        "tax": "17.76",
+        "total": "245.75"
+      },
+      "promo": {
+        "code": "",
+        "applied": false
+      },
+      "checkoutStarted": false
+    }
+  },
+  "patchLines": 61,
+  "skippedLines": 0,
+  "firstNodeMs": 19032,
+  "issues": [],
+  "fixes": []
+}

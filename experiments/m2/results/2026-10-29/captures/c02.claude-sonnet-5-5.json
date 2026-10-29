@@ -1,0 +1,358 @@
+{
+  "promptId": "c02",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:14:08.424Z",
+  "totalMs": 34136,
+  "lines": [
+    {
+      "t": 1452,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"page\"}"
+    },
+    {
+      "t": 1850,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/page\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\",\"align\":\"stretch\"},\"children\":[\"header\",\"main-grid\"]}}"
+    },
+    {
+      "t": 1870,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"page-title\",\"page-sub\"]}}"
+    },
+    {
+      "t": 2221,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/page-title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Checkout\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 2607,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/page-sub\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"You're almost there! Complete your order below.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 2734,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"lg\"},\"children\":[\"left-col\",\"right-col\"]}}"
+    },
+    {
+      "t": 3104,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/left-col\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\",\"align\":\"stretch\"},\"children\":[\"contact-card\",\"shipping-card\",\"payment-card\"]}}"
+    },
+    {
+      "t": 3539,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/contact-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Contact Information\",\"description\":\"We'll send your order confirmation here\",\"maxWidth\":\"full\"},\"children\":[\"contact-stack\"]}}"
+    },
+    {
+      "t": 3838,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/contact-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"email-input\",\"phone-input\"]}}"
+    },
+    {
+      "t": 4405,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/email-input\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Email\",\"name\":\"email\",\"type\":\"email\",\"placeholder\":\"you@example.com\",\"value\":{\"$bindState\":\"/form/email\"},\"checks\":[{\"type\":\"required\",\"message\":\"Email is required\"},{\"type\":\"email\",\"message\":\"Please enter a valid email\"}],\"validateOn\":\"blur\"},\"children\":[]}}"
+    },
+    {
+      "t": 4803,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/phone-input\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Phone (optional)\",\"name\":\"phone\",\"type\":\"text\",\"placeholder\":\"(555) 123-4567\",\"value\":{\"$bindState\":\"/form/phone\"}},\"children\":[]}}"
+    },
+    {
+      "t": 5600,
+      "text": "{\"op\":\"add\",\"path\":\"/state/form\",\"value\":{\"email\":\"\",\"phone\":\"\",\"firstName\":\"\",\"lastName\":\"\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"zip\":\"\",\"country\":\"United States\",\"shippingMethod\":\"Standard (5-7 days) - Free\",\"cardName\":\"\",\"cardNumber\":\"\",\"expiry\":\"\",\"cvc\":\"\",\"newsletter\":true,\"newsletterEmail\":\"\",\"interests\":\"women\"}}"
+    },
+    {
+      "t": 5901,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/shipping-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Shipping Address\",\"maxWidth\":\"full\"},\"children\":[\"shipping-stack\"]}}"
+    },
+    {
+      "t": 6268,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/shipping-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"name-grid\",\"address-input\",\"city-grid\",\"country-select\",\"shipping-method\"]}}"
+    },
+    {
+      "t": 6574,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/name-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"md\"},\"children\":[\"first-name\",\"last-name\"]}}"
+    },
+    {
+      "t": 7033,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/first-name\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"First name\",\"name\":\"firstName\",\"type\":\"text\",\"placeholder\":\"Jane\",\"value\":{\"$bindState\":\"/form/firstName\"},\"checks\":[{\"type\":\"required\",\"message\":\"First name is required\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 7469,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/last-name\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Last name\",\"name\":\"lastName\",\"type\":\"text\",\"placeholder\":\"Doe\",\"value\":{\"$bindState\":\"/form/lastName\"},\"checks\":[{\"type\":\"required\",\"message\":\"Last name is required\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 7981,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/address-input\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Address\",\"name\":\"address\",\"type\":\"text\",\"placeholder\":\"123 Main Street\",\"value\":{\"$bindState\":\"/form/address\"},\"checks\":[{\"type\":\"required\",\"message\":\"Address is required\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 8205,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/city-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":3,\"gap\":\"md\"},\"children\":[\"city-input\",\"state-input\",\"zip-input\"]}}"
+    },
+    {
+      "t": 8721,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/city-input\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"City\",\"name\":\"city\",\"type\":\"text\",\"placeholder\":\"Portland\",\"value\":{\"$bindState\":\"/form/city\"},\"checks\":[{\"type\":\"required\",\"message\":\"City is required\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 9067,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/state-input\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"State\",\"name\":\"state\",\"type\":\"text\",\"placeholder\":\"OR\",\"value\":{\"$bindState\":\"/form/state\"},\"checks\":[{\"type\":\"required\",\"message\":\"State is required\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 9844,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/zip-input\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"ZIP code\",\"name\":\"zip\",\"type\":\"text\",\"placeholder\":\"97201\",\"value\":{\"$bindState\":\"/form/zip\"},\"checks\":[{\"type\":\"required\",\"message\":\"ZIP is required\"},{\"type\":\"pattern\",\"message\":\"Enter a valid ZIP code\",\"args\":{\"pattern\":\"^[0-9]{5}$\"}}]},\"children\":[]}}"
+    },
+    {
+      "t": 10386,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/country-select\",\"value\":{\"type\":\"Select\",\"props\":{\"label\":\"Country\",\"name\":\"country\",\"options\":[\"United States\",\"Canada\",\"United Kingdom\",\"Australia\",\"Germany\"],\"value\":{\"$bindState\":\"/form/country\"},\"checks\":[{\"type\":\"required\",\"message\":\"Country is required\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 10974,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/shipping-method\",\"value\":{\"type\":\"Radio\",\"props\":{\"label\":\"Shipping method\",\"name\":\"shippingMethod\",\"options\":[\"Standard (5-7 days) - Free\",\"Express (2-3 days) - $9.99\",\"Overnight - $24.99\"],\"value\":{\"$bindState\":\"/form/shippingMethod\"}},\"children\":[]}}"
+    },
+    {
+      "t": 11314,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/payment-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Payment\",\"description\":\"All transactions are secure and encrypted\",\"maxWidth\":\"full\"},\"children\":[\"payment-stack\"]}}"
+    },
+    {
+      "t": 11657,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/payment-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"card-name\",\"card-number\",\"card-grid\"]}}"
+    },
+    {
+      "t": 12099,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/card-name\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Name on card\",\"name\":\"cardName\",\"type\":\"text\",\"placeholder\":\"Jane Doe\",\"value\":{\"$bindState\":\"/form/cardName\"},\"checks\":[{\"type\":\"required\",\"message\":\"Name on card is required\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 12867,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/card-number\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Card number\",\"name\":\"cardNumber\",\"type\":\"text\",\"placeholder\":\"1234 5678 9012 3456\",\"value\":{\"$bindState\":\"/form/cardNumber\"},\"checks\":[{\"type\":\"required\",\"message\":\"Card number is required\"},{\"type\":\"pattern\",\"message\":\"Enter a valid 16-digit card number\",\"args\":{\"pattern\":\"^[0-9 ]{16,19}$\"}}]},\"children\":[]}}"
+    },
+    {
+      "t": 13199,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/card-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"md\"},\"children\":[\"card-expiry\",\"card-cvc\"]}}"
+    },
+    {
+      "t": 14094,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/card-expiry\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Expiry (MM/YY)\",\"name\":\"expiry\",\"type\":\"text\",\"placeholder\":\"08/28\",\"value\":{\"$bindState\":\"/form/expiry\"},\"checks\":[{\"type\":\"required\",\"message\":\"Expiry is required\"},{\"type\":\"pattern\",\"message\":\"Use MM/YY format\",\"args\":{\"pattern\":\"^(0[1-9]|1[0-2])\\\\/[0-9]{2}$\"}}]},\"children\":[]}}"
+    },
+    {
+      "t": 14808,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/card-cvc\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"CVC\",\"name\":\"cvc\",\"type\":\"password\",\"placeholder\":\"123\",\"value\":{\"$bindState\":\"/form/cvc\"},\"checks\":[{\"type\":\"required\",\"message\":\"CVC is required\"},{\"type\":\"pattern\",\"message\":\"Enter 3 or 4 digits\",\"args\":{\"pattern\":\"^[0-9]{3,4}$\"}}]},\"children\":[]}}"
+    },
+    {
+      "t": 15067,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/right-col\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\",\"align\":\"stretch\"},\"children\":[\"summary-card\",\"newsletter-card\"]}}"
+    },
+    {
+      "t": 15336,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/summary-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Order Summary\",\"maxWidth\":\"full\"},\"children\":[\"summary-stack\"]}}"
+    },
+    {
+      "t": 15838,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/summary-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"cart-list\",\"sep-1\",\"totals-stack\",\"promo-note\",\"place-order\"]}}"
+    },
+    {
+      "t": 16217,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cart-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/cart\",\"key\":\"id\"},\"children\":[\"cart-item\"]}}"
+    },
+    {
+      "t": 16569,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cart-item\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"cart-item-left\",\"cart-item-price\"]}}"
+    },
+    {
+      "t": 16901,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cart-item-left\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\"},\"children\":[\"cart-item-img\",\"cart-item-info\"]}}"
+    },
+    {
+      "t": 17234,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cart-item-img\",\"value\":{\"type\":\"Image\",\"props\":{\"alt\":{\"$item\":\"name\"},\"width\":64,\"height\":64},\"children\":[]}}"
+    },
+    {
+      "t": 17571,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cart-item-info\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"none\"},\"children\":[\"cart-item-name\",\"cart-item-meta\"]}}"
+    },
+    {
+      "t": 17802,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cart-item-name\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"name\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 18277,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cart-item-meta\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"Size ${size} · ${color} · Qty ${qty}\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 18583,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cart-item-price\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"priceLabel\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 18673,
+      "text": "{\"op\":\"add\",\"path\":\"/state/cart\",\"value\":[]}"
+    },
+    {
+      "t": 19149,
+      "text": "{\"op\":\"add\",\"path\":\"/state/cart/0\",\"value\":{\"id\":\"1\",\"name\":\"AirStride Runner\",\"size\":\"9\",\"color\":\"Midnight Blue\",\"qty\":1,\"priceLabel\":\"$129.00\"}}"
+    },
+    {
+      "t": 19538,
+      "text": "{\"op\":\"add\",\"path\":\"/state/cart/1\",\"value\":{\"id\":\"2\",\"name\":\"Classic Leather Loafer\",\"size\":\"9\",\"color\":\"Cognac\",\"qty\":1,\"priceLabel\":\"$149.00\"}}"
+    },
+    {
+      "t": 19901,
+      "text": "{\"op\":\"add\",\"path\":\"/state/cart/2\",\"value\":{\"id\":\"3\",\"name\":\"Everyday Crew Socks (3-pack)\",\"size\":\"M\",\"color\":\"White\",\"qty\":2,\"priceLabel\":\"$24.00\"}}"
+    },
+    {
+      "t": 20147,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sep-1\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 20536,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/totals-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"row-subtotal\",\"row-shipping\",\"row-discount\",\"row-total\"]}}"
+    },
+    {
+      "t": 20925,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-subtotal\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"justify\":\"between\"},\"children\":[\"subtotal-label\",\"subtotal-value\"]}}"
+    },
+    {
+      "t": 21136,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtotal-label\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Subtotal\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 21442,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtotal-value\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$state\":\"/totals/subtotal\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 21704,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-shipping\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"justify\":\"between\"},\"children\":[\"shipping-label\",\"shipping-value\"]}}"
+    },
+    {
+      "t": 21976,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/shipping-label\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Shipping\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 22235,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/shipping-value\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$state\":\"/totals/shipping\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 22538,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-discount\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"justify\":\"between\"},\"children\":[\"discount-label\",\"discount-value\"]}}"
+    },
+    {
+      "t": 22848,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/discount-label\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Newsletter discount (10%)\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 23243,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/discount-value\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Applied after you subscribe\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 23500,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-total\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"justify\":\"between\"},\"children\":[\"total-label\",\"total-value\"]}}"
+    },
+    {
+      "t": 23734,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/total-label\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Total\",\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 24000,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/total-value\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$state\":\"/totals/total\"},\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 24207,
+      "text": "{\"op\":\"add\",\"path\":\"/state/totals\",\"value\":{\"subtotal\":\"$326.00\",\"shipping\":\"Free\",\"total\":\"$326.00\"}}"
+    },
+    {
+      "t": 24669,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/promo-note\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Free shipping unlocked\",\"message\":\"Your order qualifies for free standard shipping.\",\"type\":\"success\"},\"children\":[]}}"
+    },
+    {
+      "t": 25066,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/place-order\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Place Order\",\"variant\":\"primary\"},\"on\":{\"press\":{\"action\":\"validateForm\",\"params\":{\"statePath\":\"/formValidation\"}}},\"children\":[]}}"
+    },
+    {
+      "t": 25590,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/newsletter-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Get 10% off your first order\",\"description\":\"Join the Stride Club newsletter and unlock exclusive perks.\",\"maxWidth\":\"full\"},\"children\":[\"nl-stack\"]}}"
+    },
+    {
+      "t": 25935,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/nl-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"nl-badge\",\"nl-benefits\",\"nl-switch\",\"nl-fields\",\"nl-success\"]}}"
+    },
+    {
+      "t": 26233,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/nl-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Limited-time offer\",\"variant\":\"default\"},\"children\":[]}}"
+    },
+    {
+      "t": 26620,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/nl-benefits\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"benefit-1\",\"benefit-2\",\"benefit-3\",\"benefit-4\"]}}"
+    },
+    {
+      "t": 26967,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/benefit-1\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"✓ 10% off this order, applied instantly\",\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 27238,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/benefit-2\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"✓ Early access to new releases and sales\",\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 27536,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/benefit-3\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"✓ Free shipping on every future order\",\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 27940,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/benefit-4\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"✓ Birthday surprise and style tips. Unsubscribe anytime.\",\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 28404,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/nl-switch\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Yes, sign me up and apply my 10% discount\",\"name\":\"newsletter\",\"checked\":{\"$bindState\":\"/form/newsletter\"}},\"children\":[]}}"
+    },
+    {
+      "t": 28876,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/nl-fields\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"visible\":{\"$state\":\"/form/newsletter\"},\"children\":[\"nl-interests\",\"nl-email\",\"nl-subscribe\"]}}"
+    },
+    {
+      "t": 29472,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/nl-interests\",\"value\":{\"type\":\"ToggleGroup\",\"props\":{\"items\":[{\"label\":\"Women\",\"value\":\"women\"},{\"label\":\"Men\",\"value\":\"men\"},{\"label\":\"Kids\",\"value\":\"kids\"},{\"label\":\"Sale\",\"value\":\"sale\"}],\"type\":\"single\",\"value\":{\"$bindState\":\"/form/interests\"}},\"children\":[]}}"
+    },
+    {
+      "t": 30203,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/nl-email\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Newsletter email\",\"name\":\"newsletterEmail\",\"type\":\"email\",\"placeholder\":\"you@example.com\",\"value\":{\"$bindState\":\"/form/newsletterEmail\"},\"checks\":[{\"type\":\"required\",\"message\":\"Enter your email to get your discount\"},{\"type\":\"email\",\"message\":\"Please enter a valid email\"}],\"validateOn\":\"blur\"},\"children\":[]}}"
+    },
+    {
+      "t": 30833,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/nl-subscribe\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Claim My 10% Off\",\"variant\":\"secondary\"},\"on\":{\"press\":[{\"action\":\"validateForm\",\"params\":{\"statePath\":\"/newsletterValidation\"}},{\"action\":\"setState\",\"params\":{\"statePath\":\"/newsletterDone\",\"value\":true}}]},\"children\":[]}}"
+    },
+    {
+      "t": 31401,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/nl-success\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Welcome to the Stride Club!\",\"message\":\"Your 10% discount will be applied at checkout. Check your inbox for a welcome email.\",\"type\":\"success\"},\"visible\":{\"$state\":\"/newsletterDone\"},\"children\":[]}}"
+    },
+    {
+      "t": 34136,
+      "text": "{\"op\":\"add\",\"path\":\"/state/newsletterDone\",\"value\":false}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 651,
+    "cache_read_input_tokens": 9016,
+    "output_tokens": 6582,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 651,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 6582,
+        "cache_read_input_tokens": 9016,
+        "cache_creation_input_tokens": 651,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 651
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

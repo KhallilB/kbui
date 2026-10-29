@@ -1,0 +1,582 @@
+{
+  "spec": {
+    "root": "booking-page",
+    "elements": {
+      "booking-page": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "xl",
+          "className": "max-w-6xl mx-auto p-6"
+        },
+        "children": [
+          "header",
+          "booking-layout"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "hotel-name",
+          "page-title",
+          "page-description"
+        ]
+      },
+      "hotel-name": {
+        "type": "Text",
+        "props": {
+          "text": "THE CEDAR HOUSE · PORTLAND, OREGON",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "page-title": {
+        "type": "Heading",
+        "props": {
+          "text": "A little room to unwind.",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "page-description": {
+        "type": "Text",
+        "props": {
+          "text": "Choose your dates, find your favorite room, and make your stay your own.",
+          "variant": "lead"
+        },
+        "children": []
+      },
+      "booking-layout": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "lg",
+          "className": "grid-cols-1 lg:grid-cols-2"
+        },
+        "children": [
+          "booking-form",
+          "booking-summary"
+        ]
+      },
+      "booking-form": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "dates-card",
+          "rooms-card",
+          "extras-card",
+          "guest-card"
+        ]
+      },
+      "dates-card": {
+        "type": "Card",
+        "props": {
+          "title": "1. Plan your stay",
+          "description": "Check-in from 3 PM · Check-out by 11 AM"
+        },
+        "children": [
+          "dates-grid"
+        ]
+      },
+      "dates-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "md"
+        },
+        "children": [
+          "check-in",
+          "check-out"
+        ]
+      },
+      "check-in": {
+        "type": "Input",
+        "props": {
+          "label": "Check-in",
+          "name": "checkIn",
+          "placeholder": "YYYY-MM-DD",
+          "value": {
+            "$bindState": "/booking/checkIn"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter a check-in date."
+            },
+            {
+              "type": "pattern",
+              "message": "Use YYYY-MM-DD.",
+              "args": {
+                "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$"
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "check-out": {
+        "type": "Input",
+        "props": {
+          "label": "Check-out",
+          "name": "checkOut",
+          "placeholder": "YYYY-MM-DD",
+          "value": {
+            "$bindState": "/booking/checkOut"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter a check-out date."
+            },
+            {
+              "type": "pattern",
+              "message": "Use YYYY-MM-DD.",
+              "args": {
+                "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$"
+              }
+            },
+            {
+              "type": "greaterThan",
+              "message": "Check-out must be after check-in.",
+              "args": {
+                "other": {
+                  "$state": "/booking/checkIn"
+                }
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "rooms-card": {
+        "type": "Card",
+        "props": {
+          "title": "2. Find your room",
+          "description": "All rooms include Wi-Fi, locally roasted coffee, and organic bath essentials."
+        },
+        "children": [
+          "room-list",
+          "room-select"
+        ]
+      },
+      "room-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/rooms",
+          "key": "id"
+        },
+        "children": [
+          "room-option"
+        ]
+      },
+      "room-option": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "room-name",
+          "room-description",
+          "room-rate",
+          "room-divider"
+        ]
+      },
+      "room-name": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "name"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "room-description": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "description"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "room-rate": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "rate"
+          },
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "room-divider": {
+        "type": "Separator",
+        "props": {},
+        "children": []
+      },
+      "room-select": {
+        "type": "Select",
+        "props": {
+          "label": "Your room type",
+          "name": "roomType",
+          "options": [
+            "Classic Queen",
+            "Deluxe King",
+            "Cedar Suite"
+          ],
+          "value": {
+            "$bindState": "/booking/roomType"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Choose a room type."
+            }
+          ]
+        },
+        "children": []
+      },
+      "extras-card": {
+        "type": "Card",
+        "props": {
+          "title": "3. Add a little extra",
+          "description": "Optional touches for an easier getaway. Prices in USD."
+        },
+        "children": [
+          "breakfast",
+          "parking",
+          "late-checkout"
+        ]
+      },
+      "breakfast": {
+        "type": "Checkbox",
+        "props": {
+          "label": "Breakfast for two · $36 per night",
+          "name": "breakfast",
+          "checked": {
+            "$bindState": "/booking/breakfast"
+          }
+        },
+        "children": []
+      },
+      "parking": {
+        "type": "Checkbox",
+        "props": {
+          "label": "Secure parking · $25 per night",
+          "name": "parking",
+          "checked": {
+            "$bindState": "/booking/parking"
+          }
+        },
+        "children": []
+      },
+      "late-checkout": {
+        "type": "Checkbox",
+        "props": {
+          "label": "Late check-out at 2 PM · $40 per stay",
+          "name": "lateCheckout",
+          "checked": {
+            "$bindState": "/booking/lateCheckout"
+          }
+        },
+        "children": []
+      },
+      "guest-card": {
+        "type": "Card",
+        "props": {
+          "title": "4. Guest details",
+          "description": "Your booking confirmation will use these details."
+        },
+        "children": [
+          "guest-name",
+          "guest-email"
+        ]
+      },
+      "guest-name": {
+        "type": "Input",
+        "props": {
+          "label": "Full name",
+          "name": "guestName",
+          "value": {
+            "$bindState": "/booking/guestName"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter your full name."
+            },
+            {
+              "type": "minLength",
+              "message": "Enter at least 2 characters.",
+              "args": {
+                "min": 2
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "guest-email": {
+        "type": "Input",
+        "props": {
+          "label": "Email address",
+          "name": "guestEmail",
+          "type": "email",
+          "value": {
+            "$bindState": "/booking/guestEmail"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter your email address."
+            },
+            {
+              "type": "email",
+              "message": "Enter a valid email address."
+            }
+          ]
+        },
+        "children": []
+      },
+      "booking-summary": {
+        "type": "Card",
+        "props": {
+          "title": "Your getaway",
+          "description": "Review your stay before confirming.",
+          "className": "h-fit lg:sticky lg:top-6"
+        },
+        "children": [
+          "summary-room",
+          "summary-dates",
+          "summary-rate",
+          "summary-divider",
+          "summary-extras-title",
+          "summary-breakfast",
+          "summary-parking",
+          "summary-late",
+          "pricing-note",
+          "terms",
+          "confirm-button",
+          "confirmation"
+        ]
+      },
+      "summary-room": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$state": "/booking/roomType"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "summary-dates": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${/booking/checkIn} → ${/booking/checkOut}"
+          }
+        },
+        "children": []
+      },
+      "summary-rate": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$cond": {
+              "$state": "/booking/roomType",
+              "eq": "Classic Queen"
+            },
+            "$then": "$189 per night",
+            "$else": {
+              "$cond": {
+                "$state": "/booking/roomType",
+                "eq": "Deluxe King"
+              },
+              "$then": "$249 per night",
+              "$else": "$349 per night"
+            }
+          },
+          "variant": "lead"
+        },
+        "children": []
+      },
+      "summary-divider": {
+        "type": "Separator",
+        "props": {},
+        "children": []
+      },
+      "summary-extras-title": {
+        "type": "Heading",
+        "props": {
+          "text": "Your extras",
+          "level": "h3"
+        },
+        "children": []
+      },
+      "summary-breakfast": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$cond": {
+              "$state": "/booking/breakfast"
+            },
+            "$then": "Breakfast for two · $36 per night",
+            "$else": "Breakfast not included"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "summary-parking": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$cond": {
+              "$state": "/booking/parking"
+            },
+            "$then": "Secure parking · $25 per night",
+            "$else": "Parking not included"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "summary-late": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$cond": {
+              "$state": "/booking/lateCheckout"
+            },
+            "$then": "Late check-out · $40 per stay",
+            "$else": "Standard check-out · 11 AM"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "pricing-note": {
+        "type": "Text",
+        "props": {
+          "text": "Sample rates include taxes. This demo records your selection only; it does not reserve a room or charge a payment.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "terms": {
+        "type": "Checkbox",
+        "props": {
+          "label": "I have reviewed my dates, room, and extras.",
+          "name": "reviewed",
+          "checked": {
+            "$bindState": "/booking/reviewed"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Review your stay and tick this box to continue."
+            }
+          ]
+        },
+        "children": []
+      },
+      "confirm-button": {
+        "type": "Button",
+        "props": {
+          "label": "Confirm booking selection",
+          "variant": "primary"
+        },
+        "on": {
+          "press": {
+            "action": "validateForm",
+            "params": {
+              "statePath": "/bookingValidation"
+            }
+          }
+        },
+        "children": []
+      },
+      "confirmation": {
+        "type": "Alert",
+        "props": {
+          "title": "Your selection is confirmed",
+          "message": {
+            "$template": "Thanks, ${/booking/guestName}. Your ${/booking/roomType} selection for ${/booking/checkIn} to ${/booking/checkOut} is saved in this demo."
+          },
+          "type": "success"
+        },
+        "visible": {
+          "$state": "/bookingValidation/valid",
+          "eq": true
+        },
+        "watch": {
+          "/booking": {
+            "action": "setState",
+            "params": {
+              "statePath": "/bookingValidation/valid",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "booking": {
+        "checkIn": "2026-11-13",
+        "checkOut": "2026-11-15",
+        "roomType": "Deluxe King",
+        "breakfast": true,
+        "parking": false,
+        "lateCheckout": false,
+        "guestName": "Alex Morgan",
+        "guestEmail": "alex.morgan@example.com",
+        "reviewed": false
+      },
+      "rooms": [
+        {
+          "id": "classic",
+          "name": "Classic Queen",
+          "description": "A cozy retreat with one queen bed and a courtyard view.",
+          "rate": "$189 / night · Sleeps 2"
+        },
+        {
+          "id": "deluxe",
+          "name": "Deluxe King",
+          "description": "Stretch out with a king bed, reading nook, and city views.",
+          "rate": "$249 / night · Sleeps 2"
+        },
+        {
+          "id": "suite",
+          "name": "Cedar Suite",
+          "description": "A spacious suite with a king bed and separate living area.",
+          "rate": "$349 / night · Sleeps 3"
+        }
+      ],
+      "bookingValidation": {
+        "valid": false,
+        "errors": {}
+      }
+    }
+  },
+  "patchLines": 54,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [],
+  "fixes": []
+}

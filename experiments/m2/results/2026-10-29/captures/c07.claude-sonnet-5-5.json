@@ -1,0 +1,206 @@
+{
+  "promptId": "c07",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:16:04.440Z",
+  "totalMs": 21784,
+  "lines": [
+    {
+      "t": 3526,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+    },
+    {
+      "t": 3872,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\",\"className\":\"max-w-4xl mx-auto p-6\"},\"children\":[\"header\",\"filters\",\"orders-list\",\"return-dialog\",\"pagination\"]}}"
+    },
+    {
+      "t": 4273,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"title\",\"subtitle\"]}}"
+    },
+    {
+      "t": 4283,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Order History\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 4717,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtitle\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Review your past book orders, reorder favorites, or start a return.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 5030,
+      "text": "{\"op\":\"add\",\"path\":\"/state/filter\",\"value\":\"all\"}"
+    },
+    {
+      "t": 5030,
+      "text": "{\"op\":\"add\",\"path\":\"/state/page\",\"value\":1}"
+    },
+    {
+      "t": 5030,
+      "text": "{\"op\":\"add\",\"path\":\"/state/returnDialogOpen\",\"value\":false}"
+    },
+    {
+      "t": 5154,
+      "text": "{\"op\":\"add\",\"path\":\"/state/returnReason\",\"value\":\"\"}"
+    },
+    {
+      "t": 5376,
+      "text": "{\"op\":\"add\",\"path\":\"/state/returnNote\",\"value\":\"\"}"
+    },
+    {
+      "t": 5453,
+      "text": "{\"op\":\"add\",\"path\":\"/state/selectedReturn\",\"value\":{\"orderId\":\"\",\"title\":\"\"}}"
+    },
+    {
+      "t": 5611,
+      "text": "{\"op\":\"add\",\"path\":\"/state/notice\",\"value\":\"\"}"
+    },
+    {
+      "t": 5853,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/filters\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"filter-group\",\"notice-alert\"]}}"
+    },
+    {
+      "t": 6574,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/filter-group\",\"value\":{\"type\":\"ButtonGroup\",\"props\":{\"buttons\":[{\"label\":\"All\",\"value\":\"all\"},{\"label\":\"Delivered\",\"value\":\"Delivered\"},{\"label\":\"Shipped\",\"value\":\"Shipped\"},{\"label\":\"Processing\",\"value\":\"Processing\"},{\"label\":\"Returned\",\"value\":\"Returned\"}],\"selected\":{\"$bindState\":\"/filter\"}},\"children\":[]}}"
+    },
+    {
+      "t": 6973,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/notice-alert\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":{\"$state\":\"/notice\"},\"type\":\"success\"},\"visible\":{\"$state\":\"/notice\"},\"children\":[]}}"
+    },
+    {
+      "t": 7452,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/orders-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/orders\",\"key\":\"id\"},\"visible\":{\"$or\":[{\"$state\":\"/filter\",\"eq\":\"all\"},{\"$item\":\"status\",\"eq\":{\"$state\":\"/filter\"}}]},\"children\":[\"order-card\"]}}"
+    },
+    {
+      "t": 8070,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/order-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":{\"$template\":\"Order ${id}\"},\"description\":{\"$template\":\"Placed ${date} · ${itemCount} item(s) · Total $${total}\"},\"maxWidth\":\"full\"},\"children\":[\"order-top\",\"order-sep\",\"order-items\",\"order-actions\"]}}"
+    },
+    {
+      "t": 8385,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/order-top\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"order-status\",\"order-eta\"]}}"
+    },
+    {
+      "t": 8982,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/order-status\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"status\"},\"variant\":{\"$cond\":{\"$item\":\"status\",\"eq\":\"Returned\"},\"$then\":\"destructive\",\"$else\":{\"$cond\":{\"$item\":\"status\",\"eq\":\"Delivered\"},\"$then\":\"default\",\"$else\":\"secondary\"}}},\"children\":[]}}"
+    },
+    {
+      "t": 9287,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/order-eta\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"statusNote\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 9517,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/order-sep\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 9811,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/order-items\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"itemsSummary\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 10151,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/order-actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"justify\":\"end\"},\"children\":[\"reorder-btn\",\"return-btn\",\"track-link\"]}}"
+    },
+    {
+      "t": 10619,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/reorder-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Reorder\",\"variant\":\"primary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/notice\",\"value\":\"Items from your order have been added to your cart.\"}}},\"children\":[]}}"
+    },
+    {
+      "t": 11049,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/return-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Return Items\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/returnDialogOpen\",\"value\":true}}},\"children\":[]}}"
+    },
+    {
+      "t": 11283,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/track-link\",\"value\":{\"type\":\"Link\",\"props\":{\"label\":\"View details\",\"href\":\"#\"},\"children\":[]}}"
+    },
+    {
+      "t": 11416,
+      "text": "{\"op\":\"add\",\"path\":\"/state/orders\",\"value\":[]}"
+    },
+    {
+      "t": 12284,
+      "text": "{\"op\":\"add\",\"path\":\"/state/orders/0\",\"value\":{\"id\":\"BK-10482\",\"date\":\"Oct 12, 2026\",\"itemCount\":3,\"total\":\"64.47\",\"status\":\"Delivered\",\"statusNote\":\"Delivered Oct 16, 2026\",\"itemsSummary\":\"The Midnight Library (Matt Haig) · Project Hail Mary (Andy Weir) · Atomic Habits (James Clear)\"}}"
+    },
+    {
+      "t": 13184,
+      "text": "{\"op\":\"add\",\"path\":\"/state/orders/1\",\"value\":{\"id\":\"BK-10451\",\"date\":\"Oct 3, 2026\",\"itemCount\":2,\"total\":\"38.98\",\"status\":\"Shipped\",\"statusNote\":\"Arriving Oct 31, 2026\",\"itemsSummary\":\"Tomorrow, and Tomorrow, and Tomorrow (Gabrielle Zevin) · Braiding Sweetgrass (Robin Wall Kimmerer)\"}}"
+    },
+    {
+      "t": 13783,
+      "text": "{\"op\":\"add\",\"path\":\"/state/orders/2\",\"value\":{\"id\":\"BK-10437\",\"date\":\"Oct 28, 2026\",\"itemCount\":1,\"total\":\"27.99\",\"status\":\"Processing\",\"statusNote\":\"Preparing for shipment\",\"itemsSummary\":\"Piranesi (Susanna Clarke)\"}}"
+    },
+    {
+      "t": 14550,
+      "text": "{\"op\":\"add\",\"path\":\"/state/orders/3\",\"value\":{\"id\":\"BK-10390\",\"date\":\"Sep 14, 2026\",\"itemCount\":2,\"total\":\"45.50\",\"status\":\"Returned\",\"statusNote\":\"Refund issued Sep 28, 2026\",\"itemsSummary\":\"Dune (Frank Herbert) · The Name of the Wind (Patrick Rothfuss)\"}}"
+    },
+    {
+      "t": 15452,
+      "text": "{\"op\":\"add\",\"path\":\"/state/orders/4\",\"value\":{\"id\":\"BK-10312\",\"date\":\"Aug 2, 2026\",\"itemCount\":4,\"total\":\"89.96\",\"status\":\"Delivered\",\"statusNote\":\"Delivered Aug 6, 2026\",\"itemsSummary\":\"Sapiens (Yuval Noah Harari) · Educated (Tara Westover) · Circe (Madeline Miller) · The Overstory (Richard Powers)\"}}"
+    },
+    {
+      "t": 15949,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/return-dialog\",\"value\":{\"type\":\"Dialog\",\"props\":{\"title\":\"Return Items\",\"description\":\"Tell us why you're returning these items. A prepaid label will be emailed to you.\",\"openPath\":\"/returnDialogOpen\"},\"children\":[\"return-form\"]}}"
+    },
+    {
+      "t": 16254,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/return-form\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"return-reason\",\"return-note\",\"return-actions\"]}}"
+    },
+    {
+      "t": 17149,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/return-reason\",\"value\":{\"type\":\"Select\",\"props\":{\"label\":\"Reason for return\",\"name\":\"returnReason\",\"options\":[\"Damaged in shipping\",\"Wrong item received\",\"No longer needed\",\"Ordered by mistake\",\"Other\"],\"placeholder\":\"Select a reason\",\"value\":{\"$bindState\":\"/returnReason\"},\"checks\":[{\"type\":\"required\",\"message\":\"Please select a reason\"}],\"validateOn\":\"change\"},\"children\":[]}}"
+    },
+    {
+      "t": 17649,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/return-note\",\"value\":{\"type\":\"Textarea\",\"props\":{\"label\":\"Additional details (optional)\",\"name\":\"returnNote\",\"placeholder\":\"Anything else we should know?\",\"rows\":3,\"value\":{\"$bindState\":\"/returnNote\"}},\"children\":[]}}"
+    },
+    {
+      "t": 17984,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/return-actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"justify\":\"end\"},\"children\":[\"cancel-return\",\"submit-return\"]}}"
+    },
+    {
+      "t": 18385,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cancel-return\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Cancel\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/returnDialogOpen\",\"value\":false}}},\"children\":[]}}"
+    },
+    {
+      "t": 19196,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/submit-return\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Submit Return\",\"variant\":\"danger\"},\"on\":{\"press\":[{\"action\":\"validateForm\",\"params\":{\"statePath\":\"/returnValidation\"}},{\"action\":\"setState\",\"params\":{\"statePath\":\"/notice\",\"value\":\"Return request submitted. Check your email for the prepaid label.\"}},{\"action\":\"setState\",\"params\":{\"statePath\":\"/returnDialogOpen\",\"value\":false}}]},\"children\":[]}}"
+    },
+    {
+      "t": 21784,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pagination\",\"value\":{\"type\":\"Pagination\",\"props\":{\"totalPages\":3,\"page\":{\"$bindState\":\"/page\"}},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 921,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 3327,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 921,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 3327,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 921,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 921
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

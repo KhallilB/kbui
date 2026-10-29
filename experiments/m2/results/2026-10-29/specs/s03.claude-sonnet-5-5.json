@@ -1,0 +1,506 @@
+{
+  "spec": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg",
+          "align": "stretch"
+        },
+        "children": [
+          "header",
+          "saved-alert",
+          "profile-card",
+          "message-card",
+          "sharing-card",
+          "data-card",
+          "footer-actions",
+          "delete-dialog"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "title",
+          "subtitle"
+        ]
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Privacy Settings",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Control who can see your profile, contact you, and how your data is used.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "saved-alert": {
+        "type": "Alert",
+        "props": {
+          "title": "Settings saved",
+          "message": "Your privacy preferences have been updated.",
+          "type": "success"
+        },
+        "visible": {
+          "$state": "/saved"
+        },
+        "children": []
+      },
+      "profile-card": {
+        "type": "Card",
+        "props": {
+          "title": "Profile Visibility",
+          "description": "Choose who can see your profile and activity.",
+          "maxWidth": "full"
+        },
+        "children": [
+          "profile-stack"
+        ]
+      },
+      "profile-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "profile-select",
+          "online-switch",
+          "activity-switch",
+          "search-switch"
+        ]
+      },
+      "profile-select": {
+        "type": "Select",
+        "props": {
+          "label": "Who can see my profile",
+          "name": "profileVisibility",
+          "options": [
+            "Public",
+            "Friends only",
+            "Only me"
+          ],
+          "placeholder": "Select visibility",
+          "value": {
+            "$bindState": "/privacy/profileVisibility"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Please choose a visibility option"
+            }
+          ]
+        },
+        "children": []
+      },
+      "online-switch": {
+        "type": "Switch",
+        "props": {
+          "label": "Show my online status",
+          "name": "showOnlineStatus",
+          "checked": {
+            "$bindState": "/privacy/showOnlineStatus"
+          }
+        },
+        "children": []
+      },
+      "activity-switch": {
+        "type": "Switch",
+        "props": {
+          "label": "Show my activity feed to others",
+          "name": "showActivity",
+          "checked": {
+            "$bindState": "/privacy/showActivity"
+          }
+        },
+        "children": []
+      },
+      "search-switch": {
+        "type": "Switch",
+        "props": {
+          "label": "Allow my profile to appear in search engines",
+          "name": "searchable",
+          "checked": {
+            "$bindState": "/privacy/searchable"
+          }
+        },
+        "children": []
+      },
+      "message-card": {
+        "type": "Card",
+        "props": {
+          "title": "Messaging",
+          "description": "Decide who can reach you.",
+          "maxWidth": "full"
+        },
+        "children": [
+          "message-stack"
+        ]
+      },
+      "message-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "message-radio",
+          "request-switch",
+          "receipt-switch"
+        ]
+      },
+      "message-radio": {
+        "type": "Radio",
+        "props": {
+          "label": "Who can message me",
+          "name": "whoCanMessage",
+          "options": [
+            "Everyone",
+            "Friends",
+            "Nobody"
+          ],
+          "value": {
+            "$bindState": "/privacy/whoCanMessage"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Please select an option"
+            }
+          ]
+        },
+        "children": []
+      },
+      "request-switch": {
+        "type": "Switch",
+        "props": {
+          "label": "Receive message requests from people I don't know",
+          "name": "messageRequests",
+          "checked": {
+            "$bindState": "/privacy/messageRequests"
+          }
+        },
+        "visible": {
+          "$state": "/privacy/whoCanMessage",
+          "neq": "Nobody"
+        },
+        "children": []
+      },
+      "receipt-switch": {
+        "type": "Switch",
+        "props": {
+          "label": "Send read receipts",
+          "name": "readReceipts",
+          "checked": {
+            "$bindState": "/privacy/readReceipts"
+          }
+        },
+        "children": []
+      },
+      "sharing-card": {
+        "type": "Card",
+        "props": {
+          "title": "Data Sharing with Partners",
+          "description": "Manage how third parties can use your information.",
+          "maxWidth": "full"
+        },
+        "children": [
+          "sharing-stack"
+        ]
+      },
+      "sharing-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "share-analytics",
+          "share-ads",
+          "share-research",
+          "share-location",
+          "sharing-note"
+        ]
+      },
+      "share-analytics": {
+        "type": "Switch",
+        "props": {
+          "label": "Share usage analytics with analytics partners",
+          "name": "shareAnalytics",
+          "checked": {
+            "$bindState": "/privacy/shareAnalytics"
+          }
+        },
+        "children": []
+      },
+      "share-ads": {
+        "type": "Switch",
+        "props": {
+          "label": "Allow personalized ads from advertising partners",
+          "name": "shareAds",
+          "checked": {
+            "$bindState": "/privacy/shareAds"
+          }
+        },
+        "children": []
+      },
+      "share-research": {
+        "type": "Switch",
+        "props": {
+          "label": "Contribute anonymized data to research partners",
+          "name": "shareResearch",
+          "checked": {
+            "$bindState": "/privacy/shareResearch"
+          }
+        },
+        "children": []
+      },
+      "share-location": {
+        "type": "Switch",
+        "props": {
+          "label": "Share precise location with partners",
+          "name": "shareLocation",
+          "checked": {
+            "$bindState": "/privacy/shareLocation"
+          }
+        },
+        "children": []
+      },
+      "sharing-note": {
+        "type": "Text",
+        "props": {
+          "text": "Turning off sharing may reduce personalization but won't affect your core features.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "data-card": {
+        "type": "Card",
+        "props": {
+          "title": "Download Your Data",
+          "description": "Get a copy of your posts, messages, photos, and account information.",
+          "maxWidth": "full"
+        },
+        "children": [
+          "data-stack"
+        ]
+      },
+      "data-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "export-format",
+          "export-button",
+          "export-alert"
+        ]
+      },
+      "export-format": {
+        "type": "ButtonGroup",
+        "props": {
+          "buttons": [
+            {
+              "label": "JSON",
+              "value": "JSON"
+            },
+            {
+              "label": "CSV",
+              "value": "CSV"
+            },
+            {
+              "label": "HTML",
+              "value": "HTML"
+            }
+          ],
+          "selected": {
+            "$bindState": "/exportFormat"
+          }
+        },
+        "children": []
+      },
+      "export-button": {
+        "type": "Button",
+        "props": {
+          "label": "Request data download",
+          "variant": "secondary",
+          "disabled": {
+            "$state": "/exportRequested"
+          }
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/exportRequested",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "export-alert": {
+        "type": "Alert",
+        "props": {
+          "title": "Export requested",
+          "message": "We'll email you a download link within 48 hours once your archive is ready.",
+          "type": "info"
+        },
+        "visible": {
+          "$state": "/exportRequested"
+        },
+        "children": []
+      },
+      "footer-actions": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "justify": "between",
+          "align": "center"
+        },
+        "children": [
+          "delete-button",
+          "save-button"
+        ]
+      },
+      "delete-button": {
+        "type": "Button",
+        "props": {
+          "label": "Delete account",
+          "variant": "danger"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/deleteDialogOpen",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "save-button": {
+        "type": "Button",
+        "props": {
+          "label": "Save changes",
+          "variant": "primary"
+        },
+        "on": {
+          "press": [
+            {
+              "action": "validateForm",
+              "params": {
+                "statePath": "/formValidation"
+              }
+            },
+            {
+              "action": "setState",
+              "params": {
+                "statePath": "/saved",
+                "value": true
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "delete-dialog": {
+        "type": "Dialog",
+        "props": {
+          "title": "Delete your account?",
+          "description": "This permanently removes your profile, posts, and messages. This cannot be undone.",
+          "openPath": "/deleteDialogOpen"
+        },
+        "children": [
+          "delete-actions"
+        ]
+      },
+      "delete-actions": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "justify": "end"
+        },
+        "children": [
+          "cancel-delete",
+          "confirm-delete"
+        ]
+      },
+      "cancel-delete": {
+        "type": "Button",
+        "props": {
+          "label": "Cancel",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/deleteDialogOpen",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      },
+      "confirm-delete": {
+        "type": "Button",
+        "props": {
+          "label": "Yes, delete my account",
+          "variant": "danger"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/deleteDialogOpen",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "privacy": {
+        "profileVisibility": "Friends only",
+        "showOnlineStatus": true,
+        "showActivity": false,
+        "searchable": true,
+        "whoCanMessage": "Friends",
+        "messageRequests": true,
+        "readReceipts": true,
+        "shareAnalytics": false,
+        "shareAds": false,
+        "shareResearch": true,
+        "shareLocation": false
+      },
+      "exportFormat": "JSON",
+      "exportRequested": false,
+      "saved": false,
+      "deleteDialogOpen": false
+    }
+  },
+  "patchLines": 41,
+  "skippedLines": 0,
+  "firstNodeMs": 5827,
+  "issues": [],
+  "fixes": []
+}

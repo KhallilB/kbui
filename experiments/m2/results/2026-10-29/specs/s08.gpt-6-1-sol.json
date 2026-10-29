@@ -1,0 +1,501 @@
+{
+  "spec": {
+    "root": "security-page",
+    "elements": {
+      "security-page": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "xl",
+          "className": "mx-auto w-full max-w-6xl p-6 md:p-10"
+        },
+        "children": [
+          "page-header",
+          "preview-notice",
+          "security-grid"
+        ]
+      },
+      "page-header": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "page-title",
+          "page-description"
+        ]
+      },
+      "page-title": {
+        "type": "Heading",
+        "props": {
+          "text": "Security settings",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "page-description": {
+        "type": "Text",
+        "props": {
+          "text": "Manage how you sign in and keep track of access to your account.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "preview-notice": {
+        "type": "Alert",
+        "props": {
+          "title": "Interactive preview",
+          "message": "Changes here update sample settings only. Your account security is unaffected.",
+          "type": "info"
+        },
+        "children": []
+      },
+      "security-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "lg",
+          "className": "grid-cols-1 lg:grid-cols-2"
+        },
+        "children": [
+          "two-factor-card",
+          "sessions-card",
+          "activity-card"
+        ]
+      },
+      "two-factor-card": {
+        "type": "Card",
+        "props": {
+          "title": "Two-factor authentication",
+          "description": "Add an extra layer of protection when you sign in."
+        },
+        "children": [
+          "two-factor-status",
+          "two-factor-switch",
+          "two-factor-details",
+          "two-factor-disabled"
+        ]
+      },
+      "two-factor-status": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$cond": {
+              "$state": "/twoFactorEnabled"
+            },
+            "$then": "Enabled",
+            "$else": "Not enabled"
+          },
+          "variant": {
+            "$cond": {
+              "$state": "/twoFactorEnabled"
+            },
+            "$then": "secondary",
+            "$else": "outline"
+          }
+        },
+        "children": []
+      },
+      "two-factor-switch": {
+        "type": "Switch",
+        "props": {
+          "label": "Use two-factor authentication",
+          "name": "twoFactorEnabled",
+          "checked": {
+            "$bindState": "/twoFactorEnabled"
+          }
+        },
+        "children": []
+      },
+      "two-factor-details": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "visible": {
+          "$state": "/twoFactorEnabled"
+        },
+        "children": [
+          "authenticator-heading",
+          "authenticator-description",
+          "recovery-tip"
+        ]
+      },
+      "authenticator-heading": {
+        "type": "Heading",
+        "props": {
+          "text": "Authenticator app",
+          "level": "h3"
+        },
+        "children": []
+      },
+      "authenticator-description": {
+        "type": "Text",
+        "props": {
+          "text": "Enter a six-digit code from your authenticator app after your password.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "recovery-tip": {
+        "type": "Alert",
+        "props": {
+          "title": "Keep your recovery codes somewhere safe",
+          "message": "Recovery codes help you regain access if you lose your authentication device.",
+          "type": "info"
+        },
+        "children": []
+      },
+      "two-factor-disabled": {
+        "type": "Alert",
+        "props": {
+          "title": "Extra protection is off",
+          "message": "Enable two-factor authentication to add a verification step at sign-in.",
+          "type": "warning"
+        },
+        "visible": {
+          "$state": "/twoFactorEnabled",
+          "not": true
+        },
+        "children": []
+      },
+      "sessions-card": {
+        "type": "Card",
+        "props": {
+          "title": "Active sessions",
+          "description": "Devices currently signed in to your account."
+        },
+        "children": [
+          "sessions-list",
+          "sessions-note"
+        ]
+      },
+      "sessions-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "repeat": {
+          "statePath": "/sessions",
+          "key": "id"
+        },
+        "children": [
+          "session-row"
+        ]
+      },
+      "session-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "session-heading",
+          "session-location",
+          "session-last-active",
+          "session-revoke",
+          "session-divider"
+        ]
+      },
+      "session-heading": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "session-device",
+          "session-current-badge"
+        ]
+      },
+      "session-device": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "device"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "session-current-badge": {
+        "type": "Badge",
+        "props": {
+          "text": "This device",
+          "variant": "secondary"
+        },
+        "visible": {
+          "$item": "current"
+        },
+        "children": []
+      },
+      "session-location": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "location"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "session-last-active": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "lastActive"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "session-revoke": {
+        "type": "Button",
+        "props": {
+          "label": "Sign out device",
+          "variant": "secondary"
+        },
+        "visible": {
+          "$item": "current",
+          "eq": false
+        },
+        "on": {
+          "press": {
+            "action": "removeState",
+            "params": {
+              "statePath": "/sessions",
+              "index": {
+                "$index": true
+              }
+            }
+          }
+        },
+        "children": []
+      },
+      "session-divider": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "sessions-note": {
+        "type": "Text",
+        "props": {
+          "text": "Don’t recognize a device? Sign it out and change your password.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "activity-card": {
+        "type": "Card",
+        "props": {
+          "title": "Recent login activity",
+          "description": "Review recent sign-in attempts. All times are Pacific Time.",
+          "className": "lg:col-span-2"
+        },
+        "children": [
+          "activity-list",
+          "location-note"
+        ]
+      },
+      "activity-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "repeat": {
+          "statePath": "/loginActivity",
+          "key": "id"
+        },
+        "children": [
+          "activity-row"
+        ]
+      },
+      "activity-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "activity-summary",
+          "activity-metadata",
+          "activity-divider"
+        ]
+      },
+      "activity-summary": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "justify": "between",
+          "align": "center"
+        },
+        "children": [
+          "activity-device",
+          "activity-status"
+        ]
+      },
+      "activity-device": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "device"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "activity-status": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "status"
+          },
+          "variant": {
+            "$cond": {
+              "$item": "failed",
+              "eq": true
+            },
+            "$then": "destructive",
+            "$else": "secondary"
+          }
+        },
+        "children": []
+      },
+      "activity-metadata": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "activity-location",
+          "activity-time",
+          "activity-ip"
+        ]
+      },
+      "activity-location": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "location"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "activity-time": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "time"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "activity-ip": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "IP address · ${ip}"
+          },
+          "variant": "code"
+        },
+        "children": []
+      },
+      "activity-divider": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "location-note": {
+        "type": "Text",
+        "props": {
+          "text": "Locations are approximate and may reflect your network or VPN.",
+          "variant": "caption"
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "twoFactorEnabled": true,
+      "sessions": [
+        {
+          "id": "session-current",
+          "device": "Chrome on macOS",
+          "location": "San Francisco, United States",
+          "lastActive": "Active now",
+          "current": true
+        },
+        {
+          "id": "session-phone",
+          "device": "Safari on iPhone",
+          "location": "San Francisco, United States",
+          "lastActive": "Last active 18 minutes ago",
+          "current": false
+        },
+        {
+          "id": "session-tablet",
+          "device": "Safari on iPad",
+          "location": "Oakland, United States",
+          "lastActive": "Last active yesterday at 8:42 PM",
+          "current": false
+        }
+      ],
+      "loginActivity": [
+        {
+          "id": "login-1",
+          "device": "Chrome on macOS",
+          "location": "San Francisco, United States",
+          "time": "Oct 29, 2026 · 9:14 AM PDT",
+          "ip": "198.51.100.24",
+          "status": "Successful",
+          "failed": false
+        },
+        {
+          "id": "login-2",
+          "device": "Safari on iPhone",
+          "location": "San Francisco, United States",
+          "time": "Oct 29, 2026 · 8:56 AM PDT",
+          "ip": "198.51.100.31",
+          "status": "Successful",
+          "failed": false
+        },
+        {
+          "id": "login-3",
+          "device": "Firefox on Windows",
+          "location": "Berlin, Germany",
+          "time": "Oct 28, 2026 · 11:07 PM PDT",
+          "ip": "203.0.113.82",
+          "status": "Failed attempt",
+          "failed": true
+        },
+        {
+          "id": "login-4",
+          "device": "Safari on iPad",
+          "location": "Oakland, United States",
+          "time": "Oct 28, 2026 · 8:42 PM PDT",
+          "ip": "198.51.100.46",
+          "status": "Successful",
+          "failed": false
+        }
+      ]
+    }
+  },
+  "patchLines": 48,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [],
+  "fixes": []
+}

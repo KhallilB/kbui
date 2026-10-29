@@ -1,0 +1,532 @@
+{
+  "spec": {
+    "root": "subscription-page",
+    "elements": {
+      "subscription-page": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "xl",
+          "className": "mx-auto max-w-4xl px-6 py-12"
+        },
+        "children": [
+          "page-header",
+          "subscription-card",
+          "paused-notice",
+          "cancelled-notice",
+          "delivery-card",
+          "manage-card",
+          "help-text",
+          "cancel-dialog"
+        ]
+      },
+      "page-header": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "eyebrow",
+          "page-title",
+          "page-description"
+        ]
+      },
+      "eyebrow": {
+        "type": "Text",
+        "props": {
+          "text": "EMBER COFFEE / YOUR ACCOUNT",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "page-title": {
+        "type": "Heading",
+        "props": {
+          "text": "Your coffee, your rhythm.",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "page-description": {
+        "type": "Text",
+        "props": {
+          "text": "Freshly roasted favorites, delivered on your schedule.",
+          "variant": "lead"
+        },
+        "children": []
+      },
+      "subscription-card": {
+        "type": "Card",
+        "props": {
+          "title": {
+            "$state": "/subscription/name"
+          },
+          "description": {
+            "$state": "/subscription/tastingNotes"
+          }
+        },
+        "children": [
+          "subscription-summary",
+          "coffee-details",
+          "subscription-divider",
+          "shipment-details"
+        ]
+      },
+      "subscription-summary": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "justify": "between",
+          "align": "center"
+        },
+        "children": [
+          "subscription-status",
+          "subscription-price"
+        ]
+      },
+      "subscription-status": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$state": "/subscription/status"
+          },
+          "variant": {
+            "$cond": {
+              "$state": "/subscription/status",
+              "eq": "Active"
+            },
+            "$then": "default",
+            "$else": "secondary"
+          }
+        },
+        "children": []
+      },
+      "subscription-price": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$state": "/subscription/price"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "coffee-details": {
+        "type": "Grid",
+        "props": {
+          "columns": 3,
+          "gap": "md",
+          "className": "mt-6"
+        },
+        "children": [
+          "coffee-size",
+          "coffee-grind",
+          "coffee-quantity"
+        ]
+      },
+      "coffee-size": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "BAG SIZE · ${/subscription/size}"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "coffee-grind": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "GRIND · ${/subscription/grind}"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "coffee-quantity": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$state": "/subscription/quantity"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "subscription-divider": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "shipment-details": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "next-roast",
+          "shipping-cost",
+          "shipping-address"
+        ]
+      },
+      "next-roast": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "Next roast & dispatch: ${/subscription/nextRoast}"
+          }
+        },
+        "visible": {
+          "$state": "/subscription/status",
+          "eq": "Active"
+        },
+        "children": []
+      },
+      "shipping-cost": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$state": "/subscription/shipping"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "shipping-address": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$state": "/subscription/address"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "paused-notice": {
+        "type": "Alert",
+        "props": {
+          "title": "Your coffee is on pause",
+          "message": "Upcoming deliveries and charges are paused. Resume whenever you're ready.",
+          "type": "info"
+        },
+        "visible": {
+          "$state": "/subscription/status",
+          "eq": "Paused"
+        },
+        "children": []
+      },
+      "cancelled-notice": {
+        "type": "Alert",
+        "props": {
+          "title": "Subscription cancelled",
+          "message": "No future subscription deliveries or charges are scheduled.",
+          "type": "success"
+        },
+        "visible": {
+          "$state": "/subscription/status",
+          "eq": "Cancelled"
+        },
+        "children": []
+      },
+      "delivery-card": {
+        "type": "Card",
+        "props": {
+          "title": "Find your delivery rhythm",
+          "description": "Running low or stocking up? Adjust how often your coffee arrives."
+        },
+        "visible": {
+          "$state": "/subscription/status",
+          "neq": "Cancelled"
+        },
+        "children": [
+          "delivery-frequency",
+          "frequency-note",
+          "paused-frequency-note"
+        ]
+      },
+      "delivery-frequency": {
+        "type": "Select",
+        "props": {
+          "label": "Delivery frequency",
+          "name": "deliveryFrequency",
+          "options": [
+            "Every week",
+            "Every 2 weeks",
+            "Every 3 weeks",
+            "Every 4 weeks"
+          ],
+          "value": {
+            "$bindState": "/subscription/frequency"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Choose a delivery frequency."
+            }
+          ]
+        },
+        "children": []
+      },
+      "frequency-note": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "Your schedule: ${/subscription/frequency}. Changes save automatically and apply after your next dispatch."
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "paused-frequency-note": {
+        "type": "Text",
+        "props": {
+          "text": "Your chosen frequency will take effect when you resume.",
+          "variant": "caption"
+        },
+        "visible": {
+          "$state": "/subscription/status",
+          "eq": "Paused"
+        },
+        "children": []
+      },
+      "manage-card": {
+        "type": "Card",
+        "props": {
+          "title": "Need a little breathing room?",
+          "description": "Pause your deliveries and keep your preferences for later."
+        },
+        "visible": {
+          "$state": "/subscription/status",
+          "neq": "Cancelled"
+        },
+        "children": [
+          "pause-actions",
+          "manage-divider",
+          "cancel-row"
+        ]
+      },
+      "pause-actions": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center"
+        },
+        "children": [
+          "pause-button",
+          "resume-button",
+          "pause-caption"
+        ]
+      },
+      "pause-button": {
+        "type": "Button",
+        "props": {
+          "label": "Pause subscription",
+          "variant": "secondary"
+        },
+        "visible": {
+          "$state": "/subscription/status",
+          "eq": "Active"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/subscription/status",
+              "value": "Paused"
+            }
+          }
+        },
+        "children": []
+      },
+      "resume-button": {
+        "type": "Button",
+        "props": {
+          "label": "Resume subscription",
+          "variant": "primary"
+        },
+        "visible": {
+          "$state": "/subscription/status",
+          "eq": "Paused"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/subscription/status",
+              "value": "Active"
+            }
+          }
+        },
+        "children": []
+      },
+      "pause-caption": {
+        "type": "Text",
+        "props": {
+          "text": "No charges while paused. Resume anytime.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "manage-divider": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "cancel-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "lg",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "cancel-description",
+          "open-cancel-button"
+        ]
+      },
+      "cancel-description": {
+        "type": "Text",
+        "props": {
+          "text": "Ready to end your subscription?",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "open-cancel-button": {
+        "type": "Button",
+        "props": {
+          "label": "Cancel subscription",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/cancelOpen",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "help-text": {
+        "type": "Text",
+        "props": {
+          "text": "Roasted fresh. Shipped with care. Thanks for making us part of your morning.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "cancel-dialog": {
+        "type": "Dialog",
+        "props": {
+          "title": "Cancel your coffee subscription?",
+          "description": "This stops future subscription deliveries and charges. Your current subscription preferences will remain visible in your account.",
+          "openPath": "/cancelOpen"
+        },
+        "visible": {
+          "$state": "/subscription/status",
+          "neq": "Cancelled"
+        },
+        "children": [
+          "cancel-alternative",
+          "cancel-dialog-actions"
+        ]
+      },
+      "cancel-alternative": {
+        "type": "Text",
+        "props": {
+          "text": "Just need a break? You can keep your subscription and pause it instead.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "cancel-dialog-actions": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "justify": "end"
+        },
+        "children": [
+          "keep-subscription-button",
+          "confirm-cancel-button"
+        ]
+      },
+      "keep-subscription-button": {
+        "type": "Button",
+        "props": {
+          "label": "Keep subscription",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/cancelOpen",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      },
+      "confirm-cancel-button": {
+        "type": "Button",
+        "props": {
+          "label": "Yes, cancel subscription",
+          "variant": "danger"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/subscription/status",
+              "value": "Cancelled"
+            }
+          }
+        },
+        "watch": {
+          "/subscription/status": {
+            "action": "setState",
+            "params": {
+              "statePath": "/cancelOpen",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "subscription": {
+        "name": "The Everyday Blend",
+        "tastingNotes": "Chocolate · Caramel · Toasted almond",
+        "status": "Active",
+        "size": "12 oz / 340 g",
+        "grind": "Whole bean",
+        "quantity": "1 bag per delivery",
+        "price": "$19.00 per delivery",
+        "shipping": "Free shipping",
+        "frequency": "Every 2 weeks",
+        "nextRoast": "November 3, 2026",
+        "address": "Alex Morgan · 142 Valencia St, San Francisco, CA 94103"
+      },
+      "cancelOpen": false
+    }
+  },
+  "patchLines": 42,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [],
+  "fixes": []
+}

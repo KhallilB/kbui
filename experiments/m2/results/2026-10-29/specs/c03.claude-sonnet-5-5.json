@@ -1,0 +1,669 @@
+{
+  "spec": {
+    "root": "page",
+    "elements": {
+      "page": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "xl",
+          "align": "stretch"
+        },
+        "children": [
+          "promo",
+          "hero",
+          "features-section",
+          "reviews-section",
+          "faq-section",
+          "cta-section"
+        ]
+      },
+      "promo": {
+        "type": "Alert",
+        "props": {
+          "title": "Launch Offer: Free shipping + free returns",
+          "message": "Order The Schu today and get 30 days to try them. Limited first-run pairs available.",
+          "type": "success"
+        },
+        "children": []
+      },
+      "hero": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "xl"
+        },
+        "children": [
+          "hero-image-col",
+          "hero-info-col"
+        ]
+      },
+      "hero-image-col": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "hero-image",
+          "gallery-note"
+        ]
+      },
+      "hero-image": {
+        "type": "Image",
+        "props": {
+          "alt": "The Schu sneaker in Cloud White, side view",
+          "width": 560,
+          "height": 480
+        },
+        "children": []
+      },
+      "gallery-note": {
+        "type": "Text",
+        "props": {
+          "text": "Handcrafted with recycled knit uppers and a responsive foam midsole.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "hero-info-col": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "badge-row",
+          "product-title",
+          "rating-row",
+          "price-row",
+          "product-desc",
+          "separator-1",
+          "color-select",
+          "size-select",
+          "qty-row",
+          "cta-row",
+          "cart-confirm",
+          "trust-row"
+        ]
+      },
+      "badge-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm"
+        },
+        "children": [
+          "badge-new",
+          "badge-stock"
+        ]
+      },
+      "badge-new": {
+        "type": "Badge",
+        "props": {
+          "text": "New Release",
+          "variant": "default"
+        },
+        "children": []
+      },
+      "badge-stock": {
+        "type": "Badge",
+        "props": {
+          "text": "Only a few left",
+          "variant": "destructive"
+        },
+        "children": []
+      },
+      "product-title": {
+        "type": "Heading",
+        "props": {
+          "text": "The Schu",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "rating-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm",
+          "align": "center"
+        },
+        "children": [
+          "rating-text"
+        ]
+      },
+      "rating-text": {
+        "type": "Text",
+        "props": {
+          "text": "★★★★★  4.8 average from 1,240 reviews",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "price-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center"
+        },
+        "children": [
+          "price",
+          "old-price",
+          "save-badge"
+        ]
+      },
+      "price": {
+        "type": "Heading",
+        "props": {
+          "text": "$129",
+          "level": "h2"
+        },
+        "children": []
+      },
+      "old-price": {
+        "type": "Text",
+        "props": {
+          "text": "$159",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "save-badge": {
+        "type": "Badge",
+        "props": {
+          "text": "Save 19%",
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "product-desc": {
+        "type": "Text",
+        "props": {
+          "text": "The all-day sneaker built for city streets and weekend adventures. Featherlight, cushioned, and designed to look great with everything in your closet.",
+          "variant": "lead"
+        },
+        "children": []
+      },
+      "separator-1": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "color-select": {
+        "type": "ToggleGroup",
+        "props": {
+          "items": [
+            {
+              "label": "Cloud White",
+              "value": "Cloud White"
+            },
+            {
+              "label": "Midnight Black",
+              "value": "Midnight Black"
+            },
+            {
+              "label": "Sunset Orange",
+              "value": "Sunset Orange"
+            },
+            {
+              "label": "Forest Green",
+              "value": "Forest Green"
+            }
+          ],
+          "type": "single",
+          "value": {
+            "$bindState": "/selectedColor"
+          }
+        },
+        "children": []
+      },
+      "size-select": {
+        "type": "ButtonGroup",
+        "props": {
+          "buttons": [
+            {
+              "label": "7",
+              "value": "7"
+            },
+            {
+              "label": "8",
+              "value": "8"
+            },
+            {
+              "label": "9",
+              "value": "9"
+            },
+            {
+              "label": "10",
+              "value": "10"
+            },
+            {
+              "label": "11",
+              "value": "11"
+            },
+            {
+              "label": "12",
+              "value": "12"
+            }
+          ],
+          "selected": {
+            "$bindState": "/selectedSize"
+          }
+        },
+        "children": []
+      },
+      "qty-row": {
+        "type": "Select",
+        "props": {
+          "label": "Quantity",
+          "name": "quantity",
+          "options": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
+          "value": {
+            "$bindState": "/quantity"
+          }
+        },
+        "children": []
+      },
+      "cta-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md"
+        },
+        "children": [
+          "add-to-cart",
+          "wishlist"
+        ]
+      },
+      "add-to-cart": {
+        "type": "Button",
+        "props": {
+          "label": "Add to Cart",
+          "variant": "primary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/cartAdded",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "wishlist": {
+        "type": "Button",
+        "props": {
+          "label": "Save for Later",
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "cart-confirm": {
+        "type": "Alert",
+        "props": {
+          "title": "Added to cart",
+          "message": "Your Schu is waiting. Complete checkout to lock in free shipping.",
+          "type": "success"
+        },
+        "visible": {
+          "$state": "/cartAdded"
+        },
+        "children": []
+      },
+      "trust-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "trust-list"
+        ]
+      },
+      "trust-list": {
+        "type": "Grid",
+        "props": {
+          "columns": 3,
+          "gap": "sm"
+        },
+        "repeat": {
+          "statePath": "/trust",
+          "key": "id"
+        },
+        "children": [
+          "trust-item"
+        ]
+      },
+      "trust-item": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "label"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "features-section": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "features-heading",
+          "features-grid"
+        ]
+      },
+      "features-heading": {
+        "type": "Heading",
+        "props": {
+          "text": "Why you'll love The Schu",
+          "level": "h2"
+        },
+        "children": []
+      },
+      "features-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 3,
+          "gap": "lg"
+        },
+        "repeat": {
+          "statePath": "/features",
+          "key": "id"
+        },
+        "children": [
+          "feature-card"
+        ]
+      },
+      "feature-card": {
+        "type": "Card",
+        "props": {
+          "title": {
+            "$item": "title"
+          },
+          "description": {
+            "$item": "description"
+          }
+        },
+        "children": []
+      },
+      "reviews-section": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "reviews-heading",
+          "reviews-grid"
+        ]
+      },
+      "reviews-heading": {
+        "type": "Heading",
+        "props": {
+          "text": "Loved by thousands of customers",
+          "level": "h2"
+        },
+        "children": []
+      },
+      "reviews-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 3,
+          "gap": "lg"
+        },
+        "repeat": {
+          "statePath": "/reviews",
+          "key": "id"
+        },
+        "children": [
+          "review-card"
+        ]
+      },
+      "review-card": {
+        "type": "Card",
+        "props": {
+          "title": {
+            "$item": "headline"
+          },
+          "description": {
+            "$template": "${stars}  —  ${author}, ${location}"
+          }
+        },
+        "children": [
+          "review-text"
+        ]
+      },
+      "review-text": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "body"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "faq-section": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "faq-heading",
+          "faq-accordion"
+        ]
+      },
+      "faq-heading": {
+        "type": "Heading",
+        "props": {
+          "text": "Questions? We've got answers",
+          "level": "h2"
+        },
+        "children": []
+      },
+      "faq-accordion": {
+        "type": "Accordion",
+        "props": {
+          "type": "single",
+          "items": [
+            {
+              "title": "How does The Schu fit?",
+              "content": "The Schu runs true to size. If you're between sizes, we recommend sizing up for a roomier fit."
+            },
+            {
+              "title": "What is your return policy?",
+              "content": "Try them for 30 days. If you don't love them, return them for free for a full refund."
+            },
+            {
+              "title": "How long does shipping take?",
+              "content": "Orders ship free within 1 business day and typically arrive in 3 to 5 business days."
+            },
+            {
+              "title": "How do I clean my pair?",
+              "content": "Spot clean with mild soap and a soft brush, then air dry. Do not machine wash or tumble dry."
+            }
+          ]
+        },
+        "children": []
+      },
+      "cta-section": {
+        "type": "Card",
+        "props": {
+          "title": "Get 10% off your first order",
+          "description": "Join the Schu list for early drops, restock alerts, and exclusive offers.",
+          "maxWidth": "full",
+          "centered": true
+        },
+        "children": [
+          "signup-form",
+          "signup-success"
+        ]
+      },
+      "signup-form": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "end",
+          "justify": "center"
+        },
+        "visible": {
+          "$state": "/subscribed",
+          "not": true
+        },
+        "children": [
+          "email-input",
+          "signup-button"
+        ]
+      },
+      "email-input": {
+        "type": "Input",
+        "props": {
+          "label": "Email",
+          "name": "email",
+          "type": "email",
+          "placeholder": "you@example.com",
+          "value": {
+            "$bindState": "/email"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Email is required"
+            },
+            {
+              "type": "email",
+              "message": "Enter a valid email"
+            }
+          ],
+          "validateOn": "blur"
+        },
+        "children": []
+      },
+      "signup-button": {
+        "type": "Button",
+        "props": {
+          "label": "Claim My 10%",
+          "variant": "primary"
+        },
+        "on": {
+          "press": [
+            {
+              "action": "validateForm",
+              "params": {
+                "statePath": "/formValidation"
+              }
+            },
+            {
+              "action": "setState",
+              "params": {
+                "statePath": "/subscribed",
+                "value": true
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "signup-success": {
+        "type": "Alert",
+        "props": {
+          "title": "You're in!",
+          "message": "Check your inbox for your 10% off code.",
+          "type": "success"
+        },
+        "visible": {
+          "$state": "/subscribed"
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "selectedSize": "10",
+      "selectedColor": "Cloud White",
+      "quantity": "1",
+      "cartAdded": false,
+      "reviewTab": "reviews",
+      "email": "",
+      "subscribed": false,
+      "trust": [
+        {
+          "id": "t1",
+          "label": "🚚 Free shipping"
+        },
+        {
+          "id": "t2",
+          "label": "↩️ 30-day returns"
+        },
+        {
+          "id": "t3",
+          "label": "🔒 Secure checkout"
+        }
+      ],
+      "features": [
+        {
+          "id": "f1",
+          "title": "Cloud-soft comfort",
+          "description": "Responsive foam midsole keeps your feet fresh from morning commute to late-night walks."
+        },
+        {
+          "id": "f2",
+          "title": "Made from recycled materials",
+          "description": "Each pair keeps 11 plastic bottles out of landfills without compromising on style."
+        },
+        {
+          "id": "f3",
+          "title": "Built to last",
+          "description": "Reinforced stitching and a durable rubber outsole for thousands of miles."
+        }
+      ],
+      "reviews": [
+        {
+          "id": "r1",
+          "stars": "★★★★★",
+          "author": "Maya R.",
+          "location": "Brooklyn, NY",
+          "headline": "My new daily sneaker",
+          "body": "I wore them on a 12-hour travel day and my feet felt great. They look even better in person."
+        },
+        {
+          "id": "r2",
+          "stars": "★★★★★",
+          "author": "Devon T.",
+          "location": "Austin, TX",
+          "headline": "Worth every penny",
+          "body": "Super comfortable right out of the box, no break-in period. I've already ordered a second pair."
+        },
+        {
+          "id": "r3",
+          "stars": "★★★★☆",
+          "author": "Priya S.",
+          "location": "Seattle, WA",
+          "headline": "Clean and comfy",
+          "body": "Gets compliments everywhere I go. Runs true to size and the knit is really breathable."
+        }
+      ]
+    }
+  },
+  "patchLines": 66,
+  "skippedLines": 0,
+  "firstNodeMs": 5332,
+  "issues": [],
+  "fixes": []
+}

@@ -1,0 +1,230 @@
+{
+  "promptId": "c06",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:15:50.916Z",
+  "totalMs": 22486,
+  "lines": [
+    {
+      "t": 2627,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+    },
+    {
+      "t": 3109,
+      "text": "{\"op\":\"add\",\"path\":\"/state/subscription\",\"value\":{\"plan\":\"Ethiopia Yirgacheffe\",\"roast\":\"Light Roast\",\"size\":\"12 oz bag\",\"price\":\"$18.50\",\"status\":\"active\",\"nextDelivery\":\"Nov 5, 2026\",\"frequency\":\"Every 2 weeks\"}}"
+    },
+    {
+      "t": 3443,
+      "text": "{\"op\":\"add\",\"path\":\"/state/frequency\",\"value\":\"Every 2 weeks\"}"
+    },
+    {
+      "t": 3443,
+      "text": "{\"op\":\"add\",\"path\":\"/state/showPause\",\"value\":false}"
+    },
+    {
+      "t": 3443,
+      "text": "{\"op\":\"add\",\"path\":\"/state/showCancel\",\"value\":false}"
+    },
+    {
+      "t": 3833,
+      "text": "{\"op\":\"add\",\"path\":\"/state/pauseDuration\",\"value\":\"1 month\"}"
+    },
+    {
+      "t": 3833,
+      "text": "{\"op\":\"add\",\"path\":\"/state/cancelReason\",\"value\":\"\"}"
+    },
+    {
+      "t": 3833,
+      "text": "{\"op\":\"add\",\"path\":\"/state/saved\",\"value\":false}"
+    },
+    {
+      "t": 4635,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\",\"className\":\"max-w-3xl mx-auto p-6\"},\"children\":[\"header\",\"status-paused\",\"status-cancelled\",\"current-card\",\"frequency-card\",\"manage-card\",\"pause-dialog\",\"cancel-dialog\"]}}"
+    },
+    {
+      "t": 4922,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"title\",\"subtitle\"]}}"
+    },
+    {
+      "t": 5017,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"My Subscription\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 5412,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtitle\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Manage your coffee deliveries, change frequency, pause, or cancel anytime.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 5859,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/status-paused\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Subscription paused\",\"message\":\"Your deliveries are on hold. You can resume anytime.\",\"type\":\"warning\"},\"visible\":{\"$state\":\"/subscription/status\",\"eq\":\"paused\"},\"children\":[]}}"
+    },
+    {
+      "t": 6525,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/status-cancelled\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Subscription cancelled\",\"message\":\"We're sorry to see you go. You will not be charged again.\",\"type\":\"error\"},\"visible\":{\"$state\":\"/subscription/status\",\"eq\":\"cancelled\"},\"children\":[]}}"
+    },
+    {
+      "t": 6977,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/current-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Current Subscription\",\"description\":\"Your active coffee plan\",\"maxWidth\":\"full\"},\"children\":[\"current-stack\"]}}"
+    },
+    {
+      "t": 7279,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/current-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"lg\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"current-info\",\"current-badge\"]}}"
+    },
+    {
+      "t": 7703,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/current-info\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"plan-name\",\"plan-details\",\"plan-price\",\"plan-next\",\"plan-freq\"]}}"
+    },
+    {
+      "t": 7855,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/plan-name\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$state\":\"/subscription/plan\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 8202,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/plan-details\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${/subscription/roast} · ${/subscription/size}\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 8543,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/plan-price\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"Price per delivery: ${/subscription/price}\"},\"variant\":\"lead\"},\"children\":[]}}"
+    },
+    {
+      "t": 8958,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/plan-next\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"Next delivery: ${/subscription/nextDelivery}\"},\"variant\":\"muted\"},\"visible\":{\"$state\":\"/subscription/status\",\"eq\":\"active\"},\"children\":[]}}"
+    },
+    {
+      "t": 9288,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/plan-freq\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"Frequency: ${/subscription/frequency}\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 9773,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/current-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$state\":\"/subscription/status\"},\"variant\":{\"$cond\":{\"$state\":\"/subscription/status\",\"eq\":\"active\"},\"$then\":\"default\",\"$else\":\"secondary\"}},\"children\":[]}}"
+    },
+    {
+      "t": 10327,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/frequency-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Delivery Frequency\",\"description\":\"Choose how often you'd like your coffee delivered\",\"maxWidth\":\"full\"},\"visible\":{\"$state\":\"/subscription/status\",\"neq\":\"cancelled\"},\"children\":[\"freq-stack\"]}}"
+    },
+    {
+      "t": 10656,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/freq-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"freq-radio\",\"saved-alert\",\"freq-save\"]}}"
+    },
+    {
+      "t": 11187,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/freq-radio\",\"value\":{\"type\":\"Radio\",\"props\":{\"label\":\"Deliver my coffee\",\"name\":\"frequency\",\"options\":[\"Every week\",\"Every 2 weeks\",\"Every 4 weeks\",\"Every 8 weeks\"],\"value\":{\"$bindState\":\"/frequency\"}},\"children\":[]}}"
+    },
+    {
+      "t": 11633,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/saved-alert\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Frequency updated\",\"message\":\"Your delivery schedule has been saved.\",\"type\":\"success\"},\"visible\":{\"$state\":\"/saved\"},\"children\":[]}}"
+    },
+    {
+      "t": 12192,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/freq-save\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Save Frequency\",\"variant\":\"primary\"},\"on\":{\"press\":[{\"action\":\"setState\",\"params\":{\"statePath\":\"/subscription/frequency\",\"value\":{\"$state\":\"/frequency\"}}},{\"action\":\"setState\",\"params\":{\"statePath\":\"/saved\",\"value\":true}}]},\"children\":[]}}"
+    },
+    {
+      "t": 12587,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/manage-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Manage Subscription\",\"description\":\"Take a break or end your subscription\",\"maxWidth\":\"full\"},\"children\":[\"manage-stack\"]}}"
+    },
+    {
+      "t": 13021,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/manage-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\"},\"children\":[\"pause-btn\",\"resume-btn\",\"cancel-btn\",\"reactivate-btn\"]}}"
+    },
+    {
+      "t": 13560,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pause-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Pause Subscription\",\"variant\":\"secondary\"},\"visible\":{\"$state\":\"/subscription/status\",\"eq\":\"active\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/showPause\",\"value\":true}}},\"children\":[]}}"
+    },
+    {
+      "t": 14198,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/resume-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Resume Subscription\",\"variant\":\"primary\"},\"visible\":{\"$state\":\"/subscription/status\",\"eq\":\"paused\"},\"on\":{\"press\":[{\"action\":\"setState\",\"params\":{\"statePath\":\"/subscription/status\",\"value\":\"active\"}},{\"action\":\"setState\",\"params\":{\"statePath\":\"/saved\",\"value\":false}}]},\"children\":[]}}"
+    },
+    {
+      "t": 14721,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cancel-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Cancel Subscription\",\"variant\":\"danger\"},\"visible\":{\"$state\":\"/subscription/status\",\"neq\":\"cancelled\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/showCancel\",\"value\":true}}},\"children\":[]}}"
+    },
+    {
+      "t": 15264,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/reactivate-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Reactivate Subscription\",\"variant\":\"primary\"},\"visible\":{\"$state\":\"/subscription/status\",\"eq\":\"cancelled\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/subscription/status\",\"value\":\"active\"}}},\"children\":[]}}"
+    },
+    {
+      "t": 15756,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pause-dialog\",\"value\":{\"type\":\"Dialog\",\"props\":{\"title\":\"Pause your subscription\",\"description\":\"Choose how long to pause. No charges or deliveries during this time.\",\"openPath\":\"/showPause\"},\"children\":[\"pause-stack\"]}}"
+    },
+    {
+      "t": 16057,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pause-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"pause-select\",\"pause-actions\"]}}"
+    },
+    {
+      "t": 16521,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pause-select\",\"value\":{\"type\":\"Select\",\"props\":{\"label\":\"Pause for\",\"name\":\"pauseDuration\",\"options\":[\"2 weeks\",\"1 month\",\"2 months\",\"3 months\"],\"value\":{\"$bindState\":\"/pauseDuration\"}},\"children\":[]}}"
+    },
+    {
+      "t": 16830,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pause-actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"justify\":\"end\"},\"children\":[\"pause-back\",\"pause-confirm\"]}}"
+    },
+    {
+      "t": 17228,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pause-back\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Keep Active\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/showPause\",\"value\":false}}},\"children\":[]}}"
+    },
+    {
+      "t": 17788,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pause-confirm\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Confirm Pause\",\"variant\":\"primary\"},\"on\":{\"press\":[{\"action\":\"setState\",\"params\":{\"statePath\":\"/subscription/status\",\"value\":\"paused\"}},{\"action\":\"setState\",\"params\":{\"statePath\":\"/showPause\",\"value\":false}}]},\"children\":[]}}"
+    },
+    {
+      "t": 18384,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cancel-dialog\",\"value\":{\"type\":\"Dialog\",\"props\":{\"title\":\"Cancel your subscription?\",\"description\":\"You'll lose your current pricing and schedule. Consider pausing instead.\",\"openPath\":\"/showCancel\"},\"children\":[\"cancel-stack\"]}}"
+    },
+    {
+      "t": 18656,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cancel-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"cancel-reason\",\"cancel-actions\"]}}"
+    },
+    {
+      "t": 19354,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cancel-reason\",\"value\":{\"type\":\"Select\",\"props\":{\"label\":\"Reason for leaving\",\"name\":\"cancelReason\",\"placeholder\":\"Select a reason\",\"options\":[\"Too much coffee\",\"Too expensive\",\"Not enjoying the coffee\",\"Switching providers\",\"Other\"],\"value\":{\"$bindState\":\"/cancelReason\"}},\"children\":[]}}"
+    },
+    {
+      "t": 19724,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cancel-actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"justify\":\"end\"},\"children\":[\"cancel-back\",\"cancel-confirm\"]}}"
+    },
+    {
+      "t": 20133,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cancel-back\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Keep Subscription\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/showCancel\",\"value\":false}}},\"children\":[]}}"
+    },
+    {
+      "t": 22486,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cancel-confirm\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Yes, Cancel\",\"variant\":\"danger\"},\"on\":{\"press\":[{\"action\":\"setState\",\"params\":{\"statePath\":\"/subscription/status\",\"value\":\"cancelled\"}},{\"action\":\"setState\",\"params\":{\"statePath\":\"/showCancel\",\"value\":false}}]},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 929,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 3996,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 929,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 3996,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 929,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 929
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

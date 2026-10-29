@@ -1,0 +1,578 @@
+{
+  "spec": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "header",
+          "stats-grid",
+          "middle-grid",
+          "goals-card"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "header-text",
+          "period-toggle"
+        ]
+      },
+      "header-text": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "title",
+          "subtitle"
+        ]
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Fitness Dashboard",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Week of October 26 – November 1, 2026",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "period-toggle": {
+        "type": "ButtonGroup",
+        "props": {
+          "buttons": [
+            {
+              "label": "Day",
+              "value": "day"
+            },
+            {
+              "label": "Week",
+              "value": "week"
+            },
+            {
+              "label": "Month",
+              "value": "month"
+            }
+          ],
+          "selected": {
+            "$bindState": "/period"
+          }
+        },
+        "children": []
+      },
+      "stats-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 4,
+          "gap": "md"
+        },
+        "children": [
+          "stat-steps",
+          "stat-workouts",
+          "stat-sleep",
+          "stat-calories"
+        ]
+      },
+      "stat-steps": {
+        "type": "Card",
+        "props": {
+          "title": "Steps Today"
+        },
+        "children": [
+          "steps-value",
+          "steps-progress",
+          "steps-note"
+        ]
+      },
+      "steps-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$template": "${/today/steps} steps"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "steps-progress": {
+        "type": "Progress",
+        "props": {
+          "value": 82,
+          "max": 100,
+          "label": "Goal: 10,000"
+        },
+        "children": []
+      },
+      "steps-note": {
+        "type": "Badge",
+        "props": {
+          "text": "+12% vs last week",
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "stat-workouts": {
+        "type": "Card",
+        "props": {
+          "title": "Workouts This Week"
+        },
+        "children": [
+          "workouts-value",
+          "workouts-progress",
+          "workouts-note"
+        ]
+      },
+      "workouts-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$template": "${/today/workouts} of ${/today/workoutGoal}"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "workouts-progress": {
+        "type": "Progress",
+        "props": {
+          "value": 80,
+          "max": 100,
+          "label": "4 / 5 sessions"
+        },
+        "children": []
+      },
+      "workouts-note": {
+        "type": "Badge",
+        "props": {
+          "text": "1 to go",
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "stat-sleep": {
+        "type": "Card",
+        "props": {
+          "title": "Sleep Last Night"
+        },
+        "children": [
+          "sleep-value",
+          "sleep-progress",
+          "sleep-note"
+        ]
+      },
+      "sleep-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$template": "${/today/sleep} hrs"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "sleep-progress": {
+        "type": "Progress",
+        "props": {
+          "value": 90,
+          "max": 100,
+          "label": "Goal: 8 hrs"
+        },
+        "children": []
+      },
+      "sleep-note": {
+        "type": "Badge",
+        "props": {
+          "text": "Good quality",
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "stat-calories": {
+        "type": "Card",
+        "props": {
+          "title": "Active Calories"
+        },
+        "children": [
+          "cal-value",
+          "cal-progress",
+          "cal-note"
+        ]
+      },
+      "cal-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$template": "${/today/calories} kcal"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "cal-progress": {
+        "type": "Progress",
+        "props": {
+          "value": 71,
+          "max": 100,
+          "label": "Goal: 600"
+        },
+        "children": []
+      },
+      "cal-note": {
+        "type": "Badge",
+        "props": {
+          "text": "On track",
+          "variant": "default"
+        },
+        "children": []
+      },
+      "middle-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "md"
+        },
+        "children": [
+          "workouts-card",
+          "sleep-card"
+        ]
+      },
+      "workouts-card": {
+        "type": "Card",
+        "props": {
+          "title": "Workouts This Week",
+          "description": "Your logged sessions"
+        },
+        "children": [
+          "workouts-list"
+        ]
+      },
+      "workouts-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "repeat": {
+          "statePath": "/workouts",
+          "key": "id"
+        },
+        "children": [
+          "workout-row"
+        ]
+      },
+      "workout-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "workout-info",
+          "workout-badge"
+        ]
+      },
+      "workout-info": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "none"
+        },
+        "children": [
+          "workout-name",
+          "workout-meta"
+        ]
+      },
+      "workout-name": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "name"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "workout-meta": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${day} · ${duration} min · ${calories} kcal"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "workout-badge": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "type"
+          },
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "sleep-card": {
+        "type": "Card",
+        "props": {
+          "title": "Sleep This Week",
+          "description": "Hours per night"
+        },
+        "children": [
+          "sleep-table",
+          "sleep-avg"
+        ]
+      },
+      "sleep-table": {
+        "type": "Table",
+        "props": {
+          "columns": [
+            "Day",
+            "Hours",
+            "Quality"
+          ],
+          "rows": [
+            [
+              "Mon",
+              "7.5",
+              "Good"
+            ],
+            [
+              "Tue",
+              "6.8",
+              "Fair"
+            ],
+            [
+              "Wed",
+              "7.9",
+              "Good"
+            ],
+            [
+              "Thu",
+              "7.1",
+              "Good"
+            ],
+            [
+              "Fri",
+              "6.5",
+              "Fair"
+            ],
+            [
+              "Sat",
+              "8.4",
+              "Excellent"
+            ],
+            [
+              "Sun",
+              "7.2",
+              "Good"
+            ]
+          ]
+        },
+        "children": []
+      },
+      "sleep-avg": {
+        "type": "Text",
+        "props": {
+          "text": "Weekly average: 7.3 hrs — 0.7 hrs below your goal",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "goals-card": {
+        "type": "Card",
+        "props": {
+          "title": "Progress Toward Goals",
+          "description": "How you're tracking against your targets"
+        },
+        "children": [
+          "goals-list"
+        ]
+      },
+      "goals-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/goals",
+          "key": "id"
+        },
+        "children": [
+          "goal-row"
+        ]
+      },
+      "goal-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "goal-header",
+          "goal-progress"
+        ]
+      },
+      "goal-header": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "goal-name",
+          "goal-status"
+        ]
+      },
+      "goal-name": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${name} (${current} / ${target} ${unit})"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "goal-status": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "status"
+          },
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "goal-progress": {
+        "type": "Progress",
+        "props": {
+          "value": {
+            "$item": "percent"
+          },
+          "max": 100
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "period": "week",
+      "today": {
+        "steps": "8,240",
+        "workouts": 4,
+        "workoutGoal": 5,
+        "sleep": "7.2",
+        "calories": 425
+      },
+      "workouts": [
+        {
+          "id": "1",
+          "name": "Morning Run",
+          "day": "Mon",
+          "duration": 35,
+          "calories": 320,
+          "type": "Cardio"
+        },
+        {
+          "id": "2",
+          "name": "Upper Body Strength",
+          "day": "Tue",
+          "duration": 50,
+          "calories": 280,
+          "type": "Strength"
+        },
+        {
+          "id": "3",
+          "name": "Yoga Flow",
+          "day": "Thu",
+          "duration": 40,
+          "calories": 150,
+          "type": "Mobility"
+        },
+        {
+          "id": "4",
+          "name": "HIIT Circuit",
+          "day": "Fri",
+          "duration": 30,
+          "calories": 350,
+          "type": "Cardio"
+        }
+      ],
+      "goals": [
+        {
+          "id": "1",
+          "name": "Weekly Steps",
+          "current": "52,300",
+          "target": "70,000",
+          "unit": "steps",
+          "percent": 75,
+          "status": "On track"
+        },
+        {
+          "id": "2",
+          "name": "Weekly Workouts",
+          "current": "4",
+          "target": "5",
+          "unit": "sessions",
+          "percent": 80,
+          "status": "Almost there"
+        },
+        {
+          "id": "3",
+          "name": "Average Sleep",
+          "current": "7.3",
+          "target": "8",
+          "unit": "hrs",
+          "percent": 91,
+          "status": "Close"
+        },
+        {
+          "id": "4",
+          "name": "Active Calories",
+          "current": "2,850",
+          "target": "4,200",
+          "unit": "kcal",
+          "percent": 68,
+          "status": "Behind"
+        },
+        {
+          "id": "5",
+          "name": "Weight Target",
+          "current": "178",
+          "target": "172",
+          "unit": "lbs",
+          "percent": 60,
+          "status": "In progress"
+        }
+      ]
+    }
+  },
+  "patchLines": 55,
+  "skippedLines": 0,
+  "firstNodeMs": 3350,
+  "issues": [],
+  "fixes": []
+}

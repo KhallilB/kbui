@@ -1,0 +1,290 @@
+{
+  "promptId": "c04",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:15:07.048Z",
+  "totalMs": 43866,
+  "lines": [
+    {
+      "t": 18652,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+    },
+    {
+      "t": 19032,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\",\"className\":\"max-w-6xl mx-auto p-6\"},\"children\":[\"header\",\"ship-card\",\"layout\",\"help-card\"]}}"
+    },
+    {
+      "t": 19328,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"title\",\"subtitle\"]}}"
+    },
+    {
+      "t": 19592,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Your Cart\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 20024,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtitle\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Almost there! Your sneakers are reserved for 15 minutes.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 20287,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/ship-card\",\"value\":{\"type\":\"Card\",\"props\":{\"maxWidth\":\"full\"},\"children\":[\"ship-text\",\"ship-progress\"]}}"
+    },
+    {
+      "t": 20652,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/ship-text\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"You're only $${/shipping/remaining} away from FREE shipping!\"},\"variant\":\"lead\"},\"children\":[]}}"
+    },
+    {
+      "t": 20990,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/ship-progress\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$state\":\"/shipping/percent\"},\"max\":100,\"label\":\"Free shipping progress\"},\"children\":[]}}"
+    },
+    {
+      "t": 21186,
+      "text": "{\"op\":\"add\",\"path\":\"/state/shipping\",\"value\":{\"remaining\":\"28.00\",\"percent\":89}}"
+    },
+    {
+      "t": 21455,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/layout\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"lg\"},\"children\":[\"items-col\",\"summary-col\"]}}"
+    },
+    {
+      "t": 21788,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/items-col\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"items-heading\",\"items-list\",\"continue-link\"]}}"
+    },
+    {
+      "t": 22089,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/items-heading\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Items in your cart\",\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 22420,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/items-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/cart/items\",\"key\":\"id\"},\"children\":[\"item-card\"]}}"
+    },
+    {
+      "t": 22658,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/item-card\",\"value\":{\"type\":\"Card\",\"props\":{\"maxWidth\":\"full\"},\"children\":[\"item-row\"]}}"
+    },
+    {
+      "t": 23022,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/item-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"item-img\",\"item-info\",\"item-qty\",\"item-price\"]}}"
+    },
+    {
+      "t": 23365,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/item-img\",\"value\":{\"type\":\"Image\",\"props\":{\"src\":{\"$item\":\"image\"},\"alt\":{\"$item\":\"name\"},\"width\":96,\"height\":96},\"children\":[]}}"
+    },
+    {
+      "t": 23671,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/item-info\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"item-name\",\"item-meta\",\"item-stock\",\"item-remove\"]}}"
+    },
+    {
+      "t": 23924,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/item-name\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$item\":\"name\"},\"level\":\"h4\"},\"children\":[]}}"
+    },
+    {
+      "t": 24188,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/item-meta\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${color} · Size ${size}\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 24504,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/item-stock\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"stockNote\"},\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 24887,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/item-remove\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Remove\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"removeState\",\"params\":{\"statePath\":\"/cart/items\",\"index\":{\"$index\":true}}}},\"children\":[]}}"
+    },
+    {
+      "t": 25291,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/item-qty\",\"value\":{\"type\":\"Select\",\"props\":{\"label\":\"Qty\",\"name\":\"qty\",\"options\":[\"1\",\"2\",\"3\",\"4\",\"5\"],\"value\":{\"$bindItem\":\"quantity\"}},\"children\":[]}}"
+    },
+    {
+      "t": 25561,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/item-price\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"priceLabel\"},\"variant\":\"lead\"},\"children\":[]}}"
+    },
+    {
+      "t": 25661,
+      "text": "{\"op\":\"add\",\"path\":\"/state/cart\",\"value\":{\"items\":[]}}"
+    },
+    {
+      "t": 26724,
+      "text": "{\"op\":\"add\",\"path\":\"/state/cart/items/0\",\"value\":{\"id\":\"1\",\"name\":\"AirRunner 2 Low\",\"color\":\"Cloud White\",\"size\":\"10\",\"quantity\":\"1\",\"priceLabel\":\"$128.00\",\"stockNote\":\"Only 3 left in your size\",\"image\":\"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200\"}}"
+    },
+    {
+      "t": 27622,
+      "text": "{\"op\":\"add\",\"path\":\"/state/cart/items/1\",\"value\":{\"id\":\"2\",\"name\":\"Court Classic Leather\",\"color\":\"Black / Gum\",\"size\":\"9.5\",\"quantity\":\"1\",\"priceLabel\":\"$94.00\",\"stockNote\":\"In stock · Ships today\",\"image\":\"https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=200\"}}"
+    },
+    {
+      "t": 27898,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/continue-link\",\"value\":{\"type\":\"Link\",\"props\":{\"label\":\"← Continue shopping\",\"href\":\"/shop\"},\"children\":[]}}"
+    },
+    {
+      "t": 28589,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/summary-col\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Order summary\",\"description\":\"Shipping and taxes estimated\",\"maxWidth\":\"full\"},\"children\":[\"sum-rows\",\"sep-1\",\"total-row\",\"promo-section\",\"promo-alert\",\"checkout-btn\",\"checkout-alert\",\"secure-text\",\"trust-badges\"]}}"
+    },
+    {
+      "t": 28923,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-rows\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"row-sub\",\"row-ship\",\"row-tax\",\"row-disc\"]}}"
+    },
+    {
+      "t": 29287,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-sub\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"justify\":\"between\"},\"children\":[\"row-sub-l\",\"row-sub-v\"]}}"
+    },
+    {
+      "t": 29559,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-sub-l\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Subtotal\",\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 29856,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-sub-v\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"$${/summary/subtotal}\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 30160,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-ship\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"justify\":\"between\"},\"children\":[\"row-ship-l\",\"row-ship-v\"]}}"
+    },
+    {
+      "t": 30392,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-ship-l\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Shipping\",\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 30703,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-ship-v\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"$${/summary/shipping}\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 30999,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-tax\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"justify\":\"between\"},\"children\":[\"row-tax-l\",\"row-tax-v\"]}}"
+    },
+    {
+      "t": 31261,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-tax-l\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Estimated tax\",\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 31574,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-tax-v\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"$${/summary/tax}\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 31930,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-disc\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"justify\":\"between\"},\"visible\":{\"$state\":\"/promo/applied\"},\"children\":[\"row-disc-l\",\"row-disc-v\"]}}"
+    },
+    {
+      "t": 32320,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-disc-l\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Promo discount (WELCOME10)\",\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 32626,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-disc-v\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"-$22.20\",\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 32794,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sep-1\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 33060,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/total-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"justify\":\"between\"},\"children\":[\"total-l\",\"total-v\"]}}"
+    },
+    {
+      "t": 33289,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/total-l\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Total\",\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 33592,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/total-v\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$template\":\"$${/summary/total}\"},\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 33823,
+      "text": "{\"op\":\"add\",\"path\":\"/state/summary\",\"value\":{\"subtotal\":\"222.00\",\"shipping\":\"5.99\",\"tax\":\"17.76\",\"total\":\"245.75\"}}"
+    },
+    {
+      "t": 33988,
+      "text": "{\"op\":\"add\",\"path\":\"/state/promo\",\"value\":{\"code\":\"\",\"applied\":false}}"
+    },
+    {
+      "t": 34114,
+      "text": "{\"op\":\"add\",\"path\":\"/state/checkoutStarted\",\"value\":false}"
+    },
+    {
+      "t": 34428,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/promo-section\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"align\":\"end\"},\"children\":[\"promo-input\",\"promo-btn\"]}}"
+    },
+    {
+      "t": 34822,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/promo-input\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Promo code\",\"name\":\"promo\",\"type\":\"text\",\"placeholder\":\"Try WELCOME10\",\"value\":{\"$bindState\":\"/promo/code\"}},\"children\":[]}}"
+    },
+    {
+      "t": 35223,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/promo-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Apply\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/promo/applied\",\"value\":true}}},\"children\":[]}}"
+    },
+    {
+      "t": 35625,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/promo-alert\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Promo applied\",\"message\":\"You saved $22.20 on this order.\",\"type\":\"success\"},\"visible\":{\"$state\":\"/promo/applied\"},\"children\":[]}}"
+    },
+    {
+      "t": 36137,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/checkout-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Continue to payment →\",\"variant\":\"primary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/checkoutStarted\",\"value\":true}}},\"children\":[]}}"
+    },
+    {
+      "t": 36695,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/checkout-alert\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Taking you to secure payment…\",\"message\":\"No account needed. Check out as a guest in under a minute.\",\"type\":\"info\"},\"visible\":{\"$state\":\"/checkoutStarted\"},\"children\":[]}}"
+    },
+    {
+      "t": 37193,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/secure-text\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"🔒 Secure checkout · Guest checkout available · Apple Pay, PayPal & cards accepted\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 37523,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/trust-badges\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\"},\"children\":[\"badge-1\",\"badge-2\",\"badge-3\"]}}"
+    },
+    {
+      "t": 37827,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/badge-1\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Free 30-day returns\",\"variant\":\"outline\"},\"children\":[]}}"
+    },
+    {
+      "t": 38129,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/badge-2\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Arrives by Nov 3\",\"variant\":\"outline\"},\"children\":[]}}"
+    },
+    {
+      "t": 38423,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/badge-3\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Authentic guaranteed\",\"variant\":\"outline\"},\"children\":[]}}"
+    },
+    {
+      "t": 38726,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/help-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Questions before you buy?\",\"maxWidth\":\"full\"},\"children\":[\"help-accordion\"]}}"
+    },
+    {
+      "t": 43866,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/help-accordion\",\"value\":{\"type\":\"Accordion\",\"props\":{\"type\":\"single\",\"items\":[{\"title\":\"What's your return policy?\",\"content\":\"Return any unworn pair within 30 days for free. We email you a prepaid label.\"},{\"title\":\"How fast will my order arrive?\",\"content\":\"Standard shipping takes 3-5 business days. Orders placed before 2pm ship the same day.\"},{\"title\":\"What if my size doesn't fit?\",\"content\":\"Exchange for a different size at no cost. We'll ship the new pair as soon as your return is scanned.\"},{\"title\":\"Is payment secure?\",\"content\":\"Yes. All payments are encrypted, and we never store your full card details.\"}]},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 933,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 6133,
+    "output_tokens_details": {
+      "thinking_tokens": 1609
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 933,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 6133,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 933,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 933
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

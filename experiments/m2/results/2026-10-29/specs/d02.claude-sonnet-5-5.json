@@ -1,0 +1,495 @@
+{
+  "spec": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "header",
+          "kpis",
+          "middle",
+          "queue-card"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "title-stack",
+          "filters"
+        ]
+      },
+      "title-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "title",
+          "subtitle"
+        ]
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Support Operations Dashboard",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Live overview of ticket volume, response times and agent workload",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "filters": {
+        "type": "ButtonGroup",
+        "props": {
+          "buttons": [
+            {
+              "label": "Today",
+              "value": "today"
+            },
+            {
+              "label": "7 days",
+              "value": "week"
+            },
+            {
+              "label": "30 days",
+              "value": "month"
+            }
+          ],
+          "selected": {
+            "$bindState": "/range"
+          }
+        },
+        "children": []
+      },
+      "kpis": {
+        "type": "Grid",
+        "props": {
+          "columns": 4,
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/kpis",
+          "key": "id"
+        },
+        "children": [
+          "kpi-card"
+        ]
+      },
+      "kpi-card": {
+        "type": "Card",
+        "props": {
+          "title": {
+            "$item": "label"
+          }
+        },
+        "children": [
+          "kpi-value",
+          "kpi-delta"
+        ]
+      },
+      "kpi-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "value"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "kpi-delta": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "delta"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "middle": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "md"
+        },
+        "children": [
+          "priority-card",
+          "sla-card"
+        ]
+      },
+      "priority-card": {
+        "type": "Card",
+        "props": {
+          "title": "Tickets by Priority",
+          "description": "Open tickets grouped by urgency"
+        },
+        "children": [
+          "priority-list"
+        ]
+      },
+      "priority-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/priorities",
+          "key": "id"
+        },
+        "children": [
+          "priority-row"
+        ]
+      },
+      "priority-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "priority-head",
+          "priority-bar"
+        ]
+      },
+      "priority-head": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "priority-name",
+          "priority-count"
+        ]
+      },
+      "priority-name": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "name"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "priority-count": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$template": "${count} tickets"
+          },
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "priority-bar": {
+        "type": "Progress",
+        "props": {
+          "value": {
+            "$item": "percent"
+          },
+          "max": 100
+        },
+        "children": []
+      },
+      "sla-card": {
+        "type": "Card",
+        "props": {
+          "title": "SLA & Alerts",
+          "description": "Service level health"
+        },
+        "children": [
+          "sla-stack"
+        ]
+      },
+      "sla-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "sla-progress",
+          "sla-alert-1",
+          "sla-alert-2"
+        ]
+      },
+      "sla-progress": {
+        "type": "Progress",
+        "props": {
+          "value": 94,
+          "max": 100,
+          "label": "First-response SLA compliance: 94%"
+        },
+        "children": []
+      },
+      "sla-alert-1": {
+        "type": "Alert",
+        "props": {
+          "title": "5 tickets nearing SLA breach",
+          "message": "Urgent tickets waiting more than 45 minutes without a reply.",
+          "type": "warning"
+        },
+        "children": []
+      },
+      "sla-alert-2": {
+        "type": "Alert",
+        "props": {
+          "title": "Backlog trending down",
+          "message": "Open ticket volume is 8% lower than the weekly average.",
+          "type": "success"
+        },
+        "children": []
+      },
+      "queue-card": {
+        "type": "Card",
+        "props": {
+          "title": "Agent Queue",
+          "description": "Current workload and availability per agent"
+        },
+        "children": [
+          "queue-list"
+        ]
+      },
+      "queue-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/agents",
+          "key": "id"
+        },
+        "children": [
+          "agent-row"
+        ]
+      },
+      "agent-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "agent-info",
+          "agent-load",
+          "agent-status"
+        ]
+      },
+      "agent-info": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center"
+        },
+        "children": [
+          "agent-avatar",
+          "agent-name-stack"
+        ]
+      },
+      "agent-avatar": {
+        "type": "Avatar",
+        "props": {
+          "name": {
+            "$item": "name"
+          },
+          "size": "md"
+        },
+        "children": []
+      },
+      "agent-name-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "none"
+        },
+        "children": [
+          "agent-name",
+          "agent-role"
+        ]
+      },
+      "agent-name": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "name"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "agent-role": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${role} · avg reply ${reply}"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "agent-load": {
+        "type": "Progress",
+        "props": {
+          "value": {
+            "$item": "load"
+          },
+          "max": 100,
+          "label": {
+            "$template": "${tickets} active tickets"
+          }
+        },
+        "children": []
+      },
+      "agent-status": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "status"
+          },
+          "variant": {
+            "$cond": {
+              "$item": "status",
+              "eq": "Online"
+            },
+            "$then": "default",
+            "$else": "secondary"
+          }
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "range": "today",
+      "kpis": [
+        {
+          "id": "open",
+          "label": "Open Tickets",
+          "value": "142",
+          "delta": "▲ 12 since yesterday"
+        },
+        {
+          "id": "resp",
+          "label": "Avg. Response Time",
+          "value": "18m 42s",
+          "delta": "▼ 2m 10s faster than last week"
+        },
+        {
+          "id": "resolved",
+          "label": "Resolved Today",
+          "value": "87",
+          "delta": "▲ 9% vs. average"
+        },
+        {
+          "id": "csat",
+          "label": "CSAT Score",
+          "value": "4.6 / 5",
+          "delta": "▲ 0.2 this month"
+        }
+      ],
+      "priorities": [
+        {
+          "id": "urgent",
+          "name": "Urgent",
+          "count": 14,
+          "percent": 10
+        },
+        {
+          "id": "high",
+          "name": "High",
+          "count": 38,
+          "percent": 27
+        },
+        {
+          "id": "medium",
+          "name": "Medium",
+          "count": 56,
+          "percent": 39
+        },
+        {
+          "id": "low",
+          "name": "Low",
+          "count": 34,
+          "percent": 24
+        }
+      ],
+      "agents": [
+        {
+          "id": "a1",
+          "name": "Maya Patel",
+          "role": "Tier 2",
+          "reply": "12m",
+          "tickets": 18,
+          "load": 82,
+          "status": "Online"
+        },
+        {
+          "id": "a2",
+          "name": "Daniel Okafor",
+          "role": "Tier 1",
+          "reply": "15m",
+          "tickets": 14,
+          "load": 64,
+          "status": "Online"
+        },
+        {
+          "id": "a3",
+          "name": "Sofia Alvarez",
+          "role": "Tier 1",
+          "reply": "21m",
+          "tickets": 11,
+          "load": 50,
+          "status": "Away"
+        },
+        {
+          "id": "a4",
+          "name": "Liam Chen",
+          "role": "Tier 3",
+          "reply": "26m",
+          "tickets": 9,
+          "load": 41,
+          "status": "Online"
+        },
+        {
+          "id": "a5",
+          "name": "Hannah Brooks",
+          "role": "Tier 2",
+          "reply": "17m",
+          "tickets": 6,
+          "load": 28,
+          "status": "Offline"
+        }
+      ]
+    }
+  },
+  "patchLines": 51,
+  "skippedLines": 0,
+  "firstNodeMs": 1579,
+  "issues": [],
+  "fixes": []
+}

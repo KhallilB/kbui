@@ -1,0 +1,265 @@
+{
+  "spec": {
+    "root": "dashboard",
+    "elements": {
+      "dashboard": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "xl",
+          "className": "mx-auto max-w-7xl p-8"
+        },
+        "children": [
+          "header",
+          "metrics",
+          "campaigns",
+          "insight"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center",
+          "gap": "lg"
+        },
+        "children": [
+          "heading-group",
+          "period"
+        ]
+      },
+      "heading-group": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "title",
+          "subtitle"
+        ]
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Campaign overview",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Track reach, engagement, and acquisition across your paid campaigns.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "period": {
+        "type": "Badge",
+        "props": {
+          "text": "October 1–28, 2026",
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "metrics": {
+        "type": "Grid",
+        "props": {
+          "columns": 4,
+          "gap": "lg",
+          "className": "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+        },
+        "repeat": {
+          "statePath": "/metrics",
+          "key": "id"
+        },
+        "children": [
+          "metric-card"
+        ]
+      },
+      "metric-card": {
+        "type": "Card",
+        "props": {
+          "maxWidth": "full"
+        },
+        "children": [
+          "metric-label",
+          "metric-value",
+          "metric-change",
+          "metric-context"
+        ]
+      },
+      "metric-label": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "label"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "metric-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "value"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "metric-change": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "change"
+          },
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "metric-context": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "context"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "campaigns": {
+        "type": "Card",
+        "props": {
+          "title": "Campaign performance",
+          "description": "Results for the selected period. All amounts in USD.",
+          "maxWidth": "full",
+          "className": "overflow-x-auto"
+        },
+        "children": [
+          "campaign-table",
+          "attribution-note"
+        ]
+      },
+      "campaign-table": {
+        "type": "Table",
+        "props": {
+          "columns": [
+            "Campaign",
+            "Channel",
+            "Status",
+            "Impressions",
+            "Clicks",
+            "Spend",
+            "Acquisitions",
+            "CPA"
+          ],
+          "rows": {
+            "$state": "/campaignRows"
+          },
+          "caption": "Four campaigns · 2,480,000 impressions · 62,000 clicks · $31,000 spend · 1,240 acquisitions"
+        },
+        "children": []
+      },
+      "attribution-note": {
+        "type": "Text",
+        "props": {
+          "text": "Acquisitions use a 7-day click attribution window. Blended CPA equals total spend divided by total attributed acquisitions.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "insight": {
+        "type": "Alert",
+        "props": {
+          "title": "Search leads acquisition efficiency",
+          "message": "High-intent search delivered 465 acquisitions at $20.00 each—20% below the blended CPA of $25.00.",
+          "type": "info"
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "metrics": [
+        {
+          "id": "impressions",
+          "label": "Impressions",
+          "value": "2,480,000",
+          "change": "+18.6% vs. previous period",
+          "context": "Total ad views"
+        },
+        {
+          "id": "clicks",
+          "label": "Clicks",
+          "value": "62,000",
+          "change": "+12.4% vs. previous period",
+          "context": "2.50% click-through rate"
+        },
+        {
+          "id": "spend",
+          "label": "Spend",
+          "value": "$31,000",
+          "change": "+6.8% vs. previous period",
+          "context": "USD · $0.50 average CPC"
+        },
+        {
+          "id": "cpa",
+          "label": "Cost per acquisition",
+          "value": "$25.00",
+          "change": "−9.2% vs. previous period",
+          "context": "1,240 attributed acquisitions"
+        }
+      ],
+      "campaignRows": [
+        [
+          "Fall collection launch",
+          "Meta Ads",
+          "Active",
+          "980,000",
+          "24,500",
+          "$12,250",
+          "490",
+          "$25.00"
+        ],
+        [
+          "High-intent search",
+          "Google Ads",
+          "Active",
+          "620,000",
+          "18,600",
+          "$9,300",
+          "465",
+          "$20.00"
+        ],
+        [
+          "Website retargeting",
+          "Google Display",
+          "Active",
+          "540,000",
+          "13,500",
+          "$5,400",
+          "216",
+          "$25.00"
+        ],
+        [
+          "Brand discovery",
+          "LinkedIn Ads",
+          "Paused",
+          "340,000",
+          "5,400",
+          "$4,050",
+          "69",
+          "$58.70"
+        ]
+      ]
+    }
+  },
+  "patchLines": 27,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [],
+  "fixes": []
+}

@@ -1,0 +1,471 @@
+{
+  "promptId": "d08",
+  "model": "gpt-6-1-sol",
+  "resolvedModel": "gpt-6.1-sol",
+  "cli": "codex",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:22:19.326Z",
+  "totalMs": 95994,
+  "lines": [
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"dashboard\"}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/dashboard\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"xl\",\"className\":\"mx-auto max-w-7xl p-6 lg:p-10 bg-slate-50 text-slate-900\"},\"children\":[\"header\",\"metrics\",\"stock-overview\",\"operations\",\"catalog\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state\",\"value\":{}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"align\":\"center\",\"justify\":\"between\",\"gap\":\"lg\",\"className\":\"flex-wrap\"},\"children\":[\"header-copy\",\"warehouse-badge\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header-copy\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"eyebrow\",\"title\",\"subtitle\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/eyebrow\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"OPERATIONS / INVENTORY\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Warehouse overview\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtitle\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Stock on hand, replenishment priorities, and inbound deliveries.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/warehouse-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"WH-01 · Oakland\",\"variant\":\"outline\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metrics\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":4,\"gap\":\"md\",\"className\":\"grid-cols-1 sm:grid-cols-2 lg:grid-cols-4\"},\"repeat\":{\"statePath\":\"/metrics\",\"key\":\"id\"},\"children\":[\"metric-card\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics\",\"value\":[]}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics/0\",\"value\":{\"id\":\"products\",\"label\":\"Active products\",\"value\":\"40\",\"detail\":\"Across 6 product categories\"}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics/1\",\"value\":{\"id\":\"low\",\"label\":\"Running low\",\"value\":\"6\",\"detail\":\"At or below reorder point\"}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics/2\",\"value\":{\"id\":\"shipments\",\"label\":\"Incoming shipments\",\"value\":\"3\",\"detail\":\"1,440 units expected\"}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics/3\",\"value\":{\"id\":\"healthy\",\"label\":\"Healthy stock\",\"value\":\"34 / 40\",\"detail\":\"85% of products above reorder point\"}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metric-card\",\"value\":{\"type\":\"Card\",\"props\":{\"className\":\"border-slate-200 bg-white\"},\"children\":[\"metric-label\",\"metric-value\",\"metric-detail\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metric-label\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"label\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metric-value\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$item\":\"value\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metric-detail\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"detail\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/stock-overview\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Stock health\",\"description\":\"Products above their reorder point\",\"className\":\"border-slate-200 bg-white\"},\"children\":[\"health-progress\",\"health-note\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/health-progress\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$state\":\"/stockHealth\"},\"max\":100,\"label\":\"85% healthy · 34 products\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/stockHealth\",\"value\":85}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/health-note\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"6 products need replenishment. All products currently have stock available.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/operations\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"lg\",\"className\":\"grid-cols-1 lg:grid-cols-2\"},\"children\":[\"low-stock\",\"incoming\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/low-stock\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Replenishment priorities\",\"description\":\"6 products at or below their reorder point\",\"className\":\"border-amber-200 bg-white\"},\"children\":[\"low-alert\",\"low-list\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/low-alert\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Reorder attention needed\",\"message\":\"Review available units against each product’s reorder point.\",\"type\":\"warning\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/low-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/products\",\"key\":\"id\"},\"visible\":{\"$item\":\"low\",\"eq\":true},\"children\":[\"low-row\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products\",\"value\":[]}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/0\",\"value\":{\"id\":\"p01\",\"sku\":\"PKG-1001\",\"name\":\"Corrugated Box · Small\",\"category\":\"Packaging\",\"location\":\"A-01-01\",\"stock\":840,\"reorder\":200,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/1\",\"value\":{\"id\":\"p02\",\"sku\":\"PKG-1002\",\"name\":\"Corrugated Box · Medium\",\"category\":\"Packaging\",\"location\":\"A-01-02\",\"stock\":620,\"reorder\":200,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/2\",\"value\":{\"id\":\"p03\",\"sku\":\"PKG-1003\",\"name\":\"Corrugated Box · Large\",\"category\":\"Packaging\",\"location\":\"A-01-03\",\"stock\":42,\"reorder\":100,\"status\":\"Low stock\",\"variant\":\"destructive\",\"low\":true}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/3\",\"value\":{\"id\":\"p04\",\"sku\":\"PKG-1004\",\"name\":\"Padded Mailer · A4\",\"category\":\"Packaging\",\"location\":\"A-02-01\",\"stock\":1250,\"reorder\":300,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/4\",\"value\":{\"id\":\"p05\",\"sku\":\"PKG-1005\",\"name\":\"Bubble Wrap · 50 m\",\"category\":\"Packaging\",\"location\":\"A-02-02\",\"stock\":96,\"reorder\":30,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/5\",\"value\":{\"id\":\"p06\",\"sku\":\"PKG-1006\",\"name\":\"Packing Tape · Clear\",\"category\":\"Packaging\",\"location\":\"A-03-01\",\"stock\":480,\"reorder\":120,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/6\",\"value\":{\"id\":\"p07\",\"sku\":\"PKG-1007\",\"name\":\"Stretch Film · 500 mm\",\"category\":\"Packaging\",\"location\":\"A-03-02\",\"stock\":180,\"reorder\":50,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/7\",\"value\":{\"id\":\"p08\",\"sku\":\"PKG-1008\",\"name\":\"Thermal Shipping Labels · Roll\",\"category\":\"Packaging\",\"location\":\"A-04-01\",\"stock\":18,\"reorder\":40,\"status\":\"Low stock\",\"variant\":\"destructive\",\"low\":true}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/8\",\"value\":{\"id\":\"p09\",\"sku\":\"SAF-2001\",\"name\":\"Nitrile Gloves · Box\",\"category\":\"Safety\",\"location\":\"B-01-01\",\"stock\":240,\"reorder\":60,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/9\",\"value\":{\"id\":\"p10\",\"sku\":\"SAF-2002\",\"name\":\"Safety Glasses · Clear\",\"category\":\"Safety\",\"location\":\"B-01-02\",\"stock\":156,\"reorder\":40,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/10\",\"value\":{\"id\":\"p11\",\"sku\":\"SAF-2003\",\"name\":\"High-Visibility Vest · L\",\"category\":\"Safety\",\"location\":\"B-02-01\",\"stock\":88,\"reorder\":25,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/11\",\"value\":{\"id\":\"p12\",\"sku\":\"SAF-2004\",\"name\":\"Earplugs · Box\",\"category\":\"Safety\",\"location\":\"B-02-02\",\"stock\":74,\"reorder\":20,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/12\",\"value\":{\"id\":\"p13\",\"sku\":\"SAF-2005\",\"name\":\"First Aid Refill Kit\",\"category\":\"Safety\",\"location\":\"B-03-01\",\"stock\":32,\"reorder\":10,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/13\",\"value\":{\"id\":\"p14\",\"sku\":\"SAF-2006\",\"name\":\"Cut-Resistant Gloves · Pair\",\"category\":\"Safety\",\"location\":\"B-03-02\",\"stock\":12,\"reorder\":30,\"status\":\"Low stock\",\"variant\":\"destructive\",\"low\":true}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/14\",\"value\":{\"id\":\"p15\",\"sku\":\"TLS-3001\",\"name\":\"Retractable Utility Knife\",\"category\":\"Tools\",\"location\":\"C-01-01\",\"stock\":125,\"reorder\":35,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/15\",\"value\":{\"id\":\"p16\",\"sku\":\"TLS-3002\",\"name\":\"Replacement Blades · Pack\",\"category\":\"Tools\",\"location\":\"C-01-02\",\"stock\":210,\"reorder\":50,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/16\",\"value\":{\"id\":\"p17\",\"sku\":\"TLS-3003\",\"name\":\"Tape Dispenser · Heavy Duty\",\"category\":\"Tools\",\"location\":\"C-02-01\",\"stock\":64,\"reorder\":20,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/17\",\"value\":{\"id\":\"p18\",\"sku\":\"TLS-3004\",\"name\":\"Measuring Tape · 5 m\",\"category\":\"Tools\",\"location\":\"C-02-02\",\"stock\":92,\"reorder\":25,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/18\",\"value\":{\"id\":\"p19\",\"sku\":\"TLS-3005\",\"name\":\"Rubber Mallet · 16 oz\",\"category\":\"Tools\",\"location\":\"C-03-01\",\"stock\":48,\"reorder\":15,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/19\",\"value\":{\"id\":\"p20\",\"sku\":\"TLS-3006\",\"name\":\"Hex Key Set · Metric\",\"category\":\"Tools\",\"location\":\"C-03-02\",\"stock\":56,\"reorder\":15,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/20\",\"value\":{\"id\":\"p21\",\"sku\":\"CLN-4001\",\"name\":\"All-Purpose Cleaner · 5 L\",\"category\":\"Cleaning\",\"location\":\"D-01-01\",\"stock\":84,\"reorder\":25,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/21\",\"value\":{\"id\":\"p22\",\"sku\":\"CLN-4002\",\"name\":\"Absorbent Spill Pads · Pack\",\"category\":\"Cleaning\",\"location\":\"D-01-02\",\"stock\":8,\"reorder\":20,\"status\":\"Low stock\",\"variant\":\"destructive\",\"low\":true}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/22\",\"value\":{\"id\":\"p23\",\"sku\":\"CLN-4003\",\"name\":\"Microfiber Cloths · Pack\",\"category\":\"Cleaning\",\"location\":\"D-02-01\",\"stock\":160,\"reorder\":40,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/23\",\"value\":{\"id\":\"p24\",\"sku\":\"CLN-4004\",\"name\":\"Industrial Broom\",\"category\":\"Cleaning\",\"location\":\"D-02-02\",\"stock\":38,\"reorder\":10,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/24\",\"value\":{\"id\":\"p25\",\"sku\":\"CLN-4005\",\"name\":\"Waste Bags · 120 L Roll\",\"category\":\"Cleaning\",\"location\":\"D-03-01\",\"stock\":320,\"reorder\":80,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/25\",\"value\":{\"id\":\"p26\",\"sku\":\"CLN-4006\",\"name\":\"Hand Soap Refill · 1 L\",\"category\":\"Cleaning\",\"location\":\"D-03-02\",\"stock\":110,\"reorder\":30,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/26\",\"value\":{\"id\":\"p27\",\"sku\":\"STO-5001\",\"name\":\"Stackable Tote · 20 L\",\"category\":\"Storage\",\"location\":\"E-01-01\",\"stock\":220,\"reorder\":60,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/27\",\"value\":{\"id\":\"p28\",\"sku\":\"STO-5002\",\"name\":\"Stackable Tote · 50 L\",\"category\":\"Storage\",\"location\":\"E-01-02\",\"stock\":145,\"reorder\":40,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/28\",\"value\":{\"id\":\"p29\",\"sku\":\"STO-5003\",\"name\":\"Shelf Bin · Small\",\"category\":\"Storage\",\"location\":\"E-02-01\",\"stock\":360,\"reorder\":100,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/29\",\"value\":{\"id\":\"p30\",\"sku\":\"STO-5004\",\"name\":\"Shelf Divider · Steel\",\"category\":\"Storage\",\"location\":\"E-02-02\",\"stock\":180,\"reorder\":50,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/30\",\"value\":{\"id\":\"p31\",\"sku\":\"STO-5005\",\"name\":\"Pallet Cover · Waterproof\",\"category\":\"Storage\",\"location\":\"E-03-01\",\"stock\":15,\"reorder\":30,\"status\":\"Low stock\",\"variant\":\"destructive\",\"low\":true}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/31\",\"value\":{\"id\":\"p32\",\"sku\":\"STO-5006\",\"name\":\"Rack Label Holder · Pack\",\"category\":\"Storage\",\"location\":\"E-03-02\",\"stock\":95,\"reorder\":25,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/32\",\"value\":{\"id\":\"p33\",\"sku\":\"STO-5007\",\"name\":\"Picking Basket · 30 L\",\"category\":\"Storage\",\"location\":\"E-04-01\",\"stock\":72,\"reorder\":20,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/33\",\"value\":{\"id\":\"p34\",\"sku\":\"MRO-6001\",\"name\":\"Cable Ties · 200 mm Pack\",\"category\":\"Maintenance\",\"location\":\"F-01-01\",\"stock\":420,\"reorder\":100,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/34\",\"value\":{\"id\":\"p35\",\"sku\":\"MRO-6002\",\"name\":\"AA Batteries · Pack\",\"category\":\"Maintenance\",\"location\":\"F-01-02\",\"stock\":185,\"reorder\":50,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/35\",\"value\":{\"id\":\"p36\",\"sku\":\"MRO-6003\",\"name\":\"Multipurpose Lubricant · 400 mL\",\"category\":\"Maintenance\",\"location\":\"F-02-01\",\"stock\":68,\"reorder\":20,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/36\",\"value\":{\"id\":\"p37\",\"sku\":\"MRO-6004\",\"name\":\"Duct Tape · Silver\",\"category\":\"Maintenance\",\"location\":\"F-02-02\",\"stock\":132,\"reorder\":35,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/37\",\"value\":{\"id\":\"p38\",\"sku\":\"MRO-6005\",\"name\":\"Thermal Printer Ribbon\",\"category\":\"Maintenance\",\"location\":\"F-03-01\",\"stock\":6,\"reorder\":20,\"status\":\"Low stock\",\"variant\":\"destructive\",\"low\":true}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/38\",\"value\":{\"id\":\"p39\",\"sku\":\"MRO-6006\",\"name\":\"Conveyor Roller · 50 mm\",\"category\":\"Maintenance\",\"location\":\"F-03-02\",\"stock\":28,\"reorder\":8,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/39\",\"value\":{\"id\":\"p40\",\"sku\":\"MRO-6007\",\"name\":\"Caster Wheel · Locking\",\"category\":\"Maintenance\",\"location\":\"F-04-01\",\"stock\":44,\"reorder\":12,\"status\":\"Healthy\",\"variant\":\"secondary\",\"low\":false}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/low-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"justify\":\"between\",\"align\":\"center\",\"gap\":\"md\",\"className\":\"border-b border-slate-100 py-3\"},\"children\":[\"low-copy\",\"low-quantity\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/low-copy\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"low-name\",\"low-sku\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/low-name\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"name\"}},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/low-sku\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${sku} · Bin ${location}\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/low-quantity\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"align\":\"end\",\"gap\":\"sm\"},\"children\":[\"low-badge\",\"low-threshold\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/low-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$template\":\"${stock} available\"},\"variant\":\"destructive\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/low-threshold\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"Reorder at ${reorder}\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/incoming\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Incoming shipments\",\"description\":\"3 deliveries · 1,440 units on the way\",\"className\":\"border-slate-200 bg-white\"},\"children\":[\"shipment-list\",\"shipment-note\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/shipment-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"repeat\":{\"statePath\":\"/shipments\",\"key\":\"id\"},\"children\":[\"shipment-card\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/shipments\",\"value\":[]}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/shipments/0\",\"value\":{\"id\":\"INB-2048\",\"supplier\":\"Pacific Packaging Co.\",\"contents\":\"Corrugated Box · Large\",\"quantity\":480,\"eta\":\"Oct 29, 2026 · 2:00–4:00 PM\",\"status\":\"In transit\",\"variant\":\"default\",\"dock\":\"Dock 02\",\"po\":\"PO-10842\"}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/shipments/1\",\"value\":{\"id\":\"INB-2049\",\"supplier\":\"Bay Area Industrial Supply\",\"contents\":\"Cut-resistant gloves · 120 pairs; spill pads · 480 packs\",\"quantity\":600,\"eta\":\"Oct 30, 2026 · 9:00–11:00 AM\",\"status\":\"Confirmed\",\"variant\":\"secondary\",\"dock\":\"Dock 01\",\"po\":\"PO-10851\"}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/shipments/2\",\"value\":{\"id\":\"INB-2050\",\"supplier\":\"West Coast Label & Print\",\"contents\":\"Thermal labels · 240 rolls; printer ribbons · 120 units\",\"quantity\":360,\"eta\":\"Oct 31, 2026 · 10:00 AM–12:00 PM\",\"status\":\"Scheduled\",\"variant\":\"outline\",\"dock\":\"Dock 03\",\"po\":\"PO-10857\"}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/shipment-card\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\",\"className\":\"rounded-lg border border-slate-200 p-4\"},\"children\":[\"shipment-top\",\"shipment-supplier\",\"shipment-contents\",\"shipment-eta\",\"shipment-meta\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/shipment-top\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"justify\":\"between\",\"align\":\"center\",\"gap\":\"md\"},\"children\":[\"shipment-id\",\"shipment-status\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/shipment-id\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"id\"},\"variant\":\"code\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/shipment-status\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"status\"},\"variant\":{\"$item\":\"variant\"}},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/shipment-supplier\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$item\":\"supplier\"},\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/shipment-contents\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"contents\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/shipment-eta\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"Expected ${eta}\"}},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/shipment-meta\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${quantity} units · ${dock} · ${po}\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/shipment-note\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Expected units are excluded from available stock until received. Delivery times are Pacific Time.\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/catalog\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Full product inventory\",\"description\":\"40 products · Available stock excludes incoming shipments\",\"className\":\"border-slate-200 bg-white\"},\"children\":[\"catalog-controls\",\"catalog-header\",\"product-list\",\"catalog-footer\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/catalog-controls\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"align\":\"center\",\"justify\":\"between\",\"gap\":\"md\",\"className\":\"flex-wrap pb-4\"},\"children\":[\"stock-filter\",\"units-note\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/stock-filter\",\"value\":{\"type\":\"ToggleGroup\",\"props\":{\"items\":[{\"label\":\"All products\",\"value\":\"all\"},{\"label\":\"Low stock\",\"value\":\"low\"},{\"label\":\"Healthy\",\"value\":\"healthy\"}],\"type\":\"single\",\"value\":{\"$bindState\":\"/stockFilter\"}},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/state/stockFilter\",\"value\":\"all\"}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/units-note\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Quantities use each product’s listed unit or pack.\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/catalog-header\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":6,\"gap\":\"md\",\"className\":\"hidden md:grid border-y border-slate-200 bg-slate-50 px-4 py-3\"},\"children\":[\"col-product\",\"col-category\",\"col-bin\",\"col-stock\",\"col-reorder\",\"col-status\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/col-product\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"PRODUCT / SKU\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/col-category\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"CATEGORY\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/col-bin\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"BIN LOCATION\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/col-stock\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"AVAILABLE\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/col-reorder\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"REORDER POINT\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/col-status\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"STATUS\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"none\"},\"repeat\":{\"statePath\":\"/products\",\"key\":\"id\"},\"children\":[\"product-row\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-row\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":6,\"gap\":\"md\",\"className\":\"grid-cols-2 md:grid-cols-6 items-center border-b border-slate-100 px-4 py-4\"},\"visible\":{\"$or\":[{\"$state\":\"/stockFilter\",\"eq\":\"all\"},{\"$state\":\"/stockFilter\",\"not\":true},{\"$and\":[{\"$state\":\"/stockFilter\",\"eq\":\"low\"},{\"$item\":\"low\",\"eq\":true}]},{\"$and\":[{\"$state\":\"/stockFilter\",\"eq\":\"healthy\"},{\"$item\":\"low\",\"eq\":false}]}]},\"children\":[\"product-identity\",\"product-category\",\"product-bin\",\"product-stock\",\"product-reorder\",\"product-status\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-identity\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"product-name\",\"product-sku\"]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-name\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"name\"}},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-sku\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"sku\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-category\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"category\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-bin\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"location\"},\"variant\":\"code\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-stock\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${stock} available\"}},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-reorder\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"Reorder at ${reorder}\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-status\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"status\"},\"variant\":{\"$item\":\"variant\"}},\"children\":[]}}"
+    },
+    {
+      "t": 95259,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/catalog-footer\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$cond\":{\"$state\":\"/stockFilter\",\"eq\":\"low\"},\"$then\":\"Showing 6 low-stock products\",\"$else\":{\"$cond\":{\"$state\":\"/stockFilter\",\"eq\":\"healthy\"},\"$then\":\"Showing 34 healthy products\",\"$else\":\"Showing all 40 products\"}}},\"variant\":\"caption\"},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 26610,
+    "cached_input_tokens": 12288,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 6494,
+    "reasoning_output_tokens": 310
+  },
+  "streamedLines": false
+}

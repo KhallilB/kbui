@@ -1,0 +1,662 @@
+{
+  "spec": {
+    "root": "dashboard",
+    "elements": {
+      "dashboard": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "xl",
+          "className": "mx-auto max-w-7xl p-8"
+        },
+        "children": [
+          "header",
+          "metrics",
+          "operations",
+          "tickets"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "align": "center",
+          "justify": "between",
+          "gap": "lg"
+        },
+        "children": [
+          "heading-group",
+          "live-status"
+        ]
+      },
+      "heading-group": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "eyebrow",
+          "title",
+          "subtitle"
+        ]
+      },
+      "eyebrow": {
+        "type": "Text",
+        "props": {
+          "text": "SUPPORT OPERATIONS",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Team overview",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Thursday, October 29 · Today's workload and service health",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "live-status": {
+        "type": "Badge",
+        "props": {
+          "text": "Snapshot · 9:41 AM PT",
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "metrics": {
+        "type": "Grid",
+        "props": {
+          "columns": 4,
+          "gap": "md",
+          "className": "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+        },
+        "repeat": {
+          "statePath": "/metrics",
+          "key": "id"
+        },
+        "children": [
+          "metric-card"
+        ]
+      },
+      "metric-card": {
+        "type": "Card",
+        "props": {
+          "title": {
+            "$item": "label"
+          }
+        },
+        "children": [
+          "metric-value",
+          "metric-context"
+        ]
+      },
+      "metric-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "value"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "metric-context": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "context"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "operations": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "lg",
+          "className": "grid-cols-1 lg:grid-cols-2"
+        },
+        "children": [
+          "priorities",
+          "agents"
+        ]
+      },
+      "priorities": {
+        "type": "Card",
+        "props": {
+          "title": "Tickets by priority",
+          "description": "All 128 open tickets · ordered by urgency"
+        },
+        "children": [
+          "priority-list"
+        ]
+      },
+      "priority-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "repeat": {
+          "statePath": "/priorities",
+          "key": "id"
+        },
+        "children": [
+          "priority-row"
+        ]
+      },
+      "priority-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "priority-labels",
+          "priority-bar"
+        ]
+      },
+      "priority-labels": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center"
+        },
+        "children": [
+          "priority-badge",
+          "priority-count"
+        ]
+      },
+      "priority-badge": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "label"
+          },
+          "variant": {
+            "$item": "variant"
+          }
+        },
+        "children": []
+      },
+      "priority-count": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${count} tickets · ${context}"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "priority-bar": {
+        "type": "Progress",
+        "props": {
+          "value": {
+            "$item": "count"
+          },
+          "max": 128,
+          "label": {
+            "$template": "${label} share of open tickets"
+          }
+        },
+        "children": []
+      },
+      "agents": {
+        "type": "Card",
+        "props": {
+          "title": "Agents' queue",
+          "description": "110 assigned tickets · 4 agents on shift"
+        },
+        "children": [
+          "agent-list",
+          "queue-note"
+        ]
+      },
+      "agent-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "repeat": {
+          "statePath": "/agents",
+          "key": "id"
+        },
+        "children": [
+          "agent-row"
+        ]
+      },
+      "agent-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "align": "center",
+          "justify": "between",
+          "gap": "md"
+        },
+        "children": [
+          "agent-identity",
+          "agent-workload"
+        ]
+      },
+      "agent-identity": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "align": "center",
+          "gap": "md"
+        },
+        "children": [
+          "agent-avatar",
+          "agent-details"
+        ]
+      },
+      "agent-avatar": {
+        "type": "Avatar",
+        "props": {
+          "name": {
+            "$item": "name"
+          },
+          "size": "md"
+        },
+        "children": []
+      },
+      "agent-details": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "agent-name",
+          "agent-status"
+        ]
+      },
+      "agent-name": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "name"
+          }
+        },
+        "children": []
+      },
+      "agent-status": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "status"
+          },
+          "variant": {
+            "$item": "variant"
+          }
+        },
+        "children": []
+      },
+      "agent-workload": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm",
+          "align": "end"
+        },
+        "children": [
+          "agent-count",
+          "agent-wait"
+        ]
+      },
+      "agent-count": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${tickets} open · ${urgent} urgent"
+          }
+        },
+        "children": []
+      },
+      "agent-wait": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "Oldest unanswered: ${oldest}"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "queue-note": {
+        "type": "Alert",
+        "props": {
+          "title": "18 tickets need an owner",
+          "message": "Includes 2 urgent tickets. Jordan's queue is at capacity.",
+          "type": "warning"
+        },
+        "children": []
+      },
+      "tickets": {
+        "type": "Card",
+        "props": {
+          "title": "Attention queue",
+          "description": "4 tickets nearing their first-response deadline · earliest deadline first"
+        },
+        "children": [
+          "queue-filter",
+          "ticket-list"
+        ]
+      },
+      "queue-filter": {
+        "type": "ButtonGroup",
+        "props": {
+          "buttons": [
+            {
+              "label": "All flagged",
+              "value": "all"
+            },
+            {
+              "label": "Unassigned",
+              "value": "unassigned"
+            }
+          ],
+          "selected": {
+            "$bindState": "/queueFilter"
+          }
+        },
+        "children": []
+      },
+      "ticket-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/tickets",
+          "key": "id"
+        },
+        "visible": {
+          "$or": [
+            {
+              "$state": "/queueFilter",
+              "eq": "all"
+            },
+            {
+              "$item": "unassigned",
+              "eq": true
+            }
+          ]
+        },
+        "children": [
+          "ticket-row"
+        ]
+      },
+      "ticket-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center",
+          "gap": "lg",
+          "className": "rounded-lg border p-4"
+        },
+        "children": [
+          "ticket-details",
+          "ticket-routing"
+        ]
+      },
+      "ticket-details": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "ticket-meta",
+          "ticket-subject",
+          "ticket-customer"
+        ]
+      },
+      "ticket-meta": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm",
+          "align": "center"
+        },
+        "children": [
+          "ticket-id",
+          "ticket-priority"
+        ]
+      },
+      "ticket-id": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "id"
+          },
+          "variant": "code"
+        },
+        "children": []
+      },
+      "ticket-priority": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "priority"
+          },
+          "variant": {
+            "$item": "variant"
+          }
+        },
+        "children": []
+      },
+      "ticket-subject": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "subject"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "ticket-customer": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "customer"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "ticket-routing": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "align": "end",
+          "gap": "sm"
+        },
+        "children": [
+          "ticket-owner",
+          "ticket-deadline"
+        ]
+      },
+      "ticket-owner": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "owner"
+          }
+        },
+        "children": []
+      },
+      "ticket-deadline": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "deadline"
+          },
+          "variant": "outline"
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "metrics": [
+        {
+          "id": "open",
+          "label": "Open tickets",
+          "value": "128",
+          "context": "18 unassigned · 110 assigned"
+        },
+        {
+          "id": "response",
+          "label": "Avg. first response",
+          "value": "12m 34s",
+          "context": "Today · target under 15 minutes"
+        },
+        {
+          "id": "sla",
+          "label": "SLA at risk",
+          "value": "9",
+          "context": "First response due within 30 minutes"
+        },
+        {
+          "id": "resolved",
+          "label": "Resolved today",
+          "value": "86",
+          "context": "12 more than yesterday at this time"
+        }
+      ],
+      "priorities": [
+        {
+          "id": "urgent",
+          "label": "Urgent",
+          "count": 8,
+          "variant": "destructive",
+          "context": "Immediate attention"
+        },
+        {
+          "id": "high",
+          "label": "High",
+          "count": 24,
+          "variant": "default",
+          "context": "Service disrupted"
+        },
+        {
+          "id": "normal",
+          "label": "Normal",
+          "count": 67,
+          "variant": "secondary",
+          "context": "Standard requests"
+        },
+        {
+          "id": "low",
+          "label": "Low",
+          "count": 29,
+          "variant": "outline",
+          "context": "General questions"
+        }
+      ],
+      "agents": [
+        {
+          "id": "maya",
+          "name": "Maya Chen",
+          "status": "Available",
+          "tickets": 24,
+          "urgent": 1,
+          "oldest": "18m",
+          "variant": "secondary"
+        },
+        {
+          "id": "jordan",
+          "name": "Jordan Ellis",
+          "status": "At capacity",
+          "tickets": 32,
+          "urgent": 3,
+          "oldest": "42m",
+          "variant": "destructive"
+        },
+        {
+          "id": "priya",
+          "name": "Priya Shah",
+          "status": "Available",
+          "tickets": 26,
+          "urgent": 1,
+          "oldest": "23m",
+          "variant": "secondary"
+        },
+        {
+          "id": "leo",
+          "name": "Leo Martinez",
+          "status": "In a call",
+          "tickets": 28,
+          "urgent": 1,
+          "oldest": "31m",
+          "variant": "outline"
+        }
+      ],
+      "queueFilter": "all",
+      "tickets": [
+        {
+          "id": "SUP-2841",
+          "subject": "Checkout fails for all workspace members",
+          "customer": "Northstar Labs",
+          "priority": "Urgent",
+          "variant": "destructive",
+          "owner": "Unassigned",
+          "unassigned": true,
+          "deadline": "First response due in 4m"
+        },
+        {
+          "id": "SUP-2837",
+          "subject": "Production API returning intermittent 503s",
+          "customer": "Meridian Health",
+          "priority": "Urgent",
+          "variant": "destructive",
+          "owner": "Jordan Ellis",
+          "unassigned": false,
+          "deadline": "First response due in 7m"
+        },
+        {
+          "id": "SUP-2844",
+          "subject": "Single sign-on blocks new employees",
+          "customer": "Arc & Co.",
+          "priority": "Urgent",
+          "variant": "destructive",
+          "owner": "Unassigned",
+          "unassigned": true,
+          "deadline": "First response due in 11m"
+        },
+        {
+          "id": "SUP-2839",
+          "subject": "Invoice export missing September records",
+          "customer": "Fieldwork Studio",
+          "priority": "High",
+          "variant": "default",
+          "owner": "Priya Shah",
+          "unassigned": false,
+          "deadline": "First response due in 16m"
+        }
+      ]
+    }
+  },
+  "patchLines": 66,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [],
+  "fixes": []
+}

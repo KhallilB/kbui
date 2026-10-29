@@ -1,0 +1,303 @@
+{
+  "promptId": "d09",
+  "model": "gpt-6-1-sol",
+  "resolvedModel": "gpt-6.1-sol",
+  "cli": "codex",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:22:46.982Z",
+  "totalMs": 54768,
+  "lines": [
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"dashboard\"}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/dashboard\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"xl\",\"className\":\"mx-auto max-w-7xl p-8 bg-slate-50 min-h-screen\"},\"children\":[\"header\",\"metrics\",\"pipeline\",\"details\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"justify\":\"between\",\"align\":\"center\",\"gap\":\"lg\"},\"children\":[\"header-copy\",\"period\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header-copy\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"eyebrow\",\"title\",\"subtitle\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/eyebrow\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"PEOPLE OPERATIONS / RECRUITING\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Your next great team.\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtitle\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"A clear view of your hiring pipeline, from first hello to signed offer.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/period\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"October 2026 · Monthly overview\",\"variant\":\"outline\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metrics\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":4,\"gap\":\"md\",\"className\":\"grid-cols-1 sm:grid-cols-2 lg:grid-cols-4\"},\"repeat\":{\"statePath\":\"/metrics\",\"key\":\"id\"},\"children\":[\"metric-card\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/state\",\"value\":{}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics\",\"value\":[]}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics/0\",\"value\":{\"id\":\"candidates\",\"label\":\"Active candidates\",\"value\":\"57\",\"context\":\"Across 4 hiring stages\"}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics/1\",\"value\":{\"id\":\"time\",\"label\":\"Average time to hire\",\"value\":\"24 days\",\"context\":\"↓ 6 days vs. September · 5 hires\"}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics/2\",\"value\":{\"id\":\"roles\",\"label\":\"Open roles\",\"value\":\"3\",\"context\":\"8 positions to fill\"}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics/3\",\"value\":{\"id\":\"acceptance\",\"label\":\"Offer acceptance\",\"value\":\"83%\",\"context\":\"5 of 6 resolved offers accepted\"}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metric-card\",\"value\":{\"type\":\"Card\",\"props\":{\"maxWidth\":\"full\"},\"children\":[\"metric-label\",\"metric-value\",\"metric-context\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metric-label\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"label\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metric-value\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$item\":\"value\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metric-context\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"context\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pipeline\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"pipeline-heading\",\"pipeline-description\",\"stages\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pipeline-heading\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Candidate pipeline\",\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pipeline-description\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Stage totals include all active candidates. Two upcoming candidate actions are highlighted per stage.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/stages\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":4,\"gap\":\"md\",\"className\":\"grid-cols-1 md:grid-cols-2 xl:grid-cols-4\"},\"repeat\":{\"statePath\":\"/stages\",\"key\":\"id\"},\"children\":[\"stage-card\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/state/stages\",\"value\":[]}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/state/stages/0\",\"value\":{\"id\":\"applied\",\"name\":\"Applied\",\"count\":34,\"note\":\"New talent, ready for review\",\"candidates\":[{\"id\":\"maya\",\"name\":\"Maya Chen\",\"role\":\"Senior Product Designer\",\"action\":\"Review application · Today\"},{\"id\":\"jordan\",\"name\":\"Jordan Williams\",\"role\":\"Senior Software Engineer\",\"action\":\"Review application · Today\"}]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/state/stages/1\",\"value\":{\"id\":\"screening\",\"name\":\"Screening\",\"count\":12,\"note\":\"Finding the right fit\",\"candidates\":[{\"id\":\"alex\",\"name\":\"Alex Rivera\",\"role\":\"Senior Software Engineer\",\"action\":\"Recruiter call · Oct 30\"},{\"id\":\"priya\",\"name\":\"Priya Shah\",\"role\":\"Product Marketing Manager\",\"action\":\"Recruiter call · Oct 30\"}]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/state/stages/2\",\"value\":{\"id\":\"interview\",\"name\":\"Interview\",\"count\":8,\"note\":\"Meeting your future teammates\",\"candidates\":[{\"id\":\"sam\",\"name\":\"Sam Okafor\",\"role\":\"Senior Product Designer\",\"action\":\"Portfolio review · Oct 30\"},{\"id\":\"elena\",\"name\":\"Elena García\",\"role\":\"Senior Software Engineer\",\"action\":\"Technical interview · Oct 31\"}]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/state/stages/3\",\"value\":{\"id\":\"offer\",\"name\":\"Offer\",\"count\":3,\"note\":\"One step from joining\",\"candidates\":[{\"id\":\"noah\",\"name\":\"Noah Kim\",\"role\":\"Senior Software Engineer\",\"action\":\"Offer follow-up · Today\"},{\"id\":\"amara\",\"name\":\"Amara Johnson\",\"role\":\"Product Marketing Manager\",\"action\":\"Decision expected · Oct 30\"}]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/stage-card\",\"value\":{\"type\":\"Card\",\"props\":{\"maxWidth\":\"full\",\"className\":\"h-full bg-white\"},\"children\":[\"stage-content\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/stage-content\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"stage-header\",\"stage-note\",\"stage-divider\",\"candidate-list\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/stage-header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"justify\":\"between\",\"align\":\"center\"},\"children\":[\"stage-name\",\"stage-count\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/stage-name\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$item\":\"name\"},\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/stage-count\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$template\":\"${count} candidates\"},\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/stage-note\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"note\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/stage-divider\",\"value\":{\"type\":\"Separator\",\"props\":{},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/candidate-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"repeat\":{\"statePath\":{\"$item\":\"candidates\"},\"key\":\"id\"},\"children\":[\"candidate\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/candidate\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\",\"className\":\"rounded-lg border border-slate-100 p-3\"},\"children\":[\"candidate-identity\",\"candidate-role\",\"candidate-action\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/candidate-identity\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"align\":\"center\"},\"children\":[\"candidate-avatar\",\"candidate-name\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/candidate-avatar\",\"value\":{\"type\":\"Avatar\",\"props\":{\"name\":{\"$item\":\"name\"},\"size\":\"sm\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/candidate-name\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"name\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/candidate-role\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"role\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/candidate-action\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"action\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/details\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"lg\",\"className\":\"grid-cols-1 lg:grid-cols-2\"},\"children\":[\"hiring-speed\",\"open-roles\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/hiring-speed\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Time to hire\",\"description\":\"Average calendar days from application to accepted offer, by month.\",\"maxWidth\":\"full\"},\"children\":[\"speed-content\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/speed-content\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"children\":[\"speed-target\",\"speed-months\",\"speed-note\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/speed-target\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"October is 6 days under the 30-day target\",\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/speed-months\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"repeat\":{\"statePath\":\"/hiringTimes\",\"key\":\"id\"},\"children\":[\"month-row\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/state/hiringTimes\",\"value\":[]}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/state/hiringTimes/0\",\"value\":{\"id\":\"aug\",\"month\":\"August\",\"days\":34,\"hires\":4}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/state/hiringTimes/1\",\"value\":{\"id\":\"sep\",\"month\":\"September\",\"days\":30,\"hires\":6}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/state/hiringTimes/2\",\"value\":{\"id\":\"oct\",\"month\":\"October\",\"days\":24,\"hires\":5}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/month-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"month-summary\",\"month-bar\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/month-summary\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"justify\":\"between\",\"gap\":\"sm\"},\"children\":[\"month-name\",\"month-days\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/month-name\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"month\"}},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/month-days\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${days} days · ${hires} hires\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/month-bar\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$item\":\"days\"},\"max\":45,\"label\":{\"$template\":\"${month}: ${days} days out of a 45-day scale\"}},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/speed-note\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Shorter bars mean faster hiring. October includes offers accepted through Oct 29.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/open-roles\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Open roles\",\"description\":\"Where your team is growing next.\",\"maxWidth\":\"full\"},\"children\":[\"role-list\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/role-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"repeat\":{\"statePath\":\"/roles\",\"key\":\"id\"},\"children\":[\"role-row\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/state/roles\",\"value\":[]}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/state/roles/0\",\"value\":{\"id\":\"eng\",\"title\":\"Senior Software Engineer\",\"details\":\"Engineering · Remote, US · 4 positions\",\"pipeline\":\"27 active candidates\",\"status\":\"Priority\",\"owner\":\"Hiring manager · Taylor Brooks\",\"age\":\"Open 21 days\"}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/state/roles/1\",\"value\":{\"id\":\"design\",\"title\":\"Senior Product Designer\",\"details\":\"Design · New York, hybrid · 2 positions\",\"pipeline\":\"18 active candidates\",\"status\":\"Active\",\"owner\":\"Hiring manager · Morgan Lee\",\"age\":\"Open 14 days\"}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/state/roles/2\",\"value\":{\"id\":\"marketing\",\"title\":\"Product Marketing Manager\",\"details\":\"Marketing · Remote, US · 2 positions\",\"pipeline\":\"12 active candidates\",\"status\":\"Active\",\"owner\":\"Hiring manager · Casey Patel\",\"age\":\"Open 9 days\"}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/role-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\",\"className\":\"rounded-lg border border-slate-200 p-4\"},\"children\":[\"role-header\",\"role-details\",\"role-pipeline\",\"role-owner\",\"role-age\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/role-header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"justify\":\"between\",\"align\":\"start\",\"gap\":\"sm\"},\"children\":[\"role-title\",\"role-status\"]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/role-title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$item\":\"title\"},\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/role-status\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"status\"},\"variant\":\"outline\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/role-details\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"details\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/role-pipeline\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"pipeline\"}},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/role-owner\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"owner\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 54161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/role-age\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"age\"},\"variant\":\"caption\"},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 28094,
+    "cached_input_tokens": 12288,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 3299,
+    "reasoning_output_tokens": 157
+  },
+  "streamedLines": false
+}

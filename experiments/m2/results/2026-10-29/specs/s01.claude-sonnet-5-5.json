@@ -1,0 +1,785 @@
+{
+  "spec": {
+    "root": "page",
+    "elements": {
+      "page": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg",
+          "align": "center"
+        },
+        "children": [
+          "header",
+          "profile-card",
+          "email-card",
+          "password-card",
+          "danger-card",
+          "delete-dialog"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "title",
+          "subtitle"
+        ]
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Account Settings",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Manage your profile, email, password and account preferences.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "profile-card": {
+        "type": "Card",
+        "props": {
+          "title": "Profile",
+          "description": "Your public profile details",
+          "maxWidth": "lg",
+          "centered": true
+        },
+        "children": [
+          "profile-avatar-row",
+          "profile-grid",
+          "profile-bio",
+          "profile-save-row"
+        ]
+      },
+      "profile-avatar-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center"
+        },
+        "children": [
+          "profile-avatar",
+          "profile-avatar-info"
+        ]
+      },
+      "profile-avatar": {
+        "type": "Avatar",
+        "props": {
+          "name": {
+            "$state": "/profile/fullName"
+          },
+          "size": "lg"
+        },
+        "children": []
+      },
+      "profile-avatar-info": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "none"
+        },
+        "children": [
+          "profile-avatar-name",
+          "profile-avatar-role"
+        ]
+      },
+      "profile-avatar-name": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$state": "/profile/fullName"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "profile-avatar-role": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "@${/profile/username}"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "profile-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "md"
+        },
+        "children": [
+          "input-fullname",
+          "input-username",
+          "input-location",
+          "select-timezone"
+        ]
+      },
+      "input-fullname": {
+        "type": "Input",
+        "props": {
+          "label": "Full name",
+          "name": "fullName",
+          "type": "text",
+          "placeholder": "Jane Doe",
+          "value": {
+            "$bindState": "/profile/fullName"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Full name is required"
+            },
+            {
+              "type": "minLength",
+              "message": "Must be at least 2 characters",
+              "args": {
+                "min": 2
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "input-username": {
+        "type": "Input",
+        "props": {
+          "label": "Username",
+          "name": "username",
+          "type": "text",
+          "placeholder": "janedoe",
+          "value": {
+            "$bindState": "/profile/username"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Username is required"
+            },
+            {
+              "type": "pattern",
+              "message": "Letters, numbers and underscores only",
+              "args": {
+                "pattern": "^[a-zA-Z0-9_]+$"
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "input-location": {
+        "type": "Input",
+        "props": {
+          "label": "Location",
+          "name": "location",
+          "type": "text",
+          "placeholder": "City, Country",
+          "value": {
+            "$bindState": "/profile/location"
+          }
+        },
+        "children": []
+      },
+      "select-timezone": {
+        "type": "Select",
+        "props": {
+          "label": "Timezone",
+          "name": "timezone",
+          "options": [
+            "UTC-08:00 Pacific",
+            "UTC-05:00 Eastern",
+            "UTC+00:00 London",
+            "UTC+01:00 Berlin",
+            "UTC+09:00 Tokyo"
+          ],
+          "placeholder": "Select timezone",
+          "value": {
+            "$bindState": "/profile/timezone"
+          }
+        },
+        "children": []
+      },
+      "profile-bio": {
+        "type": "Textarea",
+        "props": {
+          "label": "Bio",
+          "name": "bio",
+          "placeholder": "Tell us a little about yourself",
+          "rows": 4,
+          "value": {
+            "$bindState": "/profile/bio"
+          },
+          "checks": [
+            {
+              "type": "maxLength",
+              "message": "Bio must be 200 characters or less",
+              "args": {
+                "max": 200
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "profile-save-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "end"
+        },
+        "children": [
+          "profile-saved-badge",
+          "profile-save-btn"
+        ]
+      },
+      "profile-saved-badge": {
+        "type": "Badge",
+        "props": {
+          "text": "Profile saved",
+          "variant": "secondary"
+        },
+        "visible": {
+          "$state": "/ui/profileSaved"
+        },
+        "children": []
+      },
+      "profile-save-btn": {
+        "type": "Button",
+        "props": {
+          "label": "Save profile",
+          "variant": "primary"
+        },
+        "on": {
+          "press": [
+            {
+              "action": "validateForm",
+              "params": {
+                "statePath": "/ui/profileValidation"
+              }
+            },
+            {
+              "action": "setState",
+              "params": {
+                "statePath": "/ui/profileSaved",
+                "value": true
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "email-card": {
+        "type": "Card",
+        "props": {
+          "title": "Email",
+          "description": "Used for sign-in and notifications",
+          "maxWidth": "lg",
+          "centered": true
+        },
+        "children": [
+          "email-current",
+          "email-input",
+          "email-notify-switch",
+          "email-save-row"
+        ]
+      },
+      "email-current": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm",
+          "align": "center"
+        },
+        "children": [
+          "email-current-text",
+          "email-verified-badge"
+        ]
+      },
+      "email-current-text": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "Current email: ${/account/email}"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "email-verified-badge": {
+        "type": "Badge",
+        "props": {
+          "text": "Verified",
+          "variant": "default"
+        },
+        "children": []
+      },
+      "email-input": {
+        "type": "Input",
+        "props": {
+          "label": "Email address",
+          "name": "email",
+          "type": "email",
+          "placeholder": "you@example.com",
+          "value": {
+            "$bindState": "/account/email"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Email is required"
+            },
+            {
+              "type": "email",
+              "message": "Enter a valid email address"
+            }
+          ]
+        },
+        "children": []
+      },
+      "email-notify-switch": {
+        "type": "Switch",
+        "props": {
+          "label": "Send me product updates and security alerts",
+          "name": "notifyEmail",
+          "checked": {
+            "$bindState": "/account/notifyEmail"
+          }
+        },
+        "children": []
+      },
+      "email-save-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "end"
+        },
+        "children": [
+          "email-saved-badge",
+          "email-save-btn"
+        ]
+      },
+      "email-saved-badge": {
+        "type": "Badge",
+        "props": {
+          "text": "Email updated",
+          "variant": "secondary"
+        },
+        "visible": {
+          "$state": "/ui/emailSaved"
+        },
+        "children": []
+      },
+      "email-save-btn": {
+        "type": "Button",
+        "props": {
+          "label": "Update email",
+          "variant": "primary"
+        },
+        "on": {
+          "press": [
+            {
+              "action": "validateForm",
+              "params": {
+                "statePath": "/ui/emailValidation"
+              }
+            },
+            {
+              "action": "setState",
+              "params": {
+                "statePath": "/ui/emailSaved",
+                "value": true
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "password-card": {
+        "type": "Card",
+        "props": {
+          "title": "Password",
+          "description": "Choose a strong password you don't use elsewhere",
+          "maxWidth": "lg",
+          "centered": true
+        },
+        "children": [
+          "pw-current",
+          "pw-new",
+          "pw-confirm",
+          "pw-twofactor",
+          "pw-save-row"
+        ]
+      },
+      "pw-current": {
+        "type": "Input",
+        "props": {
+          "label": "Current password",
+          "name": "currentPassword",
+          "type": "password",
+          "placeholder": "Enter current password",
+          "value": {
+            "$bindState": "/password/current"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Current password is required"
+            }
+          ]
+        },
+        "children": []
+      },
+      "pw-new": {
+        "type": "Input",
+        "props": {
+          "label": "New password",
+          "name": "newPassword",
+          "type": "password",
+          "placeholder": "At least 8 characters",
+          "value": {
+            "$bindState": "/password/next"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "New password is required"
+            },
+            {
+              "type": "minLength",
+              "message": "Must be at least 8 characters",
+              "args": {
+                "min": 8
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "pw-confirm": {
+        "type": "Input",
+        "props": {
+          "label": "Confirm new password",
+          "name": "confirmPassword",
+          "type": "password",
+          "placeholder": "Re-enter new password",
+          "value": {
+            "$bindState": "/password/confirm"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Please confirm your new password"
+            },
+            {
+              "type": "matches",
+              "message": "Passwords do not match",
+              "args": {
+                "other": {
+                  "$state": "/password/next"
+                }
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "pw-twofactor": {
+        "type": "Switch",
+        "props": {
+          "label": "Require two-factor authentication",
+          "name": "twoFactor",
+          "checked": {
+            "$bindState": "/password/twoFactor"
+          }
+        },
+        "children": []
+      },
+      "pw-save-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "end"
+        },
+        "children": [
+          "pw-saved-badge",
+          "pw-save-btn"
+        ]
+      },
+      "pw-saved-badge": {
+        "type": "Badge",
+        "props": {
+          "text": "Password changed",
+          "variant": "secondary"
+        },
+        "visible": {
+          "$state": "/ui/passwordSaved"
+        },
+        "children": []
+      },
+      "pw-save-btn": {
+        "type": "Button",
+        "props": {
+          "label": "Change password",
+          "variant": "primary"
+        },
+        "on": {
+          "press": [
+            {
+              "action": "validateForm",
+              "params": {
+                "statePath": "/ui/passwordValidation"
+              }
+            },
+            {
+              "action": "setState",
+              "params": {
+                "statePath": "/ui/passwordSaved",
+                "value": true
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "danger-card": {
+        "type": "Card",
+        "props": {
+          "title": "Danger zone",
+          "description": "Irreversible and destructive actions",
+          "maxWidth": "lg",
+          "centered": true
+        },
+        "children": [
+          "danger-alert",
+          "danger-row"
+        ]
+      },
+      "danger-alert": {
+        "type": "Alert",
+        "props": {
+          "title": "Deleting your account is permanent",
+          "message": "All of your data, projects and settings will be permanently removed and cannot be recovered.",
+          "type": "error"
+        },
+        "children": []
+      },
+      "danger-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "danger-text",
+          "danger-btn"
+        ]
+      },
+      "danger-text": {
+        "type": "Text",
+        "props": {
+          "text": "Once you delete your account, there is no going back.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "danger-btn": {
+        "type": "Button",
+        "props": {
+          "label": "Delete account",
+          "variant": "danger"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/ui/deleteDialogOpen",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "delete-dialog": {
+        "type": "Dialog",
+        "props": {
+          "title": "Delete your account?",
+          "description": "This action cannot be undone. Type DELETE below to confirm.",
+          "openPath": "/ui/deleteDialogOpen"
+        },
+        "children": [
+          "delete-confirm-input",
+          "delete-ack",
+          "delete-actions"
+        ]
+      },
+      "delete-confirm-input": {
+        "type": "Input",
+        "props": {
+          "label": "Confirmation",
+          "name": "deleteConfirm",
+          "type": "text",
+          "placeholder": "Type DELETE",
+          "value": {
+            "$bindState": "/deletion/confirmText"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Type DELETE to confirm"
+            },
+            {
+              "type": "pattern",
+              "message": "You must type DELETE exactly",
+              "args": {
+                "pattern": "^DELETE$"
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "delete-ack": {
+        "type": "Checkbox",
+        "props": {
+          "label": "I understand all my data will be permanently deleted",
+          "name": "deleteAck",
+          "checked": {
+            "$bindState": "/deletion/acknowledged"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Please acknowledge before continuing"
+            }
+          ]
+        },
+        "children": []
+      },
+      "delete-actions": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "end"
+        },
+        "children": [
+          "delete-cancel-btn",
+          "delete-confirm-btn"
+        ]
+      },
+      "delete-cancel-btn": {
+        "type": "Button",
+        "props": {
+          "label": "Cancel",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": [
+            {
+              "action": "setState",
+              "params": {
+                "statePath": "/ui/deleteDialogOpen",
+                "value": false
+              }
+            },
+            {
+              "action": "setState",
+              "params": {
+                "statePath": "/deletion/confirmText",
+                "value": ""
+              }
+            },
+            {
+              "action": "setState",
+              "params": {
+                "statePath": "/deletion/acknowledged",
+                "value": false
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "delete-confirm-btn": {
+        "type": "Button",
+        "props": {
+          "label": "Permanently delete",
+          "variant": "danger"
+        },
+        "on": {
+          "press": [
+            {
+              "action": "validateForm",
+              "params": {
+                "statePath": "/deletion/validation"
+              }
+            },
+            {
+              "action": "setState",
+              "params": {
+                "statePath": "/deletion/requested",
+                "value": true
+              }
+            }
+          ]
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "profile": {
+        "fullName": "Khallil Bailey",
+        "username": "khallilbailey",
+        "location": "Atlanta, USA",
+        "timezone": "UTC-05:00 Eastern",
+        "bio": "Product designer and developer who loves building clean, useful interfaces."
+      },
+      "ui": {
+        "profileSaved": false,
+        "emailSaved": false,
+        "passwordSaved": false,
+        "deleteDialogOpen": false
+      },
+      "account": {
+        "email": "khallilbailey@gmail.com",
+        "notifyEmail": true
+      },
+      "password": {
+        "current": "",
+        "next": "",
+        "confirm": "",
+        "twoFactor": false
+      },
+      "deletion": {
+        "confirmText": "",
+        "acknowledged": false,
+        "requested": false
+      }
+    }
+  },
+  "patchLines": 53,
+  "skippedLines": 0,
+  "firstNodeMs": 1615,
+  "issues": [],
+  "fixes": []
+}
