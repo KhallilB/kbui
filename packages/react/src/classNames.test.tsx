@@ -7,6 +7,7 @@ import {
   Code,
   Combobox,
   Dialog,
+  EmptyState,
   ErrorSummary,
   Fieldset,
   FileInput,
@@ -17,11 +18,14 @@ import {
   RadioGroup,
   ScrollArea,
   Select,
+  Skeleton,
+  Spinner,
   Split,
   Stat,
   Status,
   Switch,
   Textarea,
+  Toast,
 } from "./index";
 
 // Every key resolves to `slot-<key>`, so any rendered part can be checked without listing slots.
@@ -190,6 +194,37 @@ const cases: [string, () => ReactElement][] = [
       >
         Body
       </Callout>
+    ),
+  ],
+  [
+    "emptystate",
+    () => (
+      <EmptyState
+        icon={<svg />}
+        eyebrow="E"
+        title="T"
+        description="D"
+        actions={<button type="button">A</button>}
+        footer="F"
+        classNames={every}
+      >
+        Body
+      </EmptyState>
+    ),
+  ],
+  ["spinner", () => <Spinner label="Loading" showLabel classNames={every} />],
+  ["skeleton", () => <Skeleton lines={2} classNames={every} />],
+  [
+    "toast",
+    () => (
+      <Toast
+        icon={<svg />}
+        title="T"
+        description="D"
+        actionLabel="Retry"
+        onAction={() => {}}
+        classNames={every}
+      />
     ),
   ],
   ["progress", () => <Progress label="L" value={50} classNames={every} />],

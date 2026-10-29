@@ -36,8 +36,13 @@
   padding-block-end: 200px;
 }
 
-.component-preview[data-component="callout"] > .component-preview-content {
+.component-preview[data-component="callout"] > .component-preview-content,
+.component-preview[data-component="emptystate"] > .component-preview-content {
   max-inline-size: 640px;
+}
+
+.component-preview[data-component="toast"] > .component-preview-content {
+  max-inline-size: 416px;
 }
 
 .component-preview[data-component="code"] > .component-preview-content:has(.kb-code[data-block]) {

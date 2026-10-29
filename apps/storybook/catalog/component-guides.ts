@@ -463,4 +463,56 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.Tooltip,
   },
+  EmptyState: {
+    use: "Explain why a collection, search query, or section has no items to show and offer the direct action that populates or recovers it.",
+    example: {
+      title: "Guide first-run setup or recovery",
+      description:
+        "Pair a clear heading and explanation with the primary creation, filter-reset, or retry action so people never hit a dead end.",
+    },
+    tips: [
+      "Use variant='subtle' for zero-match search or filter results and tone='danger' when a section failed to load and can be retried.",
+      "Set headingLevel to match the surrounding document outline and enable live when the empty state appears dynamically.",
+    ],
+    accessibility: accessibilityGuides.EmptyState,
+  },
+  Skeleton: {
+    use: "Reserve the layout footprint of incoming text, cards, or media while asynchronous content is loading.",
+    example: {
+      title: "Hold space for incoming content",
+      description:
+        "Match text lines, avatars, and media blocks to the loaded layout so resolving data does not shift the page.",
+    },
+    tips: [
+      "Wrap loading sections in a container with aria-busy='true' and toggle loading={false} to reveal children in place.",
+      "Use variant='text' with lines for paragraphs, 'circle' for avatars, 'pill' for status chips, and 'rect' for panels or charts.",
+    ],
+    accessibility: accessibilityGuides.Skeleton,
+  },
+  Spinner: {
+    use: "Signal an indeterminate wait or busy control when completion percentage is unknown. Use Progress when a numeric percentage exists.",
+    example: {
+      title: "Communicate active background work",
+      description:
+        "Render a standalone status spinner with a descriptive label or embed a decorative spinner inside a busy submit button.",
+    },
+    tips: [
+      "Pass decorative and tone='current' when placing Spinner inside a Button whose label already changes to 'Saving…'.",
+      "Set showLabel when the spinner stands alone in a toolbar, header, or inline status row.",
+    ],
+    accessibility: accessibilityGuides.Spinner,
+  },
+  Toast: {
+    use: "Confirm asynchronous completion, report background progress, or offer an immediate retry when a non-blocking action fails.",
+    example: {
+      title: "Announce completion and recoverable failures",
+      description:
+        "Queue notifications through Toast.Provider and useToastManager, or transition an in-flight operation from loading to success or retryable error.",
+    },
+    tips: [
+      "Use toastManager.promise or toastManager.update to transition a loading toast in place when a request settles.",
+      "Attach an actionLabel or actionProps retry callback on recoverable network failures so people can retry without losing their draft.",
+    ],
+    accessibility: accessibilityGuides.Toast,
+  },
 };

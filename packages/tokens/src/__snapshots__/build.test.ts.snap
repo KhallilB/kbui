@@ -445,6 +445,67 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-errorsummary-padding: var(--kb-space-4);
   --kb-errorsummary-radius: var(--kb-radius-md);
   --kb-errorsummary-gap: var(--kb-space-2);
+  --kb-spinner-size-sm: 0.875rem;
+  --kb-spinner-size-md: 1.125rem;
+  --kb-spinner-size-lg: 1.5rem;
+  --kb-spinner-stroke-width: 2px;
+  --kb-spinner-gap: var(--kb-space-2);
+  --kb-spinner-duration: 760ms;
+  --kb-spinner-easing: linear;
+  --kb-spinner-track-opacity: 0.22;
+  --kb-skeleton-radius-sm: var(--kb-radius-sm);
+  --kb-skeleton-radius-md: var(--kb-radius-md);
+  --kb-skeleton-radius-lg: var(--kb-radius-lg);
+  --kb-skeleton-radius-full: var(--kb-radius-full);
+  --kb-skeleton-height-sm: 0.75rem;
+  --kb-skeleton-height-md: 1rem;
+  --kb-skeleton-height-lg: 1.5rem;
+  --kb-skeleton-block-height: 5.5rem;
+  --kb-skeleton-avatar-size-sm: 2rem;
+  --kb-skeleton-avatar-size-md: 2.5rem;
+  --kb-skeleton-avatar-size-lg: 3.5rem;
+  --kb-skeleton-pill-width: 5.5rem;
+  --kb-skeleton-gap: var(--kb-space-2);
+  --kb-skeleton-base: var(--kb-color-surface);
+  --kb-skeleton-highlight: var(--kb-material-raised-top);
+  --kb-skeleton-border: var(--kb-material-soft-border);
+  --kb-skeleton-duration: 1600ms;
+  --kb-skeleton-easing: var(--kb-motion-easing-smooth);
+  --kb-emptystate-radius: var(--kb-radius-lg);
+  --kb-emptystate-padding-sm: var(--kb-space-4);
+  --kb-emptystate-padding-md: var(--kb-space-6);
+  --kb-emptystate-padding-lg: var(--kb-space-8);
+  --kb-emptystate-gap: var(--kb-space-4);
+  --kb-emptystate-header-gap: var(--kb-space-1);
+  --kb-emptystate-actions-gap: var(--kb-space-2);
+  --kb-emptystate-max-width: 32rem;
+  --kb-emptystate-icon-size-sm: 2.25rem;
+  --kb-emptystate-icon-size-md: 2.75rem;
+  --kb-emptystate-icon-size-lg: 3.25rem;
+  --kb-emptystate-icon-glyph-size-sm: 1rem;
+  --kb-emptystate-icon-glyph-size-md: 1.25rem;
+  --kb-emptystate-icon-glyph-size-lg: 1.5rem;
+  --kb-emptystate-icon-radius: var(--kb-radius-md);
+  --kb-emptystate-background: var(--kb-material-surface-bg);
+  --kb-emptystate-border: var(--kb-color-border);
+  --kb-emptystate-shadow: var(--kb-material-panel-shadow);
+  --kb-toast-width: 23rem;
+  --kb-toast-max-width: 26rem;
+  --kb-toast-radius: var(--kb-radius-lg);
+  --kb-toast-padding-block: var(--kb-space-3);
+  --kb-toast-padding-inline: var(--kb-space-4);
+  --kb-toast-gap: var(--kb-space-3);
+  --kb-toast-viewport-inset: var(--kb-space-4);
+  --kb-toast-viewport-gap: var(--kb-space-3);
+  --kb-toast-stack-peek: 0.75rem;
+  --kb-toast-layer: 60;
+  --kb-toast-background: var(--kb-material-surface-bg);
+  --kb-toast-border: var(--kb-color-border);
+  --kb-toast-shadow: var(--kb-material-float-shadow);
+  --kb-toast-close-size: 1.75rem;
+  --kb-toast-icon-size: 1.25rem;
+  --kb-toast-motion-duration: var(--kb-motion-duration-base);
+  --kb-toast-motion-easing: var(--kb-motion-easing-standard);
   color-scheme: light;
 }
 
@@ -589,6 +650,15 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-code-syntax-operator: #47505e;
   --kb-code-syntax-property: #1f5173;
   --kb-separator-color: var(--kb-color-border);
+  --kb-skeleton-base: var(--kb-color-surface);
+  --kb-skeleton-highlight: var(--kb-material-raised-top);
+  --kb-skeleton-border: var(--kb-material-soft-border);
+  --kb-emptystate-background: var(--kb-material-surface-bg);
+  --kb-emptystate-border: var(--kb-color-border);
+  --kb-emptystate-shadow: var(--kb-material-panel-shadow);
+  --kb-toast-background: var(--kb-material-surface-bg);
+  --kb-toast-border: var(--kb-color-border);
+  --kb-toast-shadow: var(--kb-material-float-shadow);
   color-scheme: light;
 }
 
@@ -733,6 +803,15 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-code-syntax-operator: #c8d0dc;
   --kb-code-syntax-property: #9ac7eb;
   --kb-separator-color: var(--kb-color-border);
+  --kb-skeleton-base: var(--kb-color-surface);
+  --kb-skeleton-highlight: var(--kb-material-raised-top);
+  --kb-skeleton-border: var(--kb-material-soft-border);
+  --kb-emptystate-background: var(--kb-material-surface-bg);
+  --kb-emptystate-border: var(--kb-color-border);
+  --kb-emptystate-shadow: var(--kb-material-panel-shadow);
+  --kb-toast-background: var(--kb-material-surface-bg);
+  --kb-toast-border: var(--kb-color-border);
+  --kb-toast-shadow: var(--kb-material-float-shadow);
   color-scheme: dark;
 }
 
@@ -878,6 +957,15 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-code-syntax-operator: #c8d0dc;
     --kb-code-syntax-property: #9ac7eb;
     --kb-separator-color: var(--kb-color-border);
+    --kb-skeleton-base: var(--kb-color-surface);
+    --kb-skeleton-highlight: var(--kb-material-raised-top);
+    --kb-skeleton-border: var(--kb-material-soft-border);
+    --kb-emptystate-background: var(--kb-material-surface-bg);
+    --kb-emptystate-border: var(--kb-color-border);
+    --kb-emptystate-shadow: var(--kb-material-panel-shadow);
+    --kb-toast-background: var(--kb-material-surface-bg);
+    --kb-toast-border: var(--kb-color-border);
+    --kb-toast-shadow: var(--kb-material-float-shadow);
     color-scheme: dark;
   }
 }

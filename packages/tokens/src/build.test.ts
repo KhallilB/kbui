@@ -593,3 +593,32 @@ describe("grid component tokens", () => {
     expect(css).toContain("--kb-grid-min-item-width-lg: 24rem;");
   });
 });
+
+describe("loading and feedback component tokens", () => {
+  test("defines spinner, skeleton, emptystate, and toast tokens", () => {
+    const { css } = buildTokens(real as TokenTree);
+    expect(css).toContain("--kb-spinner-size-sm: 0.875rem;");
+    expect(css).toContain("--kb-spinner-size-md: 1.125rem;");
+    expect(css).toContain("--kb-spinner-size-lg: 1.5rem;");
+    expect(css).toContain("--kb-spinner-duration: 760ms;");
+    expect(css).toContain("--kb-spinner-easing: linear;");
+
+    expect(css).toContain("--kb-skeleton-height-sm: 0.75rem;");
+    expect(css).toContain("--kb-skeleton-height-md: 1rem;");
+    expect(css).toContain("--kb-skeleton-height-lg: 1.5rem;");
+    expect(css).toContain("--kb-skeleton-base: var(--kb-color-surface);");
+    expect(css).toContain("--kb-skeleton-highlight: var(--kb-material-raised-top);");
+    expect(css).toContain("--kb-skeleton-duration: 1600ms;");
+
+    expect(css).toContain("--kb-emptystate-radius: var(--kb-radius-lg);");
+    expect(css).toContain("--kb-emptystate-padding-md: var(--kb-space-6);");
+    expect(css).toContain("--kb-emptystate-max-width: 32rem;");
+    expect(css).toContain("--kb-emptystate-icon-size-md: 2.75rem;");
+
+    expect(css).toContain("--kb-toast-width: 23rem;");
+    expect(css).toContain("--kb-toast-radius: var(--kb-radius-lg);");
+    expect(css).toContain("--kb-toast-shadow: var(--kb-material-float-shadow);");
+    expect(css).toContain("--kb-toast-layer: 60;");
+    expect(css).toContain("--kb-toast-motion-duration: var(--kb-motion-duration-base);");
+  });
+});

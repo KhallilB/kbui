@@ -58,6 +58,10 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | `fieldset.css` | Native `fieldset` with `.kb-fieldset`, `data-disabled` and `data-invalid`, wrapping `-legend`, `-description`, `-fields` and `-error` parts |
 | `formactions.css` | `.kb-formactions` with `data-align` (`end`, `start`, `between`) and optional `data-divider` |
 | `errorsummary.css` | `.kb-errorsummary` alert container with `-title`, `-description`, `-list`, `-item` and `-link` parts |
+| `emptystate.css` | `.kb-emptystate` with `data-size` (`sm`, `md`, `lg`), `data-variant` (`surface`, `subtle`, `plain`) and `data-tone` (`neutral`, `info`, `warning`, `danger`), wrapping `-icon`, `-header`, `-eyebrow`, `-title`, `-description`, `-body`, `-actions` and `-footer` parts |
+| `spinner.css` | `.kb-spinner` with `data-size` (`sm`, `md`, `lg`), `data-tone` (`current`, `accent`, `neutral`, `info`, `success`, `warning`, `danger`) and optional `data-show-label`, wrapping `-icon` (`-track`, `-arc`) and `-label` |
+| `skeleton.css` | `.kb-skeleton` with `data-variant` (`text`, `rect`, `circle`, `pill`), `data-size` (`sm`, `md`, `lg`) and `data-animated`, wrapping `-line` or `-content` parts |
+| `toast.css` | `.kb-toast-viewport` (`data-placement`, `data-inline`) containing `.kb-toast` with `data-tone` (`neutral`, `info`, `success`, `warning`, `danger`, `loading`), wrapping `-content`, `-icon`, `-body`, `-title`, `-description`, `-actions`, `-action` and `-close` parts |
 | `dialog.css` | `.kb-dialog-popup` with `-title`, `-description` and `-actions` parts, beside a `.kb-dialog-backdrop`. Both use Base UI's open, starting and ending attributes for animation |
 
 ## Build and test
@@ -77,3 +81,6 @@ The tests check that each component file starts with its `Anatomy:` line and sty
 [Typography](../../docs/guides/typography.md) covers hierarchy, composition, plain HTML recipes and theme tokens.
 
 See [Layout composition](../../docs/guides/layout.md) for widths, gutters, collapse thresholds and plain HTML recipes.
+
+See [Loading and feedback](../../docs/guides/loading-and-feedback.md) for waiting, missing content, completion and recoverable failure recipes.
+

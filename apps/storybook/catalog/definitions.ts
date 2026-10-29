@@ -264,6 +264,46 @@ export const definitions: Record<string, Definition> = {
       FormRecovery: "Form Recovery",
     },
   },
+  EmptyState: {
+    group: "Feedback",
+    description: "Explain why a collection or section is empty and offer the next action.",
+    examples: {
+      Default: "Default",
+      FilteredZeroResults: "Zero Results",
+      RecoverableFailure: "Recoverable Failure",
+      VariantsAndSizes: "Variants",
+    },
+  },
+  Skeleton: {
+    group: "Feedback",
+    description: "Reserve incoming content geometry while a section loads.",
+    examples: {
+      Default: "Default",
+      CardPlaceholder: "Card Placeholder",
+      ShapesAndSizes: "Shapes and Sizes",
+      ContentTransition: "Content Transition",
+    },
+  },
+  Spinner: {
+    group: "Feedback",
+    description: "Indicate an indeterminate wait or busy control.",
+    examples: {
+      Default: "Default",
+      WithVisibleLabel: "Visible Label",
+      BusyButton: "Busy Button",
+      SizesAndTones: "Sizes and Tones",
+    },
+  },
+  Toast: {
+    group: "Feedback",
+    description: "Confirm asynchronous completion or offer retry on recoverable failures.",
+    examples: {
+      Default: "Default",
+      WithRecoveryAction: "Recovery Action",
+      Tones: "Tones",
+      AsyncSubmissionAndRetry: "Async and Retry",
+    },
+  },
   Toolbar: {
     group: "Actions",
     description: "Group related actions with arrow-key navigation.",
