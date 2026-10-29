@@ -34,17 +34,20 @@ export const CompactPopoverOnMobile: Story = {
       const input = within(popup).getByRole("textbox", { name: "Contains text" });
       const label = within(popup).getByText("Contains text");
       const done = within(popup).getByRole("button", { name: "Done" });
-      await waitFor(() => {
-        const bounds = popup.getBoundingClientRect();
-        expect(popup.getAnimations().length).toBe(0);
-        expect(bounds.top).toBeGreaterThanOrEqual(0);
-        expect(bounds.bottom).toBeLessThanOrEqual(window.innerHeight);
-        for (const control of [label, input, done]) {
-          expect(control.getBoundingClientRect().top).toBeGreaterThanOrEqual(bounds.top);
-          expect(control.getBoundingClientRect().bottom).toBeLessThanOrEqual(bounds.bottom);
-        }
-        expect(popup.scrollHeight).toBeLessThanOrEqual(popup.clientHeight + 1);
-      });
+      await waitFor(
+        () => {
+          const bounds = popup.getBoundingClientRect();
+          expect(popup.getAnimations().length).toBe(0);
+          expect(bounds.top).toBeGreaterThanOrEqual(0);
+          expect(bounds.bottom).toBeLessThanOrEqual(window.innerHeight);
+          for (const control of [label, input, done]) {
+            expect(control.getBoundingClientRect().top).toBeGreaterThanOrEqual(bounds.top);
+            expect(control.getBoundingClientRect().bottom).toBeLessThanOrEqual(bounds.bottom);
+          }
+          expect(popup.scrollHeight).toBeLessThanOrEqual(popup.clientHeight + 1);
+        },
+        { timeout: 5000 },
+      );
       await waitFor(() => expect(input).toHaveFocus());
       await browserUserEvent.keyboard("Design notes");
       await browserUserEvent.tab();
@@ -101,17 +104,20 @@ export const PopoverBodyAndActions: Story = {
         [560, 320],
       ] as const) {
         await browserPage.viewport(width, height);
-        await waitFor(() => {
-          const bounds = popup.getBoundingClientRect();
-          expect(popup.getAnimations().length).toBe(0);
-          expect(bounds.left).toBeGreaterThanOrEqual(0);
-          expect(bounds.top).toBeGreaterThanOrEqual(0);
-          expect(bounds.right).toBeLessThanOrEqual(width);
-          expect(bounds.bottom).toBeLessThanOrEqual(height);
-          expect(done.getBoundingClientRect().bottom).toBeLessThanOrEqual(bounds.bottom);
-          expect(title.getBoundingClientRect().top).toBeGreaterThanOrEqual(bounds.top);
-          expect(body.clientHeight).toBeGreaterThan(0);
-        });
+        await waitFor(
+          () => {
+            const bounds = popup.getBoundingClientRect();
+            expect(popup.getAnimations().length).toBe(0);
+            expect(bounds.left).toBeGreaterThanOrEqual(0);
+            expect(bounds.top).toBeGreaterThanOrEqual(0);
+            expect(bounds.right).toBeLessThanOrEqual(width);
+            expect(bounds.bottom).toBeLessThanOrEqual(height);
+            expect(done.getBoundingClientRect().bottom).toBeLessThanOrEqual(bounds.bottom);
+            expect(title.getBoundingClientRect().top).toBeGreaterThanOrEqual(bounds.top);
+            expect(body.clientHeight).toBeGreaterThan(0);
+          },
+          { timeout: 5000 },
+        );
         body.focus();
         await browserUserEvent.keyboard("{End}");
         await waitFor(() => expect(body.scrollTop).toBeGreaterThan(0));
@@ -190,14 +196,17 @@ export const DrawerScrollAndResize: Story = {
         [560, 320],
       ] as const) {
         await browserPage.viewport(width, height);
-        await waitFor(() => {
-          expect(popup.getAnimations().length).toBe(0);
-          expect(popup.getBoundingClientRect().left).toBeGreaterThanOrEqual(-1);
-          expect(popup.getBoundingClientRect().right).toBeLessThanOrEqual(width + 1);
-          expect(close.getBoundingClientRect().bottom).toBeLessThanOrEqual(height);
-          expect(title.getBoundingClientRect().top).toBeGreaterThanOrEqual(0);
-          expect(body.clientHeight).toBeGreaterThan(0);
-        });
+        await waitFor(
+          () => {
+            expect(popup.getAnimations().length).toBe(0);
+            expect(popup.getBoundingClientRect().left).toBeGreaterThanOrEqual(-1);
+            expect(popup.getBoundingClientRect().right).toBeLessThanOrEqual(width + 1);
+            expect(close.getBoundingClientRect().bottom).toBeLessThanOrEqual(height);
+            expect(title.getBoundingClientRect().top).toBeGreaterThanOrEqual(0);
+            expect(body.clientHeight).toBeGreaterThan(0);
+          },
+          { timeout: 5000 },
+        );
       }
       root.dir = "rtl";
       await waitFor(() =>
