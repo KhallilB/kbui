@@ -88,7 +88,13 @@ export {
   type InlineProps,
 } from "./components/Inline/Inline";
 export { Input, type InputProps, type InputSize } from "./components/Input/Input";
-export { Link, type LinkProps } from "./components/Link/Link";
+export {
+  Link,
+  type LinkComponent,
+  type LinkProps,
+  type LinkProviderProps,
+  useLinkComponent,
+} from "./components/Link/Link";
 export {
   Menu,
   type MenuContentProps,

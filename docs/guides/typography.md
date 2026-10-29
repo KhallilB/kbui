@@ -55,7 +55,7 @@ The same anatomy works with plain HTML or another renderer. Install `@kb.ui/css`
 </div>
 ```
 
-CSS-only headings default to lg when no size attribute exists. Render the appropriate `data-size` explicitly to match React's rank-based defaults. Text defaults to md and primary ink without attributes. Link requires an anchor with href; Code uses a native `code` element inline or `.kb-code[data-block]` for multiline listings. A router integration should emit the same native anchor and class; preserve its own ref and event handling.
+CSS-only headings default to lg when no size attribute exists. Render the appropriate `data-size` explicitly to match React's rank-based defaults. Text defaults to md and primary ink without attributes. Link requires an anchor with href; Code uses a native `code` element inline or `.kb-code[data-block]` for multiline listings. In React, give router links to `Link.Provider` once (see [router links](../../packages/react/docs/components/Link.md#router-links)); a CSS-only router integration should emit the same native anchor and class and preserve its own ref and event handling.
 
 ## Theme and scale
 

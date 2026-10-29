@@ -62,6 +62,18 @@ bun run --cwd packages/react test -- Notice
 
 Build on a Base UI primitive when one fits; otherwise render a plain element. Follow the [component conventions](../../CONTRIBUTING.md#component-conventions): spread props first and `kb()` last, test that the `ref` is forwarded, and give each prop a one-line JSDoc comment. Then make the test pass.
 
+### Integrating app libraries
+
+kbui imports no app library: no router, i18n, form, date or image package. Apps plug theirs in through a seam, and setup examples for common libraries live in docs only, never as dependencies. Use the lowest rung that works:
+
+1. **Native element.** The plain element with its `kb-` class, which the CSS-only path already supports.
+2. **Per-instance `render`.** Always available as the escape hatch; it adds no API.
+3. **Context provider.** Only when two or more kbui components render the same outside element, or every call site would repeat the same adapter.
+
+Never intercept with a callback such as `navigate(href)` that re-implements the library; the app loses that library's own features.
+
+A provider follows the [`Link.Provider`](../../packages/react/docs/components/Link.md#router-links) shape: namespaced on its owning component, one `component` prop defaulting to the native element, which receives native props and `ref` and must pass them through. The nearest provider wins, and with no provider the output is unchanged. Expose one `use<Name>Component()` reader. Test the default, the swap and a nested override; add a story and a short adapter example per common library to the README. Add API only for a real call site. Do not add an umbrella provider until three or more seams exist.
+
 ## 5. Add stories
 
 Write a story for each variant, size and notable state. Storybook builds the props table from the JSDoc comments. Every story runs through the accessibility scan; reported violations fail CI. Follow the [story conventions](../../CONTRIBUTING.md#public-docs-and-internal-stories) to keep regression-only fixtures out of public navigation.
