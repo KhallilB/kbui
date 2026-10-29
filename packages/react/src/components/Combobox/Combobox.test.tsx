@@ -2,7 +2,7 @@ import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createRef, useState } from "react";
 import { describe, expect, it, vi } from "vitest";
-import { Combobox, type ComboboxOption, type ComboboxProps } from "./Combobox";
+import { Combobox, type ComboboxOption, type ComboboxSingleProps } from "./Combobox";
 
 const options: ComboboxOption[] = [
   { value: "us-east", label: "US East (Virginia)" },
@@ -12,7 +12,7 @@ const options: ComboboxOption[] = [
 ];
 
 function Controlled(
-  props: Omit<ComboboxProps, "label" | "options" | "value" | "onValueChange"> & {
+  props: Omit<ComboboxSingleProps, "label" | "options" | "value" | "onValueChange"> & {
     initial?: string | null;
     options?: readonly ComboboxOption[];
     onChange?: (value: string | null) => void;

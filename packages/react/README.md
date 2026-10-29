@@ -457,14 +457,17 @@ By default, the popup mounts inside the field root and inherits its theme. If yo
 
 ## Combobox
 
-Use Combobox when people need to filter a longer option list by typing before choosing one value. Each option has a string `value`, a visible `label`, and an optional `disabled` flag. Pass `null` when nothing is selected.
+Use Combobox to filter a longer option list before choosing one or multiple values. Each option has a string `value`, a visible `label`, and an optional `disabled` flag. Single selection uses `string | null`; enable `multiple` to use a `readonly string[]` value and a `(value: string[]) => void` callback. Pass `null` or `[]` for the corresponding empty selection.
+
+Multiple mode delegates to [MultiSelect](#multiselect), including removable chips, keyboard navigation, clear-all, form submission, and disabled/read-only states. It uses `.kb-multiselect` CSS anatomy and `ClassNames<MultiSelectSlot>` slots, including `chips`, `chip`, `chipLabel`, and `chipRemove`. Single mode retains `.kb-combobox` anatomy. `ComboboxProps` is a discriminated union; use `ComboboxSingleProps` or `ComboboxMultipleProps` when typing a mode-specific wrapper.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
 | `label` | `string` | required | Visible field label and accessible combobox name |
 | `options` | `readonly ComboboxOption[]` | required | Selectable options filtered by label |
-| `value` | `string \| null` | required | Controlled selection; `null` means unset |
-| `onValueChange` | `(value: string \| null) => void` | required | Called when an option is selected or cleared |
+| `multiple` | `boolean` | `false` | Enable multiple selections; determines value and callback types |
+| `value` | `string \| null` or `readonly string[]` | required | Single selection or multiple selected values |
+| `onValueChange` | `(value: string \| null) => void` or `(value: string[]) => void` | required | Callback matches selection mode |
 | `placeholder` | `string` | unset | Input placeholder shown when empty |
 | `emptyMessage` | `ReactNode` | `"No matching options"` | Polite status text when no options match |
 | `size` | `"sm" \| "md" \| "lg"` | `"md"` | Control height and text scale |
@@ -472,7 +475,8 @@ Use Combobox when people need to filter a longer option list by typing before ch
 | `disabled` / `readOnly` | `boolean` | `false` | Prevent edits; disabled also blocks form submission |
 | `clearLabel` / `toggleLabel` | `string` | derived from `label` | Accessible names for the clear and toggle buttons |
 | `container` | `Combobox.Portal.Props["container"]` | field root | Portal host; default retains nested theme |
-| `classNames` | `ClassNames<ComboboxSlot>` | unset | Extra classes for inner parts |
+| `classNames` | `ClassNames<ComboboxSlot>` or `ClassNames<MultiSelectSlot>` | unset | Slots match selection mode |
+| `removeLabel` | `(option: ComboboxOption) => string` | `"Remove {option.label}"` | Multiple mode only; accessible chip removal name |
 
 ```tsx
 import { useState } from "react";
@@ -491,6 +495,28 @@ export function RegionCombobox() {
       options={regions}
       value={region}
       onValueChange={setRegion}
+      placeholder="Search regions..."
+    />
+  );
+}
+```
+
+```tsx
+import { useState } from "react";
+import { Combobox } from "@kb.ui/react";
+
+export function DeploymentRegions() {
+  const [regions, setRegions] = useState<string[]>([]);
+  return (
+    <Combobox
+      multiple
+      label="Deployment regions"
+      options={[
+        { value: "us-east-1", label: "US East (N. Virginia)" },
+        { value: "eu-central-1", label: "EU Central (Frankfurt)" },
+      ]}
+      value={regions}
+      onValueChange={setRegions}
       placeholder="Search regions..."
     />
   );

@@ -291,14 +291,15 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
   },
   Combobox: {
-    use: "Let people filter a longer option list by typing before choosing one value. Use Select when the list is short enough to scan without typing.",
+    use: "Let people filter a longer option list by typing before choosing one or multiple values. Enable multiple for removable selection chips. Use Select when a single-choice list is short enough to scan without typing.",
     example: {
       title: "Find a deployment region",
       description:
         "Type to narrow the region list, choose a region with the keyboard or pointer, and clear the selection when needed.",
     },
     tips: [
-      "Pass null when nothing is selected and update value in onValueChange.",
+      "Pass null for an empty single selection; with multiple, pass an array and update it in onValueChange.",
+      "Multiple mode reuses MultiSelect behavior, chip slots, and styling; customize removeLabel for chip actions.",
       "Keep emptyMessage specific so people know whether no options exist or none match their filter.",
     ],
     accessibility: [
