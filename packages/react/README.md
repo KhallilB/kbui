@@ -675,7 +675,9 @@ Literal inline code in native `code`, or syntax-highlighted multiline code block
 | `lineNumbers` | `boolean` | `false` | Render a non-selectable line-number gutter in block mode |
 | `startLine` | `number` | `1` | Starting line number for `lineNumbers` and `highlightLines` |
 | `highlightLines` | `readonly number[]` | unset | Line numbers (relative to `startLine`) to emphasize |
+| `minLines` | `number` | unset | Minimum visible line count for the block (and default collapsed line count when `collapsible` is enabled without `collapsedLines`) |
 | `collapsible` | `boolean` | `false` | Add an expand/collapse toggle for longer listings |
+| `collapsedLines` | `number` | `minLines` | Visible line count when a `collapsible` block is collapsed |
 | `defaultCollapsed` / `collapsed` | `boolean` | `false` / uncontrolled | Initial or controlled collapsed state when `collapsible` is enabled |
 | `onCollapsedChange` | `(collapsed: boolean) => void` | unset | Called when the user toggles the collapsed state |
 | `maxHeight` | `string \| number` | unset | Maximum viewport height in block mode |
@@ -688,14 +690,14 @@ import { Code } from "@kb.ui/react";
 
 export function SnippetExample() {
   return (
-    <Code title="src/theme.ts" language="ts" lineNumbers highlightLines={[2]}>
+    <Code title="src/theme.ts" language="ts" lineNumbers highlightLines={[2]} minLines={4}>
       {`export const defaultTheme = "light";\nexport const accent = "persimmon";`}
     </Code>
   );
 }
 ```
 
-Single-line strings without block props render as an inline `code` element that inherits surrounding line height and wraps long paths. Strings containing `\n` or any block prop (`language`, `title`, `copyable`, `lineNumbers`, `highlightLines`, `collapsible`, `maxHeight`, `tokens`) switch automatically to a framed block listing unless `block={false}` is set. Line numbers use CSS `attr(data-line-number)` so selecting or reading `code.textContent` returns only the raw code. Customize block surfaces and syntax colors with `--kb-code-block-*` and `--kb-code-syntax-*`.
+Single-line strings without block props render as an inline `code` element that inherits surrounding line height and wraps long paths. Strings containing `\n` or any block prop (`language`, `title`, `copyable`, `lineNumbers`, `highlightLines`, `minLines`, `collapsible`, `collapsedLines`, `maxHeight`, `tokens`) switch automatically to a framed block listing unless `block={false}` is set. Line numbers use CSS `attr(data-line-number)` so selecting or reading `code.textContent` returns only the raw code. Customize block surfaces and syntax colors with `--kb-code-block-*` and `--kb-code-syntax-*`.
 
 ## Container
 

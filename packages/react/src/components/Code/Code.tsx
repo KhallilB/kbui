@@ -37,21 +37,23 @@ export type CodePart =
 
 export type CodeProps = Omit<ComponentProps<"code">, "ref" | "title"> & {
   ref?: Ref<HTMLElement>;
-  block?: boolean;
-  language?: CodeLanguage;
-  title?: string;
-  copyable?: boolean;
-  onCopy?: (code: string) => void;
-  lineNumbers?: boolean;
-  startLine?: number;
-  highlightLines?: readonly number[];
-  collapsible?: boolean;
-  defaultCollapsed?: boolean;
-  collapsed?: boolean;
-  onCollapsedChange?: (collapsed: boolean) => void;
-  maxHeight?: string | number;
-  tokens?: readonly CodeToken[];
-  classNames?: ClassNames<CodePart>;
+  block?: boolean | undefined;
+  language?: CodeLanguage | undefined;
+  title?: string | undefined;
+  copyable?: boolean | undefined;
+  onCopy?: ((code: string) => void) | undefined;
+  lineNumbers?: boolean | undefined;
+  startLine?: number | undefined;
+  highlightLines?: readonly number[] | undefined;
+  minLines?: number | undefined;
+  collapsible?: boolean | undefined;
+  collapsedLines?: number | undefined;
+  defaultCollapsed?: boolean | undefined;
+  collapsed?: boolean | undefined;
+  onCollapsedChange?: ((collapsed: boolean) => void) | undefined;
+  maxHeight?: string | number | undefined;
+  tokens?: readonly CodeToken[] | undefined;
+  classNames?: ClassNames<CodePart> | undefined;
 };
 
 const SR_ONLY_STYLE: CSSProperties = {
@@ -111,7 +113,9 @@ export function Code({
   lineNumbers = false,
   startLine = 1,
   highlightLines,
+  minLines,
   collapsible = false,
+  collapsedLines,
   defaultCollapsed = false,
   collapsed: collapsedProp,
   onCollapsedChange,
@@ -130,12 +134,22 @@ export function Code({
   const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const preRef = useRef<HTMLPreElement | null>(null);
 
+  const resolvedMinLines =
+    minLines !== undefined && minLines > 0 ? Math.floor(minLines) : undefined;
+  const resolvedCollapsedLines =
+    collapsedLines !== undefined && collapsedLines > 0
+      ? Math.floor(collapsedLines)
+      : collapsible && resolvedMinLines !== undefined
+        ? resolvedMinLines
+        : undefined;
+
   useEffect(() => {
     return () => {
       if (copyTimerRef.current !== null) clearTimeout(copyTimerRef.current);
     };
   }, []);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Re-measure when resolvedMinLines changes in non-ResizeObserver environments.
   useEffect(() => {
     if (!collapsible) return;
     const element = preRef.current;
@@ -149,7 +163,7 @@ export function Code({
     const observer = new ResizeObserver(measure);
     observer.observe(element);
     return () => observer.disconnect();
-  }, [collapsible]);
+  }, [collapsible, resolvedMinLines]);
 
   const hasBlockProps =
     language !== undefined ||
@@ -157,7 +171,9 @@ export function Code({
     copyable !== undefined ||
     lineNumbers ||
     (highlightLines !== undefined && highlightLines.length > 0) ||
+    resolvedMinLines !== undefined ||
     collapsible ||
+    resolvedCollapsedLines !== undefined ||
     maxHeight !== undefined ||
     tokens !== undefined;
   const isMultilineString = typeof children === "string" && children.includes("\n");
@@ -190,13 +206,29 @@ export function Code({
   const lines = typeof children === "string" ? rawCode.split("\n") : [];
   const highlightSet =
     highlightLines && highlightLines.length > 0 ? new Set(highlightLines) : undefined;
+  const extraLineCount =
+    typeof children === "string" &&
+    resolvedMinLines !== undefined &&
+    resolvedMinLines > lines.length
+      ? resolvedMinLines - lines.length
+      : 0;
 
-  const hasCustomVars = maxHeight !== undefined || (collapsible && expandedHeight !== undefined);
+  const hasCustomVars =
+    maxHeight !== undefined ||
+    resolvedMinLines !== undefined ||
+    resolvedCollapsedLines !== undefined ||
+    (collapsible && expandedHeight !== undefined);
   const blockStyle: CSSProperties | undefined = hasCustomVars
     ? ({
         ...style,
         ...(maxHeight !== undefined
           ? { "--_code-max-height": typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight }
+          : null),
+        ...(resolvedMinLines !== undefined
+          ? { "--_code-min-lines": String(resolvedMinLines) }
+          : null),
+        ...(resolvedCollapsedLines !== undefined
+          ? { "--_code-collapsed-lines": String(resolvedCollapsedLines) }
           : null),
         ...(collapsible && expandedHeight !== undefined
           ? { "--_code-expanded-max-height": `${expandedHeight}px` }
@@ -254,8 +286,10 @@ export function Code({
         {
           block: true,
           "line-numbers": lineNumbers || undefined,
+          "min-lines": resolvedMinLines !== undefined || undefined,
           collapsible: collapsible || undefined,
           collapsed: isCollapsed || undefined,
+          "collapsed-lines": resolvedCollapsedLines !== undefined || undefined,
           language: language || undefined,
         },
         className,
@@ -327,8 +361,9 @@ export function Code({
       <div id={viewportId} className={clsx("kb-code-viewport", classNames?.viewport)}>
         <pre ref={preRef} className={clsx("kb-code-pre", classNames?.pre)}>
           <code className={clsx("kb-code-content", classNames?.content)}>
-            {typeof children === "string"
-              ? lines.map((lineText, idx) => {
+            {typeof children === "string" ? (
+              <>
+                {lines.map((lineText, idx) => {
                   const lineStart = offset;
                   offset += lineText.length + 1;
                   const lineNumber = startLine + idx;
@@ -353,8 +388,34 @@ export function Code({
                       </span>
                     </Fragment>
                   );
-                })
-              : children}
+                })}
+                {extraLineCount > 0
+                  ? Array.from({ length: extraLineCount }, (_, extraOffset) => {
+                      const lineNumber = startLine + lines.length + extraOffset;
+                      const isHighlighted = highlightSet?.has(lineNumber) ?? false;
+                      return (
+                        <span
+                          key={`pad-${lineNumber}`}
+                          className={clsx("kb-code-line", classNames?.line)}
+                          data-highlighted={isHighlighted ? "" : undefined}
+                          aria-hidden="true"
+                        >
+                          {lineNumbers ? (
+                            <span
+                              className={clsx("kb-code-line-number", classNames?.lineNumber)}
+                              data-line-number={String(lineNumber)}
+                              aria-hidden="true"
+                            />
+                          ) : null}
+                          <span className={clsx("kb-code-line-text", classNames?.lineText)} />
+                        </span>
+                      );
+                    })
+                  : null}
+              </>
+            ) : (
+              children
+            )}
           </code>
         </pre>
       </div>

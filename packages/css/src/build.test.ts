@@ -452,6 +452,9 @@ describe("buildCss", () => {
     expect(codeCss).toContain("--kb-code-motion-easing");
     expect(codeCss).toContain("--kb-code-toggle-min-width");
     expect(codeCss).toContain("--kb-code-copy-min-width");
+    expect(codeCss).toContain("[data-min-lines]");
+    expect(codeCss).toContain("--_code-min-lines");
+    expect(codeCss).toContain("--_code-collapsed-lines");
     expect(codeCss).toContain("@media (prefers-reduced-motion: reduce)");
     expect(codeCss).toContain("@media (forced-colors: active)");
   });

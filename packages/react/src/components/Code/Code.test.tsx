@@ -237,4 +237,40 @@ describe("Code", () => {
       }
     }
   });
+
+  test("supports minLines overall and collapsedLines for collapsible blocks without altering textContent", () => {
+    const snippet = "const a = 1;\nconst b = 2;";
+    const { container, rerender } = render(
+      <Code language="ts" lineNumbers minLines={5}>
+        {snippet}
+      </Code>,
+    );
+
+    const root = container.querySelector<HTMLElement>(".kb-code");
+    expect(root).toHaveAttribute("data-block", "");
+    expect(root).toHaveAttribute("data-min-lines", "");
+    expect(root?.style.getPropertyValue("--_code-min-lines")).toBe("5");
+
+    const lineNumbers = [...container.querySelectorAll(".kb-code-line-number")].map((el) =>
+      el.getAttribute("data-line-number"),
+    );
+    expect(lineNumbers).toEqual(["1", "2", "3", "4", "5"]);
+    expect(container.querySelector(".kb-code-content")?.textContent).toBe(snippet);
+
+    rerender(
+      <Code language="ts" collapsible defaultCollapsed minLines={6} collapsedLines={3}>
+        {snippet}
+      </Code>,
+    );
+    expect(root?.style.getPropertyValue("--_code-min-lines")).toBe("6");
+    expect(root?.style.getPropertyValue("--_code-collapsed-lines")).toBe("3");
+
+    rerender(
+      <Code language="ts" collapsible defaultCollapsed minLines={4}>
+        {snippet}
+      </Code>,
+    );
+    expect(root?.style.getPropertyValue("--_code-min-lines")).toBe("4");
+    expect(root?.style.getPropertyValue("--_code-collapsed-lines")).toBe("4");
+  });
 });

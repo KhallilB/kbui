@@ -1,4 +1,4 @@
-/* Anatomy: .kb-code [data-block] [data-line-numbers] [data-collapsible] [data-collapsed] > .kb-code-header > .kb-code-meta > .kb-code-title, .kb-code-language; .kb-code-actions > .kb-code-toggle, .kb-code-copy [data-copy-state=idle|copied|failed]; .kb-code-viewport > .kb-code-pre > .kb-code-content > .kb-code-line [data-highlighted] > .kb-code-line-number, .kb-code-line-text */
+/* Anatomy: .kb-code [data-block] [data-line-numbers] [data-min-lines] [data-collapsible] [data-collapsed] [data-collapsed-lines] > .kb-code-header > .kb-code-meta > .kb-code-title, .kb-code-language; .kb-code-actions > .kb-code-toggle, .kb-code-copy [data-copy-state=idle|copied|failed]; .kb-code-viewport > .kb-code-pre > .kb-code-content > .kb-code-line [data-highlighted] > .kb-code-line-number, .kb-code-line-text */
 .kb-code {
   padding: 0.1em var(--kb-space-1);
   border: 1px solid var(--kb-code-border);
@@ -254,6 +254,13 @@
   overflow: hidden;
 }
 
+.kb-code[data-collapsed][data-collapsed-lines] .kb-code-viewport {
+  max-block-size: calc(
+    (var(--_code-collapsed-lines, 5) * 1em * var(--kb-code-block-leading)) +
+    (2 * var(--kb-code-block-padding-block))
+  );
+}
+
 .kb-code[data-collapsible] .kb-code-viewport::after {
   content: "";
   position: absolute;
@@ -295,6 +302,13 @@
   font-size: var(--kb-code-block-font-size);
   line-height: var(--kb-code-block-leading);
   tab-size: 2;
+}
+
+.kb-code[data-min-lines] .kb-code-pre {
+  min-block-size: calc(
+    (var(--_code-min-lines, 0) * 1em * var(--kb-code-block-leading)) +
+    (2 * var(--kb-code-block-padding-block))
+  );
 }
 
 .kb-code-content {

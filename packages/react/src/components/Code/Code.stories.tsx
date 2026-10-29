@@ -74,7 +74,14 @@ export const LineNumbersAndHighlights: Story = {
 
 export const Collapsible: Story = {
   render: () => (
-    <Code title="package.json" language="json" lineNumbers collapsible defaultCollapsed>
+    <Code
+      title="package.json"
+      language="json"
+      lineNumbers
+      minLines={4}
+      collapsible
+      defaultCollapsed
+    >
       {`{
   "name": "@kb.ui/react",
   "version": "0.14.0",
