@@ -1,3 +1,11 @@
+export type {
+  AccordionHeaderProps,
+  AccordionItemProps,
+  AccordionPanelProps,
+  AccordionProps,
+  AccordionTriggerProps,
+} from "./components/Accordion/Accordion";
+export { Accordion } from "./components/Accordion/Accordion";
 export { Avatar, type AvatarProps, type AvatarShape } from "./components/Avatar/Avatar";
 export {
   Badge,
@@ -73,6 +81,12 @@ export {
   type DialogTitleProps,
   type DialogTriggerProps,
 } from "./components/Dialog/Dialog";
+export type {
+  DisclosurePanelProps,
+  DisclosureProps,
+  DisclosureTriggerProps,
+} from "./components/Disclosure/Disclosure";
+export { Disclosure } from "./components/Disclosure/Disclosure";
 export {
   ErrorSummary,
   type ErrorSummaryHeadingLevel,
@@ -159,6 +173,16 @@ export {
   type PanelToolbarProps,
   type PanelWellProps,
 } from "./components/Panel/Panel";
+export type {
+  PopoverCloseProps,
+  PopoverContentProps,
+  PopoverDescriptionProps,
+  PopoverProps,
+  PopoverSectionProps,
+  PopoverTitleProps,
+  PopoverTriggerProps,
+} from "./components/Popover/Popover";
+export { Popover } from "./components/Popover/Popover";
 export { Progress, type ProgressProps } from "./components/Progress/Progress";
 export {
   RadioGroup,

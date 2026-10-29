@@ -202,6 +202,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-dialog-header-padding: 0px;
   --kb-dialog-body-padding: 0px;
   --kb-dialog-footer-padding: 0px;
+  --kb-dialog-drawer-motion-duration: var(--kb-motion-duration-slow);
+  --kb-dialog-drawer-motion-easing: var(--kb-motion-easing-standard);
   --kb-panel-background: var(--kb-material-surface-bg);
   --kb-panel-background-active: var(--kb-material-surface-bg);
   --kb-panel-background-sunken: var(--kb-material-field-bg);
@@ -509,6 +511,33 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-copyabletext-copy-min-width: 5.5rem;
   --kb-copyabletext-value-color: var(--kb-color-fg);
   --kb-copyabletext-highlight-background: color-mix(in srgb, var(--kb-color-warning) 16%, var(--kb-color-surface));
+  --kb-disclosure-padding: var(--kb-space-4);
+  --kb-disclosure-radius: var(--kb-radius-md);
+  --kb-disclosure-background: var(--kb-color-bg);
+  --kb-disclosure-color: var(--kb-color-fg);
+  --kb-disclosure-border: var(--kb-color-border);
+  --kb-disclosure-trigger-height: 2.75rem;
+  --kb-disclosure-motion-duration: var(--kb-motion-duration-slow);
+  --kb-disclosure-motion-easing: var(--kb-motion-easing-standard);
+  --kb-accordion-padding: var(--kb-space-4);
+  --kb-accordion-radius: var(--kb-radius-md);
+  --kb-accordion-background: var(--kb-color-bg);
+  --kb-accordion-color: var(--kb-color-fg);
+  --kb-accordion-border: var(--kb-color-border);
+  --kb-accordion-trigger-height: 2.75rem;
+  --kb-accordion-motion-duration: var(--kb-motion-duration-slow);
+  --kb-accordion-motion-easing: var(--kb-motion-easing-standard);
+  --kb-popover-width: 20rem;
+  --kb-popover-padding: var(--kb-space-4);
+  --kb-popover-background: var(--kb-popup-background);
+  --kb-popover-color: var(--kb-color-fg);
+  --kb-popover-border: var(--kb-popup-border);
+  --kb-popover-radius: var(--kb-popup-radius);
+  --kb-popover-shadow: var(--kb-popup-shadow);
+  --kb-popover-motion-duration: var(--kb-motion-duration-base);
+  --kb-popover-motion-easing: var(--kb-motion-easing-standard);
+  --kb-popover-enter-scale: 0.98;
+  --kb-popover-enter-offset: var(--kb-space-1);
   --kb-tabs-radius: var(--kb-radius-md);
   --kb-tabs-list-padding: 3px;
   --kb-tabs-tab-height-sm: var(--kb-button-height-sm);
@@ -679,6 +708,16 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-copyabletext-background: var(--kb-color-surface);
   --kb-copyabletext-value-color: var(--kb-color-fg);
   --kb-copyabletext-highlight-background: color-mix(in srgb, var(--kb-color-warning) 16%, var(--kb-color-surface));
+  --kb-disclosure-background: var(--kb-color-bg);
+  --kb-disclosure-color: var(--kb-color-fg);
+  --kb-disclosure-border: var(--kb-color-border);
+  --kb-accordion-background: var(--kb-color-bg);
+  --kb-accordion-color: var(--kb-color-fg);
+  --kb-accordion-border: var(--kb-color-border);
+  --kb-popover-background: var(--kb-popup-background);
+  --kb-popover-color: var(--kb-color-fg);
+  --kb-popover-border: var(--kb-popup-border);
+  --kb-popover-shadow: var(--kb-popup-shadow);
   color-scheme: light;
 }
 
@@ -843,6 +882,16 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-copyabletext-background: var(--kb-color-surface);
   --kb-copyabletext-value-color: var(--kb-color-fg);
   --kb-copyabletext-highlight-background: color-mix(in srgb, var(--kb-color-warning) 16%, var(--kb-color-surface));
+  --kb-disclosure-background: var(--kb-color-bg);
+  --kb-disclosure-color: var(--kb-color-fg);
+  --kb-disclosure-border: var(--kb-color-border);
+  --kb-accordion-background: var(--kb-color-bg);
+  --kb-accordion-color: var(--kb-color-fg);
+  --kb-accordion-border: var(--kb-color-border);
+  --kb-popover-background: var(--kb-popup-background);
+  --kb-popover-color: var(--kb-color-fg);
+  --kb-popover-border: var(--kb-popup-border);
+  --kb-popover-shadow: var(--kb-popup-shadow);
   color-scheme: dark;
 }
 
@@ -1008,6 +1057,16 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-copyabletext-background: var(--kb-color-surface);
     --kb-copyabletext-value-color: var(--kb-color-fg);
     --kb-copyabletext-highlight-background: color-mix(in srgb, var(--kb-color-warning) 16%, var(--kb-color-surface));
+    --kb-disclosure-background: var(--kb-color-bg);
+    --kb-disclosure-color: var(--kb-color-fg);
+    --kb-disclosure-border: var(--kb-color-border);
+    --kb-accordion-background: var(--kb-color-bg);
+    --kb-accordion-color: var(--kb-color-fg);
+    --kb-accordion-border: var(--kb-color-border);
+    --kb-popover-background: var(--kb-popup-background);
+    --kb-popover-color: var(--kb-color-fg);
+    --kb-popover-border: var(--kb-popup-border);
+    --kb-popover-shadow: var(--kb-popup-shadow);
     color-scheme: dark;
   }
 }

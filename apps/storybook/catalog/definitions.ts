@@ -196,10 +196,48 @@ export const definitions: Record<string, Definition> = {
       InText: "In Text",
     },
   },
+  Popover: {
+    group: "Actions",
+    description: "Reveal supporting controls in an anchored, dismissible popup.",
+    examples: {
+      Default: "Default",
+      Controlled: "Controlled",
+      ScopedPortal: "Nested Theme",
+      InsideDialog: "Inside Dialog",
+      Scrolling: "Scrolling",
+    },
+  },
+  Disclosure: {
+    group: "Layout",
+    description: "Reveal supporting details or controls within the page.",
+    examples: {
+      Default: "Default",
+      RetainedDraft: "Retained Draft",
+      Controlled: "Controlled",
+      Disabled: "Disabled",
+    },
+  },
+  Accordion: {
+    group: "Layout",
+    description: "Organize related disclosures under descriptive headings.",
+    examples: {
+      Default: "Default",
+      Multiple: "Multiple",
+      Controlled: "Controlled",
+      Disabled: "Disabled",
+      Nested: "Nested",
+    },
+  },
   Dialog: {
     group: "Actions",
     description: "Keep a focused task in a dialog while the page waits behind it.",
-    examples: { Confirm: "Confirm", CustomLayout: "Custom Layout", Sections: "Sections" },
+    examples: {
+      Confirm: "Confirm",
+      Drawer: "Drawer",
+      ConfirmationRecovery: "Confirmation Recovery",
+      CustomLayout: "Custom Layout",
+      Sections: "Sections",
+    },
   },
   FileInput: {
     group: "Forms",

@@ -32,6 +32,12 @@ Plain HTML works as well:
 <button class="kb-button" data-variant="secondary" data-size="sm">Cancel</button>
 ```
 
+## Disclosure and overlays
+
+`accordion.css` supplies `.kb-accordion`, `-item`, `-header`, `-trigger` and `-panel` parts. `disclosure.css` supplies `.kb-disclosure`, `-trigger` and `-panel`. Triggers use `data-panel-open` and `data-disabled`; closed panels must remain hidden or unmounted. Renderers own ARIA relationships and state.
+
+`popover.css` supplies `.kb-popover-positioner`, `.kb-popover`, `-header`, `-body`, `-footer`, `-title` and `-description`. A positioning engine supplies `--available-width` and `--available-height`; open/starting/ending attributes control anchored motion. A direct Body child enables constrained content scrolling while Header/Footer remain visible. See the [overlay guide](../../docs/guides/forms-and-overlays.md) for portals, drawers and confirmation compositions.
+
 ## Components
 
 The first line of each stylesheet describes the markup it expects. The table shows common entries; [styles.css](src/styles.css) lists every component import.
