@@ -84,6 +84,7 @@ Choose by task. Each page contains a complete usage example, canonical API detai
 | Component | Use for |
 |---|---|
 | <a id="badge"></a>[Badge](docs/components/Badge.md) | Add a short label, category, or piece of metadata. |
+| <a id="toast"></a>[Toast](docs/components/Toast.md) | Queue temporary messages with announcements, actions and timed dismissal. |
 | <a id="callout"></a>[Callout](docs/components/Callout.md) | Highlight a message and offer a useful next step. |
 | <a id="progress"></a>[Progress](docs/components/Progress.md) | Show how much of a task is complete. |
 | <a id="stat"></a>[Stat](docs/components/Stat.md) | Show a number alongside the label that explains it. |

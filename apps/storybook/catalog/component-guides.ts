@@ -86,6 +86,19 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.Button,
   },
+  Toast: {
+    use: "Confirm completed background work without interrupting the current task.",
+    example: {
+      title: "Keep project notifications together",
+      description:
+        "One provider owns the message list. Compare overflow, actions and timed dismissal; use F6 to reach notifications.",
+    },
+    tips: [
+      "Mount one Viewport per provider; use timeout=0 for important messages and time-sensitive actions.",
+      "Limit hides older messages while their timers continue. Keep essential results available in the page or a notification history.",
+    ],
+    accessibility: accessibilityGuides.Toast,
+  },
   Callout: {
     use: "Explain something important near the affected content. Add an action when people can resolve the message.",
     example: {

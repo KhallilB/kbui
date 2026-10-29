@@ -96,6 +96,17 @@ export const definitions: Record<string, Definition> = {
       Disabled: "Disabled",
     },
   },
+  Toast: {
+    group: "Feedback",
+    description: "Manage temporary notifications with announcements and timed dismissal.",
+    examples: {
+      Default: "Default",
+      Queue: "Queue",
+      Tones: "Colors",
+      WithAction: "Undo action",
+      Timed: "Timed dismissal",
+    },
+  },
   Callout: {
     group: "Feedback",
     description: "Highlight a message and offer a useful next step.",
