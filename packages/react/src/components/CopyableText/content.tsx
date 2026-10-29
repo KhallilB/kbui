@@ -101,7 +101,7 @@ const CODE_LANGUAGES: Record<string, CodeLanguage> = {
 
 export function detectCopyableLanguage(value: string): CodeLanguage | undefined {
   const source = value.trim();
-  const fence = /^```([a-z]*)[^\S\r\n]*\r?\n[\s\S]*\r?\n```$/i.exec(source);
+  const fence = /^```([^\s`]*)[^\S\r\n]*\r?\n[\s\S]*\r?\n```$/.exec(source);
   if (fence) {
     const language = fence[1]?.toLowerCase() ?? "";
     return Object.hasOwn(CODE_LANGUAGES, language) ? CODE_LANGUAGES[language] : "plain";

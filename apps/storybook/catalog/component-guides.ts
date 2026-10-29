@@ -37,6 +37,19 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.CodeBlock,
   },
+  Collection: {
+    use: "Work through records using sorting, search, facets, page selection and explicit bulk actions.",
+    example: {
+      title: "Manage a project directory",
+      description:
+        "Select records across pages, archive them, filter by status, and compare server ownership and failure states.",
+    },
+    tips: [
+      "Select this page affects eligible visible records only; query and facet changes clear selection.",
+      "Use server mode for remote datasets and useCollection for custom lists. Applications own authorization, fetching and mutation recovery.",
+    ],
+    accessibility: accessibilityGuides.Collection,
+  },
   Container: {
     use: "Align page sections with shared maximum widths and responsive gutters.",
     example: {

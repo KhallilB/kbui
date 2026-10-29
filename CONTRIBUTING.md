@@ -94,6 +94,8 @@ Run `bun run --filter @kb.ui/storybook dev:internal` to inspect those fixtures a
 
 The existing components follow every rule below and are the best reference.
 
+For a new shared capability or complete screen recipe, start with [Developing components and screen patterns](docs/guides/component-and-screen-patterns.md). It covers current and concurrent capability, component-versus-recipe ownership, interaction and customization contracts, complete-screen validation, and evidence-backed documentation. Use the smallest applicable workflow; bounded copy or appearance corrections do not require a new study. [Adding a component](docs/guides/adding-a-component.md) owns the package checklist.
+
 - Each component has four files: the `.tsx`, `.test.tsx` and `.stories.tsx` in `packages/react`, and a stylesheet in `packages/css`. A test fails the build if the story or the test is missing.
 - Write the stylesheet's first line before anything else. It is the `Anatomy:` comment listing the component's classes and attributes, and every renderer must follow it.
 - Stylesheets use semantic, scale and component tokens only. Palette colors, raw colors such as `#fff`, and raw sizes, type or timings such as `40px` or `120ms` fail the check. Hairlines up to 2px are allowed.

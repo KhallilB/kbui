@@ -6,6 +6,7 @@ import {
   Checkbox,
   Code,
   CodeBlock,
+  Collection,
   Combobox,
   CopyableText,
   Dialog,
@@ -35,6 +36,19 @@ const every = new Proxy({} as Record<string, string>, {
 const camel = (part: string) => part.replace(/-(\w)/g, (_, c: string) => c.toUpperCase());
 
 const cases: [string, () => ReactElement][] = [
+  [
+    "collection",
+    () => (
+      <Collection
+        items={[{ id: "a" }]}
+        getKey={(item) => item.id}
+        getItemLabel={(item) => item.id}
+        label="Records"
+        columns={[{ key: "id", header: "ID", cell: (item) => item.id }]}
+        classNames={every}
+      />
+    ),
+  ],
   [
     "copyabletext",
     () => <CopyableText value="const count = 42;" highlight="count" classNames={every} />,

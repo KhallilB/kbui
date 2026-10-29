@@ -52,6 +52,12 @@ For searchable choices, compare [Combobox](docs/components/Combobox.md) and [Mul
 
 Choose by task. Each page contains a complete usage example, canonical API details, focused working stories, and related-component guidance.
 
+### Collections
+
+| Component | Use for |
+|---|---|
+| [Collection](docs/components/Collection.md) | Sort, filter, select and paginate records; includes useCollection, Collection.Pagination and Collection.BulkActions. |
+
 ### Actions
 
 | Component | Use for |

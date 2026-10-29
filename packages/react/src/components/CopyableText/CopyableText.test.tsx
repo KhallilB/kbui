@@ -467,6 +467,17 @@ describe("CopyableText", () => {
     expect(container.querySelector("code")?.textContent).toBe(source);
   });
 
+  test.each(["c++", "python3", "objective-c", "__proto__"])(
+    "unknown fenced language %s renders inert plain code",
+    (language) => {
+      const source = `\`\`\`${language}\nhttps://example.com/source\n\`\`\``;
+      const { container } = render(<CopyableText value={source} />);
+      expect(container.querySelector("code")).toHaveAttribute("data-language", "plain");
+      expect(container.querySelector("code")?.textContent).toBe(source);
+      expect(screen.queryByRole("link")).toBeNull();
+    },
+  );
+
   test("email www subdomains remain complete mailto links", () => {
     render(<CopyableText value="Email help@www.example.com for details." />);
     expect(screen.getAllByRole("link")).toHaveLength(1);

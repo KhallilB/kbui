@@ -175,6 +175,7 @@ try {
           if (alignment.text === "center") throw new Error("Example text became center-aligned");
           const fluidSelectors: Record<string, string> = {
             codeblock: ".kb-codeblock",
+            collection: ".kb-collection",
             input: ".kb-input",
             textarea: ".kb-textarea",
             fieldset: ".kb-fieldset",
