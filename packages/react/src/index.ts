@@ -13,7 +13,15 @@ export {
 export { Callout, type CalloutProps, type CalloutTone } from "./components/Callout/Callout";
 export { Card, type CardProps } from "./components/Card/Card";
 export { Checkbox, type CheckboxProps } from "./components/Checkbox/Checkbox";
-export { Code, type CodeProps } from "./components/Code/Code";
+export {
+  Code,
+  type CodeLanguage,
+  type CodePart,
+  type CodeProps,
+  type CodeSyntaxKind,
+  type CodeToken,
+  tokenizeCode,
+} from "./components/Code/Code";
 export {
   Combobox,
   type ComboboxOption,

@@ -4,6 +4,7 @@ import { describe, expect, test } from "vitest";
 import {
   Callout,
   Checkbox,
+  Code,
   Combobox,
   Dialog,
   ErrorSummary,
@@ -216,6 +217,23 @@ const cases: [string, () => ReactElement][] = [
         <div>A</div>
         <div>B</div>
       </Split>
+    ),
+  ],
+  [
+    "code",
+    () => (
+      <Code
+        block
+        title="app.tsx"
+        language="tsx"
+        copyable
+        collapsible
+        lineNumbers
+        highlightLines={[1]}
+        classNames={every}
+      >
+        {"const x = 1;"}
+      </Code>
     ),
   ],
 ];

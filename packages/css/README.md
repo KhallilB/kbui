@@ -45,7 +45,7 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | `heading.css` | Native heading with `.kb-heading` and `data-size` (`sm`, `md`, `lg`, `xl`, `display`); rank follows document outline |
 | `text.css` | `p`, `span` or `div` with `.kb-text`, `data-size` (`sm`, `md`, `lg`) and `data-tone` (`default`, `muted`) |
 | `link.css` | Native anchor with href and `.kb-link`; underline and visible keyboard focus |
-| `code.css` | Native inline `code` with `.kb-code`; literal fragments and wrapping paths |
+| `code.css` | Inline `code.kb-code` or `.kb-code[data-block]` wrapping `-header`, `-viewport`, `-pre`, `-content`, `-line` (`[data-highlighted]`), `-line-number`, `-line-text` and `[data-syntax]` spans |
 | `button.css` | `.kb-button` with `data-variant` (`primary`, `secondary`, `ghost`, `danger`), `data-size` (`sm`, `md`, `lg`, `icon`) and `data-disabled` |
 | `numberfield.css` | `.kb-numberfield` with size/state attributes, label, grouped input/step controls and full-width help/error |
 | `fileinput.css` | `.kb-fileinput` with labeled picker, retained list and named removal controls; also load Button CSS when importing parts |

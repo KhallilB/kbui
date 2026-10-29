@@ -439,5 +439,16 @@ describe("buildCss", () => {
 
     const tooltipCss = await read("tooltip.css");
     expect(tooltipCss).toContain("@media (forced-colors: active)");
+
+    const codeCss = await read("code.css");
+    expect(codeCss.split("\n")[0]).toContain("[data-block]");
+    expect(codeCss.split("\n")[0]).toContain(".kb-code-header");
+    expect(codeCss.split("\n")[0]).toContain(".kb-code-line");
+    expect(codeCss).toContain(".kb-code[data-block]");
+    expect(codeCss).toContain(".kb-code-line[data-highlighted]");
+    expect(codeCss).toContain('[data-syntax="keyword"]');
+    expect(codeCss).toContain('[data-syntax="function"]');
+    expect(codeCss).toContain("@media (prefers-reduced-motion: reduce)");
+    expect(codeCss).toContain("@media (forced-colors: active)");
   });
 });
