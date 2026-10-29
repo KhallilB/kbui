@@ -1,6 +1,51 @@
 import type { AccessibilityGuide } from "./accessibility-standards";
 
 export const accessibilityGuides = {
+  Avatar: {
+    provides: [
+      "name labels one image role through photo loading and failure; initials are visual-only fallback content.",
+      "decorative hides duplicate identity, while size and shape keep fixed media dimensions.",
+    ],
+    authoring: [
+      "Provide a meaningful name or localized aria-label. Set decorative when an equivalent visible name is adjacent.",
+      "Use a named Link or Button for profile navigation; Avatar itself adds no focus stop. Override initials for local naming conventions.",
+    ],
+    verify: [
+      "Read a standalone avatar with a screen reader before and after a failed request; identity should be announced once. Beside a visible name, decorative avatars should be skipped.",
+      "Inspect every size in light, dark and forced colors; initials must remain readable and surrounding actions must retain keyboard focus.",
+    ],
+    standards: ["1.1.1", "1.4.3", "4.1.2"],
+  },
+  Image: {
+    provides: [
+      "A named image role persists through loading, success and error; alt=empty hides decorative media.",
+      "Fixed aspect ratios reserve layout. Source attributes and load/error callbacks reach the native image; source changes start fresh request state.",
+    ],
+    authoring: [
+      "Supply an alternative describing purpose in context. Keep complex-image explanations in surrounding content and use aria-describedby when needed.",
+      "Fallback content must be non-interactive; it is visual-only. Put actionable errors or retry buttons outside Image with their own names. Use contain when cropping would hide essential information.",
+    ],
+    verify: [
+      "Block an image request, then load a replacement: frame dimensions must stay fixed and its accessible name must remain available. Decorative media must be absent from the accessibility tree.",
+      "At 320 CSS pixels, enlarged text, both themes and forced colors, check framing, fallback text, and the visible subject. Automated tests do not replace manual screen-reader verification.",
+    ],
+    standards: ["1.1.1", "1.4.3", "1.4.10"],
+  },
+  Thumbnail: {
+    provides: [
+      "A native figure is named by its caption unless the caller supplies a name; image alternatives and metadata survive failure.",
+      "The figure adds no focus stop; caption Links, Buttons and Dialog triggers keep their native interaction.",
+    ],
+    authoring: [
+      "Use alt for meaningful visual information and an empty alternative for a decorative attachment tile already identified by its filename.",
+      "Compose Grid as ul with li children. Use named caption actions; never place interactive content in image fallback or nest controls. Gallery modal behavior belongs to Dialog.",
+    ],
+    verify: [
+      "Read the gallery as a list and check each figure, alternative and filename. Fail a request: title, format and size must stay readable.",
+      "Tab to View Alpine study, press Enter, inspect the named dialog, then Escape; focus must return to its trigger. At 320 CSS pixels verify source order, long captions and visible focus without horizontal overflow.",
+    ],
+    standards: ["1.1.1", "1.3.1", "1.3.2", "1.4.10", "2.1.1", "2.4.3", "2.4.7", "4.1.2"],
+  },
   CopyableText: {
     provides: [
       "Native type=button action supports Enter and Space. Pending writes keep focus and suppress repeated activation; disabled or empty values cannot copy.",

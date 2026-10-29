@@ -1,3 +1,4 @@
+export { Avatar, type AvatarProps, type AvatarShape } from "./components/Avatar/Avatar";
 export {
   Badge,
   type BadgeAppearance,
@@ -108,6 +109,7 @@ export {
   type HeadingProps,
   type HeadingSize,
 } from "./components/Heading/Heading";
+export { Image, type ImageProps, type ImageRatio } from "./components/Image/Image";
 export {
   Inline,
   type InlineElement,
@@ -203,6 +205,7 @@ export {
   type TextareaProps,
   type TextareaResize,
 } from "./components/Textarea/Textarea";
+export { Thumbnail, type ThumbnailProps } from "./components/Thumbnail/Thumbnail";
 export {
   createToastManager,
   Toast,

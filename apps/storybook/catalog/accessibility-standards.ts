@@ -1,4 +1,5 @@
 export const accessibilityStandards = {
+  "1.1.1": { title: "Non-text Content", level: "A", anchor: "non-text-content" },
   "1.3.1": { title: "Info and Relationships", level: "A", anchor: "info-and-relationships" },
   "1.3.2": { title: "Meaningful Sequence", level: "A", anchor: "meaningful-sequence" },
   "1.3.5": { title: "Identify Input Purpose", level: "AA", anchor: "identify-input-purpose" },

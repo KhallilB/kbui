@@ -2,6 +2,7 @@ import { render } from "@testing-library/react";
 import type { ReactElement } from "react";
 import { describe, expect, test } from "vitest";
 import {
+  Avatar,
   Callout,
   Checkbox,
   Code,
@@ -13,6 +14,7 @@ import {
   ErrorSummary,
   Fieldset,
   FileInput,
+  Image,
   Input,
   MultiSelect,
   NumberField,
@@ -25,6 +27,7 @@ import {
   Status,
   Switch,
   Textarea,
+  Thumbnail,
   Toast,
 } from "./index";
 
@@ -36,6 +39,12 @@ const every = new Proxy({} as Record<string, string>, {
 const camel = (part: string) => part.replace(/-(\w)/g, (_, c: string) => c.toUpperCase());
 
 const cases: [string, () => ReactElement][] = [
+  ["image", () => <Image src="/a.jpg" alt="Photo" classNames={every} />],
+  ["avatar", () => <Avatar name="Maya Chen" classNames={every} />],
+  [
+    "thumbnail",
+    () => <Thumbnail alt="Photo" caption="Study" description="JPG" classNames={every} />,
+  ],
   [
     "collection",
     () => (
