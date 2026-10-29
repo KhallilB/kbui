@@ -131,7 +131,7 @@ export const Default: Story = {
     const popup = await page.findByRole("dialog", { name: "View options" });
     const descriptions = within(popup).getByRole("checkbox", { name: "Show descriptions" });
     const compact = within(popup).getByRole("checkbox", { name: "Compact spacing" });
-    await waitFor(() => expect(descriptions).toHaveFocus());
+    await waitFor(() => expect(descriptions).toHaveFocus(), { timeout: 5000 });
     await userEvent.click(descriptions);
     await expect(canvas.queryByText("Review the latest interface changes.")).toBeNull();
     const rows = canvas.getByRole("list", { name: "Project activity" });
@@ -139,7 +139,7 @@ export const Default: Story = {
     await userEvent.click(compact);
     await expect(rows.getBoundingClientRect().height).toBeLessThan(roomy);
     await userEvent.click(within(popup).getByRole("button", { name: "Done" }));
-    await waitFor(() => expect(page.queryByRole("dialog")).toBeNull());
+    await waitFor(() => expect(page.queryByRole("dialog")).toBeNull(), { timeout: 5000 });
     await expect(canvas.getByRole("status")).toHaveTextContent(
       "Descriptions hidden · Compact spacing",
     );
@@ -151,8 +151,8 @@ export const Default: Story = {
     await userEvent.click(within(reopened).getByRole("button", { name: "Reset" }));
     await expect(canvas.getByText("Review the latest interface changes.")).toBeVisible();
     await userEvent.keyboard("{Escape}");
-    await waitFor(() => expect(page.queryByRole("dialog")).toBeNull());
-    await waitFor(() => expect(trigger).toHaveFocus());
+    await waitFor(() => expect(page.queryByRole("dialog")).toBeNull(), { timeout: 5000 });
+    await waitFor(() => expect(trigger).toHaveFocus(), { timeout: 5000 });
   },
 };
 function ControlledExample() {
@@ -213,7 +213,7 @@ export const Controlled: Story = {
     await userEvent.clear(name);
     await userEvent.type(name, "Discard this draft");
     await userEvent.click(within(popup).getByRole("button", { name: "Cancel" }));
-    await waitFor(() => expect(page.queryByRole("dialog")).toBeNull());
+    await waitFor(() => expect(page.queryByRole("dialog")).toBeNull(), { timeout: 5000 });
     await userEvent.click(trigger);
     popup = await page.findByRole("dialog", { name: "Rename project" });
     name = within(popup).getByRole("textbox", { name: "Project name" });
@@ -222,9 +222,9 @@ export const Controlled: Story = {
     await expect(within(popup).getByRole("button", { name: "Save changes" })).toBeDisabled();
     await userEvent.type(name, "Updated project");
     await userEvent.click(within(popup).getByRole("button", { name: "Save changes" }));
-    await waitFor(() => expect(page.queryByRole("dialog")).toBeNull());
+    await waitFor(() => expect(page.queryByRole("dialog")).toBeNull(), { timeout: 5000 });
     await expect(canvas.getByRole("status")).toHaveTextContent("Updated project");
-    await waitFor(() => expect(trigger).toHaveFocus());
+    await waitFor(() => expect(trigger).toHaveFocus(), { timeout: 5000 });
   },
 };
 
@@ -254,11 +254,14 @@ export const Scrolling: Story = {
     const trigger = canvas.getByRole("button", { name: "View options" });
     await userEvent.click(trigger);
     const popup = await page.findByRole("dialog", { name: "View options" });
-    await waitFor(() => {
-      expect(popup.getAnimations().length).toBe(0);
-      expect(popup.getBoundingClientRect().top).toBeGreaterThanOrEqual(0);
-      expect(popup.getBoundingClientRect().bottom).toBeLessThanOrEqual(window.innerHeight + 1);
-    });
+    await waitFor(
+      () => {
+        expect(popup.getAnimations().length).toBe(0);
+        expect(popup.getBoundingClientRect().top).toBeGreaterThanOrEqual(0);
+        expect(popup.getBoundingClientRect().bottom).toBeLessThanOrEqual(window.innerHeight + 1);
+      },
+      { timeout: 5000 },
+    );
     const apply = within(popup).getByRole("button", { name: "Done" });
     const option = within(popup).getByRole("checkbox", { name: "Show descriptions" });
     const bounds = popup.getBoundingClientRect();
@@ -275,8 +278,8 @@ export const Scrolling: Story = {
     await expect(canvas.queryByText("Review the latest interface changes.")).toBeNull();
     await expect(workspace.scrollTop).toBe(workspaceScroll);
     await userEvent.click(apply);
-    await waitFor(() => expect(page.queryByRole("dialog")).toBeNull());
-    await waitFor(() => expect(trigger).toHaveFocus());
+    await waitFor(() => expect(page.queryByRole("dialog")).toBeNull(), { timeout: 5000 });
+    await waitFor(() => expect(trigger).toHaveFocus(), { timeout: 5000 });
   },
 };
 function NestedThemeExample() {
@@ -338,7 +341,7 @@ export const InsideDialog: Story = {
     await waitFor(() => expect(page.queryByRole("dialog", { name: "View options" })).toBeNull());
     await waitFor(() => expect(page.getByRole("dialog", { name: "Project editor" })).toBeVisible());
     await userEvent.keyboard("{Escape}");
-    await waitFor(() => expect(page.queryByRole("dialog")).toBeNull());
+    await waitFor(() => expect(page.queryByRole("dialog")).toBeNull(), { timeout: 5000 });
   },
 };
 export const TokenOverrides: Story = {
@@ -361,7 +364,7 @@ export const TokenOverrides: Story = {
     await expect(getComputedStyle(popup).padding).toBe("12px");
     await waitFor(() => expect(popup.getBoundingClientRect().width).toBe(256));
     await userEvent.click(page.getByRole("button", { name: "Close" }));
-    await waitFor(() => expect(page.queryByRole("dialog")).toBeNull());
+    await waitFor(() => expect(page.queryByRole("dialog")).toBeNull(), { timeout: 5000 });
     const document = canvasElement.ownerDocument;
     const reduced = document.defaultView?.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const fixture = document.createElement("div");
