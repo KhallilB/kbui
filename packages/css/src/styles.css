@@ -8,6 +8,7 @@
 @import "./components/card.css" layer(kbui.components);
 @import "./components/checkbox.css" layer(kbui.components);
 @import "./components/code.css" layer(kbui.components);
+@import "./components/collection.css" layer(kbui.components);
 @import "./components/collectionlist.css" layer(kbui.components);
 @import "./components/collectionrow.css" layer(kbui.components);
 @import "./components/combobox.css" layer(kbui.components);

@@ -22,6 +22,23 @@ export {
   type CodeToken,
   tokenizeCode,
 } from "./components/Code/Code";
+export type {
+  CollectionBulkAction,
+  CollectionBulkActionsProps,
+  CollectionColumn,
+  CollectionFilter,
+  CollectionPaginationProps,
+  CollectionProps,
+} from "./components/Collection/Collection";
+export { Collection } from "./components/Collection/Collection";
+export type {
+  CollectionController,
+  CollectionData,
+  CollectionSort,
+  CollectionState,
+  UseCollectionOptions,
+} from "./components/Collection/useCollection";
+export { useCollection } from "./components/Collection/useCollection";
 export {
   CollectionList,
   type CollectionListElement,

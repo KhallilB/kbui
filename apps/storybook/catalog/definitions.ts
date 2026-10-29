@@ -6,6 +6,18 @@ type Definition = {
   examples: Record<string, string>;
 };
 export const definitions: Record<string, Definition> = {
+  Collection: {
+    group: "Layout",
+    description:
+      "Sort, filter, select and page through records with explicit bulk-action contracts.",
+    examples: {
+      Default: "Default",
+      LargeCollection: "Large Collection",
+      ServerPagination: "Server Pagination",
+      Empty: "Empty",
+      BulkFailure: "Bulk Failure",
+    },
+  },
   DescriptionList: {
     group: "Structured data",
     description: "Scan labeled record details with aligned, responsive key/value presentation.",

@@ -25,6 +25,7 @@ export function storybookGlobals({ theme }: CatalogAppearance) {
 }
 
 export const layoutPreviewComponents = [
+  "collection",
   "grid",
   "container",
   "inline",
@@ -68,6 +69,7 @@ export function previewLayout(component: string, _story: string) {
     return { width: 1120, minimum: 240 };
   if (
     [
+      "collection",
       "grid",
       "container",
       "inline",

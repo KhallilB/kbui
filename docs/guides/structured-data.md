@@ -8,6 +8,8 @@ Choose structure from the task, then keep labels, values and actions consistent 
 | Scan labeled facts about one record | [DescriptionList](../../packages/react/docs/components/DescriptionList.md) | Native description list with aligned key/value columns that stack in narrow parents |
 | Scan records with different amounts of detail | [CollectionList](../../packages/react/docs/components/CollectionList.md) and [CollectionRow](../../packages/react/docs/components/CollectionRow.md) | Native list/items with aligned names, leading content, descriptions, metadata and independent actions |
 
+For an integrated search, pagination and bulk-action workflow, use [Collection](../../packages/react/docs/components/Collection.md). Its `useCollection` hook can own state for custom CollectionList/CollectionRow presentations; these primitives retain presentation and native semantics.
+
 Use an explicit table caption or `aria-labelledby` for comparison data. Keep a fixed external title outside Table.ScrollContainer; column headers stay visible vertically and move horizontally with their data. Use genuine column comparison instead of styling arbitrary lists as tables.
 
 For record details, group one DescriptionList.Term with its DescriptionList.Detail values inside an Item. Keep labels before values in DOM order. Show units and useful unavailable values, preserve zero values, and format dates/numbers for the audience. A visible zero means something different from missing data.

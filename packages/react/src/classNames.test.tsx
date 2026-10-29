@@ -5,6 +5,7 @@ import {
   Callout,
   Checkbox,
   Code,
+  Collection,
   CollectionList,
   CollectionRow,
   Combobox,
@@ -36,6 +37,19 @@ const every = new Proxy({} as Record<string, string>, {
 const camel = (part: string) => part.replace(/-(\w)/g, (_, c: string) => c.toUpperCase());
 
 const cases: [string, () => ReactElement][] = [
+  [
+    "collection",
+    () => (
+      <Collection
+        items={[{ id: "a" }]}
+        getKey={(item) => item.id}
+        getItemLabel={(item) => item.id}
+        label="Records"
+        columns={[{ key: "id", header: "ID", cell: (item) => item.id }]}
+        classNames={every}
+      />
+    ),
+  ],
   [
     "collectionrow",
     () => (
