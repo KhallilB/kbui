@@ -1,6 +1,69 @@
 import type { AccessibilityGuide } from "./accessibility-standards";
 
 export const accessibilityGuides = {
+  CopyableText: {
+    provides: [
+      "Native type=button action supports Enter and Space. Pending writes keep focus and suppress repeated activation; disabled or empty values cannot copy.",
+      "A persistent polite, atomic status announces pending, success and failure. Failure instructions stay visible; truncation is removed and exact value shown for manual copying.",
+      "copyLabel and feedback props localize action names and announcements. Content remains selectable and success resets after feedbackDuration (zero retains it).",
+      "truncate adds an Enter/Space disclosure with aria-expanded and aria-controls; expansion wraps exact value across full width and remains available when copying is disabled.",
+      "tone colors content independently of clipboard state; forced colors restore system text colors.",
+      "highlight uses mark and bold emphasis. Automatic web/email detection reuses underlined native Link controls; automatic links are absent from Tab order until truncated content expands.",
+    ],
+    authoring: [
+      "Use a purpose-specific copyLabel when multiple copy controls appear together. label supplies visible context, not the button name.",
+      "Translate expandLabel and collapseLabel alongside copy feedback. Keep meaning in value and label rather than color; do not use this component to conceal secrets.",
+      "Use format=text or linkify=false when detected content should remain literal. Source-code ranges are noninteractive; email destinations open the user’s mail handler. Keep interactive authored children out of clipped previews.",
+      "Provide HTTPS or localhost for the Clipboard API. Browser permission, activation and host policy can still prevent copying.",
+    ],
+    verify: [
+      "Tab to each copy action, activate with Enter and Space and compare clipboard bytes with value, including case and whitespace. Focus must stay on action.",
+      "Expand and collapse a truncated value with touch, Enter and Space; focus stays on disclosure and the whole raw value wraps. Deny clipboard permission: retry and manual-copy instructions appear, expanding the exact value for selection.",
+      "With a screen reader, confirm pending, success and failure announcements without reading initial empty status. Test 320px, zoom, dark theme and forced colors for visible focus and reachable actions.",
+      "Expand a linked value, Shift+Tab to its links, and check native link semantics, visible focus and correct destination. Tab back to disclosure and Copy; copying must preserve source without navigating.",
+    ],
+    standards: [
+      "1.3.1",
+      "1.4.1",
+      "1.4.3",
+      "1.4.10",
+      "2.1.1",
+      "2.4.7",
+      "2.5.3",
+      "2.5.8",
+      "4.1.2",
+      "4.1.3",
+    ],
+  },
+  CodeBlock: {
+    provides: [
+      "Native pre/code preserves source. Line-number decorations are hidden from assistive technology and excluded from clipboard text.",
+      "Copy uses the same pending, success and error feedback as CopyableText. Copy remains available for the complete source while collapsed.",
+      "The named viewport is keyboard focusable for scrolling. Collapse controls expose aria-expanded and aria-controls without moving focus.",
+    ],
+    authoring: [
+      "Provide a descriptive title for the listing and its scroll region. Customize copyLabel when several blocks need distinct names.",
+      "Use highlightLines only as additional emphasis; explain important lines in prose. Confirm syntax and feedback contrast after token changes.",
+      "Do not put secrets in source. Clipboard writes require HTTPS or localhost and can fail under browser policy; preserve manual-copy recovery.",
+    ],
+    verify: [
+      "Tab to copy and expand/collapse controls; activate with Enter and Space. Copy while collapsed and compare full source including indentation and trailing newlines.",
+      "Focus the viewport and scroll long listings with keyboard. At 320px and zoom, only code viewport should scroll horizontally; controls and messages remain visible.",
+      "Deny clipboard access and retry. With a screen reader, check polite status, collapse state and region name. Verify focus under dark theme and forced colors; human assistive-technology coverage remains application-owned.",
+    ],
+    standards: [
+      "1.3.1",
+      "1.4.1",
+      "1.4.3",
+      "1.4.10",
+      "2.1.1",
+      "2.4.7",
+      "2.5.3",
+      "2.5.8",
+      "4.1.2",
+      "4.1.3",
+    ],
+  },
   Collection: {
     provides: [
       "Native table headers and caption, aria-sort, named checkboxes with mixed page selection, labeled filters and pagination.",

@@ -6,6 +6,28 @@ type Definition = {
   examples: Record<string, string>;
 };
 export const definitions: Record<string, Definition> = {
+  CopyableText: {
+    group: "Actions",
+    description: "Copy identifiers, commands and references with visible feedback and recovery.",
+    examples: {
+      Default: "Default",
+      RichContent: "Text and Links",
+      Automatic: "Automatic",
+      LongValue: "Long Value",
+      Colors: "Colors",
+    },
+  },
+  CodeBlock: {
+    group: "Typography",
+    description: "Copy exact source from highlighted, numbered or collapsible code listings.",
+    examples: {
+      Default: "Default",
+      Source: "Source",
+      Colorful: "Colorful",
+      Collapsible: "Collapsible",
+      LongCommand: "Long Command",
+    },
+  },
   Collection: {
     group: "Layout",
     description:

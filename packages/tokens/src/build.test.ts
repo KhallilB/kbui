@@ -593,3 +593,22 @@ describe("grid component tokens", () => {
     expect(css).toContain("--kb-grid-min-item-width-lg: 24rem;");
   });
 });
+
+describe("copyable content tokens", () => {
+  test("exposes field and target customizations", () => {
+    const { css } = buildTokens(real);
+    for (const token of [
+      "gap",
+      "padding",
+      "radius",
+      "border",
+      "background",
+      "target-size",
+      "copy-min-width",
+      "value-color",
+      "highlight-background",
+    ]) {
+      expect(css).toContain(`--kb-copyabletext-${token}: `);
+    }
+  });
+});
