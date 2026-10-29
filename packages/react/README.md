@@ -459,7 +459,7 @@ By default, the popup mounts inside the field root and inherits its theme. If yo
 
 Use Combobox to filter a longer option list before choosing one or multiple values. Each option has a string `value`, a visible `label`, and an optional `disabled` flag. Single selection uses `string | null`; enable `multiple` to use a `readonly string[]` value and a `(value: string[]) => void` callback. Pass `null` or `[]` for the corresponding empty selection.
 
-Multiple mode delegates to [MultiSelect](#multiselect), including removable chips, keyboard navigation, clear-all, form submission, and disabled/read-only states. It uses `.kb-multiselect` CSS anatomy and `ClassNames<MultiSelectSlot>` slots, including `chips`, `chip`, `chipLabel`, and `chipRemove`. Single mode retains `.kb-combobox` anatomy. `ComboboxProps` is a discriminated union; use `ComboboxSingleProps` or `ComboboxMultipleProps` when typing a mode-specific wrapper.
+Multiple mode delegates to [MultiSelect](#multiselect), including removable chips, keyboard navigation, clear-all, form submission, and disabled/read-only states. It uses `.kb-multiselect` CSS anatomy and `ClassNames<MultiSelectSlot>` slots, including `chips`, `chip`, `chipLabel`, and `chipRemove`. Single mode retains `.kb-combobox` anatomy. `ComboboxProps` remains the extensible single-selection interface, so existing wrappers can keep extending it. `ComboboxSingleProps` aliases that interface; use `ComboboxMultipleProps` for a multiple-selection wrapper or React's `ComponentProps<typeof Combobox>` for the complete discriminated union.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|

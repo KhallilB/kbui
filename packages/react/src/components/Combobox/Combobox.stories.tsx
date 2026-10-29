@@ -84,6 +84,34 @@ export const Multiple: Story = {
   },
 };
 
+export const MultipleFormValidation: Story = {
+  tags: ["!dev", "!autodocs"],
+  args: { required: true, name: "regions" },
+  render: (args) => (
+    <form aria-label="Deployment">
+      <MultipleComboboxExample {...args} />
+    </form>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const form = canvas.getByRole<HTMLFormElement>("form", { name: "Deployment" });
+    const input = canvas.getByRole("combobox", { name: "Deployment region" });
+    await expect(form.checkValidity()).toBe(false);
+    await userEvent.click(input);
+    await userEvent.type(input, "Frank");
+    await expect(form.checkValidity()).toBe(false);
+    await expect(new FormData(form).getAll("regions")).toEqual([]);
+
+    await userEvent.keyboard("{ArrowDown}{Enter}");
+    await expect(form.checkValidity()).toBe(true);
+    await expect(new FormData(form).getAll("regions")).toEqual(["eu-central-1"]);
+
+    await userEvent.click(canvas.getByRole("button", { name: "Clear Deployment region" }));
+    await expect(form.checkValidity()).toBe(false);
+    await expect(new FormData(form).getAll("regions")).toEqual([]);
+  },
+};
+
 export const Invalid: Story = {
   args: {
     description: "Choose a primary failover region.",

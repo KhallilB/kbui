@@ -1,8 +1,8 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { createRef, useState } from "react";
+import { type ComponentProps, createRef, useState } from "react";
 import { describe, expect, expectTypeOf, it, vi } from "vitest";
-import { Combobox, type ComboboxProps } from "./Combobox";
+import { Combobox, type ComboboxMultipleProps } from "./Combobox";
 
 const options = [
   { value: "east", label: "US East" },
@@ -10,10 +10,17 @@ const options = [
   { value: "europe", label: "Europe", disabled: true },
 ];
 
-function MultipleRegions() {
+function MultipleRegions(props: Pick<ComboboxMultipleProps, "required" | "name">) {
   const [value, setValue] = useState<string[]>([]);
   return (
-    <Combobox multiple label="Regions" options={options} value={value} onValueChange={setValue} />
+    <Combobox
+      {...props}
+      multiple
+      label="Regions"
+      options={options}
+      value={value}
+      onValueChange={setValue}
+    />
   );
 }
 
@@ -109,6 +116,53 @@ describe("Combobox multiple", () => {
     expect(screen.getByRole("button", { name: "Remove US East" })).toBeInTheDocument();
   });
 
+  it("requires a selected value even when the search query matches an option", async () => {
+    const user = userEvent.setup();
+    render(
+      <form aria-label="Deployment">
+        <MultipleRegions required name="regions" />
+      </form>,
+    );
+    const form = screen.getByRole<HTMLFormElement>("form", { name: "Deployment" });
+    const input = screen.getByRole("combobox", { name: "Regions" });
+    expect(form.checkValidity()).toBe(false);
+    await user.click(input);
+    await user.type(input, "East");
+    expect(form.checkValidity()).toBe(false);
+    expect(new FormData(form).getAll("regions")).toEqual([]);
+
+    await user.keyboard("{ArrowDown}{Enter}");
+    expect(form.checkValidity()).toBe(true);
+    expect(new FormData(form).getAll("regions")).toEqual(["east"]);
+
+    await user.click(screen.getByRole("button", { name: "Clear Regions" }));
+    expect(form.checkValidity()).toBe(false);
+    expect(new FormData(form).getAll("regions")).toEqual([]);
+  });
+
+  it.each([
+    { state: "disabled", submitted: [] },
+    { state: "readOnly", submitted: ["east", "west"] },
+  ] as const)("preserves native form submission semantics when $state", ({ state, submitted }) => {
+    render(
+      <form aria-label="Deployment">
+        <Combobox
+          multiple
+          required
+          name="regions"
+          label="Regions"
+          options={options}
+          value={["east", "west"]}
+          onValueChange={() => {}}
+          {...{ [state]: true }}
+        />
+      </form>,
+    );
+    const form = screen.getByRole<HTMLFormElement>("form", { name: "Deployment" });
+    expect(new FormData(form).getAll("regions")).toEqual(submitted);
+    expect(form.checkValidity()).toBe(true);
+  });
+
   it("blocks disabled options and respects controlled values", async () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
@@ -131,10 +185,9 @@ describe("Combobox multiple", () => {
 });
 
 it("correlates selection mode with value and callback types", () => {
-  expectTypeOf<Extract<ComboboxProps, { multiple: true }>["value"]>().toEqualTypeOf<
-    readonly string[]
-  >();
-  expectTypeOf<Extract<ComboboxProps, { multiple: true }>["onValueChange"]>().toEqualTypeOf<
+  type Props = ComponentProps<typeof Combobox>;
+  expectTypeOf<Extract<Props, { multiple: true }>["value"]>().toEqualTypeOf<readonly string[]>();
+  expectTypeOf<Extract<Props, { multiple: true }>["onValueChange"]>().toEqualTypeOf<
     (value: string[]) => void
   >();
   const invalidMultiple = (

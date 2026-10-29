@@ -40,7 +40,7 @@ export type ComboboxSlot =
   | "error";
 
 /** Props for the searchable single-select Combobox component. */
-export interface ComboboxSingleProps
+export interface ComboboxProps
   extends Omit<ComponentPropsWithoutRef<"div">, "defaultValue" | "onChange"> {
   /** Choose one option; omit for single selection. */
   multiple?: false | undefined;
@@ -98,17 +98,21 @@ export interface ComboboxMultipleProps extends MultiSelectProps {
   multiple: true;
 }
 
-/** Selection mode determines value and callback types. */
-export type ComboboxProps = ComboboxSingleProps | ComboboxMultipleProps;
+/** Explicit single-selection props; preserves existing ComboboxProps contract. */
+export type ComboboxSingleProps = ComboboxProps;
+
+type ComboboxSelectionProps = ComboboxProps | ComboboxMultipleProps;
 
 /** Searchable single or multiple selection with removable values. */
-export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(props, ref) {
-  if (props.multiple) {
-    const { multiple: _, ...rest } = props;
-    return <MultiSelect {...rest} ref={ref} />;
-  }
-  return <SingleCombobox {...props} ref={ref} />;
-});
+export const Combobox = forwardRef<HTMLInputElement, ComboboxSelectionProps>(
+  function Combobox(props, ref) {
+    if (props.multiple) {
+      const { multiple: _, ...rest } = props;
+      return <MultiSelect {...rest} ref={ref} />;
+    }
+    return <SingleCombobox {...props} ref={ref} />;
+  },
+);
 
 const SingleCombobox = forwardRef<HTMLInputElement, ComboboxSingleProps>(function SingleCombobox(
   {
