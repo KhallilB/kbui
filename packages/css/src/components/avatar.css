@@ -30,15 +30,17 @@
   border-radius: var(--kb-avatar-square-radius);
 }
 .kb-avatar-media {
-  --kb-image-radius: inherit;
   --kb-image-background: var(--kb-avatar-background);
   --kb-image-color: var(--kb-avatar-color);
   --kb-image-border: var(--kb-avatar-border);
   --kb-image-fallback-padding: 0;
   block-size: 100%;
-  border-radius: inherit;
   box-shadow: var(--kb-avatar-shadow);
 }
+.kb-avatar > .kb-avatar-media {
+  border-radius: inherit;
+}
+
 .kb-avatar-initials {
   font-size: var(--kb-avatar-font-size);
   font-weight: var(--kb-avatar-font-weight);

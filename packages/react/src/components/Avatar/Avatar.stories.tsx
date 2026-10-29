@@ -26,6 +26,18 @@ export const Sizes: Story = {
       ))}
     </Inline>
   ),
+  play: async ({ canvasElement }) => {
+    const avatars = [...canvasElement.querySelectorAll<HTMLElement>(".kb-avatar")];
+    expect(avatars).toHaveLength(5);
+    for (const [index, avatar] of avatars.entries()) {
+      const media = avatar.querySelector<HTMLElement>(".kb-avatar-media");
+      if (!media) throw new Error("Missing avatar media");
+      expect(avatar.getBoundingClientRect().width).toBe([24, 32, 44, 56, 80][index]);
+      expect(getComputedStyle(media).borderRadius).toBe(getComputedStyle(avatar).borderRadius);
+      if (matchMedia("(forced-colors: active)").matches)
+        expect(getComputedStyle(media).boxShadow).toBe("none");
+    }
+  },
 };
 export const Fallbacks: Story = {
   render: () => (
