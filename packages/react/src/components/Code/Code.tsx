@@ -126,13 +126,30 @@ export function Code({
   const viewportId = useId();
   const [uncontrolledCollapsed, setUncontrolledCollapsed] = useState(defaultCollapsed);
   const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
+  const [expandedHeight, setExpandedHeight] = useState<number | undefined>(undefined);
   const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const preRef = useRef<HTMLPreElement | null>(null);
 
   useEffect(() => {
     return () => {
       if (copyTimerRef.current !== null) clearTimeout(copyTimerRef.current);
     };
   }, []);
+
+  useEffect(() => {
+    if (!collapsible) return;
+    const element = preRef.current;
+    if (!element) return;
+    const measure = () => {
+      const next = Math.ceil(element.getBoundingClientRect().height) || element.scrollHeight;
+      if (next > 0) setExpandedHeight(next);
+    };
+    measure();
+    if (typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(measure);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [collapsible]);
 
   const hasBlockProps =
     language !== undefined ||
@@ -174,13 +191,18 @@ export function Code({
   const highlightSet =
     highlightLines && highlightLines.length > 0 ? new Set(highlightLines) : undefined;
 
-  const blockStyle: CSSProperties | undefined =
-    maxHeight !== undefined
-      ? ({
-          ...style,
-          "--_code-max-height": typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight,
-        } as CSSProperties)
-      : style;
+  const hasCustomVars = maxHeight !== undefined || (collapsible && expandedHeight !== undefined);
+  const blockStyle: CSSProperties | undefined = hasCustomVars
+    ? ({
+        ...style,
+        ...(maxHeight !== undefined
+          ? { "--_code-max-height": typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight }
+          : null),
+        ...(collapsible && expandedHeight !== undefined
+          ? { "--_code-expanded-max-height": `${expandedHeight}px` }
+          : null),
+      } as CSSProperties)
+    : style;
 
   const handleToggleCollapse = () => {
     const next = !isCollapsed;
@@ -303,7 +325,7 @@ export function Code({
         </span>
       ) : null}
       <div id={viewportId} className={clsx("kb-code-viewport", classNames?.viewport)}>
-        <pre className={clsx("kb-code-pre", classNames?.pre)}>
+        <pre ref={preRef} className={clsx("kb-code-pre", classNames?.pre)}>
           <code className={clsx("kb-code-content", classNames?.content)}>
             {typeof children === "string"
               ? lines.map((lineText, idx) => {

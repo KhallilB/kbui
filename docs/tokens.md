@@ -59,7 +59,7 @@ Dialog, Button and popup (Menu, Tooltip) expose material, typography and motion 
 | Dialog sections | `--kb-dialog-header-padding`, `-body-padding`, `-footer-padding` (default `0px`) |
 | Dialog motion | `--kb-dialog-motion-duration`, `-motion-easing`, `-enter-scale`, `-enter-offset` |
 | Card | `--kb-card-background`, `-face`, `-color`, `-border`, `-border-width`, `-radius`, `-padding`, `-shadow` |
-| Code block | `--kb-code-block-background`, `-face`, `-border`, `-radius`, `-shadow`, `-font-size`, `-leading`, `-max-height`, `--kb-code-header-background`, `--kb-code-gutter-color`, `--kb-code-line-highlight-background`, `-border`, `--kb-code-syntax-*` |
+| Code block | `--kb-code-block-background`, `-face`, `-border`, `-radius`, `-shadow`, `-font-size`, `-leading`, `-max-height`, `--kb-code-header-background`, `--kb-code-toggle-min-width`, `--kb-code-copy-min-width`, `--kb-code-motion-duration`, `-motion-easing`, `--kb-code-gutter-color`, `--kb-code-line-highlight-background`, `-border`, `--kb-code-syntax-*` |
 | Button | `--kb-button-motion-duration`, `-motion-easing`, `-press-offset` |
 | Popup | `--kb-popup-motion-duration`, `-motion-easing` |
 

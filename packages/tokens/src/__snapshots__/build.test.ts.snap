@@ -397,6 +397,10 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-code-action-padding-inline: var(--kb-space-2);
   --kb-code-action-gap: var(--kb-space-1);
   --kb-code-action-radius: var(--kb-radius-md);
+  --kb-code-toggle-min-width: 7.5rem;
+  --kb-code-copy-min-width: 6.5rem;
+  --kb-code-motion-duration: var(--kb-motion-duration-slow);
+  --kb-code-motion-easing: var(--kb-motion-easing-standard);
   --kb-code-gutter-width: 2.5rem;
   --kb-code-gutter-gap: var(--kb-space-3);
   --kb-code-gutter-color: var(--kb-color-muted);

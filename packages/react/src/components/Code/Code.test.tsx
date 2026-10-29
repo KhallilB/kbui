@@ -208,4 +208,33 @@ describe("Code", () => {
       "true",
     );
   });
+
+  test("measures collapsible content height into --_code-expanded-max-height for smooth height transitions", () => {
+    const originalScrollHeight = Object.getOwnPropertyDescriptor(
+      HTMLElement.prototype,
+      "scrollHeight",
+    );
+    Object.defineProperty(HTMLElement.prototype, "scrollHeight", {
+      configurable: true,
+      get() {
+        return this.classList?.contains("kb-code-pre") ? 284 : 0;
+      },
+    });
+    try {
+      const { container } = render(
+        <Code title="package.json" language="json" collapsible defaultCollapsed>
+          {'{\n  "name": "@kb.ui/react"\n}'}
+        </Code>,
+      );
+      const root = container.querySelector<HTMLElement>(".kb-code");
+      expect(root?.style.getPropertyValue("--_code-expanded-max-height")).toBe("284px");
+    } finally {
+      if (originalScrollHeight) {
+        Object.defineProperty(HTMLElement.prototype, "scrollHeight", originalScrollHeight);
+      } else {
+        // @ts-expect-error restoring prototype property
+        delete HTMLElement.prototype.scrollHeight;
+      }
+    }
+  });
 });
