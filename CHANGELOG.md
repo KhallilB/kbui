@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.3](https://github.com/KhallilB/kbui/compare/v0.10.2...v0.10.3) (2026-10-29)
+
+
+### Documentation
+
+* **release:** document npm README publication ([0323767](https://github.com/KhallilB/kbui/commit/0323767243db77af9caf85a58a5a05990f8063be))
+
 ## [0.10.2](https://github.com/KhallilB/kbui/compare/v0.10.1...v0.10.2) (2026-10-28)
 
 
