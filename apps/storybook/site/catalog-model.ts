@@ -45,6 +45,7 @@ export const surfacePreviewComponents = [
   "multiselect",
   "card",
   "callout",
+  "toast",
   "progress",
 ] as const;
 
@@ -72,6 +73,7 @@ export function previewLayout(component: string, _story: string) {
       "errorsummary",
       "card",
       "callout",
+      "toast",
       "progress",
       "scrollarea",
     ].includes(component)

@@ -35,5 +35,6 @@
 @import "./components/switch.css" layer(kbui.components);
 @import "./components/text.css" layer(kbui.components);
 @import "./components/textarea.css" layer(kbui.components);
+@import "./components/toast.css" layer(kbui.components);
 @import "./components/toolbar.css" layer(kbui.components);
 @import "./components/tooltip.css" layer(kbui.components);
