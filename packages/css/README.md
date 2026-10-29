@@ -38,6 +38,9 @@ The first line of each stylesheet describes the markup it expects. The table sho
 
 | File | Expected markup |
 |---|---|
+| `image.css` | `.kb-image` with ratio, fit and request state; visual fallback and native decorative img; renderer owns request lifecycle |
+| `avatar.css` | `.kb-avatar` with size and shape; Image media and initials; also load image.css |
+| `thumbnail.css` | Native figure with media and caption/title/description; also load image.css |
 | `container.css` | `.kb-container` with `data-size` (`sm`, `md`, `lg`, `full`) and optional `data-gutter="none"` |
 | `grid.css` | `.kb-grid` with `data-layout` (`auto`, `stack`), `data-columns` (`auto`, `1`, `2`, `3`, `4`), `data-min-item-width` (`sm`, `md`, `lg`), `data-gap` (`none`, `sm`, `md`, `lg`) and `data-align`; resets native list markers and margins |
 | `inline.css` | `.kb-inline` with `data-gap`, `data-align` and `data-justify`; wraps in source order |

@@ -52,6 +52,16 @@ For searchable choices, compare [Combobox](docs/components/Combobox.md) and [Mul
 
 Choose by task. Each page contains a complete usage example, canonical API details, focused working stories, and related-component guidance.
 
+### Media and identity
+
+| Component | Use for |
+|---|---|
+| <a id="avatar"></a>[Avatar](docs/components/Avatar.md) | Recognizable people and organizations with photo/initials fallback. |
+| <a id="image"></a>[Image](docs/components/Image.md) | Stable image sizing, crops, containment and failure states. |
+| <a id="thumbnail"></a>[Thumbnail](docs/components/Thumbnail.md) | Captioned products, attachments and gallery previews. |
+
+See [Media and identity](../../docs/guides/media-and-identity.md) for responsive sources, retry and gallery recipes. These components are implemented locally and unreleased.
+
 ### Actions
 
 | Component | Use for |

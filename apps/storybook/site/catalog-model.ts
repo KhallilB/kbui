@@ -47,6 +47,8 @@ export const surfacePreviewComponents = [
   "callout",
   "toast",
   "progress",
+  "image",
+  "thumbnail",
 ] as const;
 
 export function previewKind(component: string | undefined): "layout" | "surface" | "compact" {
@@ -75,6 +77,8 @@ export function previewLayout(component: string, _story: string) {
       "callout",
       "toast",
       "progress",
+      "image",
+      "thumbnail",
       "scrollarea",
     ].includes(component)
   )

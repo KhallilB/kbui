@@ -2,6 +2,7 @@
 @layer kbui.tokens, kbui.reset, kbui.components;
 @import "../../tokens/dist/tokens.css" layer(kbui.tokens);
 @import "./reset.css" layer(kbui.reset);
+@import "./components/avatar.css" layer(kbui.components);
 @import "./components/badge.css" layer(kbui.components);
 @import "./components/button.css" layer(kbui.components);
 @import "./components/callout.css" layer(kbui.components);
@@ -17,6 +18,7 @@
 @import "./components/formactions.css" layer(kbui.components);
 @import "./components/grid.css" layer(kbui.components);
 @import "./components/heading.css" layer(kbui.components);
+@import "./components/image.css" layer(kbui.components);
 @import "./components/inline.css" layer(kbui.components);
 @import "./components/input.css" layer(kbui.components);
 @import "./components/link.css" layer(kbui.components);
@@ -35,6 +37,7 @@
 @import "./components/switch.css" layer(kbui.components);
 @import "./components/text.css" layer(kbui.components);
 @import "./components/textarea.css" layer(kbui.components);
+@import "./components/thumbnail.css" layer(kbui.components);
 @import "./components/toast.css" layer(kbui.components);
 @import "./components/toolbar.css" layer(kbui.components);
 @import "./components/tooltip.css" layer(kbui.components);

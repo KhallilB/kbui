@@ -593,3 +593,30 @@ describe("grid component tokens", () => {
     expect(css).toContain("--kb-grid-min-item-width-lg: 24rem;");
   });
 });
+
+describe("media and identity tokens", () => {
+  test("reserves identity sizes and responsive media framing", () => {
+    const { css } = buildTokens(real);
+    for (const declaration of [
+      "--kb-avatar-size: 2.75rem;",
+      "--kb-avatar-size-xs: var(--kb-space-6);",
+      "--kb-avatar-size-sm: var(--kb-space-8);",
+      "--kb-avatar-size-lg: 3.5rem;",
+      "--kb-avatar-size-xl: 5rem;",
+      "--kb-image-ratio: 4 / 3;",
+      "--kb-thumbnail-gap: var(--kb-space-3);",
+    ])
+      expect(css).toContain(declaration);
+  });
+  test("pairs media fallback colors with semantic surfaces", () => {
+    const { css } = buildTokens(real);
+    for (const declaration of [
+      "--kb-avatar-background: var(--kb-color-surface);",
+      "--kb-avatar-color: var(--kb-color-fg);",
+      "--kb-image-background: var(--kb-color-surface);",
+      "--kb-image-color: var(--kb-color-muted);",
+      "--kb-thumbnail-muted: var(--kb-color-muted);",
+    ])
+      expect(css).toContain(declaration);
+  });
+});

@@ -9,6 +9,45 @@ export type ComponentGuide = {
 };
 
 export const componentGuides: Record<string, ComponentGuide> = {
+  Avatar: {
+    use: "Identify a person or organization consistently when a photo is loading, absent or broken.",
+    example: {
+      title: "Recognize collaborators",
+      description:
+        "Pair a fixed-size portrait with a visible name and role; inspect sizes and multilingual initials.",
+    },
+    tips: [
+      "Use decorative beside an equivalent visible name to avoid duplicate announcements.",
+      "Supply initials for locale-specific name conventions; keep presence and actions in separate labeled controls.",
+    ],
+    accessibility: accessibilityGuides.Avatar,
+  },
+  Image: {
+    use: "Reserve space before an image loads and keep the same alternative when its request fails.",
+    example: {
+      title: "Frame media without layout jumps",
+      description:
+        "Compare cover and contain, fixed ratios, intrinsic dimensions, and replacement after failure.",
+    },
+    tips: [
+      "Use contain for products and documents whose edges matter; position selects a cover crop focal point.",
+      "Use ratio=auto with both width and height for intrinsic framing; choose srcSet, sizes and loading for the real screen.",
+    ],
+    accessibility: accessibilityGuides.Image,
+  },
+  Thumbnail: {
+    use: "Present identifiable products, image studies and attachments with persistent captions and metadata.",
+    example: {
+      title: "Build a readable media collection",
+      description:
+        "Compose Thumbnail figures inside Grid list items; use a caption Link for navigation or Dialog trigger for inspection.",
+    },
+    tips: [
+      "Keep filenames, format and size in the caption; never infer file metadata from a URL.",
+      "Use one clear native action per item. Grid preserves reading order and Dialog supplies modal focus behavior.",
+    ],
+    accessibility: accessibilityGuides.Thumbnail,
+  },
   Container: {
     use: "Align page sections with shared maximum widths and responsive gutters.",
     example: {

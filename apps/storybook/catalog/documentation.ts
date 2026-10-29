@@ -30,6 +30,7 @@ export function loadDocumentationExamples(root: string) {
       .filter((name) => name.endsWith(".md"))
       .sort()
       .map((name) => `packages/react/docs/components/${name}`),
+    "docs/guides/media-and-identity.md",
     "docs/guides/number-fields.md",
     "docs/guides/file-inputs.md",
     "docs/guides/forms-and-overlays.md",

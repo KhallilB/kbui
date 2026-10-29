@@ -6,6 +6,33 @@ type Definition = {
   examples: Record<string, string>;
 };
 export const definitions: Record<string, Definition> = {
+  Avatar: {
+    group: "Media",
+    description:
+      "Recognizable people and organizations with resilient photo and initials fallbacks.",
+    examples: { Default: "Default", Sizes: "Sizes", Fallbacks: "Fallbacks", People: "People" },
+  },
+  Image: {
+    group: "Media",
+    description: "Stable image frames with crop, contain, responsive sources and failure states.",
+    examples: {
+      Default: "Default",
+      CropAndContain: "Crop and Contain",
+      Ratios: "Ratios",
+      FailureAndRecovery: "Failure and Recovery",
+    },
+  },
+  Thumbnail: {
+    group: "Media",
+    description:
+      "Captioned product and attachment previews that compose into responsive galleries.",
+    examples: {
+      Default: "Default",
+      Products: "Products",
+      Attachments: "Attachments",
+      Gallery: "Gallery",
+    },
+  },
   Split: {
     group: "Layout",
     description: "Two columns that stack when their parent narrows.",
