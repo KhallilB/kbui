@@ -81,3 +81,65 @@ The handle follows the window splitter pattern. Arrow keys along the group's dir
 ## Related components
 
 Use [Card](Card.md) for a self-contained item and [Grid](Grid.md) or [Split](Split.md) to arrange sections.
+
+## Resizing without dragging
+
+The handle’s keyboard model supports keyboard access. For users who operate a pointer without dragging, provide controls for the same resizing task. This composition uses the existing controlled size API; the surrounding application supplies named click/tap buttons and feedback after button actions. Assess the chosen range and increments against the task’s required functionality.
+
+```tsx
+import "@kb.ui/react/styles.css";
+import { Button, Inline, Panel, Status } from "@kb.ui/react";
+import { useId, useState } from "react";
+
+export function ResizableWorkspace() {
+  const titleId = useId();
+  const [size, setSize] = useState(50);
+  const [message, setMessage] = useState("");
+  function resizeBy(amount: number) {
+    const next = Math.max(25, Math.min(75, size + amount));
+    setSize(next);
+    setMessage(`Code panel width ${next} percent.`);
+  }
+  return (
+    <>
+      <Inline>
+        <Button
+          type="button"
+          disabled={size <= 25}
+          onClick={() => resizeBy(-5)}
+        >
+          Make code narrower
+        </Button>
+        <Button type="button" disabled={size >= 75} onClick={() => resizeBy(5)}>
+          Make code wider
+        </Button>
+        <Status live>{message}</Status>
+      </Inline>
+      <Panel.Group direction="row" style={{ width: "100%", minHeight: 240 }}>
+        <Panel aria-labelledby={titleId}>
+          <Panel.Header>
+            <h2 id={titleId}>Code</h2>
+          </Panel.Header>
+          <Panel.Body>Editable source content.</Panel.Body>
+        </Panel>
+        <Panel.Handle
+          aria-labelledby={titleId}
+          size={size}
+          onSizeChange={(next) => {
+            setSize(next);
+            setMessage("");
+          }}
+          min={25}
+          max={75}
+          step={5}
+        />
+        <Panel aria-label="Preview">
+          <Panel.Body>Resulting preview.</Panel.Body>
+        </Panel>
+      </Panel.Group>
+    </>
+  );
+}
+```
+
+Click each resize button, then focus the handle and use its arrow keys, Home/End, and Enter. Check that pane width, separator value, disabled limits, focus visibility, and feedback stay correct. Test the actual composition at zoom and with supported assistive technology. See the shared [accessibility verification guide](https://github.com/KhallilB/kbui/blob/main/docs/guides/accessibility.md#keyboard-focus-and-pointer-input) for WCAG 2.5.7 and target-size requirements.

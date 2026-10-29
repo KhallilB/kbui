@@ -250,3 +250,5 @@ The install builder offers CSS tokens as part of the normal React install. Optio
 ## Public Storybook scope
 
 Production Storybook contains public MDX guides and canonical component stories only. Site screens, legacy restyle showcases and validation fixtures are maintained in `apps/storybook/stories` for opt-in local development and CI. `KBUI_STORYBOOK_INTERNAL=1` enables that scope; `dev:internal` provides the command. Default public builds exclude those modules, and `verify:catalog` rejects internal index entries while requiring all component docs and examples. Validation coverage remains active in the browser test scripts.
+
+Component Accessibility sections read `catalog/accessibility-guides.ts`: implemented support, author responsibilities, verification procedures, and linked WCAG/APG sources. `catalog/AccessibilityReference.tsx` renders the contract; `catalog/verify-component-docs.ts` verifies the built sections. Shared requirements and test-record guidance live in `docs/guides/accessibility.md`.

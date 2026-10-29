@@ -11,6 +11,7 @@ import {
 } from "@storybook/addon-docs/blocks";
 import { type PropsWithChildren, useEffect, useLayoutEffect, useState } from "react";
 import { GLOBALS_UPDATED } from "storybook/internal/core-events";
+import { AccessibilityReference } from "../catalog/AccessibilityReference";
 import type { ComponentReference } from "../catalog/types";
 import { readThemePreference, type ThemePreference } from "../site/site-theme";
 import { referencePreference, resolveTheme, storybookThemes } from "./theme";
@@ -165,11 +166,7 @@ export function ReferencePage() {
         aria-labelledby="reference-accessibility-title"
       >
         <h2 id="reference-accessibility-title">Accessibility</h2>
-        <ul>
-          {reference.guide.accessibility.map((note) => (
-            <li key={note}>{note}</li>
-          ))}
-        </ul>
+        <AccessibilityReference name={name} guide={reference.guide.accessibility} />
       </section>
       <section id="reference-examples" className="reference-section">
         <Stories title="More examples" includePrimary={false} />

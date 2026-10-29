@@ -105,6 +105,14 @@ The catalog and Storybook read those API tables directly. Keep interactive stori
 
 When adding a component, create its reference page and index link alongside its public export, catalog metadata, guidance, and stories. `bun run check` checks index coverage, reference links, API parsing, complete example compilation, and packaged Markdown. Changes to component reference pages also run site validation and trigger the site deployment workflow.
 
+### Accessibility documentation
+
+Every component reference must explain how to implement and verify its applicable accessibility requirements. Follow [Implementing and verifying accessibility](docs/guides/accessibility.md) as the shared standards/procedure source. Keep component-specific support, author responsibilities, concrete checks, and linked WCAG criteria in `apps/storybook/catalog/accessibility-guides.ts`; Storybook renders that same contract. Label APG patterns as informative, including work-in-progress limitations where applicable.
+
+Name the public props or composition points that supply labels, relationships, state, focus, validation feedback, and alternative input methods. Confirm those capabilities in implementation and meaningful tests before claiming support. If a required capability is missing, implement/test it or explicitly record the gap; a vague instruction to “make it accessible” is insufficient. Include a complete recipe when a caller-owned requirement needs composition, such as non-drag pointer resizing.
+
+Document automated evidence and manual verification limits separately. Checks must state an action and expected result for keyboard/focus, naming/state, errors/updates, and relevant visual or pointer behavior. Use official WCAG links, distinguish Level A/AA requirements from AAA enhancements and APG recommendations, and do not claim component or page conformance from an accessibility scan alone.
+
 ## Commits
 
 Sign every commit with `git commit -S`; the repository uses SSH signing. Subjects follow Conventional Commits, for example `feat(react): add Badge` or `fix(css): keep focus ring on invalid inputs`. Each commit must pass `bun run check` on its own. Do not add AI attribution lines or trailers.
