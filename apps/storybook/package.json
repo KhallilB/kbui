@@ -26,7 +26,7 @@
     "verify:depth": "bun catalog/verify-depth.ts",
     "dev:internal": "KBUI_STORYBOOK_INTERNAL=1 storybook dev -p 6008 --no-open --disable-telemetry",
     "build:internal": "KBUI_STORYBOOK_INTERNAL=1 storybook build --quiet --disable-telemetry",
-    "test:overlays": "KBUI_STORYBOOK_INTERNAL=1 vitest run --config vitest.overlays.config.ts ../../packages/react/src/components/Accordion/Accordion.stories.tsx ../../packages/react/src/components/Disclosure/Disclosure.stories.tsx ../../packages/react/src/components/Dialog/Dialog.stories.tsx ../../packages/react/src/components/Popover/Popover.stories.tsx"
+    "test:overlays": "KBUI_STORYBOOK_INTERNAL=1 vitest run --config vitest.overlays.config.ts ../../packages/react/src/components/Accordion/Accordion.stories.tsx ../../packages/react/src/components/Disclosure/Disclosure.stories.tsx ../../packages/react/src/components/Dialog/Dialog.stories.tsx ../../packages/react/src/components/Popover/Popover.stories.tsx stories/OverlayCompatibility.stories.tsx"
   },
   "dependencies": {
     "@kb.ui/css": "workspace:*",
@@ -45,6 +45,7 @@
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
     "@vitest/browser-playwright": "^5.0.5",
+    "axe-core": "4.14.0",
     "playwright": "1.64.1",
     "prettier": "3.9.10",
     "react": "^19.3.1",
