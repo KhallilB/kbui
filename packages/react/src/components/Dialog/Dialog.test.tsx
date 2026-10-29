@@ -20,6 +20,46 @@ function Example() {
 }
 
 describe("Dialog", () => {
+  test("drawer shorthand naming stays inside its persistent header", async () => {
+    render(
+      <Dialog defaultOpen>
+        <Dialog.Content layout="drawer" title="Review" description="Supporting details">
+          <Dialog.Body>Context</Dialog.Body>
+        </Dialog.Content>
+      </Dialog>,
+    );
+    const popup = await screen.findByRole("dialog", { name: "Review" });
+    const header = popup.querySelector(".kb-dialog-header");
+    expect(header?.contains(screen.getByRole("heading", { name: "Review" }))).toBe(true);
+    expect(header?.textContent).toContain("Supporting details");
+    expect(popup).toHaveAccessibleDescription("Supporting details");
+  });
+
+  test("drawer layout keeps modal naming, sections and focus return", async () => {
+    render(
+      <Dialog>
+        <Dialog.Trigger render={<Button />}>Review project</Dialog.Trigger>
+        <Dialog.Content layout="drawer">
+          <Dialog.Header>
+            <Dialog.Title>Project review</Dialog.Title>
+          </Dialog.Header>
+          <Dialog.Body>Supporting context</Dialog.Body>
+          <Dialog.Footer>
+            <Dialog.Close render={<Button />}>Return to project</Dialog.Close>
+          </Dialog.Footer>
+        </Dialog.Content>
+      </Dialog>,
+    );
+    const trigger = screen.getByRole("button", { name: "Review project" });
+    await userEvent.click(trigger);
+    const popup = await screen.findByRole("dialog", { name: "Project review" });
+    expect(popup.getAttribute("data-layout")).toBe("drawer");
+    expect(popup.querySelector(".kb-dialog-body")).toHaveTextContent("Supporting context");
+    await userEvent.click(screen.getByRole("button", { name: "Return to project" }));
+    await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
+    await waitFor(() => expect(trigger).toHaveFocus());
+  });
+
   test("is closed until the trigger is clicked", async () => {
     render(<Example />);
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();

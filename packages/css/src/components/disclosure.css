@@ -1,0 +1,89 @@
+/* Anatomy: .kb-disclosure [data-disabled] > .kb-disclosure-trigger [data-panel-open] [data-disabled], .kb-disclosure-panel [data-open] [hidden] > .kb-disclosure-panel-content */
+.kb-disclosure {
+  min-inline-size: 0;
+  inline-size: 100%;
+  border: 1px solid var(--kb-disclosure-border);
+  border-radius: var(--kb-disclosure-radius);
+  background: var(--kb-disclosure-background);
+  color: var(--kb-disclosure-color);
+}
+
+.kb-disclosure-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--kb-space-3);
+  inline-size: 100%;
+  min-block-size: var(--kb-disclosure-trigger-height);
+  padding: var(--kb-space-3) var(--kb-disclosure-padding);
+  border: 0;
+  border-radius: var(--kb-disclosure-radius);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: var(--kb-font-weight-strong);
+  text-align: start;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+.kb-disclosure-trigger::after {
+  content: "";
+  flex: none;
+  inline-size: var(--kb-space-2);
+  block-size: var(--kb-space-2);
+  margin-inline-end: var(--kb-space-1);
+  border-inline-end: 1px solid currentColor;
+  border-block-end: 1px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform var(--kb-disclosure-motion-duration) var(--kb-disclosure-motion-easing);
+}
+.kb-disclosure-trigger[data-panel-open]::after {
+  transform: rotate(225deg);
+}
+.kb-disclosure-trigger:hover:not([data-disabled]):not(:disabled) {
+  background: var(--kb-color-surface);
+}
+.kb-disclosure-trigger:focus-visible {
+  position: relative;
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: -2px;
+}
+.kb-disclosure-trigger[data-disabled],
+.kb-disclosure-trigger:disabled {
+  color: var(--kb-color-muted);
+  cursor: not-allowed;
+}
+.kb-disclosure-panel {
+  height: var(--collapsible-panel-height);
+  overflow: clip;
+  transition: height var(--kb-disclosure-motion-duration) var(--kb-disclosure-motion-easing);
+}
+.kb-disclosure-panel[data-starting-style],
+.kb-disclosure-panel[data-ending-style] {
+  height: 0;
+}
+.kb-disclosure-panel-content {
+  display: flow-root;
+  padding: 0 var(--kb-disclosure-padding) var(--kb-disclosure-padding);
+  overflow-wrap: anywhere;
+  font-size: var(--kb-text-body-size);
+  line-height: var(--kb-text-leading-body);
+}
+@media (prefers-reduced-motion: reduce) {
+  .kb-disclosure-trigger::after,
+  .kb-disclosure-panel {
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  .kb-disclosure {
+    border-color: CanvasText;
+  }
+  .kb-disclosure-trigger:focus-visible {
+    outline-color: Highlight;
+  }
+  .kb-disclosure-trigger[data-disabled],
+  .kb-disclosure-trigger:disabled {
+    color: GrayText;
+  }
+}

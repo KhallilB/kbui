@@ -231,6 +231,46 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.Code,
   },
+  Popover: {
+    use: "Reveal supporting controls without leaving the current view. Use Dialog for a focused modal task.",
+    example: {
+      title: "Adjust a view in context",
+      description:
+        "Open View options to change descriptions and spacing in the activity list. Changes apply immediately; Reset restores defaults and Done dismisses. Controlled demonstrates Save/Cancel editing.",
+    },
+    tips: [
+      "Keep the task short; use Body for fields and Footer for a visible Done or Close action.",
+      "Use container for nested themes and positionerProps for collision boundaries or custom anchors.",
+      "Keep anchor tracking enabled while scrolling. Use Dialog or Drawer when the task needs more room.",
+    ],
+    accessibility: accessibilityGuides.Popover,
+  },
+  Disclosure: {
+    use: "Show optional context or advanced controls in the page without changing navigation.",
+    example: {
+      title: "Reveal delivery details",
+      description:
+        "Activate the trigger with Enter or Space. Retained Draft demonstrates keeping an input value through collapse.",
+    },
+    tips: [
+      "Keep essential instructions and errors outside closed content.",
+      "Use Panel keepMounted to retain uncontrolled drafts; controlled values remain application-owned.",
+    ],
+    accessibility: accessibilityGuides.Disclosure,
+  },
+  Accordion: {
+    use: "Group related supporting details under headings; choose single expansion or multiple independent panels.",
+    example: {
+      title: "Answer related questions",
+      description:
+        "Tab between triggers and activate with Enter or Space. Compare Multiple and nested groups.",
+    },
+    tips: [
+      "Give each Item a stable unique value and each Header the appropriate heading rank through render.",
+      "Use controlled value/onValueChange when application state selects open panels; use multiple for independent expansion.",
+    ],
+    accessibility: accessibilityGuides.Accordion,
+  },
   Dialog: {
     use: "Keep a short, focused task in context, such as confirming an action or editing a small set of fields.",
     example: {
@@ -241,6 +281,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
     tips: [
       "Use title and description on Content, or compose Title and Description parts, without duplicating them.",
       "Keep submission and error handling in your app; closing a dialog does not save data.",
+      'For a drawer, use Content layout="drawer" with Header, Body and Footer; keep actions outside the scrolling Body.',
     ],
     accessibility: accessibilityGuides.Dialog,
   },
