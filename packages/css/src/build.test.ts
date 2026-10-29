@@ -450,5 +450,23 @@ describe("buildCss", () => {
     );
     expect(calloutCss).toMatch(/--_callout-title:\s*var\(--_callout-ink\)/);
     expect(calloutCss).toMatch(/\.kb-callout-title \{[\s\S]*?color: var\(--_callout-title\)/);
+
+    const codeCss = await read("code.css");
+    expect(codeCss.split("\n")[0]).toContain("[data-block]");
+    expect(codeCss.split("\n")[0]).toContain(".kb-code-header");
+    expect(codeCss.split("\n")[0]).toContain(".kb-code-line");
+    expect(codeCss).toContain(".kb-code[data-block]");
+    expect(codeCss).toContain(".kb-code-line[data-highlighted]");
+    expect(codeCss).toContain('[data-syntax="keyword"]');
+    expect(codeCss).toContain('[data-syntax="function"]');
+    expect(codeCss).toContain("--kb-code-motion-duration");
+    expect(codeCss).toContain("--kb-code-motion-easing");
+    expect(codeCss).toContain("--kb-code-toggle-min-width");
+    expect(codeCss).toContain("--kb-code-copy-min-width");
+    expect(codeCss).toContain("[data-min-lines]");
+    expect(codeCss).toContain("--_code-min-lines");
+    expect(codeCss).toContain("--_code-collapsed-lines");
+    expect(codeCss).toContain("@media (prefers-reduced-motion: reduce)");
+    expect(codeCss).toContain("@media (forced-colors: active)");
   });
 });

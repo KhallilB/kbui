@@ -108,8 +108,14 @@ export const definitions: Record<string, Definition> = {
   },
   Code: {
     group: "Typography",
-    description: "Literal inline code that wraps long paths.",
-    examples: { Default: "Default", InText: "In Text", LongToken: "Long Token" },
+    description: "Literal inline code and syntax-highlighted multiline code blocks.",
+    examples: {
+      Default: "Default",
+      Multiline: "Multiline",
+      LineNumbersAndHighlights: "Line Numbers",
+      Collapsible: "Collapsible",
+      InText: "In Text",
+    },
   },
   Dialog: {
     group: "Actions",

@@ -155,20 +155,20 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
   },
   Code: {
-    use: "Mark a short command, path, property, or literal value within a sentence. Use a pre/code listing for multiline examples.",
+    use: "Mark a short command, path, or literal value within a sentence, or render a syntax-highlighted multiline code block with a header, line numbers, and copy action.",
     example: {
-      title: "Make a literal value easy to recognize",
+      title: "Make literal code easy to read and copy",
       description:
-        "Code keeps literal content in the surrounding text flow. The in-text and long-token examples show wrapping without changing the text’s case.",
+        "Single-line strings stay inline in the surrounding text flow; multiline strings or block props such as language, title, or lineNumbers switch automatically to a framed code block.",
     },
     tips: [
-      "Pass markup as a string when it should be displayed literally.",
-      "Code supplies inline styling; highlighting and copy controls belong to a separate listing.",
+      "Pass multiline strings, language, title, or lineNumbers to render a block listing; set block={false} to force inline rendering.",
+      "Set language to tsx, ts, css, html, json, or bash for built-in syntax highlighting, or plain to disable token coloring.",
     ],
     accessibility: [
-      "Explain unfamiliar commands in nearby text.",
-      "Preserve literal case and whitespace when they matter.",
-      "Allow long paths to wrap so small screens do not need horizontal page scrolling.",
+      "Copy actions announce completion politely without moving keyboard focus.",
+      "Line numbers are decorative so selecting or copying code captures only the source text.",
+      "Allow inline paths to wrap and keep block viewports keyboard-scrollable when constrained by maxHeight or collapsible.",
     ],
   },
   Dialog: {

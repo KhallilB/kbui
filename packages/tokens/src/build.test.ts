@@ -423,6 +423,85 @@ describe("tokens.json", () => {
   test("snapshot of the shipped css", () => {
     expect(css).toMatchSnapshot();
   });
+
+  describe("code block and syntax highlighting tokens", () => {
+    const syntaxRoles = [
+      "keyword",
+      "string",
+      "comment",
+      "number",
+      "tag",
+      "attribute",
+      "type",
+      "function",
+      "operator",
+      "property",
+    ] as const;
+
+    test("defines block surface, header, gutter, line highlight and syntax tokens", () => {
+      for (const token of [
+        "block-radius",
+        "block-background",
+        "block-face",
+        "block-border",
+        "block-shadow",
+        "block-padding-block",
+        "block-padding-inline",
+        "block-font-size",
+        "block-leading",
+        "block-max-height",
+        "collapsed-max-height",
+        "header-background",
+        "header-padding-block",
+        "header-padding-inline",
+        "header-gap",
+        "title-size",
+        "badge-padding-block",
+        "badge-padding-inline",
+        "badge-radius",
+        "action-height",
+        "action-padding-inline",
+        "action-gap",
+        "action-radius",
+        "toggle-min-width",
+        "copy-min-width",
+        "motion-duration",
+        "motion-easing",
+        "gutter-width",
+        "gutter-gap",
+        "gutter-color",
+        "gutter-border",
+        "line-padding-inline",
+        "line-highlight-background",
+        "line-highlight-border",
+      ]) {
+        expect(css).toContain(`--kb-code-${token}: `);
+      }
+      for (const role of syntaxRoles) {
+        expect(css).toContain(`--kb-code-syntax-${role}: `);
+      }
+    });
+
+    test("syntax tokens maintain WCAG AA 4.5:1 contrast across page, surface, and field backgrounds in both themes", () => {
+      for (const theme of ["light", "dark"] as const) {
+        for (const role of syntaxRoles) {
+          for (const ground of ["color.bg", "color.surface", "material.field-bg"]) {
+            expect(
+              contrast(hex(`code.syntax.${role}`, theme), hex(ground, theme)),
+              `${role} on ${ground} (${theme})`,
+            ).toBeGreaterThanOrEqual(4.5);
+          }
+        }
+      }
+    });
+
+    test("maps syntax tokens to system colors under forced colors", () => {
+      const forced = css.slice(css.indexOf("@media (forced-colors: active)"));
+      for (const role of syntaxRoles) {
+        expect(forced).toMatch(new RegExp(`--kb-code-syntax-${role}: (?:CanvasText|GrayText);`));
+      }
+    });
+  });
 });
 
 test("explicit light containers restore light theme values inside dark roots", () => {

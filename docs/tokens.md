@@ -47,7 +47,7 @@ A token can name a system color in a `kb.forced` extension next to `kb.dark`:
 "current": { "$type": "color", "$value": "#2f5fa8", "$extensions": { "kb.dark": "#8fb4f0", "kb.forced": "Highlight" } }
 ```
 
-The build writes these values in one `@media (forced-colors: active)` block on `:where(:root, [data-theme])`, after the theme blocks, so they replace light, dark and container values. Only the `viz` tokens use it today. Components keep their own forced-colors rules in their stylesheets.
+The build writes these values in one `@media (forced-colors: active)` block on `:where(:root, [data-theme])`, after the theme blocks, so they replace light, dark and container values. The `viz` and `code.syntax` token groups use it today. Components keep their own forced-colors rules in their stylesheets.
 
 ## Surface theming
 
@@ -59,6 +59,7 @@ Dialog, Button and popup (Menu, Tooltip) expose material, typography and motion 
 | Dialog sections | `--kb-dialog-header-padding`, `-body-padding`, `-footer-padding` (default `0px`) |
 | Dialog motion | `--kb-dialog-motion-duration`, `-motion-easing`, `-enter-scale`, `-enter-offset` |
 | Card | `--kb-card-background`, `-face`, `-color`, `-border`, `-border-width`, `-radius`, `-padding`, `-shadow` |
+| Code block | `--kb-code-block-background`, `-face`, `-border`, `-radius`, `-shadow`, `-font-size`, `-leading`, `-max-height`, `--kb-code-header-background`, `--kb-code-toggle-min-width`, `--kb-code-copy-min-width`, `--kb-code-motion-duration`, `-motion-easing`, `--kb-code-gutter-color`, `--kb-code-line-highlight-background`, `-border`, `--kb-code-syntax-*` |
 | Button | `--kb-button-motion-duration`, `-motion-easing`, `-press-offset` |
 | Popup | `--kb-popup-motion-duration`, `-motion-easing` |
 
