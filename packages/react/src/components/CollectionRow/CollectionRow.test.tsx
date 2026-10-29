@@ -4,6 +4,7 @@ import { createRef, useState } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { Checkbox } from "../Checkbox/Checkbox";
 import { CollectionList } from "../CollectionList/CollectionList";
+import { DescriptionList } from "../DescriptionList/DescriptionList";
 import { CollectionRow } from "./CollectionRow";
 
 function Selectable({ edit }: { edit: () => void }) {
@@ -33,6 +34,29 @@ function Selectable({ edit }: { edit: () => void }) {
   );
 }
 describe("CollectionRow", () => {
+  it("preserves native term/value groups inside rich record details", () => {
+    render(
+      <CollectionList aria-label="Projects">
+        <CollectionRow
+          title="Portal"
+          description={
+            <DescriptionList>
+              <DescriptionList.Item>
+                <DescriptionList.Term id="tasks-label">Open tasks</DescriptionList.Term>
+                <DescriptionList.Detail aria-labelledby="tasks-label">{0}</DescriptionList.Detail>
+              </DescriptionList.Item>
+            </DescriptionList>
+          }
+        />
+      </CollectionList>,
+    );
+    const detail = screen.getByRole("definition", { name: "Open tasks" });
+    expect(detail).toHaveTextContent("0");
+    expect(screen.getByRole("listitem")).toContainElement(detail);
+    expect(detail.closest("p")).toBeNull();
+    expect(screen.getByRole("term")).toHaveAttribute("id", "tasks-label");
+    expect(screen.getByRole("list", { name: "Projects" }).children).toHaveLength(1);
+  });
   it("keeps selection, navigation and actions separate with normal keyboard order", async () => {
     const edit = vi.fn();
     render(<Selectable edit={edit} />);
