@@ -24,6 +24,7 @@ bun run storybook
 | `bun run test:pack` | Packs each published package and checks the tarball's name and contents. Needs built packages. |
 | `bun run test:consumer` | Installs the packed React tarball outside the workspace, checks installed versions, typechecks the consumer and runs its smoke check. Needs built packages. |
 | `bun run test:stories` | Renders every story in headless Chromium and runs an accessibility scan on each. CI runs it. |
+| `bun run test:overlays` | Checks overlay/disclosure states, native keyboard boundaries and scanner scope in Chromium, Firefox and WebKit, both themes and motion preferences. CI runs it. |
 | `bun run validate:site` | After `bun run build`, runs the complete site/browser and deployment dry-run checks. PR and main validation share these stages; without an argument this command runs all stages. Needs Bash and the documented deployment Node version. |
 | `bun run new <Name>` | Generates a new component. See [Adding a component](docs/guides/adding-a-component.md). |
 | `bun run lint:fix` | Applies Biome's fixes. |
@@ -71,7 +72,7 @@ Open the review round and record its exact-head executable probes before invokin
 The pre-commit hook lints staged files and typechecks the repository. It does not run tests. Run what CI runs before you push:
 
 ```bash
-bun run check && bun run test:stories
+bun run check && bun run test:stories && bun run test:overlays
 ```
 
 Behavior changes are test-first: write the test, see it fail, then write the code that makes it pass.

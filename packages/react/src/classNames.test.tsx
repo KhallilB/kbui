@@ -18,6 +18,7 @@ import {
   Input,
   MultiSelect,
   NumberField,
+  Popover,
   Progress,
   RadioGroup,
   ScrollArea,
@@ -342,6 +343,19 @@ describe("classNames", () => {
       </Dialog>,
     );
     expect(host.querySelector(".kb-dialog-backdrop")).toHaveClass("slot-backdrop");
+    host.remove();
+  });
+  test("popover content passes classNames to its positioner", () => {
+    const host = document.createElement("div");
+    document.body.append(host);
+    const view = render(
+      <Popover defaultOpen>
+        <Popover.Trigger>Options</Popover.Trigger>
+        <Popover.Content title="Options" container={host} classNames={every} />
+      </Popover>,
+    );
+    expect(host.querySelector(".kb-popover-positioner")).toHaveClass("slot-positioner");
+    view.unmount();
     host.remove();
   });
 });

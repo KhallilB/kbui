@@ -1,0 +1,121 @@
+/* Anatomy: .kb-popover-positioner > .kb-popover [data-open] [data-side] [data-starting-style] [data-ending-style] > .kb-popover-header > .kb-popover-title, .kb-popover-description; .kb-popover-body, .kb-popover-footer */
+.kb-popover-positioner {
+  max-inline-size: var(--available-width);
+  isolation: isolate;
+}
+.kb-popover {
+  box-sizing: border-box;
+  inline-size: var(--kb-popover-width);
+  max-inline-size: min(var(--available-width), calc(100vw - var(--kb-space-4)));
+  max-block-size: var(--available-height);
+  overflow: auto;
+  overscroll-behavior: contain;
+  scroll-padding-block: var(--kb-space-2);
+  padding: var(--kb-popover-padding);
+  border: 1px solid var(--kb-popover-border);
+  border-radius: var(--kb-popover-radius);
+  background: var(--kb-popover-background);
+  color: var(--kb-popover-color);
+  box-shadow: var(--kb-popover-shadow);
+  font-size: var(--kb-text-body-size);
+  line-height: var(--kb-text-leading-body);
+  overflow-wrap: anywhere;
+  opacity: 1;
+  transform: scale(1);
+  translate: 0 0;
+  transform-origin: var(--transform-origin);
+  transition:
+    opacity var(--kb-popover-motion-duration) var(--kb-popover-motion-easing),
+    transform var(--kb-popover-motion-duration) var(--kb-popover-motion-easing),
+    translate var(--kb-popover-motion-duration) var(--kb-popover-motion-easing);
+}
+.kb-popover:focus-visible {
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: -2px;
+}
+.kb-popover:has(> .kb-popover-body) {
+  display: flex;
+  flex-direction: column;
+}
+.kb-popover-header,
+.kb-popover-footer {
+  flex: none;
+}
+.kb-popover-body {
+  flex: 1 1 auto;
+  min-block-size: 0;
+  min-inline-size: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scroll-padding-block: var(--kb-space-2);
+}
+.kb-popover-body:focus-visible {
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: -2px;
+}
+.kb-popover-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--kb-space-2);
+  margin-block-start: var(--kb-space-3);
+  padding-block-start: var(--kb-space-3);
+  border-block-start: 1px solid var(--kb-popover-border);
+}
+.kb-popover[data-starting-style],
+.kb-popover[data-ending-style] {
+  opacity: 0;
+  transform: scale(var(--kb-popover-enter-scale));
+}
+.kb-popover[data-side="bottom"][data-starting-style],
+.kb-popover[data-side="bottom"][data-ending-style] {
+  translate: 0 calc(-1 * var(--kb-popover-enter-offset));
+}
+.kb-popover[data-side="top"][data-starting-style],
+.kb-popover[data-side="top"][data-ending-style] {
+  translate: 0 var(--kb-popover-enter-offset);
+}
+.kb-popover[data-side="left"][data-starting-style],
+.kb-popover[data-side="left"][data-ending-style],
+.kb-popover[data-side="inline-start"]:where(:dir(ltr))[data-starting-style],
+.kb-popover[data-side="inline-start"]:where(:dir(ltr))[data-ending-style],
+.kb-popover[data-side="inline-end"]:where(:dir(rtl))[data-starting-style],
+.kb-popover[data-side="inline-end"]:where(:dir(rtl))[data-ending-style] {
+  translate: var(--kb-popover-enter-offset) 0;
+}
+.kb-popover[data-side="right"][data-starting-style],
+.kb-popover[data-side="right"][data-ending-style],
+.kb-popover[data-side="inline-end"]:where(:dir(ltr))[data-starting-style],
+.kb-popover[data-side="inline-end"]:where(:dir(ltr))[data-ending-style],
+.kb-popover[data-side="inline-start"]:where(:dir(rtl))[data-starting-style],
+.kb-popover[data-side="inline-start"]:where(:dir(rtl))[data-ending-style] {
+  translate: calc(-1 * var(--kb-popover-enter-offset)) 0;
+}
+.kb-popover-title {
+  margin: 0 0 var(--kb-space-2);
+  font: inherit;
+  font-weight: var(--kb-font-weight-strong);
+}
+.kb-popover-description {
+  margin: 0 0 var(--kb-space-3);
+  color: var(--kb-color-muted);
+}
+@media (prefers-reduced-motion: reduce) {
+  .kb-popover {
+    transition: none;
+  }
+  .kb-popover[data-side][data-starting-style],
+  .kb-popover[data-side][data-ending-style] {
+    transform: none;
+    translate: none;
+  }
+}
+@media (forced-colors: active) {
+  .kb-popover {
+    border-color: CanvasText;
+  }
+  .kb-popover:focus-visible,
+  .kb-popover-body:focus-visible {
+    outline-color: Highlight;
+  }
+}

@@ -2,6 +2,7 @@
 @layer kbui.tokens, kbui.reset, kbui.components;
 @import "../../tokens/dist/tokens.css" layer(kbui.tokens);
 @import "./reset.css" layer(kbui.reset);
+@import "./components/accordion.css" layer(kbui.components);
 @import "./components/avatar.css" layer(kbui.components);
 @import "./components/badge.css" layer(kbui.components);
 @import "./components/button.css" layer(kbui.components);
@@ -15,6 +16,7 @@
 @import "./components/container.css" layer(kbui.components);
 @import "./components/copyabletext.css" layer(kbui.components);
 @import "./components/dialog.css" layer(kbui.components);
+@import "./components/disclosure.css" layer(kbui.components);
 @import "./components/errorsummary.css" layer(kbui.components);
 @import "./components/fieldset.css" layer(kbui.components);
 @import "./components/fileinput.css" layer(kbui.components);
@@ -29,6 +31,7 @@
 @import "./components/multiselect.css" layer(kbui.components);
 @import "./components/numberfield.css" layer(kbui.components);
 @import "./components/panel.css" layer(kbui.components);
+@import "./components/popover.css" layer(kbui.components);
 @import "./components/progress.css" layer(kbui.components);
 @import "./components/radiogroup.css" layer(kbui.components);
 @import "./components/scrollarea.css" layer(kbui.components);

@@ -21,6 +21,7 @@ run_check() {
 
 validate_stories() {
   run_check "Test: stories" bun run test:stories
+  run_check "Test: overlay compatibility" bun run test:overlays
 }
 
 validate_themes() {

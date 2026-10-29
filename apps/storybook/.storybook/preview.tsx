@@ -16,7 +16,11 @@ function ThemePreview({ theme, children }: { theme: ThemePreference; children: R
 
 const preview: Preview = {
   parameters: {
-    a11y: { test: "error" },
+    a11y: {
+      test: "error",
+      // Preserve VoiceOver guards: https://github.com/mui/base-ui/issues/5237#issuecomment-4978602561.
+      context: { include: ["body"], exclude: ["[data-base-ui-focus-guard]"] },
+    },
     viewport: {
       options: Object.fromEntries(
         [
