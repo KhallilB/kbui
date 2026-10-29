@@ -70,5 +70,45 @@ Reported apart from the rules; `target-size` also feeds ARR-4. Screens with the 
 
 ## Rule precision and recall against human labels
 
-No labels yet. Run `bun run label`, label the sample in `results/2026-10-29/labelling.html` and save the export as `results/2026-10-29/labels.json`.
+50 screens labelled blind by Khallil. Unsure answers are left out.
+
+| rule | fired and yes | fired and no | missed | precision | recall | |
+|---|---|---|---|---|---|---|
+| INT-1 | 0 | 5 | 0 | 0/5 = 0.00 | n/a | rewrite before M5 |
+| INT-2 | 0 | 9 | 1 | 0/9 = 0.00 | 0/1 = 0.00 | rewrite before M5 |
+| INT-3 | 0 | 3 | 1 | 0/3 = 0.00 | 0/1 = 0.00 | rewrite before M5 |
+| INT-4 | 0 | 3 | 1 | 0/3 = 0.00 | 0/1 = 0.00 | rewrite before M5 |
+| INT-5 | 0 | 0 | 2 | n/a | 0/2 = 0.00 | no firings in the sample: no precision |
+| DES-1 | 0 | 1 | 4 | 0/1 = 0.00 | 0/4 = 0.00 | rewrite before M5 |
+| DES-2 | 4 | 11 | 6 | 4/15 = 0.27 | 4/10 = 0.40 | rewrite before M5 |
+| ARR-1 | 0 | 11 | 1 | 0/11 = 0.00 | 0/1 = 0.00 | rewrite before M5 |
+| ARR-2 | 6 | 7 | 9 | 6/13 = 0.46 | 6/15 = 0.40 | rewrite before M5 |
+| ARR-3 | 3 | 7 | 13 | 3/10 = 0.30 | 3/16 = 0.19 | rewrite before M5 |
+| ARR-4 | 0 | 0 | 22 | n/a | 0/22 = 0.00 | no firings in the sample: no precision |
+| DATA-1 | 2 | 0 | 4 | 2/2 = 1.00 | 2/6 = 0.33 |  |
+| DATA-2 | 5 | 33 | 0 | 5/38 = 0.13 | 5/5 = 1.00 | rewrite before M5 |
+
+From blind human labels on the sample: integrity 4/50 (8.0%), integrity or design 15/50 (30.0%). Reading: **design rules lead; continue to M3**.
+
+### After recheck
+
+42 blind answers that contradicted a rule whose question the spec answers outright (INT-1, INT-3, INT-4, DES-2, ARR-1) were rechecked with the rule's evidence shown; 24 changed. These numbers are no longer blind.
+
+| rule | fired and yes | fired and no | missed | precision | recall | |
+|---|---|---|---|---|---|---|
+| INT-1 | 3 | 2 | 0 | 3/5 = 0.60 | 3/3 = 1.00 | rewrite before M5 |
+| INT-2 | 0 | 9 | 1 | 0/9 = 0.00 | 0/1 = 0.00 | rewrite before M5 |
+| INT-3 | 2 | 1 | 1 | 2/3 = 0.67 | 2/3 = 0.67 | rewrite before M5 |
+| INT-4 | 2 | 1 | 1 | 2/3 = 0.67 | 2/3 = 0.67 | rewrite before M5 |
+| INT-5 | 0 | 0 | 2 | n/a | 0/2 = 0.00 | no firings in the sample: no precision |
+| DES-1 | 0 | 1 | 4 | 0/1 = 0.00 | 0/4 = 0.00 | rewrite before M5 |
+| DES-2 | 10 | 5 | 3 | 10/15 = 0.67 | 10/13 = 0.77 | rewrite before M5 |
+| ARR-1 | 8 | 3 | 1 | 8/11 = 0.73 | 8/9 = 0.89 |  |
+| ARR-2 | 6 | 7 | 9 | 6/13 = 0.46 | 6/15 = 0.40 | rewrite before M5 |
+| ARR-3 | 3 | 7 | 13 | 3/10 = 0.30 | 3/16 = 0.19 | rewrite before M5 |
+| ARR-4 | 0 | 0 | 22 | n/a | 0/22 = 0.00 | no firings in the sample: no precision |
+| DATA-1 | 2 | 0 | 4 | 2/2 = 1.00 | 2/6 = 0.33 |  |
+| DATA-2 | 5 | 33 | 0 | 5/38 = 0.13 | 5/5 = 1.00 | rewrite before M5 |
+
+From rechecked human labels on the sample: integrity 9/50 (18.0%), integrity or design 22/50 (44.0%). Reading: **design rules lead; continue to M3**.
 

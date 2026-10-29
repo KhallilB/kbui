@@ -6,6 +6,7 @@
     "generate": "bun src/generate.ts",
     "measure": "bun src/measure.ts --study 2026-10-29",
     "label": "bun src/label.ts --study 2026-10-29 --serve",
+    "recheck": "bun src/label.ts --study 2026-10-29 --serve --recheck",
     "report": "bun src/report.ts --study 2026-10-29",
     "test": "bun test src",
     "typecheck": "tsc --noEmit -p tsconfig.json"

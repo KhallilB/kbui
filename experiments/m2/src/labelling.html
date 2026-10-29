@@ -321,6 +321,13 @@
         font: 12px/1.6 ui-monospace, monospace;
         padding: 0 16px 16px;
       }
+      .q .note {
+        margin-bottom: 8px;
+        padding: 6px 8px;
+        border-radius: 6px;
+        background: var(--bg);
+        font-size: 12px;
+      }
       .outline[hidden] {
         display: none;
       }
@@ -391,7 +398,7 @@
     <input type="file" id="file" accept="application/json" hidden />
     <script>
       const DATA = /*DATA*/ null;
-      const KEY = `m2-labels-${DATA.study}`;
+      const KEY = `m2-${DATA.recheck ? "recheck" : "labels"}-${DATA.study}`;
       const ANSWERS = ["yes", "no", "unsure"];
       const $ = (id) => document.getElementById(id);
 
@@ -417,14 +424,16 @@
         } catch {}
       };
 
+      // Recheck screens carry their own subset of questions.
+      const qs = (s) => (s.rules ? DATA.rules.filter((r) => s.rules.includes(r.id)) : DATA.rules);
       const labelsOf = (token) => saved.labels[token] || {};
       const answered = (token) => Object.keys(labelsOf(token)).length;
-      const firstOpen = (token) => {
-        const i = DATA.rules.findIndex((r) => !labelsOf(token)[r.id]);
+      const firstOpen = (s) => {
+        const i = qs(s).findIndex((r) => !labelsOf(s.token)[r.id]);
         return i < 0 ? 0 : i;
       };
 
-      // Server mode writes labels.json beside the results; local storage covers file:// use.
+      // Server mode writes DATA.file beside the results; local storage covers file:// use.
       let timer;
       function persist() {
         try {
@@ -436,13 +445,13 @@
         clearTimeout(timer);
         timer = setTimeout(async () => {
           try {
-            const res = await fetch("labels", {
+            const res = await fetch(DATA.file, {
               method: "PUT",
               headers: { "content-type": "application/json" },
               body: JSON.stringify(payload()),
             });
             if (!res.ok) throw new Error(await res.text());
-            $("status").textContent = "Saved to labels.json";
+            $("status").textContent = `Saved to ${DATA.file}`;
           } catch (e) {
             $("status").className = "status error";
             $("status").textContent = `Not saved: ${e.message}`;
@@ -461,15 +470,16 @@
             const b = document.createElement("button");
             b.type = "button";
             const n = answered(s.token);
+            const of = qs(s).length;
             b.setAttribute("aria-current", String(i === view.screen));
-            b.setAttribute("aria-label", `Screen ${s.token}, ${n} of ${DATA.rules.length} answered`);
-            b.innerHTML = `<span>${s.token}</span><span class="ring ${n === DATA.rules.length ? "full" : ""}" style="--p:${(100 * n) / DATA.rules.length}%"></span>`;
+            b.setAttribute("aria-label", `Screen ${s.token}, ${n} of ${of} answered`);
+            b.innerHTML = `<span>${s.token}</span><span class="ring ${n === of ? "full" : ""}" style="--p:${(100 * n) / of}%"></span>`;
             b.onclick = () => go(i);
             return b;
           }),
         );
         const total = DATA.screens.reduce((sum, s) => sum + answered(s.token), 0);
-        const all = DATA.screens.length * DATA.rules.length;
+        const all = DATA.screens.reduce((sum, s) => sum + qs(s).length, 0);
         $("count").textContent = `${total}/${all} answered`;
         $("meter").style.width = `${(100 * total) / all}%`;
       }
@@ -478,7 +488,7 @@
         const s = DATA.screens[view.screen];
         $("outline").hidden = !view.outline;
         $("open-outline").setAttribute("aria-pressed", String(view.outline));
-        $("where").textContent = `Screen ${s.token} of ${DATA.screens.length} · ${answered(s.token)}/${DATA.rules.length} answered`;
+        $("where").textContent = `Screen ${s.token} · ${view.screen + 1} of ${DATA.screens.length} · ${answered(s.token)}/${qs(s).length} answered`;
         $("prompt").textContent = s.prompt;
         $("widths").replaceChildren(
           ...[...s.widths.map(String), "all"].map((w, i) => {
@@ -527,13 +537,13 @@
         const own = labelsOf(s.token);
         const parts = [];
         let family = "";
-        DATA.rules.forEach((r, i) => {
+        qs(s).forEach((r, i) => {
           if (r.family !== family) {
             family = r.family;
             parts.push(`<div class="family">${family}</div>`);
           }
           parts.push(
-            `<div class="q" data-i="${i}" aria-current="${i === view.question}"><p>${r.question}</p><div class="hint">${r.hint}</div><div class="answers" role="group" aria-label="${r.id}">${ANSWERS.map(
+            `<div class="q" data-i="${i}" aria-current="${i === view.question}"><p>${r.question}</p><div class="hint">${r.hint}</div>${s.notes?.[r.id] ? `<div class="note">${s.notes[r.id]}</div>` : ""}<div class="answers" role="group" aria-label="${r.id}">${ANSWERS.map(
               (a) =>
                 `<button type="button" class="ans" data-a="${a}" aria-pressed="${own[r.id] === a}">${a[0].toUpperCase()}${a.slice(1)}</button>`,
             ).join("")}</div></div>`,
@@ -555,29 +565,29 @@
       }
 
       function focusQuestion(i) {
-        view.question = Math.max(0, Math.min(DATA.rules.length - 1, i));
+        view.question = Math.max(0, Math.min(qs(DATA.screens[view.screen]).length - 1, i));
         renderQuestions();
       }
 
       function answer(a, i = view.question) {
         const s = DATA.screens[view.screen];
         const own = { ...labelsOf(s.token) };
-        const id = DATA.rules[i].id;
+        const id = qs(s)[i].id;
         // Choosing the current answer again clears it.
         if (a === null || own[id] === a) delete own[id];
         else own[id] = a;
         saved.labels[s.token] = own;
         persist();
         renderList();
-        $("where").textContent = `Screen ${s.token} of ${DATA.screens.length} · ${answered(s.token)}/${DATA.rules.length} answered`;
+        $("where").textContent = `Screen ${s.token} · ${view.screen + 1} of ${DATA.screens.length} · ${answered(s.token)}/${qs(s).length} answered`;
         // Move to the next open question on this screen, else stay put.
-        const next = DATA.rules.findIndex((r, j) => j > i && !labelsOf(s.token)[r.id]);
+        const next = qs(s).findIndex((r, j) => j > i && !labelsOf(s.token)[r.id]);
         focusQuestion(!own[id] || next < 0 ? i : next);
       }
 
       function go(i) {
         view.screen = (i + DATA.screens.length) % DATA.screens.length;
-        view.question = firstOpen(DATA.screens[view.screen].token);
+        view.question = firstOpen(DATA.screens[view.screen]);
         $("viewer").scrollTo(0, 0);
         renderList();
         renderScreen();
@@ -622,7 +632,7 @@
       $("rest").onclick = () => {
         const s = DATA.screens[view.screen];
         const own = { ...labelsOf(s.token) };
-        for (const r of DATA.rules) own[r.id] ||= "no";
+        for (const r of qs(s)) own[r.id] ||= "no";
         saved.labels[s.token] = own;
         persist();
         renderList();
@@ -643,7 +653,7 @@
         a.href = URL.createObjectURL(
           new Blob([JSON.stringify(payload(), null, 2)], { type: "application/json" }),
         );
-        a.download = "labels.json";
+        a.download = DATA.file;
         a.click();
       };
       $("import").onclick = () => $("file").click();
@@ -671,7 +681,7 @@
           n: () => answer("no"),
           u: () => answer("unsure"),
           backspace: () => answer(null),
-          a: () => $("rest").click(),
+          a: () => DATA.recheck || $("rest").click(),
           f: () => {
             const order = Object.keys(ZOOMS);
             setZoom(order[(order.indexOf(view.zoom) + 1) % order.length]);
@@ -698,7 +708,7 @@
       (async () => {
         if (DATA.server) {
           try {
-            const res = await fetch("labels.json", { cache: "no-store" });
+            const res = await fetch(DATA.file, { cache: "no-store" });
             if (res.ok) {
               const file = await res.json();
               const labels = { ...file.labels };
@@ -707,12 +717,17 @@
               if (saved.labeller === "unnamed") saved.labeller = "";
             }
           } catch {}
-          $("status").textContent = "Saves to labels.json";
+          $("status").textContent = `Saves to ${DATA.file}`;
         } else {
           $("status").textContent = "Saves in this browser";
         }
         $("who").value = saved.labeller;
-        const resume = DATA.screens.findIndex((s) => answered(s.token) < DATA.rules.length);
+        if (DATA.recheck) {
+          document.querySelector("h1").textContent = "M2 recheck";
+          document.title = `M2 recheck ${DATA.study}`;
+          $("rest").hidden = true;
+        }
+        const resume = DATA.screens.findIndex((s) => answered(s.token) < qs(s).length);
         go(resume < 0 ? 0 : resume);
       })();
     </script>

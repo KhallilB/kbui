@@ -20,7 +20,7 @@ It is not part of any published package. Nothing here depends on kbui.
    | data | DATA-1 more than ten rows without pagination · DATA-2 data-bound list with no empty state |
 
    Tree rules read the spec. ARR-2 to ARR-4 read the rendered page.
-6. **Labels.** 50 screens are drawn reproducibly, stratified by category and model. One person labels them on a page that hides the model and all rule output. Precision and recall per rule come from those labels.
+6. **Labels.** 50 screens are drawn reproducibly, stratified by category and model. One person labels them on a page that hides the model and all rule output. Precision and recall per rule come from those labels. Then a recheck: wherever a blind answer contradicts a rule whose question the spec answers outright (INT-1, INT-3, INT-4, DES-2, ARR-1), the labeller sees the rule's evidence and answers again. The report gives both sets of numbers.
 
 ## Run it
 
@@ -35,6 +35,7 @@ The other steps, in order:
 bun run generate -- --study <id> --scratch <empty dir> --codex-home <dir>   # calls the models
 bun run measure                                                              # needs `bunx playwright install chromium`
 bun run label                                                                # serves the labelling page at http://127.0.0.1:4319/
+bun run recheck                                                              # same page, only the contradicted answers
 bun test src
 ```
 
@@ -55,11 +56,13 @@ bun test src
 | `sample.json` | the 50 screens drawn for labelling; position N is blind token N |
 | `labelling.html` | the blind labelling page; `bun run label` also links its screenshots into `blind/` under token names |
 | `labels.json` | the human labels keyed by blind token, saved by `bun run label` |
+| `adjudicated.json` | the rechecked answers, saved by `bun run recheck`; the report lays them over `labels.json` |
 | `report.md`, `gallery.html` | the rebuilt report, and every screen with findings outlined beside its labels |
 
 ## Limitations
 
 - **One labeller, who also wrote the rules.** The page hides rule output and models, but not the rules' intent. Read precision as an upper bound.
+- **The recheck is not blind.** It shows the rule's evidence, so it can only move answers toward the rule or confirm them. It covers the five literal rules, and in both directions: findings labelled no, and yes answers the rule missed.
 - **INT-1 counts any secret field.** A checkout that asks for a card number fires it, because a generated screen should hand secrets to a trusted surface. The report prints the gate reading with and without INT-1.
 - **Timings include CLI start-up.** They are wall time from process spawn. Codex reports only the finished message, so it has no time to first node.
 - **The two models are not prompted identically.** Codex has no system prompt override, so the catalog prompt goes in the user turn on top of Codex's built-in instructions. Claude runs with its default adaptive thinking.

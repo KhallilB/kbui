@@ -2,6 +2,7 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { parseArgs } from "node:util";
+import { type Answers, adjudicate, type Labels, LITERAL } from "./labels";
 import { loadScreens, type Screen } from "./load";
 import { domFindings, type Family, type Finding, RULES, type RuleId, treeFindings } from "./rules";
 import { MODELS, type ModelId, studyDir, WIDTHS } from "./study";
@@ -11,13 +12,6 @@ if (!values.study) throw new Error("usage: report --study <id>");
 const study = values.study;
 const dir = studyDir(study);
 
-type Answer = "yes" | "no" | "unsure";
-export type Labels = {
-  study: string;
-  labeller: string;
-  labels: Record<string, Partial<Record<RuleId, Answer>>>;
-};
-
 const familyOf = Object.fromEntries(RULES.map((r) => [r.id, r.family])) as Record<RuleId, Family>;
 const screens = loadScreens(study).map((s) => ({
   ...s,
@@ -25,24 +19,27 @@ const screens = loadScreens(study).map((s) => ({
 }));
 type Scored = Screen & { findings: Finding[] };
 
-const labelsPath = join(dir, "labels.json");
-// Labels are keyed by blind token: the 1-based position in sample.json.
-const blindLabels: Labels | null = existsSync(labelsPath)
-  ? JSON.parse(readFileSync(labelsPath, "utf8"))
-  : null;
+const readLabels = (file: string): Labels | null =>
+  existsSync(join(dir, file)) ? JSON.parse(readFileSync(join(dir, file), "utf8")) : null;
+const blindLabels = readLabels("labels.json");
+const rechecked = blindLabels && readLabels("adjudicated.json");
 const sample: string[] = blindLabels
   ? JSON.parse(readFileSync(join(dir, "sample.json"), "utf8"))
   : [];
-const labels: Labels | null = blindLabels && {
-  ...blindLabels,
-  labels: Object.fromEntries(
-    Object.entries(blindLabels.labels).map(([token, answers]) => {
+// Labels are keyed by blind token: the 1-based position in sample.json.
+const byScreen = (answers: Answers): Answers =>
+  Object.fromEntries(
+    Object.entries(answers).map(([token, own]) => {
       const id = sample[Number(token) - 1];
-      if (!id) throw new Error(`labels.json token ${token} is not in sample.json`);
-      return [id, answers];
+      if (!id) throw new Error(`label token ${token} is not in sample.json`);
+      return [id, own];
     }),
-  ),
-};
+  );
+const blind = blindLabels && byScreen(blindLabels.labels);
+const adjudicated = rechecked && byScreen(adjudicate(blindLabels.labels, rechecked.labels));
+const labeller = blindLabels?.labeller || "an unnamed labeller";
+// The gallery shows the final answers.
+const labels = adjudicated ?? blind;
 
 const out: string[] = [];
 const say = (line = "") => out.push(line);
@@ -250,29 +247,20 @@ say();
 say("## Rule precision and recall against human labels");
 say();
 type Score = { tp: number; fp: number; fn: number; tn: number; unsure: number };
-const scores = new Map<RuleId, Score>();
-if (!labels) {
-  say(
-    `No labels yet. Run \`bun run label\`, label the sample in \`results/${study}/labelling.html\` and save the export as \`results/${study}/labels.json\`.`,
-  );
-} else {
-  const labelled = screens.filter((s) => labels.labels[s.id]);
-  say(
-    `${labelled.length} screens labelled by ${labels.labeller || "an unnamed labeller"}. Unsure answers are left out.`,
-  );
-  say();
+
+function scoreTable(answers: Answers, source: string) {
+  const labelled = screens.filter((s) => answers[s.id]);
   say("| rule | fired and yes | fired and no | missed | precision | recall | |");
   say("|---|---|---|---|---|---|---|");
   for (const r of RULES) {
     const sc: Score = { tp: 0, fp: 0, fn: 0, tn: 0, unsure: 0 };
     for (const s of labelled) {
-      const answer = labels.labels[s.id]?.[r.id];
+      const answer = answers[s.id]?.[r.id];
       const fired = s.findings.some((f) => f.rule === r.id);
       if (answer === "unsure" || answer === undefined) sc.unsure++;
       else if (fired) sc[answer === "yes" ? "tp" : "fp"]++;
       else sc[answer === "yes" ? "fn" : "tn"]++;
     }
-    scores.set(r.id, sc);
     const p = sc.tp + sc.fp ? sc.tp / (sc.tp + sc.fp) : null;
     const rc = sc.tp + sc.fn ? sc.tp / (sc.tp + sc.fn) : null;
     const note =
@@ -283,12 +271,38 @@ if (!labels) {
   }
   say();
   const yes = (families: Family[]) => (s: Scored) =>
-    RULES.some((r) => families.includes(r.family) && labels.labels[s.id]?.[r.id] === "yes");
+    RULES.some((r) => families.includes(r.family) && answers[s.id]?.[r.id] === "yes");
   const hi = share(labelled, yes(["integrity"]));
   const hid = share(labelled, yes(["integrity", "design"]));
   say(
-    `From human labels on the sample: integrity ${fmt(hi)}, integrity or design ${fmt(hid)}. Reading: **${gate(hi, hid)}**.`,
+    `From ${source}: integrity ${fmt(hi)}, integrity or design ${fmt(hid)}. Reading: **${gate(hi, hid)}**.`,
   );
+}
+
+if (!blind) {
+  say(
+    `No labels yet. Run \`bun run label\`, label the sample in \`results/${study}/labelling.html\` and save the export as \`results/${study}/labels.json\`.`,
+  );
+} else {
+  say(
+    `${Object.keys(blind).length} screens labelled blind by ${labeller}. Unsure answers are left out.`,
+  );
+  say();
+  scoreTable(blind, "blind human labels on the sample");
+  if (blindLabels && adjudicated && rechecked) {
+    const pairs = Object.entries(rechecked.labels).flatMap(([t, own]) =>
+      Object.entries(own).map(([r, a]) => [blindLabels.labels[t]?.[r as RuleId], a]),
+    );
+    const changed = pairs.filter(([was, now]) => was !== now).length;
+    say();
+    say("### After recheck");
+    say();
+    say(
+      `${pairs.length} blind answers that contradicted a rule whose question the spec answers outright (${LITERAL.join(", ")}) were rechecked with the rule's evidence shown; ${changed} changed. These numbers are no longer blind.`,
+    );
+    say();
+    scoreTable(adjudicated, "rechecked human labels on the sample");
+  }
 }
 say();
 
@@ -323,7 +337,7 @@ function shot(s: Scored, i: number): string {
 }
 
 function verdicts(s: Scored): string {
-  const own = labels?.labels[s.id];
+  const own = labels?.[s.id];
   return RULES.map((r) => {
     const found = s.findings.filter((f) => f.rule === r.id);
     const answer = own?.[r.id];

@@ -2,8 +2,9 @@
 import { existsSync, linkSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { parseArgs } from "node:util";
+import { type Labels, type Recheck, rechecks } from "./labels";
 import { loadScreens, type Screen } from "./load";
-import { literals, RULES, type RuleId, walk } from "./rules";
+import { domFindings, literals, RULES, type RuleId, treeFindings, walk } from "./rules";
 import { studyDir } from "./study";
 
 const SAMPLE_SIZE = 50;
@@ -12,10 +13,12 @@ const { values } = parseArgs({
   options: {
     study: { type: "string" },
     serve: { type: "boolean", default: false },
+    recheck: { type: "boolean", default: false },
     port: { type: "string", default: process.env.PORT ?? "4319" },
   },
 });
-if (!values.study) throw new Error("usage: label --study <id>");
+if (!values.study) throw new Error("usage: label --study <id> [--serve [--recheck]]");
+if (values.recheck && !values.serve) throw new Error("--recheck needs --serve");
 const study = values.study;
 const dir = studyDir(study);
 const screens = loadScreens(study);
@@ -157,17 +160,47 @@ const HINTS: Record<RuleId, string> = {
   "DATA-2": "Outline: a repeat, and an element visible when that list is empty.",
 };
 
+// Recheck mode asks only the questions where the blind answer contradicts a literal rule.
+const file = values.recheck ? "adjudicated.json" : "labels.json";
+let disputed: Recheck[] = [];
+if (values.recheck) {
+  const labelsPath = join(dir, "labels.json");
+  if (!existsSync(labelsPath)) throw new Error("no labels.json yet; label the sample first");
+  const blind: Labels = JSON.parse(readFileSync(labelsPath, "utf8"));
+  disputed = rechecks(
+    items.map(({ id, s }) => ({
+      token: id,
+      findings: [...treeFindings(s.compiled.spec), ...domFindings(s.doms)],
+    })),
+    blind.labels,
+  );
+}
+const note = (r: Recheck) =>
+  `${r.evidence.length ? `Rule found: ${esc(r.evidence.map(short).join("; "))}` : "Rule found nothing"} · Your first answer: ${r.blind}`;
+
 function page(server: boolean): string {
+  const shown = values.recheck
+    ? items.filter(({ id }) => disputed.some((r) => r.token === id))
+    : items;
   const data = {
     study,
     server,
+    file,
+    recheck: values.recheck,
     rules: RULES.map(({ id, family, question }) => ({ id, family, question, hint: HINTS[id] })),
-    screens: items.map(({ id, s }) => ({
-      token: id,
-      prompt: s.prompt.text,
-      widths: s.doms.map((d) => d.width),
-      outline: outline(s),
-    })),
+    screens: shown.map(({ id, s }) => {
+      const own = disputed.filter((r) => r.token === id);
+      return {
+        token: id,
+        prompt: s.prompt.text,
+        widths: s.doms.map((d) => d.width),
+        outline: outline(s),
+        ...(values.recheck && {
+          rules: own.map((r) => r.rule),
+          notes: Object.fromEntries(own.map((r) => [r.rule, note(r)])),
+        }),
+      };
+    }),
   };
   // Escape "<" so spec text cannot close the script element.
   const json = JSON.stringify(data).replace(/</g, "\\u003c");
@@ -176,13 +209,23 @@ function page(server: boolean): string {
     .replace("/*DATA*/ null", json);
 }
 
-writeFileSync(join(dir, "labelling.html"), page(false));
-console.log(`sampled ${sample.length} screens; wrote ${join("results", study, "labelling.html")}`);
+if (values.recheck) {
+  console.log(
+    `${disputed.length} answers to recheck on ${new Set(disputed.map((r) => r.token)).size} screens`,
+  );
+} else {
+  writeFileSync(join(dir, "labelling.html"), page(false));
+  console.log(
+    `sampled ${sample.length} screens; wrote ${join("results", study, "labelling.html")}`,
+  );
+}
 
 if (values.serve) {
   const tokens = new Set(items.map((i) => i.id));
   const ruleIds = new Set<string>(RULES.map((r) => r.id));
-  const labelsPath = join(dir, "labels.json");
+  const allowed = (t: string, r: string) =>
+    values.recheck ? disputed.some((d) => d.token === t && d.rule === r) : ruleIds.has(r);
+  const labelsPath = join(dir, file);
   const valid = (
     body: unknown,
   ): body is {
@@ -201,7 +244,7 @@ if (values.serve) {
         own &&
         typeof own === "object" &&
         Object.entries(own).every(
-          ([r, a]) => ruleIds.has(r) && ["yes", "no", "unsure"].includes(a as string),
+          ([r, a]) => allowed(t, r) && ["yes", "no", "unsure"].includes(a as string),
         ),
     );
   };
@@ -210,7 +253,7 @@ if (values.serve) {
     port: Number(values.port),
     async fetch(req) {
       const path = new URL(req.url).pathname;
-      if (req.method === "PUT" && path === "/labels") {
+      if (req.method === "PUT" && path === `/${file}`) {
         const body = await req.json().catch(() => null);
         if (!valid(body)) return new Response("labels do not match this sample", { status: 400 });
         writeFileSync(labelsPath, `${JSON.stringify(body, null, 2)}\n`);
@@ -223,7 +266,7 @@ if (values.serve) {
           headers: { "content-type": "text/html; charset=utf-8" },
         });
       }
-      if (path === "/labels.json") {
+      if (path === `/${file}`) {
         return existsSync(labelsPath)
           ? new Response(Bun.file(labelsPath))
           : new Response("none", { status: 404 });
@@ -237,6 +280,6 @@ if (values.serve) {
     },
   });
   console.log(
-    `labelling at http://127.0.0.1:${server.port}/ — answers save to ${join("results", study, "labels.json")}`,
+    `${values.recheck ? "recheck" : "labelling"} at http://127.0.0.1:${server.port}/ — answers save to ${join("results", study, file)}`,
   );
 }
