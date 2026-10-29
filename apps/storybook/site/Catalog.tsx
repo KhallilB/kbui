@@ -1,6 +1,14 @@
 import entries from "virtual:kbui-catalog";
 import { Button, Card, Checkbox, Input, RadioGroup, Select, Tooltip } from "@kb.ui/react";
-import { type CSSProperties, useCallback, useId, useLayoutEffect, useRef, useState } from "react";
+import {
+  type CSSProperties,
+  useCallback,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import type { ApiBlock, CatalogEntry, CatalogGroup } from "../catalog/types";
 import { CatalogComparisonPreview } from "./CatalogComparison";
 import { CatalogComponentEditor } from "./CatalogComponentEditor";
@@ -290,7 +298,43 @@ function CatalogDetail({
     if (initialCompare) setCompared(true);
   }, [initialCompare]);
   const [expanded, setExpanded] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const focusToggleRef = useRef<HTMLButtonElement>(null);
   const paneResize = useCatalogPaneResize();
+  useEffect(() => {
+    if (!active && focused) setFocused(false);
+  }, [active, focused]);
+  useEffect(() => {
+    if (!focused) return;
+    const previousOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = "hidden";
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      event.stopPropagation();
+      setFocused(false);
+      focusToggleRef.current?.focus();
+    };
+    window.addEventListener("keydown", onKeyDown, true);
+    return () => {
+      document.documentElement.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown, true);
+    };
+  }, [focused]);
+  const snapWorkspace = () => {
+    const root = paneResize.root.current;
+    if (!root) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    requestAnimationFrame(() => {
+      const header = document.querySelector<HTMLElement>(".site-header");
+      const headerBottom = header ? Math.max(0, header.getBoundingClientRect().bottom) : 0;
+      const bounds = root.getBoundingClientRect();
+      const available = window.innerHeight - headerBottom;
+      const offset = Math.max(8, (available - bounds.height) / 2);
+      const top = window.scrollY + bounds.top - headerBottom - offset;
+      window.scrollTo({ top: Math.max(0, top), behavior: reduced ? "auto" : "smooth" });
+    });
+  };
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
   const [slow, setSlow] = useState(false);
@@ -390,10 +434,18 @@ function CatalogDetail({
             <h2 id={`${id}-live`}>Get a feel for it.</h2>
           </div>
         </div>
+        {focused && (
+          <div
+            className="catalog-studio-backdrop"
+            aria-hidden="true"
+            onClick={() => setFocused(false)}
+          />
+        )}
         <div
           className="catalog-styling-workspace"
           ref={paneResize.root}
           data-compare={compare || undefined}
+          data-focused={focused || undefined}
           data-resizing={paneResize.dragging || undefined}
           style={
             {
@@ -440,16 +492,58 @@ function CatalogDetail({
             {!requested && (
               <p role="status">State not found. Choose one of the available examples.</p>
             )}
-            <Checkbox
-              className="catalog-compare-control"
-              label="Compare light and dark"
-              checked={compare}
-              onCheckedChange={(value) => {
-                setCompare(value);
-                if (value) setCompared(true);
-                onCompareChange?.(value);
-              }}
-            />
+            <div className="catalog-toolbar-actions">
+              <Checkbox
+                className="catalog-compare-control"
+                label="Compare light and dark"
+                checked={compare}
+                onCheckedChange={(value) => {
+                  setCompare(value);
+                  if (value) {
+                    setCompared(true);
+                    if (!focused) {
+                      const bounds = paneResize.root.current?.getBoundingClientRect();
+                      if (bounds && (bounds.bottom > window.innerHeight || bounds.top < 0))
+                        snapWorkspace();
+                    }
+                  }
+                  onCompareChange?.(value);
+                }}
+              />
+              <Tooltip content={focused ? "Exit studio (Esc)" : "Focus workspace"}>
+                <Button
+                  ref={focusToggleRef}
+                  type="button"
+                  variant={focused ? "secondary" : "ghost"}
+                  size="sm"
+                  className="catalog-focus-toggle"
+                  aria-label="Focus workspace"
+                  aria-pressed={focused}
+                  onClick={() => setFocused((current) => !current)}
+                >
+                  <svg
+                    aria-hidden="true"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path
+                      d={
+                        focused
+                          ? "M1 5h4V1m10 4h-4V1M1 11h4v4m10-4h-4v4"
+                          : "M5 1H1v4m10-4h4v4M1 11v4h4m10-4v4h-4"
+                      }
+                    />
+                  </svg>
+                  <span className="catalog-focus-label">{focused ? "Focused" : "Focus"}</span>
+                </Button>
+              </Tooltip>
+            </div>
           </div>
           <div id={`${id}-preview-pane`} className="catalog-styling-preview">
             <div className="catalog-preview-caption">
@@ -559,6 +653,7 @@ function CatalogDetail({
                   code={code}
                   onCodeResult={setCodeResult}
                   fill={!compare && paneResize.split}
+                  fullWidth={compare}
                   active={active}
                   appearance={{ ...appearance, theme: compare ? "light" : appearance.theme, skin }}
                   generation={generation}
@@ -601,6 +696,7 @@ function CatalogDetail({
                     appearance={{ theme: "dark", skin }}
                     generation={generation}
                     storybookRoot={storybookRoot}
+                    expanded={expanded}
                   />
                 </section>
               )}

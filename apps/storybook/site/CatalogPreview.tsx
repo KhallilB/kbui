@@ -22,6 +22,7 @@ type Props = {
   layout: { width: number; minimum: number };
   expanded: boolean;
   fill?: boolean;
+  fullWidth?: boolean;
   appearance: Appearance;
   active?: boolean;
   generation?: number;
@@ -39,6 +40,7 @@ function CachedFrame({
   visible,
   expanded,
   fill,
+  fullWidth,
   appearance,
   pending,
   onReady,
@@ -55,6 +57,7 @@ function CachedFrame({
   visible: boolean;
   expanded: boolean;
   fill: boolean;
+  fullWidth: boolean;
   appearance: Appearance;
   pending: boolean;
   onReady: (id: string) => void;
@@ -269,7 +272,7 @@ function CachedFrame({
       inert={!current || !visible || pending}
       tabIndex={current && visible ? 0 : -1}
       style={{
-        maxWidth: fill ? undefined : entry.layout.width,
+        maxWidth: fill || fullWidth ? undefined : entry.layout.width,
         height: fill ? "100%" : expanded ? expandedHeight : minimumHeight,
         minHeight: fill ? (expanded ? expandedHeight : minimumHeight) : undefined,
       }}
@@ -286,6 +289,7 @@ export function StoryPreview({
   layout,
   expanded,
   fill = false,
+  fullWidth = false,
   appearance,
   active = true,
   generation = 0,
@@ -333,9 +337,10 @@ export function StoryPreview({
       data-fill={fill || undefined}
       style={{
         ...themeStyle(appearance.theme),
-        maxWidth: fill
-          ? undefined
-          : `calc(${displayed?.layout.width ?? layout.width}px + 2 * var(--preview-inset))`,
+        maxWidth:
+          fill || fullWidth
+            ? undefined
+            : `calc(${displayed?.layout.width ?? layout.width}px + 2 * var(--preview-inset))`,
         height: fill ? "100%" : undefined,
         minHeight: `calc(${Math.max(displayed?.layout.minimum ?? layout.minimum, displayed?.height ?? 0)}px + 2 * var(--preview-inset) + 2px)`,
       }}
@@ -350,6 +355,7 @@ export function StoryPreview({
           visible={active && cache.displayed === entry.id && entry.ready}
           expanded={expanded}
           fill={fill}
+          fullWidth={fullWidth}
           appearance={appearance}
           pending={cache.requested === entry.id && pending}
           onReady={ready}
