@@ -439,5 +439,16 @@ describe("buildCss", () => {
 
     const tooltipCss = await read("tooltip.css");
     expect(tooltipCss).toContain("@media (forced-colors: active)");
+
+    const calloutCss = await read("callout.css");
+    expect(calloutCss).toContain("@media (forced-colors: active)");
+    expect(calloutCss).toContain(
+      "border: 1px solid color-mix(in oklab, var(--_callout-ink) 65%, transparent)",
+    );
+    expect(calloutCss).toContain(
+      "background: color-mix(in oklab, var(--_callout-ink) 18%, var(--kb-material-surface-bg))",
+    );
+    expect(calloutCss).toMatch(/--_callout-title:\s*var\(--_callout-ink\)/);
+    expect(calloutCss).toMatch(/\.kb-callout-title \{[\s\S]*?color: var\(--_callout-title\)/);
   });
 });
