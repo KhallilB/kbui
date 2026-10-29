@@ -35,6 +35,73 @@ function Controlled(
 }
 
 describe("MultiSelect", () => {
+  it("keeps filtered choices open while selecting and deselecting with the pointer", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    const onOpenChange = vi.fn();
+    render(<Controlled onChange={onChange} onOpenChange={onOpenChange} />);
+    const input = screen.getByRole("combobox", { name: "Scopes" });
+    await user.click(input);
+    await user.type(input, "o");
+    await user.click(await screen.findByRole("option", { name: "Webhooks" }));
+    expect(input).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByRole("listbox")).toBeInTheDocument();
+    expect(input).toHaveValue("o");
+    await user.click(screen.getByRole("option", { name: "Reporting" }));
+    expect(onChange).toHaveBeenLastCalledWith(["webhooks", "reporting"]);
+    await user.click(screen.getByRole("option", { name: "Webhooks" }));
+    expect(onChange).toHaveBeenLastCalledWith(["reporting"]);
+    expect(screen.getByRole("listbox")).toBeInTheDocument();
+    expect(onOpenChange).not.toHaveBeenCalledWith(false);
+    await user.keyboard("{Escape}");
+    await waitFor(() => expect(screen.queryByRole("listbox")).not.toBeInTheDocument());
+    expect(onOpenChange).toHaveBeenLastCalledWith(false);
+    expect(input).toHaveFocus();
+  });
+
+  it("keeps filtered keyboard selection open until an outside press", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(
+      <>
+        <Controlled onChange={onChange} />
+        <button type="button">Next action</button>
+      </>,
+    );
+    const next = screen.getByRole("button", { name: "Next action" });
+    const input = screen.getByRole("combobox", { name: "Scopes" });
+    await user.click(input);
+    await user.type(input, "Report");
+    await user.keyboard("{ArrowDown}{Enter}");
+    expect(onChange).toHaveBeenLastCalledWith(["reporting"]);
+    expect(input).toHaveAttribute("aria-expanded", "true");
+    expect(screen.getByRole("option", { name: "Reporting" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    await user.keyboard("{Enter}");
+    expect(onChange).toHaveBeenLastCalledWith([]);
+    expect(screen.getByRole("listbox")).toBeInTheDocument();
+    await user.click(next);
+    await waitFor(() => expect(screen.queryByRole("listbox")).not.toBeInTheDocument());
+  });
+
+  it("keeps controlled popup selection open and delegates Escape to the owner", async () => {
+    const user = userEvent.setup();
+    const onOpenChange = vi.fn();
+    const { rerender } = render(<Controlled open onOpenChange={onOpenChange} />);
+    const input = screen.getByRole("combobox", { name: "Scopes" });
+    await user.type(input, "Web");
+    await user.click(await screen.findByRole("option", { name: "Webhooks" }));
+    expect(input).toHaveAttribute("aria-expanded", "true");
+    expect(onOpenChange).not.toHaveBeenCalledWith(false);
+    await user.keyboard("{Escape}");
+    expect(onOpenChange).toHaveBeenLastCalledWith(false);
+    expect(input).toHaveAttribute("aria-expanded", "true");
+    rerender(<Controlled open={false} onOpenChange={onOpenChange} />);
+    await waitFor(() => expect(screen.queryByRole("listbox")).not.toBeInTheDocument());
+  });
+
   it("labels the combobox input and forwards ref without console warnings", () => {
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
@@ -75,6 +142,7 @@ describe("MultiSelect", () => {
     await user.click(within(listbox).getByRole("option", { name: "Webhooks" }));
 
     expect(onChange).toHaveBeenLastCalledWith(["payments", "webhooks"]);
+    await user.keyboard("{Escape}");
     expect(screen.getByRole("button", { name: "Remove Payments" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Remove Webhooks" })).toBeInTheDocument();
   });

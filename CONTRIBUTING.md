@@ -46,6 +46,26 @@ Run one stage locally with `bun run validate:site stories`, `themes`, `responsiv
 
 Container jobs use the image's Node/npm runtime to install the Bun version pinned in `packageManager`; no archive utilities are needed. Before dependency installation, they trust the exact checkout path so Git and Lefthook accept the mounted runner-owned workspace.
 
+## Local review limits
+
+Ordinary comprehensive local reviews retain the review-loop defaults of 400 hand-written production lines and 10 production files. A coherent component family may use the separately approved family limits of **2,000 production lines and 40 production files**. This accounts for colocated public stories, catalog integration, component CSS, token definitions and reusable media assets, which the review tool counts as production surfaces.
+
+Use the family limits only when the components share one documented interaction or presentation contract and splitting would duplicate that contract. Keep unrelated work separate. Above these limits, reduce or split the scope before review. Record the chosen limit and actual size in the local completion report.
+
+The family allowance changes review size only. Exact-head evidence, the Full Slice probe floor, independent review lenses, source and artifact checks, coupled-surface validation, findings closure, signing and required repository checks remain mandatory. A size allowance never makes an unresolved finding acceptable.
+
+For an approved family review, pass these repository-owned limits to the installed review-loop gate:
+
+```bash
+REVIEW_LOOP_SIZE_LIMIT=2000 REVIEW_LOOP_FILE_LIMIT=40 \
+  ~/.codex/skills/review-loop/scripts/review_loop_round.sh gate \
+  tier=full probes=16 base=origin/main \
+  artifact="bun run --filter @kb.ui/storybook build:site" \
+  coupled="bun test scripts/feature-docs.test.ts apps/storybook/stories/catalog-source.test.ts"
+```
+
+Open the review round and record its exact-head executable probes before invoking the gate. Read the completion report; a refused gate still blocks push. The installed review skill owns the full procedure.
+
 ## Before you push
 
 The pre-commit hook lints staged files and typechecks the repository. It does not run tests. Run what CI runs before you push:
@@ -58,7 +78,7 @@ Behavior changes are test-first: write the test, see it fail, then write the cod
 
 ## Public docs and internal stories
 
-Follow [Adding a component](docs/guides/adding-a-component.md), including its [theme and state requirements](docs/guides/adding-a-component.md#theme-and-state-support), when introducing or changing shared controls.
+Follow [Adding a component](docs/guides/adding-a-component.md), including its [theme, selection-state and rendered-contrast requirements](docs/guides/adding-a-component.md#theme-and-state-support), when introducing or changing shared controls. Verify the actual light/dark theme roots and visible control states in the rendered previews.
 
 Public Storybook includes `apps/storybook/docs` and component stories beside `packages/react/src` implementations. Keep reusable component examples there. Site screens, restyle showcases and validation fixtures belong in `apps/storybook/stories`; they are excluded from production bundles and navigation.
 
@@ -73,6 +93,8 @@ Run `bun run --filter @kb.ui/storybook dev:internal` to inspect those fixtures a
 ## Component conventions
 
 The existing components follow every rule below and are the best reference.
+
+For a new shared capability or complete screen recipe, start with [Developing components and screen patterns](docs/guides/component-and-screen-patterns.md). It covers current and concurrent capability, component-versus-recipe ownership, interaction and customization contracts, complete-screen validation, and evidence-backed documentation. Use the smallest applicable workflow; bounded copy or appearance corrections do not require a new study. [Adding a component](docs/guides/adding-a-component.md) owns the package checklist.
 
 - Each component has four files: the `.tsx`, `.test.tsx` and `.stories.tsx` in `packages/react`, and a stylesheet in `packages/css`. A test fails the build if the story or the test is missing.
 - Write the stylesheet's first line before anything else. It is the `Anatomy:` comment listing the component's classes and attributes, and every renderer must follow it.

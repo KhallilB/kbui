@@ -2,15 +2,20 @@ import { render } from "@testing-library/react";
 import type { ReactElement } from "react";
 import { describe, expect, test } from "vitest";
 import {
+  Avatar,
   Callout,
   Checkbox,
   Code,
+  CodeBlock,
+  Collection,
   Combobox,
+  CopyableText,
   Dialog,
   EmptyState,
   ErrorSummary,
   Fieldset,
   FileInput,
+  Image,
   Input,
   MultiSelect,
   NumberField,
@@ -25,6 +30,7 @@ import {
   Status,
   Switch,
   Textarea,
+  Thumbnail,
   Toast,
 } from "./index";
 
@@ -36,6 +42,52 @@ const every = new Proxy({} as Record<string, string>, {
 const camel = (part: string) => part.replace(/-(\w)/g, (_, c: string) => c.toUpperCase());
 
 const cases: [string, () => ReactElement][] = [
+  ["image", () => <Image src="/a.jpg" alt="Photo" classNames={every} />],
+  ["avatar", () => <Avatar name="Maya Chen" classNames={every} />],
+  [
+    "thumbnail",
+    () => <Thumbnail alt="Photo" caption="Study" description="JPG" classNames={every} />,
+  ],
+  [
+    "collection",
+    () => (
+      <Collection
+        items={[{ id: "a" }]}
+        getKey={(item) => item.id}
+        getItemLabel={(item) => item.id}
+        label="Records"
+        columns={[{ key: "id", header: "ID", cell: (item) => item.id }]}
+        classNames={every}
+      />
+    ),
+  ],
+  [
+    "copyabletext",
+    () => <CopyableText value="const count = 42;" highlight="count" classNames={every} />,
+  ],
+  [
+    "copyabletext",
+    () => (
+      <CopyableText
+        value="Request https://example.com"
+        highlight="Request"
+        linkify
+        classNames={every}
+      />
+    ),
+  ],
+  [
+    "copyabletext",
+    () => <CopyableText label="Request" value="id_123" truncate classNames={every} />,
+  ],
+  [
+    "code",
+    () => (
+      <CodeBlock title="Source" language="ts" lineNumbers collapsible classNames={every}>
+        {"const value = 1;"}
+      </CodeBlock>
+    ),
+  ],
   [
     "input",
     () => (
@@ -117,6 +169,22 @@ const cases: [string, () => ReactElement][] = [
         description="d"
         error="e"
         value="a"
+        defaultOpen
+        options={[{ value: "a", label: "A" }]}
+        onValueChange={() => {}}
+        classNames={every}
+      />
+    ),
+  ],
+  [
+    "multiselect",
+    () => (
+      <Combobox
+        multiple
+        label="L"
+        description="d"
+        error="e"
+        value={["a"]}
         defaultOpen
         options={[{ value: "a", label: "A" }]}
         onValueChange={() => {}}

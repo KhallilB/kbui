@@ -6,6 +6,74 @@ type Definition = {
   examples: Record<string, string>;
 };
 export const definitions: Record<string, Definition> = {
+  Avatar: {
+    group: "Media",
+    description:
+      "Recognizable people and organizations with resilient portraits, initials and five shapes.",
+    examples: {
+      Default: "Default",
+      Initials: "Initials Catalog",
+      Shapes: "Shapes",
+      Portraits: "Portrait Collection",
+      People: "People",
+    },
+  },
+  Image: {
+    group: "Media",
+    description: "Stable image frames with crop, contain, responsive sources and failure states.",
+    examples: {
+      Default: "Default",
+      CropAndContain: "Crop and Contain",
+      Ratios: "Ratios",
+      FailureAndRecovery: "Failure and Recovery",
+      AssetLibrary: "Editorial Image Library",
+    },
+  },
+  Thumbnail: {
+    group: "Media",
+    description:
+      "Captioned product and attachment previews that compose into responsive galleries.",
+    examples: {
+      Default: "Default",
+      Products: "Products",
+      Attachments: "Attachments",
+      Gallery: "Gallery",
+    },
+  },
+  CopyableText: {
+    group: "Actions",
+    description: "Copy identifiers, commands and references with visible feedback and recovery.",
+    examples: {
+      Default: "Default",
+      RichContent: "Text and Links",
+      Automatic: "Automatic",
+      LongValue: "Long Value",
+      Colors: "Colors",
+    },
+  },
+  CodeBlock: {
+    group: "Typography",
+    description: "Copy exact source from highlighted, numbered or collapsible code listings.",
+    examples: {
+      Default: "Default",
+      Source: "Source",
+      Colorful: "Colorful",
+      Collapsible: "Collapsible",
+      LongCommand: "Long Command",
+    },
+  },
+  Collection: {
+    group: "Layout",
+    description:
+      "Sort, filter, select and page through records with explicit bulk-action contracts.",
+    examples: {
+      Default: "Default",
+      LargeCollection: "Large Collection",
+      ServerPagination: "Server Pagination",
+      Empty: "Empty",
+      BulkFailure: "Bulk Failure",
+    },
+  },
   Split: {
     group: "Layout",
     description: "Two columns that stack when their parent narrows.",
@@ -60,10 +128,10 @@ export const definitions: Record<string, Definition> = {
   },
   Combobox: {
     group: "Forms",
-    description: "Search and choose one option from a longer list.",
+    description: "Search and choose one or multiple options from a longer list.",
     examples: {
       Default: "Default",
-      Preselected: "Preselected",
+      Multiple: "Multiple selections",
       Invalid: "Invalid",
       Empty: "Empty",
       Disabled: "Disabled",

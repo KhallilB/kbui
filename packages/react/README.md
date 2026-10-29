@@ -52,10 +52,26 @@ For searchable choices, compare [Combobox](docs/components/Combobox.md) and [Mul
 
 Choose by task. Each page contains a complete usage example, canonical API details, focused working stories, and related-component guidance.
 
+### Media and identity
+
+| Component | Use for |
+|---|---|
+| <a id="avatar"></a>[Avatar](docs/components/Avatar.md) | Recognizable people and organizations with photo/initials fallback. |
+| <a id="image"></a>[Image](docs/components/Image.md) | Stable image sizing, crops, containment and failure states. |
+| <a id="thumbnail"></a>[Thumbnail](docs/components/Thumbnail.md) | Captioned products, attachments and gallery previews. |
+
+See [Media and identity](../../docs/guides/media-and-identity.md) for responsive sources, retry and gallery recipes. These components are implemented locally and unreleased.
+### Collections
+
+| Component | Use for |
+|---|---|
+| [Collection](docs/components/Collection.md) | Sort, filter, select and paginate records; includes useCollection, Collection.Pagination and Collection.BulkActions. |
+
 ### Actions
 
 | Component | Use for |
 |---|---|
+| <a id="copyabletext"></a>[CopyableText](docs/components/CopyableText.md) | Copy identifiers and references with feedback and recovery. |
 | <a id="button"></a>[Button](docs/components/Button.md) | Trigger an action or link to another page. |
 | <a id="dialog"></a>[Dialog](docs/components/Dialog.md) | Keep a focused task in a dialog while the page waits behind it. |
 | <a id="menu"></a>[Menu](docs/components/Menu.md) | Keep related actions in a compact popup menu. |
@@ -66,7 +82,7 @@ Choose by task. Each page contains a complete usage example, canonical API detai
 | Component | Use for |
 |---|---|
 | <a id="checkbox"></a>[Checkbox](docs/components/Checkbox.md) | Let people select options independently, including a mixed selection. |
-| <a id="combobox"></a>[Combobox](docs/components/Combobox.md) | Search and choose one option from a longer list. |
+| <a id="combobox"></a>[Combobox](docs/components/Combobox.md) | Search and choose one or multiple options from a longer list. |
 | <a id="errorsummary"></a>[ErrorSummary](docs/components/ErrorSummary.md) | Summarize form validation errors with links that focus each field. |
 | <a id="fieldset"></a>[Fieldset](docs/components/Fieldset.md) | Group related fields with a native fieldset, legend, and section help. |
 | <a id="fileinput"></a>[FileInput](docs/components/FileInput.md) | Choose files, review the list, and remove individual items. |
@@ -111,6 +127,7 @@ Choose by task. Each page contains a complete usage example, canonical API detai
 
 | Component | Use for |
 |---|---|
+| <a id="codeblock"></a>[CodeBlock](docs/components/CodeBlock.md) | Explicit source listings with highlighting, line numbers and copy feedback. |
 | <a id="code"></a>[Code](docs/components/Code.md) | Literal inline code and syntax-highlighted multiline code blocks. |
 | <a id="heading"></a>[Heading](docs/components/Heading.md) | Native heading hierarchy with independent visual sizing. |
 | <a id="link"></a>[Link](docs/components/Link.md) | Recognizable navigation with visible keyboard focus. |
@@ -119,6 +136,8 @@ Choose by task. Each page contains a complete usage example, canonical API detai
 ## Composition guides
 
 Use these when a task spans several components:
+
+- [Copyable content](https://github.com/KhallilB/kbui/blob/main/docs/guides/copyable-content.md): identifiers, commands, exact source and clipboard recovery.
 
 - [Layout composition](https://github.com/KhallilB/kbui/blob/main/docs/guides/layout.md): page boundaries, wrapping rows, responsive columns, and separators.
 - [Typography](https://github.com/KhallilB/kbui/blob/main/docs/guides/typography.md): heading hierarchy, readable copy, links, and inline code.

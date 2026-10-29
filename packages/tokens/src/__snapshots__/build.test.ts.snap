@@ -516,6 +516,54 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-toast-motion-easing: cubic-bezier(0.16, 1, 0.3, 1);
   --kb-toast-enter-offset: var(--kb-space-3);
   --kb-toast-enter-scale: 0.985;
+  --kb-image-radius: var(--kb-radius-lg);
+  --kb-image-border: var(--kb-material-soft-border);
+  --kb-image-background: var(--kb-color-surface);
+  --kb-image-color: var(--kb-color-muted);
+  --kb-image-ratio: 4 / 3;
+  --kb-image-icon-size: var(--kb-space-8);
+  --kb-image-fallback-padding: var(--kb-space-3);
+  --kb-avatar-size: 2.75rem;
+  --kb-avatar-size-xs: var(--kb-space-6);
+  --kb-avatar-size-sm: var(--kb-space-8);
+  --kb-avatar-size-lg: 3.5rem;
+  --kb-avatar-size-xl: 5rem;
+  --kb-avatar-radius: var(--kb-radius-full);
+  --kb-avatar-square-radius: var(--kb-radius-lg);
+  --kb-avatar-font-size: var(--kb-text-body-size);
+  --kb-avatar-font-size-xs: var(--kb-text-caption-size);
+  --kb-avatar-font-size-sm: var(--kb-text-small-size);
+  --kb-avatar-font-size-lg: var(--kb-size-lg);
+  --kb-avatar-font-size-xl: var(--kb-text-h2-size);
+  --kb-avatar-font-weight: var(--kb-font-weight-strong);
+  --kb-avatar-tracking: -0.02em;
+  --kb-avatar-background: var(--kb-color-surface);
+  --kb-avatar-color: var(--kb-color-fg);
+  --kb-avatar-border: var(--kb-material-soft-border);
+  --kb-avatar-shadow: var(--kb-material-inlay-shadow);
+  --kb-thumbnail-gap: var(--kb-space-3);
+  --kb-thumbnail-caption-gap: var(--kb-space-1);
+  --kb-thumbnail-radius: var(--kb-radius-lg);
+  --kb-thumbnail-color: var(--kb-color-fg);
+  --kb-thumbnail-muted: var(--kb-color-muted);
+  --kb-thumbnail-title-size: var(--kb-text-body-size);
+  --kb-thumbnail-description-size: var(--kb-text-small-size);
+  --kb-collection-gap: var(--kb-space-3);
+  --kb-collection-cell-padding: var(--kb-space-3);
+  --kb-collection-radius: var(--kb-radius-md);
+  --kb-collection-border: var(--kb-color-border);
+  --kb-collection-header-background: var(--kb-color-surface);
+  --kb-collection-selected-background: var(--kb-color-surface);
+  --kb-collection-table-min-width: 36rem;
+  --kb-copyabletext-gap: var(--kb-space-3);
+  --kb-copyabletext-padding: var(--kb-space-3);
+  --kb-copyabletext-radius: var(--kb-radius-lg);
+  --kb-copyabletext-border: var(--kb-color-border);
+  --kb-copyabletext-background: var(--kb-color-surface);
+  --kb-copyabletext-target-size: var(--kb-button-height-md);
+  --kb-copyabletext-copy-min-width: 5.5rem;
+  --kb-copyabletext-value-color: var(--kb-color-fg);
+  --kb-copyabletext-highlight-background: color-mix(in srgb, var(--kb-color-warning) 16%, var(--kb-color-surface));
   color-scheme: light;
 }
 
@@ -670,6 +718,22 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-toast-color: var(--kb-color-fg);
   --kb-toast-border: var(--kb-color-border);
   --kb-toast-shadow: var(--kb-material-float-shadow);
+  --kb-image-border: var(--kb-material-soft-border);
+  --kb-image-background: var(--kb-color-surface);
+  --kb-image-color: var(--kb-color-muted);
+  --kb-avatar-background: var(--kb-color-surface);
+  --kb-avatar-color: var(--kb-color-fg);
+  --kb-avatar-border: var(--kb-material-soft-border);
+  --kb-avatar-shadow: var(--kb-material-inlay-shadow);
+  --kb-thumbnail-color: var(--kb-color-fg);
+  --kb-thumbnail-muted: var(--kb-color-muted);
+  --kb-collection-border: var(--kb-color-border);
+  --kb-collection-header-background: var(--kb-color-surface);
+  --kb-collection-selected-background: var(--kb-color-surface);
+  --kb-copyabletext-border: var(--kb-color-border);
+  --kb-copyabletext-background: var(--kb-color-surface);
+  --kb-copyabletext-value-color: var(--kb-color-fg);
+  --kb-copyabletext-highlight-background: color-mix(in srgb, var(--kb-color-warning) 16%, var(--kb-color-surface));
   color-scheme: light;
 }
 
@@ -824,6 +888,22 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-toast-color: var(--kb-color-fg);
   --kb-toast-border: var(--kb-color-border);
   --kb-toast-shadow: var(--kb-material-float-shadow);
+  --kb-image-border: var(--kb-material-soft-border);
+  --kb-image-background: var(--kb-color-surface);
+  --kb-image-color: var(--kb-color-muted);
+  --kb-avatar-background: var(--kb-color-surface);
+  --kb-avatar-color: var(--kb-color-fg);
+  --kb-avatar-border: var(--kb-material-soft-border);
+  --kb-avatar-shadow: var(--kb-material-inlay-shadow);
+  --kb-thumbnail-color: var(--kb-color-fg);
+  --kb-thumbnail-muted: var(--kb-color-muted);
+  --kb-collection-border: var(--kb-color-border);
+  --kb-collection-header-background: var(--kb-color-surface);
+  --kb-collection-selected-background: var(--kb-color-surface);
+  --kb-copyabletext-border: var(--kb-color-border);
+  --kb-copyabletext-background: var(--kb-color-surface);
+  --kb-copyabletext-value-color: var(--kb-color-fg);
+  --kb-copyabletext-highlight-background: color-mix(in srgb, var(--kb-color-warning) 16%, var(--kb-color-surface));
   color-scheme: dark;
 }
 
@@ -979,6 +1059,22 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-toast-color: var(--kb-color-fg);
     --kb-toast-border: var(--kb-color-border);
     --kb-toast-shadow: var(--kb-material-float-shadow);
+    --kb-image-border: var(--kb-material-soft-border);
+    --kb-image-background: var(--kb-color-surface);
+    --kb-image-color: var(--kb-color-muted);
+    --kb-avatar-background: var(--kb-color-surface);
+    --kb-avatar-color: var(--kb-color-fg);
+    --kb-avatar-border: var(--kb-material-soft-border);
+    --kb-avatar-shadow: var(--kb-material-inlay-shadow);
+    --kb-thumbnail-color: var(--kb-color-fg);
+    --kb-thumbnail-muted: var(--kb-color-muted);
+    --kb-collection-border: var(--kb-color-border);
+    --kb-collection-header-background: var(--kb-color-surface);
+    --kb-collection-selected-background: var(--kb-color-surface);
+    --kb-copyabletext-border: var(--kb-color-border);
+    --kb-copyabletext-background: var(--kb-color-surface);
+    --kb-copyabletext-value-color: var(--kb-color-fg);
+    --kb-copyabletext-highlight-background: color-mix(in srgb, var(--kb-color-warning) 16%, var(--kb-color-surface));
     color-scheme: dark;
   }
 }

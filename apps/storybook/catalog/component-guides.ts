@@ -9,6 +9,86 @@ export type ComponentGuide = {
 };
 
 export const componentGuides: Record<string, ComponentGuide> = {
+  Avatar: {
+    use: "Identify a person or organization consistently when a photo is loading, absent or broken.",
+    example: {
+      title: "Recognize collaborators",
+      description:
+        "Explore 24 initials identities, six original portraits and five clipping shapes, then pair a fixed-size portrait with a visible name and role.",
+    },
+    tips: [
+      "Use decorative beside an equivalent visible name to avoid duplicate announcements.",
+      "Supply initials for locale-specific name conventions; keep presence and actions in separate labeled controls.",
+    ],
+    accessibility: accessibilityGuides.Avatar,
+  },
+  Image: {
+    use: "Reserve space before an image loads and keep the same alternative when its request fails.",
+    example: {
+      title: "Frame media without layout jumps",
+      description:
+        "Compare cover and contain, fixed ratios, intrinsic dimensions, and replacement after failure.",
+    },
+    tips: [
+      "Use contain for products and documents whose edges matter; position selects a cover crop focal point.",
+      "Use ratio=auto with both width and height for intrinsic framing; choose srcSet, sizes and loading for the real screen.",
+    ],
+    accessibility: accessibilityGuides.Image,
+  },
+  Thumbnail: {
+    use: "Present identifiable products, image studies and attachments with persistent captions and metadata.",
+    example: {
+      title: "Build a readable media collection",
+      description:
+        "Compose Thumbnail figures inside Grid list items; use a caption Link for navigation or Dialog trigger for inspection.",
+    },
+    tips: [
+      "Keep filenames, format and size in the caption; never infer file metadata from a URL.",
+      "Use one clear native action per item. Grid preserves reading order and Dialog supplies modal focus behavior.",
+    ],
+    accessibility: accessibilityGuides.Thumbnail,
+  },
+  CopyableText: {
+    use: "Let people copy an identifier, command or reference without selecting it precisely.",
+    example: {
+      title: "Share a precise support reference",
+      description:
+        "Preserve case and whitespace, confirm completed copies and recover from denied clipboard access.",
+    },
+    tips: [
+      "value is authoritative even when children formats its display; expanding or failure reveals exact value for inspection and manual copying.",
+      "Use truncate for full-value disclosure, tone for color, highlight for literal emphasis and automatic URL/email/code detection. Override ambiguous content with format=text or format=code. Use mono=false for prose.",
+      "Success resets after two seconds by default. Errors remain until retry or content change; callbacks report only current writes.",
+    ],
+    accessibility: accessibilityGuides.CopyableText,
+  },
+  CodeBlock: {
+    use: "Present copyable commands, configuration and source in an explicit block listing.",
+    example: {
+      title: "Copy a command exactly",
+      description:
+        "Use the same source for display and clipboard, with readable syntax, optional line numbers and a collapsible viewport.",
+    },
+    tips: [
+      "CodeBlock always renders a block; use Code for inline literals or automatic block selection.",
+      "Collapsed listings still copy the full original source, without line numbers or visual emphasis.",
+      "Use title to name the scroll region and localize copy feedback through shared props. code.css supplies shared styles and codeblock.css keeps untitled toolbar actions in normal flow.",
+    ],
+    accessibility: accessibilityGuides.CodeBlock,
+  },
+  Collection: {
+    use: "Work through records using sorting, search, facets, page selection and explicit bulk actions.",
+    example: {
+      title: "Manage a project directory",
+      description:
+        "Select records across pages, archive them, filter by status, and compare server ownership and failure states.",
+    },
+    tips: [
+      "Select this page affects eligible visible records only; query and facet changes clear selection.",
+      "Use server mode for remote datasets and useCollection for custom lists. Applications own authorization, fetching and mutation recovery.",
+    ],
+    accessibility: accessibilityGuides.Collection,
+  },
   Container: {
     use: "Align page sections with shared maximum widths and responsive gutters.",
     example: {
@@ -244,14 +324,16 @@ export const componentGuides: Record<string, ComponentGuide> = {
     accessibility: accessibilityGuides.Menu,
   },
   Combobox: {
-    use: "Let people filter a longer option list by typing before choosing one value. Use Select when the list is short enough to scan without typing.",
+    use: "Let people filter a longer option list by typing before choosing one or multiple values. Enable multiple for removable selection chips. Use Select when a single-choice list is short enough to scan without typing.",
     example: {
       title: "Find a deployment region",
       description:
         "Type to narrow the region list, choose a region with the keyboard or pointer, and clear the selection when needed.",
     },
     tips: [
-      "Pass null when nothing is selected and update value in onValueChange.",
+      "Pass null for an empty single selection; with multiple, pass an array and update it in onValueChange.",
+      "Multiple mode keeps the filtered list open across choices; use Escape, an outside click, or the toggle to finish.",
+      "Multiple mode reuses MultiSelect behavior, chip slots, and styling; customize removeLabel for chip actions.",
       "Keep emptyMessage specific so people know whether no options exist or none match their filter.",
     ],
     accessibility: accessibilityGuides.Combobox,
@@ -265,6 +347,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
     },
     tips: [
       "Keep option labels concise so multiple chips wrap cleanly inside bounded containers.",
+      "The list stays open after choices and retains the filter; dismiss with Escape, an outside click, or the toggle.",
       "Customize removeLabel when option labels need extra context in screen reader announcements.",
     ],
     accessibility: accessibilityGuides.MultiSelect,

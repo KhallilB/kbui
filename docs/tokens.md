@@ -131,3 +131,7 @@ When developing against a local kbui checkout, `bun add ../kbui/packages/tokens`
 3. Check the result in Storybook under **Foundations / Tokens**. The swatches follow your system theme; to compare both themes, open a component story and use the theme switch in the toolbar.
 
 Components should reference semantic, scale or component tokens, never palette colors or raw values. `bun run check` fails on a raw size, padding, gap, radius, font size, font weight, duration or easing in component CSS; hairlines up to 2px, `0` and `em` lengths are allowed. A new component can define its own group, such as `badge.radius`, without further setup.
+
+## Media and identity
+
+`--kb-avatar-*` owns fixed size presets, initials typography, shape, paired fallback colors, border and shadow. `--kb-image-*` owns default ratio, radius, border, fallback colors, padding and icon size. `--kb-thumbnail-*` owns caption spacing, title/metadata sizes and semantic colors. See [media recipes](guides/media-and-identity.md) and canonical component APIs for framing and class slots.

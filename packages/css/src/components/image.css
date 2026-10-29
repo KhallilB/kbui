@@ -1,0 +1,65 @@
+/* Anatomy: .kb-image [data-ratio=square|landscape|portrait|wide|auto] [data-fit=cover|contain] [data-state=empty|loading|loaded|error] > .kb-image-fallback + .kb-image-image */
+.kb-image {
+  position: relative;
+  display: inline-grid;
+  inline-size: 100%;
+  min-inline-size: 0;
+  aspect-ratio: var(--kb-image-ratio);
+  overflow: hidden;
+  isolation: isolate;
+  vertical-align: middle;
+  border: 1px solid var(--kb-image-border);
+  border-radius: var(--kb-image-radius);
+  background: var(--kb-image-background);
+  color: var(--kb-image-color);
+}
+.kb-image[data-ratio="square"] {
+  aspect-ratio: 1;
+}
+.kb-image[data-ratio="portrait"] {
+  aspect-ratio: 3 / 4;
+}
+.kb-image[data-ratio="wide"] {
+  aspect-ratio: 16 / 9;
+}
+.kb-image-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--kb-image-fallback-padding);
+  overflow: hidden;
+  font-size: var(--kb-text-small-size);
+  font-weight: var(--kb-font-weight-medium);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.kb-image-fallback > svg {
+  inline-size: var(--kb-image-icon-size);
+  max-inline-size: 100%;
+}
+.kb-image-image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  visibility: hidden;
+}
+.kb-image[data-fit="contain"] > .kb-image-image {
+  object-fit: contain;
+}
+.kb-image[data-state="loaded"] > .kb-image-image {
+  visibility: visible;
+}
+.kb-image[data-state="loaded"] > .kb-image-fallback {
+  visibility: hidden;
+}
+@media (forced-colors: active) {
+  .kb-image {
+    border-color: CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
+}

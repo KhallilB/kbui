@@ -1,6 +1,130 @@
 import type { AccessibilityGuide } from "./accessibility-standards";
 
 export const accessibilityGuides = {
+  Avatar: {
+    provides: [
+      "name labels one image role through photo loading and failure; initials are visual-only fallback content.",
+      "decorative hides duplicate identity, while size and shape keep fixed media dimensions.",
+    ],
+    authoring: [
+      "Provide a meaningful name or localized aria-label. Set decorative when an equivalent visible name is adjacent.",
+      "Use a named Link or Button for profile navigation; Avatar itself adds no focus stop. Override initials for local naming conventions.",
+    ],
+    verify: [
+      "Read a standalone avatar with a screen reader before and after a failed request; identity should be announced once. Beside a visible name, decorative avatars should be skipped.",
+      "Inspect every size in light, dark and forced colors; initials must remain readable and surrounding actions must retain keyboard focus.",
+    ],
+    standards: ["1.1.1", "1.4.3", "4.1.2"],
+  },
+  Image: {
+    provides: [
+      "A named image role persists through loading, success and error; alt=empty hides decorative media.",
+      "Fixed aspect ratios reserve layout. Source attributes and load/error callbacks reach the native image; source changes start fresh request state.",
+    ],
+    authoring: [
+      "Supply an alternative describing purpose in context. Keep complex-image explanations in surrounding content and use aria-describedby when needed.",
+      "Fallback content must be non-interactive; it is visual-only. Put actionable errors or retry buttons outside Image with their own names. Use contain when cropping would hide essential information.",
+    ],
+    verify: [
+      "Block an image request, then load a replacement: frame dimensions must stay fixed and its accessible name must remain available. Decorative media must be absent from the accessibility tree.",
+      "At 320 CSS pixels, enlarged text, both themes and forced colors, check framing, fallback text, and the visible subject. Automated tests do not replace manual screen-reader verification.",
+    ],
+    standards: ["1.1.1", "1.4.3", "1.4.10"],
+  },
+  Thumbnail: {
+    provides: [
+      "A native figure is named by its caption unless the caller supplies a name; image alternatives and metadata survive failure.",
+      "The figure adds no focus stop; caption Links, Buttons and Dialog triggers keep their native interaction.",
+    ],
+    authoring: [
+      "Use alt for meaningful visual information and an empty alternative for a decorative attachment tile already identified by its filename.",
+      "Compose Grid as ul with li children. Use named caption actions; never place interactive content in image fallback or nest controls. Gallery modal behavior belongs to Dialog.",
+    ],
+    verify: [
+      "Read the gallery as a list and check each figure, alternative and filename. Fail a request: title, format and size must stay readable.",
+      "Tab to View Alpine study, press Enter, inspect the named dialog, then Escape; focus must return to its trigger. At 320 CSS pixels verify source order, long captions and visible focus without horizontal overflow.",
+    ],
+    standards: ["1.1.1", "1.3.1", "1.3.2", "1.4.10", "2.1.1", "2.4.3", "2.4.7", "4.1.2"],
+  },
+  CopyableText: {
+    provides: [
+      "Native type=button action supports Enter and Space. Pending writes keep focus and suppress repeated activation; disabled or empty values cannot copy.",
+      "A persistent polite, atomic status announces pending, success and failure. Failure instructions stay visible; truncation is removed and exact value shown for manual copying.",
+      "copyLabel and feedback props localize action names and announcements. Content remains selectable and success resets after feedbackDuration (zero retains it).",
+      "truncate adds an Enter/Space disclosure with aria-expanded and aria-controls; expansion wraps exact value across full width and remains available when copying is disabled.",
+      "tone colors content independently of clipboard state; forced colors restore system text colors.",
+      "highlight uses mark and bold emphasis. Automatic web/email detection reuses underlined native Link controls; automatic links are absent from Tab order until truncated content expands.",
+    ],
+    authoring: [
+      "Use a purpose-specific copyLabel when multiple copy controls appear together. label supplies visible context, not the button name.",
+      "Translate expandLabel and collapseLabel alongside copy feedback. Keep meaning in value and label rather than color; do not use this component to conceal secrets.",
+      "Use format=text or linkify=false when detected content should remain literal. Source-code ranges are noninteractive; email destinations open the user’s mail handler. Keep interactive authored children out of clipped previews.",
+      "Provide HTTPS or localhost for the Clipboard API. Browser permission, activation and host policy can still prevent copying.",
+    ],
+    verify: [
+      "Tab to each copy action, activate with Enter and Space and compare clipboard bytes with value, including case and whitespace. Focus must stay on action.",
+      "Expand and collapse a truncated value with touch, Enter and Space; focus stays on disclosure and the whole raw value wraps. Deny clipboard permission: retry and manual-copy instructions appear, expanding the exact value for selection.",
+      "With a screen reader, confirm pending, success and failure announcements without reading initial empty status. Test 320px, zoom, dark theme and forced colors for visible focus and reachable actions.",
+      "Expand a linked value, Shift+Tab to its links, and check native link semantics, visible focus and correct destination. Tab back to disclosure and Copy; copying must preserve source without navigating.",
+    ],
+    standards: [
+      "1.3.1",
+      "1.4.1",
+      "1.4.3",
+      "1.4.10",
+      "2.1.1",
+      "2.4.7",
+      "2.5.3",
+      "2.5.8",
+      "4.1.2",
+      "4.1.3",
+    ],
+  },
+  CodeBlock: {
+    provides: [
+      "Native pre/code preserves source. Line-number decorations are hidden from assistive technology and excluded from clipboard text.",
+      "Copy uses the same pending, success and error feedback as CopyableText. Copy remains available for the complete source while collapsed.",
+      "The named viewport is keyboard focusable for scrolling. Collapse controls expose aria-expanded and aria-controls without moving focus.",
+    ],
+    authoring: [
+      "Provide a descriptive title for the listing and its scroll region. Customize copyLabel when several blocks need distinct names.",
+      "Use highlightLines only as additional emphasis; explain important lines in prose. Confirm syntax and feedback contrast after token changes.",
+      "Do not put secrets in source. Clipboard writes require HTTPS or localhost and can fail under browser policy; preserve manual-copy recovery.",
+    ],
+    verify: [
+      "Tab to copy and expand/collapse controls; activate with Enter and Space. Copy while collapsed and compare full source including indentation and trailing newlines.",
+      "Focus the viewport and scroll long listings with keyboard. At 320px and zoom, only code viewport should scroll horizontally; controls and messages remain visible.",
+      "Deny clipboard access and retry. With a screen reader, check polite status, collapse state and region name. Verify focus under dark theme and forced colors; human assistive-technology coverage remains application-owned.",
+    ],
+    standards: [
+      "1.3.1",
+      "1.4.1",
+      "1.4.3",
+      "1.4.10",
+      "2.1.1",
+      "2.4.7",
+      "2.5.3",
+      "2.5.8",
+      "4.1.2",
+      "4.1.3",
+    ],
+  },
+  Collection: {
+    provides: [
+      "Native table headers and caption, aria-sort, named checkboxes with mixed page selection, labeled filters and pagination.",
+      "Polite result, page, selection and pending statuses; failed actions retain selection and expose an alert. Controls lock while fetching or submitting.",
+    ],
+    authoring: [
+      "Supply stable unique IDs, meaningful label and getItemLabel, readable cell content and a matches predicate for client filtering.",
+      "Own server authorization, request cancellation, confirmation of destructive actions, partial failures and focus recovery after removing records. Off-page eligibility must be rechecked by the server.",
+    ],
+    verify: [
+      "Tab through search, facets, sort, row checkboxes, actions and pagination. Use Space to select a row and confirm the page checkbox becomes mixed; page changes retain off-page selection.",
+      "With a screen reader, confirm table caption/header relationships, sort direction, checkbox names and result/action feedback. Manual screen-reader interoperability remains unverified.",
+      "At 320 CSS pixels, scroll the named table region with keyboard; controls must wrap and focus remain visible. Repeat in both themes, forced colors and enlarged text; table cells may require two-dimensional scrolling.",
+    ],
+    standards: ["1.3.1", "1.4.1", "1.4.10", "2.1.1", "2.4.7", "4.1.2", "4.1.3"],
+  },
   Container: {
     provides: [
       "The as prop selects a native landmark or section element; native naming attributes and refs pass through.",

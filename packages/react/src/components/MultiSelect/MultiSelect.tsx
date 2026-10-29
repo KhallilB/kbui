@@ -189,7 +189,11 @@ export const MultiSelect = forwardRef<HTMLInputElement, MultiSelectProps>(functi
       }}
       open={open}
       defaultOpen={defaultOpen}
-      onOpenChange={(next) => {
+      onOpenChange={(next, details) => {
+        if (!next && details.reason === "item-press") {
+          details.cancel();
+          return;
+        }
         onOpenChange?.(next);
       }}
       disabled={disabled}

@@ -1,3 +1,4 @@
+export { Avatar, type AvatarProps, type AvatarShape } from "./components/Avatar/Avatar";
 export {
   Badge,
   type BadgeAppearance,
@@ -22,10 +23,30 @@ export {
   type CodeToken,
   tokenizeCode,
 } from "./components/Code/Code";
+export { CodeBlock, type CodeBlockProps } from "./components/CodeBlock/CodeBlock";
+export type {
+  CollectionBulkAction,
+  CollectionBulkActionsProps,
+  CollectionColumn,
+  CollectionFilter,
+  CollectionPaginationProps,
+  CollectionProps,
+} from "./components/Collection/Collection";
+export { Collection } from "./components/Collection/Collection";
+export type {
+  CollectionController,
+  CollectionData,
+  CollectionSort,
+  CollectionState,
+  UseCollectionOptions,
+} from "./components/Collection/useCollection";
+export { useCollection } from "./components/Collection/useCollection";
 export {
   Combobox,
+  type ComboboxMultipleProps,
   type ComboboxOption,
   type ComboboxProps,
+  type ComboboxSingleProps,
   type ComboboxSlot,
 } from "./components/Combobox/Combobox";
 export {
@@ -34,6 +55,13 @@ export {
   type ContainerProps,
   type ContainerSize,
 } from "./components/Container/Container";
+export {
+  CopyableText,
+  type CopyableTextFormat,
+  type CopyableTextPart,
+  type CopyableTextProps,
+  type CopyableTextTone,
+} from "./components/CopyableText/CopyableText";
 export {
   Dialog,
   type DialogActionsProps,
@@ -89,6 +117,7 @@ export {
   type HeadingProps,
   type HeadingSize,
 } from "./components/Heading/Heading";
+export { Image, type ImageProps, type ImageRatio } from "./components/Image/Image";
 export {
   Inline,
   type InlineElement,
@@ -200,6 +229,7 @@ export {
   type TextareaProps,
   type TextareaResize,
 } from "./components/Textarea/Textarea";
+export { Thumbnail, type ThumbnailProps } from "./components/Thumbnail/Thumbnail";
 export {
   createToastManager,
   Toast,
@@ -230,3 +260,4 @@ export {
 export { Tooltip, type TooltipProps } from "./components/Tooltip/Tooltip";
 export { type ClassNames, kb } from "./utils/kb";
 export type { LayoutAlign, LayoutGap } from "./utils/layout";
+export type { CopyFeedbackProps, CopyState } from "./utils/useClipboard";

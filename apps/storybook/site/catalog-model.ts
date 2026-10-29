@@ -25,6 +25,7 @@ export function storybookGlobals({ theme }: CatalogAppearance) {
 }
 
 export const layoutPreviewComponents = [
+  "collection",
   "grid",
   "container",
   "inline",
@@ -35,6 +36,8 @@ export const layoutPreviewComponents = [
 ] as const;
 
 export const surfacePreviewComponents = [
+  "copyabletext",
+  "codeblock",
   "input",
   "textarea",
   "fieldset",
@@ -49,6 +52,8 @@ export const surfacePreviewComponents = [
   "skeleton",
   "toast",
   "progress",
+  "image",
+  "thumbnail",
 ] as const;
 
 export function previewKind(component: string | undefined): "layout" | "surface" | "compact" {
@@ -64,10 +69,12 @@ export function previewLayout(component: string, _story: string) {
   if (component === "tooltip") return { width: 520, minimum: 160 };
   if (["select", "combobox", "multiselect"].includes(component))
     return { width: 1120, minimum: 240 };
-  if (["grid", "container", "inline", "split", "panel"].includes(component))
+  if (["collection", "grid", "container", "inline", "split", "panel"].includes(component))
     return { width: 1120, minimum: 160 };
   if (
     [
+      "copyabletext",
+      "codeblock",
       "input",
       "textarea",
       "fieldset",
@@ -79,6 +86,8 @@ export function previewLayout(component: string, _story: string) {
       "skeleton",
       "toast",
       "progress",
+      "image",
+      "thumbnail",
       "scrollarea",
     ].includes(component)
   )
