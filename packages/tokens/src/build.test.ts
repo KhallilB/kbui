@@ -582,3 +582,14 @@ describe("form component tokens", () => {
     expect(css).toContain("--kb-errorsummary-gap: var(--kb-space-2);");
   });
 });
+
+describe("grid component tokens", () => {
+  test("defines gap and min-item-width preset tokens", () => {
+    const { css } = buildTokens(real as TokenTree);
+    expect(css).toContain("--kb-grid-gap: var(--kb-space-6);");
+    expect(css).toContain("--kb-grid-min-item-width: 18.75rem;");
+    expect(css).toContain("--kb-grid-min-item-width-sm: 14rem;");
+    expect(css).toContain("--kb-grid-min-item-width-md: var(--kb-grid-min-item-width);");
+    expect(css).toContain("--kb-grid-min-item-width-lg: 24rem;");
+  });
+});
