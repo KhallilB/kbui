@@ -12,6 +12,7 @@ export function CatalogComparisonPreview({
   generation,
   storybookRoot,
   code,
+  expanded = false,
 }: {
   code?: CodeRequest;
   active: boolean;
@@ -20,6 +21,7 @@ export function CatalogComparisonPreview({
   appearance: CatalogAppearance;
   generation: number;
   storybookRoot: string;
+  expanded?: boolean;
 }) {
   const key = `${story.id}:${generation}`;
   const [load, setLoad] = useState({ key, phase: "loading" });
@@ -31,7 +33,8 @@ export function CatalogComparisonPreview({
       appearance={appearance}
       generation={generation}
       cacheLimit={2}
-      expanded={false}
+      expanded={expanded}
+      fullWidth
       pending={phase === "loading" || phase === "slow"}
       status={
         phase === "failed"

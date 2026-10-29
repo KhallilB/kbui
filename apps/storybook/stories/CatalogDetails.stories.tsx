@@ -31,9 +31,15 @@ export const EditorSpaceAndHints: Story = {
         pane.getBoundingClientRect().bottom -
         Number.parseFloat(getComputedStyle(pane).paddingBottom);
       expect(editor.getBoundingClientRect().bottom).toBeCloseTo(bottom, 0);
+      const workspace = canvasElement.querySelector<HTMLElement>(".catalog-styling-workspace");
+      if (!workspace) throw new Error("Missing styling workspace");
+      if (innerHeight >= 760) {
+        expect(workspace.getBoundingClientRect().height).toBeLessThanOrEqual(innerHeight - 80);
+      }
     }
     expect(page.queryByRole("status", { name: "Editor notification" })).toBeNull();
     for (const name of [
+      "Focus workspace",
       "Expand preview",
       "Reload preview",
       "Open example in Storybook",
@@ -50,6 +56,33 @@ export const EditorSpaceAndHints: Story = {
       await userEvent.keyboard("{Escape}");
       await waitFor(() => expect(document.querySelector(".kb-tooltip")).toBeNull());
     }
+    const focusToggle = page.getByRole("button", { name: "Focus workspace" });
+    expect(focusToggle).toHaveAttribute("aria-pressed", "false");
+    await userEvent.click(focusToggle);
+    expect(focusToggle).toHaveAttribute("aria-pressed", "true");
+    expect(focusToggle).toHaveFocus();
+    const focusedWorkspace = canvasElement.querySelector<HTMLElement>(".catalog-styling-workspace");
+    if (!focusedWorkspace) throw new Error("Missing styling workspace");
+    expect(focusedWorkspace).toHaveAttribute("data-focused", "true");
+    expect(getComputedStyle(focusedWorkspace).position).toBe("fixed");
+    expect(canvasElement.querySelector(".catalog-studio-backdrop")).not.toBeNull();
+    expect(getComputedStyle(document.documentElement).overflow).toBe("hidden");
+    expect(focusedWorkspace.querySelector(".catalog-skin-heading")).not.toBeVisible();
+    if (innerWidth >= 520 && innerHeight >= 640) {
+      await waitFor(() => {
+        const bounds = focusedWorkspace.getBoundingClientRect();
+        expect(bounds.top).toBeGreaterThanOrEqual(0);
+        expect(bounds.top).toBeLessThanOrEqual(24);
+        expect(bounds.bottom).toBeGreaterThanOrEqual(innerHeight - 24);
+        expect(bounds.bottom).toBeLessThanOrEqual(innerHeight);
+        expect(bounds.width).toBeGreaterThanOrEqual(innerWidth - 40);
+      });
+    }
+    await userEvent.keyboard("{Escape}");
+    expect(focusToggle).toHaveAttribute("aria-pressed", "false");
+    expect(focusedWorkspace).not.toHaveAttribute("data-focused");
+    expect(canvasElement.querySelector(".catalog-studio-backdrop")).toBeNull();
+    expect(getComputedStyle(document.documentElement).overflow).not.toBe("hidden");
     const copy = page.getByRole("button", { name: "Copy code" });
     copy.focus();
     const hint = await within(document.body).findByText("Copy code", { selector: ".kb-tooltip" });
@@ -249,6 +282,47 @@ export const CompareThemes: Story = {
     const dark = page.getByTitle("Input — Default Dark comparison");
     expect(light).toHaveAttribute("data-preview-theme", "light");
     expect(dark).toHaveAttribute("data-preview-theme", "dark");
+    const lightPane = page.getByRole("region", { name: "Light preview" });
+    const darkPane = page.getByRole("region", { name: "Dark comparison" });
+    const forcedColors = matchMedia("(forced-colors: active)").matches;
+    for (const pane of [lightPane, darkPane]) {
+      const style = getComputedStyle(pane);
+      expect(Number.parseFloat(style.borderTopWidth)).toBeGreaterThanOrEqual(1);
+      expect(Number.parseFloat(style.borderTopLeftRadius)).toBeGreaterThanOrEqual(12);
+      if (!forcedColors) expect(style.boxShadow).not.toBe("none");
+    }
+    if (!forcedColors) {
+      expect(getComputedStyle(lightPane).backgroundColor).not.toBe(
+        getComputedStyle(darkPane).backgroundColor,
+      );
+    }
+    if (innerWidth >= 520) {
+      const preview = canvasElement.querySelector<HTMLElement>(".catalog-styling-preview");
+      const caption = preview?.querySelector<HTMLElement>(".catalog-preview-caption");
+      const editor = page.getByRole("region", { name: "Preview styling" });
+      if (!preview || !caption) throw new Error("Missing preview pane");
+      expect(page.getByRole("separator", { name: "Resize preview and editor" })).toBeVisible();
+      expect(editor.getBoundingClientRect().left).toBeGreaterThanOrEqual(
+        preview.getBoundingClientRect().right - 1,
+      );
+      const previewStyle = getComputedStyle(preview);
+      const stageTop =
+        caption.getBoundingClientRect().bottom + Number.parseFloat(previewStyle.rowGap || "0");
+      const stageBottom =
+        preview.getBoundingClientRect().bottom - Number.parseFloat(previewStyle.paddingBottom);
+      const groupTop = lightPane.getBoundingClientRect().top;
+      const groupBottom = Math.max(
+        lightPane.getBoundingClientRect().bottom,
+        darkPane.getBoundingClientRect().bottom,
+      );
+      if (groupBottom - groupTop < stageBottom - stageTop - 24) {
+        expect(Math.abs(groupTop - stageTop - (stageBottom - groupBottom))).toBeLessThanOrEqual(24);
+      }
+    }
+    await userEvent.click(page.getByRole("button", { name: "Expand preview" }));
+    await waitFor(() => expect(dark.getBoundingClientRect().height).toBeGreaterThanOrEqual(400));
+    await userEvent.click(page.getByRole("button", { name: "Compact preview" }));
+    await waitFor(() => expect(dark.getBoundingClientRect().height).toBeLessThan(240));
     await userEvent.click(page.getByRole("switch", { name: "Dark mode" }));
     expect(page.getByTitle("Input — Default live example")).toBe(light);
     expect(page.getByTitle("Input — Default Dark comparison")).toBe(dark);
