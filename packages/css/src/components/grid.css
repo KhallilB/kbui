@@ -1,11 +1,92 @@
-/* Anatomy: .kb-grid [data-layout=auto|stack] */
+/* Anatomy: .kb-grid [data-layout=auto|stack] [data-columns=auto|1|2|3|4] [data-min-item-width=sm|md|lg] [data-gap=none|sm|md|lg] [data-align=start|center|end|baseline|stretch] > * */
 .kb-grid {
+  --_grid-min-width: var(--kb-grid-min-item-width);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--kb-grid-min-item-width)), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--_grid-min-width)), 1fr));
   gap: var(--kb-grid-gap);
+  align-items: stretch;
   min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-wrap: anywhere;
 }
 
-.kb-grid[data-layout="stack"] {
+.kb-grid > * {
+  margin: 0;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+
+.kb-grid[data-min-item-width="sm"] {
+  --_grid-min-width: var(--kb-grid-min-item-width-sm);
+}
+
+.kb-grid[data-min-item-width="md"] {
+  --_grid-min-width: var(--kb-grid-min-item-width-md);
+}
+
+.kb-grid[data-min-item-width="lg"] {
+  --_grid-min-width: var(--kb-grid-min-item-width-lg);
+}
+
+.kb-grid[data-columns="2"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.kb-grid[data-columns="3"] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.kb-grid[data-columns="4"] {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.kb-grid[data-layout="stack"],
+.kb-grid[data-columns="1"] {
   grid-template-columns: minmax(0, 1fr);
+}
+
+@media (max-width: 480px) {
+  .kb-grid[data-columns="2"],
+  .kb-grid[data-columns="3"],
+  .kb-grid[data-columns="4"] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.kb-grid[data-gap="none"] {
+  gap: 0;
+}
+
+.kb-grid[data-gap="sm"] {
+  gap: var(--kb-layout-gap-sm);
+}
+
+.kb-grid[data-gap="md"] {
+  gap: var(--kb-layout-gap-md);
+}
+
+.kb-grid[data-gap="lg"] {
+  gap: var(--kb-layout-gap-lg);
+}
+
+.kb-grid[data-align="start"] {
+  align-items: start;
+}
+
+.kb-grid[data-align="center"] {
+  align-items: center;
+}
+
+.kb-grid[data-align="end"] {
+  align-items: end;
+}
+
+.kb-grid[data-align="baseline"] {
+  align-items: baseline;
+}
+
+.kb-grid[data-align="stretch"] {
+  align-items: stretch;
 }

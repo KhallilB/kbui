@@ -67,7 +67,14 @@ export {
   type FormActionsAlign,
   type FormActionsProps,
 } from "./components/FormActions/FormActions";
-export { Grid, type GridProps } from "./components/Grid/Grid";
+export {
+  Grid,
+  type GridColumns,
+  type GridElement,
+  type GridLayout,
+  type GridMinItemWidth,
+  type GridProps,
+} from "./components/Grid/Grid";
 export {
   Heading,
   type HeadingLevel,

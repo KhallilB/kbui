@@ -356,22 +356,27 @@ Card adds no link, button, keyboard handler, or tab stop. If a link covers the w
 
 ## Grid
 
-Arrange cards or other content in equal columns that fit the available width. Grid uses ordinary CSS layout, without an ARIA grid role or special keyboard navigation.
+Arrange cards or other content in responsive columns, fixed column counts, or a single vertical stack. Grid uses ordinary CSS layout, without an ARIA grid role or special keyboard navigation, and resets native list markers and margins when rendered as `ul` or `ol`.
 
 | Prop | Type | Default | Notes |
 |---|---|---|---|
 | `as` | `div` / `ul` / `ol` | `div` | Use ul or ol for a collection; children must then be list items |
 | `layout` | `auto` / `stack` | `auto` | Auto fits equal columns to available width; stack uses one column |
+| `columns` | `auto` / `1` / `2` / `3` / `4` | `auto` | Explicit equal column count (collapsing to 1 on narrow mobile viewports) or automatic wrapping |
+| `minItemWidth` | `sm` / `md` / `lg` | `md` | Minimum width (`14rem`, `18.75rem`, `24rem`) before automatic columns wrap |
+| `gap` | `none` / `sm` / `md` / `lg` | `lg` (`--kb-grid-gap`) | Space between columns and stacked rows |
+| `align` | `start` / `center` / `end` / `baseline` / `stretch` | `stretch` | Cross-axis alignment within each grid row |
 | `children` | `ReactNode` | unset | Content in document and keyboard order |
 | `className`, `style`, `ref` | native element props | unset | Style and reference the chosen container |
 
 ```tsx
-<Grid as="ul" aria-label="Projects">
+<Grid as="ul" layout="stack" gap="md" aria-label="Projects">
   <Card as="li"><h2><a href="/project">Project</a></h2><p>Summary</p></Card>
 </Grid>
 ```
 
-Use --kb-grid-gap and --kb-grid-min-item-width to adjust spacing and column fit. Keep the visual order the same as the reading order.
+Use `minItemWidth`, `columns`, `gap`, and `align` for common layouts, or override `--kb-grid-gap` and `--kb-grid-min-item-width` (`-sm`, `-md`, `-lg`) on a subtree. Keep the visual order the same as the reading order.
+
 
 ## Checkbox
 

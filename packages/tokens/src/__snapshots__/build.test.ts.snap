@@ -149,6 +149,9 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-card-shadow: var(--kb-material-raised-shadow), 0 4px 0 -1px color-mix(in srgb, var(--kb-material-control-border) 50%, var(--kb-color-bg)), 0 12px 24px -16px rgb(36 40 49 / 0.22);
   --kb-grid-gap: var(--kb-space-6);
   --kb-grid-min-item-width: 18.75rem;
+  --kb-grid-min-item-width-sm: 14rem;
+  --kb-grid-min-item-width-md: var(--kb-grid-min-item-width);
+  --kb-grid-min-item-width-lg: 24rem;
   --kb-button-radius: var(--kb-radius-md);
   --kb-button-motion-duration: 140ms;
   --kb-button-motion-easing: ease;
