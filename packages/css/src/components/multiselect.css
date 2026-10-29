@@ -305,13 +305,13 @@
 
 @supports (background-color: color-mix(in oklab, red, blue)) {
   .kb-multiselect-option[data-selected] {
-    background-color: color-mix(in oklab, var(--kb-color-accent) 12%, var(--kb-popup-background));
+    background-color: color-mix(in oklab, var(--kb-color-accent) 20%, var(--kb-popup-background));
   }
 }
 
 .kb-multiselect-option[data-selected]::before {
-  border-color: var(--kb-color-accent-ink);
-  background: var(--kb-color-accent);
+  border: 2px solid var(--kb-color-ring);
+  background: var(--kb-color-action);
   box-shadow: var(--kb-material-pressed-shadow);
 }
 
@@ -332,7 +332,7 @@
   align-items: center;
   justify-content: center;
   visibility: hidden;
-  color: var(--kb-color-accent-fg);
+  color: var(--kb-color-action-fg);
   font-weight: var(--kb-font-weight-strong);
 }
 
