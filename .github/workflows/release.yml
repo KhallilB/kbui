@@ -5,19 +5,21 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Existing release tag (vX.Y.Z)
-        required: true
+        description: Existing release tag to retry (blank continues automatic releases)
+        required: false
         type: string
 
 concurrency: release
 
 jobs:
   release-please:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
     outputs:
+      pr: ${{ steps.pull-request.outputs.pr }}
       release_created: ${{ steps.release.outputs.release_created || steps.retry.outputs.release_created }}
       tag_name: ${{ steps.release.outputs.tag_name || steps.retry.outputs.tag_name }}
       version: ${{ steps.release.outputs.version || steps.retry.outputs.version }}
@@ -25,12 +27,12 @@ jobs:
       - uses: actions/checkout@v4
       # Releases first and alone: a flaky PR update must not hide a created release.
       - id: release
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' || inputs.tag == ''
         uses: googleapis/release-please-action@v4
         with: { skip-github-pull-request: true }
       - name: Resolve release retry
         id: retry
-        if: github.event_name == 'workflow_dispatch'
+        if: github.event_name == 'workflow_dispatch' && inputs.tag != ''
         uses: actions/github-script@v7
         env:
           RETRY_TAG: ${{ inputs.tag }}
@@ -52,9 +54,85 @@ jobs:
           script: |
             const { cleanReleaseNotes } = await import(`${process.env.GITHUB_WORKSPACE}/scripts/release-mentions.mjs`);
             await cleanReleaseNotes(github, context.repo, process.env.TAG);
-      - uses: googleapis/release-please-action@v4
-        if: github.event_name == 'push'
+      - id: pull-request
+        uses: googleapis/release-please-action@v4
+        if: github.event_name == 'push' || inputs.tag == ''
         with: { skip-github-release: true }
+
+  release-pr-check:
+    name: Check release PR
+    needs: release-please
+    if: needs.release-please.outputs.pr != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --ipc=host
+    defaults:
+      run:
+        shell: bash
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      number: ${{ steps.candidate.outputs.number }}
+      head: ${{ steps.candidate.outputs.head }}
+      base: ${{ steps.candidate.outputs.base }}
+      version: ${{ steps.candidate.outputs.version }}
+    env:
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+      CF_SEND_TELEMETRY: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.sha }}", persist-credentials: false }
+      - name: Verify generated release changes
+        id: candidate
+        uses: actions/github-script@v7
+        env:
+          PR_NUMBER: ${{ fromJSON(needs.release-please.outputs.pr).number }}
+        with:
+          script: |
+            const { verifyReleasePR } = await import(`${process.env.GITHUB_WORKSPACE}/scripts/release-automerge.mjs`);
+            const checked = await verifyReleasePR(github, context.repo, Number(process.env.PR_NUMBER));
+            if (checked.base !== context.sha) throw new Error("Main changed since this workflow started");
+            for (const [key, value] of Object.entries(checked)) core.setOutput(key, value);
+      - name: Check out verified release head
+        uses: actions/checkout@v4
+        with: { ref: "${{ steps.candidate.outputs.head }}", fetch-depth: 0, persist-credentials: false }
+      - name: Install pinned Bun
+        run: npm install --global "$(node -p "require('./package.json').packageManager")"
+      - name: Trust checkout in container
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - run: bun install --frozen-lockfile
+      - run: bun run check
+      - run: bun run validate:site
+
+  release-pr-merge:
+    name: Merge checked release PR
+    needs: [release-please, release-pr-check, publish]
+    if: >-
+      always() && !cancelled() && needs.release-pr-check.result == 'success' &&
+      (needs.release-please.outputs.release_created != 'true' || needs.publish.result == 'success')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: "${{ github.sha }}", persist-credentials: false }
+      - name: Merge unchanged release and start downstream workflows
+        uses: actions/github-script@v7
+        env:
+          CHECKED_RELEASE: ${{ toJSON(needs.release-pr-check.outputs) }}
+        with:
+          script: |
+            const { mergeReleasePR } = await import(`${process.env.GITHUB_WORKSPACE}/scripts/release-automerge.mjs`);
+            const checked = JSON.parse(process.env.CHECKED_RELEASE);
+            checked.number = Number(checked.number);
+            if (checked.base !== context.sha) throw new Error("Release checks belong to another main revision");
+            const sha = await mergeReleasePR(github, context.repo, checked);
+            core.info(`Verified release merge ${sha}; main CI, deployment and publication dispatched.`);
 
   assets:
     needs: release-please
@@ -80,11 +158,11 @@ jobs:
       - name: Trust checkout in container
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - run: bun install --frozen-lockfile
-      # Release PRs opened by GITHUB_TOKEN skip ci.yml, so the tag is checked here.
+      # Recheck tagged source before publishing the immutable release archives.
       - run: bun run check
       - run: bun run test:stories
       - name: Pack every published package
-        if: github.event_name != 'workflow_dispatch'
+        if: inputs.tag == ''
         run: |
           mkdir release
           for dir in packages/*/; do
@@ -94,7 +172,7 @@ jobs:
           done
           ls release
       - name: Reuse uploaded release tarballs
-        if: github.event_name == 'workflow_dispatch'
+        if: github.event_name == 'workflow_dispatch' && inputs.tag != ''
         uses: actions/github-script@v7
         with:
           script: |
@@ -133,7 +211,7 @@ jobs:
         with:
           name: release-${{ env.TAG }}
           path: release
-      - if: github.event_name != 'workflow_dispatch'
+      - if: inputs.tag == ''
         run: gh release upload "$TAG" release/*.tgz --repo "$GITHUB_REPOSITORY" --clobber
         env:
           GH_TOKEN: ${{ github.token }}
@@ -208,4 +286,4 @@ jobs:
       - name: Verify published READMEs and integrity
         run: node scripts/release-readmes.ts release
         env:
-          ALLOW_HISTORICAL: ${{ github.event_name == 'workflow_dispatch' }}
+          ALLOW_HISTORICAL: ${{ inputs.tag != '' }}

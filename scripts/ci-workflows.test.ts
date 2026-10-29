@@ -256,14 +256,14 @@ test("npm publish trusts GitHub OIDC only after every OS installs the release", 
 
 test("manual publishing retries validate the tag and require a published release", async () => {
   expect(workflow("release").on.workflow_dispatch?.inputs.tag).toEqual({
-    description: "Existing release tag (vX.Y.Z)",
-    required: true,
+    description: "Existing release tag to retry (blank continues automatic releases)",
+    required: false,
     type: "string",
   });
   const retry = job("release", "release-please").steps.find(
     (step) => step.name === "Resolve release retry",
   );
-  expect(retry?.if).toBe("github.event_name == 'workflow_dispatch'");
+  expect(retry?.if).toBe("github.event_name == 'workflow_dispatch' && inputs.tag != ''");
   if (!retry?.with?.script) throw new Error("Missing retry resolver");
   const outputs: Record<string, string> = {};
   const resolveRetry = new Function(
@@ -306,14 +306,14 @@ test("manual publishing retries validate the tag and require a published release
   for (const step of job("release", "release-please").steps.filter(
     (step) => step.uses === "googleapis/release-please-action@v4",
   ))
-    expect(step.if).toBe("github.event_name == 'push'");
+    expect(step.if).toBe("github.event_name == 'push' || inputs.tag == ''");
 });
 
 test("manual retries reuse uploaded bytes and never repack or replace release assets", async () => {
   const download = job("release", "assets").steps.find(
     (step) => step.name === "Reuse uploaded release tarballs",
   );
-  expect(download?.if).toBe("github.event_name == 'workflow_dispatch'");
+  expect(download?.if).toBe("github.event_name == 'workflow_dispatch' && inputs.tag != ''");
   if (!download?.with?.script) throw new Error("Missing tarball download");
   const files: Record<string, number[]> = {};
   const downloadAssets = new Function(
@@ -383,11 +383,11 @@ test("manual retries reuse uploaded bytes and never repack or replace release as
   const pack = job("release", "assets").steps.find(
     (step) => step.name === "Pack every published package",
   );
-  expect(pack?.if).toBe("github.event_name != 'workflow_dispatch'");
+  expect(pack?.if).toBe("inputs.tag == ''");
   const upload = job("release", "upload").steps.find((step) =>
     step.run?.includes("gh release upload"),
   );
-  expect(upload?.if).toBe("github.event_name != 'workflow_dispatch'");
+  expect(upload?.if).toBe("inputs.tag == ''");
 });
 
 test("PR previews reuse either existing CI Storybook build", () => {
@@ -658,8 +658,70 @@ test("every npm publication and recovery verifies registry READMEs after publish
   expect(verify).toBeGreaterThan(publish);
   expect(steps[verify]?.if).toBeUndefined();
   expect(steps[verify]?.run).toBe("node scripts/release-readmes.ts release");
-  expect(steps[verify]?.env?.ALLOW_HISTORICAL).toBe(
-    `\${{ github.event_name == 'workflow_dispatch' }}`,
-  );
+  expect(steps[verify]?.env?.ALLOW_HISTORICAL).toBe(`\${{ inputs.tag != '' }}`);
   expect(steps.some((step) => step.uses === "actions/checkout@v4")).toBe(true);
+});
+
+test("release PR checks gate merging on full package and Storybook validation", () => {
+  const check = job("release", "release-pr-check");
+  expect(check.permissions).toEqual({ contents: "read", "pull-requests": "read" });
+  expect(check.needs).toBe("release-please");
+  expect(check.container?.image).toBe("mcr.microsoft.com/playwright:v1.64.1-noble");
+  expect(
+    check.steps.filter((step) => step.run?.startsWith("bun run ")).map((step) => step.run),
+  ).toEqual(["bun run check", "bun run validate:site"]);
+  const verify = check.steps.findIndex((step) => step.name === "Verify generated release changes");
+  const checkout = check.steps.findIndex((step) => step.name === "Check out verified release head");
+  expect(verify).toBeGreaterThanOrEqual(0);
+  expect(checkout).toBeGreaterThan(verify);
+  expect(check.steps[checkout]?.with?.["persist-credentials"]).toBe(false);
+  const merge = job("release", "release-pr-merge");
+  expect(merge.needs).toEqual(["release-please", "release-pr-check", "publish"]);
+  expect(merge.if).toContain("needs.release-pr-check.result == 'success'");
+  expect(merge.permissions).toEqual({
+    contents: "write",
+    "pull-requests": "write",
+    actions: "write",
+  });
+  expect(merge.steps.find((step) => step.uses === "actions/checkout@v4")?.with?.ref).toBe(
+    `\${{ github.sha }}`,
+  );
+  expect(JSON.stringify(merge.steps)).toContain("mergeReleasePR");
+});
+
+test("bot merges explicitly dispatch main checks and release continuation without a PAT", () => {
+  expect(workflow("ci").on).toHaveProperty("workflow_dispatch");
+  const scope = job("ci", "check").steps.find((step) => step.run?.includes("scripts/ci-scope.ts"));
+  expect(scope?.env?.BASE_SHA).toContain("0000000000000000000000000000000000000000");
+  expect(workflow("release").on.workflow_dispatch?.inputs.tag.required).toBe(false);
+  expect(job("release", "release-please").if).toBe("github.ref == 'refs/heads/main'");
+  expect(JSON.stringify(workflow("release"))).not.toMatch(
+    /secrets\.(?:PAT|RELEASE_TOKEN|GH_TOKEN)/,
+  );
+});
+
+test("release merge condition rejects failed, skipped or cancelled prerequisite checks", () => {
+  const expression = String(job("release", "release-pr-merge").if)
+    .replaceAll("needs.release-pr-check", 'needs["release-pr-check"]')
+    .replaceAll("needs.release-please", 'needs["release-please"]');
+  const gate = new Function("needs", "always", "cancelled", `return ${expression}`);
+  for (const check of ["success", "failure", "cancelled", "skipped"]) {
+    for (const publish of ["success", "failure", "cancelled", "skipped"]) {
+      for (const created of [true, false]) {
+        for (const cancelled of [true, false]) {
+          expect(
+            gate(
+              {
+                "release-pr-check": { result: check },
+                "release-please": { outputs: { release_created: String(created) } },
+                publish: { result: publish },
+              },
+              () => true,
+              () => cancelled,
+            ),
+          ).toBe(!cancelled && check === "success" && (!created || publish === "success"));
+        }
+      }
+    }
+  }
 });
