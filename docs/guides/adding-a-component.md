@@ -75,3 +75,7 @@ bun run --filter @kb.ui/storybook test:themes
 ```
 
 Then open the component in Storybook and review it in both light and dark.
+
+## Document the component reference
+
+Create `packages/react/docs/components/<Name>.md` and link it from the appropriate group in the [React component index](../../packages/react/README.md#components). Follow [React reference maintenance](../../CONTRIBUTING.md#react-reference-maintenance) for page structure and ownership. Keep API tables in the Markdown page; the catalog and Storybook read that same reference. Add focused links to existing stories instead of copying their implementations.

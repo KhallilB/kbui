@@ -60,7 +60,7 @@ Spacing has three local foundations: `--page-gutter` for shared page edges, `--s
 
 ## Catalog source contract
 
-The catalog covers all 35 public components. `catalog/source.ts` uses Storybook's own CSF parser to derive example names and IDs from colocated component stories. It reads API tables and usage blocks from `packages/react/README.md`; `catalog/definitions.ts` holds grouping, short descriptions and curated example exports and labels. The source test compares the catalog against public exports and rejects malformed API rows or missing guide entries.
+The catalog covers all 35 public components. `catalog/source.ts` uses Storybook's own CSF parser to derive example names and IDs from colocated component stories. It reads API tables and usage blocks from `packages/react/docs/components/<Name>.md`; `catalog/definitions.ts` holds grouping, short descriptions and curated example exports and labels. The source test compares the catalog against public exports and rejects malformed API rows or missing guide entries.
 
 A build-time virtual module supplies that data to the site and Storybook without bundling the Node parser into the browser. Guide and component-story changes invalidate the module during development. `build:site` ends with `verify:catalog`, which checks every story and documentation ID against the built Storybook index. An ID mismatch fails the build.
 
@@ -250,3 +250,5 @@ The install builder offers CSS tokens as part of the normal React install. Optio
 ## Public Storybook scope
 
 Production Storybook contains public MDX guides and canonical component stories only. Site screens, legacy restyle showcases and validation fixtures are maintained in `apps/storybook/stories` for opt-in local development and CI. `KBUI_STORYBOOK_INTERNAL=1` enables that scope; `dev:internal` provides the command. Default public builds exclude those modules, and `verify:catalog` rejects internal index entries while requiring all component docs and examples. Validation coverage remains active in the browser test scripts.
+
+Component Accessibility sections read `catalog/accessibility-guides.ts`: implemented support, author responsibilities, verification procedures, and linked WCAG/APG sources. `catalog/AccessibilityReference.tsx` renders the contract; `catalog/verify-component-docs.ts` verifies the built sections. Shared requirements and test-record guidance live in `docs/guides/accessibility.md`.

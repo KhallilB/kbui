@@ -29,7 +29,7 @@ export function Installation() {
 
 Choose heading rank from the document outline. Visual size can change independently: `Heading level={2} size="sm"` remains a section heading. Use Text for prose and native `strong` or `em` for meaningful emphasis. Use `Text as="span"` inside a sentence; use `as="div"` only when grouping block content. Components remove their own margins; spacing belongs to the parent layout.
 
-The [canonical React API](../../packages/react/README.md#heading) lists props and defaults. The [composed article](../../packages/react/src/components/Heading/Heading.stories.tsx) exercises all four inside an existing Panel, in both themes. Other colocated stories cover sizes, supporting text, links within prose, inline code paths and syntax-highlighted multiline code blocks.
+The [canonical React API](../../packages/react/docs/components/Heading.md) lists props and defaults. The [composed article](../../packages/react/src/components/Heading/Heading.stories.tsx) exercises all four inside an existing Panel, in both themes. Other colocated stories cover sizes, supporting text, links within prose, inline code paths and syntax-highlighted multiline code blocks.
 
 ## Framework-free recipes
 

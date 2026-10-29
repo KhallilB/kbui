@@ -15,7 +15,7 @@ on:
       - 'tsconfig*.json'
       - 'mise.toml'
       - '!**/*.md'
-      - 'packages/react/README.md'
+      - 'packages/react/docs/components/**'
   workflow_dispatch:
 
 permissions:

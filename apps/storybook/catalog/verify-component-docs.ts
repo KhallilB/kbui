@@ -31,9 +31,19 @@ try {
       await docs.locator(".reference-api caption").first().innerText(),
       `${entry.name} API`,
     );
-    assert.deepEqual(
-      await docs.locator("#reference-accessibility li").allTextContents(),
-      references[entry.name]?.guide.accessibility,
+    for (const group of ["provides", "authoring", "verify"] as const) {
+      assert.deepEqual(
+        await docs
+          .locator(`#reference-accessibility [data-accessibility="${group}"] li`)
+          .allTextContents(),
+        references[entry.name]?.guide.accessibility[group],
+      );
+    }
+    await docs.getByRole("heading", { name: "Standards and patterns", exact: true }).waitFor();
+    assert.ok(
+      await docs
+        .locator('#reference-accessibility a[href^="https://www.w3.org/TR/WCAG22/#"]')
+        .count(),
     );
     const background = await docs
       .locator(".reference-accessibility")

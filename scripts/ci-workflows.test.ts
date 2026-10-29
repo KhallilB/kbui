@@ -191,7 +191,8 @@ test("deployment paths preserve generated API docs while excluding ordinary pros
       const negative = pattern.startsWith("!");
       return new Bun.Glob(negative ? pattern.slice(1) : pattern).match(file) ? !negative : matched;
     }, false);
-  expect(matches("packages/react/README.md")).toBe(true);
+  expect(matches("packages/react/README.md")).toBe(false);
+  expect(matches("packages/react/docs/components/Button.md")).toBe(true);
   expect(matches("packages/css/README.md")).toBe(false);
   expect(matches("apps/storybook/site/README.md")).toBe(false);
   expect(matches("apps/storybook/docs/Introduction.mdx")).toBe(true);

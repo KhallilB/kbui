@@ -38,6 +38,8 @@ test("includes complete API and specialized-guide examples in compilation", () =
   const examples = loadDocumentationExamples(resolve(import.meta.dir, "../../.."));
   for (const path of [
     "packages/react/README.md",
+    "packages/react/docs/components/Input.md",
+    "packages/react/docs/components/Button.md",
     "docs/guides/number-fields.md",
     "docs/guides/file-inputs.md",
     "docs/guides/forms-and-overlays.md",

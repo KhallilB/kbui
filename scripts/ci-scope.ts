@@ -2,7 +2,7 @@ import { appendFileSync } from "node:fs";
 
 export function requiresBrowserChecks(paths: string[]): boolean {
   return paths.some((path) => {
-    if (path === "packages/react/README.md") return true;
+    if (/^packages\/react\/docs\/components\/.*\.md$/i.test(path)) return true;
     if (/\.md$/i.test(path)) return false;
     if (/^(?:docs\/|apps\/storybook\/docs\/).*\.mdx$/i.test(path)) return false;
     if (/^\.(?:claude|codex|agents|internal)\//.test(path)) return false;
