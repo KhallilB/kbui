@@ -1,4 +1,4 @@
-import { accessibilityGuides } from "./accessibility-guides";
+import { accessibilityGuides } from "./accessibility-guides.ts";
 import type { AccessibilityGuide } from "./accessibility-standards";
 
 export type ComponentGuide = {

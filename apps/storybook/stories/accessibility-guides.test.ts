@@ -6,6 +6,18 @@ import { accessibilityStandards } from "../catalog/accessibility-standards";
 import { componentGuides } from "../catalog/component-guides";
 import { definitions } from "../catalog/definitions";
 
+test("native Node release verification can load component guidance", () => {
+  const guidance = new URL("../catalog/component-guides.ts", import.meta.url);
+  const result = Bun.spawnSync([
+    "node",
+    "--experimental-strip-types",
+    "--input-type=module",
+    "--eval",
+    `await import(${JSON.stringify(guidance.href)})`,
+  ]);
+  expect(result.exitCode, result.stderr.toString()).toBe(0);
+});
+
 test("every accessibility guide separates support, author decisions, checks and standards", () => {
   for (const [name, guide] of Object.entries(componentGuides)) {
     expect(guide.accessibility, name).toEqual(
