@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
-import { expect, userEvent, within } from "storybook/test";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Accordion } from "./Accordion";
 
 const meta = {
@@ -102,7 +102,10 @@ export const Nested: Story = {
               <Accordion.Header>
                 <Accordion.Trigger>Privacy preferences</Accordion.Trigger>
               </Accordion.Header>
-              <Accordion.Panel>Choose which account updates you receive.</Accordion.Panel>
+              <Accordion.Panel hiddenUntilFound>
+                Choose which account updates you receive.
+                <input aria-label="Update email" defaultValue="team@example.com" />
+              </Accordion.Panel>
             </Accordion.Item>
           </Accordion>
         </Accordion.Panel>
@@ -117,5 +120,17 @@ export const Nested: Story = {
       "true",
     );
     await expect(canvas.getByRole("region", { name: "Privacy preferences" })).toBeVisible();
+    const draft = canvas.getByRole("textbox", { name: "Update email" });
+    const trigger = canvas.getByRole("button", { name: "Privacy preferences" });
+    await userEvent.click(trigger);
+    // Native focus must reject controls throughout the closing transition.
+    draft.focus();
+    await expect(trigger).toHaveFocus();
+    const panel = draft.closest(".kb-accordion-panel");
+    await waitFor(() => expect(panel).toHaveAttribute("hidden", "until-found"));
+    await expect(panel).not.toHaveAttribute("inert");
+    panel?.dispatchEvent(new Event("beforematch"));
+    await waitFor(() => expect(trigger).toHaveAttribute("aria-expanded", "true"));
+    await expect(draft).toBeVisible();
   },
 };

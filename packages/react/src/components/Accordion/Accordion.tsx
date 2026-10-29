@@ -1,4 +1,5 @@
 import { Accordion as Base } from "@base-ui/react/accordion";
+import { CollapsiblePanel } from "../../utils/CollapsiblePanel";
 import { kb } from "../../utils/kb";
 
 export type AccordionProps<Value = string> = Omit<Base.Root.Props<Value>, "className"> & {
@@ -34,9 +35,15 @@ function AccordionHeader({ className, ...props }: AccordionHeaderProps) {
 function AccordionTrigger({ className, ...props }: AccordionTriggerProps) {
   return <Base.Trigger {...props} {...kb("accordion-trigger", {}, className)} />;
 }
-function AccordionPanel({ className, children, ...props }: AccordionPanelProps) {
+function AccordionPanel({ className, children, render, ...props }: AccordionPanelProps) {
   return (
-    <Base.Panel {...props} {...kb("accordion-panel", {}, className)}>
+    <Base.Panel
+      {...props}
+      {...kb("accordion-panel", {}, className)}
+      render={(nativeProps, state) => (
+        <CollapsiblePanel nativeProps={nativeProps} state={state} render={render} />
+      )}
+    >
       <div className="kb-accordion-panel-content">{children}</div>
     </Base.Panel>
   );

@@ -1,4 +1,5 @@
 import { Collapsible as Base } from "@base-ui/react/collapsible";
+import { CollapsiblePanel } from "../../utils/CollapsiblePanel";
 import { kb } from "../../utils/kb";
 
 export type DisclosureProps = Omit<Base.Root.Props, "className"> & {
@@ -20,9 +21,15 @@ function DisclosureRoot({ className, ...props }: DisclosureProps) {
 function DisclosureTrigger({ className, ...props }: DisclosureTriggerProps) {
   return <Base.Trigger {...props} {...kb("disclosure-trigger", {}, className)} />;
 }
-function DisclosurePanel({ className, children, ...props }: DisclosurePanelProps) {
+function DisclosurePanel({ className, children, render, ...props }: DisclosurePanelProps) {
   return (
-    <Base.Panel {...props} {...kb("disclosure-panel", {}, className)}>
+    <Base.Panel
+      {...props}
+      {...kb("disclosure-panel", {}, className)}
+      render={(nativeProps, state) => (
+        <CollapsiblePanel nativeProps={nativeProps} state={state} render={render} />
+      )}
+    >
       <div className="kb-disclosure-panel-content">{children}</div>
     </Base.Panel>
   );

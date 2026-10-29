@@ -36,7 +36,7 @@ export const RetainedDraft: Story = {
   render: () => (
     <Disclosure defaultOpen>
       <Disclosure.Trigger>Advanced settings</Disclosure.Trigger>
-      <Disclosure.Panel keepMounted>
+      <Disclosure.Panel keepMounted render={<section inert={false} />}>
         <Input label="Reply-to address" defaultValue="team@example.com" />
       </Disclosure.Panel>
     </Disclosure>
@@ -46,7 +46,11 @@ export const RetainedDraft: Story = {
     const trigger = canvas.getByRole("button", { name: "Advanced settings" });
     await userEvent.clear(canvas.getByRole("textbox"));
     await userEvent.type(canvas.getByRole("textbox"), "draft@example.com");
+    const draft = canvas.getByRole("textbox");
     await userEvent.click(trigger);
+    // Native focus must reject controls throughout the closing transition.
+    draft.focus();
+    await expect(trigger).toHaveFocus();
     await waitFor(() => expect(canvas.queryByRole("textbox")).toBeNull());
     await userEvent.click(trigger);
     await expect(canvas.getByRole("textbox")).toHaveValue("draft@example.com");
