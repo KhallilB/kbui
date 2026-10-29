@@ -475,4 +475,20 @@ describe("CopyableText", () => {
       "mailto:help@www.example.com",
     );
   });
+
+  test("embedded domains stay literal while complete URLs retain email query values", async () => {
+    const value =
+      "Build id_www.example.com. Visit (https://example.com/docs?contact=help@www.example.com).";
+    const write = clipboard();
+    const { container } = render(<CopyableText value={value} />);
+    expect(screen.getAllByRole("link")).toHaveLength(1);
+    expect(screen.getByRole("link")).toHaveAttribute(
+      "href",
+      "https://example.com/docs?contact=help@www.example.com",
+    );
+    expect(container.querySelector(".kb-copyabletext-value")?.textContent).toBe(value);
+    fireEvent.click(screen.getByRole("button", { name: "Copy" }));
+    await screen.findByRole("button", { name: "Copied" });
+    expect(write).toHaveBeenCalledExactlyOnceWith(value);
+  });
 });
