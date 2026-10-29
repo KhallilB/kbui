@@ -2,6 +2,8 @@ import type { ComponentProps } from "react";
 import { type ClassNames, kb } from "../../utils/kb";
 import { Image, type ImageProps } from "../Image/Image";
 
+export type AvatarShape = "circle" | "square" | "rounded" | "hexagon" | "diamond";
+
 export type AvatarProps = Omit<ComponentProps<"span">, "children" | "onLoad" | "onError"> &
   Pick<ImageProps, "src" | "srcSet" | "sizes" | "loading" | "onLoad" | "onError"> & {
     /** Full identity; remains accessible when photo fails. */
@@ -12,8 +14,8 @@ export type AvatarProps = Omit<ComponentProps<"span">, "children" | "onLoad" | "
     decorative?: boolean | undefined;
     /** Fixed identity dimensions. */
     size?: "xs" | "sm" | "md" | "lg" | "xl" | undefined;
-    /** Round person or softly squared organization mark. */
-    shape?: "circle" | "square" | undefined;
+    /** Identity silhouette; photo and initials remain upright. */
+    shape?: AvatarShape | undefined;
     /** Extra classes for root, media and initials. */
     classNames?: ClassNames<"root" | "media" | "initials"> | undefined;
   };

@@ -7,18 +7,19 @@ import { Image } from "../Image/Image";
 import { Link } from "../Link/Link";
 import { Thumbnail } from "./Thumbnail";
 
-const landscape = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720"><rect width="960" height="720" fill="#d5e0df"/><circle cx="720" cy="180" r="72" fill="#f1d0a1"/><path d="M0 460 250 190 540 500 730 320 960 510V720H0" fill="#798f86"/><path d="m250 190-65 157 67-27 72 33z" fill="#f1eee5"/><path d="M0 580q240-180 480-40t480-40v220H0" fill="#435e57"/><path d="M350 720q150-100 130-170t70-70q-35 80 15 145t-20 95" fill="#b0c6c1"/></svg>')}`;
-const product = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 720"><rect width="720" height="720" fill="#e5dcd0"/><ellipse cx="360" cy="590" rx="185" ry="24" fill="#c9bfb1"/><path d="m230 205 90-48h80l90 48 65 170-70 30-30-70v240H265V335l-30 70-70-30z" fill="#a88b6b"/><path d="m320 157 40 75 40-75M360 232v343M315 400h-30v35h30m90-35h30v35h-30" fill="none" stroke="#79634f" stroke-width="6"/><path d="m320 157-40 80 50 45 30-50 30 50 50-45-40-80" fill="#bfaa8e"/></svg>')}`;
+const landscape = "./media/scenes/alpine.jpg";
+const ceramic = "./media/objects/ceramic.jpg";
+const tote = "./media/objects/tote.jpg";
 
 const meta = {
   title: "Components/Thumbnail",
   component: Thumbnail,
   tags: ["autodocs"],
   args: {
-    src: product,
-    alt: "Sand wool coat with broad lapels",
-    caption: "The studio coat",
-    description: "Sand / Wool blend / Collection 04",
+    src: ceramic,
+    alt: "Textured ceramic vase with eucalyptus on a sunlit plinth",
+    caption: "The studio vase",
+    description: "Chalk / Textured ceramic / Collection 04",
     ratio: "square",
     fit: "contain",
   },
@@ -31,21 +32,22 @@ export const Products: Story = {
     <Grid as="ul" columns={2} gap="lg">
       <li>
         <Thumbnail
-          src={product}
-          alt="Sand wool coat with broad lapels"
+          src={ceramic}
+          alt="Textured ceramic vase with eucalyptus"
           ratio="portrait"
           fit="contain"
-          caption={<Link href="#sand-coat">The studio coat</Link>}
-          description="Sand · Wool blend"
+          caption={<Link href="#studio-vase">The studio vase</Link>}
+          description="Chalk · Textured ceramic"
         />
       </li>
       <li>
         <Thumbnail
-          alt=""
+          src={tote}
+          alt="Natural canvas tote with dark handles beside a notebook"
           ratio="portrait"
-          fallback="Preview coming soon"
-          caption={<Link href="#graphite-coat">The studio coat / Graphite</Link>}
-          description="Graphite · Wool blend"
+          fit="contain"
+          caption={<Link href="#canvas-tote">The everyday tote</Link>}
+          description="Natural · Woven canvas"
         />
       </li>
     </Grid>
@@ -66,10 +68,14 @@ export const Attachments: Story = {
       <li>
         <Thumbnail
           src={landscape}
-          alt="Green alpine peaks and river"
+          alt="Alpine river beneath sunlit mountain peaks"
           ratio="wide"
-          caption={<Link href="#field-study">Field-study-cover.svg</Link>}
-          description="SVG · 960 × 720"
+          caption={
+            <Link href={landscape} download="alpine.jpg">
+              Alpine-field-study.jpg
+            </Link>
+          }
+          description="JPEG · 1200 × 800"
         />
       </li>
     </Grid>
@@ -79,8 +85,8 @@ export const Gallery: Story = {
   render: () => (
     <Grid as="ul" columns={2} gap="lg">
       {[
-        { title: "Alpine study", src: landscape, alt: "River beneath green alpine peaks" },
-        { title: "Material study", src: product, alt: "Sand coat with broad lapels" },
+        { title: "Alpine study", src: landscape, alt: "River beneath sunlit alpine peaks" },
+        { title: "Material study", src: ceramic, alt: "Textured ceramic vase with eucalyptus" },
       ].map((item) => (
         <li key={item.title}>
           <Dialog>

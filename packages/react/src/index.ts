@@ -1,4 +1,4 @@
-export { Avatar, type AvatarProps } from "./components/Avatar/Avatar";
+export { Avatar, type AvatarProps, type AvatarShape } from "./components/Avatar/Avatar";
 export {
   Badge,
   type BadgeAppearance,

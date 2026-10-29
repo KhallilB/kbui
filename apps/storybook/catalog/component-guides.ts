@@ -14,7 +14,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
     example: {
       title: "Recognize collaborators",
       description:
-        "Pair a fixed-size portrait with a visible name and role; inspect sizes and multilingual initials.",
+        "Explore 24 initials identities, six original portraits and five clipping shapes, then pair a fixed-size portrait with a visible name and role.",
     },
     tips: [
       "Use decorative beside an equivalent visible name to avoid duplicate announcements.",

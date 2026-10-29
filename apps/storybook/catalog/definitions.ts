@@ -9,8 +9,14 @@ export const definitions: Record<string, Definition> = {
   Avatar: {
     group: "Media",
     description:
-      "Recognizable people and organizations with resilient photo and initials fallbacks.",
-    examples: { Default: "Default", Sizes: "Sizes", Fallbacks: "Fallbacks", People: "People" },
+      "Recognizable people and organizations with resilient portraits, initials and five shapes.",
+    examples: {
+      Default: "Default",
+      Initials: "Initials Catalog",
+      Shapes: "Shapes",
+      Portraits: "Portrait Collection",
+      People: "People",
+    },
   },
   Image: {
     group: "Media",
@@ -20,6 +26,7 @@ export const definitions: Record<string, Definition> = {
       CropAndContain: "Crop and Contain",
       Ratios: "Ratios",
       FailureAndRecovery: "Failure and Recovery",
+      AssetLibrary: "Editorial Image Library",
     },
   },
   Thumbnail: {

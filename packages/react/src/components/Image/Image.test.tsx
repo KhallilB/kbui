@@ -4,6 +4,50 @@ import { describe, expect, test, vi } from "vitest";
 import { Image } from "./Image";
 
 describe("Image", () => {
+  test("reserves intrinsic ratio through loading, success, failure and missing sources", () => {
+    const { container, rerender } = render(
+      <Image src="/portrait.jpg" alt="Portrait" ratio="auto" width={900} height={1200} />,
+    );
+    const frame = screen.getByRole("img", { name: "Portrait" });
+    expect(frame).toHaveAttribute("data-state", "loading");
+    expect(frame).toHaveStyle({ aspectRatio: "900 / 1200" });
+    fireEvent.load(requiredImage(container));
+    expect(frame).toHaveAttribute("data-state", "loaded");
+    expect(frame).toHaveStyle({ aspectRatio: "900 / 1200" });
+    fireEvent.error(requiredImage(container));
+    expect(frame).toHaveAttribute("data-state", "error");
+    expect(frame).toHaveStyle({ aspectRatio: "900 / 1200" });
+    rerender(<Image alt="Portrait" ratio="auto" width={900} height={1200} />);
+    expect(screen.getByRole("img")).toHaveAttribute("data-state", "empty");
+    expect(screen.getByRole("img")).toHaveStyle({ aspectRatio: "900 / 1200" });
+    expect(container.querySelector("img")).toBeNull();
+  });
+  test.each([
+    { width: 900 },
+    { height: 1200 },
+    { width: 0, height: 1200 },
+    { width: 900, height: -1 },
+    { width: "invalid", height: 1200 },
+  ])(
+    "leaves intrinsic framing to CSS when dimensions are incomplete or invalid: %j",
+    (dimensions) => {
+      render(<Image alt="Preview" ratio="auto" {...dimensions} />);
+      expect(screen.getByRole("img")).toHaveAttribute("data-ratio", "auto");
+      expect(screen.getByRole("img").style.aspectRatio).toBe("");
+    },
+  );
+  test("preserves explicit frame ratio override over intrinsic dimensions", () => {
+    render(
+      <Image
+        alt="Preview"
+        ratio="auto"
+        width={900}
+        height={1200}
+        style={{ aspectRatio: "2 / 1" }}
+      />,
+    );
+    expect(screen.getByRole("img")).toHaveStyle({ aspectRatio: "2 / 1" });
+  });
   test("keeps accessible identity through loading, success and failure", () => {
     const onLoad = vi.fn();
     const onError = vi.fn();

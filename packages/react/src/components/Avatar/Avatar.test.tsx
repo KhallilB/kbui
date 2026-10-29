@@ -1,9 +1,32 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { createRef, type SyntheticEvent } from "react";
 import { describe, expect, test } from "vitest";
-import { Avatar } from "./Avatar";
+import { Avatar, type AvatarShape } from "./Avatar";
+
+const shapes: AvatarShape[] = ["circle", "square", "rounded", "hexagon", "diamond"];
 
 describe("Avatar", () => {
+  test.each(shapes)("exposes %s shape without changing accessible identity", (shape) => {
+    render(<Avatar name="Maya Chen" shape={shape} />);
+    expect(screen.getByRole("img", { name: "Maya Chen" })).toHaveAttribute("data-shape", shape);
+    expect(screen.getByText("MC")).toBeInTheDocument();
+  });
+  test("shape changes preserve photo state and its native request", () => {
+    const { container, rerender } = render(<Avatar name="Maya Chen" src="/maya.jpg" />);
+    const root = screen.getByRole("img", { name: "Maya Chen" });
+    const photo = requiredImage(container);
+    fireEvent.load(photo);
+    for (const shape of shapes) {
+      rerender(<Avatar name="Maya Chen" src="/maya.jpg" shape={shape} />);
+      expect(screen.getByRole("img", { name: "Maya Chen" })).toBe(root);
+      expect(requiredImage(container)).toBe(photo);
+      expect(container.querySelector(".kb-image")).toHaveAttribute("data-state", "loaded");
+    }
+    fireEvent.error(photo);
+    rerender(<Avatar name="Maya Chen" src="/maya.jpg" shape="rounded" />);
+    expect(container.querySelector(".kb-image")).toHaveAttribute("data-state", "error");
+    expect(screen.getByText("MC")).toBeInTheDocument();
+  });
   test("forwards native photo events with image event types", () => {
     let loaded = false;
     const onLoad = (event: SyntheticEvent<HTMLImageElement>) => {

@@ -1,4 +1,4 @@
-/* Anatomy: .kb-avatar [data-size=xs|sm|md|lg|xl] [data-shape=circle|square] > .kb-avatar-media .kb-avatar-initials */
+/* Anatomy: .kb-avatar [data-size=xs|sm|md|lg|xl] [data-shape=circle|square|rounded|hexagon|diamond] > .kb-avatar-media .kb-avatar-initials */
 .kb-avatar {
   display: inline-flex;
   flex: none;
@@ -26,7 +26,12 @@
   --kb-avatar-size: var(--kb-avatar-size-xl);
   --kb-avatar-font-size: var(--kb-avatar-font-size-xl);
 }
-.kb-avatar[data-shape="square"] {
+.kb-avatar[data-shape="square"],
+.kb-avatar[data-shape="hexagon"],
+.kb-avatar[data-shape="diamond"] {
+  border-radius: 0;
+}
+.kb-avatar[data-shape="rounded"] {
   border-radius: var(--kb-avatar-square-radius);
 }
 .kb-avatar-media {
@@ -39,6 +44,12 @@
 }
 .kb-avatar > .kb-avatar-media {
   border-radius: inherit;
+}
+.kb-avatar[data-shape="hexagon"] > .kb-avatar-media {
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+.kb-avatar[data-shape="diamond"] > .kb-avatar-media {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
 }
 
 .kb-avatar-initials {

@@ -31,6 +31,8 @@ export function Example() {
 - [Ratios](https://kbui.kcb.pro/storybook/?path=/story/components-image--ratios): Square, wide, intrinsic and missing media.
 - [Failure and recovery](https://kbui.kcb.pro/storybook/?path=/story/components-image--failure-and-recovery): Replace a failed source without shifting layout.
 
+- [Editorial image library](https://kbui.kcb.pro/storybook/?path=/story/components-image--asset-library): Ten original portrait, object and scene illustrations with individual downloads.
+
 ## Reference
 
 | Prop | Type | Default | Notes |

@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "collection": "Warm editorial",
+  "style": "Matte paper texture, soft light, muted sage, warm sand, charcoal and restrained persimmon. All portrait identities are fictional.",
+  "assets": [
+    {
+      "id": "maya",
+      "title": "Maya Chen",
+      "category": "portraits",
+      "src": "portraits/maya.jpg",
+      "alt": "Editorial portrait of Maya with short dark hair and a sage knit top",
+      "width": 768,
+      "height": 768
+    },
+    {
+      "id": "robin",
+      "title": "Robin Ellis",
+      "category": "portraits",
+      "src": "portraits/robin.jpg",
+      "alt": "Editorial portrait of Robin with natural curls and a terracotta shirt",
+      "width": 768,
+      "height": 768
+    },
+    {
+      "id": "ana",
+      "title": "Ana López",
+      "category": "portraits",
+      "src": "portraits/ana.jpg",
+      "alt": "Editorial portrait of Ana with dark wavy hair and a cream shirt",
+      "width": 768,
+      "height": 768
+    },
+    {
+      "id": "amir",
+      "title": "Amir Haddad",
+      "category": "portraits",
+      "src": "portraits/amir.jpg",
+      "alt": "Editorial portrait of Amir with curly dark hair, a beard and a charcoal jacket",
+      "width": 768,
+      "height": 768
+    },
+    {
+      "id": "sora",
+      "title": "Sora Ito",
+      "category": "portraits",
+      "src": "portraits/sora.jpg",
+      "alt": "Editorial portrait of Sora with silver hair and round eyeglasses",
+      "width": 768,
+      "height": 768
+    },
+    {
+      "id": "noor",
+      "title": "Noor Rahman",
+      "category": "portraits",
+      "src": "portraits/noor.jpg",
+      "alt": "Editorial portrait of Noor wearing a sage headscarf and cream blouse",
+      "width": 768,
+      "height": 768
+    },
+    {
+      "id": "ceramic",
+      "title": "Quiet vessel",
+      "category": "objects",
+      "src": "objects/ceramic.jpg",
+      "alt": "Off-white ceramic vessel with a eucalyptus branch on a sand plinth",
+      "width": 768,
+      "height": 768
+    },
+    {
+      "id": "tote",
+      "title": "Everyday linen",
+      "category": "objects",
+      "src": "objects/tote.jpg",
+      "alt": "Sand linen tote with charcoal handles and a terracotta notebook",
+      "width": 768,
+      "height": 768
+    },
+    {
+      "id": "alpine",
+      "title": "Alpine river",
+      "category": "scenes",
+      "src": "scenes/alpine.jpg",
+      "alt": "River winding through sage foothills beneath distant alpine peaks",
+      "width": 1200,
+      "height": 800
+    },
+    {
+      "id": "atelier",
+      "title": "Afternoon atelier",
+      "category": "scenes",
+      "src": "scenes/atelier.jpg",
+      "alt": "Sunlit oak desk, ceramic vessels and sage chair in a warm studio",
+      "width": 1200,
+      "height": 800
+    }
+  ]
+}

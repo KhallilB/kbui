@@ -3,6 +3,7 @@ import { catalogPlugin } from "../catalog/source.ts";
 
 const config: StorybookConfig = {
   framework: "@storybook/react-vite",
+  staticDirs: ["../site/public"],
   features: { sidebarOnboardingChecklist: false, menuOnboardingChecklist: false },
   core: { disableWhatsNewNotifications: true },
   stories: [
