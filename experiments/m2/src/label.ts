@@ -3,12 +3,18 @@ import { existsSync, linkSync, mkdirSync, readFileSync, rmSync, writeFileSync } 
 import { join } from "node:path";
 import { parseArgs } from "node:util";
 import { loadScreens, type Screen } from "./load";
-import { literals, RULES, walk } from "./rules";
+import { literals, RULES, type RuleId, walk } from "./rules";
 import { studyDir } from "./study";
 
 const SAMPLE_SIZE = 50;
 
-const { values } = parseArgs({ options: { study: { type: "string" } } });
+const { values } = parseArgs({
+  options: {
+    study: { type: "string" },
+    serve: { type: "boolean", default: false },
+    port: { type: "string", default: process.env.PORT ?? "4319" },
+  },
+});
 if (!values.study) throw new Error("usage: label --study <id>");
 const study = values.study;
 const dir = studyDir(study);
@@ -85,9 +91,9 @@ function outline(s: Screen): string {
       const p = (el.props ?? {}) as Record<string, unknown>;
       const text = literals([p.title, p.label, p.text, p.description, p.placeholder]).join(" · ");
       const facts: string[] = [];
-      if (p.level) facts.push(String(p.level));
-      if ("variant" in p) facts.push(`variant ${p.variant ?? "default"}`);
-      if (p.type) facts.push(`type ${p.type}`);
+      if (p.level) facts.push(short(p.level));
+      if ("variant" in p) facts.push(`variant ${short(p.variant ?? "default")}`);
+      if (p.type) facts.push(`type ${short(p.type)}`);
       if ("checked" in p) {
         const c = p.checked as Record<string, unknown> | boolean;
         const start = c && typeof c === "object" ? pointer(state, c.$bindState ?? c.$state) : c;
@@ -133,86 +139,102 @@ const items = sample.map((id, i) => {
   return { id: token, blind: `screen ${token}`, s };
 });
 
-const cards = items
-  .map(
-    ({
-      id,
-      blind,
-      s,
-    }) => `<section data-id="${id}"><h2>${blind} <span class="progress"></span></h2><p class="prompt">${esc(s.prompt.text)}</p>
-<div class="shots">${s.doms.map((d) => `<a href="blind/${id}.${d.width}.jpg" target="_blank"><img loading="lazy" src="blind/${id}.${d.width}.jpg" style="width:${Math.round(d.width / 3)}px" alt="${blind} at ${d.width}px"><small>${d.width}px</small></a>`).join("")}</div>
-<details><summary>Spec outline (type, depth, text, behaviour)</summary><div class="outline">${outline(s)}</div></details>
-<fieldset>${RULES.map(
-      (r) =>
-        `<div class="q"><span>${esc(r.question)}</span>${["yes", "no", "unsure"].map((a) => `<label><input type="radio" name="${id}|${r.id}" value="${a}"> ${a}</label>`).join("")}</div>`,
-    ).join(
-      "",
-    )}<button type="button" class="rest">Mark unanswered as no</button></fieldset></section>`,
-  )
-  .join("\n");
-
-writeFileSync(
-  join(dir, "labelling.html"),
-  `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>M2 labelling ${study}</title>
-<style>
-body{font:14px/1.45 system-ui,sans-serif;margin:0;color:#171717;background:#fafafa}
-.bar{position:sticky;top:0;background:#fff;border-bottom:1px solid #e5e5e5;padding:12px 24px;display:flex;gap:12px;align-items:center;z-index:1}
-main{padding:24px;max-width:1200px}section{background:#fff;border:1px solid #e5e5e5;border-radius:8px;padding:16px;margin:0 0 24px}
-h2{margin:0 0 4px;font-size:16px}.prompt{color:#404040}.shots{display:flex;gap:12px;align-items:flex-start;overflow-x:auto}
-.shots a{display:flex;flex-direction:column;color:#737373;text-decoration:none}.shots img{border:1px solid #e5e5e5}
-.outline{font:12px/1.5 ui-monospace,monospace;max-height:420px;overflow:auto;background:#f5f5f5;padding:8px;border-radius:6px}
-.d{color:#a3a3a3}.f{color:#2563eb}fieldset{border:0;padding:0;margin:12px 0 0}
-.q{display:grid;grid-template-columns:1fr repeat(3,auto);gap:4px 12px;padding:6px 0;border-top:1px solid #f0f0f0;align-items:center}
-.q label{white-space:nowrap}.progress{font-weight:400;color:#737373;font-size:12px}.done{color:#15803d}
-</style></head><body>
-<div class="bar"><label>Labeller <input id="who" placeholder="your name"></label><span id="count"></span><button id="export">Export labels.json</button></div>
-<main><p>Answer each question from the screenshots and the spec outline. The page saves as you go in this browser. When done, export and save the file as <code>results/${study}/labels.json</code>.</p>
-${cards}</main>
-<script>
-const KEY = "m2-labels-${study}";
-const TOTAL = ${items.length * RULES.length};
-let saved = {};
-try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch {}
-saved.labels ||= {};
-const who = document.getElementById("who");
-who.value = saved.labeller || "";
-const store = () => { try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch {} };
-const refresh = () => {
-  let n = 0;
-  for (const sec of document.querySelectorAll("section")) {
-    const got = Object.keys(saved.labels[sec.dataset.id] || {}).length;
-    n += got;
-    const tag = sec.querySelector(".progress");
-    tag.textContent = got + "/${RULES.length}";
-    tag.className = "progress" + (got === ${RULES.length} ? " done" : "");
-  }
-  document.getElementById("count").textContent = n + "/" + TOTAL + " answered";
+// Where to look for each answer; the questions themselves live with the rules.
+const HINTS: Record<RuleId, string> = {
+  "INT-1": "Screenshot: form fields.",
+  "INT-2":
+    "Outline: a destructive button's on press, and whether it opens a dialog or has a confirm.",
+  "INT-3": "Screenshot and outline text, including badges and fine print.",
+  "INT-4": "Outline: switches and checkboxes say whether they start on.",
+  "INT-5": "Screenshot: decline links and secondary buttons.",
+  "DES-1": "Screenshot: filled dark buttons within one card or the page.",
+  "DES-2": "Outline: heading levels (h1, h2, h3) in order.",
+  "ARR-1": "Outline: the grey number after each type is its depth.",
+  "ARR-2": "Check every width, 390px especially.",
+  "ARR-3": "Check every width, 390px especially.",
+  "ARR-4": "Check every width: icon buttons, links in dense rows.",
+  "DATA-1": "Outline: rows and repeat counts, and any Pagination.",
+  "DATA-2": "Outline: a repeat, and an element visible when that list is empty.",
 };
-for (const input of document.querySelectorAll("input[type=radio]")) {
-  const [id, rule] = input.name.split("|");
-  if (saved.labels[id]?.[rule] === input.value) input.checked = true;
-  input.addEventListener("change", () => { (saved.labels[id] ||= {})[rule] = input.value; store(); refresh(); });
+
+function page(server: boolean): string {
+  const data = {
+    study,
+    server,
+    rules: RULES.map(({ id, family, question }) => ({ id, family, question, hint: HINTS[id] })),
+    screens: items.map(({ id, s }) => ({
+      token: id,
+      prompt: s.prompt.text,
+      widths: s.doms.map((d) => d.width),
+      outline: outline(s),
+    })),
+  };
+  // Escape "<" so spec text cannot close the script element.
+  const json = JSON.stringify(data).replace(/</g, "\\u003c");
+  return readFileSync(join(import.meta.dir, "labelling.html"), "utf8")
+    .replace("<title>M2 labelling</title>", `<title>M2 labelling ${study}</title>`)
+    .replace("/*DATA*/ null", json);
 }
-for (const button of document.querySelectorAll(".rest")) {
-  button.addEventListener("click", () => {
-    const sec = button.closest("section");
-    for (const input of sec.querySelectorAll("input[value=no]")) {
-      const [id, rule] = input.name.split("|");
-      if (!saved.labels[id]?.[rule]) { input.checked = true; (saved.labels[id] ||= {})[rule] = "no"; }
-    }
-    store(); refresh();
-  });
-}
-who.addEventListener("input", () => { saved.labeller = who.value; store(); });
-document.getElementById("export").addEventListener("click", () => {
-  const body = JSON.stringify({ study: "${study}", labeller: who.value || "unnamed", labels: saved.labels }, null, 2);
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob([body], { type: "application/json" }));
-  a.download = "labels.json";
-  a.click();
-});
-refresh();
-</script></body></html>
-`,
-);
+
+writeFileSync(join(dir, "labelling.html"), page(false));
 console.log(`sampled ${sample.length} screens; wrote ${join("results", study, "labelling.html")}`);
+
+if (values.serve) {
+  const html = page(true);
+  const tokens = new Set(items.map((i) => i.id));
+  const ruleIds = new Set<string>(RULES.map((r) => r.id));
+  const labelsPath = join(dir, "labels.json");
+  const valid = (
+    body: unknown,
+  ): body is {
+    study: string;
+    labeller: string;
+    labels: Record<string, Record<string, string>>;
+  } => {
+    if (!body || typeof body !== "object") return false;
+    const b = body as Record<string, unknown>;
+    if (b.study !== study || typeof b.labeller !== "string" || b.labeller.length > 100)
+      return false;
+    if (!b.labels || typeof b.labels !== "object") return false;
+    return Object.entries(b.labels).every(
+      ([t, own]) =>
+        tokens.has(t) &&
+        own &&
+        typeof own === "object" &&
+        Object.entries(own).every(
+          ([r, a]) => ruleIds.has(r) && ["yes", "no", "unsure"].includes(a as string),
+        ),
+    );
+  };
+  const server = Bun.serve({
+    hostname: "127.0.0.1",
+    port: Number(values.port),
+    async fetch(req) {
+      const path = new URL(req.url).pathname;
+      if (req.method === "PUT" && path === "/labels") {
+        const body = await req.json().catch(() => null);
+        if (!valid(body)) return new Response("labels do not match this sample", { status: 400 });
+        writeFileSync(labelsPath, `${JSON.stringify(body, null, 2)}\n`);
+        return new Response("saved");
+      }
+      if (req.method !== "GET") return new Response("method not allowed", { status: 405 });
+      if (path === "/" || path === "/labelling.html") {
+        return new Response(html, { headers: { "content-type": "text/html; charset=utf-8" } });
+      }
+      if (path === "/labels.json") {
+        return existsSync(labelsPath)
+          ? new Response(Bun.file(labelsPath))
+          : new Response("none", { status: 404 });
+      }
+      const shot = path.match(/^\/blind\/(\d{2})\.(\d+)\.jpg$/);
+      if (shot && tokens.has(shot[1] as string)) {
+        const file = join(blindDir, `${shot[1]}.${shot[2]}.jpg`);
+        if (existsSync(file)) return new Response(Bun.file(file));
+      }
+      return new Response("not found", { status: 404 });
+    },
+  });
+  console.log(
+    `labelling at http://127.0.0.1:${server.port}/ — answers save to ${join("results", study, "labels.json")}`,
+  );
+}

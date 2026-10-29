@@ -34,9 +34,11 @@ The other steps, in order:
 ```bash
 bun run generate -- --study <id> --scratch <empty dir> --codex-home <dir>   # calls the models
 bun run measure                                                              # needs `bunx playwright install chromium`
-bun run label                                                                # writes labelling.html for the sample
+bun run label                                                                # serves the labelling page at http://127.0.0.1:4319/
 bun test src
 ```
+
+`bun run label` shows one screen at a time: screenshots at each width, the spec outline beside them, and the 13 questions with keyboard shortcuts (Y, N, U, arrows, 1 to 4, O). Answers save to `labels.json` as you go. The same page also opens from `labelling.html` without the server; it then saves in the browser and exports by hand.
 
 `generate` skips captures that already exist, so a failed run can be resumed. `--codex-home` points at a directory that holds only `auth.json`, which keeps personal Codex instructions out of the prompt.
 
@@ -52,7 +54,7 @@ bun test src
 | `screens/` | per-width screenshots |
 | `sample.json` | the 50 screens drawn for labelling; position N is blind token N |
 | `labelling.html` | the blind labelling page; `bun run label` also links its screenshots into `blind/` under token names |
-| `labels.json` | the human labels keyed by blind token, once exported from `labelling.html` |
+| `labels.json` | the human labels keyed by blind token, saved by `bun run label` |
 | `report.md`, `gallery.html` | the rebuilt report, and every screen with findings outlined beside its labels |
 
 ## Limitations

@@ -257,7 +257,9 @@ if (!labels) {
   );
 } else {
   const labelled = screens.filter((s) => labels.labels[s.id]);
-  say(`${labelled.length} screens labelled by ${labels.labeller}. Unsure answers are left out.`);
+  say(
+    `${labelled.length} screens labelled by ${labels.labeller || "an unnamed labeller"}. Unsure answers are left out.`,
+  );
   say();
   say("| rule | fired and yes | fired and no | missed | precision | recall | |");
   say("|---|---|---|---|---|---|---|");
