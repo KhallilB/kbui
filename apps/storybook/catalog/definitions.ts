@@ -6,6 +6,62 @@ type Definition = {
   examples: Record<string, string>;
 };
 export const definitions: Record<string, Definition> = {
+  Avatar: {
+    group: "Media",
+    description:
+      "Recognizable people and organizations with resilient portraits, initials and five shapes.",
+    examples: {
+      Default: "Default",
+      Initials: "Initials Catalog",
+      Shapes: "Shapes",
+      Portraits: "Portrait Collection",
+      People: "People",
+    },
+  },
+  Image: {
+    group: "Media",
+    description: "Stable image frames with crop, contain, responsive sources and failure states.",
+    examples: {
+      Default: "Default",
+      CropAndContain: "Crop and Contain",
+      Ratios: "Ratios",
+      FailureAndRecovery: "Failure and Recovery",
+      AssetLibrary: "Editorial Image Library",
+    },
+  },
+  Thumbnail: {
+    group: "Media",
+    description:
+      "Captioned product and attachment previews that compose into responsive galleries.",
+    examples: {
+      Default: "Default",
+      Products: "Products",
+      Attachments: "Attachments",
+      Gallery: "Gallery",
+    },
+  },
+  CopyableText: {
+    group: "Actions",
+    description: "Copy identifiers, commands and references with visible feedback and recovery.",
+    examples: {
+      Default: "Default",
+      RichContent: "Text and Links",
+      Automatic: "Automatic",
+      LongValue: "Long Value",
+      Colors: "Colors",
+    },
+  },
+  CodeBlock: {
+    group: "Typography",
+    description: "Copy exact source from highlighted, numbered or collapsible code listings.",
+    examples: {
+      Default: "Default",
+      Source: "Source",
+      Colorful: "Colorful",
+      Collapsible: "Collapsible",
+      LongCommand: "Long Command",
+    },
+  },
   Collection: {
     group: "Layout",
     description:
@@ -53,7 +109,6 @@ export const definitions: Record<string, Definition> = {
       Default: "Default",
       SortingAndSelection: "Sorting and Selection",
       DenseSticky: "Dense and Sticky",
-      EmptyAndLoading: "Empty and Loading",
     },
   },
   Split: {

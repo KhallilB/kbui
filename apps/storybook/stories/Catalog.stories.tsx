@@ -42,7 +42,7 @@ export const BrowseComponents: Story = {
     expect(filters.getByRole("radio", { name: "All" })).toBeChecked();
     await userEvent.click(canvas.getByRole("radio", { name: "Typography" }));
     expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent(
-      `4 of ${entries.length}`,
+      `${entries.filter((entry) => entry.group === "Typography").length} of ${entries.length}`,
     );
     expect(canvas.getByRole("link", { name: "Heading" })).toHaveAttribute(
       "href",

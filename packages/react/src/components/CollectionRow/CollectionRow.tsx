@@ -9,13 +9,11 @@ export type CollectionRowProps = Omit<ComponentProps<"li">, "title" | "children"
   description?: ReactNode | undefined;
   /** Leading icon, avatar or independent selection control. */
   leading?: ReactNode | undefined;
-  /** Scannable status or metadata beside the record. */
   metadata?: ReactNode | undefined;
   /** Independent named links, Buttons or Menu composition. */
   actions?: ReactNode | undefined;
   /** Visual selection; selection control supplies accessible state. */
   selected?: boolean | undefined;
-  /** Classes for layout, leading, content, title, description, aside, metadata and actions. */
   classNames?:
     | ClassNames<
         | "layout"

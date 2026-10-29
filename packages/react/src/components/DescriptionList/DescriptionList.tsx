@@ -4,9 +4,7 @@ import { kb } from "../../utils/kb";
 export type DescriptionListProps = ComponentProps<"dl"> & {
   /** Responsive label/value columns, always horizontal, or always stacked. */
   layout?: "responsive" | "horizontal" | "stacked" | undefined;
-  /** Comfortable or compact detail spacing. */
   density?: "comfortable" | "dense" | undefined;
-  /** Separate adjacent detail groups with a rule. */
   dividers?: boolean | undefined;
 };
 function DescriptionListRoot({

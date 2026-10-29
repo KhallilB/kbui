@@ -60,6 +60,11 @@ describe("buildCss", () => {
         "descriptionlist.css",
         "collectionlist.css",
         "collectionrow.css",
+        "image.css",
+        "avatar.css",
+        "thumbnail.css",
+        "copyabletext.css",
+        "codeblock.css",
       ]),
     );
   });

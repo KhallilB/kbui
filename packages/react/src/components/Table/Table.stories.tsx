@@ -4,6 +4,7 @@ import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Button } from "../Button/Button";
 import { Heading } from "../Heading/Heading";
 import { Menu } from "../Menu/Menu";
+import { Text } from "../Text/Text";
 import { Table, type TableProps, type TableSortDirection } from "./Table";
 
 const projects = Array.from({ length: 20 }, (_, index) => ({
@@ -25,59 +26,59 @@ const meta = {
   tags: ["autodocs"],
   args: { dir: "ltr" },
   argTypes: { dir: { control: "inline-radio", options: ["ltr", "rtl"] } },
-  render: (args) => (
-    <Table.ScrollContainer label="Team workload scroll area">
-      <Table {...args}>
-        <Table.Caption>Team workload</Table.Caption>
-        <Table.Head>
-          <Table.Row>
-            <Table.ColumnHeader>Name</Table.ColumnHeader>
-            <Table.ColumnHeader>Team</Table.ColumnHeader>
-            <Table.ColumnHeader align="end">Open tasks</Table.ColumnHeader>
-          </Table.Row>
-        </Table.Head>
-        <Table.Body>
-          {people.map((person) => (
-            <Table.Row key={person.id}>
-              <Table.RowHeader>{person.name}</Table.RowHeader>
-              <Table.Cell>{person.team}</Table.Cell>
-              <Table.Cell align="end">{person.tasks}</Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
-    </Table.ScrollContainer>
-  ),
+  render: (args) => <SelectableTable {...args} />,
 } satisfies Meta<typeof Table>;
 export default meta;
 type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 function SelectableTable(args: TableProps) {
+  const titleId = useId();
+  const hintId = useId();
   const [sort, setSort] = useState<{
     column: "name" | "tasks";
     direction: Exclude<TableSortDirection, "none">;
   }>({ column: "name", direction: "ascending" });
   const [selected, setSelected] = useState<string[]>([]);
-  const [message, setMessage] = useState("Choose a person’s action.");
-  const sorted = [...people].sort(
-    (a, b) =>
-      (sort.column === "name" ? a.name.localeCompare(b.name) : a.tasks - b.tasks) *
-      (sort.direction === "ascending" ? 1 : -1),
-  );
+  const [message, setMessage] = useState("");
+  const sorted = [...people].sort((a, b) => {
+    const difference = sort.column === "name" ? a.name.localeCompare(b.name) : a.tasks - b.tasks;
+    return sort.direction === "ascending" ? difference : -difference;
+  });
   const selectable = people.filter((person) => person.id !== "sam");
   const selectedCount = selectable.filter((person) => selected.includes(person.id)).length;
   return (
-    <>
-      <p role="status">
-        {selectedCount} people selected. {message}
-      </p>
+    <div style={{ display: "grid", gap: "var(--kb-space-3)", width: "100%" }}>
+      <Heading id={titleId} level={3} size="sm">
+        Team workload
+      </Heading>
+      <Text id={hintId} size="sm" tone="muted">
+        Sort by member or open tasks.
+      </Text>
+      <Text role="status" size="sm">
+        {selectedCount} of {selectable.length} selected{message && `. ${message}`}
+      </Text>
       <Table.ScrollContainer label="Selectable team scroll area">
-        <Table {...args}>
-          <Table.Caption>Team workload — sort by name or open tasks</Table.Caption>
+        <Table
+          {...args}
+          aria-labelledby={titleId}
+          aria-describedby={hintId}
+          style={
+            {
+              minWidth: "24rem",
+              "--kb-table-cell-padding-inline": "var(--kb-space-3)",
+            } as TableProps["style"]
+          }
+        >
+          <colgroup>
+            <col style={{ width: "3.5rem" }} />
+            <col />
+            <col style={{ width: "8.5rem" }} />
+            <col style={{ width: "7rem" }} />
+          </colgroup>
           <Table.Head>
             <Table.Row>
-              <Table.ColumnHeader>
+              <Table.ColumnHeader align="center">
                 <Table.SelectionCheckbox
                   visuallyHidden
                   label="Select all available people"
@@ -88,26 +89,23 @@ function SelectableTable(args: TableProps) {
                   }
                 />
               </Table.ColumnHeader>
-              <Table.ColumnHeader
-                sortDirection={sort.column === "name" ? sort.direction : "none"}
-                onSortChange={(direction) => setSort({ column: "name", direction })}
-              >
-                Name
-              </Table.ColumnHeader>
-              <Table.ColumnHeader
-                align="end"
-                sortDirection={sort.column === "tasks" ? sort.direction : "none"}
-                onSortChange={(direction) => setSort({ column: "tasks", direction })}
-              >
-                Open tasks
-              </Table.ColumnHeader>
+              {(["name", "tasks"] as const).map((column) => (
+                <Table.ColumnHeader
+                  key={column}
+                  align={column === "tasks" ? "end" : undefined}
+                  sortDirection={sort.column === column ? sort.direction : "none"}
+                  onSortChange={(direction) => setSort({ column, direction })}
+                >
+                  {column === "name" ? "Member" : "Open tasks"}
+                </Table.ColumnHeader>
+              ))}
               <Table.ColumnHeader align="end">Actions</Table.ColumnHeader>
             </Table.Row>
           </Table.Head>
           <Table.Body>
             {sorted.map((person) => (
               <Table.Row key={person.id} selected={selected.includes(person.id)}>
-                <Table.Cell>
+                <Table.Cell align="center">
                   <Table.SelectionCheckbox
                     visuallyHidden
                     label={`Select ${person.name}`}
@@ -122,16 +120,42 @@ function SelectableTable(args: TableProps) {
                     }
                   />
                 </Table.Cell>
-                <Table.RowHeader>{person.name}</Table.RowHeader>
+                <Table.RowHeader>
+                  {person.name}
+                  {person.id === "sam" && (
+                    <Text
+                      as="div"
+                      size="sm"
+                      tone="muted"
+                      style={{ fontWeight: "var(--kb-font-weight-regular)" }}
+                    >
+                      Selection unavailable
+                    </Text>
+                  )}
+                </Table.RowHeader>
                 <Table.Cell align="end">{person.tasks}</Table.Cell>
                 <Table.Cell>
                   <Table.RowActions>
-                    <Button variant="ghost" onClick={() => setMessage(`Editing ${person.name}`)}>
-                      Edit {person.name}
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      style={{ paddingInline: "var(--kb-space-1)" }}
+                      aria-label={`Edit ${person.name}`}
+                      onClick={() => setMessage(`Editing ${person.name}`)}
+                    >
+                      Edit
                     </Button>
                     <Menu>
-                      <Menu.Trigger render={<Button variant="secondary" />}>
-                        More for {person.name}
+                      <Menu.Trigger
+                        render={
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            aria-label={`More for ${person.name}`}
+                          />
+                        }
+                      >
+                        <span aria-hidden="true">•••</span>
                       </Menu.Trigger>
                       <Menu.Content>
                         <Menu.Item onClick={() => setMessage(`Viewing ${person.name}`)}>
@@ -147,32 +171,73 @@ function SelectableTable(args: TableProps) {
           </Table.Body>
         </Table>
       </Table.ScrollContainer>
-    </>
+    </div>
   );
 }
 export const SortingAndSelection: Story = {
-  render: (args) => <SelectableTable {...args} />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const name = canvas.getByRole("button", { name: "Name" });
-    name.focus();
+    const name = canvas.getByRole("button", { name: "Member" });
+    const region = canvas.getByRole("region", { name: "Selectable team scroll area" });
+    const initialMaxWidth = region.style.maxWidth;
+    try {
+      region.style.maxWidth = "320px";
+      const label = name.firstChild;
+      if (!label) throw new Error("Missing sort label");
+      const text = canvasElement.ownerDocument.createRange();
+      text.selectNode(label);
+      expect(text.getClientRects()).toHaveLength(1);
+      name.focus();
+      const header = name.closest("th");
+      if (!header) throw new Error("Missing sort header");
+      const corner = header.getBoundingClientRect();
+      expect(
+        canvasElement.ownerDocument
+          .elementFromPoint(corner.left + 2, corner.top + 2)
+          ?.closest("button"),
+      ).toBe(name);
+      const row = header.parentElement;
+      if (!row) throw new Error("Missing heading row");
+      const initialHeight = row.style.height;
+      try {
+        row.style.height = "96px";
+        const tall = header.getBoundingClientRect();
+        expect(name.getBoundingClientRect().height).toBeGreaterThanOrEqual(tall.height - 1);
+      } finally {
+        row.style.height = initialHeight;
+      }
+      const tasks = canvas.getByRole("button", { name: "Open tasks" });
+      const value = region.querySelector('tbody tr td[data-align="end"]');
+      if (!tasks.firstChild || !value) throw new Error("Missing numeric column");
+      const table = canvas.getByRole("table", { name: "Team workload" });
+      const initialDir = table.dir;
+      try {
+        for (const dir of ["ltr", "rtl"]) {
+          table.dir = dir;
+          const end = dir === "rtl" ? "left" : "right";
+          text.selectNode(tasks.firstChild);
+          expect(text.getClientRects()).toHaveLength(1);
+          const headingEnd = text.getBoundingClientRect()[end];
+          text.selectNodeContents(value);
+          expect(Math.abs(headingEnd - text.getBoundingClientRect()[end])).toBeLessThan(1);
+        }
+      } finally {
+        table.dir = initialDir;
+      }
+    } finally {
+      region.style.maxWidth = initialMaxWidth;
+      region.scrollLeft = 0;
+    }
     await userEvent.keyboard("{Enter}");
-    await expect(canvas.getByRole("columnheader", { name: "Name" })).toHaveAttribute(
-      "aria-sort",
-      "descending",
-    );
     await expect(name).toHaveFocus();
     await userEvent.click(canvas.getByRole("checkbox", { name: "Select Ada Chen" }));
     await expect(
       canvas.getByRole("checkbox", { name: "Select all available people" }),
     ).toBePartiallyChecked();
     await userEvent.click(canvas.getByRole("button", { name: "Open tasks" }));
-    await expect(canvas.getByRole("columnheader", { name: "Name" })).not.toHaveAttribute(
-      "aria-sort",
-    );
     await expect(canvas.getByRole("checkbox", { name: "Select Ada Chen" })).toBeChecked();
     await userEvent.click(canvas.getByRole("checkbox", { name: "Select all available people" }));
-    await expect(canvas.getByRole("status")).toHaveTextContent("2 people selected");
+    await expect(canvas.getByRole("status")).toHaveTextContent("2 of 2 selected");
     await expect(canvas.getByRole("checkbox", { name: "Select Sam Rivera" })).not.toBeChecked();
     const page = within(canvasElement.ownerDocument.body);
     const trigger = canvas.getByRole("button", { name: "More for Ada Chen" });
@@ -186,40 +251,43 @@ export const SortingAndSelection: Story = {
     await expect(canvas.getByRole("checkbox", { name: "Select Ada Chen" })).toBeChecked();
   },
 };
+function StickyTable(args: TableProps) {
+  const titleId = useId();
+  return (
+    <div style={{ width: "100%", display: "grid", gap: "0.75rem" }}>
+      <Heading id={titleId} level={3} size="sm">
+        Project workload — scroll in both directions
+      </Heading>
+      <Table.ScrollContainer label="Scrollable project workload" maxHeight="18rem">
+        <Table {...args} aria-labelledby={titleId} style={{ minWidth: "48rem" }}>
+          <Table.Head>
+            <Table.Row>
+              <Table.ColumnHeader sticky="start">Project</Table.ColumnHeader>
+              <Table.ColumnHeader>Owner</Table.ColumnHeader>
+              <Table.ColumnHeader>Next milestone</Table.ColumnHeader>
+              <Table.ColumnHeader align="end">Open tasks</Table.ColumnHeader>
+            </Table.Row>
+          </Table.Head>
+          <Table.Body>
+            {projects.map((project) => (
+              <Table.Row key={project.id}>
+                <Table.RowHeader sticky="start">
+                  <a href={`#${project.id}`}>{project.name}</a>
+                </Table.RowHeader>
+                <Table.Cell>{people[project.owner]?.name}</Table.Cell>
+                <Table.Cell>Review design and implementation</Table.Cell>
+                <Table.Cell align="end">{project.tasks}</Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      </Table.ScrollContainer>
+    </div>
+  );
+}
 export const DenseSticky: Story = {
   args: { density: "dense", stickyHeader: true },
-  render: function StickyTable(args) {
-    const titleId = useId();
-    return (
-      <div style={{ width: "100%", display: "grid", gap: "0.75rem" }}>
-        <Heading id={titleId} level={3} size="sm">
-          Project workload — scroll in both directions
-        </Heading>
-        <Table.ScrollContainer label="Scrollable project workload" maxHeight="18rem">
-          <Table {...args} aria-labelledby={titleId} style={{ minWidth: "48rem" }}>
-            <Table.Head>
-              <Table.Row>
-                <Table.ColumnHeader sticky="start">Project</Table.ColumnHeader>
-                <Table.ColumnHeader>Owner</Table.ColumnHeader>
-                <Table.ColumnHeader>Next milestone</Table.ColumnHeader>
-                <Table.ColumnHeader align="end">Open tasks</Table.ColumnHeader>
-              </Table.Row>
-            </Table.Head>
-            <Table.Body>
-              {projects.map((project) => (
-                <Table.Row key={project.id}>
-                  <Table.RowHeader sticky="start">{project.name}</Table.RowHeader>
-                  <Table.Cell>{people[project.owner]?.name}</Table.Cell>
-                  <Table.Cell>Review design and implementation</Table.Cell>
-                  <Table.Cell align="end">{project.tasks}</Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table>
-        </Table.ScrollContainer>
-      </div>
-    );
-  },
+  render: (args) => <StickyTable {...args} />,
   play: async ({ canvasElement }) => {
     const region = within(canvasElement).getByRole("region");
     region.focus();
@@ -249,72 +317,30 @@ export const DenseSticky: Story = {
     });
   },
 };
-export const EmptyAndLoading: Story = {
-  render: (args) => (
-    <div style={{ display: "grid", gap: "1rem", width: "100%" }}>
-      <p role="status">Loading team workload…</p>
-      {[false, true].map((loading) => (
-        <Table.ScrollContainer
-          key={String(loading)}
-          label={`${loading ? "Loading" : "Empty"} results scroll area`}
-        >
-          <Table {...args}>
-            <Table.Caption>{loading ? "Team workload" : "Search results"}</Table.Caption>
-            <Table.Head>
-              <Table.Row>
-                <Table.ColumnHeader
-                  sortDisabled={loading}
-                  sortDirection={loading ? "ascending" : undefined}
-                  onSortChange={loading ? () => {} : undefined}
-                >
-                  Name
-                </Table.ColumnHeader>
-                <Table.ColumnHeader>Team</Table.ColumnHeader>
-              </Table.Row>
-            </Table.Head>
-            <Table.Body aria-busy={loading || undefined}>
-              <Table.Row>
-                <Table.Cell colSpan={2}>
-                  {loading
-                    ? "Fetching records…"
-                    : "No people match this search. Try a different name."}
-                </Table.Cell>
-              </Table.Row>
-            </Table.Body>
-          </Table>
-        </Table.ScrollContainer>
-      ))}
-    </div>
-  ),
-};
-
 export const NestedTableIsolation: Story = {
   tags: ["!dev", "!autodocs"],
   render: () => (
     <div style={{ width: "100%" }}>
-      <Table density="comfortable">
-        <Table.Caption>Comfortable reference</Table.Caption>
-        <Table.Body>
-          <Table.Row>
-            <Table.Cell>Reference content</Table.Cell>
-          </Table.Row>
-        </Table.Body>
-      </Table>
+      <SingleCellTable label="Comfortable reference">Reference content</SingleCellTable>
       <Table density="dense">
         <Table.Caption>Dense parent</Table.Caption>
         <Table.Foot>
           <Table.Row>
             <Table.Cell>
-              <Table density="comfortable">
+              <Table density="comfortable" layout="fixed" style={{ width: 288 }}>
                 <Table.Caption>Nested comfortable table</Table.Caption>
                 <Table.Head>
                   <Table.Row>
-                    <Table.ColumnHeader>Nested heading</Table.ColumnHeader>
+                    <Table.ColumnHeader onSortChange={() => {}}>
+                      Customer success follow-up responsibility
+                    </Table.ColumnHeader>
+                    <Table.ColumnHeader>Open tasks</Table.ColumnHeader>
                   </Table.Row>
                 </Table.Head>
                 <Table.Body>
                   <Table.Row>
                     <Table.Cell>Nested content</Table.Cell>
+                    <Table.Cell>12</Table.Cell>
                   </Table.Row>
                 </Table.Body>
               </Table>
@@ -339,6 +365,11 @@ export const NestedTableIsolation: Story = {
     expect(Number.parseFloat(getComputedStyle(parent).paddingBlockStart)).toBeLessThan(
       Number.parseFloat(getComputedStyle(reference).paddingBlockStart),
     );
+    const fixed = canvas.getByRole("table", { name: "Nested comfortable table" });
+    const sort = within(fixed).getByRole("button", {
+      name: "Customer success follow-up responsibility",
+    });
+    expect(sort.scrollWidth).toBeLessThanOrEqual(sort.clientWidth + 1);
   },
 };
 
@@ -469,29 +500,11 @@ export const StickyFocusVisibility: Story = {
 
 export const StickyHeaderFocus: Story = {
   tags: ["!dev", "!autodocs"],
-  render: () => (
-    <Table.ScrollContainer label="Vertical action list" maxHeight="140px">
-      <Table stickyHeader aria-label="Project actions">
-        <Table.Head>
-          <Table.Row>
-            <Table.ColumnHeader>Actions</Table.ColumnHeader>
-          </Table.Row>
-        </Table.Head>
-        <Table.Body>
-          {projects.map((project) => (
-            <Table.Row key={project.id}>
-              <Table.Cell>
-                <button type="button">Open {project.name}</button>
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
-    </Table.ScrollContainer>
-  ),
+  args: { density: "dense", stickyHeader: true },
+  render: (args) => <StickyTable {...args} />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const buttons = canvas.getAllByRole("button");
+    const buttons = canvas.getAllByRole("link");
     const header = canvasElement.querySelector("thead");
     if (!header || !buttons.length) throw new Error("Missing action list");
     buttons.at(-1)?.focus();

@@ -9,6 +9,73 @@ export type ComponentGuide = {
 };
 
 export const componentGuides: Record<string, ComponentGuide> = {
+  Avatar: {
+    use: "Identify a person or organization consistently when a photo is loading, absent or broken.",
+    example: {
+      title: "Recognize collaborators",
+      description:
+        "Explore 24 initials identities, six original portraits and five clipping shapes, then pair a fixed-size portrait with a visible name and role.",
+    },
+    tips: [
+      "Use decorative beside an equivalent visible name to avoid duplicate announcements.",
+      "Supply initials for locale-specific name conventions; keep presence and actions in separate labeled controls.",
+    ],
+    accessibility: accessibilityGuides.Avatar,
+  },
+  Image: {
+    use: "Reserve space before an image loads and keep the same alternative when its request fails.",
+    example: {
+      title: "Frame media without layout jumps",
+      description:
+        "Compare cover and contain, fixed ratios, intrinsic dimensions, and replacement after failure.",
+    },
+    tips: [
+      "Use contain for products and documents whose edges matter; position selects a cover crop focal point.",
+      "Use ratio=auto with both width and height for intrinsic framing; choose srcSet, sizes and loading for the real screen.",
+    ],
+    accessibility: accessibilityGuides.Image,
+  },
+  Thumbnail: {
+    use: "Present identifiable products, image studies and attachments with persistent captions and metadata.",
+    example: {
+      title: "Build a readable media collection",
+      description:
+        "Compose Thumbnail figures inside Grid list items; use a caption Link for navigation or Dialog trigger for inspection.",
+    },
+    tips: [
+      "Keep filenames, format and size in the caption; never infer file metadata from a URL.",
+      "Use one clear native action per item. Grid preserves reading order and Dialog supplies modal focus behavior.",
+    ],
+    accessibility: accessibilityGuides.Thumbnail,
+  },
+  CopyableText: {
+    use: "Let people copy an identifier, command or reference without selecting it precisely.",
+    example: {
+      title: "Share a precise support reference",
+      description:
+        "Preserve case and whitespace, confirm completed copies and recover from denied clipboard access.",
+    },
+    tips: [
+      "value is authoritative even when children formats its display; expanding or failure reveals exact value for inspection and manual copying.",
+      "Use truncate for full-value disclosure, tone for color, highlight for literal emphasis and automatic URL/email/code detection. Override ambiguous content with format=text or format=code. Use mono=false for prose.",
+      "Success resets after two seconds by default. Errors remain until retry or content change; callbacks report only current writes.",
+    ],
+    accessibility: accessibilityGuides.CopyableText,
+  },
+  CodeBlock: {
+    use: "Present copyable commands, configuration and source in an explicit block listing.",
+    example: {
+      title: "Copy a command exactly",
+      description:
+        "Use the same source for display and clipboard, with readable syntax, optional line numbers and a collapsible viewport.",
+    },
+    tips: [
+      "CodeBlock always renders a block; use Code for inline literals or automatic block selection.",
+      "Collapsed listings still copy the full original source, without line numbers or visual emphasis.",
+      "Use title to name the scroll region and localize copy feedback through shared props. code.css supplies shared styles and codeblock.css keeps untitled toolbar actions in normal flow.",
+    ],
+    accessibility: accessibilityGuides.CodeBlock,
+  },
   Collection: {
     use: "Work through records using sorting, search, facets, page selection and explicit bulk actions.",
     example: {
@@ -26,24 +93,18 @@ export const componentGuides: Record<string, ComponentGuide> = {
     use: "Present named facts about one record; choose Table for column-by-column comparison.",
     example: {
       title: "Scan project details",
-      description:
-        "Native terms and definitions align across groups, then stack in narrow parents. Compare rich values and nested detail lists.",
+      description: "Aligned terms and rich values stack in narrow parents.",
     },
-    tips: [
-      "Group one Term before one or more Detail values inside each Item.",
-      "Preserve zero values, show useful unavailable text and keep controls separately labeled.",
-    ],
+    tips: ["Group one Term before one or more Detail values inside each Item."],
     accessibility: accessibilityGuides.DescriptionList,
   },
   CollectionList: {
     use: "Group records people scan by name, summary, status and actions.",
     example: {
       title: "Browse projects",
-      description:
-        "Native lists retain item structure while metadata aligns and wraps. Compare ordered and filtered examples.",
+      description: "Compare ordered and filtered lists with aligned metadata.",
     },
     tips: [
-      "Use stable keys and keep filtering, ordering, requests and selection policy in your app.",
       "Use native ol for meaningful order; put useful empty/error guidance outside an empty list.",
     ],
     accessibility: accessibilityGuides.CollectionList,
@@ -52,28 +113,18 @@ export const componentGuides: Record<string, ComponentGuide> = {
     use: "Summarize a record with leading content, details, metadata and independent actions.",
     example: {
       title: "Review a project record",
-      description:
-        "Compose a title Link, optional selection Checkbox and named actions; compare selection, actions and long content.",
+      description: "Compare independent selection, navigation and actions.",
     },
-    tips: [
-      "Use a title Link for navigation and Buttons or Menu for separate actions.",
-      "selected supplies visual emphasis; a Checkbox owns accessible checked state.",
-      "Compose inside CollectionList for shared alignment and responsive layout.",
-    ],
+    tips: ["Use a title Link for navigation and Buttons or Menu for separate actions."],
     accessibility: accessibilityGuides.CollectionRow,
   },
   Table: {
     use: "Compare related records with native table relationships and optional controlled interactions.",
     example: {
       title: "Review team workload",
-      description:
-        "Sort columns, select eligible people and open independent row actions. Dense layouts keep headers and edge columns visible while scrolling.",
+      description: "Compare sorting, eligible selection, row actions and sticky layouts.",
     },
-    tips: [
-      "Own data ordering, selected IDs and select-all scope in your app.",
-      "Use caption, scoped headers and named actions; keep ordinary Tab navigation.",
-      "Use ScrollContainer for bounded overflow and verify sticky cells at narrow widths.",
-    ],
+    tips: ["Use ScrollContainer for bounded overflow and verify sticky cells at narrow widths."],
     accessibility: accessibilityGuides.Table,
   },
   Container: {

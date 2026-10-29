@@ -50,7 +50,6 @@ export function Example() {
 - [Sorting and selection](https://kbui.kcb.pro/storybook/?path=/story/components-table--sorting-and-selection): Numeric and text ordering, stable selected IDs, mixed selection and excluded rows.
 - [Row actions](https://kbui.kcb.pro/storybook/?path=/story/components-table--sorting-and-selection): Named Buttons and Menu composition with focus return.
 - [Dense and sticky](https://kbui.kcb.pro/storybook/?path=/story/components-table--dense-sticky): Bounded scrolling, sticky headers and a pinned first column.
-- [Empty and loading](https://kbui.kcb.pro/storybook/?path=/story/components-table--empty-and-loading): Spanning feedback cells, busy body and separate status announcement.
 
 ## Reference
 
@@ -82,6 +81,8 @@ export function Example() {
 Every part accepts its native element attributes, `style`, `className` and ref. The checkbox forwards its ref to the input. Public prop types follow `Table<Part>Props`; root uses `TableProps`, sorting uses `TableSortDirection`, shared cell options use `TableCellOptions`. The sort button is `type="button"`; sorting inside forms does not submit them. Put text and decorative content in sortable headers; nested interactive children would create invalid nested controls.
 
 ### Sorting and selection ownership
+
+Sortable headings use the full cell as the button target. Unsorted headings show paired arrows; the applied order uses one arrow with stronger ink. Keep headings readable with native column widths and a bounded scroll container. Fixed-layout sortable headings wrap within their assigned columns. Reserve a compact checkbox column, align numeric headings with their values, and keep row action labels short while supplying record-specific accessible names. The sorting example places its title, instructions and selection count outside scrolling data, with visible text explaining unavailable selection.
 
 Sort a copy of your data or request server ordering. Keep the column and direction together; reset other headers to `none` so only one header announces an active sort. For server requests, handle stale responses in your app, keep applied order authoritative, set `sortDisabled` while pending, and announce progress through a status message outside an `aria-busy` body. Table does not mutate or fetch records. It does not implement multiple simultaneous sort keys.
 

@@ -2,17 +2,21 @@ import { render } from "@testing-library/react";
 import type { ReactElement } from "react";
 import { describe, expect, test } from "vitest";
 import {
+  Avatar,
   Callout,
   Checkbox,
   Code,
+  CodeBlock,
   Collection,
   CollectionList,
   CollectionRow,
   Combobox,
+  CopyableText,
   Dialog,
   ErrorSummary,
   Fieldset,
   FileInput,
+  Image,
   Input,
   MultiSelect,
   NumberField,
@@ -26,6 +30,7 @@ import {
   Switch,
   Table,
   Textarea,
+  Thumbnail,
   Toast,
 } from "./index";
 
@@ -37,6 +42,12 @@ const every = new Proxy({} as Record<string, string>, {
 const camel = (part: string) => part.replace(/-(\w)/g, (_, c: string) => c.toUpperCase());
 
 const cases: [string, () => ReactElement][] = [
+  ["image", () => <Image src="/a.jpg" alt="Photo" classNames={every} />],
+  ["avatar", () => <Avatar name="Maya Chen" classNames={every} />],
+  [
+    "thumbnail",
+    () => <Thumbnail alt="Photo" caption="Study" description="JPG" classNames={every} />,
+  ],
   [
     "collection",
     () => (
@@ -51,36 +62,30 @@ const cases: [string, () => ReactElement][] = [
     ),
   ],
   [
-    "collectionrow",
+    "copyabletext",
+    () => <CopyableText value="const count = 42;" highlight="count" classNames={every} />,
+  ],
+  [
+    "copyabletext",
     () => (
-      <CollectionList>
-        <CollectionRow
-          title="Name"
-          description="Details"
-          leading={<span>Icon</span>}
-          metadata="Status"
-          actions={<button type="button">Edit</button>}
-          classNames={every}
-        />
-      </CollectionList>
+      <CopyableText
+        value="Request https://example.com"
+        highlight="Request"
+        linkify
+        classNames={every}
+      />
     ),
   ],
   [
-    "table",
+    "copyabletext",
+    () => <CopyableText label="Request" value="id_123" truncate classNames={every} />,
+  ],
+  [
+    "code",
     () => (
-      <table>
-        <thead>
-          <tr>
-            <Table.ColumnHeader
-              className={every.columnheader}
-              classNames={every}
-              onSortChange={() => {}}
-            >
-              Name
-            </Table.ColumnHeader>
-          </tr>
-        </thead>
-      </table>
+      <CodeBlock title="Source" language="ts" lineNumbers collapsible classNames={every}>
+        {"const value = 1;"}
+      </CodeBlock>
     ),
   ],
   [
@@ -154,6 +159,39 @@ const cases: [string, () => ReactElement][] = [
         onValueChange={() => {}}
         classNames={every}
       />
+    ),
+  ],
+  [
+    "collectionrow",
+    () => (
+      <CollectionList>
+        <CollectionRow
+          title="Name"
+          description="Details"
+          leading={<span>Icon</span>}
+          metadata="Status"
+          actions={<button type="button">Edit</button>}
+          classNames={every}
+        />
+      </CollectionList>
+    ),
+  ],
+  [
+    "table",
+    () => (
+      <table>
+        <thead>
+          <tr>
+            <Table.ColumnHeader
+              className={every.columnheader}
+              classNames={every}
+              onSortChange={() => {}}
+            >
+              Name
+            </Table.ColumnHeader>
+          </tr>
+        </thead>
+      </table>
     ),
   ],
   [

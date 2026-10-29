@@ -1,3 +1,4 @@
+export { Avatar, type AvatarProps, type AvatarShape } from "./components/Avatar/Avatar";
 export {
   Badge,
   type BadgeAppearance,
@@ -22,6 +23,7 @@ export {
   type CodeToken,
   tokenizeCode,
 } from "./components/Code/Code";
+export { CodeBlock, type CodeBlockProps } from "./components/CodeBlock/CodeBlock";
 export type {
   CollectionBulkAction,
   CollectionBulkActionsProps,
@@ -59,6 +61,13 @@ export {
   type ContainerProps,
   type ContainerSize,
 } from "./components/Container/Container";
+export {
+  CopyableText,
+  type CopyableTextFormat,
+  type CopyableTextPart,
+  type CopyableTextProps,
+  type CopyableTextTone,
+} from "./components/CopyableText/CopyableText";
 export {
   DescriptionList,
   type DescriptionListDetailProps,
@@ -113,6 +122,7 @@ export {
   type HeadingProps,
   type HeadingSize,
 } from "./components/Heading/Heading";
+export { Image, type ImageProps, type ImageRatio } from "./components/Image/Image";
 export {
   Inline,
   type InlineElement,
@@ -225,6 +235,7 @@ export {
   type TextareaProps,
   type TextareaResize,
 } from "./components/Textarea/Textarea";
+export { Thumbnail, type ThumbnailProps } from "./components/Thumbnail/Thumbnail";
 export {
   createToastManager,
   Toast,
@@ -255,3 +266,4 @@ export {
 export { Tooltip, type TooltipProps } from "./components/Tooltip/Tooltip";
 export { type ClassNames, kb } from "./utils/kb";
 export type { LayoutAlign, LayoutGap } from "./utils/layout";
+export type { CopyFeedbackProps, CopyState } from "./utils/useClipboard";

@@ -1,0 +1,10 @@
+/* Anatomy: .kb-codeblock uses .kb-code [data-block], .kb-code-header, .kb-code-meta from code.css; import code.css for shared anatomy and tokens */
+/* Keep explicit block actions in normal flow so even untitled commands reserve toolbar space. */
+.kb-codeblock[data-block]:not([data-collapsible]):not(:has(.kb-code-meta)) .kb-code-header {
+  position: static;
+  justify-content: flex-end;
+  padding: var(--kb-code-header-padding-block) var(--kb-code-header-padding-inline);
+  border-block-end: 1px solid var(--kb-code-block-border);
+  background: var(--kb-code-header-face), var(--kb-code-header-background);
+  box-shadow: var(--kb-code-header-shadow);
+}

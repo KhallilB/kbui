@@ -11,6 +11,7 @@ import {
   useState,
 } from "react";
 import { type ClassNames, kb } from "../../utils/kb";
+import { type CopyFeedbackProps, useClipboard } from "../../utils/useClipboard";
 import { type CodeLanguage, type CodeToken, formatCodeLanguage, tokenizeCode } from "./tokenize";
 
 export {
@@ -28,6 +29,7 @@ export type CodePart =
   | "actions"
   | "toggle"
   | "copy"
+  | "feedback"
   | "viewport"
   | "pre"
   | "content"
@@ -35,38 +37,26 @@ export type CodePart =
   | "lineNumber"
   | "lineText";
 
-export type CodeProps = Omit<ComponentProps<"code">, "ref" | "title"> & {
-  ref?: Ref<HTMLElement>;
-  block?: boolean | undefined;
-  language?: CodeLanguage | undefined;
-  title?: string | undefined;
-  copyable?: boolean | undefined;
-  onCopy?: ((code: string) => void) | undefined;
-  lineNumbers?: boolean | undefined;
-  startLine?: number | undefined;
-  highlightLines?: readonly number[] | undefined;
-  minLines?: number | undefined;
-  collapsible?: boolean | undefined;
-  collapsedLines?: number | undefined;
-  defaultCollapsed?: boolean | undefined;
-  collapsed?: boolean | undefined;
-  onCollapsedChange?: ((collapsed: boolean) => void) | undefined;
-  maxHeight?: string | number | undefined;
-  tokens?: readonly CodeToken[] | undefined;
-  classNames?: ClassNames<CodePart> | undefined;
-};
-
-const SR_ONLY_STYLE: CSSProperties = {
-  position: "absolute",
-  width: "1px",
-  height: "1px",
-  padding: 0,
-  margin: "-1px",
-  overflow: "hidden",
-  clip: "rect(0, 0, 0, 0)",
-  whiteSpace: "nowrap",
-  border: 0,
-};
+export type CodeProps = Omit<ComponentProps<"code">, "ref" | "title" | "onCopy"> &
+  CopyFeedbackProps & {
+    ref?: Ref<HTMLElement> | undefined;
+    block?: boolean | undefined;
+    language?: CodeLanguage | undefined;
+    title?: string | undefined;
+    copyable?: boolean | undefined;
+    lineNumbers?: boolean | undefined;
+    startLine?: number | undefined;
+    highlightLines?: readonly number[] | undefined;
+    minLines?: number | undefined;
+    collapsible?: boolean | undefined;
+    collapsedLines?: number | undefined;
+    defaultCollapsed?: boolean | undefined;
+    collapsed?: boolean | undefined;
+    onCollapsedChange?: ((collapsed: boolean) => void) | undefined;
+    maxHeight?: string | number | undefined;
+    tokens?: readonly CodeToken[] | undefined;
+    classNames?: ClassNames<CodePart> | undefined;
+  };
 
 function renderLineTokens(
   lineText: string,
@@ -110,6 +100,15 @@ export function Code({
   title,
   copyable,
   onCopy,
+  onCopyError,
+  disabled = false,
+  feedbackDuration,
+  copyLabel = "Copy code",
+  copyingLabel = "Copying…",
+  copiedLabel = "Copied",
+  copyErrorLabel = "Copy failed",
+  successMessage = "Code copied to clipboard",
+  errorMessage = "Failed to copy code. Select and copy the text manually.",
   lineNumbers = false,
   startLine = 1,
   highlightLines,
@@ -129,9 +128,10 @@ export function Code({
 }: CodeProps) {
   const viewportId = useId();
   const [uncontrolledCollapsed, setUncontrolledCollapsed] = useState(defaultCollapsed);
-  const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
+  const rawCode = typeof children === "string" ? children : "";
+  const clipboard = useClipboard(rawCode, { disabled, feedbackDuration, onCopy, onCopyError });
+  const copyState = clipboard.state;
   const [expandedHeight, setExpandedHeight] = useState<number | undefined>(undefined);
-  const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const preRef = useRef<HTMLPreElement | null>(null);
 
   const resolvedMinLines =
@@ -142,12 +142,6 @@ export function Code({
       : collapsible && resolvedMinLines !== undefined
         ? resolvedMinLines
         : undefined;
-
-  useEffect(() => {
-    return () => {
-      if (copyTimerRef.current !== null) clearTimeout(copyTimerRef.current);
-    };
-  }, []);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: Re-measure when resolvedMinLines changes in non-ResizeObserver environments.
   useEffect(() => {
@@ -200,7 +194,6 @@ export function Code({
   const hasActions = Boolean(collapsible || showCopy);
   const showHeader = hasMeta || hasActions;
 
-  const rawCode = typeof children === "string" ? children : "";
   const resolvedTokens =
     typeof children === "string" ? (tokens ?? tokenizeCode(rawCode, language ?? "tsx")) : [];
   const lines = typeof children === "string" ? rawCode.split("\n") : [];
@@ -244,35 +237,20 @@ export function Code({
     onCollapsedChange?.(next);
   };
 
-  const handleCopy = async () => {
-    if (copyTimerRef.current !== null) {
-      clearTimeout(copyTimerRef.current);
-      copyTimerRef.current = null;
-    }
-    try {
-      if (!navigator.clipboard?.writeText) {
-        throw new Error("Clipboard unavailable");
-      }
-      await navigator.clipboard.writeText(rawCode);
-      setCopyState("copied");
-      onCopy?.(rawCode);
-    } catch {
-      setCopyState("failed");
-    }
-    copyTimerRef.current = setTimeout(() => {
-      setCopyState("idle");
-      copyTimerRef.current = null;
-    }, 2000);
-  };
-
-  const copyLabel =
-    copyState === "copied" ? "Copied" : copyState === "failed" ? "Copy failed" : "Copy code";
+  const resolvedCopyLabel = {
+    idle: copyLabel,
+    pending: copyingLabel,
+    copied: copiedLabel,
+    failed: copyErrorLabel,
+  }[copyState];
   const copyAnnouncement =
     copyState === "copied"
-      ? "Code copied to clipboard"
+      ? successMessage
       : copyState === "failed"
-        ? "Failed to copy code"
-        : "";
+        ? errorMessage
+        : copyState === "pending"
+          ? copyingLabel
+          : "";
 
   let offset = 0;
 
@@ -330,7 +308,9 @@ export function Code({
                   type="button"
                   className={clsx("kb-code-copy", classNames?.copy)}
                   data-copy-state={copyState}
-                  onClick={handleCopy}
+                  disabled={clipboard.disabled}
+                  aria-disabled={copyState === "pending" || undefined}
+                  onClick={() => void clipboard.copy()}
                 >
                   {copyState === "copied" ? (
                     <svg aria-hidden="true" viewBox="0 0 16 16">
@@ -346,7 +326,7 @@ export function Code({
                       <path d="M10.5 5.5V4a1.5 1.5 0 0 0-1.5-1.5H4A1.5 1.5 0 0 0 2.5 4v5A1.5 1.5 0 0 0 4 10.5h1.5" />
                     </svg>
                   )}
-                  {copyLabel}
+                  {resolvedCopyLabel}
                 </button>
               ) : null}
             </div>
@@ -354,11 +334,26 @@ export function Code({
         </div>
       ) : null}
       {showCopy ? (
-        <span role="status" aria-live="polite" style={SR_ONLY_STYLE}>
+        <span
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          className={clsx(
+            "kb-code-feedback",
+            copyState !== "failed" && "kb-sr-only",
+            classNames?.feedback,
+          )}
+        >
           {copyAnnouncement}
         </span>
       ) : null}
-      <div id={viewportId} className={clsx("kb-code-viewport", classNames?.viewport)}>
+      <section
+        id={viewportId}
+        aria-label={title || "Code"}
+        // biome-ignore lint/a11y/noNoninteractiveTabindex: Scrollable source needs keyboard access.
+        tabIndex={0}
+        className={clsx("kb-code-viewport", classNames?.viewport)}
+      >
         <pre ref={preRef} className={clsx("kb-code-pre", classNames?.pre)}>
           <code className={clsx("kb-code-content", classNames?.content)}>
             {typeof children === "string" ? (
@@ -418,7 +413,7 @@ export function Code({
             )}
           </code>
         </pre>
-      </div>
+      </section>
     </div>
   );
 }

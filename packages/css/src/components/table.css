@@ -1,4 +1,4 @@
-/* Anatomy: .kb-table-scroll, .kb-table [data-density=comfortable|dense] [data-layout=auto|fixed] [data-sticky-header] > .kb-table-caption, .kb-table-head, .kb-table-body, .kb-table-foot > .kb-table-row [data-selected] > .kb-table-columnheader, .kb-table-rowheader, .kb-table-cell [data-align=start|center|end] [data-sticky=start|end], .kb-table-sort-button > .kb-table-sort-icon, .kb-table-rowactions */
+/* Anatomy: .kb-table-scroll, .kb-table [data-density=comfortable|dense] [data-layout=auto|fixed] [data-sticky-header] > .kb-table-caption, .kb-table-head, .kb-table-body, .kb-table-foot > .kb-table-row [data-selected] > .kb-table-columnheader [data-sortable], .kb-table-rowheader, .kb-table-cell [data-align=start|center|end] [data-sticky=start|end], .kb-table-sort-button > .kb-table-sort-icon, .kb-table-rowactions */
 .kb-table-scroll {
   max-inline-size: 100%;
   min-inline-size: 0;
@@ -9,6 +9,7 @@
   background: var(--kb-table-background);
 }
 .kb-table {
+  --_table-padding-block: var(--kb-table-cell-padding-block);
   inline-size: 100%;
   border-collapse: separate;
   border-spacing: 0;
@@ -21,6 +22,9 @@
 .kb-table[data-layout="fixed"] {
   table-layout: fixed;
 }
+.kb-table[data-density="dense"] {
+  --_table-padding-block: var(--kb-table-dense-padding-block);
+}
 .kb-table-caption {
   padding: var(--kb-table-cell-padding-block) var(--kb-table-cell-padding-inline);
   text-align: start;
@@ -31,7 +35,8 @@
 .kb-table-columnheader,
 .kb-table-rowheader,
 .kb-table-cell {
-  padding: var(--kb-table-cell-padding-block) var(--kb-table-cell-padding-inline);
+  padding: var(--_table-padding-block, var(--kb-table-cell-padding-block))
+    var(--kb-table-cell-padding-inline);
   border-block-end: 1px solid var(--kb-table-border);
   vertical-align: middle;
   text-align: start;
@@ -42,16 +47,18 @@
 .kb-table-rowheader {
   font-weight: var(--kb-font-weight-strong);
 }
+.kb-table-columnheader {
+  overflow-wrap: normal;
+}
+.kb-table-columnheader[data-sortable] {
+  /* Definite cell size lets button height follow the tallest header. */
+  block-size: 1px;
+  padding: 0;
+}
 .kb-table-head > .kb-table-row > .kb-table-columnheader,
 .kb-table-foot > .kb-table-row > .kb-table-cell,
 .kb-table-foot > .kb-table-row > .kb-table-rowheader {
   background: var(--kb-table-header-background);
-}
-.kb-table[data-density="dense"]
-  > :is(.kb-table-head, .kb-table-body, .kb-table-foot)
-  > .kb-table-row
-  > :is(.kb-table-columnheader, .kb-table-rowheader, .kb-table-cell) {
-  padding-block: var(--kb-table-dense-padding-block);
 }
 :is(.kb-table-columnheader, .kb-table-rowheader, .kb-table-cell)[data-align="center"] {
   text-align: center;
@@ -84,15 +91,22 @@
   align-items: center;
   gap: var(--kb-space-2);
   inline-size: 100%;
+  block-size: 100%;
   min-inline-size: var(--kb-table-sort-target);
-  min-block-size: var(--kb-table-sort-target);
-  padding: 0;
+  min-block-size: calc(
+    var(--kb-table-sort-target) +
+    2 *
+    var(--_table-padding-block, var(--kb-table-cell-padding-block))
+  );
+  padding: var(--_table-padding-block, var(--kb-table-cell-padding-block))
+    var(--kb-table-cell-padding-inline);
   border: 0;
   border-radius: var(--kb-radius-sm);
   background: transparent;
   color: inherit;
   font: inherit;
   text-align: inherit;
+  white-space: nowrap;
   cursor: pointer;
 }
 :is(.kb-table-columnheader, .kb-table-rowheader, .kb-table-cell)[data-align="center"]
@@ -103,10 +117,29 @@
   > .kb-table-sort-button {
   justify-content: flex-end;
 }
+.kb-table[data-layout="fixed"]
+  > :is(.kb-table-head, .kb-table-body, .kb-table-foot)
+  > .kb-table-row
+  > .kb-table-columnheader
+  > .kb-table-sort-button {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 .kb-table-sort-icon {
+  display: inline-flex;
   flex-shrink: 0;
+  color: var(--kb-color-muted);
+}
+.kb-table-columnheader[aria-sort] .kb-table-sort-icon,
+.kb-table-sort-button:disabled .kb-table-sort-icon {
+  color: inherit;
+}
+.kb-table-columnheader[data-align="end"] > .kb-table-sort-button > .kb-table-sort-icon {
+  order: -1;
 }
 .kb-table-sort-button:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--kb-color-fg) 6%, transparent);
   text-decoration: underline;
 }
 .kb-table-sort-button:disabled {

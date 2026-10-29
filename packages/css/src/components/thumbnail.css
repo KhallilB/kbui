@@ -1,0 +1,29 @@
+/* Anatomy: .kb-thumbnail > .kb-thumbnail-media + .kb-thumbnail-caption > .kb-thumbnail-title + .kb-thumbnail-description */
+.kb-thumbnail {
+  display: grid;
+  align-content: start;
+  gap: var(--kb-thumbnail-gap);
+  min-inline-size: 0;
+  margin: 0;
+  color: var(--kb-thumbnail-color);
+}
+.kb-thumbnail-media {
+  --kb-image-radius: var(--kb-thumbnail-radius);
+}
+.kb-thumbnail-caption {
+  display: grid;
+  gap: var(--kb-thumbnail-caption-gap);
+  min-inline-size: 0;
+}
+.kb-thumbnail-title {
+  font-size: var(--kb-thumbnail-title-size);
+  font-weight: var(--kb-font-weight-strong);
+  line-height: var(--kb-text-leading-control);
+  overflow-wrap: anywhere;
+}
+.kb-thumbnail-description {
+  font-size: var(--kb-thumbnail-description-size);
+  line-height: var(--kb-text-leading-control);
+  color: var(--kb-thumbnail-muted);
+  overflow-wrap: anywhere;
+}

@@ -5,7 +5,6 @@ import { Checkbox, type CheckboxProps } from "../Checkbox/Checkbox";
 export type TableProps = ComponentProps<"table"> & {
   /** Cell spacing; dense retains full-size control targets. */
   density?: "comfortable" | "dense" | undefined;
-  /** Keep column headers visible inside the scrolling container. */
   stickyHeader?: boolean | undefined;
   /** Fixed column sizing; supply widths through colgroup or cell styles. */
   layout?: "auto" | "fixed" | undefined;
@@ -80,7 +79,6 @@ function revealTableFocus(viewport: HTMLElement, target: HTMLElement) {
 }
 
 export type TableScrollContainerProps = ComponentProps<"section"> & {
-  /** Accessible name for the keyboard-scrollable region. */
   label: string;
   /** Height cap; sticky headers use this scroll boundary. */
   maxHeight?: CSSProperties["maxHeight"] | undefined;
@@ -132,7 +130,6 @@ export function TableRow({ selected = false, className, ...props }: TableRowProp
   return <tr {...props} {...kb("table-row", { selected }, className)} />;
 }
 export type TableCellOptions = {
-  /** Logical text alignment; follows writing direction. */
   align?: "start" | "center" | "end" | undefined;
   /** Pin one edge cell; use matching edges in header and body. */
   sticky?: "start" | "end" | undefined;
@@ -144,9 +141,7 @@ export type TableColumnHeaderProps = Omit<ComponentProps<"th">, "align"> &
     sortDirection?: TableSortDirection | undefined;
     /** Enables native sort button; none starts ascending, then toggles. */
     onSortChange?: ((direction: Exclude<TableSortDirection, "none">) => void) | undefined;
-    /** Prevent sort interaction while data is unavailable. */
     sortDisabled?: boolean | undefined;
-    /** Classes for sort button and decorative icon. */
     classNames?: ClassNames<"sortButton" | "sortIcon"> | undefined;
   };
 export function TableColumnHeader({
@@ -169,7 +164,7 @@ export function TableColumnHeader({
       {...props}
       scope={scope}
       aria-sort={sortDirection === "none" ? undefined : (sortDirection ?? ariaSort)}
-      {...kb("table-columnheader", { align, sticky }, className)}
+      {...kb("table-columnheader", { align, sticky, sortable: Boolean(onSortChange) }, className)}
     >
       {onSortChange ? (
         <button
@@ -180,7 +175,7 @@ export function TableColumnHeader({
         >
           {children}
           <span aria-hidden="true" {...kb("table-sort-icon", {}, classNames?.sortIcon)}>
-            {direction === "ascending" ? "↑" : direction === "descending" ? "↓" : "↕"}
+            {direction === "ascending" ? "↑" : direction === "descending" ? "↓" : "⇅"}
           </span>
         </button>
       ) : (
