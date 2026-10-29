@@ -738,7 +738,7 @@ function CatalogDetail({
           </div>
           <a
             className="plain-link"
-            href={`https://github.com/KhallilB/kbui/blob/main/packages/react/README.md#${entry.apiHeading.toLowerCase().replaceAll(" ", "-")}`}
+            href={`https://github.com/KhallilB/kbui/blob/main/packages/react/docs/components/${entry.name}.md`}
           >
             React guide <LinkArrow />
           </a>

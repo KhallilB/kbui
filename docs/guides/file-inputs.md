@@ -51,7 +51,7 @@ FileInput announces file selections and confirmed removals. A selection announce
 
 ## API
 
-See the [FileInput API](../../packages/react/README.md#fileinput) for props, defaults, and events.
+See the [FileInput API](../../packages/react/docs/components/FileInput.md) for props, defaults, and events.
 
 ## Styling and themes
 

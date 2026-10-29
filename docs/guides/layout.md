@@ -32,7 +32,7 @@ export function Workspace() {
 }
 ```
 
-The [React API](../../packages/react/README.md#container) lists all props. [Composed page stories](../../packages/react/src/components/Container/Container.stories.tsx) cover both themes. Keep vertical rhythm with `Grid layout="stack"`; use Grid's automatic columns for variable child counts.
+The [React API](../../packages/react/docs/components/Container.md) lists all props. [Composed page stories](../../packages/react/src/components/Container/Container.stories.tsx) cover both themes. Keep vertical rhythm with `Grid layout="stack"`; use Grid's automatic columns for variable child counts.
 
 ## Responsive rules
 

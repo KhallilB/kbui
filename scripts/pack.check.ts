@@ -26,6 +26,8 @@ test("@kb.ui/react ships the full stylesheet so one install is enough", async ()
   const tarball = run(["bun", "pm", "pack", "--quiet", "--destination", out], react.dir);
   const entries = run(["tar", "-tzf", tarball], react.dir).split("\n");
   expect(entries).toContain("package/dist/styles.css");
+  expect(entries).toContain("package/docs/components/Button.md");
+  expect(entries).toContain("package/docs/components/Input.md");
   const pkg = react.pkg as { exports?: Record<string, unknown>; sideEffects?: unknown };
   expect(pkg.exports?.["./styles.css"]).toBe("./dist/styles.css");
   expect(pkg.sideEffects).toEqual(["*.css"]);

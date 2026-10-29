@@ -430,3 +430,15 @@ test("Switch Props JSDoc documents both offIcon and onIcon and preview layout cl
     expect(previewKind(id), id).toBe("surface");
   }
 });
+
+test("standalone component pages preserve API tables and nested guidance", () => {
+  const page =
+    "# Button\n\nUse for actions.\n\n## Usage\n\n```tsx\n<Button>Save</Button>\n```\n\n## Props\n\n| Prop | Type |\n|---|---|\n| `disabled` | `boolean` |\n";
+  expect(parseApiSection(page, "Button")).toEqual([
+    { kind: "paragraph", text: "Use for actions." },
+    { kind: "heading", level: 2, text: "Usage" },
+    { kind: "code", text: "<Button>Save</Button>" },
+    { kind: "heading", level: 2, text: "Props" },
+    { kind: "table", headers: ["Prop", "Type"], rows: [["`disabled`", "`boolean`"]] },
+  ]);
+});

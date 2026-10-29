@@ -33,7 +33,7 @@ bun run storybook
 
 CI job names use `<purpose>: <scope>`: `Check` for static/package checks, `Test` for executable suites, `Gate` for combined results, and `Deploy` for publishing. Add future jobs using the same pattern; describe detailed coverage in their steps.
 
-CI runs **Check: code** on every PR, with separate named steps for package builds, lint, TypeScript, documented examples, unit tests, tarball contents, and packed-tarball consumer installation. Consumer installation uses the [shared fixture](.github/consumer/README.md) without publishing to npm. Docs-only changes compile Storybook without launching browsers. Runtime changes and `packages/react/README.md`, which supplies generated catalog APIs, also start four independent checks in the official Playwright image:
+CI runs **Check: code** on every PR, with separate named steps for package builds, lint, TypeScript, documented examples, unit tests, tarball contents, and packed-tarball consumer installation. Consumer installation uses the [shared fixture](.github/consumer/README.md) without publishing to npm. Docs-only changes compile Storybook without launching browsers. Runtime changes and `packages/react/docs/components/*.md`, which supplies generated catalog APIs, also start four independent checks in the official Playwright image:
 
 - **Test: stories** renders interaction stories in normal and reduced motion.
 - **Test: themes** checks component stories across the default themes.
@@ -66,7 +66,7 @@ Each visible story should teach a distinct use, variant, or meaningful state. Us
 
 Storybook chrome and Docs read the package palette from `.storybook/theme.ts`; do not copy color values into manager overrides. Docs styling stays scoped to documentation classes so it cannot restyle the components being demonstrated. `verify:storybook` checks the built manager, curated navigation, retained QA URLs, and synchronized System/Light/Dark themes. It runs as part of `validate:site`.
 
-Each component has a named API section in `packages/react/README.md` and usage/accessibility guidance in `apps/storybook/catalog/component-guides.ts`. Storybook reads the canonical API tables through `virtual:kbui-reference`; edit that source instead of copying types into a Docs page. Keep primary examples practical and compilable. Stories that render an already-open modal need `!autodocs` so reading a page never launches a dialog; keep them reachable in the canvas. `verify:component-docs` checks every component in both themes, mobile layouts, editable controls, and dialog focus as part of site validation.
+Each component has a canonical API and complete usage example in `packages/react/docs/components/<Name>.md` and live usage/accessibility guidance in `apps/storybook/catalog/component-guides.ts`. Storybook reads the canonical API tables through `virtual:kbui-reference`; edit that source instead of copying types into a Docs page. Keep primary examples practical and compilable. Stories that render an already-open modal need `!autodocs` so reading a page never launches a dialog; keep them reachable in the canvas. `verify:component-docs` checks every component in both themes, mobile layouts, editable controls, and dialog focus as part of site validation.
 
 Run `bun run --filter @kb.ui/storybook dev:internal` to inspect those fixtures at http://localhost:6008. Browser test commands opt into the same internal scope with `KBUI_STORYBOOK_INTERNAL=1`. Keep validation fixtures while they protect unique behavior; delete one only after equivalent coverage exists elsewhere. Do not remove tests just to tidy navigation. `build:site` rejects internal stories in its public index and verifies every catalog link. `validate:site` builds a separate temporary QA Storybook for built control-edge checks, then removes it; deployment staging contains only public docs. Set `SITE_VALIDATION_PORT` when local ports 4175/4176 are occupied; QA uses the next port.
 
@@ -96,6 +96,14 @@ Comments are one line. Write one only when the code cannot say it: a constraint,
 - Put commands, file paths and identifiers in backticks, and make every command copyable as written.
 - Date any claim that can go stale, such as test counts, versions or external projects.
 - Give each topic one home and link to it instead of repeating it.
+
+### React reference maintenance
+
+Keep `packages/react/README.md` as the package overview and grouped component index. Put component-specific usage, props, defaults, and behavior in `packages/react/docs/components/<Name>.md`, starting with `# <Name>`. Use second-level headings for Usage and Reference. Every page needs a complete `tsx` example with imports and an exported component, an API or composition table, a return link to the index, and a link to its live Storybook Docs page. Add a short More examples list linking to distinct existing stories and a Related components paragraph explaining nearby choices. Keep the story implementation in its colocated story file; add a deeper page example only when it teaches a missing workflow or caller-owned state.
+
+The catalog and Storybook read those API tables directly. Keep interactive stories beside implementations and live usage/accessibility guidance in `apps/storybook/catalog/component-guides.ts`. Shared topics belong in `docs/guides`; link them from component pages instead of repeating them. Keep public reference pages free of release-specific version literals; describe unreleased behavior explicitly when needed.
+
+When adding a component, create its reference page and index link alongside its public export, catalog metadata, guidance, and stories. `bun run check` checks index coverage, reference links, API parsing, complete example compilation, and packaged Markdown. Changes to component reference pages also run site validation and trigger the site deployment workflow.
 
 ## Commits
 

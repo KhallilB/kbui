@@ -151,7 +151,7 @@ export function ReferencePage() {
         <p className="reference-api-note">
           Types and defaults follow the same{" "}
           <a
-            href={`https://github.com/KhallilB/kbui/blob/main/packages/react/README.md#${name.toLowerCase()}`}
+            href={`https://github.com/KhallilB/kbui/blob/main/packages/react/docs/components/${name}.md`}
           >
             package reference
           </a>{" "}

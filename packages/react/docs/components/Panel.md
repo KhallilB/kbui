@@ -1,0 +1,83 @@
+# Panel
+
+Use Panel for a section that needs a header, body, and actions. Its parts help keep those areas aligned. Give the section an accessible name with `aria-labelledby`, pointing to the heading in `Panel.Header`.
+
+[All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/components-panel--docs)
+
+## Usage
+
+```tsx
+import "@kb.ui/react/styles.css";
+import { Button, Panel } from "@kb.ui/react";
+
+export function Example() {
+  return (
+    <Panel aria-labelledby="queue-title">
+      <Panel.Header>
+        <h2 id="queue-title">Review queue</h2>
+      </Panel.Header>
+      <Panel.Body>Three items need review.</Panel.Body>
+      <Panel.Footer>
+        <Button>Open queue</Button>
+      </Panel.Footer>
+    </Panel>
+  );
+}
+```
+
+## More examples
+
+- [Optional details](https://kbui.kcb.pro/storybook/?path=/story/components-panel--collapsible): Expand and collapse a section from its toggle.
+- [Section actions](https://kbui.kcb.pro/storybook/?path=/story/components-panel--toolbar): Group actions alongside the section heading.
+- [Nested sections](https://kbui.kcb.pro/storybook/?path=/story/components-panel--nested): Inspect depth and grouping inside a parent panel.
+
+## Reference
+
+```tsx
+<Panel tone="active" rail="status" aria-labelledby="queue-title">
+  <Panel.Header>
+    <h2 id="queue-title">Queue</h2>
+    <Panel.Toolbar>
+      <Button size="sm">Retry</Button>
+    </Panel.Toolbar>
+  </Panel.Header>
+  <Panel.Body>
+    <Panel.Well>…</Panel.Well>
+  </Panel.Body>
+  <Panel.Footer>…</Panel.Footer>
+</Panel>
+```
+
+| Prop           | Values                                                 | Default      | Notes                                                                 |
+| -------------- | ------------------------------------------------------ | ------------ | --------------------------------------------------------------------- |
+| `tone`         | `quiet` / `default` / `sunken` / `active` / `critical` | `default`    | Changes the surface emphasis; pair state colors with explanatory text |
+| `rail`         | `none` / `accent` / `status`                           | `none`       | Accent stays the accent color; status follows the current tone        |
+| `density`      | `compact` / `standard`                                 | `standard`   | Changes padding without changing semantics                            |
+| `collapsible`  | `boolean`                                              | `false`      | Enables Panel.Toggle and collapsible body behavior                    |
+| `open`         | `boolean`                                              | uncontrolled | Current body visibility when collapsible is enabled                   |
+| `defaultOpen`  | `boolean`                                              | `false`      | Initial visibility for an uncontrolled collapsible panel              |
+| `onOpenChange` | `(open: boolean) => void`                              | unset        | Update open here when your app controls visibility                    |
+
+`quiet` removes the panel background; `sunken` gives it a recessed surface. Use `Panel.Well` for logs or other output that should sit inside the panel. Customize the shape with `--kb-panel-radius`, the rim with `--kb-panel-rim-top`, `--kb-panel-border`, and `--kb-panel-rim-bottom`, and the depth with `--kb-panel-shadow` or `--kb-panel-shadow-active`.
+
+For additional lighting, use `--kb-panel-sheen`, `--kb-panel-backdrop`, `--kb-panel-glow`, `--kb-panel-glow-active`, and `--kb-panel-glow-critical`. These effects stay off by default. Active and critical tones change the upper rim and glow colors. The rail follows the panel’s rounded corners.
+
+## Resizable panels
+
+Put `Panel.Handle` between two panels in a `Panel.Group` to let people resize them. The handle sizes the panel before it, as a percentage of the group; the panel after it takes the remaining space. Name each handle with `aria-label` or `aria-labelledby`. A column group needs a height.
+
+```tsx
+<Panel.Group direction="row">
+  <Panel aria-labelledby="code-title">…</Panel>
+  <Panel.Handle aria-label="Resize code" defaultSize={50} min={25} max={75} />
+  <Panel aria-labelledby="view-title">…</Panel>
+</Panel.Group>
+```
+
+`size` (controlled) or `defaultSize` (default `50`) sets the size of the panel before the handle in percent. `min` and `max` limit it (defaults `10` and `90`), `step` sets the arrow-key change (default `5`), and `onSizeChange` receives the next size after a key press or drag.
+
+The handle follows the window splitter pattern. Arrow keys along the group's direction resize the panel, `Home` and `End` jump to the limits, and `Enter` collapses the panel to `min` and restores the previous size. Pointer drags work in both directions. Arrow keys do not flip in right-to-left layouts. Style the handle with `--kb-panel-handle-size`, `--kb-panel-handle-hit`, `--kb-panel-handle-grip`, `--kb-panel-handle-line` and `--kb-panel-handle-line-active`.
+
+## Related components
+
+Use [Card](Card.md) for a self-contained item and [Grid](Grid.md) or [Split](Split.md) to arrange sections.
