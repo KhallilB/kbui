@@ -50,14 +50,17 @@ Use a Button for an action such as saving a form or opening a dialog. Choose a v
 | `size` | `sm` / `md` / `lg` / `icon` | `md` | Height and padding; icon is square and requires aria-label |
 | `type` | native button type | `button` | Set submit for form submission; use button for other form actions |
 | `disabled` | `boolean` | `false` | Blocks interaction; explain unavailable actions in nearby text when needed |
-| `render` | element | unset | Use an anchor with nativeButton=false and role=link for navigation |
+| `href` | `string` | unset | Renders a link through the [`Link.Provider`](#router-links) component |
+| `render` | element | unset | Replaces the rendered element; pass nativeButton=false for non-buttons |
 | `className` | `string` | unset | Extra classes on the rendered control; function values are not supported |
 
-All props accepted by a native button or Base UI's `Button` also work. To render a link, pass an anchor and tell Base UI it is not a native button:
+All props accepted by a native button or Base UI's `Button` also work. Pass `href` for navigation styled as a button; it renders as a link with your router's component when a `Link.Provider` is present:
 
 ```tsx
-<Button render={<a href="/docs" />} nativeButton={false} role="link">Docs</Button>
+<Button href="/docs">Docs</Button>
 ```
+
+For a one-off element, `render={<a href="/docs" />}` with `nativeButton={false}` and `role="link"` still works.
 
 ## Input
 
@@ -663,7 +666,24 @@ Native anchor for navigation, with persistent underline and visible keyboard foc
 | `target`, `rel`, `download`, `aria-current` | Native anchor props | unset | Passed through without rewriting |
 | `className`, `ref` | Native anchor props | unset | Ref targets anchor |
 
-Use descriptive link text. Use Button for an action. Links inherit surrounding type size; Tab focuses, Enter follows, and Space retains native behavior. Callers own new-tab wording and target/rel policy. No disabled link or router adapter is provided; apply `kb-link` to a router component that renders an anchor with href. Color, underline and focus must remain visible.
+Use descriptive link text. Use Button for an action. Links inherit surrounding type size; Tab focuses, Enter follows, and Space retains native behavior. Callers own new-tab wording and target/rel policy. No disabled link is provided. Color, underline and focus must remain visible.
+
+### Router links
+
+kbui never imports a router. Wrap your app once in `Link.Provider` with a component that renders an anchor: it receives `href` plus native anchor props, and must pass them and `ref` through. `Link` and `Button href` then render through it, keeping their classes; nested providers override outer ones, and without a provider they render a plain `<a>`. A React Router adapter:
+
+```tsx
+import { Link, type LinkProps } from "@kb.ui/react";
+import { Link as RouterLink } from "react-router";
+
+const AppLink = ({ href, ...props }: LinkProps) => <RouterLink to={href} {...props} />;
+
+<Link.Provider component={AppLink}>
+  <App />
+</Link.Provider>;
+```
+
+`useLinkComponent()` returns the current component for your own anchors.
 
 ## Code
 

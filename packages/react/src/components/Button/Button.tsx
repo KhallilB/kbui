@@ -1,5 +1,6 @@
 import { Button as Base } from "@base-ui/react/button";
 import { kb } from "../../utils/kb";
+import { useLinkComponent } from "../Link/Link";
 
 export type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
 export type ButtonSize = "sm" | "md" | "lg" | "icon";
@@ -9,9 +10,11 @@ type ButtonBaseProps = Omit<Base.Props, "className"> & {
   className?: string;
   /** Action emphasis: primary main, secondary supporting, ghost quiet, danger destructive. */
   variant?: ButtonVariant;
+  /** Navigation destination: renders as a link through Link.Provider's component. */
+  href?: string | undefined;
 };
 
-/** Navigation use: pass render={<a href/>} nativeButton={false} role="link". Icon size needs aria-label. */
+/** Icon size needs aria-label. */
 export type ButtonProps = ButtonBaseProps &
   (
     | {
@@ -21,6 +24,18 @@ export type ButtonProps = ButtonBaseProps &
     | { size: "icon"; "aria-label": string }
   );
 
-export function Button({ variant = "primary", size = "md", className, ...props }: ButtonProps) {
-  return <Base {...props} {...kb("button", { variant, size }, className)} />;
+export function Button({
+  variant = "primary",
+  size = "md",
+  className,
+  href,
+  ...props
+}: ButtonProps) {
+  const Anchor = useLinkComponent();
+  // Caller render/role still win: the per-instance escape hatch.
+  const link =
+    href === undefined
+      ? {}
+      : { render: <Anchor href={href} />, nativeButton: false, role: "link" as const };
+  return <Base {...link} {...props} {...kb("button", { variant, size }, className)} />;
 }
