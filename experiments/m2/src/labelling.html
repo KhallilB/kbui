@@ -197,6 +197,7 @@
         display: flex;
         gap: 20px;
         align-items: flex-start;
+        justify-content: safe center;
       }
       .viewer figure {
         margin: 0;
@@ -214,12 +215,11 @@
           0 0 0 1px var(--line),
           0 2px 10px rgb(0 0 0 / 0.06);
       }
-      .viewer.fit figure {
-        flex: 0 1 auto;
-        min-width: 0;
+      .viewer img {
+        cursor: zoom-in;
       }
-      .viewer.fit img {
-        max-width: 100%;
+      .viewer.zoomed img {
+        cursor: zoom-out;
       }
       aside {
         background: var(--panel);
@@ -363,14 +363,11 @@
         <div class="prompt"><small id="where"></small><span id="prompt"></span></div>
         <div class="toolbar">
           <fieldset class="seg" id="widths" aria-label="Width"></fieldset>
-          <fieldset class="seg" aria-label="Zoom">
-            <button type="button" id="fit" aria-pressed="true">Fit</button>
-            <button type="button" id="actual" aria-pressed="false">Actual size</button>
-          </fieldset>
+          <fieldset class="seg" id="zoom" aria-label="Zoom"></fieldset>
           <button class="ghost" id="open-outline" type="button">Spec outline <kbd>O</kbd></button>
         </div>
         <div class="stage">
-          <div class="viewer fit" id="viewer"></div>
+          <div class="viewer" id="viewer"></div>
           <section class="outline" id="outline" aria-label="Spec outline" hidden>
             <div class="outline-head">Spec outline · type, depth, text, behaviour</div>
             <div id="outline-body"></div>
@@ -386,7 +383,7 @@
           <button class="primary" id="next" type="button">Next →</button>
           <div class="keys">
             <kbd>Y</kbd> <kbd>N</kbd> <kbd>U</kbd> answer · <kbd>⌫</kbd> clear · <kbd>↑</kbd><kbd>↓</kbd> question ·
-            <kbd>←</kbd><kbd>→</kbd> screen · <kbd>1</kbd>–<kbd>4</kbd> width · <kbd>F</kbd> fit
+            <kbd>←</kbd><kbd>→</kbd> screen · <kbd>1</kbd>–<kbd>4</kbd> width · <kbd>F</kbd> zoom · click a screenshot to enlarge
           </div>
         </div>
       </aside>
@@ -403,13 +400,20 @@
         saved = { ...saved, ...JSON.parse(localStorage.getItem(KEY) || "{}") };
       } catch {}
       const VIEW_KEY = `${KEY}-view`;
-      const view = { screen: 0, question: 0, width: "390", fit: true, outline: false };
+      const ZOOMS = { width: "Fit width", page: "Fit page", actual: "100%" };
+      const view = { screen: 0, question: 0, width: "all", zoom: "width", outline: false };
       try {
-        Object.assign(view, JSON.parse(localStorage.getItem(VIEW_KEY) || "{}"), { screen: 0, question: 0 });
+        const kept = JSON.parse(localStorage.getItem(VIEW_KEY) || "{}");
+        if (kept.width) view.width = kept.width;
+        if (kept.zoom in ZOOMS) view.zoom = kept.zoom;
+        view.outline = Boolean(kept.outline);
       } catch {}
       const keepView = () => {
         try {
-          localStorage.setItem(VIEW_KEY, JSON.stringify({ width: view.width, fit: view.fit, outline: view.outline }));
+          localStorage.setItem(
+            VIEW_KEY,
+            JSON.stringify({ width: view.width, zoom: view.zoom, outline: view.outline }),
+          );
         } catch {}
       };
 
@@ -488,24 +492,32 @@
           }),
         );
         const shown = view.width === "all" ? s.widths : [Number(view.width)];
-        $("viewer").className = `viewer${view.fit ? " fit" : ""}`;
+        $("zoom").replaceChildren(
+          ...Object.entries(ZOOMS).map(([z, name]) => {
+            const b = document.createElement("button");
+            b.type = "button";
+            b.textContent = name;
+            b.setAttribute("aria-pressed", String(view.zoom === z));
+            b.onclick = () => setZoom(z);
+            return b;
+          }),
+        );
+        $("viewer").className = `viewer${view.zoom === "actual" ? " zoomed" : ""}`;
         $("viewer").replaceChildren(
           ...shown.map((w) => {
             const f = document.createElement("figure");
             f.innerHTML = `<figcaption>${w}px</figcaption><img alt="Screen ${s.token} at ${w}px" src="blind/${s.token}.${w}.jpg">`;
+            const img = f.querySelector("img");
+            img.onload = layout;
+            // In all widths, a click opens that width; otherwise it toggles 100%.
+            img.onclick = () =>
+              view.width === "all"
+                ? setWidth(String(w))
+                : setZoom(view.zoom === "actual" ? "width" : "actual");
             return f;
           }),
         );
-        // Fit all widths side by side, but never below half size; scroll past that.
-        if (view.fit && view.width === "all") {
-          const room = $("viewer").clientWidth - 40 - 20 * (shown.length - 1);
-          const k = Math.min(1, Math.max(0.5, room / shown.reduce((a, w) => a + w, 0)));
-          $("viewer").querySelectorAll("img").forEach((img, i) => {
-            img.style.width = `${Math.round(shown[i] * k)}px`;
-          });
-        }
-        $("fit").setAttribute("aria-pressed", String(view.fit));
-        $("actual").setAttribute("aria-pressed", String(!view.fit));
+        layout();
         $("outline-body").innerHTML = s.outline;
         renderQuestions();
       }
@@ -571,6 +583,34 @@
         renderScreen();
       }
 
+      // Sizes screenshots from their real pixels against the space the viewer has now.
+      function layout() {
+        const v = $("viewer");
+        const imgs = [...v.querySelectorAll("img")];
+        if (!imgs.length) return;
+        const sizes = imgs.map((img) => [img.naturalWidth, img.naturalHeight]);
+        if (sizes.some(([w]) => !w)) return;
+        const roomW = v.clientWidth - 40 - 20 * (imgs.length - 1);
+        const roomH = v.clientHeight - 40 - 22;
+        const totalW = sizes.reduce((a, [w]) => a + w, 0);
+        const tallest = Math.max(...sizes.map(([, h]) => h));
+        // Small phone shots may grow a little to fill the space; never blur past 1.5x.
+        const grow = imgs.length > 1 ? 1 : 1.5;
+        let k = 1;
+        if (view.zoom === "width") k = Math.min(grow, roomW / totalW);
+        if (view.zoom === "page") k = Math.min(grow, roomW / totalW, roomH / tallest);
+        imgs.forEach((img, i) => {
+          img.style.width = `${Math.floor(sizes[i][0] * k)}px`;
+        });
+      }
+      new ResizeObserver(layout).observe($("viewer"));
+
+      function setZoom(z) {
+        view.zoom = z;
+        keepView();
+        renderScreen();
+      }
+
       function setWidth(w) {
         view.width = w;
         keepView();
@@ -579,16 +619,6 @@
 
       $("prev").onclick = () => go(view.screen - 1);
       $("next").onclick = () => go(view.screen + 1);
-      $("fit").onclick = () => {
-        view.fit = true;
-        keepView();
-        renderScreen();
-      };
-      $("actual").onclick = () => {
-        view.fit = false;
-        keepView();
-        renderScreen();
-      };
       $("rest").onclick = () => {
         const s = DATA.screens[view.screen];
         const own = { ...labelsOf(s.token) };
@@ -643,9 +673,8 @@
           backspace: () => answer(null),
           a: () => $("rest").click(),
           f: () => {
-            view.fit = !view.fit;
-            keepView();
-            renderScreen();
+            const order = Object.keys(ZOOMS);
+            setZoom(order[(order.indexOf(view.zoom) + 1) % order.length]);
           },
           o: toggleOutline,
           arrowdown: () => focusQuestion(view.question + 1),
@@ -664,7 +693,6 @@
         }
       });
 
-      window.addEventListener("resize", () => view.width === "all" && view.fit && renderScreen());
 
       // Merge the saved file under local answers, then resume at the first open screen.
       (async () => {

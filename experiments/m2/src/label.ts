@@ -180,7 +180,6 @@ writeFileSync(join(dir, "labelling.html"), page(false));
 console.log(`sampled ${sample.length} screens; wrote ${join("results", study, "labelling.html")}`);
 
 if (values.serve) {
-  const html = page(true);
   const tokens = new Set(items.map((i) => i.id));
   const ruleIds = new Set<string>(RULES.map((r) => r.id));
   const labelsPath = join(dir, "labels.json");
@@ -219,7 +218,10 @@ if (values.serve) {
       }
       if (req.method !== "GET") return new Response("method not allowed", { status: 405 });
       if (path === "/" || path === "/labelling.html") {
-        return new Response(html, { headers: { "content-type": "text/html; charset=utf-8" } });
+        // Rebuilt per request so template edits show on refresh.
+        return new Response(page(true), {
+          headers: { "content-type": "text/html; charset=utf-8" },
+        });
       }
       if (path === "/labels.json") {
         return existsSync(labelsPath)
