@@ -51,6 +51,15 @@ describe.each(packages)("$pkg.name tarball", ({ dir, pkg }) => {
     expect(entries.filter((e) => !allowed(e))).toEqual([]);
   });
 
+  test("ships the current package README byte for byte", async () => {
+    expect(entries).toContain("README.md");
+    const shipped = Bun.spawnSync(["tar", "-xOzf", tarball, "package/README.md"], { cwd: dir });
+    expect(shipped.exitCode).toBe(0);
+    expect(
+      shipped.stdout.equals(Buffer.from(await Bun.file(join(dir, "README.md")).arrayBuffer())),
+    ).toBe(true);
+  });
+
   test("ships built output", () => {
     expect(entries.some((e) => e.startsWith("dist/"))).toBe(true);
   });

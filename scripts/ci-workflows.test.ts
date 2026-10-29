@@ -650,3 +650,16 @@ test("later previews update the existing Actions comment without duplicates", as
   expect(writes[0]?.parameters).toMatchObject({ ...commentContext.repo, comment_id: 12 });
   expect(writes[0]?.parameters.body).toContain("abc123");
 });
+
+test("every npm publication and recovery verifies registry READMEs after publishing", () => {
+  const steps = job("release", "publish").steps;
+  const publish = steps.findIndex((step) => step.name === "Publish each tarball to npm");
+  const verify = steps.findIndex((step) => step.name === "Verify published READMEs and integrity");
+  expect(verify).toBeGreaterThan(publish);
+  expect(steps[verify]?.if).toBeUndefined();
+  expect(steps[verify]?.run).toBe("node scripts/release-readmes.ts release");
+  expect(steps[verify]?.env?.ALLOW_HISTORICAL).toBe(
+    `\${{ github.event_name == 'workflow_dispatch' }}`,
+  );
+  expect(steps.some((step) => step.uses === "actions/checkout@v4")).toBe(true);
+});

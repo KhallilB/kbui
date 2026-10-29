@@ -168,3 +168,12 @@ test("rejects incomplete and nested annotation blocks", async () => {
   await documentedRelease(annotated(annotated("KBUI_VERSION=0.3.0")));
   expect(await releaseProblems(root)).toEqual(["USAGE.md has malformed release-version blocks"]);
 });
+
+test("documentation commits prepare a release without a manual version footer", async () => {
+  const config = await Bun.file(new URL("../release-please-config.json", import.meta.url)).json();
+  expect(config["changelog-sections"]).toContainEqual({
+    type: "docs",
+    section: "Documentation",
+    hidden: false,
+  });
+});
