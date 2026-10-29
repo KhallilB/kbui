@@ -1,172 +1,349 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useState } from "react";
-import { expect } from "storybook/test";
+import * as React from "react";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Button } from "../Button/Button";
-import { Inline } from "../Inline/Inline";
-import { Spinner } from "../Spinner/Spinner";
-import { Toast, type ToastTone, useToastManager } from "./Toast";
+import { Toast, type ToastAddOptions, useToastManager } from "./Toast";
 
-function CheckGlyph() {
+function Messages({
+  initial = [],
+  timed = false,
+}: {
+  initial?: ToastAddOptions[];
+  timed?: boolean;
+}) {
+  const { add, close } = useToastManager();
+  React.useEffect(() => {
+    initial.forEach((message, index) => {
+      add({ id: `example-${index}`, ...message });
+    });
+  }, [add, initial]);
   return (
-    <svg
-      viewBox="0 0 16 16"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.75"
-      aria-hidden="true"
-    >
-      <path d="m3.5 8.5 3 3 6-6.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
+    <div style={{ display: "grid", gap: 16, width: "100%" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+        <Button
+          onClick={() =>
+            add({
+              title: "Changes saved",
+              description: "Your project is up to date.",
+              type: "success",
+              timeout: timed ? 5000 : 0,
+            })
+          }
+        >
+          Show notification
+        </Button>
+        <Button variant="secondary" onClick={() => close()}>
+          Dismiss all
+        </Button>
+      </div>
+      <Toast.Viewport placement="inline" />
+    </div>
   );
 }
 
-function WarningGlyph() {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
-      <path d="M8 2 14.5 13.5h-13L8 2Z" strokeLinejoin="round" />
-      <path d="M8 6.2v3.3M8 11.5h.01" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-const tones: ToastTone[] = ["neutral", "info", "success", "warning", "danger", "loading"];
+const saved: ToastAddOptions[] = [
+  { title: "Changes saved", description: "Your project is up to date.", type: "success" },
+];
+const tones: ToastAddOptions[] = [
+  { title: "Draft available", description: "Continue editing when you are ready." },
+  { title: "Sync in progress", description: "You can keep working.", type: "info" },
+  { title: "Changes saved", description: "Your project is up to date.", type: "success" },
+  {
+    title: "Storage almost full",
+    description: "Remove unused files to make space.",
+    type: "warning",
+  },
+  {
+    title: "Upload failed",
+    description: "Your file is still available. Try again.",
+    type: "error",
+  },
+];
 
 const meta = {
   title: "Components/Toast",
   component: Toast,
+  args: { toast: { id: "preview", title: "Changes saved" } },
   tags: ["autodocs"],
-  args: {
-    tone: "success",
-    title: "Configuration saved",
-    description: "Edge routing rules were propagated to all 14 regions.",
-  },
-  argTypes: {
-    tone: { control: "select", options: tones },
-    closable: { control: "boolean" },
-  },
+  parameters: { controls: { disable: true } },
 } satisfies Meta<typeof Toast>;
-
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const box = { width: "100%" } as const;
-
 export const Default: Story = {
-  render: (args) => (
-    <div style={box}>
-      <Toast {...args} icon={<CheckGlyph />} />
-    </div>
+  render: () => (
+    <Toast.Provider timeout={0}>
+      <Messages initial={saved} />
+    </Toast.Provider>
   ),
   play: async ({ canvasElement }) => {
-    const toast = canvasElement.querySelector<HTMLElement>(".kb-toast");
-    expect(toast).not.toBeNull();
-    expect(toast?.getAttribute("data-tone")).toBe("success");
+    const canvas = within(canvasElement);
+    const message = await canvas.findByRole("dialog", { name: "Changes saved" });
+    await expect(message).toHaveAccessibleDescription("Your project is up to date.");
+    await expect(canvas.getByRole("region", { name: "Notifications" })).toHaveAttribute(
+      "aria-live",
+      "polite",
+    );
+    await userEvent.click(within(message).getByRole("button", { name: "Dismiss notification" }));
+    await waitFor(() => expect(message).not.toBeInTheDocument());
+    await userEvent.click(canvas.getByRole("button", { name: "Show notification" }));
+    await waitFor(() =>
+      expect(canvas.getByRole("dialog", { name: "Changes saved" })).toBeVisible(),
+    );
   },
 };
 
-export const WithRecoveryAction: Story = {
+export const Queue: Story = {
   render: () => (
-    <div style={box}>
-      <Toast
-        tone="danger"
-        icon={<WarningGlyph />}
-        title="Webhook delivery failed"
-        description="Endpoint returned HTTP 503 during event dispatch."
-        actionLabel="Retry delivery"
-        onAction={() => {}}
-      />
-    </div>
+    <Toast.Provider timeout={0} limit={2}>
+      <Messages initial={tones} />
+    </Toast.Provider>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const latest = await canvas.findByRole("dialog", { name: "Upload failed" });
+    await expect(canvas.getAllByRole("dialog")).toHaveLength(2);
+    await expect(canvas.getByText("Changes saved").closest(".kb-toast")).toHaveAttribute("inert");
+    await expect(canvas.getByText("Changes saved")).not.toBeVisible();
+    await userEvent.click(within(latest).getByRole("button", { name: "Dismiss notification" }));
+    await waitFor(() =>
+      expect(canvas.getByRole("dialog", { name: "Changes saved" })).toBeVisible(),
+    );
+  },
 };
 
 export const Tones: Story = {
   render: () => (
-    <div style={{ ...box, display: "grid", gap: "0.75rem" }}>
-      {tones.map((tone) => (
-        <Toast
-          key={tone}
-          tone={tone}
-          title={`Tone: ${tone}`}
-          description="Non-modal status notification with semantic border and icon ink."
-        />
-      ))}
-    </div>
+    <Toast.Provider timeout={0} limit={5}>
+      <Messages initial={tones} />
+    </Toast.Provider>
   ),
 };
 
-function AsyncSubmissionTrigger() {
-  const toastManager = useToastManager();
-  const [submitting, setSubmitting] = useState(false);
-
-  const runSubmission = (shouldFail: boolean) => {
-    setSubmitting(true);
-    const id = toastManager.add({
-      type: "loading",
-      title: "Publishing release v2.5.0",
-      description: "Signing provenance attestation and uploading artifacts…",
-    });
-
-    setTimeout(() => {
-      setSubmitting(false);
-      if (shouldFail) {
-        toastManager.update(id, {
-          type: "error",
-          title: "Release publish failed",
-          description: "Registry mirror timed out while verifying signature.",
-          actionProps: {
-            children: "Retry publish",
-            onClick: () => {
-              toastManager.close(id);
-              runSubmission(false);
-            },
-          },
-        });
-      } else {
-        toastManager.update(id, {
-          type: "success",
-          title: "Release v2.5.0 published",
-          description: "Signed package is now available on the registry.",
-        });
-      }
-    }, 350);
-  };
-
+function UndoMessage() {
+  const { add, close, update } = useToastManager();
   return (
-    <div style={{ display: "grid", gap: "0.75rem" }}>
-      <Inline gap="sm" align="center">
-        <Button size="sm" disabled={submitting} onClick={() => runSubmission(false)}>
-          {submitting ? <Spinner decorative size="sm" tone="current" /> : null}
-          {submitting ? "Publishing…" : "Publish release"}
-        </Button>
-        <Button
-          size="sm"
-          variant="secondary"
-          disabled={submitting}
-          onClick={() => runSubmission(true)}
-        >
-          Simulate recoverable failure
-        </Button>
-      </Inline>
+    <div style={{ display: "grid", gap: 16, width: "100%" }}>
+      <Button
+        onClick={() => {
+          const id = add({
+            title: "Project archived",
+            description: "You can restore it from the archive.",
+            timeout: 0,
+            actionProps: {
+              children: "Undo",
+              onClick: () =>
+                update(id, {
+                  title: "Project restored",
+                  description: "The project is back in your workspace.",
+                  type: "success",
+                  actionProps: undefined,
+                }),
+            },
+          });
+        }}
+      >
+        Archive project
+      </Button>
+      <Button variant="secondary" onClick={() => close()}>
+        Dismiss all
+      </Button>
+      <Toast.Viewport placement="inline" />
     </div>
   );
 }
 
-export const AsyncSubmissionAndRetry: Story = {
+export const WithAction: Story = {
   render: () => (
-    <div style={{ width: "100%", display: "grid", gap: "0.75rem" }}>
-      <Toast.Provider timeout={0}>
-        <AsyncSubmissionTrigger />
-        <Toast.Viewport portal={false} inline>
-          <Toast
-            tone="warning"
-            icon={<WarningGlyph />}
-            title="Transient timeout on replica-eu-west"
-            description="Automatic retry scheduled; use manual retry to force immediate sync."
-            actionLabel="Retry now"
-            onAction={() => {}}
-          />
-        </Toast.Viewport>
-      </Toast.Provider>
-    </div>
+    <Toast.Provider>
+      <UndoMessage />
+    </Toast.Provider>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "Archive project" }));
+    await userEvent.click(await canvas.findByRole("button", { name: "Undo" }));
+    await waitFor(() =>
+      expect(canvas.getByRole("dialog", { name: "Project restored" })).toBeVisible(),
+    );
+    await expect(canvas.queryByRole("button", { name: "Undo" })).not.toBeInTheDocument();
+  },
+};
+
+export const Timed: Story = {
+  render: () => (
+    <Toast.Provider>
+      <Messages timed />
+    </Toast.Provider>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole("button", { name: "Show notification" });
+    await userEvent.click(trigger);
+    const message = await canvas.findByRole("dialog", { name: "Changes saved" });
+    await expect(trigger).toHaveFocus();
+    await userEvent.keyboard("{F6}");
+    await expect(canvas.getByRole("region")).toHaveFocus();
+    await userEvent.keyboard("{Tab}");
+    await expect(message).toHaveFocus();
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(message).not.toBeInTheDocument());
+    await expect(trigger).toHaveFocus();
+    await userEvent.click(trigger);
+    await userEvent.hover(trigger);
+    await waitFor(() => expect(canvas.queryByRole("dialog")).not.toBeInTheDocument(), {
+      timeout: 7000,
+    });
+  },
+};
+
+function PromiseMessage() {
+  const { promise } = useToastManager();
+  return (
+    <div style={{ display: "grid", gap: 16, width: "100%" }}>
+      <Button
+        onClick={() => {
+          void promise(
+            new Promise<string>((resolve) => setTimeout(() => resolve("Project"), 800)),
+            { loading: "Saving project", success: (name) => `${name} saved`, error: "Save failed" },
+          );
+        }}
+      >
+        Save project
+      </Button>
+      <Toast.Viewport placement="inline" />
+    </div>
+  );
+}
+
+export const PromiseState: Story = {
+  render: () => (
+    <Toast.Provider timeout={0}>
+      <PromiseMessage />
+    </Toast.Provider>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "Save project" }));
+    await waitFor(() =>
+      expect(canvas.getByRole("dialog", { name: "Saving project" })).toBeVisible(),
+    );
+    await expect(await canvas.findByRole("dialog", { name: "Project saved" })).toHaveAttribute(
+      "data-tone",
+      "success",
+    );
+  },
+};
+
+function CustomMessage() {
+  const { add } = useToastManager<{ file: string }>();
+  return (
+    <div style={{ display: "grid", gap: 16, width: "100%" }}>
+      <Button
+        onClick={() =>
+          add({ title: "Download ready", data: { file: "quarterly-report.pdf" }, timeout: 0 })
+        }
+      >
+        Prepare download
+      </Button>
+      <Toast.Viewport<{ file: string }>
+        placement="inline"
+        renderToast={(toast) => (
+          <Toast key={toast.id} toast={toast}>
+            <Toast.Content>
+              <Toast.Title />
+              <Toast.Description>{toast.data?.file}</Toast.Description>
+              <Toast.Action render={<a href="#download" />} nativeButton={false} role="link">
+                Open download
+              </Toast.Action>
+            </Toast.Content>
+            <Toast.Close aria-label="Close download notice">Close</Toast.Close>
+          </Toast>
+        )}
+      />
+    </div>
+  );
+}
+
+export const CustomComposition: Story = {
+  render: () => (
+    <Toast.Provider>
+      <CustomMessage />
+    </Toast.Provider>
+  ),
+};
+
+function PositionedMessage() {
+  const { add } = useToastManager();
+  return (
+    <>
+      <Button
+        onClick={() =>
+          add({
+            title: "Connection lost",
+            description: "Reconnect to save changes.",
+            priority: "high",
+            timeout: 0,
+            type: "error",
+          })
+        }
+      >
+        Show urgent notification
+      </Button>
+      <Toast.Viewport placement="top-end" />
+    </>
+  );
+}
+
+export const Positioned: Story = {
+  render: () => (
+    <Toast.Provider>
+      <PositionedMessage />
+    </Toast.Provider>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "Show urgent notification" }));
+    const page = within(canvasElement.ownerDocument.body);
+    await expect(await page.findByRole("alert")).toHaveTextContent("Connection lost");
+    await userEvent.keyboard("{F6}");
+    await expect(page.getByRole("region", { name: "Notifications" })).toHaveFocus();
+    await userEvent.keyboard("{Tab}");
+    const toast = page.getByRole("alertdialog", { name: "Connection lost" });
+    await expect(toast).toHaveFocus();
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() => expect(toast).not.toBeInTheDocument());
+    await expect(canvas.getByRole("button")).toHaveFocus();
+  },
+};
+
+const longMessage: ToastAddOptions[] = [
+  {
+    title: "Export completed with a filename that needs room to wrap",
+    description:
+      "quarterly-report-for-all-regions-with-a-very-long-unbroken-identifier-012345678901234567890123456789.pdf",
+    actionProps: { children: "Review exported report" },
+  },
+];
+export const LongContent: Story = {
+  render: () => (
+    <Toast.Provider timeout={0}>
+      <Messages initial={longMessage} />
+    </Toast.Provider>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const message = await canvas.findByRole("dialog");
+    await waitFor(() => expect(message).toBeVisible());
+    const document = canvasElement.ownerDocument;
+    await expect(document.documentElement.scrollWidth).toBeLessThanOrEqual(
+      document.documentElement.clientWidth,
+    );
+    await expect(message.scrollWidth).toBeLessThanOrEqual(message.clientWidth);
+    for (const control of within(message).getAllByRole("button")) {
+      const bounds = control.getBoundingClientRect();
+      await expect(bounds.width).toBeGreaterThanOrEqual(24);
+      await expect(bounds.height).toBeGreaterThanOrEqual(24);
+    }
+  },
 };

@@ -86,6 +86,19 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.Button,
   },
+  Toast: {
+    use: "Confirm completed background work without interrupting the current task.",
+    example: {
+      title: "Keep project notifications together",
+      description:
+        "One provider owns the message list. Compare overflow, actions and timed dismissal; use F6 to reach notifications.",
+    },
+    tips: [
+      "Mount one Viewport per provider; use timeout=0 for important messages and time-sensitive actions.",
+      "Limit hides older messages while their timers continue. Keep essential results available in the page or a notification history.",
+    ],
+    accessibility: accessibilityGuides.Toast,
+  },
   Callout: {
     use: "Explain something important near the affected content. Add an action when people can resolve the message.",
     example: {
@@ -501,18 +514,5 @@ export const componentGuides: Record<string, ComponentGuide> = {
       "Set showLabel when the spinner stands alone in a toolbar, header, or inline status row.",
     ],
     accessibility: accessibilityGuides.Spinner,
-  },
-  Toast: {
-    use: "Confirm asynchronous completion, report background progress, or offer an immediate retry when a non-blocking action fails.",
-    example: {
-      title: "Announce completion and recoverable failures",
-      description:
-        "Queue notifications through Toast.Provider and useToastManager, or transition an in-flight operation from loading to success or retryable error.",
-    },
-    tips: [
-      "Use toastManager.promise or toastManager.update to transition a loading toast in place when a request settles.",
-      "Attach an actionLabel or actionProps retry callback on recoverable network failures so people can retry without losing their draft.",
-    ],
-    accessibility: accessibilityGuides.Toast,
   },
 };

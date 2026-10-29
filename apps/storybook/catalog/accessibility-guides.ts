@@ -95,6 +95,36 @@ export const accessibilityGuides = {
       href: "https://www.w3.org/WAI/ARIA/apg/patterns/button/",
     },
   },
+  Toast: {
+    provides: [
+      "Viewport is a named polite live region. priority=high uses a separate alert announcement; adding a toast does not move focus.",
+      "F6 reaches the viewport, Tab reaches messages and actions, and Escape dismisses a focused message with focus recovery. Hover, keyboard focus and window blur pause timers.",
+      "Default close controls have accessible names; closeLabel localizes each default control. Root and part refs, renderToast, placement and container support custom compositions and theme hosts.",
+    ],
+    authoring: [
+      "Supply concise title/description text; reserve high priority for urgent updates. When composing custom content, also supply the message title/description so urgent announcements carry the same meaning.",
+      "Set timeout=0 for essential information or time-sensitive actions. Provide an application preference to disable or adjust time limits where required; hover/focus pause alone does not satisfy Timing Adjustable.",
+      "Mount one Viewport per provider, localize its aria-label and closeLabel, and keep important results available outside transient notifications. Use named real buttons or links for actions.",
+    ],
+    verify: [
+      "Trigger routine and urgent messages with a screen reader: hear each relevant update without focus moving or duplicate announcements; inspect both initial and updated content.",
+      "Use F6, Tab, Shift+Tab and Escape to enter, act on, dismiss and leave messages. Confirm visible focus and return to the previous working control after the last dismissal.",
+      "Hover, focus and blur the window during a timed message; it must remain, then resume its remaining time. With timeout=0 it must persist until dismissed.",
+      "Exceed limit and dismiss newer messages: older persistent messages return. Check long text at 320 CSS pixels, both themes, RTL, reduced motion, forced colors and application zoom.",
+    ],
+    standards: [
+      "1.4.1",
+      "1.4.3",
+      "1.4.10",
+      "2.1.1",
+      "2.2.1",
+      "2.4.3",
+      "2.4.7",
+      "2.5.8",
+      "4.1.2",
+      "4.1.3",
+    ],
+  },
   Callout: {
     provides: [
       "The icon slot is decorative and hidden from assistive technology.",
@@ -622,20 +652,5 @@ export const accessibilityGuides = {
       "Verify prefers-reduced-motion disables continuous rotation while preserving indicator visibility.",
     ],
     standards: ["1.4.1", "1.4.11", "4.1.2", "4.1.3"],
-  },
-  Toast: {
-    provides: [
-      "Base UI Toast.Provider and Toast.Viewport manage polite/assertive live announcements, F6 landmark navigation, pointer/focus timer pausing, and dismiss buttons.",
-      "Standalone and managed toasts map danger/error states to role=alert (or high priority) and render a decorative spinner during loading states.",
-    ],
-    authoring: [
-      "Use Toast for non-blocking confirmations or recoverable background errors; keep critical form validation errors in document flow with ErrorSummary or Callout.",
-      "When an asynchronous action fails, provide an explicit retry action or keep the user's draft intact so timed dismissal never loses work.",
-    ],
-    verify: [
-      "Trigger a toast by keyboard, jump to the notification region or Tab to its retry and dismiss buttons, and confirm timer auto-dismiss pauses while focused or hovered.",
-      "Verify screen-reader announcements across loading, success, and recoverable error transitions, and check reduced-motion and forced-colors rendering.",
-    ],
-    standards: ["1.4.1", "2.1.1", "2.4.3", "2.4.7", "3.3.1", "3.3.3", "4.1.3"],
   },
 } satisfies Record<string, AccessibilityGuide>;

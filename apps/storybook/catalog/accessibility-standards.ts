@@ -14,6 +14,7 @@ export const accessibilityStandards = {
     anchor: "content-on-hover-or-focus",
   },
   "2.1.1": { title: "Keyboard", level: "A", anchor: "keyboard" },
+  "2.2.1": { title: "Timing Adjustable", level: "A", anchor: "timing-adjustable" },
   "2.1.2": { title: "No Keyboard Trap", level: "A", anchor: "no-keyboard-trap" },
   "2.4.3": { title: "Focus Order", level: "A", anchor: "focus-order" },
   "2.4.4": { title: "Link Purpose (In Context)", level: "A", anchor: "link-purpose-in-context" },

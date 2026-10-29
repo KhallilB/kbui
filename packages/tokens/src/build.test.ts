@@ -615,10 +615,10 @@ describe("loading and feedback component tokens", () => {
     expect(css).toContain("--kb-emptystate-max-width: 32rem;");
     expect(css).toContain("--kb-emptystate-icon-size-md: 2.75rem;");
 
-    expect(css).toContain("--kb-toast-width: 23rem;");
+    expect(css).toContain("--kb-toast-width: 24rem;");
     expect(css).toContain("--kb-toast-radius: var(--kb-radius-lg);");
     expect(css).toContain("--kb-toast-shadow: var(--kb-material-float-shadow);");
-    expect(css).toContain("--kb-toast-layer: 60;");
-    expect(css).toContain("--kb-toast-motion-duration: var(--kb-motion-duration-base);");
+    expect(css).toContain("--kb-toast-z-index: 1000;");
+    expect(css).toContain("--kb-toast-motion-duration: 240ms;");
   });
 });

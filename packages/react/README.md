@@ -84,6 +84,7 @@ Choose by task. Each page contains a complete usage example, canonical API detai
 | Component | Use for |
 |---|---|
 | <a id="badge"></a>[Badge](docs/components/Badge.md) | Add a short label, category, or piece of metadata. |
+| <a id="toast"></a>[Toast](docs/components/Toast.md) | Queue temporary messages with announcements, actions and timed dismissal. |
 | <a id="callout"></a>[Callout](docs/components/Callout.md) | Highlight a message and offer a useful next step. |
 | <a id="emptystate"></a>[EmptyState](docs/components/EmptyState.md) | Explain why a collection or section is empty and offer the next action. |
 | <a id="progress"></a>[Progress](docs/components/Progress.md) | Show how much of a task is complete. |
@@ -91,7 +92,6 @@ Choose by task. Each page contains a complete usage example, canonical API detai
 | <a id="spinner"></a>[Spinner](docs/components/Spinner.md) | Indicate an indeterminate wait or busy control. |
 | <a id="stat"></a>[Stat](docs/components/Stat.md) | Show a number alongside the label that explains it. |
 | <a id="status"></a>[Status](docs/components/Status.md) | Describe a current state with text and an optional icon. |
-| <a id="toast"></a>[Toast](docs/components/Toast.md) | Confirm asynchronous completion or offer retry on recoverable failures. |
 | <a id="tooltip"></a>[Tooltip](docs/components/Tooltip.md) | Add brief context on hover or keyboard focus. |
 
 ### Layout

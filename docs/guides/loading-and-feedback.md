@@ -123,6 +123,7 @@ export function AsyncSubmissionRecipe() {
   return (
     <Toast.Provider>
       <WebhookPolicyForm onSubmitPolicy={async () => {}} />
+      <Toast.Viewport aria-label="Notifications" />
     </Toast.Provider>
   );
 }

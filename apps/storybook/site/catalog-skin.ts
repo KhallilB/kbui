@@ -130,7 +130,7 @@ const examples: Record<string, Example> = {
   Stat: { open: '<Stat label="Done" value={12}', slot: "value", css: ink },
   Status: { open: "<Status", close: ">Online</Status>", css: ink },
   Switch: { open: '<Switch label="Alerts"', slot: "track", css: outline },
-  Toast: { open: '<Toast title="Saved"', close: " />", css: outline },
+  Toast: { open: '<Toast toast={{ id: "1", title: "Saved" }}', close: " />", css: outline },
   Toolbar: { open: "<Toolbar", close: ">…</Toolbar>", css: outline },
   Tooltip: { open: '<Tooltip content="Saved"', close: ">…</Tooltip>", css: fill },
 };

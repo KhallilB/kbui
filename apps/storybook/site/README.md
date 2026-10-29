@@ -172,7 +172,7 @@ Required name/email checks focus the first invalid field. Failed saves retain dr
 
 ### Verification
 
-`bun run --filter @kb.ui/storybook test:themes` exercises all 121 canonical component stories in light/dark and normal/reduced motion, including accessibility scans. `test:site` covers responsive routes and forced colors. `verify:theme` compares computed Button, Card, field and Dialog materials across Components, Playground, Examples, Home and Setup, and compares a standalone package stylesheet with the same previews and grid Cards in both themes, then checks real built iframe identity/input retention, workspace draft retention, keyboard focus, thumb motion, cross-route persistence and legacy URL cleanup. Run against the combined static output:
+`bun run --filter @kb.ui/storybook test:themes` exercises all 195 canonical component stories in light/dark and normal/reduced motion, including accessibility scans. `test:site` covers responsive routes and forced colors. `verify:theme` compares computed Button, Card, field and Dialog materials across Components, Playground, Examples, Home and Setup, and compares a standalone package stylesheet with the same previews and grid Cards in both themes, then checks real built iframe identity/input retention, workspace draft retention, keyboard focus, thumb motion, cross-route persistence and legacy URL cleanup. Run against the combined static output:
 
 ```bash
 CATALOG_PREVIEW_URL=http://127.0.0.1:4182 bun run --filter @kb.ui/storybook verify:theme

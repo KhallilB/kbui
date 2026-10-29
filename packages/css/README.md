@@ -61,7 +61,7 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | `emptystate.css` | `.kb-emptystate` with `data-size` (`sm`, `md`, `lg`), `data-variant` (`surface`, `subtle`, `plain`) and `data-tone` (`neutral`, `info`, `warning`, `danger`), wrapping `-icon`, `-header`, `-eyebrow`, `-title`, `-description`, `-body`, `-actions` and `-footer` parts |
 | `spinner.css` | `.kb-spinner` with `data-size` (`sm`, `md`, `lg`), `data-tone` (`current`, `accent`, `neutral`, `info`, `success`, `warning`, `danger`) and optional `data-show-label`, wrapping `-icon` (`-track`, `-arc`) and `-label` |
 | `skeleton.css` | `.kb-skeleton` with `data-variant` (`text`, `rect`, `circle`, `pill`), `data-size` (`sm`, `md`, `lg`) and `data-animated`, wrapping `-line` or `-content` parts |
-| `toast.css` | `.kb-toast-viewport` (`data-placement`, `data-inline`) containing `.kb-toast` with `data-tone` (`neutral`, `info`, `success`, `warning`, `danger`, `loading`), wrapping `-content`, `-icon`, `-body`, `-title`, `-description`, `-actions`, `-action` and `-close` parts |
+| `toast.css` | Named `.kb-toast-viewport` with logical `data-placement`, `.kb-toast` tone/state attributes and content/title/description/action/close parts; renderer owns queue, announcements, timing and focus |
 | `dialog.css` | `.kb-dialog-popup` with `-title`, `-description` and `-actions` parts, beside a `.kb-dialog-backdrop`. Both use Base UI's open, starting and ending attributes for animation |
 
 ## Build and test

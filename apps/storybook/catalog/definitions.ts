@@ -96,6 +96,17 @@ export const definitions: Record<string, Definition> = {
       Disabled: "Disabled",
     },
   },
+  Toast: {
+    group: "Feedback",
+    description: "Manage temporary notifications with announcements and timed dismissal.",
+    examples: {
+      Default: "Default",
+      Queue: "Queue",
+      Tones: "Colors",
+      WithAction: "Undo action",
+      Timed: "Timed dismissal",
+    },
+  },
   Callout: {
     group: "Feedback",
     description: "Highlight a message and offer a useful next step.",
@@ -292,16 +303,6 @@ export const definitions: Record<string, Definition> = {
       WithVisibleLabel: "Visible Label",
       BusyButton: "Busy Button",
       SizesAndTones: "Sizes and Tones",
-    },
-  },
-  Toast: {
-    group: "Feedback",
-    description: "Confirm asynchronous completion or offer retry on recoverable failures.",
-    examples: {
-      Default: "Default",
-      WithRecoveryAction: "Recovery Action",
-      Tones: "Tones",
-      AsyncSubmissionAndRetry: "Async and Retry",
     },
   },
   Toolbar: {

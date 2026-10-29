@@ -217,14 +217,12 @@ const cases: [string, () => ReactElement][] = [
   [
     "toast",
     () => (
-      <Toast
-        icon={<svg />}
-        title="T"
-        description="D"
-        actionLabel="Retry"
-        onAction={() => {}}
-        classNames={every}
-      />
+      <Toast.Provider timeout={0}>
+        <Toast
+          toast={{ id: "slots", title: "T", description: "D", actionProps: { children: "Undo" } }}
+          classNames={every}
+        />
+      </Toast.Provider>
     ),
   ],
   ["progress", () => <Progress label="L" value={50} classNames={every} />],

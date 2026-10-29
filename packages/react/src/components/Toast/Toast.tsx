@@ -1,407 +1,186 @@
-import { Toast as Base } from "@base-ui/react/toast";
-import { clsx } from "clsx";
 import {
-  Children,
-  type ComponentProps,
-  isValidElement,
-  type MouseEvent,
-  type ReactNode,
-  useState,
-} from "react";
+  Toast as Base,
+  type ToastManagerAddOptions as BaseAddOptions,
+  type ToastManagerPromiseOptions as BasePromiseOptions,
+  type ToastManager as BaseToastManager,
+  type ToastObject as BaseToastObject,
+  type ToastManagerUpdateOptions as BaseUpdateOptions,
+  type UseToastManagerReturnValue,
+} from "@base-ui/react/toast";
+import { clsx } from "clsx";
+import type { ReactNode } from "react";
 import { type ClassNames, kb } from "../../utils/kb";
-import { Spinner } from "../Spinner/Spinner";
 
-export type ToastTone = "neutral" | "info" | "success" | "warning" | "danger" | "loading";
-export type ToastPlacement =
-  | "bottom-end"
-  | "bottom-start"
-  | "top-end"
-  | "top-start"
-  | "bottom-center"
-  | "top-center";
-
-export type ToastClassNames = ClassNames<
-  | "viewport"
-  | "content"
-  | "icon"
-  | "body"
-  | "title"
-  | "description"
-  | "actions"
-  | "action"
-  | "close"
->;
-
-export type ToastData = {
-  tone?: ToastTone;
-  icon?: ReactNode;
-  action?: ReactNode;
-  actionLabel?: ReactNode;
-  onAction?: (event: MouseEvent<HTMLButtonElement>) => void;
-  closable?: boolean;
-  closeLabel?: string;
+export type ToastTone = "neutral" | "info" | "success" | "warning" | "danger";
+export type ToastPlacement = "top-start" | "top-end" | "bottom-start" | "bottom-end" | "inline";
+export type ToastObject<Data extends object = Record<string, unknown>> = BaseToastObject<Data>;
+export type ToastManager<Data extends object = Record<string, unknown>> = BaseToastManager<Data>;
+export type ToastAddOptions<Data extends object = Record<string, unknown>> = BaseAddOptions<Data>;
+export type ToastUpdateOptions<Data extends object = Record<string, unknown>> =
+  BaseUpdateOptions<Data>;
+export type ToastPromiseOptions<
+  Value,
+  Data extends object = Record<string, unknown>,
+> = BasePromiseOptions<Value, Data>;
+export type ToastProviderProps = Base.Provider.Props;
+export type ToastContentProps = Omit<Base.Content.Props, "className"> & {
+  /** Extra classes for content. */
+  className?: string | undefined;
 };
-
-export type ToastObject<Data extends object = ToastData> = Base.Root.ToastObject<Data>;
-export type ToastManager<Data extends object = ToastData> = ReturnType<
-  typeof Base.createToastManager<Data>
->;
-
-export const useToastManager = Base.useToastManager<ToastData>;
-export const createToastManager = Base.createToastManager<ToastData>;
-
-const resolveTone = (tone?: ToastTone, type?: string): ToastTone => {
-  if (tone) return tone;
-  if (type === "error" || type === "danger") return "danger";
-  if (
-    type === "info" ||
-    type === "success" ||
-    type === "warning" ||
-    type === "loading" ||
-    type === "neutral"
-  ) {
-    return type;
-  }
-  return "neutral";
+export type ToastTitleProps = Omit<Base.Title.Props, "className"> & {
+  /** Extra classes for title. */
+  className?: string | undefined;
 };
-
-export type ToastProps = Omit<ComponentProps<"div">, "title"> & {
-  /** Managed toast item when rendered inside `Toast.Viewport`. */
-  toast?: ToastObject<ToastData>;
-  tone?: ToastTone;
-  title?: ReactNode;
-  description?: ReactNode;
-  /** Decorative icon; defaults to a spinner when `tone="loading"`. */
-  icon?: ReactNode;
-  /** Custom recovery or follow-up action control. */
-  action?: ReactNode;
-  /** Label for the built-in recovery action button. */
-  actionLabel?: ReactNode;
-  /** Click handler for `actionLabel`. */
-  onAction?: (event: MouseEvent<HTMLButtonElement>) => void;
-  /** Additional button attributes for the action control. */
-  actionProps?: ComponentProps<"button">;
-  /** Shows the dismiss button; defaults to `true` except while `tone="loading"`. */
-  closable?: boolean;
-  /** Accessible name for the dismiss button. */
-  closeLabel?: string;
-  /** Called when a standalone toast is dismissed. */
-  onClose?: () => void;
-  /** Controlled visibility for standalone usage. */
-  open?: boolean;
-  /** Initial visibility for standalone uncontrolled usage. */
-  defaultOpen?: boolean;
-  /** Visibility change handler for standalone usage. */
-  onOpenChange?: (open: boolean) => void;
-  classNames?: ToastClassNames;
+export type ToastDescriptionProps = Omit<Base.Description.Props, "className"> & {
+  /** Extra classes for description. */
+  className?: string | undefined;
 };
-
-const CloseIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-    <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-  </svg>
-);
-
-function ToastRoot({
-  toast,
-  tone: toneProp,
-  title: titleProp,
-  description: descriptionProp,
-  icon: iconProp,
-  action: actionProp,
-  actionLabel: actionLabelProp,
-  onAction: onActionProp,
-  actionProps: actionPropsProp,
-  closable: closableProp,
-  closeLabel: closeLabelProp,
-  onClose,
-  open,
-  defaultOpen = true,
-  onOpenChange,
-  className,
-  classNames,
-  children,
-  role,
-  ...rest
-}: ToastProps) {
-  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
-  const isOpen = open ?? uncontrolledOpen;
-
-  const data = toast?.data;
-  const tone = resolveTone(toneProp ?? data?.tone, toast?.type);
-  const title = titleProp ?? toast?.title;
-  const description = descriptionProp ?? toast?.description;
-  const resolvedIcon =
-    iconProp !== undefined ? (
-      iconProp
-    ) : data?.icon !== undefined ? (
-      data.icon
-    ) : tone === "loading" ? (
-      <Spinner decorative size="sm" tone="current" />
-    ) : undefined;
-  const action = actionProp ?? data?.action;
-  const mergedActionProps = actionPropsProp ?? toast?.actionProps;
-  const actionLabel = actionLabelProp ?? data?.actionLabel ?? mergedActionProps?.children;
-  const onAction = onActionProp ?? data?.onAction ?? mergedActionProps?.onClick;
-  const closable = closableProp ?? data?.closable ?? tone !== "loading";
-  const closeLabel = closeLabelProp ?? data?.closeLabel ?? "Dismiss notification";
-
-  if (toast) {
-    return (
-      <Base.Root {...rest} toast={toast} {...kb("toast", { tone }, className)}>
-        <Base.Content className={clsx("kb-toast-content", classNames?.content)}>
-          {resolvedIcon != null ? (
-            <span className={clsx("kb-toast-icon", classNames?.icon)} aria-hidden="true">
-              {resolvedIcon}
-            </span>
-          ) : null}
-          <div className={clsx("kb-toast-body", classNames?.body)}>
-            {title != null ? (
-              <Base.Title className={clsx("kb-toast-title", classNames?.title)}>{title}</Base.Title>
-            ) : null}
-            {description != null ? (
-              <Base.Description className={clsx("kb-toast-description", classNames?.description)}>
-                {description}
-              </Base.Description>
-            ) : null}
-            {children}
-          </div>
-          {action != null || actionLabel != null || closable ? (
-            <div className={clsx("kb-toast-actions", classNames?.actions)}>
-              {action}
-              {action == null && actionLabel != null ? (
-                <Base.Action
-                  {...actionPropsProp}
-                  onClick={onActionProp ?? data?.onAction}
-                  className={clsx(
-                    "kb-toast-action",
-                    mergedActionProps?.className,
-                    classNames?.action,
-                  )}
-                >
-                  {actionLabel}
-                </Base.Action>
-              ) : null}
-              {closable ? (
-                <Base.Close
-                  aria-label={closeLabel}
-                  className={clsx("kb-toast-close", classNames?.close)}
-                >
-                  <CloseIcon />
-                </Base.Close>
-              ) : null}
-            </div>
-          ) : null}
-        </Base.Content>
-      </Base.Root>
-    );
-  }
-
-  if (!isOpen) return null;
-
-  const handleDismiss = () => {
-    if (open === undefined) setUncontrolledOpen(false);
-    onOpenChange?.(false);
-    onClose?.();
-  };
-
-  return (
-    <div
-      {...rest}
-      role={role ?? (tone === "danger" ? "alert" : "status")}
-      {...kb("toast", { tone }, className)}
-    >
-      <div className={clsx("kb-toast-content", classNames?.content)}>
-        {resolvedIcon != null ? (
-          <span className={clsx("kb-toast-icon", classNames?.icon)} aria-hidden="true">
-            {resolvedIcon}
-          </span>
-        ) : null}
-        <div className={clsx("kb-toast-body", classNames?.body)}>
-          {title != null ? (
-            <div className={clsx("kb-toast-title", classNames?.title)}>{title}</div>
-          ) : null}
-          {description != null ? (
-            <div className={clsx("kb-toast-description", classNames?.description)}>
-              {description}
-            </div>
-          ) : null}
-          {children}
-        </div>
-        {action != null || actionLabel != null || closable ? (
-          <div className={clsx("kb-toast-actions", classNames?.actions)}>
-            {action}
-            {action == null && actionLabel != null ? (
-              <button
-                type="button"
-                {...mergedActionProps}
-                onClick={onAction}
-                className={clsx(
-                  "kb-toast-action",
-                  mergedActionProps?.className,
-                  classNames?.action,
-                )}
-              >
-                {actionLabel}
-              </button>
-            ) : null}
-            {closable ? (
-              <button
-                type="button"
-                aria-label={closeLabel}
-                onClick={handleDismiss}
-                className={clsx("kb-toast-close", classNames?.close)}
-              >
-                <CloseIcon />
-              </button>
-            ) : null}
-          </div>
-        ) : null}
-      </div>
-    </div>
-  );
-}
-
-export type ToastViewportProps = Omit<ComponentProps<"div">, "children"> & {
-  placement?: ToastPlacement;
-  /** Renders in document flow instead of a fixed viewport overlay. */
-  inline?: boolean;
-  /** Portals the viewport into `container` (defaults to `true` unless `inline` is set). */
-  portal?: boolean;
+export type ToastActionProps = Omit<Base.Action.Props, "className"> & {
+  /** Extra classes for action. */
+  className?: string | undefined;
+};
+export type ToastCloseProps = Omit<Base.Close.Props, "className"> & {
+  /** Extra classes for dismissal control. */
+  className?: string | undefined;
+};
+export type ToastProps<Data extends object = Record<string, unknown>> = Omit<
+  Base.Root.Props,
+  "className" | "toast"
+> & {
+  /** Message object from the matching provider. */
+  toast: ToastObject<Data>;
+  /** Extra classes for root. */
+  className?: string | undefined;
+  /** Visual emphasis; defaults to matching toast.type, with error mapped to danger. */
+  tone?: ToastTone | undefined;
+  /** Localized accessible name for default dismissal control. */
+  closeLabel?: string | undefined;
+  /** Classes for default parts; custom children own their part classes. */
+  classNames?: ClassNames<"content" | "title" | "description" | "action" | "close"> | undefined;
+};
+export type ToastViewportProps<Data extends object = Record<string, unknown>> = Omit<
+  Base.Viewport.Props,
+  "className"
+> & {
+  /** Extra classes for viewport. */
+  className?: string | undefined;
+  /** Logical screen corner; inline participates in surrounding layout without a portal. */
+  placement?: ToastPlacement | undefined;
+  /** Theme-scoped portal host; defaults to document.body for fixed placements. */
   container?: Base.Portal.Props["container"];
-  /** Accessible region label announced when jumping to notifications (`F6`). */
-  label?: string;
-  children?: ReactNode | ((toast: ToastObject<ToastData>) => ReactNode);
-  classNames?: ToastClassNames;
+  /** Custom renderer for each message; defaults to a complete Toast with all parts. */
+  renderToast?: ((toast: ToastObject<Data>) => ReactNode) | undefined;
 };
 
-function ToastViewport({
-  placement = "bottom-end",
-  inline = false,
-  portal,
-  container,
-  label = "Notifications",
-  children,
-  className,
-  classNames,
-  ...rest
-}: ToastViewportProps) {
-  const { toasts } = useToastManager();
-  const shouldPortal = portal ?? !inline;
-
-  const viewport = (
-    <Base.Viewport
-      {...rest}
-      aria-label={label}
-      {...kb("toast-viewport", { placement, inline }, clsx(classNames?.viewport, className))}
-    >
-      {typeof children === "function" ? (
-        toasts.map((item) => children(item))
-      ) : (
-        <>
-          {children}
-          {toasts.map((item) => (
-            <ToastRoot key={item.id} toast={item} {...(classNames ? { classNames } : {})} />
-          ))}
-        </>
-      )}
-    </Base.Viewport>
-  );
-
-  return shouldPortal ? <Base.Portal container={container}>{viewport}</Base.Portal> : viewport;
+export function createToastManager<
+  Data extends object = Record<string, unknown>,
+>(): ToastManager<Data> {
+  return Base.createToastManager<Data>();
 }
 
-export type ToastProviderProps = Base.Provider.Props & {
-  /** Automatically mounts a `Toast.Viewport` unless `false` or a `Toast.Viewport` child is present. */
-  viewport?: boolean;
-  placement?: ToastPlacement;
-  inline?: boolean;
-  portal?: boolean;
-  container?: Base.Portal.Props["container"];
-  label?: string;
-  classNames?: ToastClassNames;
-};
-
-function ToastProvider({
-  children,
-  timeout = 5000,
-  limit = 3,
-  toastManager,
-  viewport = true,
-  placement,
-  inline,
-  portal,
-  container,
-  label,
-  classNames,
-}: ToastProviderProps) {
-  const hasExplicitViewport = Children.toArray(children).some(
-    (child) => isValidElement(child) && child.type === ToastViewport,
-  );
-
-  return (
-    <Base.Provider timeout={timeout} limit={limit} {...(toastManager ? { toastManager } : {})}>
-      {children}
-      {viewport && !hasExplicitViewport ? (
-        <ToastViewport
-          {...(placement !== undefined ? { placement } : {})}
-          {...(inline !== undefined ? { inline } : {})}
-          {...(portal !== undefined ? { portal } : {})}
-          {...(container !== undefined ? { container } : {})}
-          {...(label !== undefined ? { label } : {})}
-          {...(classNames !== undefined ? { classNames } : {})}
-        />
-      ) : null}
-    </Base.Provider>
-  );
+export function useToastManager<
+  Data extends object = Record<string, unknown>,
+>(): UseToastManagerReturnValue<Data> {
+  return Base.useToastManager<Data>();
 }
 
-export type ToastTitleProps = ComponentProps<"div">;
+function ToastContent({ className, ...props }: ToastContentProps) {
+  return <Base.Content {...props} className={clsx("kb-toast-content", className)} />;
+}
+
 function ToastTitle({ className, ...props }: ToastTitleProps) {
-  return <div {...props} {...kb("toast-title", {}, className)} />;
+  return <Base.Title {...props} className={clsx("kb-toast-title", className)} />;
 }
 
-export type ToastDescriptionProps = ComponentProps<"div">;
 function ToastDescription({ className, ...props }: ToastDescriptionProps) {
-  return <div {...props} {...kb("toast-description", {}, className)} />;
+  return <Base.Description {...props} className={clsx("kb-toast-description", className)} />;
 }
 
-export type ToastActionProps = ComponentProps<"button">;
-function ToastAction({ className, type = "button", ...props }: ToastActionProps) {
-  return <button type={type} {...props} {...kb("toast-action", {}, className)} />;
+function ToastAction({ className, ...props }: ToastActionProps) {
+  return <Base.Action {...props} className={clsx("kb-toast-action", className)} />;
 }
 
-export type ToastCloseProps = ComponentProps<"button"> & {
-  label?: string;
-};
-function ToastClose({
+function ToastClose({ className, ...props }: ToastCloseProps) {
+  return (
+    <Base.Close
+      aria-label="Dismiss notification"
+      aria-hidden={false}
+      {...props}
+      className={clsx("kb-toast-close", className)}
+    />
+  );
+}
+
+function toastTone(type: string | undefined): ToastTone {
+  if (type === "error") return "danger";
+  if (type === "loading") return "info";
+  return type === "info" || type === "success" || type === "warning" || type === "danger"
+    ? type
+    : "neutral";
+}
+
+function ToastRoot<Data extends object = Record<string, unknown>>({
+  toast,
+  tone = toastTone(toast.type),
+  closeLabel = "Dismiss notification",
+  classNames,
   className,
-  type = "button",
-  label = "Dismiss notification",
   children,
   ...props
-}: ToastCloseProps) {
+}: ToastProps<Data>) {
   return (
-    <button
-      type={type}
-      aria-label={props["aria-label"] ?? label}
-      {...props}
-      {...kb("toast-close", {}, className)}
-    >
-      {children ?? <CloseIcon />}
-    </button>
+    <Base.Root {...props} toast={toast} {...kb("toast", { tone }, className)}>
+      {children === undefined ? (
+        <>
+          <ToastContent className={classNames?.content}>
+            <ToastTitle className={classNames?.title}>
+              {toast.title ?? toast.description}
+            </ToastTitle>
+            {toast.title != null && <ToastDescription className={classNames?.description} />}
+            <ToastAction className={classNames?.action} />
+          </ToastContent>
+          <ToastClose className={classNames?.close} aria-label={closeLabel}>
+            <span aria-hidden="true">×</span>
+          </ToastClose>
+        </>
+      ) : (
+        children
+      )}
+    </Base.Root>
   );
 }
 
-/** Non-modal notification for asynchronous completion, background progress, and recoverable action failures. */
+function ToastViewport<Data extends object = Record<string, unknown>>({
+  placement = "bottom-end",
+  container,
+  renderToast,
+  className,
+  children,
+  ...props
+}: ToastViewportProps<Data>) {
+  const { toasts } = useToastManager<Data>();
+  const viewport = (
+    <Base.Viewport {...props} {...kb("toast-viewport", { placement }, className)}>
+      {children === undefined
+        ? toasts.map((toast) =>
+            renderToast ? renderToast(toast) : <ToastRoot key={toast.id} toast={toast} />,
+          )
+        : children}
+    </Base.Viewport>
+  );
+  return placement === "inline" ? (
+    viewport
+  ) : (
+    <Base.Portal container={container}>{viewport}</Base.Portal>
+  );
+}
+
 export const Toast = Object.assign(ToastRoot, {
-  Provider: ToastProvider,
+  Provider: Base.Provider,
   Viewport: ToastViewport,
-  Root: ToastRoot,
+  Content: ToastContent,
   Title: ToastTitle,
   Description: ToastDescription,
   Action: ToastAction,
   Close: ToastClose,
-  useToastManager,
-  createToastManager,
 });

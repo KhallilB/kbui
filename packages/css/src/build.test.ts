@@ -51,7 +51,7 @@ describe("buildCss", () => {
   test("emits standalone reset and component files", async () => {
     expect(await readdir(dist)).toContain("reset.css");
     expect(await readdir(join(dist, "components"))).toEqual(
-      expect.arrayContaining(["button.css", "input.css", "dialog.css"]),
+      expect.arrayContaining(["button.css", "input.css", "dialog.css", "toast.css"]),
     );
   });
 
@@ -508,7 +508,7 @@ describe("buildCss", () => {
     const toastCss = await read("toast.css");
     expect(toastCss.split("\n")[0]).toContain(".kb-toast");
     expect(toastCss.split("\n")[0]).toContain(".kb-toast-viewport");
-    expect(toastCss).toContain("var(--kb-toast-layer)");
+    expect(toastCss).toContain("var(--kb-toast-z-index)");
     expect(toastCss).toContain("var(--kb-toast-shadow)");
     expect(toastCss).toContain("[data-starting-style]");
     expect(toastCss).toContain("[data-ending-style]");
