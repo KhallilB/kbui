@@ -6,6 +6,7 @@ import {
   Callout,
   Checkbox,
   Code,
+  Collection,
   Combobox,
   Dialog,
   ErrorSummary,
@@ -41,6 +42,19 @@ const cases: [string, () => ReactElement][] = [
   [
     "thumbnail",
     () => <Thumbnail alt="Photo" caption="Study" description="JPG" classNames={every} />,
+  ],
+  [
+    "collection",
+    () => (
+      <Collection
+        items={[{ id: "a" }]}
+        getKey={(item) => item.id}
+        getItemLabel={(item) => item.id}
+        label="Records"
+        columns={[{ key: "id", header: "ID", cell: (item) => item.id }]}
+        classNames={every}
+      />
+    ),
   ],
   [
     "input",

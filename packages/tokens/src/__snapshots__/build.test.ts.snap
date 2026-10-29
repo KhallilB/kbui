@@ -493,6 +493,13 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-thumbnail-muted: var(--kb-color-muted);
   --kb-thumbnail-title-size: var(--kb-text-body-size);
   --kb-thumbnail-description-size: var(--kb-text-small-size);
+  --kb-collection-gap: var(--kb-space-3);
+  --kb-collection-cell-padding: var(--kb-space-3);
+  --kb-collection-radius: var(--kb-radius-md);
+  --kb-collection-border: var(--kb-color-border);
+  --kb-collection-header-background: var(--kb-color-surface);
+  --kb-collection-selected-background: var(--kb-color-surface);
+  --kb-collection-table-min-width: 36rem;
   color-scheme: light;
 }
 
@@ -650,6 +657,9 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-avatar-shadow: var(--kb-material-inlay-shadow);
   --kb-thumbnail-color: var(--kb-color-fg);
   --kb-thumbnail-muted: var(--kb-color-muted);
+  --kb-collection-border: var(--kb-color-border);
+  --kb-collection-header-background: var(--kb-color-surface);
+  --kb-collection-selected-background: var(--kb-color-surface);
   color-scheme: light;
 }
 
@@ -807,6 +817,9 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-avatar-shadow: var(--kb-material-inlay-shadow);
   --kb-thumbnail-color: var(--kb-color-fg);
   --kb-thumbnail-muted: var(--kb-color-muted);
+  --kb-collection-border: var(--kb-color-border);
+  --kb-collection-header-background: var(--kb-color-surface);
+  --kb-collection-selected-background: var(--kb-color-surface);
   color-scheme: dark;
 }
 
@@ -965,6 +978,9 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-avatar-shadow: var(--kb-material-inlay-shadow);
     --kb-thumbnail-color: var(--kb-color-fg);
     --kb-thumbnail-muted: var(--kb-color-muted);
+    --kb-collection-border: var(--kb-color-border);
+    --kb-collection-header-background: var(--kb-color-surface);
+    --kb-collection-selected-background: var(--kb-color-surface);
     color-scheme: dark;
   }
 }

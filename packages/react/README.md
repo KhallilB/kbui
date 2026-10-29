@@ -61,6 +61,11 @@ Choose by task. Each page contains a complete usage example, canonical API detai
 | <a id="thumbnail"></a>[Thumbnail](docs/components/Thumbnail.md) | Captioned products, attachments and gallery previews. |
 
 See [Media and identity](../../docs/guides/media-and-identity.md) for responsive sources, retry and gallery recipes. These components are implemented locally and unreleased.
+### Collections
+
+| Component | Use for |
+|---|---|
+| [Collection](docs/components/Collection.md) | Sort, filter, select and paginate records; includes useCollection, Collection.Pagination and Collection.BulkActions. |
 
 ### Actions
 

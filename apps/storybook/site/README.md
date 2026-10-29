@@ -60,7 +60,7 @@ Spacing has three local foundations: `--page-gutter` for shared page edges, `--s
 
 ## Catalog source contract
 
-The catalog covers all 39 public components. `catalog/source.ts` uses Storybook's own CSF parser to derive example names and IDs from colocated component stories. It reads API tables and usage blocks from `packages/react/docs/components/<Name>.md`; `catalog/definitions.ts` holds grouping, short descriptions and curated example exports and labels. The source test compares the catalog against public exports and rejects malformed API rows or missing guide entries.
+The catalog covers all 40 public components. `catalog/source.ts` uses Storybook's own CSF parser to derive example names and IDs from colocated component stories. It reads API tables and usage blocks from `packages/react/docs/components/<Name>.md`; `catalog/definitions.ts` holds grouping, short descriptions and curated example exports and labels. The source test compares the catalog against public exports and rejects malformed API rows or missing guide entries.
 
 A build-time virtual module supplies that data to the site and Storybook without bundling the Node parser into the browser. Guide and component-story changes invalidate the module during development. `build:site` ends with `verify:catalog`, which checks every story and documentation ID against the built Storybook index. An ID mismatch fails the build.
 
@@ -160,7 +160,7 @@ Tokens rebind their aliases in both explicit theme containers, including nested 
 
 ### Complete component catalog
 
-Open `/components/`. All 39 public components and their canonical Storybook examples use current package implementations and their shared default palette. Search and category filters live in the full-page directory; component details provide state selection, API summaries, code and optional paired light/dark previews. Theme changes send a same-origin, exact-parent message to each preview; the Storybook root updates without remounting the story. Existing input values and interaction state survive. Reload preview intentionally resets interaction state and retains the selected theme. Readiness compares canonical document URLs, preserving origin/path/query guards while accepting equivalent query order and encoding. Root theme scope covers portaled Dialog, Menu and Tooltip. Catalog previews use `embed=true`, preventing automated story playback from pulling focus or opening overlays on load.
+Open `/components/`. All 40 public components and their canonical Storybook examples use current package implementations and their shared default palette. Search and category filters live in the full-page directory; component details provide state selection, API summaries, code and optional paired light/dark previews. Theme changes send a same-origin, exact-parent message to each preview; the Storybook root updates without remounting the story. Existing input values and interaction state survive. Reload preview intentionally resets interaction state and retains the selected theme. Readiness compares canonical document URLs, preserving origin/path/query guards while accepting equivalent query order and encoding. Root theme scope covers portaled Dialog, Menu and Tooltip. Catalog previews use `embed=true`, preventing automated story playback from pulling focus or opening overlays on load.
 
 **Typography and theme foundations** shows body copy, headings, supporting text, an identifier and four surface levels. Body text is 15px/1.6; helpers 13px; controls 14px; standard headings 22px/18px, with larger page titles. Inline identifiers remain at least 13px. Local system sans/mono stacks require no font download.
 
@@ -172,7 +172,7 @@ Required name/email checks focus the first invalid field. Failed saves retain dr
 
 ### Verification
 
-`bun run --filter @kb.ui/storybook test:themes` exercises all 212 canonical component stories in light/dark and normal/reduced motion, including accessibility scans. `test:site` covers responsive routes and forced colors. `verify:theme` compares computed Button, Card, field and Dialog materials across Components, Playground, Examples, Home and Setup, and compares a standalone package stylesheet with the same previews and grid Cards in both themes, then checks real built iframe identity/input retention, workspace draft retention, keyboard focus, thumb motion, cross-route persistence and legacy URL cleanup. Run against the combined static output:
+`bun run --filter @kb.ui/storybook test:themes` exercises all 217 canonical component stories in light/dark and normal/reduced motion, including accessibility scans. `test:site` covers responsive routes and forced colors. `verify:theme` compares computed Button, Card, field and Dialog materials across Components, Playground, Examples, Home and Setup, and compares a standalone package stylesheet with the same previews and grid Cards in both themes, then checks real built iframe identity/input retention, workspace draft retention, keyboard focus, thumb motion, cross-route persistence and legacy URL cleanup. Run against the combined static output:
 
 ```bash
 CATALOG_PREVIEW_URL=http://127.0.0.1:4182 bun run --filter @kb.ui/storybook verify:theme

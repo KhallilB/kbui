@@ -40,6 +40,18 @@ export const definitions: Record<string, Definition> = {
       Gallery: "Gallery",
     },
   },
+  Collection: {
+    group: "Layout",
+    description:
+      "Sort, filter, select and page through records with explicit bulk-action contracts.",
+    examples: {
+      Default: "Default",
+      LargeCollection: "Large Collection",
+      ServerPagination: "Server Pagination",
+      Empty: "Empty",
+      BulkFailure: "Bulk Failure",
+    },
+  },
   Split: {
     group: "Layout",
     description: "Two columns that stack when their parent narrows.",
