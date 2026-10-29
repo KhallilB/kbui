@@ -509,6 +509,12 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-copyabletext-copy-min-width: 5.5rem;
   --kb-copyabletext-value-color: var(--kb-color-fg);
   --kb-copyabletext-highlight-background: color-mix(in srgb, var(--kb-color-warning) 16%, var(--kb-color-surface));
+  --kb-tabs-radius: var(--kb-radius-md);
+  --kb-tabs-list-padding: 3px;
+  --kb-tabs-tab-height-sm: var(--kb-button-height-sm);
+  --kb-tabs-tab-height-md: var(--kb-button-height-md);
+  --kb-tabs-indicator-thickness: 2px;
+  --kb-tabs-panel-padding: var(--kb-space-4);
   color-scheme: light;
 }
 
