@@ -2,7 +2,6 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createRef } from "react";
 import { describe, expect, test, vi } from "vitest";
-import { Link, type LinkProps } from "../Link/Link";
 import { Button } from "./Button";
 
 describe("Button", () => {
@@ -78,31 +77,6 @@ describe("Button", () => {
     const link = screen.getByRole("link", { name: "Docs" });
     expect(link).toHaveAttribute("href", "/docs");
     expect(link).toHaveClass("kb-button");
-  });
-
-  test("href renders a native link without a provider", () => {
-    render(<Button href="/docs">Docs</Button>);
-    const link = screen.getByRole("link", { name: "Docs" });
-    expect(link.tagName).toBe("A");
-    expect(link).toHaveAttribute("href", "/docs");
-    expect(link).toHaveClass("kb-button");
-  });
-
-  test("href renders through the Link.Provider component", () => {
-    const RouterLink = ({ href, ...props }: LinkProps) => (
-      <a data-router="" href={`/app${href}`} {...props} />
-    );
-    render(
-      <Link.Provider component={RouterLink}>
-        <Button href="/docs" variant="secondary">
-          Docs
-        </Button>
-      </Link.Provider>,
-    );
-    const link = screen.getByRole("link", { name: "Docs" });
-    expect(link).toHaveAttribute("data-router");
-    expect(link).toHaveAttribute("href", "/app/docs");
-    expect(link).toHaveAttribute("data-variant", "secondary");
   });
 
   test("icon size renders a square button named by aria-label", () => {
