@@ -59,6 +59,8 @@ describe("buildCss", () => {
         "image.css",
         "avatar.css",
         "thumbnail.css",
+        "copyabletext.css",
+        "codeblock.css",
       ]),
     );
   });

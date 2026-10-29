@@ -6,8 +6,10 @@ import {
   Callout,
   Checkbox,
   Code,
+  CodeBlock,
   Collection,
   Combobox,
+  CopyableText,
   Dialog,
   ErrorSummary,
   Fieldset,
@@ -54,6 +56,33 @@ const cases: [string, () => ReactElement][] = [
         columns={[{ key: "id", header: "ID", cell: (item) => item.id }]}
         classNames={every}
       />
+    ),
+  ],
+  [
+    "copyabletext",
+    () => <CopyableText value="const count = 42;" highlight="count" classNames={every} />,
+  ],
+  [
+    "copyabletext",
+    () => (
+      <CopyableText
+        value="Request https://example.com"
+        highlight="Request"
+        linkify
+        classNames={every}
+      />
+    ),
+  ],
+  [
+    "copyabletext",
+    () => <CopyableText label="Request" value="id_123" truncate classNames={every} />,
+  ],
+  [
+    "code",
+    () => (
+      <CodeBlock title="Source" language="ts" lineNumbers collapsible classNames={every}>
+        {"const value = 1;"}
+      </CodeBlock>
     ),
   ],
   [
