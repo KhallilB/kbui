@@ -86,7 +86,7 @@ describe("FormSection", () => {
       .getByRole("group", { name: "Password" })
       .querySelector(".kb-formactions");
     expect(actions).toHaveClass("kb-formsection-actions");
-    expect(actions).toHaveAttribute("data-align", "start");
+    expect(actions).toHaveAttribute("data-align", "end");
     await userEvent.tab();
     expect(screen.getByLabelText("New password")).toHaveFocus();
     await userEvent.tab();

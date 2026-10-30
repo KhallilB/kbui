@@ -42,7 +42,7 @@ export const FormSection = ({
   description,
   error,
   actions,
-  actionsAlign = "start",
+  actionsAlign = "end",
   layout,
   disabled,
   className,

@@ -1,5 +1,6 @@
 /* Anatomy: .kb-settings > .kb-settings-header, .kb-settings-sections */
 .kb-settings {
+  container: kb-settings / inline-size;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: var(--kb-settings-gap);
@@ -19,6 +20,27 @@
 .kb-settings-sections > * + * {
   padding-block-start: var(--kb-settings-gap);
   border-block-start: 1px solid var(--kb-settings-divider);
+}
+/* Record rows end-align status and actions, which CollectionList start-aligns below 40rem of list. */
+.kb-settings .kb-collectionrow-aside {
+  text-align: end;
+}
+.kb-settings .kb-collectionrow-actions {
+  justify-content: flex-end;
+}
+/* One line beside the main text from 40rem of page; literal because queries cannot read tokens. */
+@container kb-settings (width >= 40rem) {
+  .kb-settings .kb-collectionrow-layout {
+    grid-template-columns: var(--_collectionrow-leading) minmax(0, 1fr) auto;
+  }
+  .kb-settings .kb-collectionrow-aside {
+    display: flex;
+    flex-wrap: wrap;
+    grid-column: 3;
+    align-items: center;
+    justify-content: flex-end;
+    padding-inline-start: var(--kb-collectionrow-gap);
+  }
 }
 @media (forced-colors: active) {
   .kb-settings-sections > * + * {
