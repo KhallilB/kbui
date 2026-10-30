@@ -22,7 +22,7 @@ export function Example() {
 ## More examples
 
 - [An optional description](https://kbui.kcb.pro/storybook/?path=/story/components-tooltip--on-hover): Try pointer and keyboard access to a named trigger.
-- [A themed hint](https://kbui.kcb.pro/storybook/?path=/story/components-tooltip--nested-theme): Keep a portaled hint within its intended theme.
+- [A themed hint](https://kbui.kcb.pro/storybook/?path=/story/components-tooltip--nested-theme): Check that the hint uses its parent theme.
 
 ## Reference
 
@@ -35,8 +35,8 @@ export function Example() {
 | `container` | portal container | document body | Use a themed host when the popup belongs to a nested theme |
 | `className` | `string`         | unset         | Class on the popup                                         |
 
-Give icon-only triggers their own aria-label. The tooltip is a description, not a replacement for the control's name. Do not put links, buttons, or required instructions in the popup.
+Give icon-only triggers their own `aria-label`. The tooltip is a description, not a replacement for the control's name. Do not put links, buttons, or required instructions in the popup.
 
 ## Related components
 
-Use [Input](Input.md) descriptions for essential field instructions and [Callout](Callout.md) for a persistent message.
+Use [`Input`](Input.md) descriptions for essential field instructions and [`Callout`](Callout.md) for a persistent message.

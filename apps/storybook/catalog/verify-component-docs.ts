@@ -36,12 +36,26 @@ try {
       await docs.locator(".reference-api caption").first().innerText(),
       `${entry.name} API`,
     );
+    assert.deepEqual(
+      await docs.locator("#reference-props > ul > li code").allTextContents(),
+      references[entry.name]?.guide.tips.flatMap((text) =>
+        [...text.matchAll(/`([^`]+)`/g)].map((match) => match[1]),
+      ),
+    );
     for (const group of ["provides", "authoring", "verify"] as const) {
       assert.deepEqual(
         await docs
           .locator(`#reference-accessibility [data-accessibility="${group}"] li`)
           .allTextContents(),
-        references[entry.name]?.guide.accessibility[group],
+        references[entry.name]?.guide.accessibility[group].map((text) => text.replaceAll("`", "")),
+      );
+      assert.deepEqual(
+        await docs
+          .locator(`#reference-accessibility [data-accessibility="${group}"] li code`)
+          .allTextContents(),
+        references[entry.name]?.guide.accessibility[group].flatMap((text) =>
+          [...text.matchAll(/`([^`]+)`/g)].map((match) => match[1]),
+        ),
       );
     }
     await docs.getByRole("heading", { name: "Standards and patterns", exact: true }).waitFor();
@@ -59,6 +73,33 @@ try {
       false,
       `${entry.name} overflows the document`,
     );
+    if (entry.name === "PageHeader") {
+      const trail = docs.getByRole("navigation", { name: "Breadcrumb", exact: true });
+      await trail.scrollIntoViewIfNeeded();
+      assert.equal(await trail.getByRole("listitem").count(), 3);
+      assert.equal(await trail.locator('[aria-current="page"]').innerText(), "Roles");
+      assert.deepEqual(await trail.locator('[aria-hidden="true"]').allTextContents(), ["/", "/"]);
+      const tops = await trail
+        .getByRole("listitem")
+        .evaluateAll((items) => items.map((item) => item.getBoundingClientRect().top));
+      assert.ok(Math.max(...tops) - Math.min(...tops) <= 1, "Breadcrumb labels must align");
+      await trail.getByRole("link", { name: "Settings", exact: true }).focus();
+      await page.keyboard.press("Tab");
+      assert.equal(
+        await trail
+          .getByRole("link", { name: "Team", exact: true })
+          .evaluate((el) => document.activeElement === el),
+        true,
+      );
+      await page.keyboard.press("Tab");
+      assert.equal(
+        await docs
+          .locator("#anchor--components-pageheader--breadcrumbs")
+          .getByRole("button", { name: "Add role", exact: true })
+          .evaluate((el) => document.activeElement === el),
+        true,
+      );
+    }
     checked++;
   };
   for (const theme of ["light", "dark"] as const) {
@@ -96,15 +137,14 @@ try {
       }
     }
   }
-  await page.setViewportSize({ width: 390, height: 844 });
-  for (const theme of ["light", "dark"] as const) {
-    for (const entry of entries.filter((entry) =>
-      ["Dialog", "FileInput", "Panel"].includes(entry.name),
-    ))
-      await open(entry, theme);
+  for (const width of [320, 768]) {
+    await page.setViewportSize({ width, height: 844 });
+    for (const theme of ["light", "dark"] as const) {
+      for (const entry of entries) await open(entry, theme);
+    }
   }
   console.log(
-    `Component docs verified: ${entries.length} components, ${checked} desktop/mobile theme cases, interactive controls and dialog focus.`,
+    `Component docs verified: ${entries.length} components, ${checked} desktop/tablet/mobile theme cases, interactive controls and dialog focus.`,
   );
 } finally {
   await browser.close();

@@ -37,4 +37,4 @@ export function Example() {
 
 ## Related components
 
-Use [Progress](Progress.md) when a numeric completion ratio exists, [Skeleton](Skeleton.md) to preserve layout geometry while loading content, and [Status](Status.md) for persistent state labels.
+Use [`Progress`](Progress.md) when a numeric completion ratio exists, [`Skeleton`](Skeleton.md) to preserve layout geometry while loading content, and [`Status`](Status.md) for persistent state labels.
