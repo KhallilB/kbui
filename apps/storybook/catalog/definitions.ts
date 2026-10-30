@@ -140,7 +140,7 @@ export const definitions: Record<string, Definition> = {
   },
   PageHeader: {
     group: "Layout",
-    description: "Open a screen with its title, context, status and page-level actions.",
+    description: "Open a screen with its title, context, state badges and page-level actions.",
     examples: {
       Default: "Default",
       DetailWithStatus: "Detail with Status",

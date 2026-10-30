@@ -129,7 +129,7 @@ See [Media and identity](../../docs/guides/media-and-identity.md) for responsive
 | <a id="container"></a>[Container](docs/components/Container.md) | Shared page widths and responsive gutters. |
 | <a id="grid"></a>[Grid](docs/components/Grid.md) | Arrange content in responsive columns or a single stack. |
 | <a id="inline"></a>[Inline](docs/components/Inline.md) | Wrapping rows with shared spacing and alignment. |
-| <a id="pageheader"></a>[PageHeader](docs/components/PageHeader.md) | Open a screen with its title, context, status and page-level actions. |
+| <a id="pageheader"></a>[PageHeader](docs/components/PageHeader.md) | Open a screen with its title, context, state badges and page-level actions. |
 | <a id="panel"></a>[Panel](docs/components/Panel.md) | Organize a section with a header, content, and actions. |
 | <a id="scrollarea"></a>[ScrollArea](docs/components/ScrollArea.md) | Keep longer content in a scrollable, keyboard-accessible region. |
 | <a id="separator"></a>[Separator](docs/components/Separator.md) | Semantic or decorative horizontal and vertical rules. |
