@@ -130,9 +130,11 @@ export const NestedRtlIsolation: Story = {
     expect(leading.getBoundingClientRect().left).toBeGreaterThan(
       content.getBoundingClientRect().left,
     );
+    // Inline padding sits on the layout, so the row itself spans its parent.
+    const layout = nested.querySelector(".kb-collectionrow-layout") as HTMLElement;
     const padding =
-      Number.parseFloat(getComputedStyle(nested).paddingInlineStart) +
-      Number.parseFloat(getComputedStyle(nested).paddingInlineEnd);
+      Number.parseFloat(getComputedStyle(layout).paddingInlineStart) +
+      Number.parseFloat(getComputedStyle(layout).paddingInlineEnd);
     expect(nestedContent.getBoundingClientRect().width).toBeGreaterThanOrEqual(
       nested.clientWidth - padding - 1,
     );
