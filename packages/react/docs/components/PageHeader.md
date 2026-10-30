@@ -61,6 +61,8 @@ The root is a `div`, not `header`. A `header` outside `main` or a sectioning ele
 
 Keep one primary action. Put secondary actions before it and move rarely used actions into a [`Menu`](Menu.md).
 
+For breadcrumbs, use a labelled `nav` with an ordered list and mark the current item with `aria-current="page"`. Reset list-item margins when using flex layout with `gap`, allow the trail to wrap, and hide decorative separators from assistive technology. Links keep their normal Tab order. See the [breadcrumb example](https://kbui.kcb.pro/storybook/?path=/story/components-pageheader--breadcrumbs) and [WAI breadcrumb pattern](https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/).
+
 ## Related components
 
 Use [`Heading`](Heading.md) for section titles inside the page, [`EmptyState`](EmptyState.md) when the page has no content yet, [`Toolbar`](Toolbar.md) for a dense group of controls that act on the content below, and [`Container`](Container.md) to set the page width the header shares with its content.

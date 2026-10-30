@@ -246,6 +246,7 @@ body {
 
 .reference-accessibility {
   padding: 24px;
+  overflow-wrap: anywhere;
   background: var(--kb-color-surface);
   border: 1px solid var(--kb-color-border);
   border-inline-start: 3px solid var(--kb-color-accent-ink);

@@ -1037,7 +1037,7 @@ export const accessibilityGuides = {
     ],
     authoring: [
       "Use one `h1` per screen. Set `headingLevel` to 2 or 3 only when the header introduces a region below an existing `h1`.",
-      "Wrap breadcrumbs in `nav` with `aria-label='Breadcrumb'` and mark the current item with `aria-current='page'`; label back links with their destination.",
+      "Wrap breadcrumbs in `nav` with `aria-label='Breadcrumb'` and mark the current item with `aria-current='page'`; label back links with their destination. Hide decorative separators from assistive technology and allow the list to wrap.",
       "Give every action a visible name and keep one primary action; status shown only by color in `meta` also needs text.",
     ],
     verify: [
