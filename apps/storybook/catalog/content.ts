@@ -30,6 +30,31 @@ export const recipeDefinitions: RecipeDefinition[] = [
     components: ["Heading", "Text", "Grid", "Input", "Panel"],
     files: ["apps/storybook/recipes/FormSection.tsx", "apps/storybook/recipes/recipes.css"],
   },
+  {
+    id: "listdetail",
+    name: "ListDetail",
+    description:
+      "An operations queue with record details, supporting context and a validated edit form.",
+    guide: "docs/guides/list-detail.md",
+    storyFile: "apps/storybook/recipes/ListDetail.stories.tsx",
+    defaultStoryId: "recipes-listdetail--request-queue",
+    components: [
+      "Container",
+      "Grid",
+      "Heading",
+      "Text",
+      "Inline",
+      "Split",
+      "Panel",
+      "Button",
+      "Status",
+      "Input",
+      "Select",
+      "PageHeader",
+      "FormSection",
+    ],
+    files: ["apps/storybook/recipes/ListDetail.tsx", "apps/storybook/recipes/list-detail.css"],
+  },
 ];
 
 export const systemGuide = "docs/guides/components-and-recipes.md";
