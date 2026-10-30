@@ -49,11 +49,11 @@ export function Example() {
 
 | Prop on root or Content  | Type             | Default       | Notes                                                                         |
 | ------------------------ | ---------------- | ------------- | ----------------------------------------------------------------------------- |
-| `open` on Dialog         | `boolean`        | uncontrolled  | Current visibility when your app controls the dialog                          |
-| `defaultOpen` on Dialog  | `boolean`        | `false`       | Initial visibility; avoid starting open in a reading surface                  |
-| `onOpenChange` on Dialog | Base UI callback | unset         | Receives the next visibility and change details                               |
-| `title` on Content       | `ReactNode`      | unset         | Visible title and accessible name; use Dialog.Title for custom markup instead |
-| `description` on Content | `ReactNode`      | unset         | Supporting description; use Dialog.Description for custom markup instead      |
+| `open` on `Dialog`         | `boolean`        | uncontrolled  | Current visibility when your app controls the dialog                          |
+| `defaultOpen` on `Dialog`  | `boolean`        | `false`       | Initial visibility; avoid starting open in a reading surface                  |
+| `onOpenChange` on `Dialog` | Base UI callback | unset         | Receives the next visibility and change details                               |
+| `title` on Content       | `ReactNode`      | unset         | Visible title and accessible name; use `Dialog.Title` for custom markup instead |
+| `description` on Content | `ReactNode`      | unset         | Supporting description; use `Dialog.Description` for custom markup instead      |
 | `container` on Content   | portal container | document body | Themed host for a nested dialog                                               |
 
 ```tsx
@@ -71,7 +71,7 @@ export function Example() {
 
 ## Related components
 
-Use [ConfirmAction](ConfirmAction.md) for a destructive action behind a confirmation, [Menu](Menu.md) for a short action list and [Callout](Callout.md) for a message that belongs in the page.
+Use [`ConfirmAction`](ConfirmAction.md) for a destructive action behind a confirmation, [`Menu`](Menu.md) for a short action list and [`Callout`](Callout.md) for a message that belongs in the page.
 
 
 ## Drawer and confirmation patterns
@@ -81,4 +81,4 @@ The [overlay guide](../../../../docs/guides/forms-and-overlays.md#drawer-pattern
 - [Drawer](https://kbui.kcb.pro/storybook/?path=/story/components-dialog--drawer)
 - [Failure and retry](https://kbui.kcb.pro/storybook/?path=/story/components-dialog--confirmation-recovery)
 
-Use [Popover](Popover.md) for non-modal anchored controls and [Disclosure](Disclosure.md) for supporting details inline.
+Use [`Popover`](Popover.md) for non-modal anchored controls and [`Disclosure`](Disclosure.md) for supporting details inline.

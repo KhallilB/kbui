@@ -40,18 +40,18 @@ The React adapter provides the components, styles and CSS variables together. In
 
 | Task | Start here |
 |---|---|
-| Run an action or navigate | [Button](docs/components/Button.md) for actions; [ConfirmAction](docs/components/ConfirmAction.md) for destructive actions; [Link](docs/components/Link.md) for destinations |
-| Collect choices | [Checkbox](docs/components/Checkbox.md) for independent choices; [RadioGroup](docs/components/RadioGroup.md) for one visible choice; [Select](docs/components/Select.md) for a dropdown; [Switch](docs/components/Switch.md) for an immediate setting |
-| Collect text, quantities, or files | [Input](docs/components/Input.md), [Textarea](docs/components/Textarea.md), [NumberField](docs/components/NumberField.md), or [FileInput](docs/components/FileInput.md) |
-| Reveal details or supporting controls | [Disclosure](docs/components/Disclosure.md), [Accordion](docs/components/Accordion.md), or [Popover](docs/components/Popover.md); [drawer and confirmation patterns](https://github.com/KhallilB/kbui/blob/main/docs/guides/forms-and-overlays.md#drawer-pattern) compose Dialog |
-| Arrange a responsive page | [Container](docs/components/Container.md) for the page boundary; [PageHeader](docs/components/PageHeader.md) for the title and page actions; [StatsRow](docs/components/StatsRow.md) for a row of key metrics; [Dashboard](docs/components/Dashboard.md) for an overview page with metrics and panels; [Inline](docs/components/Inline.md) for rows; [Stack](docs/components/Stack.md) for vertical flow; [Grid](docs/components/Grid.md) for collections; [Split](docs/components/Split.md) for two columns; [SupportingPane](docs/components/SupportingPane.md) for a main task with an aside such as an order summary |
-| Explain state, waiting, or completion | [Spinner](docs/components/Spinner.md) for indeterminate waits; [Skeleton](docs/components/Skeleton.md) for loading placeholders; [Progress](docs/components/Progress.md) for completion; [EmptyState](docs/components/EmptyState.md) for missing content; [Status](docs/components/Status.md) for changing state; [Toast](docs/components/Toast.md) for transient notifications; [Badge](docs/components/Badge.md) for metadata; [Callout](docs/components/Callout.md) for a fuller message |
-| Compare records or scan details | [Table](docs/components/Table.md), [DescriptionList](docs/components/DescriptionList.md), [CollectionList](docs/components/CollectionList.md) and [CollectionRow](docs/components/CollectionRow.md) |
-| Build readable content | [Heading](docs/components/Heading.md) and [Text](docs/components/Text.md) |
+| Run an action or navigate | [`Button`](docs/components/Button.md) for actions; [`ConfirmAction`](docs/components/ConfirmAction.md) for destructive actions; [`Link`](docs/components/Link.md) for destinations |
+| Collect choices | [`Checkbox`](docs/components/Checkbox.md) for independent choices; [`RadioGroup`](docs/components/RadioGroup.md) for one visible choice; [`Select`](docs/components/Select.md) for a dropdown; [`Switch`](docs/components/Switch.md) for an immediate setting |
+| Collect text, quantities, or files | [`Input`](docs/components/Input.md), [`Textarea`](docs/components/Textarea.md), [`NumberField`](docs/components/NumberField.md), or [`FileInput`](docs/components/FileInput.md) |
+| Reveal details or supporting controls | [`Disclosure`](docs/components/Disclosure.md), [`Accordion`](docs/components/Accordion.md), or [`Popover`](docs/components/Popover.md); [drawer and confirmation patterns](https://github.com/KhallilB/kbui/blob/main/docs/guides/forms-and-overlays.md#drawer-pattern) compose `Dialog` |
+| Arrange a responsive page | [`Container`](docs/components/Container.md) for the page boundary; [`PageHeader`](docs/components/PageHeader.md) for the title and page actions; [`StatsRow`](docs/components/StatsRow.md) for a row of key metrics; [`Dashboard`](docs/components/Dashboard.md) for an overview page with metrics and panels; [`Inline`](docs/components/Inline.md) for rows; [`Stack`](docs/components/Stack.md) for vertical flow; [`Grid`](docs/components/Grid.md) for collections; [`Split`](docs/components/Split.md) for two columns; [`SupportingPane`](docs/components/SupportingPane.md) for a main task with an aside such as an order summary |
+| Explain state, waiting, or completion | [`Spinner`](docs/components/Spinner.md) for indeterminate waits; [`Skeleton`](docs/components/Skeleton.md) for loading placeholders; [`Progress`](docs/components/Progress.md) for completion; [`EmptyState`](docs/components/EmptyState.md) for missing content; [`Status`](docs/components/Status.md) for changing state; [`Toast`](docs/components/Toast.md) for transient notifications; [`Badge`](docs/components/Badge.md) for metadata; [`Callout`](docs/components/Callout.md) for a fuller message |
+| Compare records or scan details | [`Table`](docs/components/Table.md), [`DescriptionList`](docs/components/DescriptionList.md), [`CollectionList`](docs/components/CollectionList.md) and [`CollectionRow`](docs/components/CollectionRow.md) |
+| Build readable content | [`Heading`](docs/components/Heading.md) and [`Text`](docs/components/Text.md) |
 
 Start with the complete Usage example on a component page. Its More examples section links to focused, working Storybook states; Related components explains nearby alternatives. Use the live Docs page for component-specific keyboard, focus, and labeling guidance. Check those contracts with your app’s actual content and flows.
 
-For searchable choices, compare [Combobox](docs/components/Combobox.md) and [MultiSelect](docs/components/MultiSelect.md). For complete forms, start with [Form](docs/components/Form.md) or [Settings](docs/components/Settings.md), group fields with [FormSection](docs/components/FormSection.md), and recover with [ErrorSummary](docs/components/ErrorSummary.md).
+For searchable choices, compare [`Combobox`](docs/components/Combobox.md) and [`MultiSelect`](docs/components/MultiSelect.md). For complete forms, start with [`Form`](docs/components/Form.md) or [`Settings`](docs/components/Settings.md), group fields with [`FormSection`](docs/components/FormSection.md), and recover with [`ErrorSummary`](docs/components/ErrorSummary.md).
 
 ## Components
 
@@ -61,110 +61,110 @@ Choose by task. Each page contains a complete usage example, canonical API detai
 
 | Component | Use for |
 |---|---|
-| <a id="avatar"></a>[Avatar](docs/components/Avatar.md) | Recognizable people and organizations with photo/initials fallback. |
-| <a id="image"></a>[Image](docs/components/Image.md) | Stable image sizing, crops, containment and failure states. |
-| <a id="thumbnail"></a>[Thumbnail](docs/components/Thumbnail.md) | Captioned products, attachments and gallery previews. |
+| <a id="avatar"></a>[`Avatar`](docs/components/Avatar.md) | Recognizable people and organizations with photo/initials fallback. |
+| <a id="image"></a>[`Image`](docs/components/Image.md) | Stable image sizing, crops, containment and failure states. |
+| <a id="thumbnail"></a>[`Thumbnail`](docs/components/Thumbnail.md) | Captioned products, attachments and gallery previews. |
 
-See [Media and identity](../../docs/guides/media-and-identity.md) for responsive sources and retry, and [Gallery](docs/components/Gallery.md) for catalog pages. These components are implemented locally and unreleased.
+See [Media and identity](../../docs/guides/media-and-identity.md) for responsive sources and retry, and [`Gallery`](docs/components/Gallery.md) for catalog pages. These components are implemented locally and unreleased.
 ### Collections
 
 | Component | Use for |
 |---|---|
-| [Collection](docs/components/Collection.md) | Sort, filter, select and paginate records; includes useCollection, Collection.Pagination and Collection.BulkActions. |
+| [`Collection`](docs/components/Collection.md) | Sort, filter, select and paginate records; includes `useCollection`, `Collection.Pagination` and `Collection.BulkActions`. |
 
 ### Navigation
 
 | Component | Use it to |
 | --- | --- |
-| <a id="tabs"></a>[Tabs](docs/components/Tabs.md) | Switch between peer panels with keyboard navigation. |
+| <a id="tabs"></a>[`Tabs`](docs/components/Tabs.md) | Switch between peer panels with keyboard navigation. |
 
 ### Actions
 
 | Component | Use for |
 |---|---|
-| <a id="copyabletext"></a>[CopyableText](docs/components/CopyableText.md) | Copy identifiers and references with feedback and recovery. |
-| <a id="button"></a>[Button](docs/components/Button.md) | Trigger an action or link to another page. |
-| <a id="popover"></a>[Popover](docs/components/Popover.md) | Reveal supporting controls in an anchored popup. |
-| <a id="dialog"></a>[Dialog](docs/components/Dialog.md) | Keep a focused task in a dialog while the page waits behind it. |
-| <a id="confirmaction"></a>[ConfirmAction](docs/components/ConfirmAction.md) | Put a destructive action behind one confirmation that closes only after success. |
-| <a id="menu"></a>[Menu](docs/components/Menu.md) | Keep related actions in a compact popup menu. |
-| <a id="toolbar"></a>[Toolbar](docs/components/Toolbar.md) | Group related actions with arrow-key navigation. |
+| <a id="copyabletext"></a>[`CopyableText`](docs/components/CopyableText.md) | Copy identifiers and references with feedback and recovery. |
+| <a id="button"></a>[`Button`](docs/components/Button.md) | Trigger an action or link to another page. |
+| <a id="popover"></a>[`Popover`](docs/components/Popover.md) | Reveal supporting controls in an anchored popup. |
+| <a id="dialog"></a>[`Dialog`](docs/components/Dialog.md) | Keep a focused task in a dialog while the page waits behind it. |
+| <a id="confirmaction"></a>[`ConfirmAction`](docs/components/ConfirmAction.md) | Put a destructive action behind one confirmation that closes only after success. |
+| <a id="menu"></a>[`Menu`](docs/components/Menu.md) | Keep related actions in a compact popup menu. |
+| <a id="toolbar"></a>[`Toolbar`](docs/components/Toolbar.md) | Group related actions with arrow-key navigation. |
 
 ### Forms
 
 | Component | Use for |
 |---|---|
-| <a id="checkbox"></a>[Checkbox](docs/components/Checkbox.md) | Let people select options independently, including a mixed selection. |
-| <a id="combobox"></a>[Combobox](docs/components/Combobox.md) | Search and choose one or multiple options from a longer list. |
-| <a id="errorsummary"></a>[ErrorSummary](docs/components/ErrorSummary.md) | Summarize form validation errors with links that focus each field. |
-| <a id="fieldset"></a>[Fieldset](docs/components/Fieldset.md) | Group related fields with a native fieldset, legend, and section help. |
-| <a id="fileinput"></a>[FileInput](docs/components/FileInput.md) | Choose files, review the list, and remove individual items. |
-| <a id="formactions"></a>[FormActions](docs/components/FormActions.md) | Align submit, reset, and secondary actions at the end of a form. |
-| <a id="formsection"></a>[FormSection](docs/components/FormSection.md) | A headed group of related fields with its error and actions. |
-| <a id="input"></a>[Input](docs/components/Input.md) | Collect text with a clear label, help text, and error feedback. |
-| <a id="multiselect"></a>[MultiSelect](docs/components/MultiSelect.md) | Search a list and keep multiple selections visible as removable chips. |
-| <a id="numberfield"></a>[NumberField](docs/components/NumberField.md) | Enter a number by typing or using step buttons. |
-| <a id="radiogroup"></a>[RadioGroup](docs/components/RadioGroup.md) | Choose one option from a visible group. |
-| <a id="select"></a>[Select](docs/components/Select.md) | Choose one option from a dropdown list. |
-| <a id="switch"></a>[Switch](docs/components/Switch.md) | Turn an immediate preference on or off. |
-| <a id="textarea"></a>[Textarea](docs/components/Textarea.md) | Collect multiline text with a label, help text, and error feedback. |
+| <a id="checkbox"></a>[`Checkbox`](docs/components/Checkbox.md) | Let people select options independently, including a mixed selection. |
+| <a id="combobox"></a>[`Combobox`](docs/components/Combobox.md) | Search and choose one or multiple options from a longer list. |
+| <a id="errorsummary"></a>[`ErrorSummary`](docs/components/ErrorSummary.md) | Summarize form validation errors with links that focus each field. |
+| <a id="fieldset"></a>[`Fieldset`](docs/components/Fieldset.md) | Group related fields with a native `fieldset`, legend, and section help. |
+| <a id="fileinput"></a>[`FileInput`](docs/components/FileInput.md) | Choose files, review the list, and remove individual items. |
+| <a id="formactions"></a>[`FormActions`](docs/components/FormActions.md) | Align submit, reset, and secondary actions at the end of a form. |
+| <a id="formsection"></a>[`FormSection`](docs/components/FormSection.md) | A headed group of related fields with its error and actions. |
+| <a id="input"></a>[`Input`](docs/components/Input.md) | Collect text with a clear label, help text, and error feedback. |
+| <a id="multiselect"></a>[`MultiSelect`](docs/components/MultiSelect.md) | Search a list and keep multiple selections visible as removable chips. |
+| <a id="numberfield"></a>[`NumberField`](docs/components/NumberField.md) | Enter a number by typing or using step buttons. |
+| <a id="radiogroup"></a>[`RadioGroup`](docs/components/RadioGroup.md) | Choose one option from a visible group. |
+| <a id="select"></a>[`Select`](docs/components/Select.md) | Choose one option from a dropdown list. |
+| <a id="switch"></a>[`Switch`](docs/components/Switch.md) | Turn an immediate preference on or off. |
+| <a id="textarea"></a>[`Textarea`](docs/components/Textarea.md) | Collect multiline text with a label, help text, and error feedback. |
 
 ### Feedback
 
 | Component | Use for |
 |---|---|
-| <a id="badge"></a>[Badge](docs/components/Badge.md) | Add a short label, category, or piece of metadata. |
-| <a id="toast"></a>[Toast](docs/components/Toast.md) | Queue temporary messages with announcements, actions and timed dismissal. |
-| <a id="callout"></a>[Callout](docs/components/Callout.md) | Highlight a message and offer a useful next step. |
-| <a id="emptystate"></a>[EmptyState](docs/components/EmptyState.md) | Explain why a collection or section is empty and offer the next action. |
-| <a id="progress"></a>[Progress](docs/components/Progress.md) | Show how much of a task is complete. |
-| <a id="skeleton"></a>[Skeleton](docs/components/Skeleton.md) | Reserve incoming content geometry while a section loads. |
-| <a id="spinner"></a>[Spinner](docs/components/Spinner.md) | Indicate an indeterminate wait or busy control. |
-| <a id="stat"></a>[Stat](docs/components/Stat.md) | Show a number alongside the label that explains it. |
-| <a id="status"></a>[Status](docs/components/Status.md) | Describe a current state with text and an optional icon. |
-| <a id="tooltip"></a>[Tooltip](docs/components/Tooltip.md) | Add brief context on hover or keyboard focus. |
+| <a id="badge"></a>[`Badge`](docs/components/Badge.md) | Add a short label, category, or piece of metadata. |
+| <a id="toast"></a>[`Toast`](docs/components/Toast.md) | Queue temporary messages with announcements, actions and timed dismissal. |
+| <a id="callout"></a>[`Callout`](docs/components/Callout.md) | Highlight a message and offer a useful next step. |
+| <a id="emptystate"></a>[`EmptyState`](docs/components/EmptyState.md) | Explain why a collection or section is empty and offer the next action. |
+| <a id="progress"></a>[`Progress`](docs/components/Progress.md) | Show how much of a task is complete. |
+| <a id="skeleton"></a>[`Skeleton`](docs/components/Skeleton.md) | Reserve incoming content geometry while a section loads. |
+| <a id="spinner"></a>[`Spinner`](docs/components/Spinner.md) | Indicate an indeterminate wait or busy control. |
+| <a id="stat"></a>[`Stat`](docs/components/Stat.md) | Show a number alongside the label that explains it. |
+| <a id="status"></a>[`Status`](docs/components/Status.md) | Describe a current state with text and an optional icon. |
+| <a id="tooltip"></a>[`Tooltip`](docs/components/Tooltip.md) | Add brief context on hover or keyboard focus. |
 
 ### Layout
 
 | Component | Use for |
 |---|---|
-| <a id="accordion"></a>[Accordion](docs/components/Accordion.md) | Group related disclosures under headings. |
-| <a id="dashboard"></a>[Dashboard](docs/components/Dashboard.md) | An overview page: header, metrics, then primary and secondary panels. |
-| <a id="disclosure"></a>[Disclosure](docs/components/Disclosure.md) | Reveal optional details and controls inline. |
-| <a id="card"></a>[Card](docs/components/Card.md) | Group related content, with room for links and actions. |
-| <a id="container"></a>[Container](docs/components/Container.md) | Shared page widths and responsive gutters. |
-| <a id="form"></a>[Form](docs/components/Form.md) | One task with grouped fields, then its one submit action. |
-| <a id="gallery"></a>[Gallery](docs/components/Gallery.md) | A page of image-led items, such as a product catalog, in one to four columns. |
-| <a id="grid"></a>[Grid](docs/components/Grid.md) | Arrange content in responsive columns or a single stack. |
-| <a id="inline"></a>[Inline](docs/components/Inline.md) | Wrapping rows with shared spacing and alignment. |
-| <a id="pageheader"></a>[PageHeader](docs/components/PageHeader.md) | Open a screen with its title, context, state badges and page-level actions. |
-| <a id="panel"></a>[Panel](docs/components/Panel.md) | Organize a section with a header, content, and actions. |
-| <a id="scrollarea"></a>[ScrollArea](docs/components/ScrollArea.md) | Keep longer content in a scrollable, keyboard-accessible region. |
-| <a id="separator"></a>[Separator](docs/components/Separator.md) | Semantic or decorative horizontal and vertical rules. |
-| <a id="settings"></a>[Settings](docs/components/Settings.md) | Sections of fields and managed lists, each saved on its own. |
-| <a id="split"></a>[Split](docs/components/Split.md) | Two columns that stack when their parent narrows. |
-| <a id="stack"></a>[Stack](docs/components/Stack.md) | Vertical flow with shared spacing and alignment. |
-| <a id="statsrow"></a>[StatsRow](docs/components/StatsRow.md) | Show comparable metrics in a row that fills its region and wraps when narrow. |
-| <a id="supportingpane"></a>[SupportingPane](docs/components/SupportingPane.md) | A main column with a named aside that moves below it when narrow. |
+| <a id="accordion"></a>[`Accordion`](docs/components/Accordion.md) | Group related disclosures under headings. |
+| <a id="dashboard"></a>[`Dashboard`](docs/components/Dashboard.md) | An overview page: header, metrics, then primary and secondary panels. |
+| <a id="disclosure"></a>[`Disclosure`](docs/components/Disclosure.md) | Reveal optional details and controls inline. |
+| <a id="card"></a>[`Card`](docs/components/Card.md) | Group related content, with room for links and actions. |
+| <a id="container"></a>[`Container`](docs/components/Container.md) | Shared page widths and responsive gutters. |
+| <a id="form"></a>[`Form`](docs/components/Form.md) | One task with grouped fields, then its one submit action. |
+| <a id="gallery"></a>[`Gallery`](docs/components/Gallery.md) | A page of image-led items, such as a product catalog, in one to four columns. |
+| <a id="grid"></a>[`Grid`](docs/components/Grid.md) | Arrange content in responsive columns or a single stack. |
+| <a id="inline"></a>[`Inline`](docs/components/Inline.md) | Wrapping rows with shared spacing and alignment. |
+| <a id="pageheader"></a>[`PageHeader`](docs/components/PageHeader.md) | Open a screen with its title, context, state badges and page-level actions. |
+| <a id="panel"></a>[`Panel`](docs/components/Panel.md) | Organize a section with a header, content, and actions. |
+| <a id="scrollarea"></a>[`ScrollArea`](docs/components/ScrollArea.md) | Keep longer content in a scrollable, keyboard-accessible region. |
+| <a id="separator"></a>[`Separator`](docs/components/Separator.md) | Semantic or decorative horizontal and vertical rules. |
+| <a id="settings"></a>[`Settings`](docs/components/Settings.md) | Sections of fields and managed lists, each saved on its own. |
+| <a id="split"></a>[`Split`](docs/components/Split.md) | Two columns that stack when their parent narrows. |
+| <a id="stack"></a>[`Stack`](docs/components/Stack.md) | Vertical flow with shared spacing and alignment. |
+| <a id="statsrow"></a>[`StatsRow`](docs/components/StatsRow.md) | Show comparable metrics in a row that fills its region and wraps when narrow. |
+| <a id="supportingpane"></a>[`SupportingPane`](docs/components/SupportingPane.md) | A main column with a named aside that moves below it when narrow. |
 
 ### Structured data
 
 | Component | Use for |
 |---|---|
-| <a id="table"></a>[Table](docs/components/Table.md) | Compare fields across records with sorting, selection, actions and sticky layouts. |
-| <a id="descriptionlist"></a>[DescriptionList](docs/components/DescriptionList.md) | Scan labeled facts with aligned, responsive key/value presentation. |
-| <a id="collectionlist"></a>[CollectionList](docs/components/CollectionList.md) | Group unordered or ordered records with shared alignment and spacing. |
-| <a id="collectionrow"></a>[CollectionRow](docs/components/CollectionRow.md) | Summarize a record with details, metadata, selection and independent actions. |
+| <a id="table"></a>[`Table`](docs/components/Table.md) | Compare fields across records with sorting, selection, actions and sticky layouts. |
+| <a id="descriptionlist"></a>[`DescriptionList`](docs/components/DescriptionList.md) | Scan labeled facts with aligned, responsive key/value presentation. |
+| <a id="collectionlist"></a>[`CollectionList`](docs/components/CollectionList.md) | Group unordered or ordered records with shared alignment and spacing. |
+| <a id="collectionrow"></a>[`CollectionRow`](docs/components/CollectionRow.md) | Summarize a record with details, metadata, selection and independent actions. |
 
 ### Typography
 
 | Component | Use for |
 |---|---|
-| <a id="codeblock"></a>[CodeBlock](docs/components/CodeBlock.md) | Explicit source listings with highlighting, line numbers and copy feedback. |
-| <a id="code"></a>[Code](docs/components/Code.md) | Literal inline code and syntax-highlighted multiline code blocks. |
-| <a id="heading"></a>[Heading](docs/components/Heading.md) | Native heading hierarchy with independent visual sizing. |
-| <a id="link"></a>[Link](docs/components/Link.md) | Recognizable navigation with visible keyboard focus. |
-| <a id="text"></a>[Text](docs/components/Text.md) | Readable paragraphs, inline text and supporting content. |
+| <a id="codeblock"></a>[`CodeBlock`](docs/components/CodeBlock.md) | Explicit source listings with highlighting, line numbers and copy feedback. |
+| <a id="code"></a>[`Code`](docs/components/Code.md) | Literal inline code and syntax-highlighted multiline code blocks. |
+| <a id="heading"></a>[`Heading`](docs/components/Heading.md) | Native heading hierarchy with independent visual sizing. |
+| <a id="link"></a>[`Link`](docs/components/Link.md) | Recognizable navigation with visible keyboard focus. |
+| <a id="text"></a>[`Text`](docs/components/Text.md) | Readable paragraphs, inline text and supporting content. |
 
 ## Composition guides
 
@@ -182,15 +182,15 @@ Use these when a task spans several components:
 
 ## Search composition
 
-Use the [Input search recipe](docs/components/Input.md#search-composition) for a labeled search field with a clear action and focus recovery.
+Use the [`Input` search recipe](docs/components/Input.md#search-composition) for a labeled search field with a clear action and focus recovery.
 
 ## Resizable panels
 
-Use the [Panel.Handle reference](docs/components/Panel.md#resizable-panels) for resizable panel groups and their pointer and keyboard behavior.
+Use the [`Panel.Handle` reference](docs/components/Panel.md#resizable-panels) for resizable panel groups and their pointer and keyboard behavior.
 
 ## Styling
 
-Every component takes `className` and `style`. Components with inner parts, such as Input, Select and Checkbox, also take `classNames` keyed by part; the props type lists each part. kbui's CSS sits in the `kbui` cascade layer, so your classes win. See [Restyling kbui](https://github.com/KhallilB/kbui/blob/main/docs/guides/restyling.md).
+Every component takes `className` and `style`. Components with inner parts, such as `Input`, `Select` and `Checkbox`, also take `classNames` keyed by part; the props type lists each part. kbui's CSS sits in the `kbui` cascade layer, so your classes win. See [Restyling kbui](https://github.com/KhallilB/kbui/blob/main/docs/guides/restyling.md).
 
 ```tsx
 <Input label="Email" className="w-full" classNames={{ control: "rounded-none" }} />

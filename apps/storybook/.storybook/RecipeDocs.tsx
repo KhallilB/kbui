@@ -8,7 +8,7 @@ export function RecipeDocs({ name, stories }: { name: string; stories: Record<st
   if (!recipe) throw new Error(`Missing recipe reference: ${name}`);
   return (
     <>
-      <p>Recipe · Copy source into your application</p>
+      <p>Recipe · Copy into your app</p>
       <h1>{recipe.name} recipe</h1>
       <GuideContent
         markdown={recipe.markdown}
@@ -17,9 +17,7 @@ export function RecipeDocs({ name, stories }: { name: string; stories: Record<st
         linkTarget="_top"
       />
       <h2>Copy the source</h2>
-      <p>
-        Copy every file below. Keep local imports together and import the package stylesheet once.
-      </p>
+      <p>Copy the files below into one folder. Import the package stylesheet once in your app.</p>
       {recipe.files.map((file) => (
         <section key={file.path} aria-label={file.name}>
           <h3>{file.name}</h3>

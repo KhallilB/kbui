@@ -19,10 +19,7 @@ declare module "virtual:kbui-catalog" {
 }
 
 declare module "virtual:kbui-site-samples" {
-  const samples: {
-    playground: Record<string, import("../catalog/types").CodeSample>;
-    surfaces: Record<string, import("../catalog/types").CodeSample>;
-  };
+  const samples: { playground: Record<string, import("../catalog/types").CodeSample> };
   export default samples;
 }
 

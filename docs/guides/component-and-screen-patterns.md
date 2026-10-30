@@ -47,7 +47,7 @@ Start with native semantics and a fitting Base UI primitive. An ARIA role does n
 
 For a screen recipe, define regions and their behavior before building individual regions. Choose content width, shared gutters, alignment, spacing rhythm, navigation, primary action, density, scroll ownership and responsive collapse together. Include all relevant states in the same scenario.
 
-Use existing Container, Grid, Inline, Split and Panel capabilities first; consult [layout composition](layout.md). Reuse the same page boundaries across adjacent regions and assign padding once. Name which region scrolls and when a header or action remains visible. Define a useful narrow-screen route through the task, including back navigation and focus, rather than shrinking every region until it fits.
+Use existing `Container`, `Grid`, `Inline`, `Split` and `Panel` capabilities first; consult [layout composition](layout.md). Reuse the same page boundaries across adjacent regions and assign padding once. Name which region scrolls and when a header or action remains visible. Define a useful narrow-screen route through the task, including back navigation and focus, rather than shrinking every region until it fits.
 
 Integrate one vertical task before building every region or variant. Test real controls inside the real shell early. Sticky content, portal hosts, nested scroll areas and catalog frames create constraints that isolated components do not reveal. Record repeated shared gaps separately from legitimate application CSS.
 
@@ -124,7 +124,7 @@ bun run --cwd packages/react test -- NumberField
 bun run --cwd apps/storybook test ../../packages/react/src/components/NumberField/NumberField.stories.tsx
 ```
 
-Replace NumberField and the path with the affected component; keep broader commands at the boundary required by CONTRIBUTING. Existing validation stages are `stories`, `themes`, `responsive` and `built`; do not invent a `test:patterns` command or imply it exists. Repeat passing checks when changed inputs or unresolved risks invalidate the prior evidence.
+Replace `NumberField` and the path with the affected component; keep broader commands at the boundary required by CONTRIBUTING. Existing validation stages are `stories`, `themes`, `responsive` and `built`; do not invent a `test:patterns` command or imply it exists. Repeat passing checks when changed inputs or unresolved risks invalidate the prior evidence.
 
 ## Document for reuse
 

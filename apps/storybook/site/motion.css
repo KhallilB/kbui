@@ -10,31 +10,17 @@
         .day-heading p,
         .day-choice > :is(.kb-checkbox-label, .kb-checkbox-description),
         .demo-note,
-        .example-description > *,
-        .composition > :is(.sample-top, .composition-title, p),
-        .stats > .kb-stat,
-        .creative .sample-bottom > div > *
+        .stats > .kb-stat
       ) {
       animation: kbui-fragment-arrive 320ms cubic-bezier(0.22, 1, 0.36, 1)
         var(--fragment-delay, 0ms) both;
     }
-    &.kbui-examples .page-heading > * {
-      animation: kbui-fragment-arrive 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
-    &.kbui-examples .page-heading > h1 {
-      animation-delay: 35ms;
-    }
-    &.kbui-examples .page-heading > p:last-child {
-      animation-delay: 90ms;
-    }
-    :is(.about-strip > p, .day-heading p, .composition > p) {
+    :is(.about-strip > p, .day-heading p) {
       --fragment-delay: 90ms;
     }
-    .example-description > h2,
     :is(.other-ways, .take-it) > div:first-child > h2 {
       --fragment-delay: 35ms;
     }
-    .example-description > p:last-child,
     :is(.other-ways, .take-it) > div:first-child > p:last-child {
       --fragment-delay: 90ms;
     }
@@ -50,15 +36,6 @@
     .day-choice .kb-checkbox-description {
       --fragment-delay: calc(95ms + var(--choice-delay, 0ms));
     }
-    .composition > .composition-title {
-      --fragment-delay: 35ms;
-    }
-    .creative .sample-bottom .composition-title {
-      --fragment-delay: 60ms;
-    }
-    .creative .sample-bottom p {
-      --fragment-delay: 120ms;
-    }
     .stats > .kb-stat:first-child {
       --fragment-delay: 90ms;
     }
@@ -73,10 +50,7 @@
         .example-links a,
         .take-it > div:last-child > a,
         .day-progress,
-        .day-bottom,
-        .composition > .sample-bottom,
-        .composition > .geometry,
-        .composition > .editorial-mark
+        .day-bottom
       ) {
       animation: kbui-poster-arrive 300ms cubic-bezier(0.22, 1, 0.36, 1) var(--detail-delay, 100ms)
         both;
@@ -96,11 +70,7 @@
     .day-bottom {
       --detail-delay: 175ms;
     }
-    .composition > .sample-bottom {
-      --detail-delay: 140ms;
-    }
-    .plan-summary-words,
-    .palette-words {
+    .plan-summary-words {
       animation: kbui-ink-update 160ms ease-out both;
     }
     .inner-page > .page-heading {
@@ -109,7 +79,6 @@
     .inner-page
       > :is(
         .section,
-        .example-section,
         .catalog-grid,
         .catalog-browser,
         .catalog-live,
@@ -148,11 +117,9 @@
         .site-footer a,
         .primary-link,
         .plain-link,
-        .composition a,
         .component-card,
         .playground-actions button,
         .day-demo .kb-button,
-        .composition .kb-button,
         .fields select,
         .search input
       ) {
@@ -160,26 +127,10 @@
       transition-duration: 140ms;
       transition-timing-function: ease;
     }
-    .geometry-a,
-    .geometry-b,
-    .geometry-c {
-      transition: fill 200ms ease;
-    }
-    .geometry-b {
-      transition-delay: 25ms;
-    }
-    .geometry-c {
-      transition-delay: 50ms;
-    }
     .primary-link > span {
       transition: transform 140ms ease;
     }
-    :is(
-        .primary-link,
-        .day-demo .kb-button,
-        .composition .kb-button,
-        .playground-actions button
-      ):active:not(:disabled) {
+    :is(.primary-link, .day-demo .kb-button, .playground-actions button):active:not(:disabled) {
       transform: translateY(1px);
     }
     .catalog-preview-frame iframe {

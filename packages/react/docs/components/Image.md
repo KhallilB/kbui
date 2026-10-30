@@ -53,10 +53,10 @@ export function Example() {
 
 The frame exposes `data-state="empty|loading|loaded|error"`, `data-ratio`, and `data-fit`. The internal native image is hidden from assistive technology; the outer image role owns the alternative across all states. `aria-label`, `aria-labelledby`, and `aria-describedby` belong to the frame. An empty `alt` always hides the complete image.
 
-`auto` uses positive width and height; without both, it falls back to the landscape ratio. The image remains within the reserved frame, including after failure. A caller `style.aspectRatio` overrides framing. Image fetches follow native browser behavior; the component adds no timeout, retry loop, cache, upload or URL policy. A new source starts a fresh request; to retry the same URL intentionally, change the component key.
+`auto` uses positive width and height; without both, it falls back to the landscape ratio. The image remains within the reserved frame, including after failure. A caller `style.aspectRatio` overrides framing. `Image` fetches follow native browser behavior; the component adds no timeout, retry loop, cache, upload or URL policy. A new source starts a fresh request; to retry the same URL intentionally, change the component key.
 
-Fallback content is visual-only and must contain no controls. Place a named replacement/retry Button and meaningful error text outside the frame. Use [media recipes](../../../../docs/guides/media-and-identity.md) for responsive sources, localized errors and CSS-only markup.
+Fallback content is visual-only and must contain no controls. Place a named replacement/retry `Button` and meaningful error text outside the frame. Use [media recipes](../../../../docs/guides/media-and-identity.md) for responsive sources, localized errors and CSS-only markup.
 
 ## Related components
 
-Use [Avatar](Avatar.md) for fixed-size identity, [Thumbnail](Thumbnail.md) for captions and metadata, and [Grid](Grid.md) for responsive collections.
+Use [`Avatar`](Avatar.md) for fixed-size identity, [`Thumbnail`](Thumbnail.md) for captions and metadata, and [`Grid`](Grid.md) for responsive collections.

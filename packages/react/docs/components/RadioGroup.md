@@ -1,6 +1,6 @@
 # RadioGroup
 
-Use RadioGroup when people need to choose one option and see all the choices at once. Give the group a label and each item a unique string value. Arrow keys change the selection and skip disabled options.
+Use `RadioGroup` when people need to choose one option and see all the choices at once. Give the group a label and each item a unique string value. Arrow keys change the selection and skip disabled options.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/components-radiogroup--docs)
 
@@ -25,7 +25,7 @@ export function Example() {
 ## More examples
 
 - [An unanswered choice](https://kbui.kcb.pro/storybook/?path=/story/components-radiogroup--empty-selection): Start without a selected option.
-- [Segmented choices](https://kbui.kcb.pro/storybook/?path=/story/components-radiogroup--segmented): Compare a visual treatment with the same single-choice contract.
+- [Segmented choices](https://kbui.kcb.pro/storybook/?path=/story/components-radiogroup--segmented): Show a compact layout with the same single-choice behavior.
 - [Validation feedback](https://kbui.kcb.pro/storybook/?path=/story/components-radiogroup--invalid): Explain why a choice is required.
 
 ## Reference
@@ -66,4 +66,4 @@ In dark mode, the primary pill uses a darker orange with white text for contrast
 
 ## Related components
 
-Use [Checkbox](Checkbox.md) for independent choices and [Select](Select.md) when the options belong in a dropdown.
+Use [`Checkbox`](Checkbox.md) for independent choices and [`Select`](Select.md) when the options belong in a dropdown.
