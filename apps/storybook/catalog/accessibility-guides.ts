@@ -235,6 +235,21 @@ export const accessibilityGuides = {
       href: "https://www.w3.org/WAI/ARIA/apg/patterns/table/examples/sortable-table/",
     },
   },
+  Dashboard: {
+    provides: [
+      "Header, metrics, primary and secondary regions in DOM order; regions add no roles or focus stops.",
+      "Primary stays before secondary in reading order when the panels stack.",
+    ],
+    authoring: [
+      "Start with an h1, usually PageHeader's title, and name each panel with an h2.",
+      "Label the metrics list, and state data freshness or partial data as text rather than color alone.",
+    ],
+    verify: [
+      "Browse by headings with a screen reader and confirm the outline runs header, metrics, primary, then secondary.",
+      "At 390, 768 and 1440px check no sideways scroll, no overlapping controls and every target at least 24 by 24 CSS pixels.",
+    ],
+    standards: ["1.3.1", "1.3.2", "1.4.1", "1.4.10", "2.4.6", "2.5.8"],
+  },
   Container: {
     provides: [
       "The as prop selects a native landmark or section element; native naming attributes and refs pass through.",

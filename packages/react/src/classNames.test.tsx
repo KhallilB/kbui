@@ -13,6 +13,7 @@ import {
   Combobox,
   ConfirmAction,
   CopyableText,
+  Dashboard,
   Dialog,
   EmptyState,
   ErrorSummary,
@@ -80,6 +81,10 @@ const cases: [string, () => ReactElement][] = [
         classNames={every}
       />
     ),
+  ],
+  [
+    "dashboard",
+    () => <Dashboard header="H" metrics="M" primary="P" secondary="S" classNames={every} />,
   ],
   [
     "copyabletext",

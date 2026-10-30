@@ -631,6 +631,14 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-pageheader-title-size-lg: var(--kb-heading-size-display);
   --kb-pageheader-divider: var(--kb-color-border);
   --kb-pageheader-divider-gap: var(--kb-space-5);
+  --kb-dashboard-gap: var(--kb-space-6);
+  --kb-dashboard-max-width: var(--kb-container-size-lg);
+  --kb-dashboard-gutter-sm: var(--kb-space-4);
+  --kb-dashboard-gutter-md: var(--kb-space-6);
+  --kb-dashboard-gutter-lg: var(--kb-space-8);
+  --kb-dashboard-gutter-md-from: 48rem;
+  --kb-dashboard-gutter-lg-from: 64rem;
+  --kb-dashboard-collapse: 60rem;
   color-scheme: light;
 }
 
