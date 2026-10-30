@@ -149,6 +149,12 @@ export {
   type FormSectionProps,
 } from "./components/FormSection/FormSection";
 export {
+  Gallery,
+  type GalleryItemProps,
+  type GalleryPart,
+  type GalleryProps,
+} from "./components/Gallery/Gallery";
+export {
   Grid,
   type GridColumns,
   type GridElement,

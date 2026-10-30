@@ -717,6 +717,19 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.Tooltip,
   },
+  Gallery: {
+    use: "Lay out a page of image-led items, such as a product catalog, as a header, filters and a list that grows from one to four columns.",
+    example: {
+      title: "Rebuild a sneaker catalog",
+      description:
+        "Feature the shop's own model across two columns, filter by brand and search, and recover from no results.",
+    },
+    tips: [
+      "Wrap each item in Gallery.Item and give its Card a heading; items stretch to the row height.",
+      "Keep one image ratio across items so headings line up; use contain for products whose edges matter.",
+    ],
+    accessibility: accessibilityGuides.Gallery,
+  },
   PageHeader: {
     use: "Open every screen with one header that names the page, gives brief context, shows its status and holds the page-level actions.",
     example: {
