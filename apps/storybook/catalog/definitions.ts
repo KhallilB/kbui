@@ -165,6 +165,15 @@ export const definitions: Record<string, Definition> = {
       Form: "Form",
     },
   },
+  Gallery: {
+    group: "Layout",
+    description: "A page of image-led items, such as a product catalog, in one to four columns.",
+    examples: {
+      ProductCatalog: "Product Catalog",
+      NoResults: "No Results",
+      Inspection: "Inspection",
+    },
+  },
   PageHeader: {
     group: "Layout",
     description: "Open a screen with its title, context, state badges and page-level actions.",
@@ -190,6 +199,14 @@ export const definitions: Record<string, Definition> = {
     group: "Layout",
     description: "Shared page widths and responsive gutters.",
     examples: { Default: "Default", Sizes: "Sizes", Responsive: "Responsive", Page: "Page" },
+  },
+  Dashboard: {
+    group: "Layout",
+    description: "An overview page: header, metrics, then primary and secondary panels.",
+    examples: {
+      SalesOverview: "Sales Overview",
+      MetricsAndPrimary: "Metrics and Primary",
+    },
   },
   Checkbox: {
     group: "Forms",

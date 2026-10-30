@@ -82,6 +82,11 @@ export {
   type CopyableTextTone,
 } from "./components/CopyableText/CopyableText";
 export {
+  Dashboard,
+  type DashboardPart,
+  type DashboardProps,
+} from "./components/Dashboard/Dashboard";
+export {
   DescriptionList,
   type DescriptionListDetailProps,
   type DescriptionListItemProps,
@@ -143,6 +148,12 @@ export {
   type FormSectionPart,
   type FormSectionProps,
 } from "./components/FormSection/FormSection";
+export {
+  Gallery,
+  type GalleryItemProps,
+  type GalleryPart,
+  type GalleryProps,
+} from "./components/Gallery/Gallery";
 export {
   Grid,
   type GridColumns,

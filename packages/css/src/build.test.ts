@@ -517,6 +517,23 @@ describe("buildCss", () => {
     expect(stackCss).toContain("margin-block: 0;");
     expect(stackCss).toContain('.kb-stack[data-gap="lg"]');
     expect(stackCss).toContain('.kb-stack[data-justify="between"]');
+    const galleryCss = await read("gallery.css");
+    expect(galleryCss.split("\n")[0]).toContain(".kb-gallery-items.kb-grid > .kb-gallery-item");
+    expect(galleryCss).toContain("container: kb-gallery / inline-size");
+    expect(galleryCss).toContain("max-inline-size: var(--kb-gallery-max-width)");
+    expect(galleryCss).toContain("@media (width >= 48rem)");
+    expect(galleryCss).toContain("padding-inline: var(--kb-gallery-gutter-sm)");
+    expect(galleryCss).toMatch(
+      /@media \(width >= 48rem\) \{\s*\.kb-gallery \{\s*padding-inline: var\(--kb-gallery-gutter-md\)/,
+    );
+    expect(galleryCss).toMatch(
+      /@media \(width >= 64rem\) \{\s*\.kb-gallery \{\s*padding-inline: var\(--kb-gallery-gutter-lg\)/,
+    );
+    for (const step of ["30rem", "48rem", "64rem"]) {
+      expect(galleryCss).toContain(`@container kb-gallery (width >= ${step})`);
+    }
+    expect(galleryCss).toMatch(/\.kb-gallery-item\[data-featured\][^{]*\{\s*grid-column: span 2/);
+    expect(galleryCss).not.toContain(".kb-card");
 
     for (const file of ["spinner.css", "skeleton.css", "emptystate.css", "toast.css"]) {
       const css = await read(file);

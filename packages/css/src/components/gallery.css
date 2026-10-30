@@ -1,0 +1,65 @@
+/* Anatomy: .kb-gallery > .kb-gallery-header, .kb-gallery-filters, .kb-gallery-empty, .kb-gallery-items.kb-grid > .kb-gallery-item [data-featured] */
+/* Page frame: fills up to 80rem; gutters follow the viewport, columns the frame. */
+.kb-gallery {
+  container: kb-gallery / inline-size;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--kb-gallery-gap);
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: var(--kb-gallery-max-width);
+  margin-inline: auto;
+  padding-inline: var(--kb-gallery-gutter-sm);
+}
+@media (width >= 48rem) {
+  .kb-gallery {
+    padding-inline: var(--kb-gallery-gutter-md);
+  }
+}
+@media (width >= 64rem) {
+  .kb-gallery {
+    padding-inline: var(--kb-gallery-gutter-lg);
+  }
+}
+.kb-gallery-header,
+.kb-gallery-empty {
+  min-inline-size: 0;
+}
+.kb-gallery-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--kb-gallery-filters-gap);
+  min-inline-size: 0;
+}
+.kb-gallery-filters > * {
+  flex: 1 1 var(--kb-gallery-filter-min-width);
+  min-inline-size: 0;
+}
+/* Child selector outranks grid.css, which loads later. Column steps are the placement contract. */
+.kb-gallery > .kb-gallery-items {
+  grid-template-columns: minmax(0, 1fr);
+}
+/* Item content stretches to the row height. */
+.kb-gallery-item {
+  display: grid;
+}
+@container kb-gallery (width >= 30rem) {
+  .kb-gallery > .kb-gallery-items {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .kb-gallery-item[data-featured] {
+    grid-column: span 2;
+  }
+}
+@container kb-gallery (width >= 48rem) {
+  .kb-gallery > .kb-gallery-items {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@container kb-gallery (width >= 64rem) {
+  .kb-gallery > .kb-gallery-items {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

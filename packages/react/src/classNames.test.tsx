@@ -13,6 +13,7 @@ import {
   Combobox,
   ConfirmAction,
   CopyableText,
+  Dashboard,
   Dialog,
   EmptyState,
   ErrorSummary,
@@ -20,6 +21,7 @@ import {
   FileInput,
   Form,
   FormSection,
+  Gallery,
   Image,
   Input,
   MultiSelect,
@@ -54,6 +56,14 @@ const camel = (part: string) => part.replace(/-(\w)/g, (_, c: string) => c.toUpp
 
 const cases: [string, () => ReactElement][] = [
   [
+    "gallery",
+    () => (
+      <Gallery header="H" filters="F" classNames={every}>
+        <Gallery.Item className="slot-item">Item</Gallery.Item>
+      </Gallery>
+    ),
+  ],
+  [
     "tabs",
     () => (
       <Tabs defaultValue="a" classNames={every}>
@@ -84,6 +94,10 @@ const cases: [string, () => ReactElement][] = [
         classNames={every}
       />
     ),
+  ],
+  [
+    "dashboard",
+    () => <Dashboard header="H" metrics="M" primary="P" secondary="S" classNames={every} />,
   ],
   [
     "copyabletext",

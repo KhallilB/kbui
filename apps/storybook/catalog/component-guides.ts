@@ -140,6 +140,19 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.Container,
   },
+  Dashboard: {
+    use: "Lay out an overview page as a header, a row of metrics, then primary and secondary panels.",
+    example: {
+      title: "Rebuild a sales dashboard",
+      description:
+        "Panels sit two thirds and one third on wide pages and stack, primary first, on narrow ones.",
+    },
+    tips: [
+      "Use Dashboard instead of Container; it sets the page width and gutters.",
+      "Put freshness or partial-data notes in the header as text, beside the page title.",
+    ],
+    accessibility: accessibilityGuides.Dashboard,
+  },
   Inline: {
     use: "Arrange independent content or actions in a row that wraps when space runs out.",
     example: {
@@ -716,6 +729,19 @@ export const componentGuides: Record<string, ComponentGuide> = {
       "Use a themed container when the popup belongs to a nested theme.",
     ],
     accessibility: accessibilityGuides.Tooltip,
+  },
+  Gallery: {
+    use: "Lay out a page of image-led items, such as a product catalog, as a header, filters and a list that grows from one to four columns.",
+    example: {
+      title: "Rebuild a sneaker catalog",
+      description:
+        "Feature the shop's own model across two columns, filter by brand and search, and recover from no results.",
+    },
+    tips: [
+      "Wrap each item in Gallery.Item and give its Card a heading; items stretch to the row height.",
+      "Keep one image ratio across items so headings line up; use contain for products whose edges matter.",
+    ],
+    accessibility: accessibilityGuides.Gallery,
   },
   PageHeader: {
     use: "Open every screen with one header that names the page, gives brief context, shows its status and holds the page-level actions.",

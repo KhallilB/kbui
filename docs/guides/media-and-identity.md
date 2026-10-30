@@ -1,6 +1,6 @@
 # Media and identity
 
-Use Avatar for recognizable people and organizations, Image for stable media framing, and Thumbnail for captioned product and attachment previews. Compose collections with Grid and focused inspection with Dialog. These components are implemented locally and unreleased.
+Use Avatar for recognizable people and organizations, Image for stable media framing, and Thumbnail for captioned product and attachment previews. Compose pages of media with [Gallery](../../packages/react/docs/components/Gallery.md) and focused inspection with Dialog. These components are implemented locally and unreleased.
 
 [Avatar API](../../packages/react/docs/components/Avatar.md) · [Image API](../../packages/react/docs/components/Image.md) · [Thumbnail API](../../packages/react/docs/components/Thumbnail.md)
 
@@ -70,22 +70,22 @@ Avatar reuses this request lifecycle with fixed dimensions. The default initials
 
 ## Build a gallery in reading order
 
-Keep each preview inside a list item. Put its action in the caption so filenames and titles remain readable when the media fails. A real link owns navigation and download behavior. A Dialog trigger owns inspection. Avoid wrapping a whole figure in a button or nesting multiple controls.
+[Gallery](../../packages/react/docs/components/Gallery.md) renders the list, its columns and an optional header and filters; keep each preview inside a `Gallery.Item`. Put its action in the caption so filenames and titles remain readable when the media fails. A real link owns navigation and download behavior. A Dialog trigger owns inspection. Avoid wrapping a whole figure in a button or nesting multiple controls.
 
 ```tsx
 import "@kb.ui/react/styles.css";
-import { Button, Dialog, Grid, Image, Thumbnail } from "@kb.ui/react";
+import { Button, Dialog, Gallery, Image, Thumbnail } from "@kb.ui/react";
 
 const studies = [
   { id: "alpine", title: "Alpine study", src: "/alpine.jpg", alt: "River beneath green alpine peaks" },
   { id: "material", title: "Material study", src: "/coat.jpg", alt: "Sand coat with broad lapels" },
 ];
 
-export function Gallery() {
+export function Studies() {
   return (
-    <Grid as="ul" minItemWidth="sm" gap="lg">
+    <Gallery itemsLabel="Studies">
       {studies.map((study) => (
-        <li key={study.id}>
+        <Gallery.Item key={study.id}>
           <Dialog>
             <Thumbnail
               src={study.src}
@@ -102,9 +102,9 @@ export function Gallery() {
               </Dialog.Actions>
             </Dialog.Content>
           </Dialog>
-        </li>
+        </Gallery.Item>
       ))}
-    </Grid>
+    </Gallery>
   );
 }
 ```
