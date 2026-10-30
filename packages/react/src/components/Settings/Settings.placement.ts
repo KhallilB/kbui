@@ -6,7 +6,7 @@ export const placement = definePlacement({
   from: { medium: 40 },
   rules: [
     { part: ":scope", place: "fill" },
-    { part: ".kb-collectionrow-aside", place: "end", of: ".kb-collectionrow" },
+    { part: ".kb-collectionrow-aside", place: "end", of: ".kb-collectionrow-layout" },
     { part: ".kb-collectionrow-layout", place: "line", at: ["medium", "wide"] },
     { part: ".kb-collectionrow-aside", place: "line", at: ["medium", "wide"] },
   ],

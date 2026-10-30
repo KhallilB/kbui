@@ -60,7 +60,7 @@ test("package index reaches every standalone reference and keeps local links val
   expect(index).not.toContain("| Prop |");
   for (const entry of entries) {
     const { name } = entry;
-    expect(index, name).toContain(`[${name}](docs/components/${name}.md)`);
+    expect(index, name).toContain(`[\`${name}\`](docs/components/${name}.md)`);
     const page = new URL(`docs/components/${name}.md`, root);
     const markdown = readFileSync(page, "utf8");
     expect(markdown.startsWith(`# ${name}\n`), name).toBe(true);

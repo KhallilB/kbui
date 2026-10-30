@@ -1,6 +1,6 @@
 # Grid
 
-Arrange cards or other content in responsive columns, fixed column counts, or a single vertical stack. Grid uses ordinary CSS layout, without an ARIA grid role or special keyboard navigation, and resets native list markers and margins when rendered as `ul` or `ol`.
+Arrange cards or other content in responsive columns, fixed column counts, or a single vertical stack. `Grid` uses ordinary CSS layout, without an ARIA grid role or special keyboard navigation, and resets native list markers and margins when rendered as `ul` or `ol`.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/layout-grid--docs)
 
@@ -59,8 +59,8 @@ export function Example() {
 
 Use `minItemWidth`, `columns`, `gap`, and `align` for common layouts, or override `--kb-grid-gap` and `--kb-grid-min-item-width` (`-sm`, `-md`, `-lg`) on a subtree. Keep the visual order the same as the reading order.
 
-Grid removes list markers. Include `role="list"` on list renderings to retain list exposure in Safari when `list-style: none` is applied; see [MDN’s list-style accessibility guidance](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/list-style#accessibility). Confirm list/item announcement with your supported browser and screen reader.
+`Grid` removes list markers. Include `role="list"` on list renderings to retain list exposure in Safari when `list-style: none` is applied; see [MDN’s list-style accessibility guidance](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/list-style#accessibility). Confirm list/item announcement with your supported browser and screen reader.
 
 ## Related components
 
-Use [Split](Split.md) for exactly two weighted columns, [Inline](Inline.md) for a wrapping row of independent items, and [Stack](Stack.md) for vertical flow that never forms columns.
+Use [`Split`](Split.md) for exactly two weighted columns, [`Inline`](Inline.md) for a wrapping row of independent items, and [`Stack`](Stack.md) for vertical flow that never forms columns.

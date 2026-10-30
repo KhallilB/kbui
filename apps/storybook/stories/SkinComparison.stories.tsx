@@ -16,12 +16,13 @@ type Story = StoryObj<typeof meta>;
 export const Settings: Story = {
   play: async ({ canvasElement }) => {
     const page = within(canvasElement);
-    const back = page.getByRole("link", { name: /All examples/ });
+    const back = page.getByRole("link", { name: /All recipes/ });
     await userEvent.hover(back);
     const arrow = back.querySelector("svg.link-arrow");
     expect(arrow).not.toBeNull();
     expect(arrow).toHaveAttribute("aria-hidden", "true");
-    expect(back).toHaveAccessibleName("All examples");
+    expect(back).toHaveAccessibleName("All recipes");
+    expect(back).toHaveAttribute("href", "../recipes/");
     const name = page.getByRole("textbox", { name: "Workspace name" });
     await userEvent.clear(name);
     await userEvent.click(page.getByRole("button", { name: "Save changes" }));

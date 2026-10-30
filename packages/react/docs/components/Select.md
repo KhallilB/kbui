@@ -1,6 +1,6 @@
 # Select
 
-Use Select to choose one option from a dropdown. Each option has a string value, a visible label, and an optional disabled flag. Pass `null` to show the placeholder. Your app stores the selected value and decides whether it is valid.
+Use `Select` to choose one option from a dropdown. Each option has a string value, a visible label, and an optional disabled flag. Pass `null` to show the placeholder. Your app stores the selected value and decides whether it is valid.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/components-select--docs)
 
@@ -68,4 +68,4 @@ By default, the popup mounts inside the field root and inherits its theme. If yo
 
 ## Related components
 
-Use [RadioGroup](RadioGroup.md) for a visible set of choices and [Menu](Menu.md) for actions.
+Use [`RadioGroup`](RadioGroup.md) for a visible set of choices and [`Menu`](Menu.md) for actions.
