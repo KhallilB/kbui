@@ -581,6 +581,19 @@ describe("form component tokens", () => {
     expect(css).toContain("--kb-errorsummary-radius: var(--kb-radius-md);");
     expect(css).toContain("--kb-errorsummary-gap: var(--kb-space-2);");
   });
+
+  test("defines region and collapse tokens for Form, FormSection and Settings", () => {
+    const { css } = buildTokens(real as TokenTree);
+    expect(css).toContain("--kb-form-gap: var(--kb-space-6);");
+    expect(css).toContain("--kb-form-width-sm: 32rem;");
+    expect(css).toContain("--kb-form-width-md: 40rem;");
+    expect(css).toContain("--kb-formsection-gap: var(--kb-space-4);");
+    expect(css).toContain("--kb-formsection-header-gap: var(--kb-space-1);");
+    expect(css).toContain("--kb-formsection-fields-gap: var(--kb-space-4);");
+    expect(css).toContain("--kb-formsection-collapse: 40rem;");
+    expect(css).toContain("--kb-settings-gap: var(--kb-space-8);");
+    expect(css).toContain("--kb-settings-divider: var(--kb-color-border);");
+  });
 });
 
 describe("grid component tokens", () => {

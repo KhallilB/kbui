@@ -107,7 +107,7 @@ say();
 
 // ---- gate ----
 
-/** Roadmap gate. It leaves 20% or more integrity-or-design with under 20% integrity unassigned; read as design-led. */
+/** Roadmap gate rows, checked in order. */
 function gate(integrity: Share, integrityOrDesign: Share): string {
   if (pct(integrity) >= 20) return "integrity and safety rules lead; continue to M3";
   if (pct(integrityOrDesign) >= 10) return "design rules lead; continue to M3";
