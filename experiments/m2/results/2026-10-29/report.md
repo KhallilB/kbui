@@ -33,6 +33,8 @@
 
 ## Gate
 
+The gate reads rule output, as fixed before the run. Readings from human labels below are for comparison.
+
 From rule output: integrity 20/60 (33.3%), integrity or design 32/60 (53.3%). Reading: **integrity and safety rules lead; continue to M3**.
 
 Without INT-1: integrity 16/60 (26.7%), integrity or design 29/60 (48.3%). Reading: **integrity and safety rules lead; continue to M3**.
@@ -88,7 +90,7 @@ Reported apart from the rules; `target-size` also feeds ARR-4. Screens with the 
 | DATA-1 | 2 | 0 | 4 | 2/2 = 1.00 | 2/6 = 0.33 |  |
 | DATA-2 | 5 | 33 | 0 | 5/38 = 0.13 | 5/5 = 1.00 | rewrite before M5 |
 
-From blind human labels on the sample: integrity 4/50 (8.0%), integrity or design 15/50 (30.0%). Reading: **design rules lead; continue to M3**.
+From blind human labels on the sample: integrity 4/50 (8.0%), integrity or design 15/50 (30.0%). The gate's thresholds would read: design rules lead; continue to M3. Not the gate; it reads rule output.
 
 ### After recheck
 
@@ -110,5 +112,5 @@ From blind human labels on the sample: integrity 4/50 (8.0%), integrity or desig
 | DATA-1 | 2 | 0 | 4 | 2/2 = 1.00 | 2/6 = 0.33 |  |
 | DATA-2 | 5 | 33 | 0 | 5/38 = 0.13 | 5/5 = 1.00 | rewrite before M5 |
 
-From rechecked human labels on the sample: integrity 9/50 (18.0%), integrity or design 22/50 (44.0%). Reading: **design rules lead; continue to M3**.
+From rechecked human labels on the sample: integrity 9/50 (18.0%), integrity or design 22/50 (44.0%). The gate's thresholds would read: design rules lead; continue to M3. Not the gate; it reads rule output.
 
