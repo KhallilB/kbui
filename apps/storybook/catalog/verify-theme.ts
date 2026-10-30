@@ -79,14 +79,6 @@ try {
     await palettePage.goto(`${origin}/playground/?theme=${theme}`);
     for (const tile of await palettePage.locator(".component-card").all())
       await sameMaterial(`Playground grid Card ${theme}`, tile, card);
-    await palettePage.goto(`${origin}/examples/?theme=${theme}`);
-    for (const composition of await palettePage.locator(".composition").all())
-      await sameMaterial(`Example Card ${theme}`, composition, card);
-    await sameMaterial(
-      `Example secondary ${theme}`,
-      palettePage.getByRole("button", { name: "Change palette" }),
-      secondary,
-    );
     await palettePage.goto(`${origin}/components/?component=input&theme=${theme}`);
     const field = await material(frame.locator(".kb-input-control").first());
     await palettePage.goto(`${origin}/components/?component=dialog&theme=${theme}`);
@@ -128,7 +120,7 @@ try {
   await installed.close();
   await palettePage.close();
   console.log(
-    "Palette parity verified: Buttons, Cards, fields and dialogs across Components, Playground, Examples, Home and Setup in both themes.",
+    "Palette parity verified: Buttons, Cards, fields and dialogs across Components, Playground, Home and Setup in both themes.",
   );
   for (const reducedMotion of ["no-preference", "reduce"] as const) {
     const page = await browser.newPage({ viewport: { width: 390, height: 844 }, reducedMotion });
@@ -171,7 +163,7 @@ try {
     );
     await page.getByRole("banner").getByRole("link", { name: "kbui home" }).click();
     await page.locator('.kbui-home[data-theme="dark"]').waitFor();
-    await page.goto(`${origin}/examples/`);
+    await page.goto(`${origin}/recipes/`);
     await page.locator('.kbui-site[data-theme="dark"]').waitFor();
     await page.goto(`${origin}/compare/?theme=light`);
     const name = page.getByRole("textbox", { name: "Workspace name" });

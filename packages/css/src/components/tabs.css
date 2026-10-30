@@ -9,6 +9,7 @@
 
 .kb-tabs[data-orientation="vertical"] {
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: flex-start;
   gap: var(--kb-space-4);
 }
@@ -193,6 +194,8 @@
 }
 
 .kb-tabs-panel[data-orientation="vertical"] {
+  /* Below 48rem of the tabs' width the basis exceeds the row, so the panel wraps beneath the list. */
+  flex-basis: max(calc((48rem - 100%) * 9999), 0px);
   padding-block-start: 0;
 }
 

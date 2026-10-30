@@ -79,7 +79,7 @@ test("missing composition files and stale proof stories fail by family", () => {
       ...adoptionRelationships,
       Switch: {
         ...current,
-        proof: { file: "apps/storybook/stories/Examples.stories.tsx", exportName: "Browse" },
+        proof: { file: "apps/storybook/stories/Home.stories.tsx", exportName: "Navigation" },
       },
     }),
   ).toThrow("Switch: proof must import its composition source");

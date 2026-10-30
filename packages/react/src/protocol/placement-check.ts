@@ -98,6 +98,11 @@ function checkRule(root: HTMLElement, rule: PlacementRule, el: HTMLElement, ref:
       const right = edges(el).right;
       return near(right, area.right) ? null : `ends at ${px(right)}, region at ${px(area.right)}`;
     }
+    case "center": {
+      const { left, right } = edges(el);
+      const offset = (left + right) / 2 - (area.left + area.right) / 2;
+      return near(offset, 0) ? null : `centre is ${px(offset)} off the region's`;
+    }
     case "last": {
       const after = ahead(el.parentElement ?? root, el);
       return after ? `${after.className || after.tagName} sits after it` : null;

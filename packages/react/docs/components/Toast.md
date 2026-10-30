@@ -1,6 +1,6 @@
 # Toast
 
-Use Toast for temporary feedback about background work. One provider owns the message list, timers and focus. Keep essential results available in the page or a notification history.
+Use `Toast` for temporary feedback about background work. One provider owns the message list, timers and focus. Keep essential results available in the page or a notification history.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/components-toast--docs)
 
@@ -69,9 +69,9 @@ F6 moves focus into the viewport without notifications interrupting the current 
 | `placement` | `ToastPlacement` | `bottom-end` | Four logical corners or `inline` |
 | `container` | `HTMLElement` or ref | `document.body` | Portal host for fixed placements; unused for inline |
 | `aria-label` | `string` | `Notifications` | Localize and distinguish the notification region |
-| `renderToast` | `(toast: ToastObject<Data>) => ReactNode` | complete Toast | Custom renderer; give each returned root `key={toast.id}` |
+| `renderToast` | `(toast: ToastObject<Data>) => ReactNode` | complete `Toast` | Custom renderer; give each returned root `key={toast.id}` |
 | `children` | `ReactNode` | managed messages | Explicit children replace automatic rendering |
-| `className`, `ref`, DOM props | native div props | unset | Reach the viewport; Base UI `render` composition is supported |
+| `className`, `ref`, DOM props | native `div` props | unset | Reach the viewport; Base UI `render` composition is supported |
 
 ### Toast and parts
 
@@ -86,7 +86,7 @@ F6 moves focus into the viewport without notifications interrupting the current 
 | `Toast.Content` | content wrapper | div | Groups message content |
 | `Toast.Title` | heading | message title | Supplies the root accessible name |
 | `Toast.Description` | paragraph | message description | Supplies the root accessible description |
-| `Toast.Action` | button | message actionProps | Does not close automatically; explicitly call close or update |
+| `Toast.Action` | button | message `actionProps` | Does not close automatically; explicitly call close or update |
 | `Toast.Close` | button | caller children | Dismisses its message; supply visible text or an accessible name |
 | `className`, `ref`, DOM props | part element props | unset | Every part supports a plain class string, ref and Base UI render composition |
 
@@ -107,17 +107,17 @@ Custom children own their own slot classes and close control. For a link action,
 | `priority` | `low` or `high` | Low is polite; high uses a separate urgent alert announcement |
 | `timeout` | `number` | Per-message duration; `0` disables automatic dismissal |
 | `id` | `string` | Optional stable key for upsert |
-| `actionProps` | native button props | Includes action text, handler, disabled state and accessible name |
+| `actionProps` | native `button` props | Includes action text, handler, disabled state and accessible name |
 | `onClose`, `onRemove` | `() => void` | Close intent and final removal after exit transition |
-| `data` | caller-defined object | Typed custom data for renderToast |
+| `data` | caller-defined object | Typed custom data for `renderToast` |
 
 Promise options accept `loading`, `success` and `error` as text or update options; success/error also accept functions of the result/error. Handle rejected returned promises in application code. `ToastObject`, `ToastManager`, `ToastAddOptions`, `ToastUpdateOptions`, `ToastPromiseOptions`, component prop types, `ToastTone` and `ToastPlacement` are public exports.
 
-Base UI owns interaction and lifecycle semantics; see its [Toast reference](https://base-ui.com/react/components/toast). CSS-only consumers must implement queueing, announcements, timing and focus themselves. Component tokens use the `--kb-toast-*` namespace; importing a standalone `toast.css` also requires tokens and reset.
+Base UI owns interaction and lifecycle semantics; see its [`Toast` reference](https://base-ui.com/react/components/toast). CSS-only consumers must implement queueing, announcements, timing and focus themselves. Component tokens use the `--kb-toast-*` namespace; importing a standalone `toast.css` also requires tokens and reset.
 
 ## Motion
 
-Messages enter with a short slide and soft scale settle; dismissal fades and collapses the space before removal. Stack spacing opens as a new message enters, and swipe dismissal continues in the gesture direction. Reduced motion removes transitions and geometric movement.
+Messages enter with a short slide and soft scale settle; dismissal fades and collapses the space before removal. `Stack` spacing opens as a new message enters, and swipe dismissal continues in the gesture direction. Reduced motion removes transitions and geometric movement.
 
 Tune `--kb-toast-motion-duration`, `--kb-toast-exit-duration`, `--kb-toast-motion-easing`, `--kb-toast-enter-offset` and `--kb-toast-enter-scale` to match the application. Keep exits brief so notifications do not obstruct work.
 
@@ -127,4 +127,4 @@ Component tests cover lifecycle, announcements in the DOM, provider isolation, c
 
 ## Related components
 
-Use [Status](Status.md) for state beside its content, [Callout](Callout.md) for an inline message with fuller context, and [Dialog](Dialog.md) when a decision must interrupt work.
+Use [`Status`](Status.md) for state beside its content, [`Callout`](Callout.md) for an inline message with fuller context, and [`Dialog`](Dialog.md) when a decision must interrupt work.

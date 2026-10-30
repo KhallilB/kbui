@@ -99,6 +99,8 @@ For a recipe, keep executable source, required CSS and runnable stories in `apps
 
 `verify:code` compiles registered recipe modules and guide examples. `build:site` rejects missing guides, files, local source dependencies, component dependencies and built Storybook targets. Add behavior tests for represented interactions, source-loading rejection cases and affected navigation; check both themes, narrow layouts and keyboard access. Browser-check scope derives from registered guides, and deployment includes `docs/guides/**` so future recipes need no separate guide allowlist. Against a combined static preview, `verify:recipes` checks recipe discovery, live previews, refresh/history, invalid URLs, Storybook links and theme changes. It runs during `validate:site`.
 
+A recipe that lets people pick a record from a list and act on it in a detail pane sets `flow: "list-detail"` in `content.ts`, and adds `apps/storybook/stories/list-detail-flow/<Name>.stories.tsx`. That file supplies a `FlowFixture` (records, accessible names, draft controls and status region) to the shared rules in `contract.ts`, and exports one `story(id)` per rule that applies, ending with `complete()`. `complete()` fails when an applicable rule has no story, and a bun test fails when a flow recipe has no contract file or a file has no recipe. Record each rule the recipe does not meet yet in `gaps`, with the reason. A gap story passes only while the rule still fails, so fixing the recipe makes it fail until you remove the gap. To add a rule, add it to `contract.ts`. Each recipe's `complete()` then fails until that recipe has a story for it or lists it as a gap. Rules that need async commits declare `requires: "async"` and apply only to fixtures with `async`.
+
 Examples remain larger demonstrations with links to their reusable parts. Contributor and agent instructions link to these rules rather than keeping another delivery checklist.
 
 
@@ -127,7 +129,8 @@ Comments are one line. Write one only when the code cannot say it: a constraint,
 - Use plain, professional language. Avoid contractions, filler ("simply", "just", "really") and promotional words ("powerful", "seamless", "robust").
 - State facts directly. Avoid rhetorical setups such as "Here's the thing", "The gap:" or slogans of the form "X, not Y".
 - Use tables for reference material and prose for reasoning. Use bold sparingly.
-- Put commands, file paths and identifiers in backticks, and make every command copyable as written.
+- Use inline code for code mentioned in a sentence: component and recipe names, props, functions, types, filenames, file paths, CSS selectors, HTML elements and attributes. For example: Set `level={2}` on `PageHeader` and place fields inside `Panel.Body`. Keep ordinary prose and visible UI labels in normal text.
+- Use fenced code blocks with a language tag for examples and multi-line commands, such as `tsx`, `css` or `sh`. Keep examples complete and commands copyable; use inline code for short commands and syntax inside prose.
 - Date any claim that can go stale, such as test counts, versions or external projects.
 - Give each topic one home and link to it instead of repeating it.
 

@@ -117,7 +117,7 @@ function RecipeDetails({
         <Heading level={2}>Copy the source</Heading>
         <Text>
           Copy every file below and keep their local imports together. Import{" "}
-          <code>@kb.ui/react/styles.css</code> once at your application entry.
+          <code>@kb.ui/react/styles.css</code> once in your app.
         </Text>
         {recipe.files.map((file) => (
           <section key={file.path} aria-label={file.name}>
@@ -160,17 +160,15 @@ export function Recipes({
         ) : requested ? (
           <div className="page-heading">
             <Heading level={1}>Recipe unavailable</Heading>
-            <Text>This recipe does not exist in this documentation build.</Text>
+            <Text>This recipe is unavailable. Choose another from the list.</Text>
             <SiteLink href={`${siteRoot}recipes/`}>Browse recipes</SiteLink>
           </div>
         ) : (
           <>
             <div className="page-heading">
-              <Text className="page-kicker">Compose with kbui</Text>
+              <Text className="page-kicker">Build with kbui</Text>
               <Heading level={1}>Recipes</Heading>
-              <Text>
-                Copy a complete composition, adapt it to your application, and own the result.
-              </Text>
+              <Text>Copy working UI patterns and adapt them to your app.</Text>
             </div>
             <ul className="recipe-directory" aria-label="Available recipes">
               {content.recipes.map((entry) => (
@@ -181,7 +179,7 @@ export function Recipes({
                     </SiteLink>
                   </Heading>
                   <Text>{entry.description}</Text>
-                  <span>Recipe · Source and required CSS included</span>
+                  <span>Source and CSS included</span>
                 </li>
               ))}
             </ul>

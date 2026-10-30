@@ -1,10 +1,10 @@
 # kbui Storybook
 
-kbui's live documentation and accessibility tests. Stories live next to each component in `packages/react/src/components/`. This folder holds the Storybook configuration, the standalone pages in `docs/`, and the composed showcase stories and fixtures in `stories/`. Files under `stories/` are not components, so the component coverage test does not apply to them.
+This app hosts kbui’s documentation and accessibility tests. Component stories sit beside their source in `packages/react/src/components/`. This folder holds Storybook settings, public pages in `docs/`, and demos and test fixtures in `stories/`. Files in `stories/` are not package components, so the component coverage test does not count them.
 
 ## Maintained home
 
-[The maintained home](site/README.md) introduces kbui through a live day-off composition. The site also serves a matching playground, searchable featured entries, curated examples, and a component catalog. Storybook and the site render the same demo source; Catalog previews embed the actual component stories and its API summaries come from the React guide; full typed API documentation stays in Storybook. Build both with `bun run --filter @kb.ui/storybook build:site`; serve `dist/` as one static site.
+[The maintained home](site/README.md) introduces kbui through a live day-off composition. The site also serves a matching playground, searchable featured entries, curated examples, and a component catalog. Storybook and the site render the same demo source; Catalog previews embed the actual component stories and its API summaries come from the React reference; full typed API documentation stays in Storybook. Build both with `bun run --filter @kb.ui/storybook build:site`; serve `dist/` as one static site.
 
 ## Running
 
@@ -37,7 +37,7 @@ The fixture restyle in `stories/skin-fixture-values.ts` is checked by `bun test 
 |---|---|
 | Introduction | `docs/Introduction.mdx` |
 | Foundations / Tokens | `docs/Tokens.mdx`. Reads its list from `@kb.ui/tokens`, so it always matches `tokens.json`. |
-| Each component | Colocated `.stories.tsx` examples, canonical API tables from `packages/react/README.md`, and practical usage/accessibility guidance from `catalog/component-guides.ts`, rendered by `.storybook/docs.tsx` |
+| Each component | Colocated `.stories.tsx` examples, API reference tables from `packages/react/README.md`, and practical usage/accessibility guidance from `catalog/component-guides.ts`, rendered by `.storybook/docs.tsx` |
 | Showcase / Restyle | `stories/Skins.stories.tsx`, one composition from stock `Button`, `Dialog`, `Panel` and `Status`, rendered with default tokens and with the fixture restyle from `stories/skin-fixture.tsx` |
 
 ## Story visibility

@@ -212,8 +212,8 @@ export function Home({
           <Text className="parts-more">
             Import <SiteLink href={`${siteRoot}components/`}>components</SiteLink> for package APIs.
             Copy <SiteLink href={`${siteRoot}recipes/`}>recipes</SiteLink> for application-owned
-            compositions. Explore <SiteLink href={`${siteRoot}examples/`}>examples</SiteLink> to see
-            them together.
+            compositions. See them together in the{" "}
+            <SiteLink href={`${siteRoot}compare/`}>workspace demo</SiteLink>.
           </Text>
         </Container>
         <Container
@@ -226,27 +226,28 @@ export function Home({
             <Text className="section-kicker">More ways to use kbui</Text>
             <Heading level={2} id="ways-title">
               Same components.
-              <br />A different feel.
+              <br />
+              Real screens.
             </Heading>
             <Text>
-              A place to read, a queue to keep work moving, or a space to play with color. These all
-              start with the same kit.
+              A working app to explore, and recipes to copy into your own. These all start with the
+              same kit.
             </Text>
           </div>
           <div className="example-links">
-            <SiteLink href={`${siteRoot}examples/#editorial`}>
-              <span className="example-shape shape-reading" aria-hidden="true" />
-              <span>A quiet place to read</span>
-              <span aria-hidden="true">↗</span>
-            </SiteLink>
-            <SiteLink href={`${siteRoot}examples/#operations`}>
+            <SiteLink href={`${siteRoot}compare/`}>
               <span className="example-shape shape-work" aria-hidden="true" />
-              <span>A release overview</span>
+              <span>A working app</span>
               <span aria-hidden="true">↗</span>
             </SiteLink>
-            <SiteLink href={`${siteRoot}examples/#creative`}>
+            <SiteLink href={`${siteRoot}recipes/?recipe=listdetail`}>
+              <span className="example-shape shape-reading" aria-hidden="true" />
+              <span>A queue with details</span>
+              <span aria-hidden="true">↗</span>
+            </SiteLink>
+            <SiteLink href={`${siteRoot}recipes/?recipe=formsection`}>
               <span className="example-shape shape-color" aria-hidden="true" />
-              <span>A color playground</span>
+              <span>A form to adapt</span>
               <span aria-hidden="true">↗</span>
             </SiteLink>
           </div>

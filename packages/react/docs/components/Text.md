@@ -29,8 +29,8 @@ export function Example() {
 | `tone`             | `default` \| `muted`   | `default` | Primary ink or readable secondary ink                 |
 | `className`, `ref` | Native element props   | unset     | Ref type follows chosen element                       |
 
-Body line height is 1.6; block content is bounded to 65ch by `--kb-text-measure`. Text has no margin. Inline spans keep natural flow. Use native `strong` and `em` for meaningful emphasis. Do not nest paragraphs or place block children inside the default paragraph.
+Body text has a line height of 1.6 and a 65ch line-length limit set by `--kb-text-measure`. `Text` adds no margin. Inline spans stay in the flow of the sentence. Use native `<strong>` and `<em>` for emphasis. Keep paragraphs and other block elements outside the default paragraph.
 
 ## Related components
 
-Use [Heading](Heading.md) for hierarchy, [Link](Link.md) for navigation, and [Code](Code.md) for literal code.
+Use [`Heading`](Heading.md) for hierarchy, [`Link`](Link.md) for navigation, and [`Code`](Code.md) for literal code.

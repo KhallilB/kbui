@@ -7,13 +7,15 @@ export type RecipeDefinition = {
   defaultStoryId: string;
   components: string[];
   files: string[];
+  /** Shared flow contract the recipe must pass, in `stories/<flow>-flow/`. */
+  flow?: "list-detail" | undefined;
 };
 
 export const recipeDefinitions: RecipeDefinition[] = [
   {
     id: "pageheader",
     name: "PageHeader",
-    description: "A page introduction with a title, description, metadata and actions.",
+    description: "A page title with supporting text and actions.",
     guide: "docs/guides/page-header.md",
     storyFile: "apps/storybook/recipes/PageHeader.stories.tsx",
     defaultStoryId: "recipes-pageheader--project-list",
@@ -23,7 +25,7 @@ export const recipeDefinitions: RecipeDefinition[] = [
   {
     id: "formsection",
     name: "FormSection",
-    description: "Related fields with a visible heading, instructions and section errors.",
+    description: "A heading, instructions and errors for related form fields.",
     guide: "docs/guides/form-section.md",
     storyFile: "apps/storybook/recipes/FormSection.stories.tsx",
     defaultStoryId: "recipes-formsection--contact-details",
@@ -54,6 +56,7 @@ export const recipeDefinitions: RecipeDefinition[] = [
       "FormSection",
     ],
     files: ["apps/storybook/recipes/ListDetail.tsx", "apps/storybook/recipes/list-detail.css"],
+    flow: "list-detail",
   },
   {
     id: "inbox",
@@ -79,6 +82,7 @@ export const recipeDefinitions: RecipeDefinition[] = [
       "apps/storybook/recipes/PageHeader.tsx",
       "apps/storybook/recipes/recipes.css",
     ],
+    flow: "list-detail",
   },
 ];
 
