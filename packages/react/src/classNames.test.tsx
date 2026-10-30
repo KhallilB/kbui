@@ -35,6 +35,7 @@ import {
   Spinner,
   Split,
   Stat,
+  StatsRow,
   Status,
   Switch,
   Table,
@@ -380,6 +381,23 @@ const cases: [string, () => ReactElement][] = [
       >
         Body
       </PageHeader>
+    ),
+  ],
+  [
+    "statsrow",
+    () => (
+      <StatsRow>
+        <StatsRow.Item
+          className="slot-item"
+          label="L"
+          value="V"
+          change="+1"
+          trend="up"
+          context="C"
+          link={<a href="/">K</a>}
+          classNames={every}
+        />
+      </StatsRow>
     ),
   ],
   [

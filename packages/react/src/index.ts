@@ -269,6 +269,14 @@ export {
 } from "./components/Stack/Stack";
 export { Stat, type StatProps, type StatSize } from "./components/Stat/Stat";
 export {
+  StatsRow,
+  type StatsRowAppearance,
+  type StatsRowItemProps,
+  type StatsRowProps,
+  type StatsRowTone,
+  type StatsRowTrend,
+} from "./components/StatsRow/StatsRow";
+export {
   Status,
   type StatusAppearance,
   type StatusProps,

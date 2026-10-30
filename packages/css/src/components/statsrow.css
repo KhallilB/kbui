@@ -1,0 +1,119 @@
+/* Anatomy: .kb-statsrow [data-appearance=plain|outlined] > .kb-statsrow-item > .kb-stat > .kb-stat-label, .kb-stat-value; .kb-statsrow-trend > .kb-statsrow-change [data-trend=up|down|flat] [data-tone=positive|negative|neutral] > .kb-statsrow-glyph; .kb-statsrow-context; .kb-statsrow-link */
+
+/* Placement: fills the region in equal columns of at least the item minimum; wraps below it, never scrolls sideways. */
+.kb-statsrow {
+  --_statsrow-tracks: 2;
+  display: grid;
+  grid-template-columns: repeat(
+      auto-fit,
+      minmax(min(100%, var(--kb-statsrow-item-min-width)), 1fr)
+    );
+  gap: var(--kb-statsrow-row-gap) var(--kb-statsrow-column-gap);
+  inline-size: 100%;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--kb-color-fg);
+  font-family: var(--kb-font-sans);
+}
+
+/* One track per part present anywhere in the row, so absent parts leave no gap. */
+.kb-statsrow:has(> .kb-statsrow-item > .kb-statsrow-trend),
+.kb-statsrow:has(> .kb-statsrow-item > .kb-statsrow-link) {
+  --_statsrow-tracks: 3;
+}
+
+.kb-statsrow:has(> .kb-statsrow-item > .kb-statsrow-trend):has(
+  > .kb-statsrow-item > .kb-statsrow-link
+) {
+  --_statsrow-tracks: 4;
+}
+
+/* Subgrid shares label, value, trend and link tracks across a row, so wrapped labels keep values aligned. */
+.kb-statsrow-item {
+  display: grid;
+  grid-row: span var(--_statsrow-tracks);
+  grid-template-rows: subgrid;
+  row-gap: var(--kb-statsrow-item-gap);
+  align-content: start;
+  min-inline-size: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.kb-statsrow-item > .kb-stat {
+  display: contents;
+}
+
+.kb-statsrow-item .kb-stat-label {
+  grid-row: 1;
+}
+
+.kb-statsrow-item .kb-stat-value {
+  grid-row: 2;
+  align-self: end;
+}
+
+.kb-statsrow-trend {
+  grid-row: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--kb-space-1) var(--kb-space-2);
+  min-inline-size: 0;
+  margin: 0;
+  font-size: var(--kb-text-small-size);
+  line-height: var(--kb-text-leading-control);
+  color: var(--kb-color-muted);
+}
+
+.kb-statsrow-change {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--kb-space-1);
+  font-weight: var(--kb-font-weight-strong);
+  font-variant-numeric: tabular-nums;
+  color: var(--kb-statsrow-neutral);
+}
+
+.kb-statsrow-change[data-tone="positive"] {
+  color: var(--kb-statsrow-positive);
+}
+
+.kb-statsrow-change[data-tone="negative"] {
+  color: var(--kb-statsrow-negative);
+}
+
+.kb-statsrow-glyph {
+  flex: none;
+  inline-size: 0.875em;
+  block-size: 0.875em;
+}
+
+.kb-statsrow-link {
+  grid-row: -2;
+  min-inline-size: 0;
+  font-size: var(--kb-text-small-size);
+  line-height: var(--kb-text-leading-control);
+}
+
+.kb-statsrow[data-appearance="outlined"] > .kb-statsrow-item {
+  padding: var(--kb-statsrow-item-padding);
+  border: var(--kb-statsrow-item-border-width) solid var(--kb-statsrow-item-border);
+  border-radius: var(--kb-statsrow-item-radius);
+  background-color: var(--kb-statsrow-item-background);
+}
+
+/* Track count needs :has(); without it or subgrid, items stack their parts instead of overlapping. */
+@supports not ((grid-template-rows: subgrid) and selector(:has(*))) {
+  .kb-statsrow-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--kb-statsrow-item-gap);
+  }
+
+  .kb-statsrow-link {
+    margin-block-start: auto;
+  }
+}

@@ -176,6 +176,16 @@ export const definitions: Record<string, Definition> = {
       NarrowWrap: "Narrow Wrap",
     },
   },
+  StatsRow: {
+    group: "Layout",
+    description: "Show comparable metrics in a row that fills its region and wraps when narrow.",
+    examples: {
+      Default: "Sales metrics",
+      Outlined: "Outlined with Links",
+      DirectionAndTone: "Direction and Tone",
+      Wrap: "Compact Wrap",
+    },
+  },
   Container: {
     group: "Layout",
     description: "Shared page widths and responsive gutters.",

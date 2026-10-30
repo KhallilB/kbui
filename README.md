@@ -50,6 +50,7 @@ bun run check            # build, lint, types, examples, unit and package checks
 | Document | Covers |
 |---|---|
 | [PageHeader](packages/react/docs/components/PageHeader.md) | Screen title, context, status and wrapping page actions (unreleased) |
+| [StatsRow](packages/react/docs/components/StatsRow.md) | Comparable metrics with trends and links that wrap without sideways scrolling (unreleased) |
 | [Tabs](packages/react/docs/components/Tabs.md) | Peer panel switching, keyboard navigation and retained drafts (unreleased) |
 | [Media and identity](docs/guides/media-and-identity.md) | Avatar, stable image framing, thumbnails and gallery recipes (unreleased) |
 | [Collection workflows](packages/react/docs/components/Collection.md) | Sorting, filtering, page selection, pagination, bulk actions and server ownership |
