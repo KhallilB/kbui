@@ -135,11 +135,19 @@ export {
   type FileInputItem,
   type FileInputProps,
 } from "./components/FileInput/FileInput";
+export { Form, type FormPart, type FormProps, type FormWidth } from "./components/Form/Form";
 export {
   FormActions,
   type FormActionsAlign,
   type FormActionsProps,
 } from "./components/FormActions/FormActions";
+export {
+  FormSection,
+  type FormSectionHeadingLevel,
+  type FormSectionLayout,
+  type FormSectionPart,
+  type FormSectionProps,
+} from "./components/FormSection/FormSection";
 export {
   Grid,
   type GridColumns,
@@ -233,6 +241,7 @@ export {
   type SeparatorOrientation,
   type SeparatorProps,
 } from "./components/Separator/Separator";
+export { Settings, type SettingsPart, type SettingsProps } from "./components/Settings/Settings";
 export {
   Skeleton,
   type SkeletonAnimation,

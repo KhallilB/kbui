@@ -10,6 +10,18 @@ Group related fields with `Fieldset` so native `fieldset` and `legend` semantics
 
 When submission fails, render `ErrorSummary` at the top of the form and focus its container ref so keyboard and screen-reader users hear the summary immediately. Pair each summary link (`href="#field-id"`) with the matching `id` and inline `error` message on the invalid control.
 
+## Form and settings layout
+
+Pick the layout by how the page saves. [Form](../../packages/react/docs/components/Form.md) holds one task with one submit, such as booking or sign-up: a header, the fields, then the actions. [Settings](../../packages/react/docs/components/Settings.md) holds sections that save on their own, and managed lists such as members or API keys. Group the fields of either with [FormSection](../../packages/react/docs/components/FormSection.md), a native fieldset named by its section heading.
+
+| Width | Form | Settings |
+| --- | --- | --- |
+| Section at least 40rem wide | Sections stack unless `layout="split"`; the form stops at 40rem (`md`) or 32rem (`sm`) | Each section heading sits in the first third, fields in the other two |
+| Section narrower than 40rem | Same | Heading above its fields |
+| Actions row narrower than 30rem | Each action fills its own row, submit first | Same for section actions |
+
+Neither layout reorders content: reading order, Tab order and visual order match at every width. Wrap each independently saved Settings section in its own `form`, and keep destructive row actions behind a confirmation. kbui controls keep pointer targets at least 24 by 24 CSS pixels; the layouts never shrink them. Your app owns validation, saving and announcing results.
+
 ## Theme hosts and portals
 
 Set tokens on a stable theme wrapper. `Select`, `Combobox` and `MultiSelect` mount their popups inside their own root, so nested themes reach them. Dialog, `Popover.Content`, `Menu.Content` and Tooltip mount on `document.body` by default; pass the wrapper as `container` when colors or timing live on a nested element:
