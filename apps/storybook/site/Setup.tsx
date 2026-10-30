@@ -1,5 +1,5 @@
 import samples from "virtual:kbui-setup-samples";
-import { Button, RadioGroup } from "@kb.ui/react";
+import { Button, Container, Heading, RadioGroup, Text } from "@kb.ui/react";
 import { useEffect, useId, useState } from "react";
 import { CodePanel } from "./CodePanel";
 import { ControlSelect } from "./ControlSelect";
@@ -59,9 +59,9 @@ export function InstallBuilder({
           onChange={(manager) => update({ ...options, manager })}
         />
       </div>
-      <p className="setup-note">
+      <Text className="setup-note">
         kbui {releaseVersion} · React 19+ · Component styles and CSS tokens included.
-      </p>
+      </Text>
       <CodePanel
         name="Install"
         language="Shell"
@@ -75,11 +75,11 @@ export function InstallBuilder({
         onToggle={(event) => setTokenHelpOpen(event.currentTarget.open)}
       >
         <summary>Using tokens in JavaScript or TypeScript?</summary>
-        <p>
+        <Text>
           CSS variables work straight away. The optional <code>@kb.ui/tokens</code> package adds
           typed variable names, such as <code>tokens.color.accent</code>. It returns
           <code> --kb-color-accent</code>, so use it inside <code>var()</code> in your styles.
-        </p>
+        </Text>
         <Button
           variant="secondary"
           size="sm"
@@ -127,10 +127,10 @@ export function Setup({
       siteRoot={siteRoot}
       storybookRoot={storybookRoot}
     >
-      <main id="main" className="inner-page">
+      <Container as="main" id="main" className="inner-page">
         <div className="page-heading">
-          <p className="page-kicker">Get started</p>
-          <h1>
+          <Text className="page-kicker">Get started</Text>
+          <Heading level={1}>
             {themePage ? (
               <>
                 Make it <em>your own.</em>
@@ -140,12 +140,12 @@ export function Setup({
                 Your first <em>kbui component.</em>
               </>
             )}
-          </h1>
-          <p>
+          </Heading>
+          <Text>
             {themePage
               ? "Start with light, dark, or your visitor’s system setting. Then make it feel like your app."
               : "One package and one stylesheet. Add kbui to your React app, then make something with it."}
-          </p>
+          </Text>
         </div>
         <nav className="setup-nav" aria-label="Setup navigation">
           <SiteLink href={`${siteRoot}setup/`} aria-current={!themePage ? "page" : undefined}>
@@ -159,12 +159,14 @@ export function Setup({
           <>
             <section className="setup-step" aria-labelledby={`${id}-theme`}>
               <div>
-                <p className="page-kicker">01 / Appearance</p>
-                <h2 id={`${id}-theme`}>Choose a starting point.</h2>
-                <p>
+                <Text className="page-kicker">01 / Appearance</Text>
+                <Heading level={2} id={`${id}-theme`}>
+                  Choose a starting point.
+                </Heading>
+                <Text>
                   Put the theme on your app’s HTML element. Leave it unset to follow your visitor’s
                   system setting. There’s no provider to set up.
-                </p>
+                </Text>
               </div>
               <div className="setup-work">
                 <RadioGroup
@@ -198,24 +200,24 @@ export function Setup({
                 />
               </div>
             </section>
-            <p className="setup-note">
+            <Text className="setup-note">
               The default theme uses monochrome surfaces and persimmon accents, with raised controls
               and cards. Previews follow the current source; installed packages follow the release
               you choose.
-            </p>
+            </Text>
             <section className="setup-step">
               <div>
-                <p className="page-kicker">02 / Restyle</p>
-                <h2>Use the CSS you already know.</h2>
-                <p>
+                <Text className="page-kicker">02 / Restyle</Text>
+                <Heading level={2}>Use the CSS you already know.</Heading>
+                <Text>
                   Give a component your own <code>className</code>. Use <code>classNames</code> to
                   reach its inner parts. Plain CSS, CSS Modules, and Tailwind work with kbui’s
                   cascade layer. For a change across your app, override a design token.
-                </p>
+                </Text>
               </div>
               <CodePanel name="Restyle" language="CSS" sample={samples.styling} defaultOpen />
             </section>
-            <p className="setup-note">
+            <Text className="setup-note">
               Restyle type, density, shape and motion the same way.{" "}
               <a
                 className="plain-link"
@@ -229,22 +231,24 @@ export function Setup({
               >
                 Explore Button <LinkArrow />
               </a>
-            </p>
+            </Text>
           </>
         ) : (
           <>
             <section className="setup-step" aria-labelledby={`${id}-install`}>
               <div>
-                <p className="page-kicker">01 / Install</p>
-                <h2 id={`${id}-install`}>Add it to your app.</h2>
-                <p>
+                <Text className="page-kicker">01 / Install</Text>
+                <Heading level={2} id={`${id}-install`}>
+                  Add it to your app.
+                </Heading>
+                <Text>
                   Run the command from your app’s folder.{" "}
                   {bundlesCss()
                     ? "The React package includes components, styles, and CSS tokens."
                     : "Install the matching React and CSS packages from this release."}{" "}
                   Base UI and other runtime dependencies install automatically. Your app supplies
                   React and React DOM 19 or later.
-                </p>
+                </Text>
               </div>
               <InstallBuilder
                 siteRoot={siteRoot}
@@ -260,24 +264,24 @@ export function Setup({
             </section>
             <section className="setup-step">
               <div>
-                <p className="page-kicker">02 / Use it</p>
-                <h2>Import the styles. Add a button.</h2>
-                <p>
+                <Text className="page-kicker">02 / Use it</Text>
+                <Heading level={2}>Import the styles. Add a button.</Heading>
+                <Text>
                   Import the stylesheet once, where your app starts. Then use components wherever
                   you need them. Here’s a working first example.
-                </p>
+                </Text>
               </div>
               <CodePanel name="First component" sample={samples.usage} defaultOpen />
             </section>
             <section className="setup-step">
               <div>
-                <p className="page-kicker">03 / Check</p>
-                <h2>Check that everything matches.</h2>
-                <p>
+                <Text className="page-kicker">03 / Check</Text>
+                <Heading level={2}>Check that everything matches.</Heading>
+                <Text>
                   Run this from your app’s folder after installing or upgrading. It checks that
                   every installed kbui package uses the same version. Add it to your build checks
                   too.
-                </p>
+                </Text>
               </div>
               <CodePanel
                 name="Version check"
@@ -289,13 +293,13 @@ export function Setup({
             </section>
             <details className="setup-help">
               <summary>Need a hand?</summary>
-              <p>
+              <Text>
                 Unstyled components: import <code>{stylesheetImport()}</code> once. Missing CSS
                 types: add <code>declare module "*.css";</code> to your app’s type declarations.
                 Theme unchanged: put <code>data-theme</code> on <code>&lt;html&gt;</code>.
                 Upgrading: update every installed kbui package to the same release.
-              </p>
-              <p>
+              </Text>
+              <Text>
                 For plain HTML or another renderer, use <code>@kb.ui/css</code>. Add{" "}
                 <code>@kb.ui/tokens</code> only for typed variable names or token-only assets.{" "}
                 <a
@@ -304,7 +308,7 @@ export function Setup({
                 >
                   Full installation, upgrade and troubleshooting guide <LinkArrow />
                 </a>
-              </p>
+              </Text>
             </details>
           </>
         )}
@@ -324,7 +328,7 @@ export function Setup({
             Try the playground
           </SiteLink>
         </div>
-      </main>
+      </Container>
     </SiteFrame>
   );
 }

@@ -1,9 +1,9 @@
 import releases from "virtual:kbui-changelog";
-import { Badge } from "@kb.ui/react";
+import { Badge, Container, Heading, Text } from "@kb.ui/react";
 import { useEffect } from "react";
 import { type Release, releaseCopy, releaseHeadline } from "./changelog-model";
 import { LinkArrow } from "./LinkArrow";
-import { SiteFrame } from "./SiteFrame";
+import { SiteFrame, SiteLink } from "./SiteFrame";
 import "./changelog.css";
 
 const releaseAnchor = (version: string) => `v${version}`;
@@ -20,7 +20,7 @@ function ChangeList({ title, items, tone }: { title: string; items: string[]; to
   if (!items.length) return null;
   return (
     <div className="change-group" data-tone={tone}>
-      <h3>{title}</h3>
+      <Heading level={3}>{title}</Heading>
       <ul className="change-list">
         {items.map((item) => (
           <li key={item}>{item}</li>
@@ -42,7 +42,11 @@ export function ReleaseChanges({
   const copy = releaseCopy(release);
   return (
     <>
-      {latest && <h3 className="release-title">{copy.title}</h3>}
+      {latest && (
+        <Heading level={3} className="release-title">
+          {copy.title}
+        </Heading>
+      )}
       <ul
         className="change-list release-highlights"
         aria-label={`Highlights in ${release.version}`}
@@ -54,13 +58,13 @@ export function ReleaseChanges({
       <ChangeList title="Before you upgrade" items={copy.upgrade} tone="breaking" />
       {release.components.length > 0 && (
         <div className="change-group">
-          <h3>New components</h3>
+          <Heading level={3}>New components</Heading>
           <ul className="component-chips">
             {release.components.map((name) => (
               <li key={name}>
-                <a href={`${siteRoot}components/?component=${name.toLowerCase()}`}>
+                <SiteLink href={`${siteRoot}components/?component=${name.toLowerCase()}`}>
                   {name} <LinkArrow />
-                </a>
+                </SiteLink>
               </li>
             ))}
           </ul>
@@ -103,15 +107,15 @@ export function Changelog({
       siteRoot={siteRoot}
       storybookRoot={storybookRoot}
     >
-      <main id="main" className="inner-page">
+      <Container as="main" id="main" className="inner-page">
         <div className="page-heading">
-          <p className="page-kicker">Release notes</p>
-          <h1>
+          <Text className="page-kicker">Release notes</Text>
+          <Heading level={1}>
             What's new <em>in kbui.</em>
-          </h1>
-          <p>
+          </Heading>
+          <Text>
             A short guide to each release. Choose a version, or explore the latest changes below.
-          </p>
+          </Text>
         </div>
         <nav className="release-navigation" aria-label="Browse releases">
           {releases.map((release) => (
@@ -136,10 +140,10 @@ export function Changelog({
                 aria-labelledby={`${anchor}-title`}
               >
                 <div className="release-rail">
-                  <h2 id={`${anchor}-title`}>
+                  <Heading level={2} id={`${anchor}-title`}>
                     <span className="kb-sr-only">Version </span>
                     {release.version}
-                  </h2>
+                  </Heading>
                   <time dateTime={release.date}>{formatDate(release.date)}</time>
                   {index === 0 && <Badge>Latest</Badge>}
                 </div>
@@ -159,7 +163,7 @@ export function Changelog({
             );
           })}
         </div>
-      </main>
+      </Container>
     </SiteFrame>
   );
 }

@@ -5,6 +5,7 @@ import {
   Card,
   Checkbox,
   Code,
+  Container,
   Grid,
   Heading,
   Link,
@@ -236,23 +237,23 @@ export function Examples({
       siteRoot={siteRoot}
       storybookRoot={storybookRoot}
     >
-      <main id="main" className="inner-page">
+      <Container as="main" id="main" className="inner-page">
         <div className="page-heading">
-          <p className="page-kicker">Examples</p>
-          <h1>
+          <Text className="page-kicker">Examples</Text>
+          <Heading level={1}>
             See components <em>in context.</em>
-          </h1>
-          <p>
+          </Heading>
+          <Text>
             Explore larger compositions and their application state. Follow component links for
             package APIs, or browse <SiteLink href={`${siteRoot}recipes/`}>recipes</SiteLink> for
             source to copy and adapt.
-          </p>
+          </Text>
         </div>
         <section className="workspace-example" aria-label="Interactive demo">
           <div>
-            <p className="workspace-example-label">Interactive demo</p>
-            <h2>See kbui in a working app.</h2>
-            <p>Update workspace settings, filter the job queue, and retry a failed check.</p>
+            <Text className="workspace-example-label">Interactive demo</Text>
+            <Heading level={2}>See kbui in a working app.</Heading>
+            <Text>Update workspace settings, filter the job queue, and retry a failed check.</Text>
           </div>
           <Button
             variant="primary"
@@ -266,13 +267,15 @@ export function Examples({
         {examples.map(({ id, surface, title, description }) => (
           <section key={id} id={id} className="example-section" aria-labelledby={`${id}-title`}>
             <div className="example-description">
-              <h2 id={`${id}-title`}>{title}</h2>
-              <p>{description}</p>
+              <Heading level={2} id={`${id}-title`}>
+                {title}
+              </Heading>
+              <Text>{description}</Text>
             </div>
             <Composition surface={surface} storybookRoot={storybookRoot} showCode />
           </section>
         ))}
-      </main>
+      </Container>
     </SiteFrame>
   );
 }

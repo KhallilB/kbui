@@ -66,7 +66,12 @@ export const adoptionRelationships: Record<string, AdoptionRelationship> = {
   FormSection: request("Packaged edit form groups, separate from copied recipe", "EditAndValidate"),
   Gallery: pending("Discoverable product catalog composition"),
   Grid: request("Request fields and record layout"),
-  Heading: editorial("Article heading hierarchy"),
+  Heading: composed(
+    "site/Home.tsx",
+    "stories/Home.stories.tsx",
+    "Navigation",
+    "Landing heading ranks retain native navigation and content landmarks",
+  ),
   Image: pending("Discoverable media composition that renders Image itself"),
   Inline: frame("Wrapping navigation and footer actions"),
   Input: planner("Planner rename field with retained value", "Rename"),
@@ -106,7 +111,12 @@ export const adoptionRelationships: Record<string, AdoptionRelationship> = {
   ),
   Table: pending("Discoverable sorting, selection and row-action example"),
   Tabs: pending("Workspace views with keyboard navigation"),
-  Text: editorial("Article prose and metadata"),
+  Text: composed(
+    "site/Home.tsx",
+    "stories/Home.stories.tsx",
+    "TryTheDemo",
+    "Landing prose retains motion order and planner context",
+  ),
   Textarea: pending(
     "Packaged reply and request description fields; Inbox currently uses native textarea",
   ),

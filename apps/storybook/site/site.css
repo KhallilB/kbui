@@ -64,9 +64,6 @@
   & .skip-link:focus {
     transform: translateY(0);
   }
-  .poster-hero,
-  .about-strip,
-  .other-ways,
   .take-it {
     max-width: 1440px;
     padding-inline: var(--page-gutter);
