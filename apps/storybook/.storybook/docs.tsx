@@ -12,6 +12,7 @@ import {
 import { type PropsWithChildren, useEffect, useLayoutEffect, useState } from "react";
 import { GLOBALS_UPDATED } from "storybook/internal/core-events";
 import { AccessibilityReference } from "../catalog/AccessibilityReference";
+import { InlineCode } from "../catalog/InlineCode";
 import type { ComponentReference } from "../catalog/types";
 import { readThemePreference, type ThemePreference } from "../site/site-theme";
 import { referencePreference, resolveTheme, storybookThemes } from "./theme";
@@ -111,8 +112,12 @@ export function ReferencePage() {
     <>
       <p className="reference-kicker">Component reference</p>
       <Title />
-      <p className="reference-description">{reference.description}</p>
-      <p className="reference-use">{reference.guide.use}</p>
+      <p className="reference-description">
+        <InlineCode text={reference.description} />
+      </p>
+      <p className="reference-use">
+        <InlineCode text={reference.guide.use} />
+      </p>
       <nav className="reference-sections" aria-label={`${name} on this page`}>
         <a href="#reference-preview">Example</a>
         <a href="#reference-props">Props & parts</a>
@@ -125,7 +130,9 @@ export function ReferencePage() {
         aria-labelledby="reference-preview-title"
       >
         <h2 id="reference-preview-title">{reference.guide.example.title}</h2>
-        <p>{reference.guide.example.description}</p>
+        <p>
+          <InlineCode text={reference.guide.example.description} />
+        </p>
         <Primary />
         {Object.keys(story.initialArgs).length > 0 && controls.length > 0 && (
           <details className="reference-controls">
@@ -145,7 +152,9 @@ export function ReferencePage() {
         <h2 id="reference-props-title">Props & parts</h2>
         <ul>
           {reference.guide.tips.map((tip) => (
-            <li key={tip}>{tip}</li>
+            <li key={tip}>
+              <InlineCode text={tip} />
+            </li>
           ))}
         </ul>
         <ReferenceProps reference={reference} />
@@ -190,15 +199,6 @@ export function ReferencePage() {
       </section>
     </>
   );
-}
-
-function InlineCode({ text }: { text: string }) {
-  let offset = 0;
-  return text.split(/(`[^`]+`)/g).map((part) => {
-    const key = offset;
-    offset += part.length;
-    return part.startsWith("`") ? <code key={key}>{part.slice(1, -1)}</code> : part;
-  });
 }
 
 function ReferenceProps({ reference }: { reference: ComponentReference }) {

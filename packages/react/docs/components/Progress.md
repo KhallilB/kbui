@@ -34,4 +34,4 @@ The current value stays available to assistive technology. Your app owns task co
 
 ## Related components
 
-Use [Status](Status.md) for a textual state and [Stat](Stat.md) for a headline measure without completion semantics.
+Use [`Status`](Status.md) for a textual state and [`Stat`](Stat.md) for a headline measure without completion semantics.

@@ -6,12 +6,12 @@ import { CodeEditor } from "./CodeEditor";
 import {
   type CatalogSkin,
   catalogSkinCss,
-  componentStyleUsage,
   defaultCatalogSkin,
   defaultTailwindSource,
   presetComponentCss,
 } from "./catalog-skin";
 import { activeClassNames } from "./class-source";
+import { applyStylingPatches, type StylingPatch } from "./styling-copy";
 import type { Theme } from "./theme-foundations";
 
 export function CatalogSkinControls({
@@ -20,6 +20,8 @@ export function CatalogSkinControls({
   onChange,
   theme,
   component = "Button",
+  sourceModule,
+  stylingPatches,
   example,
 }: {
   id?: string;
@@ -27,6 +29,8 @@ export function CatalogSkinControls({
   onChange: (skin: CatalogSkin) => void;
   theme: Theme;
   component?: string;
+  sourceModule: string;
+  stylingPatches: StylingPatch[];
   example?: ReactNode;
 }) {
   const hint = useId();
@@ -96,11 +100,6 @@ export function CatalogSkinControls({
     onChange(defaultCatalogSkin);
   };
   const classes = mode === "tailwind" ? activeClassNames(source).join(" ") : "brand";
-  const usage = componentStyleUsage(component, classes);
-  const copiedCode =
-    mode === "css"
-      ? `${usage}\n\n${source}${css ? `\n\n${css}` : ""}`
-      : `${usage}${css ? `\n\n/* Theme CSS */\n${css}` : ""}`;
   return (
     <section id={id} className="catalog-skin-controls" aria-label="Preview styling">
       <div className="catalog-style-settings">
@@ -139,9 +138,16 @@ export function CatalogSkinControls({
           <CatalogEditorActions
             copyLabel="Copy styling"
             resetLabel="Reset styling"
-            copyDisabled={Boolean(error) || status === "Updating preview…"}
+            copyDisabled={
+              !stylingPatches.length || Boolean(error) || status === "Updating preview…"
+            }
             onCopy={async () => {
               try {
+                const usage = applyStylingPatches(sourceModule, stylingPatches, classes, theme);
+                const copiedCode =
+                  mode === "css"
+                    ? `${usage}\n\n/* Add to your stylesheet */\n${source}${css ? `\n\n${css}` : ""}`
+                    : `${usage}${css ? `\n\n/* Theme CSS */\n${css}` : ""}`;
                 await navigator.clipboard.writeText(copiedCode);
                 setCopyState("Copied styling");
               } catch {
@@ -164,9 +170,11 @@ export function CatalogSkinControls({
             }}
           />
           <small id={hint} className="catalog-skin-hint">
-            {mode === "css"
-              ? "Style .brand, including :hover and inner elements. CSS stays inside this preview."
-              : "Add utility classes, including hover:, dark: and arbitrary values. Tailwind v4."}
+            {!stylingPatches.length
+              ? `Choose an example rendering ${component} to copy its styling.`
+              : mode === "css"
+                ? "Style .brand, including :hover and inner elements. CSS stays inside this preview."
+                : "Add utility classes, including hover:, dark: and arbitrary values. Tailwind v4."}
           </small>
           {error && (
             <p className="catalog-style-error" role="alert">

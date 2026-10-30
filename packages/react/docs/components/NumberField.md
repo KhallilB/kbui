@@ -1,6 +1,6 @@
 # NumberField
 
-Use NumberField for quantities people can type or adjust with step buttons. Your app sets the range and validates the value. See [Numeric fields](https://github.com/KhallilB/kbui/blob/main/docs/guides/number-fields.md) for examples, keyboard behavior, and styling. Available since v0.6.0.
+Use `NumberField` for quantities people can type or adjust with step buttons. Your app sets the range and validates the value. See [Numeric fields](https://github.com/KhallilB/kbui/blob/main/docs/guides/number-fields.md) for examples, keyboard behavior, and styling. Available since v0.6.0.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/components-numberfield--docs)
 
@@ -31,11 +31,11 @@ export function Example() {
 }
 ```
 
-The field can be empty (`null`), and directly typed values remain available for your app to validate. The example validates a whole-number quantity; `min`, `max`, and `step` govern stepping. See [numeric-field state and interaction](https://github.com/KhallilB/kbui/blob/main/docs/guides/number-fields.md#state-and-interaction) for locale and draft behavior.
+The field can be empty (`null`), and directly typed values remain available for your app to validate. The example validates a whole-number quantity; `min`, `max`, and `step` control the step buttons and stepping keys. See [numeric-field state and interaction](https://github.com/KhallilB/kbui/blob/main/docs/guides/number-fields.md#state-and-interaction) for locale and draft behavior.
 
 ## More examples
 
-- [An unanswered quantity](https://kbui.kcb.pro/storybook/?path=/story/components-numberfield--empty): Represent an empty field with null.
+- [An unanswered quantity](https://kbui.kcb.pro/storybook/?path=/story/components-numberfield--empty): Use `null` for an empty field.
 - [Validation feedback](https://kbui.kcb.pro/storybook/?path=/story/components-numberfield--invalid): Explain a value that needs correction.
 - [Fractional steps](https://kbui.kcb.pro/storybook/?path=/story/components-numberfield--fractional): Compare non-integer increments.
 
@@ -58,8 +58,8 @@ The field can be empty (`null`), and directly typed values remain available for 
 | `inputRef`, `inputProps`                        | input ref / native props          | unset                     | Visible input access and supported native event or ARIA extensions      |
 | `className`, `groupClassName`, `inputClassName` | `string`                          | unset                     | Classes for root, step group, and input                                 |
 
-Native div props and the root ref pass through to the wrapper. Any `aria-describedby` values from the root and `inputProps` are added after the help and error IDs. Use the explicit NumberField props for the input’s value, type, disabled/read-only state, name, required state, and ref; `inputProps` cannot override those. Custom event handlers can prevent defaults, so take care to preserve keyboard behavior.
+Native `<div>` props and the root `ref` apply to the wrapper. Root and `inputProps` descriptions follow the help and error IDs in `aria-describedby`. Set the input’s value, type, disabled/read-only state, name, required state and ref through `NumberField` props; `inputProps` cannot override them. Custom event handlers can prevent default actions, so check keyboard behavior after adding them.
 
 ## Related components
 
-Use [Input](Input.md) for text or identifiers whose leading zeroes and exact characters must be preserved.
+Use [`Input`](Input.md) for text or identifiers whose leading zeroes and exact characters must be preserved.

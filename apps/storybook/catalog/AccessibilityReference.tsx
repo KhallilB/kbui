@@ -1,4 +1,5 @@
 import { type AccessibilityGuide, accessibilityStandards } from "./accessibility-standards";
+import { InlineCode } from "./InlineCode";
 
 export function AccessibilityReference({
   name,
@@ -20,19 +21,25 @@ export function AccessibilityReference({
       <h3>Provided by kbui</h3>
       <ul data-accessibility="provides">
         {guide.provides.map((item) => (
-          <li key={item}>{item}</li>
+          <li key={item}>
+            <InlineCode text={item} />
+          </li>
         ))}
       </ul>
       <h3>Your implementation</h3>
       <ul data-accessibility="authoring">
         {guide.authoring.map((item) => (
-          <li key={item}>{item}</li>
+          <li key={item}>
+            <InlineCode text={item} />
+          </li>
         ))}
       </ul>
       <h3>Verify before shipping</h3>
       <ol data-accessibility="verify">
         {guide.verify.map((item) => (
-          <li key={item}>{item}</li>
+          <li key={item}>
+            <InlineCode text={item} />
+          </li>
         ))}
       </ol>
       <h3>Standards and patterns</h3>

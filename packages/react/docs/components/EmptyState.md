@@ -47,4 +47,4 @@ export function Example() {
 
 ## Related components
 
-Use [Skeleton](Skeleton.md) while the collection is still loading, [Callout](Callout.md) for inline notices beside populated content, and [Toast](Toast.md) for transient action feedback.
+Use [`Skeleton`](Skeleton.md) while the collection is still loading, [`Callout`](Callout.md) for inline notices beside populated content, and [`Toast`](Toast.md) for transient action feedback.

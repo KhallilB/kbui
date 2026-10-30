@@ -69,12 +69,12 @@ The default circle uses `--kb-avatar-radius`; rounded uses the existing `--kb-av
 | `shape` | `AvatarShape` | `"circle"` | `circle`, `square`, `rounded`, `hexagon` or `diamond`; clips upright media |
 | `onLoad`, `onError` | native image handlers | unset | Photo result callbacks |
 | `classNames` | keyed classes | unset | `root`, `media`, `initials` |
-| `ref` | `Ref<HTMLSpanElement>` | unset | Root element; native span props pass through |
+| `ref` | `Ref<HTMLSpanElement>` | unset | Root element; native `span` props pass through |
 
 Initials use the first Unicode code point of the first and last whitespace-separated names, uppercased; a single word contributes one initial. This is a convenience, not a universal naming rule. Supply `initials` for the person's preferred form. Empty identities render `?`; localize `Unknown person` through `aria-label`. The accessible name remains the full identity, not the initials.
 
-Avatar adds no focus stop. Place navigation in a named Link or an action in a Button. Use `decorative` when an equivalent visible name is adjacent or the parent control already supplies the identity. Keep presence and account state in separately labeled Status/Badge content. See [media recipes](../../../../docs/guides/media-and-identity.md).
+`Avatar` adds no focus stop. Place navigation in a named `Link` or an action in a `Button`. Use `decorative` when an equivalent visible name is adjacent or the parent control already supplies the identity. Keep presence and account state in separately labeled `Status`/`Badge` content. See [media recipes](../../../../docs/guides/media-and-identity.md).
 
 ## Related components
 
-Use [Image](Image.md) for flexible media framing, [Thumbnail](Thumbnail.md) for captioned previews, and [Status](Status.md) for changing state.
+Use [`Image`](Image.md) for flexible media framing, [`Thumbnail`](Thumbnail.md) for captioned previews, and [`Status`](Status.md) for changing state.

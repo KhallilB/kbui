@@ -26,7 +26,7 @@ function validate(stage?: string, failure = "") {
   mkdirSync(bin);
   mkdirSync(temporary);
   writeFileSync(log, "");
-  for (const command of ["bun", "npm", "python3", "curl"]) {
+  for (const command of ["bun", "npm", "node", "python3", "curl"]) {
     const path = join(bin, command);
     writeFileSync(
       path,
@@ -39,6 +39,12 @@ if [[ "$command" == "\${FAIL_COMMAND:-}" ]]; then exit 23; fi
     );
     chmodSync(path, 0o755);
   }
+  const mktemp = join(bin, "mktemp");
+  writeFileSync(
+    mktemp,
+    '#!/usr/bin/env bash\nset -eu\nmkdir "$TMPDIR/qa"\nprintf "%s\\n" "$TMPDIR/qa"\n',
+  );
+  chmodSync(mktemp, 0o755);
   const result = Bun.spawnSync(["bash", "scripts/validate-site.sh", ...(stage ? [stage] : [])], {
     cwd: root,
     env: {
@@ -54,6 +60,7 @@ if [[ "$command" == "\${FAIL_COMMAND:-}" ]]; then exit 23; fi
     result,
     commands: readFileSync(log, "utf8").trim().split("\n").filter(Boolean),
     temporary: readdirSync(temporary),
+    temporaryRoot: temporary,
   };
 }
 
@@ -140,4 +147,21 @@ test("occupied validation ports stop before building or staging", () => {
   expect(validation.result.exitCode).toBe(23);
   expect(validation.commands).toEqual(["python3 - 4175 4176"]);
   expect(validation.temporary).toEqual([]);
+});
+
+test("built artifacts use the maintained preview server for staged and QA output", () => {
+  const validation = validate("built");
+  const servers = validation.commands.filter((command) =>
+    command.includes("vite/bin/vite.js preview"),
+  );
+  expect(servers).toHaveLength(2);
+  expect(
+    servers.some((command) => command.includes(`--outDir ${root}/deployment/site/public`)),
+  ).toBe(true);
+  expect(
+    servers.some((command) => command.includes(`--outDir ${validation.temporaryRoot}/qa`)),
+  ).toBe(true);
+  expect(validation.commands.some((command) => command.startsWith("python3 -m http.server"))).toBe(
+    false,
+  );
 });

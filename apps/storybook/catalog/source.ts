@@ -18,6 +18,7 @@ import { definitions } from "./definitions.ts";
 import { type CodeLanguage, highlightSample } from "./highlight.ts";
 import { loadSystemContent, recipeSourceFiles } from "./recipes.ts";
 import { loadSiteSamples, siteSampleFiles } from "./site-samples.ts";
+import { createStylingPatches } from "./styling-copy.ts";
 import type { CatalogEntry, ComponentReference } from "./types";
 
 export { parseApiSection };
@@ -75,16 +76,26 @@ export function loadCatalogSources(): CatalogEntry[] {
         fileName: path,
         makeTitle: (title) => title,
       }).parse();
+      const defaultId = (
+        csf.stories.find((story) => /--(default|primary|confirm|on-hover)$/.test(story.id)) ??
+        csf.stories[0]
+      )?.id;
       const stories = csf.stories.map((story) => {
         const localName =
           story.localName ??
           Object.keys(csf._stories).find((key) => csf._stories[key]?.id === story.id) ??
           "";
-        return highlightSample({
+        const sample = highlightSample({
           id: story.id,
           name: story.name ?? story.localName ?? story.id,
           ...exampleCode(csf, localName, name),
         });
+        return {
+          ...sample,
+          styling: Object.hasOwn(definition.examples, localName)
+            ? createStylingPatches(name, sample.code, story.id === defaultId)
+            : [],
+        };
       });
       cached = { mtimeMs, csf, stories };
       storiesCache.set(path, cached);

@@ -220,8 +220,21 @@ body {
 }
 
 .reference-api code {
+  overflow-wrap: normal;
+}
+
+.reference-api code,
+.reference-description code,
+.reference-use code,
+.reference-section > p code,
+.reference-section > ul code,
+.reference-section > ol code {
   color: var(--kb-color-fg);
   background: var(--kb-color-surface);
+  padding-inline: var(--kb-space-1);
+  border: 1px solid var(--kb-color-border);
+  border-radius: var(--kb-radius-sm);
+  box-decoration-break: clone;
   font-family: var(--kb-font-mono);
   white-space: normal;
 }
@@ -233,6 +246,7 @@ body {
 
 .reference-accessibility {
   padding: 24px;
+  overflow-wrap: anywhere;
   background: var(--kb-color-surface);
   border: 1px solid var(--kb-color-border);
   border-inline-start: 3px solid var(--kb-color-accent-ink);
