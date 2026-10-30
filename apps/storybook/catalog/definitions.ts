@@ -138,6 +138,17 @@ export const definitions: Record<string, Definition> = {
       List: "List",
     },
   },
+  PageHeader: {
+    group: "Layout",
+    description: "Open a screen with its title, context, status and page-level actions.",
+    examples: {
+      Default: "Default",
+      DetailWithStatus: "Detail with Status",
+      Breadcrumbs: "Breadcrumbs",
+      WithTabs: "With Tabs",
+      NarrowWrap: "Narrow Wrap",
+    },
+  },
   Container: {
     group: "Layout",
     description: "Shared page widths and responsive gutters.",

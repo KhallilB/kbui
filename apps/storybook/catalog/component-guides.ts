@@ -651,6 +651,20 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.Tooltip,
   },
+  PageHeader: {
+    use: "Open every screen with one header that names the page, gives brief context, shows its status and holds the page-level actions.",
+    example: {
+      title: "Name the screen and its next action",
+      description:
+        "Render the title as the page's h1, keep the description to a sentence or two, and end-align one primary action with any secondary actions before it.",
+    },
+    tips: [
+      "Keep one primary Button in actions; put secondary actions first and move rarely used ones into a Menu.",
+      "Use navigation for a back link or a breadcrumb nav, meta for status Badges, and children for section Tabs or filters that belong to the header.",
+      "Lower headingLevel only when the header introduces a region inside a page that already has an h1.",
+    ],
+    accessibility: accessibilityGuides.PageHeader,
+  },
   EmptyState: {
     use: "Explain why a collection, search query, or section has no items to show and offer the direct action that populates or recovers it.",
     example: {

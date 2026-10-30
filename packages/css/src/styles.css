@@ -34,6 +34,7 @@
 @import "./components/menu.css" layer(kbui.components);
 @import "./components/multiselect.css" layer(kbui.components);
 @import "./components/numberfield.css" layer(kbui.components);
+@import "./components/pageheader.css" layer(kbui.components);
 @import "./components/panel.css" layer(kbui.components);
 @import "./components/popover.css" layer(kbui.components);
 @import "./components/progress.css" layer(kbui.components);
