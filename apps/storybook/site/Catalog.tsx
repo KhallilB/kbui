@@ -41,6 +41,7 @@ const groups = [
   "Forms",
   "Feedback",
   "Layout",
+  "Structured data",
   "Typography",
   "Media",
   "Navigation",

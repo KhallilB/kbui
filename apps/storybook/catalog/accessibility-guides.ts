@@ -143,6 +143,98 @@ export const accessibilityGuides = {
     ],
     standards: ["1.3.1", "1.4.1", "1.4.10", "2.1.1", "2.4.7", "4.1.2", "4.1.3"],
   },
+  DescriptionList: {
+    provides: [
+      "Native dl, grouped div, dt and dd preserve label/value relationships. Native IDs, naming attributes, refs and rich values pass through.",
+    ],
+    authoring: [
+      "Place Term before Detail values in each Item. Keep zero, units and unavailable text meaningful. Name value controls separately; descriptions are not input labels. Own formatting, async updates, validation and focus.",
+    ],
+    verify: [
+      "Read term/value relationships in screen-reader browse mode and check repeated values stay associated with the intended term.",
+      "Narrow the actual parent: responsive values stack below labels; horizontal mode retains columns. Long identifiers and enlarged text must remain visible.",
+      "Tab through links and controls inside values; each retains its name and visible focus in both themes and forced colors. Human screen-reader and full-task checks remain app-owned.",
+    ],
+    standards: ["1.3.1", "1.3.2", "1.4.3", "1.4.10", "2.1.1", "2.4.3", "2.4.7"],
+  },
+  CollectionList: {
+    provides: [
+      "Native ul/ol with a list role preserves collection semantics when visual markers are removed. Native ordered start/reversed attributes and list refs pass through.",
+      "Immediate rows share aligned leading/aside columns; nested lists retain their own density and responsive boundaries. No listbox or arrow-key selection model is added.",
+    ],
+    authoring: [
+      "Use li children and a meaningful list name; choose ol for meaningful order. Own records, stable keys, filtering, requests, pagination and selection scope. Keep filters mounted and announce results outside busy content.",
+    ],
+    verify: [
+      "Inspect a named list and list-item count; ordered markers must reflect start/reversed in DOM order.",
+      "Filter to one, no and all results: status changes, empty guidance appears and search focus remains stable.",
+      "At narrow parent widths, long content and actions wrap without page overflow. Test both themes, forced colors and screen-reader list navigation; manual assistive-technology checks remain unverified.",
+    ],
+    standards: ["1.3.1", "1.3.2", "1.4.10", "2.1.1", "2.4.3", "4.1.2", "4.1.3"],
+  },
+  CollectionRow: {
+    provides: [
+      "Native li groups record content without adding a focus stop, row click handler or listbox/grid selection state.",
+      "Leading, title, description, metadata and actions accept caller-owned controls; their normal DOM/Tab order is preserved. Selected state also has a forced-colors outline.",
+    ],
+    authoring: [
+      "Use a native list parent, meaningful title, record-specific actions and a separately named Checkbox. Keep selected consistent with checked state and stable IDs. Hide decorative icons and label informative images.",
+      "Own action handlers, disabled eligibility, announcements and focus recovery after record removal. Do not nest actions inside the title link or make the whole li another button.",
+    ],
+    verify: [
+      "Use Tab and Shift+Tab: selection, title navigation and actions remain independent; Space changes only Checkbox selection and action activation leaves selection unchanged.",
+      "Open Menu by keyboard, press Escape and confirm trigger focus returns; disabled actions remain unavailable.",
+      "Narrow the list: metadata/actions move beneath details, titles remain aligned even when a leading control is missing, and long labels remain readable. Check themes, forced colors and screen-reader reading order; automated stories do not prove full-task conformance.",
+    ],
+    standards: [
+      "1.3.1",
+      "1.3.2",
+      "1.4.1",
+      "1.4.3",
+      "1.4.10",
+      "2.1.1",
+      "2.4.3",
+      "2.4.7",
+      "2.5.8",
+      "4.1.2",
+    ],
+  },
+  Table: {
+    provides: [
+      "Native table, caption, row groups and scoped headers preserve tabular relationships; native IDs, headers, spans and refs pass through.",
+      "ColumnHeader exposes aria-sort for applied order and a native non-submit button for keyboard sorting; SelectionCheckbox provides named checked/mixed/disabled states.",
+      "ScrollContainer supplies a named keyboard-scrollable region, visible focus and opaque sticky header/edge surfaces. RowActions preserves native control navigation; ScrollContainer reveals focused controls behind sticky headers and pinned edges.",
+    ],
+    authoring: [
+      "Supply a caption or accessible table name, meaningful column/row headings and record-specific action names. Use explicit id/headers for complex relationships.",
+      "Own ordering, stable selected IDs, eligible select-all scope and request races. Apply one sort header, disable empty select-all and announce pending/results outside busy content. Keep sort labels free of controls; use Button/Menu for actions and verify dense targets and sticky focus.",
+    ],
+    verify: [
+      "Tab to a sort button, press Enter and Space: order and announced aria-sort change while focus stays on the same button. Disabled sorting must not request updates.",
+      "Space a row checkbox, then select-all: mixed becomes all eligible rows, disabled rows stay unchanged, and sorting retains selection by ID.",
+      "Open row Menu by keyboard, press Escape and confirm trigger focus returns; row actions must not change selection.",
+      "Focus the scroll region and use arrow keys in a bounded viewport; the fixed external title and column headings remain visible while rows scroll. Tab and Shift+Tab through action cells beside pinned columns; focus must remain exposed. at narrow widths, RTL and enlarged text confirm headers, edge cells and focused actions remain reachable.",
+      "Read table name, header associations, sorted order and mixed/checked state with a supported screen reader; test light/dark and forced colors. Automated stories cover their fixtures; human assistive-technology and application checks remain unverified.",
+    ],
+    standards: [
+      "1.3.1",
+      "1.3.2",
+      "1.4.3",
+      "1.4.10",
+      "1.4.11",
+      "2.1.1",
+      "2.4.3",
+      "2.4.7",
+      "2.4.11",
+      "2.5.8",
+      "4.1.2",
+      "4.1.3",
+    ],
+    pattern: {
+      title: "APG sortable table example (informative)",
+      href: "https://www.w3.org/WAI/ARIA/apg/patterns/table/examples/sortable-table/",
+    },
+  },
   Container: {
     provides: [
       "The as prop selects a native landmark or section element; native naming attributes and refs pass through.",

@@ -35,6 +35,7 @@ export function loadDocumentationExamples(root: string) {
     "docs/guides/number-fields.md",
     "docs/guides/file-inputs.md",
     "docs/guides/forms-and-overlays.md",
+    "docs/guides/structured-data.md",
   ].flatMap((path) => {
     const examples = extractDocumentationExamples(readFileSync(join(root, path), "utf8"));
     if (!examples.length) throw new Error(`Missing complete React example in ${path}`);

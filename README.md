@@ -55,6 +55,7 @@ bun run check            # build, lint, types, examples, unit and package checks
 | [React component guide](packages/react/README.md) | Choose components by task, read APIs, and find focused examples |
 | [Maintained features](docs/features.md) | Implementation, canonical docs, examples and current limits |
 | [Tokens](docs/tokens.md) | Token kinds, naming, aliases and dark mode |
+| [Structured data](docs/guides/structured-data.md) | Compare records with Table; scan key/value details and CollectionList/CollectionRow records |
 | [Copyable content](docs/guides/copyable-content.md) | Copy identifiers, commands and references with feedback and recovery |
 | [Layout composition](docs/guides/layout.md) | Shared page widths, gutters, wrapping rows, alignment and column collapse |
 | [Using kbui in a project](docs/guides/using-kbui.md) | Installing, theming, updating and troubleshooting |

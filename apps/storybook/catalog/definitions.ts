@@ -74,6 +74,43 @@ export const definitions: Record<string, Definition> = {
       BulkFailure: "Bulk Failure",
     },
   },
+  DescriptionList: {
+    group: "Structured data",
+    description: "Scan labeled record details with aligned, responsive key/value presentation.",
+    examples: {
+      Default: "Default",
+      Responsive: "Responsive",
+      Nested: "Nested",
+    },
+  },
+  CollectionList: {
+    group: "Structured data",
+    description: "Scan record collections with native list semantics and shared alignment.",
+    examples: {
+      Default: "Default",
+      Ordered: "Ordered",
+      Filterable: "Filterable",
+    },
+  },
+  CollectionRow: {
+    group: "Structured data",
+    description: "Summarize one record with selection, details, metadata and independent actions.",
+    examples: {
+      Default: "Default",
+      SelectionAndActions: "Selection and Actions",
+      LongContent: "Long Content",
+    },
+  },
+
+  Table: {
+    group: "Structured data",
+    description: "Present records with sorting, selection, row actions and sticky layouts.",
+    examples: {
+      Default: "Default",
+      SortingAndSelection: "Sorting and Selection",
+      DenseSticky: "Dense and Sticky",
+    },
+  },
   Split: {
     group: "Layout",
     description: "Two columns that stack when their parent narrows.",

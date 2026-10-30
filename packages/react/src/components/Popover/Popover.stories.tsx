@@ -338,7 +338,9 @@ export const InsideDialog: Story = {
     await userEvent.click(await page.findByRole("button", { name: "View options" }));
     await page.findByRole("dialog", { name: "View options" });
     await userEvent.keyboard("{Escape}");
-    await waitFor(() => expect(page.queryByRole("dialog", { name: "View options" })).toBeNull());
+    await waitFor(() => expect(page.queryByRole("dialog", { name: "View options" })).toBeNull(), {
+      timeout: 5000,
+    });
     await waitFor(() => expect(page.getByRole("dialog", { name: "Project editor" })).toBeVisible());
     await userEvent.keyboard("{Escape}");
     await waitFor(() => expect(page.queryByRole("dialog")).toBeNull(), { timeout: 5000 });

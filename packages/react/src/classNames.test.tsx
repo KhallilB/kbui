@@ -8,6 +8,8 @@ import {
   Code,
   CodeBlock,
   Collection,
+  CollectionList,
+  CollectionRow,
   Combobox,
   CopyableText,
   Dialog,
@@ -27,6 +29,7 @@ import {
   Stat,
   Status,
   Switch,
+  Table,
   Tabs,
   Textarea,
   Thumbnail,
@@ -171,6 +174,39 @@ const cases: [string, () => ReactElement][] = [
         onValueChange={() => {}}
         classNames={every}
       />
+    ),
+  ],
+  [
+    "collectionrow",
+    () => (
+      <CollectionList>
+        <CollectionRow
+          title="Name"
+          description="Details"
+          leading={<span>Icon</span>}
+          metadata="Status"
+          actions={<button type="button">Edit</button>}
+          classNames={every}
+        />
+      </CollectionList>
+    ),
+  ],
+  [
+    "table",
+    () => (
+      <table>
+        <thead>
+          <tr>
+            <Table.ColumnHeader
+              className={every.columnheader}
+              classNames={every}
+              onSortChange={() => {}}
+            >
+              Name
+            </Table.ColumnHeader>
+          </tr>
+        </thead>
+      </table>
     ),
   ],
   [

@@ -72,6 +72,10 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | `formactions.css` | `.kb-formactions` with `data-align` (`end`, `start`, `between`) and optional `data-divider` |
 | `errorsummary.css` | `.kb-errorsummary` alert container with `-title`, `-description`, `-list`, `-item` and `-link` parts |
 | `toast.css` | Named `.kb-toast-viewport` with logical `data-placement`, `.kb-toast` tone/state attributes and content/title/description/action/close parts; renderer owns queue, announcements, timing and focus |
+| `descriptionlist.css` | Native dl/dt/dd groups with responsive label/value columns, density and dividers |
+| `collectionlist.css` | Native unordered/ordered record lists with immediate-row density and separators |
+| `collectionrow.css` | Native li with aligned leading/content/aside slots, selected state, wrapping actions and responsive stacking |
+| `table.css` | Native table parts with density, sorting, selected rows, sticky headers/edges, a keyboard-scrollable container and independent row actions; see [Table API](../react/docs/components/Table.md) |
 | `dialog.css` | `.kb-dialog-popup` with `-title`, `-description` and `-actions` parts, beside a `.kb-dialog-backdrop`. Both use Base UI's open, starting and ending attributes for animation |
 
 ## Build and test

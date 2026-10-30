@@ -1,0 +1,114 @@
+/* Anatomy: .kb-collectionrow [data-selected] [data-leading] [data-aside] > .kb-collectionrow-layout > .kb-collectionrow-leading, .kb-collectionrow-content > .kb-collectionrow-title, .kb-collectionrow-description; .kb-collectionrow-aside > .kb-collectionrow-metadata, .kb-collectionrow-actions; .kb-collectionlist, .kb-button [data-size=sm|lg], .kb-status > .kb-status-text */
+.kb-collectionrow {
+  min-inline-size: 0;
+  padding: var(--kb-collectionrow-padding-block) var(--kb-collectionrow-padding-inline);
+  color: var(--kb-color-fg);
+  font-family: var(--kb-font-sans);
+  font-size: var(--kb-size-sm);
+  line-height: var(--kb-text-leading-body);
+  overflow-wrap: anywhere;
+}
+.kb-collectionrow-layout {
+  --_collectionrow-leading: 0px;
+  --_collectionrow-aside: 0px;
+  display: grid;
+  grid-template-columns: var(--_collectionrow-leading) minmax(0, 1fr) var(--_collectionrow-aside);
+  align-items: start;
+  min-inline-size: 0;
+}
+.kb-collectionrow[data-leading] > .kb-collectionrow-layout {
+  --_collectionrow-leading: var(--kb-collectionrow-leading-width);
+}
+.kb-collectionrow[data-aside] > .kb-collectionrow-layout {
+  --_collectionrow-aside: var(--kb-collectionrow-aside-width);
+}
+.kb-collectionlist:has(> .kb-collectionrow[data-leading])
+  > .kb-collectionrow
+  > .kb-collectionrow-layout {
+  --_collectionrow-leading: var(--kb-collectionrow-leading-width);
+}
+.kb-collectionlist:has(> .kb-collectionrow[data-aside])
+  > .kb-collectionrow
+  > .kb-collectionrow-layout {
+  --_collectionrow-aside: var(--kb-collectionrow-aside-width);
+}
+.kb-collectionrow-leading {
+  grid-column: 1;
+  min-inline-size: 0;
+  padding-inline-end: var(--kb-collectionrow-gap);
+}
+.kb-collectionrow-content {
+  grid-column: 2;
+  min-inline-size: 0;
+}
+.kb-collectionrow-title {
+  font-weight: var(--kb-font-weight-strong);
+}
+.kb-collectionrow-description {
+  margin-block-start: var(--kb-space-1);
+  color: var(--kb-color-muted);
+}
+.kb-collectionrow-aside {
+  display: grid;
+  grid-column: 3;
+  gap: var(--kb-space-2);
+  min-inline-size: 0;
+  padding-inline-start: var(--kb-collectionrow-gap);
+  text-align: end;
+}
+.kb-collectionrow-metadata {
+  color: var(--kb-color-muted);
+}
+.kb-collectionrow .kb-status {
+  max-inline-size: 100%;
+}
+.kb-collectionrow .kb-status-text {
+  min-inline-size: 0;
+  white-space: normal;
+}
+.kb-collectionrow-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: var(--kb-space-2);
+  min-inline-size: 0;
+}
+.kb-collectionrow-actions > :where(button, a) {
+  max-inline-size: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.kb-collectionrow-actions > .kb-button {
+  height: auto;
+  min-block-size: var(--kb-button-height-md);
+  padding-block: var(--kb-space-2);
+}
+.kb-collectionrow-actions > .kb-button[data-size="sm"] {
+  min-block-size: var(--kb-button-height-sm);
+}
+.kb-collectionrow-actions > .kb-button[data-size="lg"] {
+  min-block-size: var(--kb-button-height-lg);
+}
+.kb-collectionrow[data-selected] {
+  background: var(--kb-color-surface);
+}
+@container kb-collectionlist (width < 40rem) {
+  .kb-collectionrow > .kb-collectionrow-layout {
+    grid-template-columns: var(--_collectionrow-leading) minmax(0, 1fr);
+    row-gap: var(--kb-collectionrow-gap);
+  }
+  .kb-collectionrow-aside {
+    grid-column: 2;
+    padding-inline-start: 0;
+    text-align: start;
+  }
+  .kb-collectionrow-actions {
+    justify-content: flex-start;
+  }
+}
+@media (forced-colors: active) {
+  .kb-collectionrow[data-selected] {
+    outline: 1px solid Highlight;
+    outline-offset: -1px;
+  }
+}

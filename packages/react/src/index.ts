@@ -50,6 +50,12 @@ export type {
 } from "./components/Collection/useCollection";
 export { useCollection } from "./components/Collection/useCollection";
 export {
+  CollectionList,
+  type CollectionListElement,
+  type CollectionListProps,
+} from "./components/CollectionList/CollectionList";
+export { CollectionRow, type CollectionRowProps } from "./components/CollectionRow/CollectionRow";
+export {
   Combobox,
   type ComboboxMultipleProps,
   type ComboboxOption,
@@ -70,6 +76,13 @@ export {
   type CopyableTextProps,
   type CopyableTextTone,
 } from "./components/CopyableText/CopyableText";
+export {
+  DescriptionList,
+  type DescriptionListDetailProps,
+  type DescriptionListItemProps,
+  type DescriptionListProps,
+  type DescriptionListTermProps,
+} from "./components/DescriptionList/DescriptionList";
 export {
   Dialog,
   type DialogActionsProps,
@@ -216,6 +229,23 @@ export {
   type SwitchSize,
   type SwitchTone,
 } from "./components/Switch/Switch";
+export {
+  Table,
+  type TableBodyProps,
+  type TableCaptionProps,
+  type TableCellOptions,
+  type TableCellProps,
+  type TableColumnHeaderProps,
+  type TableFootProps,
+  type TableHeadProps,
+  type TableProps,
+  type TableRowActionsProps,
+  type TableRowHeaderProps,
+  type TableRowProps,
+  type TableScrollContainerProps,
+  type TableSelectionCheckboxProps,
+  type TableSortDirection,
+} from "./components/Table/Table";
 export {
   Tabs,
   type TabsClassKey,

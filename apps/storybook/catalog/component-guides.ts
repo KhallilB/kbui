@@ -89,6 +89,44 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.Collection,
   },
+  DescriptionList: {
+    use: "Present named facts about one record; choose Table for column-by-column comparison.",
+    example: {
+      title: "Scan project details",
+      description: "Aligned terms and rich values stack in narrow parents.",
+    },
+    tips: ["Group one Term before one or more Detail values inside each Item."],
+    accessibility: accessibilityGuides.DescriptionList,
+  },
+  CollectionList: {
+    use: "Group records people scan by name, summary, status and actions.",
+    example: {
+      title: "Browse projects",
+      description: "Compare ordered and filtered lists with aligned metadata.",
+    },
+    tips: [
+      "Use native ol for meaningful order; put useful empty/error guidance outside an empty list.",
+    ],
+    accessibility: accessibilityGuides.CollectionList,
+  },
+  CollectionRow: {
+    use: "Summarize a record with leading content, details, metadata and independent actions.",
+    example: {
+      title: "Review a project record",
+      description: "Compare independent selection, navigation and actions.",
+    },
+    tips: ["Use a title Link for navigation and Buttons or Menu for separate actions."],
+    accessibility: accessibilityGuides.CollectionRow,
+  },
+  Table: {
+    use: "Compare related records with native table relationships and optional controlled interactions.",
+    example: {
+      title: "Review team workload",
+      description: "Compare sorting, eligible selection, row actions and sticky layouts.",
+    },
+    tips: ["Use ScrollContainer for bounded overflow and verify sticky cells at narrow widths."],
+    accessibility: accessibilityGuides.Table,
+  },
   Container: {
     use: "Align page sections with shared maximum widths and responsive gutters.",
     example: {

@@ -21,7 +21,8 @@ export type CatalogGroup =
   | "Layout"
   | "Typography"
   | "Media"
-  | "Navigation";
+  | "Navigation"
+  | "Structured data";
 export type ApiBlock =
   | { kind: "table"; headers: string[]; rows: string[][] }
   | { kind: "paragraph"; text: string }
