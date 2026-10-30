@@ -133,7 +133,8 @@ export const Discovery: Story = {
     const canvas = within(canvasElement);
     const nav = within(canvas.getByRole("navigation", { name: "Main navigation" }));
     expect(nav.getByRole("link", { name: "Playground" })).toHaveAttribute("aria-current", "page");
-    expect(nav.getByRole("link", { name: "Examples" })).toHaveAttribute("href", "../examples/");
+    expect(nav.getByRole("link", { name: "Recipes" })).toHaveAttribute("href", "../recipes/");
+    expect(nav.queryByRole("link", { name: "Examples" })).toBeNull();
     await userEvent.type(canvas.getByLabelText("Find a component"), "dialog");
     expect(
       canvas.getByRole("link", { name: /Dialog.*Make a change without leaving the page/i }),

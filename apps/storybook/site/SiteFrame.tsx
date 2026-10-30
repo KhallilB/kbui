@@ -25,7 +25,6 @@ export const installation = "setup/";
 const navigation = [
   ["setup", "Get started", installation],
   ["playground", "Playground", "playground/"],
-  ["examples", "Examples", "examples/"],
   ["components", "Components", "components/"],
   ["recipes", "Recipes", "recipes/"],
 ] as const;
@@ -60,7 +59,7 @@ export function SiteFrame({
   onThemeChange,
 }: {
   children: ReactNode;
-  current: "home" | "playground" | "examples" | "components" | "recipes" | "setup" | "changelog";
+  current: "home" | "playground" | "components" | "recipes" | "setup" | "changelog";
   siteRoot: string;
   storybookRoot: string;
   className?: string;

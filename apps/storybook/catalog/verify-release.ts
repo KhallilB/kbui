@@ -252,13 +252,18 @@ for (const profile of profiles) {
       })
       .waitFor({ state: "hidden" });
   });
+  await check("examples-redirect", async (page) => {
+    await page.goto(`${origin}/examples/?theme=dark`);
+    await page.waitForURL(/\/recipes\/\?theme=dark$/);
+    await page.locator('.kbui-site[data-theme="dark"]').waitFor();
+  });
   await check("site-theme", async (page) => {
     await page.emulateMedia({ colorScheme: "dark" });
     for (const path of [
       "/",
       "/setup/",
       "/setup/themes/",
-      "/examples/",
+      "/recipes/",
       "/playground/",
       "/components/",
     ]) {
@@ -481,31 +486,6 @@ for (const profile of profiles) {
           .evaluate((element) => getComputedStyle(element).animationName),
         reduced ? "none" : "kbui-ink-update",
       );
-      await page.goto(`${origin}/examples/`);
-      const creativeTitle = page.locator(".creative .composition-title");
-      const creativeEntrance = await creativeTitle.evaluateHandle(
-        (element) => element.getAnimations()[0],
-      );
-      const palette = page.getByRole("status", { name: "Palette" });
-      assert.equal(
-        await palette.evaluate((element) => getComputedStyle(element).animationName),
-        reduced ? "none" : "kbui-fragment-arrive",
-      );
-      await page.getByRole("button", { name: "Change palette", exact: true }).click();
-      assert.match(await palette.innerText(), /Persimmon \/ Marigold \/ Lilac · vivid/);
-      assert.equal(
-        await creativeTitle.evaluate(
-          (element, previous) => element.getAnimations()[0] === previous,
-          creativeEntrance,
-        ),
-        true,
-      );
-      assert.equal(
-        await page
-          .locator(".palette-words")
-          .evaluate((element) => getComputedStyle(element).animationName),
-        reduced ? "none" : "kbui-ink-update",
-      );
       assert.equal(
         await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
         true,
@@ -707,7 +687,6 @@ for (const profile of profiles) {
       await page.emulateMedia({ reducedMotion: reduced ? "reduce" : "no-preference" });
       for (const [route, surface] of [
         ["/playground/", ".playground-section"],
-        ["/examples/", ".example-section"],
         ["/changelog/", ".release-list"],
         ["/components/?view=directory", ".catalog-browser"],
         ["/components/", ".catalog-browser"],
