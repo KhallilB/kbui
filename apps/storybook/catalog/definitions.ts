@@ -74,6 +74,43 @@ export const definitions: Record<string, Definition> = {
       BulkFailure: "Bulk Failure",
     },
   },
+  DescriptionList: {
+    group: "Structured data",
+    description: "Scan labeled record details with aligned, responsive key/value presentation.",
+    examples: {
+      Default: "Default",
+      Responsive: "Responsive",
+      Nested: "Nested",
+    },
+  },
+  CollectionList: {
+    group: "Structured data",
+    description: "Scan record collections with native list semantics and shared alignment.",
+    examples: {
+      Default: "Default",
+      Ordered: "Ordered",
+      Filterable: "Filterable",
+    },
+  },
+  CollectionRow: {
+    group: "Structured data",
+    description: "Summarize one record with selection, details, metadata and independent actions.",
+    examples: {
+      Default: "Default",
+      SelectionAndActions: "Selection and Actions",
+      LongContent: "Long Content",
+    },
+  },
+
+  Table: {
+    group: "Structured data",
+    description: "Present records with sorting, selection, row actions and sticky layouts.",
+    examples: {
+      Default: "Default",
+      SortingAndSelection: "Sorting and Selection",
+      DenseSticky: "Dense and Sticky",
+    },
+  },
   Split: {
     group: "Layout",
     description: "Two columns that stack when their parent narrows.",
@@ -196,10 +233,48 @@ export const definitions: Record<string, Definition> = {
       InText: "In Text",
     },
   },
+  Popover: {
+    group: "Actions",
+    description: "Reveal supporting controls in an anchored, dismissible popup.",
+    examples: {
+      Default: "Default",
+      Controlled: "Controlled",
+      ScopedPortal: "Nested Theme",
+      InsideDialog: "Inside Dialog",
+      Scrolling: "Scrolling",
+    },
+  },
+  Disclosure: {
+    group: "Layout",
+    description: "Reveal supporting details or controls within the page.",
+    examples: {
+      Default: "Default",
+      RetainedDraft: "Retained Draft",
+      Controlled: "Controlled",
+      Disabled: "Disabled",
+    },
+  },
+  Accordion: {
+    group: "Layout",
+    description: "Organize related disclosures under descriptive headings.",
+    examples: {
+      Default: "Default",
+      Multiple: "Multiple",
+      Controlled: "Controlled",
+      Disabled: "Disabled",
+      Nested: "Nested",
+    },
+  },
   Dialog: {
     group: "Actions",
     description: "Keep a focused task in a dialog while the page waits behind it.",
-    examples: { Confirm: "Confirm", CustomLayout: "Custom Layout", Sections: "Sections" },
+    examples: {
+      Confirm: "Confirm",
+      Drawer: "Drawer",
+      ConfirmationRecovery: "Confirmation Recovery",
+      CustomLayout: "Custom Layout",
+      Sections: "Sections",
+    },
   },
   FileInput: {
     group: "Forms",
@@ -373,6 +448,18 @@ export const definitions: Record<string, Definition> = {
       WithVisibleLabel: "Visible Label",
       BusyButton: "Busy Button",
       SizesAndTones: "Sizes and Tones",
+    },
+  },
+  Tabs: {
+    group: "Navigation",
+    description:
+      "Switch between peer sections with arrow-key roving focus and an active indicator.",
+    examples: {
+      Default: "Default",
+      Pill: "Pill",
+      Vertical: "Vertical",
+      RetainedDraft: "Retained Draft",
+      Nested: "Nested",
     },
   },
   Toolbar: {

@@ -89,6 +89,44 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.Collection,
   },
+  DescriptionList: {
+    use: "Present named facts about one record; choose Table for column-by-column comparison.",
+    example: {
+      title: "Scan project details",
+      description: "Aligned terms and rich values stack in narrow parents.",
+    },
+    tips: ["Group one Term before one or more Detail values inside each Item."],
+    accessibility: accessibilityGuides.DescriptionList,
+  },
+  CollectionList: {
+    use: "Group records people scan by name, summary, status and actions.",
+    example: {
+      title: "Browse projects",
+      description: "Compare ordered and filtered lists with aligned metadata.",
+    },
+    tips: [
+      "Use native ol for meaningful order; put useful empty/error guidance outside an empty list.",
+    ],
+    accessibility: accessibilityGuides.CollectionList,
+  },
+  CollectionRow: {
+    use: "Summarize a record with leading content, details, metadata and independent actions.",
+    example: {
+      title: "Review a project record",
+      description: "Compare independent selection, navigation and actions.",
+    },
+    tips: ["Use a title Link for navigation and Buttons or Menu for separate actions."],
+    accessibility: accessibilityGuides.CollectionRow,
+  },
+  Table: {
+    use: "Compare related records with native table relationships and optional controlled interactions.",
+    example: {
+      title: "Review team workload",
+      description: "Compare sorting, eligible selection, row actions and sticky layouts.",
+    },
+    tips: ["Use ScrollContainer for bounded overflow and verify sticky cells at narrow widths."],
+    accessibility: accessibilityGuides.Table,
+  },
   Container: {
     use: "Align page sections with shared maximum widths and responsive gutters.",
     example: {
@@ -231,6 +269,46 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.Code,
   },
+  Popover: {
+    use: "Reveal supporting controls without leaving the current view. Use Dialog for a focused modal task.",
+    example: {
+      title: "Adjust a view in context",
+      description:
+        "Open View options to change descriptions and spacing in the activity list. Changes apply immediately; Reset restores defaults and Done dismisses. Controlled demonstrates Save/Cancel editing.",
+    },
+    tips: [
+      "Keep the task short; use Body for fields and Footer for a visible Done or Close action.",
+      "Use container for nested themes and positionerProps for collision boundaries or custom anchors.",
+      "Keep anchor tracking enabled while scrolling. Use Dialog or Drawer when the task needs more room.",
+    ],
+    accessibility: accessibilityGuides.Popover,
+  },
+  Disclosure: {
+    use: "Show optional context or advanced controls in the page without changing navigation.",
+    example: {
+      title: "Reveal delivery details",
+      description:
+        "Activate the trigger with Enter or Space. Retained Draft demonstrates keeping an input value through collapse.",
+    },
+    tips: [
+      "Keep essential instructions and errors outside closed content.",
+      "Use Panel keepMounted to retain uncontrolled drafts; controlled values remain application-owned.",
+    ],
+    accessibility: accessibilityGuides.Disclosure,
+  },
+  Accordion: {
+    use: "Group related supporting details under headings; choose single expansion or multiple independent panels.",
+    example: {
+      title: "Answer related questions",
+      description:
+        "Tab between triggers and activate with Enter or Space. Compare Multiple and nested groups.",
+    },
+    tips: [
+      "Give each Item a stable unique value and each Header the appropriate heading rank through render.",
+      "Use controlled value/onValueChange when application state selects open panels; use multiple for independent expansion.",
+    ],
+    accessibility: accessibilityGuides.Accordion,
+  },
   Dialog: {
     use: "Keep a short, focused task in context, such as confirming an action or editing a small set of fields.",
     example: {
@@ -241,6 +319,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
     tips: [
       "Use title and description on Content, or compose Title and Description parts, without duplicating them.",
       "Keep submission and error handling in your app; closing a dialog does not save data.",
+      'For a drawer, use Content layout="drawer" with Header, Body and Footer; keep actions outside the scrolling Body.',
     ],
     accessibility: accessibilityGuides.Dialog,
   },
@@ -532,6 +611,19 @@ export const componentGuides: Record<string, ComponentGuide> = {
       "Focus the ErrorSummary ref when a submit attempt fails so keyboard and screen-reader users hear the summary first.",
     ],
     accessibility: accessibilityGuides.ErrorSummary,
+  },
+  Tabs: {
+    use: "Switch between peer views that share the same context without leaving the page.",
+    example: {
+      title: "Inspect release sections",
+      description:
+        "Use arrow keys or click a tab to switch panels while the active indicator tracks the selected tab.",
+    },
+    tips: [
+      'Use variant="pill" for compact view switchers and variant="line" for section headers.',
+      "Set keepMounted on Tabs.Panel when inactive panels hold form state or expensive measurements.",
+    ],
+    accessibility: accessibilityGuides.Tabs,
   },
   Toolbar: {
     use: "Group related actions in a row, such as editing commands. Use normal buttons when actions do not form a coherent group.",

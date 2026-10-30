@@ -8,6 +8,8 @@ import {
   Code,
   CodeBlock,
   Collection,
+  CollectionList,
+  CollectionRow,
   Combobox,
   CopyableText,
   Dialog,
@@ -19,6 +21,7 @@ import {
   Input,
   MultiSelect,
   NumberField,
+  Popover,
   Progress,
   RadioGroup,
   ScrollArea,
@@ -29,6 +32,8 @@ import {
   Stat,
   Status,
   Switch,
+  Table,
+  Tabs,
   Textarea,
   Thumbnail,
   Toast,
@@ -42,6 +47,19 @@ const every = new Proxy({} as Record<string, string>, {
 const camel = (part: string) => part.replace(/-(\w)/g, (_, c: string) => c.toUpperCase());
 
 const cases: [string, () => ReactElement][] = [
+  [
+    "tabs",
+    () => (
+      <Tabs defaultValue="a" classNames={every}>
+        <Tabs.List aria-label="Tabs">
+          <Tabs.Tab value="a" icon={<svg />} badge="1">
+            A
+          </Tabs.Tab>
+        </Tabs.List>
+        <Tabs.Panel value="a">Panel</Tabs.Panel>
+      </Tabs>
+    ),
+  ],
   ["image", () => <Image src="/a.jpg" alt="Photo" classNames={every} />],
   ["avatar", () => <Avatar name="Maya Chen" classNames={every} />],
   [
@@ -159,6 +177,39 @@ const cases: [string, () => ReactElement][] = [
         onValueChange={() => {}}
         classNames={every}
       />
+    ),
+  ],
+  [
+    "collectionrow",
+    () => (
+      <CollectionList>
+        <CollectionRow
+          title="Name"
+          description="Details"
+          leading={<span>Icon</span>}
+          metadata="Status"
+          actions={<button type="button">Edit</button>}
+          classNames={every}
+        />
+      </CollectionList>
+    ),
+  ],
+  [
+    "table",
+    () => (
+      <table>
+        <thead>
+          <tr>
+            <Table.ColumnHeader
+              className={every.columnheader}
+              classNames={every}
+              onSortChange={() => {}}
+            >
+              Name
+            </Table.ColumnHeader>
+          </tr>
+        </thead>
+      </table>
     ),
   ],
   [
@@ -373,6 +424,19 @@ describe("classNames", () => {
       </Dialog>,
     );
     expect(host.querySelector(".kb-dialog-backdrop")).toHaveClass("slot-backdrop");
+    host.remove();
+  });
+  test("popover content passes classNames to its positioner", () => {
+    const host = document.createElement("div");
+    document.body.append(host);
+    const view = render(
+      <Popover defaultOpen>
+        <Popover.Trigger>Options</Popover.Trigger>
+        <Popover.Content title="Options" container={host} classNames={every} />
+      </Popover>,
+    );
+    expect(host.querySelector(".kb-popover-positioner")).toHaveClass("slot-positioner");
+    view.unmount();
     host.remove();
   });
 });

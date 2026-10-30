@@ -57,7 +57,7 @@ if [[ "$command" == "\${FAIL_COMMAND:-}" ]]; then exit 23; fi
 }
 
 const suites: Record<string, string[]> = {
-  stories: ["bun run test:stories"],
+  stories: ["bun run test:stories", "bun run test:overlays"],
   themes: ["bun run --cwd apps/storybook test:themes --maxWorkers=2"],
   responsive: ["bun run --cwd apps/storybook test:site", "bun run --cwd apps/storybook test:a11y"],
 };

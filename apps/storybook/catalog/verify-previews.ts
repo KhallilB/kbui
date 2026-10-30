@@ -17,6 +17,48 @@ const browser = await chromium.launch({ headless: true });
 const failures: string[] = [];
 const endOfCode = process.platform === "darwin" ? "Meta+ArrowDown" : "Control+End";
 let checked = 0;
+async function verifyPopoverContent(popup: Locator) {
+  await popup.waitFor({ state: "visible" });
+  await popup.evaluate(async (element) => {
+    await Promise.all(element.getAnimations().map((animation) => animation.finished));
+  });
+  const usable = await popup.evaluate((element) => {
+    const bounds = element.getBoundingClientRect();
+    const host = window.frameElement as HTMLElement | null;
+    let clippedByHost = false;
+    if (host) {
+      const frameBounds = host.getBoundingClientRect();
+      const scale = frameBounds.width / host.clientWidth;
+      const top = frameBounds.top + bounds.top * scale;
+      const bottom = frameBounds.top + bounds.bottom * scale;
+      for (
+        let parent = host.parentElement;
+        parent && parent !== host.ownerDocument.body;
+        parent = parent.parentElement
+      ) {
+        if (getComputedStyle(parent).overflowY === "visible") continue;
+        const clip = parent.getBoundingClientRect();
+        if (top < clip.top - 1 || bottom > clip.bottom + 1) clippedByHost = true;
+      }
+    }
+    const body = element.querySelector<HTMLElement>(".kb-popover-body");
+    const controls = [...element.querySelectorAll<HTMLElement>("input, button, label")];
+    return (
+      !clippedByHost &&
+      body != null &&
+      body.clientHeight > 0 &&
+      controls.length > 0 &&
+      bounds.top >= 0 &&
+      bounds.bottom <= innerHeight + 1 &&
+      controls.every((control) => {
+        const rect = control.getBoundingClientRect();
+        return rect.height > 0 && rect.top >= bounds.top && rect.bottom <= bounds.bottom;
+      })
+    );
+  });
+  if (!usable) throw new Error("Popover form or actions clipped in real catalog iframe");
+}
+
 try {
   for (const width of [320, 1280]) {
     const page = await browser.newPage({ viewport: { width, height: 900 } });
@@ -74,7 +116,11 @@ try {
               theme: root.dataset.theme,
               accent: getComputedStyle(root).getPropertyValue("--kb-color-accent").trim(),
             }));
-            const expected = catalogTheme === "dark" ? "#f2a184" : "#b4462b";
+            const expected = await page
+              .locator(".kbui-catalog")
+              .evaluate((root) =>
+                getComputedStyle(root).getPropertyValue("--kb-color-accent").trim(),
+              );
             if (values.theme !== catalogTheme || values.accent !== expected)
               throw new Error(`Theme did not reach preview: ${JSON.stringify(values)}`);
           }
@@ -174,8 +220,11 @@ try {
           }
           if (alignment.text === "center") throw new Error("Example text became center-aligned");
           const fluidSelectors: Record<string, string> = {
+            tabs: ".kb-tabs:not(.kb-tabs .kb-tabs)",
             codeblock: ".kb-codeblock",
             collection: ".kb-collection",
+            accordion: ".kb-accordion",
+            disclosure: ".kb-disclosure",
             input: ".kb-input",
             textarea: ".kb-textarea",
             fieldset: ".kb-fieldset",
@@ -190,6 +239,10 @@ try {
             toast: ".kb-toast-viewport[data-placement=inline]",
             progress: ".kb-progress",
             scrollarea: ".kb-scrollarea",
+            table: ".kb-table-scroll",
+            descriptionlist: ".kb-descriptionlist",
+            collectionlist: ".kb-collectionlist",
+            collectionrow: ".kb-collectionlist",
           };
           const selector = fluidSelectors[entry.id];
           if (selector) {
@@ -240,7 +293,9 @@ try {
               stage.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom)
             );
           });
-          if (width >= 520 && geometry.height < availableHeight - 1)
+          if (entry.id === "popover" && geometry.height < reserve)
+            throw new Error("Popover preview lost its reserved overlay space");
+          if (width >= 520 && entry.id !== "popover" && geometry.height < availableHeight - 1)
             throw new Error(`Preview leaves unused pane height: ${JSON.stringify(geometry)}`);
           if (width < 520 && geometry.height > Math.max(reserve, geometry.content) + 1)
             throw new Error(`Unnecessary vertical space: ${JSON.stringify(geometry)}`);
@@ -317,6 +372,50 @@ try {
             const copied = await page.evaluate(() => navigator.clipboard.readText());
             if (copied !== story.snippet)
               throw new Error("Clipboard differs from selected example");
+          }
+          if (["components-popover--default", "components-popover--scrolling"].includes(story.id)) {
+            const trigger = frame.getByRole("button", { name: "View options", exact: true });
+            await trigger.click();
+            const popup = frame.getByRole("dialog", { name: "View options", exact: true });
+            await verifyPopoverContent(popup);
+            await frame.getByRole("checkbox", { name: "Show descriptions" }).uncheck();
+            if (
+              await frame.getByText("Review the latest interface changes.", { exact: true }).count()
+            )
+              throw new Error("Display preference did not update workspace");
+            await frame.getByRole("button", { name: "Done", exact: true }).click();
+            await page.getByRole("checkbox", { name: "Compare light and dark" }).check();
+            const comparison = page.frameLocator('iframe[title$="Dark comparison"]');
+            await comparison.getByRole("button", { name: "View options", exact: true }).click();
+            await verifyPopoverContent(comparison.getByRole("dialog", { name: "View options" }));
+            await comparison.getByRole("button", { name: "Done", exact: true }).click();
+            await page.getByRole("checkbox", { name: "Compare light and dark" }).uncheck();
+          }
+          if (story.id === "components-popover--controlled") {
+            const trigger = frame.getByRole("button", { name: "Rename project" });
+            const popup = frame.getByRole("dialog", { name: "Rename project" });
+            const input = popup.getByRole("textbox", { name: "Project name" });
+            await trigger.click();
+            await verifyPopoverContent(popup);
+            await input.fill("Discarded draft");
+            await input.press("Escape");
+            await popup.waitFor({ state: "hidden" });
+            await trigger.click();
+            if ((await input.inputValue()) !== "Website refresh")
+              throw new Error("Escape retained discarded draft");
+            await input.fill("Outside draft");
+            await frame.getByRole("status").click();
+            await popup.waitFor({ state: "hidden" });
+            await trigger.click();
+            if ((await input.inputValue()) !== "Website refresh")
+              throw new Error("Outside dismissal retained draft");
+            await input.fill("Updated from keyboard");
+            await input.press("Enter");
+            await popup.waitFor({ state: "hidden" });
+            if (!(await frame.getByRole("status").innerText()).includes("Updated from keyboard"))
+              throw new Error("Native Enter did not submit associated form");
+            if (!(await trigger.evaluate((element) => element === document.activeElement)))
+              throw new Error("Save lost trigger focus");
           }
           if (["dialog", "menu", "tooltip"].includes(entry.id)) {
             if (entry.id === "menu") {

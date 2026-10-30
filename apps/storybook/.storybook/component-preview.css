@@ -63,3 +63,8 @@
 .component-preview[data-layout="layout"] > .component-preview-content {
   inline-size: 100%;
 }
+
+.component-preview[data-component="popover"] > .component-preview-content {
+  /* Reserve popup footprint inside iframe; centering trigger alone hides fields. */
+  padding-block-end: 240px;
+}

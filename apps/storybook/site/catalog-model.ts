@@ -33,9 +33,17 @@ export const layoutPreviewComponents = [
   "separator",
   "panel",
   "scrollarea",
+  "table",
+  "descriptionlist",
+  "collectionlist",
+  "collectionrow",
 ] as const;
 
 export const surfacePreviewComponents = [
+  "tabs",
+  "popover",
+  "accordion",
+  "disclosure",
   "copyabletext",
   "codeblock",
   "input",
@@ -65,14 +73,29 @@ export function previewKind(component: string | undefined): "layout" | "surface"
 
 export function previewLayout(component: string, _story: string) {
   if (component === "dialog") return { width: 800, minimum: 360 };
+  if (component === "popover") return { width: 520, minimum: 480 };
   if (component === "menu") return { width: 520, minimum: 240 };
   if (component === "tooltip") return { width: 520, minimum: 160 };
   if (["select", "combobox", "multiselect"].includes(component))
     return { width: 1120, minimum: 240 };
-  if (["collection", "grid", "container", "inline", "split", "panel"].includes(component))
+  if (
+    [
+      "collection",
+      "grid",
+      "container",
+      "inline",
+      "split",
+      "panel",
+      "table",
+      "descriptionlist",
+      "collectionlist",
+      "collectionrow",
+    ].includes(component)
+  )
     return { width: 1120, minimum: 160 };
   if (
     [
+      "tabs",
       "copyabletext",
       "codeblock",
       "input",

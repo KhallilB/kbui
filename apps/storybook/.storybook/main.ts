@@ -20,6 +20,7 @@ const config: StorybookConfig = {
         ...(config.optimizeDeps?.include ?? []),
         "storybook/internal/core-events",
         "storybook/theming",
+        "@kb.ui/react > @base-ui/react/use-render",
       ],
     },
   }),

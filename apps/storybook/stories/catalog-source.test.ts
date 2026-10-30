@@ -415,6 +415,7 @@ test("Switch Props JSDoc documents both offIcon and onIcon and preview layout cl
     expect(previewKind(id), id).toBe("layout");
   }
   for (const id of [
+    "popover",
     "input",
     "textarea",
     "fieldset",

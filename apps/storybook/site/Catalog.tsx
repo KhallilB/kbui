@@ -41,8 +41,10 @@ const groups = [
   "Forms",
   "Feedback",
   "Layout",
+  "Structured data",
   "Typography",
   "Media",
+  "Navigation",
 ] as const satisfies readonly ("All" | CatalogGroup)[];
 function isChoice<T extends string>(value: string, choices: readonly T[]): value is T {
   return choices.some((choice) => choice === value);
@@ -444,6 +446,7 @@ function CatalogDetail({
         )}
         <div
           className="catalog-styling-workspace"
+          data-component={entry.id}
           ref={paneResize.root}
           data-compare={compare || undefined}
           data-focused={focused || undefined}
@@ -653,7 +656,7 @@ function CatalogDetail({
                 <StoryPreview
                   code={code}
                   onCodeResult={setCodeResult}
-                  fill={!compare && paneResize.split}
+                  fill={entry.id !== "popover" && !compare && paneResize.split}
                   fullWidth={compare}
                   active={active}
                   appearance={{ ...appearance, theme: compare ? "light" : appearance.theme, skin }}

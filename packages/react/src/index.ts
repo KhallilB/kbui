@@ -1,3 +1,11 @@
+export type {
+  AccordionHeaderProps,
+  AccordionItemProps,
+  AccordionPanelProps,
+  AccordionProps,
+  AccordionTriggerProps,
+} from "./components/Accordion/Accordion";
+export { Accordion } from "./components/Accordion/Accordion";
 export { Avatar, type AvatarProps, type AvatarShape } from "./components/Avatar/Avatar";
 export {
   Badge,
@@ -42,6 +50,12 @@ export type {
 } from "./components/Collection/useCollection";
 export { useCollection } from "./components/Collection/useCollection";
 export {
+  CollectionList,
+  type CollectionListElement,
+  type CollectionListProps,
+} from "./components/CollectionList/CollectionList";
+export { CollectionRow, type CollectionRowProps } from "./components/CollectionRow/CollectionRow";
+export {
   Combobox,
   type ComboboxMultipleProps,
   type ComboboxOption,
@@ -63,6 +77,13 @@ export {
   type CopyableTextTone,
 } from "./components/CopyableText/CopyableText";
 export {
+  DescriptionList,
+  type DescriptionListDetailProps,
+  type DescriptionListItemProps,
+  type DescriptionListProps,
+  type DescriptionListTermProps,
+} from "./components/DescriptionList/DescriptionList";
+export {
   Dialog,
   type DialogActionsProps,
   type DialogCloseProps,
@@ -73,6 +94,12 @@ export {
   type DialogTitleProps,
   type DialogTriggerProps,
 } from "./components/Dialog/Dialog";
+export type {
+  DisclosurePanelProps,
+  DisclosureProps,
+  DisclosureTriggerProps,
+} from "./components/Disclosure/Disclosure";
+export { Disclosure } from "./components/Disclosure/Disclosure";
 export {
   EmptyState,
   type EmptyStateHeadingLevel,
@@ -167,6 +194,16 @@ export {
   type PanelToolbarProps,
   type PanelWellProps,
 } from "./components/Panel/Panel";
+export type {
+  PopoverCloseProps,
+  PopoverContentProps,
+  PopoverDescriptionProps,
+  PopoverProps,
+  PopoverSectionProps,
+  PopoverTitleProps,
+  PopoverTriggerProps,
+} from "./components/Popover/Popover";
+export { Popover } from "./components/Popover/Popover";
 export { Progress, type ProgressProps } from "./components/Progress/Progress";
 export {
   RadioGroup,
@@ -216,6 +253,35 @@ export {
   type SwitchSize,
   type SwitchTone,
 } from "./components/Switch/Switch";
+export {
+  Table,
+  type TableBodyProps,
+  type TableCaptionProps,
+  type TableCellOptions,
+  type TableCellProps,
+  type TableColumnHeaderProps,
+  type TableFootProps,
+  type TableHeadProps,
+  type TableProps,
+  type TableRowActionsProps,
+  type TableRowHeaderProps,
+  type TableRowProps,
+  type TableScrollContainerProps,
+  type TableSelectionCheckboxProps,
+  type TableSortDirection,
+} from "./components/Table/Table";
+export {
+  Tabs,
+  type TabsClassKey,
+  type TabsIndicatorProps,
+  type TabsListProps,
+  type TabsOrientation,
+  type TabsPanelProps,
+  type TabsProps,
+  type TabsSize,
+  type TabsTabProps,
+  type TabsVariant,
+} from "./components/Tabs/Tabs";
 export {
   Text,
   type TextElement,

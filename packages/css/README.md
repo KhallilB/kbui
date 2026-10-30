@@ -32,12 +32,19 @@ Plain HTML works as well:
 <button class="kb-button" data-variant="secondary" data-size="sm">Cancel</button>
 ```
 
+## Disclosure and overlays
+
+`accordion.css` supplies `.kb-accordion`, `-item`, `-header`, `-trigger` and `-panel` parts. `disclosure.css` supplies `.kb-disclosure`, `-trigger` and `-panel`. Triggers use `data-panel-open` and `data-disabled`; closed panels must remain hidden or unmounted. Renderers own ARIA relationships and state.
+
+`popover.css` supplies `.kb-popover-positioner`, `.kb-popover`, `-header`, `-body`, `-footer`, `-title` and `-description`. A positioning engine supplies `--available-width` and `--available-height`; open/starting/ending attributes control anchored motion. A direct Body child enables constrained content scrolling while Header/Footer remain visible. See the [overlay guide](../../docs/guides/forms-and-overlays.md) for portals, drawers and confirmation compositions.
+
 ## Components
 
 The first line of each stylesheet describes the markup it expects. The table shows common entries; [styles.css](src/styles.css) lists every component import.
 
 | File | Expected markup |
 |---|---|
+| `tabs.css` | `.kb-tabs` with list, tab, indicator and panel parts; each part carries orientation, variant and size from its nearest root |
 | `image.css` | `.kb-image` with ratio, fit and request state; visual fallback and native decorative img; renderer owns request lifecycle |
 | `avatar.css` | `.kb-avatar` with `data-size` and `data-shape` (`circle`, `square`, `rounded`, `hexagon`, `diamond`); `.kb-avatar-media` inherits root radius and clips upright media for polygons; `.kb-avatar-initials` supplies fallback text; also load image.css |
 | `thumbnail.css` | Native figure with media and caption/title/description; also load image.css |
@@ -68,6 +75,10 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | `spinner.css` | `.kb-spinner` with `data-size` (`sm`, `md`, `lg`), `data-tone` (`current`, `accent`, `neutral`, `info`, `success`, `warning`, `danger`), `data-variant` (`ring`, `orbit`, `dots`, `bars`), `data-appearance` (`plain`, `pill`) and optional `data-show-label`, wrapping `-icon` (`-track`, `-arc`, `-core`, `-dot`, `-bar`) and `-label` |
 | `skeleton.css` | `.kb-skeleton` with `data-variant` (`text`, `rect`, `circle`, `pill`), `data-size` (`sm`, `md`, `lg`), `data-animation` (`shimmer`, `pulse`, `wave`), `data-tone` (`default`, `subtle`, `accent`) and `data-animated`, wrapping `-line` or `-content` parts |
 | `toast.css` | Named `.kb-toast-viewport` with logical `data-placement`, `.kb-toast` tone/state attributes and content/title/description/action/close parts; renderer owns queue, announcements, timing and focus |
+| `descriptionlist.css` | Native dl/dt/dd groups with responsive label/value columns, density and dividers |
+| `collectionlist.css` | Native unordered/ordered record lists with immediate-row density and separators |
+| `collectionrow.css` | Native li with aligned leading/content/aside slots, selected state, wrapping actions and responsive stacking |
+| `table.css` | Native table parts with density, sorting, selected rows, sticky headers/edges, a keyboard-scrollable container and independent row actions; see [Table API](../react/docs/components/Table.md) |
 | `dialog.css` | `.kb-dialog-popup` with `-title`, `-description` and `-actions` parts, beside a `.kb-dialog-backdrop`. Both use Base UI's open, starting and ending attributes for animation |
 
 ## Build and test

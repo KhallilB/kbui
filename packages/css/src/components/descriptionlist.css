@@ -1,0 +1,68 @@
+/* Anatomy: .kb-descriptionlist [data-layout=responsive|horizontal|stacked] [data-density=comfortable|dense] [data-dividers] > .kb-descriptionlist-item > .kb-descriptionlist-term, .kb-descriptionlist-detail; .kb-status > .kb-status-text */
+.kb-descriptionlist {
+  container: kb-descriptionlist / inline-size;
+  min-inline-size: 0;
+  inline-size: 100%;
+  margin: 0;
+  color: var(--kb-color-fg);
+  font-family: var(--kb-font-sans);
+  font-size: var(--kb-size-sm);
+  line-height: var(--kb-text-leading-body);
+}
+.kb-descriptionlist > .kb-descriptionlist-item {
+  display: grid;
+  grid-template-columns: minmax(0, min(40%, var(--kb-descriptionlist-term-width))) minmax(0, 1fr);
+  gap: var(--kb-descriptionlist-row-gap) var(--kb-descriptionlist-column-gap);
+  padding-block: var(--kb-descriptionlist-padding-block);
+  min-inline-size: 0;
+}
+.kb-descriptionlist-term,
+.kb-descriptionlist-detail {
+  min-inline-size: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.kb-descriptionlist-term {
+  grid-column: 1;
+  color: var(--kb-color-muted);
+  font-weight: var(--kb-font-weight-medium);
+}
+.kb-descriptionlist-detail {
+  grid-column: 2;
+}
+.kb-descriptionlist .kb-status {
+  max-inline-size: 100%;
+}
+.kb-descriptionlist .kb-status-text {
+  min-inline-size: 0;
+  white-space: normal;
+}
+.kb-descriptionlist[data-density="dense"] > .kb-descriptionlist-item {
+  padding-block: var(--kb-descriptionlist-dense-padding-block);
+}
+.kb-descriptionlist[data-layout="stacked"] > .kb-descriptionlist-item {
+  grid-template-columns: minmax(0, 1fr);
+}
+.kb-descriptionlist[data-layout="stacked"]
+  > .kb-descriptionlist-item
+  > :is(.kb-descriptionlist-term, .kb-descriptionlist-detail) {
+  grid-column: 1;
+}
+.kb-descriptionlist[data-dividers] > .kb-descriptionlist-item + .kb-descriptionlist-item {
+  border-block-start: 1px solid var(--kb-color-border);
+}
+@container kb-descriptionlist (width < 32rem) {
+  .kb-descriptionlist[data-layout="responsive"] > .kb-descriptionlist-item {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .kb-descriptionlist[data-layout="responsive"]
+    > .kb-descriptionlist-item
+    > :is(.kb-descriptionlist-term, .kb-descriptionlist-detail) {
+    grid-column: 1;
+  }
+}
+@media (forced-colors: active) {
+  .kb-descriptionlist[data-dividers] > .kb-descriptionlist-item + .kb-descriptionlist-item {
+    border-color: CanvasText;
+  }
+}

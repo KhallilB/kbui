@@ -2,6 +2,7 @@
 @layer kbui.tokens, kbui.reset, kbui.components;
 @import "../../tokens/dist/tokens.css" layer(kbui.tokens);
 @import "./reset.css" layer(kbui.reset);
+@import "./components/accordion.css" layer(kbui.components);
 @import "./components/avatar.css" layer(kbui.components);
 @import "./components/badge.css" layer(kbui.components);
 @import "./components/button.css" layer(kbui.components);
@@ -11,10 +12,14 @@
 @import "./components/code.css" layer(kbui.components);
 @import "./components/codeblock.css" layer(kbui.components);
 @import "./components/collection.css" layer(kbui.components);
+@import "./components/collectionlist.css" layer(kbui.components);
+@import "./components/collectionrow.css" layer(kbui.components);
 @import "./components/combobox.css" layer(kbui.components);
 @import "./components/container.css" layer(kbui.components);
 @import "./components/copyabletext.css" layer(kbui.components);
+@import "./components/descriptionlist.css" layer(kbui.components);
 @import "./components/dialog.css" layer(kbui.components);
+@import "./components/disclosure.css" layer(kbui.components);
 @import "./components/emptystate.css" layer(kbui.components);
 @import "./components/errorsummary.css" layer(kbui.components);
 @import "./components/fieldset.css" layer(kbui.components);
@@ -30,6 +35,7 @@
 @import "./components/multiselect.css" layer(kbui.components);
 @import "./components/numberfield.css" layer(kbui.components);
 @import "./components/panel.css" layer(kbui.components);
+@import "./components/popover.css" layer(kbui.components);
 @import "./components/progress.css" layer(kbui.components);
 @import "./components/radiogroup.css" layer(kbui.components);
 @import "./components/scrollarea.css" layer(kbui.components);
@@ -41,6 +47,8 @@
 @import "./components/stat.css" layer(kbui.components);
 @import "./components/status.css" layer(kbui.components);
 @import "./components/switch.css" layer(kbui.components);
+@import "./components/table.css" layer(kbui.components);
+@import "./components/tabs.css" layer(kbui.components);
 @import "./components/text.css" layer(kbui.components);
 @import "./components/textarea.css" layer(kbui.components);
 @import "./components/thumbnail.css" layer(kbui.components);
