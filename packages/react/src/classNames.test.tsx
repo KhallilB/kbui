@@ -33,6 +33,7 @@ import {
   Split,
   Stat,
   Status,
+  SupportingPane,
   Switch,
   Table,
   Tabs,
@@ -49,6 +50,14 @@ const every = new Proxy({} as Record<string, string>, {
 const camel = (part: string) => part.replace(/-(\w)/g, (_, c: string) => c.toUpperCase());
 
 const cases: [string, () => ReactElement][] = [
+  [
+    "supportingpane",
+    () => (
+      <SupportingPane aside="A" asideLabel="A" classNames={every}>
+        Main
+      </SupportingPane>
+    ),
+  ],
   [
     "tabs",
     () => (

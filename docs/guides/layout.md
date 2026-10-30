@@ -54,6 +54,18 @@ Split collapse sizes are sm 32rem, md 48rem and lg 64rem. Thresholds use the com
 
 Tracks fill their assigned columns while children retain their own reading measures. Nested Split token overrides affect that nested layout. Children can shrink and ordinary text can wrap. Essential wide content such as tables, media or preformatted code still needs its own responsive treatment. Avoid fixed widths that exceed the available column. Test custom minimum widths, unusually large gaps and token overrides at narrow widths and browser zoom.
 
+## Main task with an aside
+
+Use [SupportingPane](../../packages/react/docs/components/SupportingPane.md) when one task fills the page and supporting context sits beside it, such as a cart and its order summary or a list and an inspector. It frames the page itself, so do not wrap it in Container.
+
+| Width | Page frame | Main and aside |
+| --- | --- | --- |
+| Viewport under 48rem | 1rem gutters | Aside below main, both full width |
+| Viewport 48rem to 64rem | 1.5rem gutters | Beside each other once the pane's content is 48rem wide; otherwise stacked |
+| Viewport 64rem and wider | 2rem gutters, page capped at 80rem | Aside 22rem wide, main fills the rest |
+
+The collapse point uses the pane's own content width, so a pane in a narrow parent stays stacked on a wide screen. Main comes first in source, reading and Tab order at every width. The aside is a native `aside`; name it from its visible heading with `asideLabelledBy`.
+
 ## Semantics and accessibility
 
 Choose landmarks from document structure with Container's native `as` prop. Container, Grid, Inline and Split default to div; non-default generic element types require an explicit `as` so native props and refs stay aligned. Named sections and aside elements keep their native semantics. Layout does not add grid roles, focus management or tab stops. Inline controls remain independent tab stops; choose Toolbar for coordinated arrow-key navigation.

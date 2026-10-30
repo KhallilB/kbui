@@ -166,6 +166,19 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.Split,
   },
+  SupportingPane: {
+    use: "Lay out one main task with supporting context, such as a cart and its order summary, in a framed page.",
+    example: {
+      title: "Keep the order summary beside the cart",
+      description:
+        "The aside sits beside main on wide screens and moves below it on narrow ones, in source order.",
+    },
+    tips: [
+      "Name the aside from its visible heading with asideLabelledBy.",
+      "Start main with the page heading; use Split for proportional columns inside a section.",
+    ],
+    accessibility: accessibilityGuides.SupportingPane,
+  },
   Separator: {
     use: "Divide related content with a horizontal or vertical static rule.",
     example: {

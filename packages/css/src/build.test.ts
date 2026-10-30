@@ -68,6 +68,7 @@ describe("buildCss", () => {
         "copyabletext.css",
         "codeblock.css",
         "confirmaction.css",
+        "supportingpane.css",
       ]),
     );
   });
@@ -547,6 +548,14 @@ describe("buildCss", () => {
     );
     expect(pageHeaderCss).toContain("flex: 1 1 var(--kb-pageheader-heading-min-width)");
     expect(pageHeaderCss).toContain("flex-wrap: wrap");
+
+    const supportingPaneCss = await read("supportingpane.css");
+    expect(supportingPaneCss.split("\n")[0]).toContain(
+      ".kb-supportingpane > .kb-supportingpane-main, .kb-supportingpane-aside",
+    );
+    expect(supportingPaneCss).toContain("container: kb-supportingpane / inline-size");
+    expect(supportingPaneCss).toContain("@container kb-supportingpane (width >= 48rem)");
+    expect(supportingPaneCss).toContain("max-inline-size: var(--kb-supportingpane-max-width)");
 
     const toastCss = await read("toast.css");
     expect(toastCss.split("\n")[0]).toContain(".kb-toast");

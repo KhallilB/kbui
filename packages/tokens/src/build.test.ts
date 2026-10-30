@@ -691,3 +691,15 @@ describe("page header tokens", () => {
     expect(css).toContain("--kb-pageheader-divider: var(--kb-color-border);");
   });
 });
+
+describe("supporting pane tokens", () => {
+  test("defines the page frame, gutters, gap and aside width", () => {
+    const { css } = buildTokens(real as TokenTree);
+    expect(css).toContain("--kb-supportingpane-max-width: var(--kb-container-size-lg);");
+    expect(css).toContain("--kb-supportingpane-gutter-sm: var(--kb-space-4);");
+    expect(css).toContain("--kb-supportingpane-gutter-md: var(--kb-space-6);");
+    expect(css).toContain("--kb-supportingpane-gutter-lg: var(--kb-space-8);");
+    expect(css).toContain("--kb-supportingpane-gap: var(--kb-layout-gap-lg);");
+    expect(css).toContain("--kb-supportingpane-aside-width: 22rem;");
+  });
+});

@@ -280,6 +280,21 @@ export const accessibilityGuides = {
     ],
     standards: ["1.3.1", "1.3.2", "1.4.10"],
   },
+  SupportingPane: {
+    provides: [
+      "A main region, then a native aside landmark named by asideLabelledBy or asideLabel, in DOM order at every width.",
+      "The aside moves below main under 48rem of content width; nothing is reordered or hidden.",
+    ],
+    authoring: [
+      "Place the pane inside the page's main, start main with its h1 and name the aside from its visible heading.",
+      "Own any control that hides the aside, and move focus sensibly when it closes.",
+    ],
+    verify: [
+      "List landmarks with a screen reader and confirm the complementary landmark is announced with its name, after the main content.",
+      "At 390, 768 and 1440px, and at 400% zoom, check the aside is below main when narrow, nothing scrolls sideways and no controls overlap.",
+    ],
+    standards: ["1.3.1", "1.3.2", "1.4.10", "2.4.6", "4.1.2"],
+  },
   Separator: {
     provides: [
       "A semantic rule uses native hr semantics and exposes orientation when vertical.",

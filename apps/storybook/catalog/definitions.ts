@@ -122,6 +122,14 @@ export const definitions: Record<string, Definition> = {
       ContentMeasures: "Content Measures",
     },
   },
+  SupportingPane: {
+    group: "Layout",
+    description: "A main column with a named aside that moves below it when narrow.",
+    examples: {
+      ShoeCart: "Shoe Cart",
+      Inspector: "Inspector",
+    },
+  },
   Separator: {
     group: "Layout",
     description: "Semantic or decorative horizontal and vertical rules.",
