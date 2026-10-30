@@ -48,7 +48,7 @@ export function Example() {
 ## More examples
 
 - [Sorting and selection](https://kbui.kcb.pro/storybook/?path=/story/components-table--sorting-and-selection): Numeric and text ordering, stable selected IDs, mixed selection and excluded rows.
-- [Row actions](https://kbui.kcb.pro/storybook/?path=/story/components-table--sorting-and-selection): Named Buttons and Menu composition with focus return.
+- [Row actions](https://kbui.kcb.pro/storybook/?path=/story/components-table--sorting-and-selection): Named Buttons and `Menu` composition with focus return.
 - [Dense and sticky](https://kbui.kcb.pro/storybook/?path=/story/components-table--dense-sticky): Bounded scrolling, sticky headers and a pinned first column.
 
 ## Reference
@@ -63,14 +63,14 @@ export function Example() {
 | `Table.ColumnHeader` | `th`, optional `button` | Defaults `scope="col"`; controlled sorting and logical alignment |
 | `Table.RowHeader` | `th` | Defaults `scope="row"`; supports grouped header scope override |
 | `Table.Cell` | `td` | Native data cell; supports `colSpan`, `rowSpan`, children and ref |
-| `Table.SelectionCheckbox` | Checkbox | Same required `label`, `checked`, `onCheckedChange`, optional `indeterminate`, `disabled`, `readOnly`, ref and slots as Checkbox |
-| `Table.RowActions` | `div` | Wrapping, end-aligned actions; compose named Buttons, links or Menu |
+| `Table.SelectionCheckbox` | `Checkbox` | Same required `label`, `checked`, `onCheckedChange`, optional `indeterminate`, `disabled`, `readOnly`, ref and slots as `Checkbox` |
+| `Table.RowActions` | `div` | Wrapping, end-aligned actions; compose named Buttons, links or `Menu` |
 
 | Prop | Applies to | Default | Behavior |
 |---|---|---|---|
-| `density` | Table | `comfortable` | `comfortable` or `dense`; controls cell spacing, preserves control targets |
-| `layout` | Table | `auto` | `auto` or `fixed`; with fixed layout supply widths through native `colgroup`/`col` or styles |
-| `stickyHeader` | Table | false | Pins the complete head, including grouped header rows, to the scroll boundary |
+| `density` | `Table` | `comfortable` | `comfortable` or `dense`; controls cell spacing, preserves control targets |
+| `layout` | `Table` | `auto` | `auto` or `fixed`; with fixed layout supply widths through native `colgroup`/`col` or styles |
+| `stickyHeader` | `Table` | false | Pins the complete head, including grouped header rows, to the scroll boundary |
 | `align` | Cell, ColumnHeader, RowHeader | `start` | Logical `start`, `center`, `end`; works with `dir="rtl"` |
 | `sticky` | Cell, ColumnHeader, RowHeader | unset | Pins one `start` or `end` edge cell; match the same edge across rows |
 | `sortDirection` | ColumnHeader | `none` | `none`, `ascending`, `descending`; explicit direction owns `aria-sort`, otherwise native `aria-sort` passes through |
@@ -84,22 +84,22 @@ Every part accepts its native element attributes, `style`, `className` and ref. 
 
 Sortable headings use the full cell as the button target. Unsorted headings show paired arrows; the applied order uses one arrow with stronger ink. Keep headings readable with native column widths and a bounded scroll container. Fixed-layout sortable headings wrap within their assigned columns. Reserve a compact checkbox column, align numeric headings with their values, and keep row action labels short while supplying record-specific accessible names. The sorting example places its title, instructions and selection count outside scrolling data, with visible text explaining unavailable selection.
 
-Sort a copy of your data or request server ordering. Keep the column and direction together; reset other headers to `none` so only one header announces an active sort. For server requests, handle stale responses in your app, keep applied order authoritative, set `sortDisabled` while pending, and announce progress through a status message outside an `aria-busy` body. Table does not mutate or fetch records. It does not implement multiple simultaneous sort keys.
+Sort a copy of your data or request server ordering. Keep the column and direction together; reset other headers to `none` so only one header announces an active sort. For server requests, handle stale responses in your app, keep applied order authoritative, set `sortDisabled` while pending, and announce progress through a status message outside an `aria-busy` body. `Table` does not mutate or fetch records. It does not implement multiple simultaneous sort keys.
 
 Keep selection by stable ID rather than visible row index. Define whether select-all covers the current page, filtered results or all records; label that scope explicitly. Compute mixed/all state from eligible rows only, exclude disabled rows, and disable select-all when no rows are eligible. Decide how removed records and page changes affect selection. `Table.Row selected` provides styling; selection controls own the accessible state. Row actions have their own names and normal Tab order, and do not toggle selection implicitly.
 
 ### Layout and feedback
 
-Place the table inside `Table.ScrollContainer` for horizontal overflow or a bounded vertical viewport. Its region is keyboard focusable; `maxHeight` limits height. On focus, the React container reveals controls hidden beneath sticky headers or pinned edges without moving keyboard focus. Keep enough free viewport space for the action; a pinned column wider than the viewport cannot expose adjacent cells. In auto layout, headings and cells keep whole words, so a table narrower than its longest words scrolls instead of breaking them; supply a minimum table width with `style` when columns need more room. Fixed layout breaks long words within its assigned columns. A table can also render directly when page scrolling is sufficient. To keep the table title fixed on both scroll axes, render a Heading outside ScrollContainer and name the table through `aria-labelledby`, as in Dense and sticky. Native Table.Caption remains part of the scrollable table. Column headings stay fixed vertically with stickyHeader and scroll horizontally with their data columns.
+Place the table inside `Table.ScrollContainer` for horizontal overflow or a bounded vertical viewport. Its region is keyboard focusable; `maxHeight` limits height. On focus, the React container reveals controls hidden beneath sticky headers or pinned edges without moving keyboard focus. Keep enough free viewport space for the action; a pinned column wider than the viewport cannot expose adjacent cells. In auto layout, headings and cells keep whole words, so a table narrower than its longest words scrolls instead of breaking them; supply a minimum table width with `style` when columns need more room. Fixed layout breaks long words within its assigned columns. A table can also render directly when page scrolling is sufficient. To keep the table title fixed on both scroll axes, render a `Heading` outside `ScrollContainer` and name the table through `aria-labelledby`, as in Dense and sticky. Native `Table.Caption` remains part of the scrollable table. Column headings stay fixed vertically with `stickyHeader` and scroll horizontally with their data columns.
 
-Sticky edges support one cell on each edge. For several pinned columns, calculate non-overlapping offsets in your own styles; Table does not assign column offsets. Keep sufficient viewport space for unpinned cells. Header/body column widths must match. Set `dir="rtl"` on the application or ScrollContainer as well as the table when the scroll direction should follow RTL; the stories expose a direction control. Nested tables keep their own density and section surfaces. Native `colSpan`, `rowSpan`, `scope="colgroup"` and explicit `id`/`headers` relationships support grouped headers. Sticky and selected cell backgrounds stay opaque in both themes; restyled background tokens must remain opaque.
+Sticky edges support one cell on each edge. For several pinned columns, calculate non-overlapping offsets in your own styles; `Table` does not assign column offsets. Keep sufficient viewport space for unpinned cells. Header/body column widths must match. Set `dir="rtl"` on the application or ScrollContainer as well as the table when the scroll direction should follow RTL; the stories expose a direction control. Nested tables keep their own density and section surfaces. Native `colSpan`, `rowSpan`, `scope="colgroup"` and explicit `id`/`headers` relationships support grouped headers. Sticky and selected cell backgrounds stay opaque in both themes; restyled background tokens must remain opaque.
 
-Render empty or error feedback in a row containing a `Table.Cell colSpan={columnCount}`; supply retry as a named Button if appropriate. Use a separate status for asynchronous updates. Table preserves semantic HTML and ordinary Tab navigation; arrow-key cell navigation, pagination, filtering, virtualization and record management remain app-owned. For very large sets, paginate in your app rather than assuming all rows are virtualized.
+Render empty or error feedback in a row containing a `Table.Cell colSpan={columnCount}`; supply retry as a named `Button` if appropriate. Use a separate status for asynchronous updates. `Table` preserves semantic HTML and ordinary Tab navigation; arrow-key cell navigation, pagination, filtering, virtualization and record management remain app-owned. For very large sets, paginate in your app rather than assuming all rows are virtualized.
 
 Adjust `--kb-table-cell-padding-block`, `--kb-table-cell-padding-inline`, `--kb-table-dense-padding-block`, `--kb-table-background`, `--kb-table-header-background`, `--kb-table-selected-background`, `--kb-table-border`, `--kb-table-radius` and `--kb-table-sort-target` through normal CSS. Keep focus visible and dense action targets usable. See [accessibility verification](../../../../docs/guides/accessibility.md) for manual keyboard, screen-reader, zoom, spacing and contrast checks. Automated stories do not establish screen-reader interoperability or page conformance.
 
 ## Related components
 
-Use [DescriptionList](DescriptionList.md) for labeled facts about one record and [CollectionList](CollectionList.md) with [CollectionRow](CollectionRow.md) for records with variable details. The [Structured data guide](../../../../docs/guides/structured-data.md) compares these choices.
+Use [`DescriptionList`](DescriptionList.md) for labeled facts about one record and [`CollectionList`](CollectionList.md) with [`CollectionRow`](CollectionRow.md) for records with variable details. The [Structured data guide](../../../../docs/guides/structured-data.md) compares these choices.
 
-Use [Checkbox](Checkbox.md) for independent selection, [Menu](Menu.md) for overflow actions, [Button](Button.md) for immediate actions, and [Status](Status.md) for meaningful asynchronous feedback. Use [Grid](Grid.md) for visual page layout rather than tabular relationships.
+Use [`Checkbox`](Checkbox.md) for independent selection, [`Menu`](Menu.md) for overflow actions, [`Button`](Button.md) for immediate actions, and [`Status`](Status.md) for meaningful asynchronous feedback. Use [`Grid`](Grid.md) for visual page layout rather than tabular relationships.

@@ -66,7 +66,7 @@ This publishes `kbui-site-preview`, without custom domains or portfolio routes. 
 
 ## Asset layout and routing
 
-[scripts/site-stage.ts](../../scripts/site-stage.ts) validates every page and Storybook entry before replacing staging output. It creates only:
+[`scripts/site-stage.ts`](../../scripts/site-stage.ts) validates every page and Storybook entry before replacing staging output. It creates only:
 
 ```text
 deployment/site/public/
