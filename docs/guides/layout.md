@@ -54,6 +54,10 @@ Split collapse sizes are sm 32rem, md 48rem and lg 64rem. Thresholds use the com
 
 Tracks fill their assigned columns while children retain their own reading measures. Nested Split token overrides affect that nested layout. Children can shrink and ordinary text can wrap. Essential wide content such as tables, media or preformatted code still needs its own responsive treatment. Avoid fixed widths that exceed the available column. Test custom minimum widths, unusually large gaps and token overrides at narrow widths and browser zoom.
 
+## Dashboard
+
+[Dashboard](../../packages/react/docs/components/Dashboard.md) is a layout intent for overview pages: header, metrics, primary and secondary regions in that order. It is its own page frame, so use it instead of Container: it fills the width up to 80rem, with gutters of 1rem below 48rem, 1.5rem from 48rem and 2rem from 64rem of its parent's width; as a direct flex item, wrap it in its own block such as `main` so the gutters measure its column, not the whole row. Primary and secondary share a row, two thirds and one third, once the panels region is 60rem wide; below that each fills its own row, primary first. Like Split, these thresholds use available width, not the viewport.
+
 ## Semantics and accessibility
 
 Choose landmarks from document structure with Container's native `as` prop. Container, Grid, Inline and Split default to div; non-default generic element types require an explicit `as` so native props and refs stay aligned. Named sections and aside elements keep their native semantics. Layout does not add grid roles, focus management or tab stops. Inline controls remain independent tab stops; choose Toolbar for coordinated arrow-key navigation.
@@ -72,6 +76,7 @@ Use `dir="rtl"` on the relevant native container for right-to-left content. Widt
 | `--kb-layout-gap-sm`, `-md`, `-lg` | Shared Grid, Inline and Split spacing |
 | `--kb-split-collapse-sm`, `-md`, `-lg` | Available-width collapse thresholds |
 | `--kb-separator-color`, `-width`, `-min-length` | Rule ink, thickness and vertical minimum length |
+| `--kb-dashboard-gap`, `--kb-dashboard-max-width`, `--kb-dashboard-gutter-sm`, `-md`, `-lg`, `--kb-dashboard-gutter-md-from`, `--kb-dashboard-gutter-lg-from`, `--kb-dashboard-collapse` | Dashboard region spacing, page width, gutter steps and panel collapse |
 
 Use `className` and `style` for root overrides, and `classNames={{ track: "project-column" }}` for Split tracks. Unlayered app CSS wins over the shared `kbui` layer, following [restyling guidance](restyling.md). Override component tokens on the relevant subtree; shared gap aliases follow [token alias rules](../tokens.md#aliases). Keep ratios and thresholds suitable for the content and test after overrides. Layout applies through CSS alone with no viewport reads in React.
 

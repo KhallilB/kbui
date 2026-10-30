@@ -41,7 +41,7 @@ The React adapter provides the components, styles and CSS variables together. In
 | Collect choices | [Checkbox](docs/components/Checkbox.md) for independent choices; [RadioGroup](docs/components/RadioGroup.md) for one visible choice; [Select](docs/components/Select.md) for a dropdown; [Switch](docs/components/Switch.md) for an immediate setting |
 | Collect text, quantities, or files | [Input](docs/components/Input.md), [Textarea](docs/components/Textarea.md), [NumberField](docs/components/NumberField.md), or [FileInput](docs/components/FileInput.md) |
 | Reveal details or supporting controls | [Disclosure](docs/components/Disclosure.md), [Accordion](docs/components/Accordion.md), or [Popover](docs/components/Popover.md); [drawer and confirmation patterns](https://github.com/KhallilB/kbui/blob/main/docs/guides/forms-and-overlays.md#drawer-pattern) compose Dialog |
-| Arrange a responsive page | [Container](docs/components/Container.md) for the page boundary; [PageHeader](docs/components/PageHeader.md) for the title and page actions; [StatsRow](docs/components/StatsRow.md) for a row of key metrics; [Inline](docs/components/Inline.md) for rows; [Grid](docs/components/Grid.md) for collections; [Split](docs/components/Split.md) for two columns |
+| Arrange a responsive page | [Container](docs/components/Container.md) for the page boundary; [PageHeader](docs/components/PageHeader.md) for the title and page actions; [StatsRow](docs/components/StatsRow.md) for a row of key metrics; [Dashboard](docs/components/Dashboard.md) for an overview page with metrics and panels; [Inline](docs/components/Inline.md) for rows; [Grid](docs/components/Grid.md) for collections; [Split](docs/components/Split.md) for two columns |
 | Explain state, waiting, or completion | [Spinner](docs/components/Spinner.md) for indeterminate waits; [Skeleton](docs/components/Skeleton.md) for loading placeholders; [Progress](docs/components/Progress.md) for completion; [EmptyState](docs/components/EmptyState.md) for missing content; [Status](docs/components/Status.md) for changing state; [Toast](docs/components/Toast.md) for transient notifications; [Badge](docs/components/Badge.md) for metadata; [Callout](docs/components/Callout.md) for a fuller message |
 | Compare records or scan details | [Table](docs/components/Table.md), [DescriptionList](docs/components/DescriptionList.md), [CollectionList](docs/components/CollectionList.md) and [CollectionRow](docs/components/CollectionRow.md) |
 | Build readable content | [Heading](docs/components/Heading.md) and [Text](docs/components/Text.md) |
@@ -126,6 +126,7 @@ See [Media and identity](../../docs/guides/media-and-identity.md) for responsive
 | Component | Use for |
 |---|---|
 | <a id="accordion"></a>[Accordion](docs/components/Accordion.md) | Group related disclosures under headings. |
+| <a id="dashboard"></a>[Dashboard](docs/components/Dashboard.md) | An overview page: header, metrics, then primary and secondary panels. |
 | <a id="disclosure"></a>[Disclosure](docs/components/Disclosure.md) | Reveal optional details and controls inline. |
 | <a id="card"></a>[Card](docs/components/Card.md) | Group related content, with room for links and actions. |
 | <a id="container"></a>[Container](docs/components/Container.md) | Shared page widths and responsive gutters. |
