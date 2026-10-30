@@ -82,6 +82,11 @@ export {
   type CopyableTextTone,
 } from "./components/CopyableText/CopyableText";
 export {
+  Dashboard,
+  type DashboardPart,
+  type DashboardProps,
+} from "./components/Dashboard/Dashboard";
+export {
   DescriptionList,
   type DescriptionListDetailProps,
   type DescriptionListItemProps,

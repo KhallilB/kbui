@@ -188,6 +188,14 @@ export const definitions: Record<string, Definition> = {
     description: "Shared page widths and responsive gutters.",
     examples: { Default: "Default", Sizes: "Sizes", Responsive: "Responsive", Page: "Page" },
   },
+  Dashboard: {
+    group: "Layout",
+    description: "An overview page: header, metrics, then primary and secondary panels.",
+    examples: {
+      SalesOverview: "Sales Overview",
+      MetricsAndPrimary: "Metrics and Primary",
+    },
+  },
   Checkbox: {
     group: "Forms",
     description: "Let people select options independently, including a mixed selection.",

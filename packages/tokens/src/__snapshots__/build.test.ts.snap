@@ -658,6 +658,14 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-statsrow-positive: var(--kb-color-success);
   --kb-statsrow-negative: var(--kb-color-danger);
   --kb-statsrow-neutral: var(--kb-color-muted);
+  --kb-dashboard-gap: var(--kb-space-6);
+  --kb-dashboard-max-width: var(--kb-container-size-lg);
+  --kb-dashboard-gutter-sm: var(--kb-space-4);
+  --kb-dashboard-gutter-md: var(--kb-space-6);
+  --kb-dashboard-gutter-lg: var(--kb-space-8);
+  --kb-dashboard-gutter-md-from: 48rem;
+  --kb-dashboard-gutter-lg-from: 64rem;
+  --kb-dashboard-collapse: 60rem;
   color-scheme: light;
 }
 

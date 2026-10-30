@@ -729,3 +729,16 @@ describe("stats row tokens", () => {
     expect(css).toContain("--kb-statsrow-neutral: var(--kb-color-muted);");
   });
 });
+
+describe("dashboard tokens", () => {
+  test("aliases page width to the large container and gutters to the space scale", () => {
+    const { css } = buildTokens(real as TokenTree);
+    expect(css).toContain("--kb-dashboard-max-width: var(--kb-container-size-lg);");
+    expect(css).toContain("--kb-dashboard-gutter-sm: var(--kb-space-4);");
+    expect(css).toContain("--kb-dashboard-gutter-md: var(--kb-space-6);");
+    expect(css).toContain("--kb-dashboard-gutter-lg: var(--kb-space-8);");
+    expect(css).toContain("--kb-dashboard-gutter-md-from: 48rem;");
+    expect(css).toContain("--kb-dashboard-gutter-lg-from: 64rem;");
+    expect(css).toContain("--kb-dashboard-collapse: 60rem;");
+  });
+});

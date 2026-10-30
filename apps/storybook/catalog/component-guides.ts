@@ -140,6 +140,19 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.Container,
   },
+  Dashboard: {
+    use: "Lay out an overview page as a header, a row of metrics, then primary and secondary panels.",
+    example: {
+      title: "Rebuild a sales dashboard",
+      description:
+        "Panels sit two thirds and one third on wide pages and stack, primary first, on narrow ones.",
+    },
+    tips: [
+      "Use Dashboard instead of Container; it sets the page width and gutters.",
+      "Put freshness or partial-data notes in the header as text, beside the page title.",
+    ],
+    accessibility: accessibilityGuides.Dashboard,
+  },
   Inline: {
     use: "Arrange independent content or actions in a row that wraps when space runs out.",
     example: {

@@ -236,6 +236,7 @@ try {
             card: ".kb-card",
             callout: ".kb-callout",
             emptystate: ".kb-emptystate",
+            dashboard: ".kb-dashboard",
             pageheader: ".kb-pageheader",
             supportingpane: ".kb-supportingpane",
             statsrow: ".kb-statsrow",
