@@ -3,6 +3,7 @@ import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from "node
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { applyStylingPatches } from "../site/styling-copy.ts";
 import { loadDocumentationExamples } from "./documentation.ts";
 import { loadRecipeSources } from "./recipes.ts";
 import { loadSiteSamples } from "./site-samples.ts";
@@ -19,8 +20,23 @@ try {
     writeFileSync(path, file.sample.code);
   }
   const site = loadSiteSamples();
+  const catalog = loadCatalogSources();
+  const styling = catalog.flatMap((entry) => {
+    const story = entry.stories.find((story) => story.id === entry.defaultStoryId);
+    if (!story) throw new Error(`Missing styling-copy example: ${entry.name}`);
+    if (!story.styling.length) throw new Error(`Missing styling-copy target: ${entry.name}`);
+    return entry.stories
+      .filter((story) => story.styling.length)
+      .flatMap((story) =>
+        ["brand", "rounded-none border-blue-700"].map((classes, index) => {
+          const code = applyStylingPatches(story.code, story.styling, classes);
+          return { id: `styling-${story.id}-${index}`, code, snippet: code };
+        }),
+      );
+  });
   const examples = [
-    ...loadCatalogSources().flatMap((entry) => entry.stories),
+    ...catalog.flatMap((entry) => entry.stories),
+    ...styling,
     ...Object.entries(site.playground).map(([id, sample]) => ({
       id: `playground-${id}`,
       ...sample,
