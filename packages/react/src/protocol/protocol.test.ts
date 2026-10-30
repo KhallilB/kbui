@@ -141,6 +141,8 @@ describe("identity cards", () => {
     expect(validateCard(complete)).toEqual([]);
     // Whole-screen intents fill no slot of another piece.
     expect(validateCard({ ...complete, role: null })).toEqual([]);
+    // One contract per arrangement, as a module may export.
+    expect(validateCard({ ...complete, placement: [popup, popup] })).toEqual([]);
   });
 
   test("names each gap", () => {

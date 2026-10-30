@@ -25,7 +25,7 @@ export type Card = {
   /** Named regions or slots and the roles each accepts. */
   slots: Readonly<Record<string, Slot>>;
   requires?: readonly string[] | undefined;
-  placement?: PlacementContract | undefined;
+  placement?: PlacementContract | readonly PlacementContract[] | undefined;
   /** Selection prompts; recorded pick rates arrive with M4. */
   prompts?:
     | {
