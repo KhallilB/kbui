@@ -120,6 +120,10 @@ const ruleGate = gate(
 say("## Gate");
 say();
 say(
+  "The gate reads rule output, as fixed before the run. Readings from human labels below are for comparison.",
+);
+say();
+say(
   `From rule output: integrity ${fmt(share(screens, has(["integrity"])))}, integrity or design ${fmt(share(screens, has(["integrity", "design"])))}. Reading: **${ruleGate}**.`,
 );
 say();
@@ -275,7 +279,7 @@ function scoreTable(answers: Answers, source: string) {
   const hi = share(labelled, yes(["integrity"]));
   const hid = share(labelled, yes(["integrity", "design"]));
   say(
-    `From ${source}: integrity ${fmt(hi)}, integrity or design ${fmt(hid)}. Reading: **${gate(hi, hid)}**.`,
+    `From ${source}: integrity ${fmt(hi)}, integrity or design ${fmt(hid)}. The gate's thresholds would read: ${gate(hi, hid)}. Not the gate; it reads rule output.`,
   );
 }
 
