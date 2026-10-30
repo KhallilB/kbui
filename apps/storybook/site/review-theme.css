@@ -44,30 +44,6 @@
   .brand-symbol img {
     filter: brightness(0) invert(0.94) sepia(0.12);
   }
-  .example-code [data-syntax="keyword"] {
-    color: #f1aa91;
-  }
-  .example-code [data-syntax="string"] {
-    color: #b1cea0;
-  }
-  .example-code [data-syntax="comment"] {
-    color: #b7ad9b;
-  }
-  .example-code [data-syntax="number"] {
-    color: #e6c180;
-  }
-  .example-code [data-syntax="tag"] {
-    color: #9dc9cd;
-  }
-  .example-code [data-syntax="attribute"] {
-    color: #d3baa4;
-  }
-  .example-code [data-syntax="type"] {
-    color: #d0b5d7;
-  }
-  .example-code [data-syntax="function"] {
-    color: #9fc9bc;
-  }
 }
 
 .kbui-catalog {
