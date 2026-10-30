@@ -91,7 +91,18 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const list = within(canvas.getByRole("alert")).getByRole("list");
+    const items = within(list).getAllByRole("listitem");
+    const [first, second] = items;
+    if (!first || !second) throw new Error("Expected two error links");
+    const spacing = second.getBoundingClientRect().top - first.getBoundingClientRect().bottom;
+    const gap = Number.parseFloat(getComputedStyle(list).rowGap);
+    await expect(Math.abs(spacing - gap)).toBeLessThanOrEqual(1);
+  },
+};
 export const FormRecovery: Story = {
   name: "Form recovery",
   render: (args) => <SettingsRecoveryExample {...args} />,

@@ -123,10 +123,15 @@ export const Navigation: Story = {
       "href",
       "../playground/",
     );
-    expect(canvas.getByRole("link", { name: /A quiet place to read/ })).toHaveAttribute(
+    expect(canvas.getByRole("link", { name: /A working app/ })).toHaveAttribute(
       "href",
-      "../examples/#editorial",
+      "../compare/",
     );
+    expect(canvas.getByRole("link", { name: /A queue with details/ })).toHaveAttribute(
+      "href",
+      "../recipes/?recipe=listdetail",
+    );
+    expect(canvasElement.querySelector('a[href*="examples/"]')).toBeNull();
     if (window.innerWidth <= 600) {
       const footer = within(canvas.getByRole("contentinfo"));
       for (const control of [

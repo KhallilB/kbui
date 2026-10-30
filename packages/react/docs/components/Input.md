@@ -1,6 +1,6 @@
 # Input
 
-Use Input for text entry. It keeps the label, help text, and error message together, and has space for icons or actions at either end.
+Use `Input` for text entry. It keeps the label, help text, and error message together, and has space for icons or actions at either end.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/components-input--docs)
 
@@ -33,7 +33,7 @@ export function Example() {
 | `size`                        | `"sm" \| "md" \| "lg"` | `"md"`   | Field height. Replaces the native `size` attribute            |
 | `className`                   | `string`               |          | Applied to the wrapper, not the input element                 |
 
-Other native input props, including `value` and `defaultValue`, pass through to the input. Base UI's `onValueChange` is also supported.
+Other native `input` props, including `value` and `defaultValue`, pass through to the input. Base UI's `onValueChange` is also supported.
 
 ## Search composition
 
@@ -79,4 +79,4 @@ The field label names the input. Give each action its own accessible name, and h
 
 ## Related components
 
-Use [Textarea](Textarea.md) for multiline answers, [NumberField](NumberField.md) for numeric stepping, and [Combobox](Combobox.md) for a searchable choice from existing values.
+Use [`Textarea`](Textarea.md) for multiline answers, [`NumberField`](NumberField.md) for numeric stepping, and [`Combobox`](Combobox.md) for a searchable choice from existing values.

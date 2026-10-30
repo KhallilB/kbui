@@ -722,6 +722,8 @@ function CatalogDetail({
             onChange={setSkin}
             theme={appearance.theme}
             component={entry.name}
+            sourceModule={selected.code}
+            stylingPatches={selected.styling}
             example={
               <CatalogComponentEditor
                 key={selected.id}

@@ -40,8 +40,15 @@
   border-block-end: 1px solid var(--kb-table-border);
   vertical-align: middle;
   text-align: start;
-  overflow-wrap: anywhere;
+  /* Auto layout keeps whole words, so a narrow table scrolls instead of shattering its columns. */
+  overflow-wrap: break-word;
   background: var(--kb-table-background);
+}
+.kb-table[data-layout="fixed"]
+  > :is(.kb-table-head, .kb-table-body, .kb-table-foot)
+  > .kb-table-row
+  > :is(.kb-table-columnheader, .kb-table-rowheader, .kb-table-cell) {
+  overflow-wrap: anywhere;
 }
 .kb-table-columnheader,
 .kb-table-rowheader {

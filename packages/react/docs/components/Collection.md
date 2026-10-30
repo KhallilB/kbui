@@ -95,7 +95,7 @@ A column has `key`, `header`, `cell(item)`, optional ascending `compare(a, b)`, 
 
 Client mode processes records in this order: predicate, stable comparison, page slice. Removed or newly disabled IDs disappear from effective selection. Server mode preserves off-page IDs; eligibility for unseen records remains the application’s responsibility. Both modes remove disabled IDs present in the current response. Zero results have one empty page. Invalid counts, pages and sizes throw `RangeError` rather than emitting broken navigation.
 
-`state` is controlled when supplied. Each controlled proposal starts from the latest accepted props; a rejected proposal cannot affect a later interaction. Combine coordinated controlled changes in the parent before applying one next state. Uncontrolled commands in one event compose sequentially, including derived page bounds and page selection. Retained methods consult the latest committed dataset, eligibility rules, callbacks and accepted state, so asynchronous completion removes only its submitted IDs. Rendered state remains owned by the parent until it accepts `onStateChange`. Normalized selection and clamped page never trigger onStateChange during data refresh; the next user transition emits normalized state. Uncontrolled state retains those corrections so deleted/reintroduced IDs stay deselected and growing datasets do not restore an obsolete page. Controlled parent stores should reconcile their canonical state when external data changes. Use immutable arrays/objects and stable IDs across refreshes.
+`state` is controlled when supplied. Each controlled proposal starts from the latest accepted props; a rejected proposal cannot affect a later interaction. Combine coordinated controlled changes in the parent before applying one next state. Uncontrolled commands in one event compose sequentially, including derived page bounds and page selection. Retained methods consult the latest committed dataset, eligibility rules, callbacks and accepted state, so asynchronous completion removes only its submitted IDs. Rendered state remains owned by the parent until it accepts `onStateChange`. Normalized selection and clamped page never trigger `onStateChange` during data refresh; the next user transition emits normalized state. Uncontrolled state retains those corrections so deleted/reintroduced IDs stay deselected and growing datasets do not restore an obsolete page. Controlled parent stores should reconcile their canonical state when external data changes. Use immutable arrays/objects and stable IDs across refreshes.
 
 ### useCollection
 
@@ -154,7 +154,7 @@ export function RecordList() {
 | Component | Required props | Optional props and behavior |
 | --- | --- | --- |
 | `Collection.Pagination` | `page`, `pageSize`, `totalItems`, `onPageChange` | `onPageSizeChange`, `pageSizes` (10, 25, 50), `disabled`, native nav props/ref. Includes current page size, emits bounded page requests; caller resets page when size changes. |
-| `Collection.BulkActions` | `selectedKeys`, `actions`, `onClear` | `onSuccess(keys)`, `onPendingChange(boolean)`, `disabled`, native fieldset props/ref. Caller owns selection; omitted onSuccess preserves it. |
+| `Collection.BulkActions` | `selectedKeys`, `actions`, `onClear` | `onSuccess(keys)`, `onPendingChange(boolean)`, `disabled`, native `fieldset` props/ref. Caller owns selection; omitted `onSuccess` preserves it. |
 
 ### Bulk-action boundary
 
@@ -170,9 +170,9 @@ Offset pagination requires a known total. Cursor paging, unknown totals, all-mat
 
 ### Styling and accessibility
 
-Override `--kb-collection-gap`, `--kb-collection-cell-padding`, `--kb-collection-radius`, `--kb-collection-border`, `--kb-collection-header-background`, and `--kb-collection-selected-background`, and `--kb-collection-table-min-width` (36rem) on a subtree. Partial CSS imports also need Button, Checkbox, Input and Select styles. CSS provides layout and visual states; a non-React renderer owns every state transition and ARIA relationship.
+Override `--kb-collection-gap`, `--kb-collection-cell-padding`, `--kb-collection-radius`, `--kb-collection-border`, `--kb-collection-header-background`, and `--kb-collection-selected-background`, and `--kb-collection-table-min-width` (36rem) on a subtree. Partial CSS imports also need `Button`, `Checkbox`, `Input` and `Select` styles. CSS provides layout and visual states; a non-React renderer owns every state transition and ARIA relationship.
 
-Filters and page-size controls use the shared Select theme, keyboard navigation, option indicators and focus recovery. Labels sit above fields; filter fields wrap and pagination buttons stay grouped, with long page counts wrapping within the available width.
+Filters and page-size controls use the shared `Select` theme, keyboard navigation, option indicators and focus recovery. Labels sit above fields; filter fields wrap and pagination buttons stay grouped, with long page counts wrapping within the available width.
 
 Native table semantics, `aria-sort`, mixed checkboxes, named pagination, polite statuses and failure alerts expose workflow state. Tab moves between controls; Space toggles checkboxes; Enter/Space activate buttons. The named table viewport is keyboard focusable for horizontal scrolling. Controls wrap on narrow screens; tabular content can scroll independently. Selection remains explicit in checkbox state in forced colors.
 
@@ -180,4 +180,4 @@ Verify the full search, sort, select-across-pages, submit, failure and retry jou
 
 ## Related components
 
-Use [Grid](Grid.md) for static card layout, [Checkbox](Checkbox.md) for independent choices, and [MultiSelect](MultiSelect.md) for choosing values rather than operating on records. Use [Dialog](Dialog.md) for application-owned confirmation and [Toast](Toast.md) for mutation outcomes outside the collection.
+Use [`Grid`](Grid.md) for static card layout, [`Checkbox`](Checkbox.md) for independent choices, and [`MultiSelect`](MultiSelect.md) for choosing values rather than operating on records. Use [`Dialog`](Dialog.md) for application-owned confirmation and [`Toast`](Toast.md) for mutation outcomes outside the collection.
