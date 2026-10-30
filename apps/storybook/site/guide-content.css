@@ -31,6 +31,13 @@
     font-family: var(--kb-font-mono);
     font-size: 0.85em;
   }
+  :not(pre) > code {
+    padding-inline: var(--kb-space-1);
+    border: 1px solid var(--kb-color-border);
+    border-radius: var(--kb-radius-sm);
+    background: var(--kb-color-surface);
+    box-decoration-break: clone;
+  }
   ul,
   ol {
     padding-inline-start: var(--kb-space-6);
@@ -50,6 +57,10 @@
     text-align: start;
     vertical-align: top;
     border-block-end: 1px solid var(--kb-color-border);
+  }
+  th code,
+  td code {
+    white-space: nowrap;
   }
   :focus-visible {
     outline: 2px solid var(--kb-color-accent);

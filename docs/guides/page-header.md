@@ -1,6 +1,8 @@
 # PageHeader recipe
 
-Compose a page title, supporting description, metadata and actions from [Heading](../../packages/react/docs/components/Heading.md), [Text](../../packages/react/docs/components/Text.md), [Inline](../../packages/react/docs/components/Inline.md) and [Toolbar](../../packages/react/docs/components/Toolbar.md). This application-owned recipe demonstrates primitive composition. The package also exports [PageHeader](../../packages/react/docs/components/PageHeader.md) with its own supported API; use that component when it fits. This page documents the separate source module you copy below.
+Add a title, supporting text and actions to a page. `PageHeader` combines [`Heading`](../../packages/react/docs/components/Heading.md), [`Text`](../../packages/react/docs/components/Text.md) and [`Inline`](../../packages/react/docs/components/Inline.md).
+
+This page covers a recipe you copy into your app. The package also exports [`PageHeader`](../../packages/react/docs/components/PageHeader.md) with its own API; use that component when it fits. The recipe below is a separate source module.
 
 ## Start with primitives
 
@@ -19,8 +21,16 @@ export function ProjectPage() {
             <Text size="sm" tone="muted">12 projects · Updated today</Text>
           </Grid>
           <Inline gap="sm">
-            <Button variant="secondary" onClick={() => window.print()}>Print</Button>
-            <Button render={<a href="/projects/new" />} nativeButton={false} role="link">New project</Button>
+            <Button variant="secondary" onClick={() => window.print()}>
+              Print
+            </Button>
+            <Button
+              render={<a href="/projects/new" />}
+              nativeButton={false}
+              role="link"
+            >
+              New project
+            </Button>
           </Inline>
         </Inline>
       </header>
@@ -29,34 +39,44 @@ export function ProjectPage() {
 }
 ```
 
-For the maintained slot-based recipe, copy [PageHeader.tsx](../../apps/storybook/recipes/PageHeader.tsx) and [recipes.css](../../apps/storybook/recipes/recipes.css) into your application. Its [Storybook guide](https://kbui.kcb.pro/storybook/?path=/docs/recipes-pageheader--docs) displays the exact source and runnable examples. Import the package stylesheet once and retain the local CSS import.
+To use the recipe with named props, copy [`PageHeader.tsx`](../../apps/storybook/recipes/PageHeader.tsx) and [`recipes.css`](../../apps/storybook/recipes/recipes.css) into the same folder. Keep the local CSS import and import `@kb.ui/react/styles.css` once in your app. The [Storybook guide](https://kbui.kcb.pro/storybook/?path=/docs/recipes-pageheader--docs) shows the source and examples.
 
 ## Regions and ownership
 
-| Region | Recipe input | Responsibility |
-| --- | --- | --- |
-| Title | Required `title`; `level` defaults to 1 | Visible heading; choose rank from the page outline |
-| Description | Optional `description` | Supporting phrasing content; omit when unnecessary |
-| Metadata | Optional `metadata` | Caller-provided status, owner, timestamp or navigation; use meaningful native markup |
-| Actions | Optional `actions` | Buttons, links, Inline or named Toolbar; caller owns handlers and state |
-| Root | Native header props, ref, className, style, dir | Page structure and application customization |
+| Prop | Use |
+| --- | --- |
+| `title` | Required page or section title |
+| `level` | Heading rank; defaults to `1` |
+| `description` | Optional supporting text |
+| `metadata` | Optional status, owner, timestamp or breadcrumbs |
+| `actions` | Buttons, links or a related group of controls |
+| Native `<header>` props | Pass `ref`, `className`, `style`, `dir` and other header attributes |
 
-Omitted regions leave no empty wrappers. The copy grows; actions wrap below it when space runs out. Text and action labels can wrap without truncation. Native source order stays title, description, metadata, actions. Secondary actions precede the primary action in these examples. Use fewer actions or a Menu when their number obscures the main task.
+Empty props leave no empty wrappers. Long text wraps, and actions move below the text when space runs out. Reading order stays `title`, `description`, `metadata`, then `actions`. Put secondary actions before the main action. Move less-used actions into a `Menu` if the header gets crowded.
 
-Use Inline for independent Tab stops. Use a named Toolbar for a related action group with arrow-key movement and one Tab entry. Do not create a toolbar merely for visual alignment. Use native links for navigation; when using Button as a link, preserve `nativeButton={false}` and `role="link"`.
+Use `Inline` for separate actions reached with Tab. Use a named [`Toolbar`](../../packages/react/docs/components/Toolbar.md) when related controls need arrow-key navigation and one Tab entry. `Button` links need `nativeButton={false}` and `role="link"`, as shown above.
 
-Render the header within the main page content. Set `level={2}` or another suitable rank for an embedded region; size and heading rank remain separate concerns. [WAI heading guidance](https://www.w3.org/WAI/tutorials/page-structure/headings/) explains the document outline.
+Place the header inside the main page content. Use `level={2}` for a section below the page title. Heading rank describes the [document outline](https://www.w3.org/WAI/tutorials/page-structure/headings/); it does not set visual size.
 
 ## State and customization
 
-Callbacks, permissions, pending work, error feedback and navigation stay in the application. The recipe creates no live region or asynchronous state. Provide meaningful text for pending or unavailable actions and keep feedback near the action or in the product's existing status system.
+Your app handles navigation, permissions, pending actions and feedback. Give unavailable actions a clear explanation. Show progress or errors near the action, or use your app's status message area. `PageHeader` does not announce updates automatically.
 
-Override `.page-header-copy` flex basis or existing spacing tokens in application CSS when content needs different geometry. The recipe adds no tokens or provider. Preserve logical properties, source order, readable measures, visible focus and wrapping. Keep custom colors within the [restyling contract](restyling.md).
+Adjust spacing tokens or `.page-header-copy` in your CSS. Keep text readable, actions reachable and focus visible. See [Restyling kbui](restyling.md) for color and theme changes.
 
 ## Verification
 
-The [runnable stories](../../apps/storybook/recipes/PageHeader.stories.tsx) cover project-list actions, a record-detail Toolbar, title-only content, pending actions, narrow long content and an embedded RTL heading. Automated checks exercise action feedback, keyboard flow and represented wrapping with accessibility scans.
+Run the example checks from the repository root:
 
-At 320, 768 and 1280 CSS pixels, check both themes, long translated titles/metadata and every action. With keyboard, Tab between Inline actions; within Toolbar, use arrow keys, then Tab out. Verify visible focus, forced colors, text enlargement and browser zoom. With a screen reader, inspect heading rank and action names in the actual page. Automated scans do not establish screen-reader speech or complete-page conformance.
+```sh
+bun run --cwd apps/storybook test recipes/PageHeader.stories.tsx
+bun run --cwd apps/storybook verify:code
+```
 
-Keep this as a recipe until repeated product contexts establish shared geometry that existing primitives cannot express clearly. See [FormSection](form-section.md) for grouped fields below a page header.
+The [stories](../../apps/storybook/recipes/PageHeader.stories.tsx) cover page actions, `Toolbar` navigation, title-only content, pending actions, long text and an embedded right-to-left header.
+
+Check light and dark at 320, 768 and 1280 CSS pixels. Tab through separate actions; use arrow keys inside a `Toolbar`, then Tab out. Try long translated text, forced colors, larger text and browser zoom. With a screen reader, check heading rank and action names.
+
+Automated checks include accessibility scans. Screen-reader speech and browser zoom still need human checks; passing a scan does not verify the whole page.
+
+See [`FormSection`](form-section.md) for grouped fields below the header.

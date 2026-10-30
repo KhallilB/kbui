@@ -127,7 +127,8 @@ Comments are one line. Write one only when the code cannot say it: a constraint,
 - Use plain, professional language. Avoid contractions, filler ("simply", "just", "really") and promotional words ("powerful", "seamless", "robust").
 - State facts directly. Avoid rhetorical setups such as "Here's the thing", "The gap:" or slogans of the form "X, not Y".
 - Use tables for reference material and prose for reasoning. Use bold sparingly.
-- Put commands, file paths and identifiers in backticks, and make every command copyable as written.
+- Use inline code for code mentioned in a sentence: component and recipe names, props, functions, types, filenames, file paths, CSS selectors, HTML elements and attributes. For example: Set `level={2}` on `PageHeader` and place fields inside `Panel.Body`. Keep ordinary prose and visible UI labels in normal text.
+- Use fenced code blocks with a language tag for examples and multi-line commands, such as `tsx`, `css` or `sh`. Keep examples complete and commands copyable; use inline code for short commands and syntax inside prose.
 - Date any claim that can go stale, such as test counts, versions or external projects.
 - Give each topic one home and link to it instead of repeating it.
 

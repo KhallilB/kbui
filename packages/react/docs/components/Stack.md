@@ -1,6 +1,6 @@
 # Stack
 
-Vertical flow with shared spacing: the block-axis counterpart to Inline. Children keep source and tab order; Stack adds no role, focus management or keyboard handling. Native props and matching ref pass through.
+Vertical flow with shared spacing: the block-axis counterpart to `Inline`. Children keep source and tab order; `Stack` adds no role, focus management or keyboard handling. Native props and matching ref pass through.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/layout-stack--docs)
 
@@ -45,10 +45,10 @@ export function Example() {
 
 Non-default native elements require an explicit `as`; native props and refs follow that element. Explicit layout props own their data attributes even when caller attributes conflict.
 
-`gap` owns vertical rhythm: Stack removes block margins from its direct children and its own browser margins, padding and list markers. `align="stretch"` fills the stack's width; `start`, `center` and `end` size children to their content. `justify` distributes children only when the stack is taller than its content, for example with `style={{ blockSize: "100%" }}` inside a fixed-height parent.
+`gap` owns vertical rhythm: `Stack` removes block margins from its direct children and its own browser margins, padding and list markers. `align="stretch"` fills the stack's width; `start`, `center` and `end` size children to their content. `justify` distributes children only when the stack is taller than its content, for example with `style={{ blockSize: "100%" }}` inside a fixed-height parent.
 
-A named `section` exposes a region landmark; name it with `aria-labelledby`. With `ul` or `ol`, use `li` children. Stack removes list markers, so include `role="list"` when Safari must keep announcing the list; see [MDN’s list-style accessibility guidance](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/list-style#accessibility). Override `--kb-layout-gap-sm`, `-md` or `-lg` on a subtree to change the shared scale. See [Layout composition](https://github.com/KhallilB/kbui/blob/main/docs/guides/layout.md).
+A named `section` exposes a region landmark; name it with `aria-labelledby`. With `ul` or `ol`, use `li` children. `Stack` removes list markers, so include `role="list"` when Safari must keep announcing the list; see [MDN’s list-style accessibility guidance](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/list-style#accessibility). Override `--kb-layout-gap-sm`, `-md` or `-lg` on a subtree to change the shared scale. See [Layout composition](https://github.com/KhallilB/kbui/blob/main/docs/guides/layout.md).
 
 ## Related components
 
-Use [Inline](Inline.md) for a wrapping row, [Grid](Grid.md) when items may share columns, and [Split](Split.md) for two columns that stack below a threshold.
+Use [`Inline`](Inline.md) for a wrapping row, [`Grid`](Grid.md) when items may share columns, and [`Split`](Split.md) for two columns that stack below a threshold.
