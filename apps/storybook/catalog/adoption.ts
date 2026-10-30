@@ -25,6 +25,13 @@ const editorial = (purpose: string) =>
   composed("site/Examples.tsx", "stories/Compositions.stories.tsx", "Editorial", purpose);
 const planner = (purpose: string, story = "PickAPlan") =>
   composed("site/PlanDemo.tsx", "stories/PlanDemo.stories.tsx", story, purpose);
+const frame = (purpose: string) =>
+  composed(
+    "site/SiteFrame.tsx",
+    "stories/SiteFrame.stories.tsx",
+    "StructureAndThemeLinks",
+    purpose,
+  );
 
 // Authored relationships only; catalog owns family names, references and examples.
 export const adoptionRelationships: Record<string, AdoptionRelationship> = {
@@ -44,7 +51,7 @@ export const adoptionRelationships: Record<string, AdoptionRelationship> = {
   CollectionRow: pending("Request rows with independent selection and actions"),
   Combobox: pending("Request intake owner selection"),
   ConfirmAction: pending("Destructive workspace action with cancel and error recovery"),
-  Container: request("Request queue and detail boundaries"),
+  Container: frame("Shared site header and footer boundaries with one gutter owner"),
   CopyableText: pending("Request identifiers and setup values with clipboard recovery"),
   Dashboard: pending("Discoverable sales and operations composition"),
   DescriptionList: pending("Request facts and sender metadata"),
@@ -61,9 +68,9 @@ export const adoptionRelationships: Record<string, AdoptionRelationship> = {
   Grid: request("Request fields and record layout"),
   Heading: editorial("Article heading hierarchy"),
   Image: pending("Discoverable media composition that renders Image itself"),
-  Inline: request("Request metadata and wrapping action groups"),
+  Inline: frame("Wrapping navigation and footer actions"),
   Input: planner("Planner rename field with retained value", "Rename"),
-  Link: editorial("Related API reference within editorial content"),
+  Link: frame("Native site links retain theme, query, hash and caller props"),
   Menu: pending("Contextual workspace actions"),
   MultiSelect: pending("Request intake optional reviewers"),
   NumberField: pending("Request intake quantity"),
