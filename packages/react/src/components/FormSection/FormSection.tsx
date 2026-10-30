@@ -65,7 +65,7 @@ export const FormSection = ({
   return (
     // Heading names the group: a rendered legend cannot join the split layout.
     <fieldset
-      aria-labelledby={titleId}
+      aria-labelledby={props["aria-label"] ? undefined : titleId}
       {...props}
       ref={ref}
       disabled={disabled}

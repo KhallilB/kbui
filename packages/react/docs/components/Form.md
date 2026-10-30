@@ -58,7 +58,7 @@ export function Example() {
 
 Other native form props and `ref` pass through. Children fill the body: [FormSection](FormSection.md) groups for longer tasks, or plain fields for short ones.
 
-Below 30rem of row width, each action fills its own row in source order, so the submit button sits on top and every button is a full-width target. Tokens: `--kb-form-gap`, `--kb-form-width-sm` and `--kb-form-width-md`.
+Below 30rem of row width, each button or link in the actions fills its own row in source order, so the submit button sits on top and every button is a full-width target. Tokens: `--kb-form-gap`, `--kb-form-width-sm` and `--kb-form-width-md`.
 
 A form is a landmark only when it has a name; add `aria-label` or `aria-labelledby` when people should find it from the landmark list. Your app owns validation, [ErrorSummary](ErrorSummary.md) focus after a failed submit, pending state and success feedback.
 

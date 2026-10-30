@@ -866,7 +866,7 @@ export const accessibilityGuides = {
     ],
     authoring: [
       "Choose headingLevel to fit the page outline and keep field labels specific.",
-      "Pair a section error with field errors and announce save results outside the section.",
+      "Pair a section error with field errors; while disabled for a save, move focus to a status message outside the section.",
     ],
     verify: [
       "With a screen reader, enter the group and confirm its name, description and any error are read.",

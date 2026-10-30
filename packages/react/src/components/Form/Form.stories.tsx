@@ -4,7 +4,6 @@ import { expect, within } from "storybook/test";
 import { Button } from "../Button/Button";
 import { Checkbox } from "../Checkbox/Checkbox";
 import { FormSection } from "../FormSection/FormSection";
-import { Grid } from "../Grid/Grid";
 import { Heading } from "../Heading/Heading";
 import { Input } from "../Input/Input";
 import { NumberField } from "../NumberField/NumberField";
@@ -140,18 +139,20 @@ function expectUsable(frame: HTMLElement) {
 export const ResponsiveGeometry: Story = {
   tags: ["!dev", "!autodocs"],
   render: () => (
-    <Grid layout="stack">
+    <div style={{ display: "grid", gap: "2rem" }}>
       {widths.map((width) => (
         <div key={width} data-testid={`frame-${width}`} style={{ inlineSize: width }}>
           <Booking />
           <SignUpForm />
         </div>
       ))}
-    </Grid>
+    </div>
   ),
   play: async ({ canvasElement }) => {
     for (const width of widths) {
       const frame = within(canvasElement).getByTestId(`frame-${width}`);
+      // Frames must keep their width, or the wide branches never run.
+      expect(frame.getBoundingClientRect().width).toBeCloseTo(width, 0);
       expectUsable(frame);
       const [booking, signUp] = frame.querySelectorAll<HTMLElement>(".kb-form");
       if (!booking || !signUp) throw new Error("Expected both forms");

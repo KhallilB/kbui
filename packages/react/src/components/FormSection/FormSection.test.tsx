@@ -24,6 +24,16 @@ describe("FormSection", () => {
     expect(group.contains(heading)).toBe(true);
   });
 
+  test("lets a caller aria-label name the group", () => {
+    render(
+      <FormSection title="Email" aria-label="Email notifications">
+        <Input label="Address" />
+      </FormSection>,
+    );
+    const group = screen.getByRole("group", { name: "Email notifications" });
+    expect(group).not.toHaveAttribute("aria-labelledby");
+  });
+
   test("sets the heading rank from headingLevel", () => {
     render(
       <FormSection title="Email" headingLevel={3}>

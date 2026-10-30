@@ -16,7 +16,7 @@ Pick the layout by how the page saves. [Form](../../packages/react/docs/componen
 
 | Width | Form | Settings |
 | --- | --- | --- |
-| Section at least 40rem wide | Sections stack; the form stops at 40rem (`md`) or 32rem (`sm`) | Each section heading sits in the first third, fields in the other two |
+| Section at least 40rem wide | Sections stack unless `layout="split"`; the form stops at 40rem (`md`) or 32rem (`sm`) | Each section heading sits in the first third, fields in the other two |
 | Section narrower than 40rem | Same | Heading above its fields |
 | Actions row narrower than 30rem | Each action fills its own row, submit first | Same for section actions |
 

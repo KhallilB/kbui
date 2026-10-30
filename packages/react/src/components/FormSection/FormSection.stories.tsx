@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useState } from "react";
-import { expect, userEvent, within } from "storybook/test";
+import * as React from "react";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Button } from "../Button/Button";
-import { Grid } from "../Grid/Grid";
 import { Input } from "../Input/Input";
 import { Spinner } from "../Spinner/Spinner";
 import { Switch } from "../Switch/Switch";
@@ -50,8 +49,13 @@ export const SectionError: Story = {
 };
 
 function PendingSection() {
-  const [pending, setPending] = useState(false);
-  const [digest, setDigest] = useState(true);
+  const [pending, setPending] = React.useState(false);
+  const [digest, setDigest] = React.useState(true);
+  const status = React.useRef<HTMLParagraphElement>(null);
+  // Disabling the section drops focus from Save; park it on the status message.
+  React.useEffect(() => {
+    if (pending) status.current?.focus();
+  }, [pending]);
   return (
     <form
       onSubmit={(event) => {
@@ -67,12 +71,15 @@ function PendingSection() {
         actions={
           <>
             <Button type="submit">Save digest</Button>
-            {pending ? <Spinner size="sm" label="Saving" /> : null}
+            {pending ? <Spinner size="sm" decorative /> : null}
           </>
         }
       >
         <Switch label="Send the weekly digest" checked={digest} onCheckedChange={setDigest} />
       </FormSection>
+      <p ref={status} role="status" tabIndex={-1}>
+        {pending ? "Saving the weekly digest." : ""}
+      </p>
     </form>
   );
 }
@@ -87,24 +94,29 @@ export const PendingSave: Story = {
       "true",
     );
     await expect(canvas.getByRole("switch", { name: "Send the weekly digest" })).toBeDisabled();
+    await waitFor(() => expect(canvas.getByRole("status")).toHaveFocus());
+    await expect(canvas.getByRole("status")).toHaveTextContent("Saving the weekly digest.");
   },
 };
 
 export const SplitCollapse: Story = {
   tags: ["!dev", "!autodocs"],
   render: () => (
-    <Grid layout="stack">
+    <div style={{ display: "grid", gap: "2rem" }}>
       {[320, 639, 640, 1040].map((width) => (
-        <div key={width} style={{ inlineSize: width, maxInlineSize: "100%" }}>
+        <div key={width} data-testid={`frame-${width}`} style={{ inlineSize: width }}>
           <FormSection data-testid={`section-${width}`} title="Profile" layout="split">
             <Input label={`Display name ${width}`} />
           </FormSection>
         </div>
       ))}
-    </Grid>
+    </div>
   ),
   play: async ({ canvasElement }) => {
     for (const width of [320, 639, 640, 1040]) {
+      // Frames must keep their width, or the split branch never runs.
+      const frame = within(canvasElement).getByTestId(`frame-${width}`);
+      expect(frame.getBoundingClientRect().width).toBeCloseTo(width, 0);
       const section = within(canvasElement).getByTestId(`section-${width}`);
       const header = section.querySelector(".kb-formsection-header")?.getBoundingClientRect();
       const body = section.querySelector(".kb-formsection-body")?.getBoundingClientRect();

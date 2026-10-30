@@ -30,7 +30,7 @@
 }
 /* Full-width actions keep phone targets wide; literal because queries cannot read tokens. */
 @container kb-form-actions (width < 30rem) {
-  .kb-form-actions > * {
+  .kb-form-actions > :is(.kb-button, button, a) {
     flex: 1 1 100%;
   }
 }

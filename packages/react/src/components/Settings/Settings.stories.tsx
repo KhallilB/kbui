@@ -8,7 +8,6 @@ import { CollectionRow } from "../CollectionRow/CollectionRow";
 import { Dialog } from "../Dialog/Dialog";
 import { Fieldset } from "../Fieldset/Fieldset";
 import { FormSection } from "../FormSection/FormSection";
-import { Grid } from "../Grid/Grid";
 import { Heading } from "../Heading/Heading";
 import { Input } from "../Input/Input";
 import { Select } from "../Select/Select";
@@ -232,18 +231,20 @@ function expectSectionsCollapse(frame: HTMLElement) {
 export const ResponsiveGeometry: Story = {
   tags: ["!dev", "!autodocs"],
   render: () => (
-    <Grid layout="stack">
+    <div style={{ display: "grid", gap: "2rem" }}>
       {widths.map((width) => (
         <div key={width} data-testid={`frame-${width}`} style={{ inlineSize: width }}>
           <NotificationSettings />
           <TeamSettings />
         </div>
       ))}
-    </Grid>
+    </div>
   ),
   play: async ({ canvasElement }) => {
     for (const width of widths) {
       const frame = within(canvasElement).getByTestId(`frame-${width}`);
+      // Frames must keep their width, or the wide branches never run.
+      expect(frame.getBoundingClientRect().width).toBeCloseTo(width, 0);
       expectUsable(frame);
       expectSectionsCollapse(frame);
     }

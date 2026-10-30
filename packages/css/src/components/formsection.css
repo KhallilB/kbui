@@ -66,7 +66,7 @@
 }
 /* Full-width actions keep phone targets wide; literal because queries cannot read tokens. */
 @container kb-formsection-actions (width < 30rem) {
-  .kb-formsection-actions > * {
+  .kb-formsection-actions > :is(.kb-button, button, a) {
     flex: 1 1 100%;
   }
 }
@@ -80,7 +80,10 @@
     color: CanvasText;
   }
   .kb-formsection:is(:disabled, [data-disabled]) > .kb-formsection-header {
-    color: GrayText;
     opacity: 1;
+  }
+  .kb-formsection:is(:disabled, [data-disabled])
+    :is(.kb-formsection-title, .kb-formsection-description) {
+    color: GrayText;
   }
 }
