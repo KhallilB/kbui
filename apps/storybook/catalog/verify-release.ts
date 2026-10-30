@@ -112,6 +112,7 @@ for (const profile of profiles) {
       /components-input--disabled/,
     );
     await page.goto(`${origin}/components/?component=input&state=missing`);
+    await page.getByRole("status").filter({ hasText: "State not found" }).waitFor();
     assert.match(
       await page
         .getByRole("status")

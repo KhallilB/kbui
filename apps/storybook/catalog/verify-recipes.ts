@@ -65,7 +65,21 @@ try {
   await page
     .frameLocator("iframe[data-current='true']")
     .getByRole("heading", { name: "Organization profile" })
-    .waitFor();
+    .waitFor()
+    .catch(async (error: unknown) => {
+      const frames = await Promise.all(
+        page.frames().map(async (frame) => ({
+          url: frame.url(),
+          text: await frame
+            .locator("body")
+            .innerText({ timeout: 1000 })
+            .then((text) => text.slice(0, 600))
+            .catch(() => "<unavailable>"),
+        })),
+      );
+      console.error("Recipe refresh failed", { url: page.url(), frames });
+      throw error;
+    });
   await page.goBack();
   assert.equal(new URL(page.url()).searchParams.get("state"), null);
   await page.goForward();
@@ -95,6 +109,27 @@ try {
   await page.getByRole("switch", { name: "Dark mode" }).check();
   await preview.locator("html[data-theme='dark']").waitFor();
   assert.equal(await name.inputValue(), "Retained draft");
+  if (recipes.some((recipe) => recipe.id === "listdetail")) {
+    await page.goto(
+      `${origin}/storybook/iframe.html?id=recipes-listdetail--request-queue&viewMode=story&request=REQ-1043`,
+    );
+    await page
+      .getByRole("heading", { name: "Replace loading dock scanner", exact: true })
+      .waitFor();
+    await page.reload();
+    await page
+      .getByRole("heading", { name: "Replace loading dock scanner", exact: true })
+      .waitFor();
+    assert.equal(new URL(page.url()).searchParams.get("request"), "REQ-1043");
+    await page.getByRole("button", { name: "Back to requests" }).click();
+    await page.getByRole("button", { name: /REQ-1042.*Warehouse access/ }).click();
+    await page.getByRole("heading", { name: "Warehouse access", exact: true }).waitFor();
+    await page.goBack();
+    await page.getByRole("heading", { name: "Choose a request" }).waitFor();
+    await page.goForward();
+    await page.getByRole("heading", { name: "Warehouse access", exact: true }).waitFor();
+    checks++;
+  }
   await page.close();
   console.log(
     `Recipes verified: ${checks} theme/viewport and Storybook contexts; refresh, history, unknown URLs and draft-preserving theme changes.`,
