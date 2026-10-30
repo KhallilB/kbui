@@ -271,6 +271,13 @@ export {
   type SplitProps,
   type SplitRatio,
 } from "./components/Split/Split";
+export {
+  Stack,
+  type StackAlign,
+  type StackElement,
+  type StackJustify,
+  type StackProps,
+} from "./components/Stack/Stack";
 export { Stat, type StatProps, type StatSize } from "./components/Stat/Stat";
 export {
   StatsRow,

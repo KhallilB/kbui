@@ -1,17 +1,17 @@
 # Layout composition
 
-Use Container for page boundaries, Inline for wrapping rows, Split for two-column sections, and Separator for thematic or decorative rules. Styles are framework-free CSS; React wrappers add native markup without state, effects, resize listeners or hydration-dependent layout.
+Use Container for page boundaries, Stack for vertical flow, Inline for wrapping rows, Split for two-column sections, and Separator for thematic or decorative rules. Styles are framework-free CSS; React wrappers add native markup without state, effects, resize listeners or hydration-dependent layout.
 
 ## Compose a page
 
 ```tsx
 import "@kb.ui/react/styles.css";
-import { Button, Container, Grid, Heading, Inline, Separator, Split, Text } from "@kb.ui/react";
+import { Button, Container, Heading, Inline, Separator, Split, Stack, Text } from "@kb.ui/react";
 
 export function Workspace() {
   return (
     <Container as="main">
-      <Grid layout="stack">
+      <Stack gap="lg">
         <Inline justify="between">
           <Heading level={1}>Workspace</Heading>
           <Button>New project</Button>
@@ -26,13 +26,13 @@ export function Workspace() {
             <Text tone="muted">Context follows when columns stack.</Text>
           </aside>
         </Split>
-      </Grid>
+      </Stack>
     </Container>
   );
 }
 ```
 
-The [React API](../../packages/react/docs/components/Container.md) lists all props. [Composed page stories](../../packages/react/src/components/Container/Container.stories.tsx) cover both themes. Keep vertical rhythm with `Grid layout="stack"`; use Grid's automatic columns for variable child counts.
+The [React API](../../packages/react/docs/components/Container.md) lists all props. [Composed page stories](../../packages/react/src/components/Container/Container.stories.tsx) cover both themes. Keep vertical rhythm with Stack; use Grid's automatic columns for variable child counts. Keep `Grid layout="stack"` for a grid that toggles between one column and automatic columns.
 
 ## Responsive rules
 
@@ -40,6 +40,7 @@ The [React API](../../packages/react/docs/components/Container.md) lists all pro
 |---|---|---|
 | Container | Center a full-width outer box capped at a shared maximum; inline gutters remain inside that width | lg: 80rem outer width, fluid 1–2rem gutters |
 | Grid | Fit equal columns above the minimum item width, use 1–4 explicit columns, or stack in a single track; reset list markers and margins on ul/ol | Auto-fit at 18.75rem minimum item width, 1.5rem gap, stretch alignment |
+| Stack | Flow children top to bottom in source order; gap replaces child block margins; reset list markers and margins on ul/ol | 1rem gap, stretch alignment, start distribution |
 | Inline | Wrap independent items onto new rows when they no longer fit; preserve source and tab order | 1rem gap, centered cross-axis, start distribution |
 | Split | Two direct element children share a row at or above the threshold; below it each fills its own row | Equal columns, 48rem available-width threshold, 1rem gap |
 | Separator | Fill inline width horizontally; stretch in a flex row vertically with a minimum visible height | Horizontal semantic hr |
@@ -48,7 +49,9 @@ Container sizes are sm 40rem, md 64rem, lg 80rem and full with no cap. Use one s
 
 Grid supports `layout` (`auto` or `stack`), `columns` (`auto`, `1`, `2`, `3` or `4`), `minItemWidth` (`sm` 14rem, `md` 18.75rem, `lg` 24rem), `gap` (`none`, `sm`, `md`, `lg`) and `align` (`start`, `center`, `end`, `baseline`, `stretch`). When rendered as `ul` or `ol`, Grid removes list bullets and browser list margins so `li` children align with the grid tracks.
 
-Inline gap sizes are none, sm 0.5rem, md 1rem and lg 1.5rem. The same scale applies to Grid and Split. Cross-axis alignment supports start, center, end, baseline and stretch. Inline's justify supports start, center, end and between; distribution applies separately to each wrapped row. Native lists in Inline keep their markers and list spacing; use li children.
+Inline gap sizes are none, sm 0.5rem, md 1rem and lg 1.5rem. The same scale applies to Grid, Stack and Split. Cross-axis alignment supports start, center, end, baseline and stretch. Inline's justify supports start, center, end and between; distribution applies separately to each wrapped row. Native lists in Inline keep their markers and list spacing; use li children.
+
+Stack alignment supports start, center, end and stretch on the inline axis; stretch fills the stack width, the others size children to their content. Stack's justify supports start, center, end and between on the block axis and only takes effect when the stack is taller than its content, such as `blockSize: 100%` inside a fixed-height card. Stack renders div, section, article, aside, ul, ol, nav or form. Nest stacks for section rhythm: a wider outer gap between sections, a tighter inner gap within each.
 
 Split collapse sizes are sm 32rem, md 48rem and lg 64rem. Thresholds use the component's available width, so a narrow nested panel stacks even on a wide desktop. Ratios equal, wide-start and wide-end mean 1:1, 2:1 and 1:2. Provide two children, one per column. Split renders a `.kb-split-track` around each non-empty child, so column width and collapse stay independent of child tokens and text measures. Group related content inside a section or div; empty conditional children add no track. Source order defines reading order in both states; CSS never reverses it.
 
@@ -72,7 +75,7 @@ The collapse point uses the pane's own content width, so a pane in a narrow pare
 
 ## Semantics and accessibility
 
-Choose landmarks from document structure with Container's native `as` prop. Container, Grid, Inline and Split default to div; non-default generic element types require an explicit `as` so native props and refs stay aligned. Named sections and aside elements keep their native semantics. Layout does not add grid roles, focus management or tab stops. Inline controls remain independent tab stops; choose Toolbar for coordinated arrow-key navigation.
+Choose landmarks from document structure with Container's native `as` prop. Container, Grid, Inline, Stack and Split default to div; non-default generic element types require an explicit `as` so native props and refs stay aligned. Named sections and aside elements keep their native semantics. Layout does not add grid roles, focus management or tab stops. Inline controls remain independent tab stops; choose Toolbar for coordinated arrow-key navigation.
 
 Separator defaults to a native hr with an announced orientation. Use `decorative` when a rule only repeats an existing visual grouping; this sets aria-hidden and removes separator semantics. Vertical rules use `orientation="vertical"` and stretch inside Inline. Separator is a static divider, with no resizing interaction. Put a vertical separator inside a wrapper when using an Inline list so li remains the direct child.
 
@@ -85,7 +88,7 @@ Use `dir="rtl"` on the relevant native container for right-to-left content. Widt
 | `--kb-container-size-sm`, `-md`, `-lg` | Shared maximum outer page widths |
 | `--kb-container-gutter` | Responsive inline padding |
 | `--kb-grid-gap`, `--kb-grid-min-item-width`, `-sm`, `-md`, `-lg` | Grid default spacing and minimum auto-fit column widths |
-| `--kb-layout-gap-sm`, `-md`, `-lg` | Shared Grid, Inline and Split spacing |
+| `--kb-layout-gap-sm`, `-md`, `-lg` | Shared Grid, Inline, Stack and Split spacing |
 | `--kb-split-collapse-sm`, `-md`, `-lg` | Available-width collapse thresholds |
 | `--kb-separator-color`, `-width`, `-min-length` | Rule ink, thickness and vertical minimum length |
 | `--kb-dashboard-gap`, `--kb-dashboard-max-width`, `--kb-dashboard-gutter-sm`, `-md`, `-lg`, `--kb-dashboard-gutter-md-from`, `--kb-dashboard-gutter-lg-from`, `--kb-dashboard-collapse` | Dashboard region spacing, page width, gutter steps and panel collapse |
@@ -98,7 +101,7 @@ Install `@kb.ui/css` and load its full `@kb.ui/css/styles.css` stylesheet, or ch
 
 ```html
 <main class="kb-container" data-size="lg">
-  <div class="kb-grid" data-layout="stack">
+  <div class="kb-stack" data-gap="lg" data-align="stretch" data-justify="start">
     <div class="kb-inline" data-gap="md" data-align="center" data-justify="between">
       <h1 class="kb-heading" data-size="xl">Workspace</h1>
       <a class="kb-link" href="/projects/new">New project</a>

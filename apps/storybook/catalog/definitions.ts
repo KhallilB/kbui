@@ -162,6 +162,17 @@ export const definitions: Record<string, Definition> = {
       List: "List",
     },
   },
+  Stack: {
+    group: "Layout",
+    description: "Vertical flow with shared spacing and alignment.",
+    examples: {
+      Default: "Default",
+      Sections: "Sections",
+      Alignment: "Alignment",
+      Justify: "Justify",
+      Form: "Form",
+    },
+  },
   Gallery: {
     group: "Layout",
     description: "A page of image-led items, such as a product catalog, in one to four columns.",

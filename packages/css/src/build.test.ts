@@ -519,6 +519,15 @@ describe("buildCss", () => {
     expect(gridCss).toContain('.kb-grid[data-gap="md"]');
     expect(gridCss).toContain('.kb-grid[data-align="center"]');
 
+    const stackCss = await read("stack.css");
+    expect(stackCss.split("\n")[0]).toContain("[data-gap=none|sm|md|lg]");
+    expect(stackCss.split("\n")[0]).toContain("[data-align=start|center|end|stretch]");
+    expect(stackCss.split("\n")[0]).toContain("[data-justify=start|center|end|between]");
+    expect(stackCss).toContain("flex-direction: column;");
+    expect(stackCss).toContain("list-style: none;");
+    expect(stackCss).toContain("margin-block: 0;");
+    expect(stackCss).toContain('.kb-stack[data-gap="lg"]');
+    expect(stackCss).toContain('.kb-stack[data-justify="between"]');
     const galleryCss = await read("gallery.css");
     expect(galleryCss.split("\n")[0]).toContain(".kb-gallery-items.kb-grid > .kb-gallery-item");
     expect(galleryCss).toContain("container: kb-gallery / inline-size");

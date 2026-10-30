@@ -280,6 +280,22 @@ export const accessibilityGuides = {
     ],
     standards: ["1.3.1", "1.3.2", "2.4.3", "1.4.10"],
   },
+  Stack: {
+    provides: [
+      "Children flow top to bottom in source order without a role, tab stop or keyboard handler.",
+      "The as prop supports named sections, articles, asides, navigation, native lists and forms.",
+    ],
+    authoring: [
+      "Name a section with aria-labelledby and use li children with ul or ol; add role=list when Safari must announce a list without markers.",
+      "Keep visual and reading order the same; Stack never reorders children.",
+    ],
+    verify: [
+      "Tab through the stack; focus must move top to bottom in reading order.",
+      "At 320 CSS pixels and 200% text size, confirm long words wrap and no child overflows horizontally.",
+      "Read the section, list or form with a screen reader and confirm its name and items are announced.",
+    ],
+    standards: ["1.3.1", "1.3.2", "2.4.3", "1.4.10"],
+  },
   Split: {
     provides: [
       "Two layout-owned tracks stack in DOM order as available width narrows.",
