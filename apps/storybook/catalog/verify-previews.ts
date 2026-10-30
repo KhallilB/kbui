@@ -235,6 +235,7 @@ try {
             multiselect: ".kb-multiselect",
             card: ".kb-card",
             callout: ".kb-callout",
+            emptystate: ".kb-emptystate",
             toast: ".kb-toast-viewport[data-placement=inline]",
             progress: ".kb-progress",
             scrollarea: ".kb-scrollarea",

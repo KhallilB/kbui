@@ -13,6 +13,7 @@ import {
   Combobox,
   CopyableText,
   Dialog,
+  EmptyState,
   ErrorSummary,
   Fieldset,
   FileInput,
@@ -25,6 +26,8 @@ import {
   RadioGroup,
   ScrollArea,
   Select,
+  Skeleton,
+  Spinner,
   Split,
   Stat,
   Status,
@@ -312,6 +315,34 @@ const cases: [string, () => ReactElement][] = [
       </Callout>
     ),
   ],
+  [
+    "emptystate",
+    () => (
+      <EmptyState
+        icon={<svg />}
+        eyebrow="E"
+        title="T"
+        description="D"
+        actions={<button type="button">A</button>}
+        footer="F"
+        classNames={every}
+      >
+        Body
+      </EmptyState>
+    ),
+  ],
+  [
+    "spinner",
+    () => (
+      <div>
+        <Spinner label="Loading" showLabel variant="ring" classNames={every} />
+        <Spinner label="Orbit" showLabel variant="orbit" classNames={every} />
+        <Spinner label="Dots" showLabel variant="dots" classNames={every} />
+        <Spinner label="Bars" showLabel variant="bars" classNames={every} />
+      </div>
+    ),
+  ],
+  ["skeleton", () => <Skeleton lines={2} classNames={every} />],
   [
     "toast",
     () => (

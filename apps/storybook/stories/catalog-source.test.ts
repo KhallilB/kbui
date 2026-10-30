@@ -426,10 +426,14 @@ test("Switch Props JSDoc documents both offIcon and onIcon and preview layout cl
     "multiselect",
     "card",
     "callout",
+    "emptystate",
+    "skeleton",
+    "toast",
     "progress",
   ]) {
     expect(previewKind(id), id).toBe("surface");
   }
+  expect(previewKind("spinner")).toBe("compact");
 });
 
 test("standalone component pages preserve API tables and nested guidance", () => {

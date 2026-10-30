@@ -20,6 +20,7 @@
 @import "./components/descriptionlist.css" layer(kbui.components);
 @import "./components/dialog.css" layer(kbui.components);
 @import "./components/disclosure.css" layer(kbui.components);
+@import "./components/emptystate.css" layer(kbui.components);
 @import "./components/errorsummary.css" layer(kbui.components);
 @import "./components/fieldset.css" layer(kbui.components);
 @import "./components/fileinput.css" layer(kbui.components);
@@ -40,6 +41,8 @@
 @import "./components/scrollarea.css" layer(kbui.components);
 @import "./components/select.css" layer(kbui.components);
 @import "./components/separator.css" layer(kbui.components);
+@import "./components/skeleton.css" layer(kbui.components);
+@import "./components/spinner.css" layer(kbui.components);
 @import "./components/split.css" layer(kbui.components);
 @import "./components/stat.css" layer(kbui.components);
 @import "./components/status.css" layer(kbui.components);

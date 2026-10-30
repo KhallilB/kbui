@@ -42,7 +42,7 @@ The React adapter provides the components, styles and CSS variables together. In
 | Collect text, quantities, or files | [Input](docs/components/Input.md), [Textarea](docs/components/Textarea.md), [NumberField](docs/components/NumberField.md), or [FileInput](docs/components/FileInput.md) |
 | Reveal details or supporting controls | [Disclosure](docs/components/Disclosure.md), [Accordion](docs/components/Accordion.md), or [Popover](docs/components/Popover.md); [drawer and confirmation patterns](https://github.com/KhallilB/kbui/blob/main/docs/guides/forms-and-overlays.md#drawer-pattern) compose Dialog |
 | Arrange a responsive page | [Container](docs/components/Container.md) for the page boundary; [Inline](docs/components/Inline.md) for rows; [Grid](docs/components/Grid.md) for collections; [Split](docs/components/Split.md) for two columns |
-| Explain state or completion | [Status](docs/components/Status.md) for changing state; [Progress](docs/components/Progress.md) for completion; [Badge](docs/components/Badge.md) for metadata; [Callout](docs/components/Callout.md) for a fuller message |
+| Explain state, waiting, or completion | [Spinner](docs/components/Spinner.md) for indeterminate waits; [Skeleton](docs/components/Skeleton.md) for loading placeholders; [Progress](docs/components/Progress.md) for completion; [EmptyState](docs/components/EmptyState.md) for missing content; [Status](docs/components/Status.md) for changing state; [Toast](docs/components/Toast.md) for transient notifications; [Badge](docs/components/Badge.md) for metadata; [Callout](docs/components/Callout.md) for a fuller message |
 | Compare records or scan details | [Table](docs/components/Table.md), [DescriptionList](docs/components/DescriptionList.md), [CollectionList](docs/components/CollectionList.md) and [CollectionRow](docs/components/CollectionRow.md) |
 | Build readable content | [Heading](docs/components/Heading.md) and [Text](docs/components/Text.md) |
 
@@ -111,7 +111,10 @@ See [Media and identity](../../docs/guides/media-and-identity.md) for responsive
 | <a id="badge"></a>[Badge](docs/components/Badge.md) | Add a short label, category, or piece of metadata. |
 | <a id="toast"></a>[Toast](docs/components/Toast.md) | Queue temporary messages with announcements, actions and timed dismissal. |
 | <a id="callout"></a>[Callout](docs/components/Callout.md) | Highlight a message and offer a useful next step. |
+| <a id="emptystate"></a>[EmptyState](docs/components/EmptyState.md) | Explain why a collection or section is empty and offer the next action. |
 | <a id="progress"></a>[Progress](docs/components/Progress.md) | Show how much of a task is complete. |
+| <a id="skeleton"></a>[Skeleton](docs/components/Skeleton.md) | Reserve incoming content geometry while a section loads. |
+| <a id="spinner"></a>[Spinner](docs/components/Spinner.md) | Indicate an indeterminate wait or busy control. |
 | <a id="stat"></a>[Stat](docs/components/Stat.md) | Show a number alongside the label that explains it. |
 | <a id="status"></a>[Status](docs/components/Status.md) | Describe a current state with text and an optional icon. |
 | <a id="tooltip"></a>[Tooltip](docs/components/Tooltip.md) | Add brief context on hover or keyboard focus. |
@@ -160,6 +163,7 @@ Use these when a task spans several components:
 - [Layout composition](https://github.com/KhallilB/kbui/blob/main/docs/guides/layout.md): page boundaries, wrapping rows, responsive columns, and separators.
 - [Typography](https://github.com/KhallilB/kbui/blob/main/docs/guides/typography.md): heading hierarchy, readable copy, links, and inline code.
 - [Forms and overlays](https://github.com/KhallilB/kbui/blob/main/docs/guides/forms-and-overlays.md): theme hosts, dialog structure, and focus behavior.
+- [Loading and feedback](https://github.com/KhallilB/kbui/blob/main/docs/guides/loading-and-feedback.md): waiting states, missing content, asynchronous submission, and retry recipes.
 - [Number fields](https://github.com/KhallilB/kbui/blob/main/docs/guides/number-fields.md): controlled values, validation, and locale-aware editing.
 - [File inputs](https://github.com/KhallilB/kbui/blob/main/docs/guides/file-inputs.md): retained items, acceptance policy, and removal feedback.
 

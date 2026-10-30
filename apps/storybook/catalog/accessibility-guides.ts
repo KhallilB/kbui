@@ -897,4 +897,49 @@ export const accessibilityGuides = {
     ],
     standards: ["1.3.1", "1.3.5", "2.1.1", "2.5.3", "3.3.1", "3.3.2", "4.1.2"],
   },
+  EmptyState: {
+    provides: [
+      "The title renders as a semantic heading (h2–h4, default h3) while the icon slot is marked aria-hidden.",
+      "Setting live adds role=status so dynamically revealed empty or failure states can be announced without moving focus.",
+    ],
+    authoring: [
+      "Match headingLevel to the surrounding document outline and state clearly why the region is empty or unavailable.",
+      "Provide a named primary recovery action (such as clearing filters, creating an item, or retrying a failed fetch) and enable live only when the state updates dynamically.",
+    ],
+    verify: [
+      "Inspect the heading level in the page outline and Tab to every recovery action to confirm visible keyboard focus.",
+      "Trigger a dynamic filter-empty or failed-load transition with a screen reader and confirm the explanation and recovery action are announced clearly.",
+    ],
+    standards: ["1.3.1", "1.4.1", "2.1.1", "2.4.6", "4.1.3"],
+  },
+  Skeleton: {
+    provides: [
+      "Placeholder geometry sets aria-hidden=true while loading so assistive technology does not read meaningless decorative bars.",
+      "Shimmer animation stops automatically under prefers-reduced-motion, and forced-colors mode draws an explicit GrayText border.",
+    ],
+    authoring: [
+      "Mark the owning region with aria-busy=true (and an accessible label or Status/Spinner announcement) while Skeleton placeholders are displayed.",
+      "Match placeholder shapes and heights to incoming content so transitioning loading to false does not shift focus or layout.",
+    ],
+    verify: [
+      "Navigate the loading region with a screen reader to confirm decorative bars are skipped while the owning container communicates its busy state.",
+      "Enable prefers-reduced-motion and forced-colors mode to verify static, high-contrast placeholder boundaries.",
+    ],
+    standards: ["1.3.1", "1.4.3", "1.4.10", "4.1.2", "4.1.3"],
+  },
+  Spinner: {
+    provides: [
+      "Standalone Spinner renders role=status with a screen-reader-only or visible label ('Loading' by default) and marks the SVG graphic aria-hidden.",
+      "Setting decorative omits role=status and sets aria-hidden=true for use inside buttons or controls that already announce their own busy label.",
+    ],
+    authoring: [
+      "Supply a specific label (such as 'Saving webhook policy') when multiple operations can run, or pass decorative inside a Button whose visible text changes during submission.",
+      "Do not leave an unlabeled spinner as the sole indicator of a state change; pair long waits with clear text or transition to a recoverable failure state on timeout.",
+    ],
+    verify: [
+      "Trigger the wait state with a screen reader and confirm the status label is announced once without duplicate announcements from a parent button.",
+      "Verify prefers-reduced-motion disables continuous rotation while preserving indicator visibility.",
+    ],
+    standards: ["1.4.1", "1.4.11", "4.1.2", "4.1.3"],
+  },
 } satisfies Record<string, AccessibilityGuide>;
