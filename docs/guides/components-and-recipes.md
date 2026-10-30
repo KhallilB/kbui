@@ -1,44 +1,44 @@
 # Components and recipes
 
-Choose a component when you want a supported package API. Choose a recipe when you want source to adapt to your application. Browse examples to see how those pieces work together.
+Import a component when you want a package API. Copy a recipe when you want code to adapt to your app. Examples show those pieces working together.
 
 ## What each part provides
 
-| Part | What it provides | How you use it |
-| --- | --- | --- |
-| Foundations and guides | Tokens, themes, styling, setup and shared accessibility guidance | Learn and configure |
-| Components | Supported package APIs with documented behavior and customization | Import from `@kb.ui/react` |
-| Recipes | Maintained compositions using public components and native HTML | Copy the source and required CSS into your application |
-| Examples | Larger demonstrations connecting components, recipes and application state | Explore, inspect source and follow references |
+| You need | Start with |
+| --- | --- |
+| Tokens, themes, styling or setup | Foundations and guides |
+| A supported API to import from `@kb.ui/react` | Components |
+| Source code you can copy and change | Recipes |
+| A working demo to explore | Examples |
 
-Layout is a component category. A component can compose other components; its size or JSX shape does not make it a recipe. The distinction is the delivery and ownership contract.
+Layout is a component category. A component can use other components; size alone does not make it a recipe. What matters is whether you import a maintained package API or copy code into your app.
 
 ## Import a component
 
-kbui maintains component implementation, tests, documented accessibility support and compatibility across package releases. Your application supplies content, handlers and any responsibilities identified in the reference. Use the component reference for its props, parts and supported states.
+kbui maintains the component, its tests, documentation and compatibility across releases. Your app supplies content, handlers and anything the component reference asks you to handle.
 
-Package updates carry component fixes into your application when you upgrade. Check the release notes for changes and migrations. An available primitive or automated accessibility scan does not establish accessibility of a complete page.
+Upgrade the package to get component fixes. Check release notes for changes and migration steps. You still need to check accessibility in your own page.
 
-A recipe may share a name with a package component. Follow the import path and reference: package compatibility applies to the package API, while a copied implementation belongs to your application.
+A recipe can share a name with a package component. Check its import path and reference. Package updates maintain the imported API; your app maintains any copied recipe.
 
 ## Copy a recipe
 
-Copy every listed source file, keep its local imports working, and import the package stylesheet once at your application entry. Recipe pages show the exact maintained source and runnable examples. Adapt the local files to your content, layout and product behavior.
+Copy every listed file and keep its local imports working. Import the package stylesheet once. Each recipe page has the source, required CSS and examples you can try.
 
-Your application owns the copied implementation and its future changes. Later recipe edits do not update your copy automatically. Review upstream changes deliberately, especially after upgrading the components it uses. A recipe reference describes its local inputs; it does not add an export to `@kb.ui/react`.
+Your app now maintains that copy. Upgrading kbui does not update the copied code. Check upstream recipe changes when useful, especially after a package upgrade.
 
-Keep routing, permissions, data loading, validation policy, submission, pending work and error recovery with the application that owns them. Check the recipe's documented boundaries rather than assuming it implements a complete workflow.
+Keep routing, permissions, data loading, validation, saving and error recovery in your app. Read the recipe's limits before using it for a real workflow.
 
 ## Explore an example
 
-Examples demonstrate a composition and its represented interactions. Follow their component and recipe links for supported APIs or reusable source. Decorative artwork and fictional application behavior belong to the example; their presence does not add package capability.
+Try the demo and inspect its source. Follow links to the components and recipes it uses. Sample content, artwork and demo actions belong to the example; they do not add package features.
 
 ## When a recipe becomes a component
 
-Promote a recipe only when repeated real uses establish a stable shared behavior or layout contract worth maintaining in the package. Confirm existing primitives cannot express that contract clearly. Reuse alone is insufficient: application-specific composition can remain a useful recipe.
+Consider a package component when several real apps need the same behavior or layout, and existing components do not express it clearly. Repeated code alone is not enough: some layouts are easier to keep in each app.
 
 ## Contribute without duplicating content
 
-Component Markdown owns the API and usage reference. Recipe Markdown owns its explanation, boundaries and verification guidance. Executable source and stories own the running examples. The content index links those sources to the website and Storybook; their presentation wrappers do not repeat the guide.
+Keep API details in the component reference, recipe instructions in its guide, and running examples in source and stories. The content index connects those files to the website and Storybook; keep the guide in one place.
 
-Follow [contribution guidance](../../CONTRIBUTING.md#components-and-recipes) for registration, source ownership and checks. Published documentation describes available behavior; locally prepared recipes remain unreleased until their source and documentation are published.
+Follow the [recipe contribution steps](../../CONTRIBUTING.md#components-and-recipes) for registration and checks. Mark local work as unreleased until its source and documentation are published.

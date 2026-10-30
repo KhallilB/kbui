@@ -13,7 +13,7 @@ export const recipeDefinitions: RecipeDefinition[] = [
   {
     id: "pageheader",
     name: "PageHeader",
-    description: "A page introduction with a title, description, metadata and actions.",
+    description: "A page title with supporting text and actions.",
     guide: "docs/guides/page-header.md",
     storyFile: "apps/storybook/recipes/PageHeader.stories.tsx",
     defaultStoryId: "recipes-pageheader--project-list",
@@ -23,7 +23,7 @@ export const recipeDefinitions: RecipeDefinition[] = [
   {
     id: "formsection",
     name: "FormSection",
-    description: "Related fields with a visible heading, instructions and section errors.",
+    description: "A heading, instructions and errors for related form fields.",
     guide: "docs/guides/form-section.md",
     storyFile: "apps/storybook/recipes/FormSection.stories.tsx",
     defaultStoryId: "recipes-formsection--contact-details",

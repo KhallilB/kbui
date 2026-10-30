@@ -27,13 +27,13 @@ export function Example() {
 
 | Part                | Props and responsibility                                                        |
 | ------------------- | ------------------------------------------------------------------------------- |
-| `Toolbar`           | Root; name with aria-label; Base UI orientation controls the keyboard direction |
+| `Toolbar`           | Root; name with `aria-label`; Base UI orientation controls the keyboard direction |
 | `Toolbar.Group`     | Groups related controls inside the toolbar                                      |
-| `Toolbar.Button`    | Action; variant accepts Button variants and defaults to ghost                   |
+| `Toolbar.Button`    | Action; variant accepts `Button` variants and defaults to ghost                   |
 | `Toolbar.Separator` | Visual division between groups                                                  |
 
-Tab enters the toolbar once; arrow keys move between its controls. Give icon-only actions their own accessible names. Use Checkbox or RadioGroup when a control represents a persistent choice rather than an action.
+Tab enters the toolbar once; arrow keys move between its controls. Give icon-only actions their own accessible names. Use `Checkbox` or `RadioGroup` when a control represents a persistent choice rather than an action.
 
 ## Related components
 
-Use [Inline](Inline.md) for independent controls that should each retain their normal Tab stop, and [Menu](Menu.md) for a compact action list.
+Use [`Inline`](Inline.md) for independent controls that should each retain their normal Tab stop, and [`Menu`](Menu.md) for a compact action list.

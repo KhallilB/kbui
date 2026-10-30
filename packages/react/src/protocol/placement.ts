@@ -35,7 +35,7 @@ type Scope = {
 /** One placement promise; geometry is LTR. */
 export type PlacementRule = Scope &
   (
-    | { place: "fill" | "start" | "end" | "last" | "line" | "stack" }
+    | { place: "fill" | "start" | "end" | "center" | "last" | "line" | "stack" }
     | { place: "measure"; max: number }
     | { place: "primary-last"; primary: string }
   );

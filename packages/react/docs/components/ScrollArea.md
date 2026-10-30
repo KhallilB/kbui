@@ -37,4 +37,4 @@ Tab reaches the viewport so keyboard users can scroll it. Keep the focus indicat
 
 ## Related components
 
-Use [Panel](Panel.md) to group the scrolling content with its heading and actions.
+Use [`Panel`](Panel.md) to group the scrolling content with its heading and actions.

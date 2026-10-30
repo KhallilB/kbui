@@ -1,6 +1,6 @@
 # Separator
 
-Native hr thematic break; decorative dividers are hidden from assistive technology. Native hr props and ref pass through; orientation and decorative own role, aria-hidden and aria-orientation.
+Use `Separator` for a thematic break or a decorative divider. It renders a native `<hr>` and accepts its props and `ref`. The `orientation` and `decorative` props set `role`, `aria-hidden` and `aria-orientation`; decorative dividers are hidden from assistive technology.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/layout-separator--docs)
 
@@ -33,8 +33,8 @@ export function Example() {
 | `orientation` | `horizontal` `vertical`                              | `horizontal` |
 | `decorative`  | Hide a visual-only divider from assistive technology | `false`      |
 
-Vertical rules stretch inside Inline and have a 1rem minimum height. No tab stop or resizing interaction is added. See [Layout composition](https://github.com/KhallilB/kbui/blob/main/docs/guides/layout.md).
+Vertical rules stretch inside `Inline` and have a 1rem minimum height. No tab stop or resizing interaction is added. See [Layout composition](https://github.com/KhallilB/kbui/blob/main/docs/guides/layout.md).
 
 ## Related components
 
-Use [Inline](Inline.md) to arrange a row and [Panel](Panel.md) to group a complete section.
+Use [`Inline`](Inline.md) to arrange a row and [`Panel`](Panel.md) to group a complete section.

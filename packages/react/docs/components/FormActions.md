@@ -1,6 +1,6 @@
 # FormActions
 
-Use FormActions at the bottom of a form or section to align submit, reset, and secondary buttons with consistent wrapping and spacing. Buttons stay in natural Tab order without toolbar arrow-key navigation.
+Use `FormActions` at the bottom of a form or section to align submit, reset, and secondary buttons with consistent wrapping and spacing. Buttons stay in natural Tab order without toolbar arrow-key navigation.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/components-formactions--docs)
 
@@ -38,8 +38,8 @@ export function Example() {
 | `divider`  | `boolean`                       | `false` | Adds a top border and spacing above the action row |
 | `children` | `ReactNode`                     | unset   | Form buttons in reading and Tab order              |
 
-Other native div props and `ref` pass through. Use `--kb-formactions-gap` and `--kb-formactions-padding-top` to adjust spacing.
+Other native `div` props and `ref` pass through. Use `--kb-formactions-gap` and `--kb-formactions-padding-top` to adjust spacing.
 
 ## Related components
 
-Use [Fieldset](Fieldset.md) for named groups and [ErrorSummary](ErrorSummary.md) for failed submission recovery. Use [Toolbar](Toolbar.md) when controls need arrow-key navigation.
+Use [`Fieldset`](Fieldset.md) for named groups and [`ErrorSummary`](ErrorSummary.md) for failed submission recovery. Use [`Toolbar`](Toolbar.md) when controls need arrow-key navigation.

@@ -139,6 +139,14 @@ export const CatchesBrokenRules: StoryObj = {
     expect(checkPlacement(kept, contract, "compact")).toContain(
       ".kb-placementfixture :scope stack: child 2 is not below child 1",
     );
+    // End-aligned actions are not centred, so a center rule must fire on them.
+    const centred = {
+      ...contract,
+      rules: [{ part: ".kb-placementfixture-actions", place: "center" }],
+    };
+    expect(checkPlacement(kept, centred as PlacementContract).join()).toContain(
+      ".kb-placementfixture-actions center: centre",
+    );
     for (const [broken, expected] of Object.entries(breaks)) {
       const root = canvasElement.querySelector<HTMLElement>(`[data-break="${broken}"]`);
       if (!root) throw new Error(`missing ${broken} fixture`);
