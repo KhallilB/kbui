@@ -3,7 +3,6 @@ import {
   applyCatalogSkin,
   catalogSkinCss,
   catalogSkinTokens,
-  componentStyleExample,
   defaultCatalogSkin,
 } from "../site/catalog-skin";
 
@@ -96,49 +95,4 @@ test("changing and resetting skin removes previous managed tokens only", () => {
   );
   applyCatalogSkin(style, defaultCatalogSkin, "dark");
   expect(Object.fromEntries(values)).toEqual({ "--caller-token": "keep", "color-scheme": "dark" });
-});
-
-test("component examples style with plain classes, never kbui names", () => {
-  const skin = { palette: "ocean", corners: "sharp" } as const;
-  const names = [
-    "Badge",
-    "Button",
-    "Callout",
-    "Card",
-    "Checkbox",
-    "Dialog",
-    "EmptyState",
-    "FileInput",
-    "Grid",
-    "Input",
-    "Menu",
-    "NumberField",
-    "Panel",
-    "Progress",
-    "RadioGroup",
-    "ScrollArea",
-    "Select",
-    "Skeleton",
-    "Spinner",
-    "Stat",
-    "Status",
-    "Switch",
-    "Toast",
-    "Toolbar",
-    "Tooltip",
-  ];
-  for (const name of names) {
-    const code = componentStyleExample(name, skin, "light");
-    expect(code, name).toContain(`<${name}`);
-    expect(code, name).toMatch(/className="brand"|classNames=\{\{ \w+: "brand" \}\}/);
-    expect(code, name).toContain(".brand {");
-    expect(code, name).not.toContain("kb-");
-  }
-  const button = componentStyleExample("Button", skin, "light");
-  expect(button).toContain("background: #21637a;");
-  expect(button).toContain("border-radius: 0px;");
-  expect(componentStyleExample("Input", skin, "dark")).toContain(
-    'classNames={{ control: "brand" }}',
-  );
-  expect(componentStyleExample("Input", skin, "dark")).toContain("#8cd5e8");
 });

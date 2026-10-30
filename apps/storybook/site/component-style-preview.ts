@@ -4,18 +4,22 @@ import { activeClassNames } from "./class-source";
 // Preview documents isolate arbitrary CSS from catalog navigation and editor controls.
 export function applyComponentStyle(doc: Document, custom: CatalogSkin["custom"]) {
   if (!custom) return () => {};
+  const selector = componentStyleTarget(custom.component);
   const style = doc.createElement("style");
   style.dataset.catalogStyle = "";
   style.textContent = custom.css;
   doc.head.append(style);
   const classes = activeClassNames(custom.classes);
-  const targets = new Map<Element, string[]>();
+  const targets = new Map<Element, Set<string>>();
   const apply = () => {
-    for (const target of doc.querySelectorAll(componentStyleTarget(custom.component))) {
-      const added =
-        targets.get(target) ?? classes.filter((name) => !target.classList.contains(name));
+    for (const target of doc.querySelectorAll(selector)) {
+      const added = targets.get(target) ?? new Set<string>();
       targets.set(target, added);
-      for (const name of classes) if (!target.classList.contains(name)) target.classList.add(name);
+      for (const name of classes) {
+        if (target.classList.contains(name)) continue;
+        target.classList.add(name);
+        added.add(name);
+      }
     }
   };
   const observer = new MutationObserver(apply);

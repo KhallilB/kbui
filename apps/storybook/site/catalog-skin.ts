@@ -1,3 +1,4 @@
+import { componentStyleAnatomy } from "./component-style-anatomy";
 import type { Theme } from "./theme-foundations";
 
 export type CatalogSkin = {
@@ -83,12 +84,6 @@ export function applyCatalogSkin(
   }
 }
 
-type Example = {
-  open: string;
-  close?: string;
-  slot?: string;
-  css: (accent: string, radius: string, text: string) => string[];
-};
 const fill = (a: string, r: string, t: string) => [
   `background: ${a};`,
   `color: ${t};`,
@@ -96,89 +91,50 @@ const fill = (a: string, r: string, t: string) => [
 ];
 const outline = (a: string, r: string) => [`border-color: ${a};`, `border-radius: ${r};`];
 const ink = (a: string) => [`color: ${a};`];
-// The part each example styles is the one that draws that component's fill or border.
-const examples: Record<string, Example> = {
-  Badge: { open: "<Badge", close: ">New</Badge>", css: fill },
-  Button: { open: "<Button", close: ">Save</Button>", css: fill },
-  Callout: { open: '<Callout title="Heads up"', close: ">…</Callout>", css: outline },
-  Card: { open: "<Card", close: ">…</Card>", css: outline },
-  Checkbox: { open: '<Checkbox label="Email me"', slot: "mark", css: outline },
-  Dialog: { open: "<Dialog.Content", close: ">…</Dialog.Content>", css: outline },
-  PageHeader: { open: '<PageHeader title="Orders"', close: " />", css: outline },
-  StatsRow: { open: "<StatsRow", close: ">…</StatsRow>", css: outline },
-  EmptyState: { open: '<EmptyState title="No items"', close: " />", css: outline },
-  FileInput: { open: '<FileInput label="Files"', slot: "trigger", css: fill },
-  Grid: { open: "<Grid", close: ">…</Grid>", css: () => ["gap: 2rem;"] },
-  Input: { open: '<Input label="Email"', slot: "control", css: outline },
-  Menu: { open: "<Menu.Content", close: ">…</Menu.Content>", css: outline },
-  NumberField: { open: '<NumberField label="Boxes"', slot: "group", css: outline },
-  Panel: { open: "<Panel", close: ">…</Panel>", css: (_, r) => [`border-radius: ${r};`] },
-  Progress: { open: '<Progress label="Upload" value={40}', slot: "indicator", css: fill },
-  RadioGroup: {
-    open: '<RadioGroup.Item value="a"',
-    slot: "control",
-    close: ">A</RadioGroup.Item>",
-    css: outline,
-  },
-  ScrollArea: {
-    open: '<ScrollArea label="Log"',
-    slot: "thumb",
-    close: ">…</ScrollArea>",
-    css: fill,
-  },
-  Select: { open: '<Select label="View"', slot: "control", css: outline },
-  Skeleton: { open: '<Skeleton variant="rect"', close: " />", css: fill },
-  Spinner: { open: '<Spinner label="Loading"', close: " />", css: ink },
-  Stat: { open: '<Stat label="Done" value={12}', slot: "value", css: ink },
-  Status: { open: "<Status", close: ">Online</Status>", css: ink },
-  Switch: { open: '<Switch label="Alerts"', slot: "track", css: outline },
-  Tabs: { open: "<Tabs", close: ">…</Tabs>", css: outline },
-  Toast: { open: '<Toast toast={{ id: "1", title: "Saved" }}', close: " />", css: outline },
-  Toolbar: { open: "<Toolbar", close: ">…</Toolbar>", css: outline },
-  Tooltip: { open: '<Tooltip content="Saved"', close: ">…</Tooltip>", css: fill },
+const presets: Record<string, (accent: string, radius: string, text: string) => string[]> = {
+  Badge: fill,
+  Button: fill,
+  Callout: outline,
+  Card: outline,
+  Checkbox: outline,
+  Dialog: outline,
+  PageHeader: outline,
+  StatsRow: outline,
+  EmptyState: outline,
+  FileInput: fill,
+  Grid: () => ["gap: 2rem;"],
+  Input: outline,
+  Menu: outline,
+  NumberField: outline,
+  Panel: (_, r) => [`border-radius: ${r};`],
+  Progress: fill,
+  RadioGroup: outline,
+  ScrollArea: fill,
+  Select: outline,
+  Skeleton: fill,
+  Spinner: ink,
+  Stat: ink,
+  Status: ink,
+  Switch: outline,
+  Tabs: outline,
+  Toast: outline,
+  Toolbar: outline,
+  Tooltip: fill,
 };
 
-export function componentStyleExample(name: string, skin: CatalogSkin, theme: Theme): string {
-  const example = examples[name] ?? { open: `<${name}`, close: " />", css: outline };
-  const [accent, , text] = palettes[skin.palette === "default" ? "ocean" : skin.palette][theme];
-  const radius = { default: "999px", sharp: "0px", soft: "0.875rem" }[skin.corners];
-  const target = example.slot ? `classNames={{ ${example.slot}: "brand" }}` : 'className="brand"';
-  return [
-    `${example.open} ${target}${example.close ?? " />"}`,
-    "",
-    "/* Your CSS beats kbui's, so no kbui names are needed. */",
-    ".brand {",
-    ...example.css(accent, radius, text).map((line) => `  ${line}`),
-    "}",
-  ].join("\n");
-}
-
-export function componentStyleTarget(name: string) {
-  const special: Record<string, string> = {
-    Dialog: ".kb-dialog-popup",
-    Menu: ".kb-menu",
-    Tooltip: ".kb-tooltip",
-  };
-  const slot = examples[name]?.slot;
-  return special[name] ?? `.kb-${name.toLowerCase()}${slot ? `-${slot}` : ""}`;
-}
-
-export function componentStyleUsage(name: string, classes = "brand") {
-  const example: Example = examples[name] ?? { open: `<${name}`, close: " />", css: outline };
-  const value = JSON.stringify(classes);
-  const prop = example.slot ? `classNames={{ ${example.slot}: ${value} }}` : `className={${value}}`;
-  return `${example.open} ${prop}${example.close ?? " />"}`;
+export function componentStyleTarget(name: string): string {
+  return componentStyleAnatomy(name).selector;
 }
 
 export function presetComponentCss(name: string, skin: CatalogSkin) {
-  const example = examples[name] ?? { css: outline };
+  const declarations = presets[name] ?? outline;
   if (skin.palette === "default" && skin.corners === "default")
     return [
       ".brand {",
       "  /* Uncomment to try:",
-      ...example
-        .css("var(--kb-color-accent)", "999px", "var(--kb-color-accent-fg)")
-        .map((line) => `  ${line}`),
+      ...declarations("var(--kb-color-accent)", "999px", "var(--kb-color-accent-fg)").map(
+        (line) => `  ${line}`,
+      ),
       "  */",
       "}",
       "",
@@ -191,9 +147,9 @@ export function presetComponentCss(name: string, skin: CatalogSkin) {
   const radius = { default: "var(--kb-radius-md)", sharp: "0px", soft: "0.875rem" }[skin.corners];
   return [
     ".brand {",
-    ...example
-      .css("var(--kb-color-accent)", radius, "var(--kb-color-accent-fg)")
-      .map((line) => `  ${line}`),
+    ...declarations("var(--kb-color-accent)", radius, "var(--kb-color-accent-fg)").map(
+      (line) => `  ${line}`,
+    ),
     "}",
   ].join("\n");
 }
