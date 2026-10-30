@@ -17,7 +17,7 @@ export function SkinComparison() {
   const operations = useOperations();
   return (
     <SiteFrame
-      current="examples"
+      current="recipes"
       siteRoot="../"
       storybookRoot="../storybook/"
       className="skin-comparison"
@@ -27,8 +27,8 @@ export function SkinComparison() {
       <main id="main" className="inner-page">
         <header className="comparison-intro">
           <div>
-            <a href="../examples/">
-              <BackArrow /> All examples
+            <a href="../recipes/">
+              <BackArrow /> All recipes
             </a>
             <p className="page-kicker">KBUI · Default design</p>
             <h1>

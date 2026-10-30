@@ -12,7 +12,6 @@
       /* biome-ignore lint/complexity/noImportantStyles: Preserve system link distinction. */
       color: LinkText !important;
     }
-    .composition,
     .day-card,
     .primary-link,
     .playground-grid {
@@ -25,8 +24,7 @@
       /* biome-ignore lint/complexity/noImportantStyles: Preserve visible progress under system colors. */
       background-color: Highlight !important;
     }
-    .day-bloom,
-    .geometry {
+    .day-bloom {
       forced-color-adjust: none;
     }
     .hero-example::before {
