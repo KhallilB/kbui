@@ -7,6 +7,8 @@ export type RecipeDefinition = {
   defaultStoryId: string;
   components: string[];
   files: string[];
+  /** Shared flow contract the recipe must pass, in `stories/<flow>-flow/`. */
+  flow?: "list-detail" | undefined;
 };
 
 export const recipeDefinitions: RecipeDefinition[] = [
@@ -54,6 +56,7 @@ export const recipeDefinitions: RecipeDefinition[] = [
       "FormSection",
     ],
     files: ["apps/storybook/recipes/ListDetail.tsx", "apps/storybook/recipes/list-detail.css"],
+    flow: "list-detail",
   },
   {
     id: "inbox",
@@ -79,6 +82,7 @@ export const recipeDefinitions: RecipeDefinition[] = [
       "apps/storybook/recipes/PageHeader.tsx",
       "apps/storybook/recipes/recipes.css",
     ],
+    flow: "list-detail",
   },
 ];
 
