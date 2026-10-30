@@ -59,7 +59,7 @@ export function Example() {
 
 A caption names the figure through `aria-labelledby`; caller naming attributes take precedence. Description is visible metadata within `figcaption`. Without either, no caption element is rendered. Figure and image remain non-interactive; caption actions own their native keyboard behavior. The component never infers file type, size or download policy from the URL.
 
-Use `Grid as="ul"` with `li` children for a gallery in reading order. A named Dialog trigger in the caption supports enlarged inspection, Escape dismissal and focus return through Dialog. The gallery recipe provides no carousel, arrow-key selection, image editor or upload. See [media recipes](../../../../docs/guides/media-and-identity.md) for a complete implementation.
+For a page of previews, put each Thumbnail in a [Gallery](Gallery.md) item. A named Dialog trigger in the caption supports enlarged inspection, Escape dismissal and focus return through Dialog. Gallery provides no carousel, arrow-key selection, image editor or upload. See [media recipes](../../../../docs/guides/media-and-identity.md#build-a-gallery-in-reading-order) for a complete implementation.
 
 ## Related components
 

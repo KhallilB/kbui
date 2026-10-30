@@ -8,6 +8,7 @@ const config: StorybookConfig = {
   core: { disableWhatsNewNotifications: true },
   stories: [
     "../docs/**/*.mdx",
+    "../recipes/**/*.stories.tsx",
     "../../../packages/react/src/**/*.stories.tsx",
     ...(process.env.KBUI_STORYBOOK_INTERNAL === "1" ? ["../stories/**/*.stories.tsx"] : []),
   ],

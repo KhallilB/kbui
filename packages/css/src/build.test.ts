@@ -65,9 +65,11 @@ describe("buildCss", () => {
         "thumbnail.css",
         "tabs.css",
         "pageheader.css",
+        "statsrow.css",
         "copyabletext.css",
         "codeblock.css",
         "confirmaction.css",
+        "supportingpane.css",
       ]),
     );
   });
@@ -179,6 +181,16 @@ describe("buildCss", () => {
     const root = css.match(/\.kb-panel \{[^}]*\}/)?.[0] ?? "";
     expect(root).not.toMatch(/filter|overflow/);
     expect(root).toContain("border-radius: var(--kb-panel-radius)");
+  });
+
+  test("opaque panel drops the glass and paints its fill on a solid base", async () => {
+    const css = await readFile(join(src, "components", "panel.css"), "utf8");
+    const opaque = css.match(/\.kb-panel\[data-opaque\] > \.kb-panel-plate \{[^}]*\}/)?.[0] ?? "";
+    expect(opaque).toContain("backdrop-filter: none");
+    expect(opaque).toContain("var(--_panel-sheen)");
+    expect(opaque).toContain("var(--_panel-bg)");
+    expect(opaque).toMatch(/var\(--kb-panel-background-opaque\);/);
+    expect(css.split("\n")[0]).toContain("[data-opaque]");
   });
 
   test("panel paints rim, sheen, glass, glow, shadow and well from tokens", async () => {
@@ -507,6 +519,33 @@ describe("buildCss", () => {
     expect(gridCss).toContain('.kb-grid[data-gap="md"]');
     expect(gridCss).toContain('.kb-grid[data-align="center"]');
 
+    const stackCss = await read("stack.css");
+    expect(stackCss.split("\n")[0]).toContain("[data-gap=none|sm|md|lg]");
+    expect(stackCss.split("\n")[0]).toContain("[data-align=start|center|end|stretch]");
+    expect(stackCss.split("\n")[0]).toContain("[data-justify=start|center|end|between]");
+    expect(stackCss).toContain("flex-direction: column;");
+    expect(stackCss).toContain("list-style: none;");
+    expect(stackCss).toContain("margin-block: 0;");
+    expect(stackCss).toContain('.kb-stack[data-gap="lg"]');
+    expect(stackCss).toContain('.kb-stack[data-justify="between"]');
+    const galleryCss = await read("gallery.css");
+    expect(galleryCss.split("\n")[0]).toContain(".kb-gallery-items.kb-grid > .kb-gallery-item");
+    expect(galleryCss).toContain("container: kb-gallery / inline-size");
+    expect(galleryCss).toContain("max-inline-size: var(--kb-gallery-max-width)");
+    expect(galleryCss).toContain("@media (width >= 48rem)");
+    expect(galleryCss).toContain("padding-inline: var(--kb-gallery-gutter-sm)");
+    expect(galleryCss).toMatch(
+      /@media \(width >= 48rem\) \{\s*\.kb-gallery \{\s*padding-inline: var\(--kb-gallery-gutter-md\)/,
+    );
+    expect(galleryCss).toMatch(
+      /@media \(width >= 64rem\) \{\s*\.kb-gallery \{\s*padding-inline: var\(--kb-gallery-gutter-lg\)/,
+    );
+    for (const step of ["30rem", "48rem", "64rem"]) {
+      expect(galleryCss).toContain(`@container kb-gallery (width >= ${step})`);
+    }
+    expect(galleryCss).toMatch(/\.kb-gallery-item\[data-featured\][^{]*\{\s*grid-column: span 2/);
+    expect(galleryCss).not.toContain(".kb-card");
+
     for (const file of ["spinner.css", "skeleton.css", "emptystate.css", "toast.css"]) {
       const css = await read(file);
       expect(css).toContain("@media (prefers-reduced-motion: reduce)");
@@ -555,6 +594,22 @@ describe("buildCss", () => {
     );
     expect(pageHeaderCss).toContain("flex: 1 1 var(--kb-pageheader-heading-min-width)");
     expect(pageHeaderCss).toContain("flex-wrap: wrap");
+
+    const supportingPaneCss = await read("supportingpane.css");
+    expect(supportingPaneCss.split("\n")[0]).toContain(
+      ".kb-supportingpane > .kb-supportingpane-main, .kb-supportingpane-aside",
+    );
+    expect(supportingPaneCss).toContain("container: kb-supportingpane / inline-size");
+    expect(supportingPaneCss).toContain("@container kb-supportingpane (width >= 48rem)");
+    expect(supportingPaneCss).toContain("max-inline-size: var(--kb-supportingpane-max-width)");
+    const statsRowCss = await read("statsrow.css");
+    expect(statsRowCss.split("\n")[0]).toContain(
+      ".kb-statsrow [data-appearance=plain|outlined] > .kb-statsrow-item",
+    );
+    expect(statsRowCss).toContain("auto-fit");
+    expect(statsRowCss).toContain("minmax(min(100%, var(--kb-statsrow-item-min-width)), 1fr)");
+    expect(statsRowCss).toContain("grid-template-rows: subgrid");
+    expect(statsRowCss).toContain(".kb-statsrow-item > .kb-stat");
 
     const toastCss = await read("toast.css");
     expect(toastCss.split("\n")[0]).toContain(".kb-toast");

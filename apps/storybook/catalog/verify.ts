@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { loadRecipeSources } from "./recipes.ts";
 import { loadCatalogSources } from "./source.ts";
 
 const indexPath = fileURLToPath(new URL("../dist/storybook/index.json", import.meta.url));
@@ -27,6 +28,12 @@ for (const entry of Object.values(index.entries)) {
 }
 
 const catalog = loadCatalogSources();
+const recipes = loadRecipeSources();
+for (const recipe of recipes)
+  for (const id of [recipe.docsId, ...recipe.stories.map((story) => story.id)])
+    if (!(id in index.entries)) throw new Error(`Recipe target missing from Storybook: ${id}`);
+if (!("foundations-components-and-recipes--docs" in index.entries))
+  throw new Error("Missing components and recipes guide in Storybook");
 let count = 0;
 for (const entry of catalog) {
   for (const id of [entry.docsId, ...entry.stories.map((story) => story.id)]) {
@@ -34,4 +41,6 @@ for (const entry of catalog) {
     count++;
   }
 }
-console.log(`Catalog verified: ${catalog.length} components, ${count} Storybook targets.`);
+console.log(
+  `Catalog verified: ${catalog.length} components, ${count} component targets, ${recipes.length} recipes.`,
+);

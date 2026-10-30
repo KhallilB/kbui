@@ -1,0 +1,47 @@
+/* Anatomy: .kb-stack [data-gap=none|sm|md|lg] [data-align=start|center|end|stretch] [data-justify=start|center|end|between] > * */
+.kb-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kb-layout-gap-md);
+  align-items: stretch;
+  justify-content: flex-start;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-wrap: anywhere;
+}
+
+/* Gap owns rhythm: UA block margins on p, h* and lists would double it. */
+.kb-stack > * {
+  margin-block: 0;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+.kb-stack[data-gap="none"] {
+  gap: 0;
+}
+.kb-stack[data-gap="sm"] {
+  gap: var(--kb-layout-gap-sm);
+}
+.kb-stack[data-gap="lg"] {
+  gap: var(--kb-layout-gap-lg);
+}
+.kb-stack[data-align="start"] {
+  align-items: flex-start;
+}
+.kb-stack[data-align="center"] {
+  align-items: center;
+}
+.kb-stack[data-align="end"] {
+  align-items: flex-end;
+}
+.kb-stack[data-justify="center"] {
+  justify-content: center;
+}
+.kb-stack[data-justify="end"] {
+  justify-content: flex-end;
+}
+.kb-stack[data-justify="between"] {
+  justify-content: space-between;
+}

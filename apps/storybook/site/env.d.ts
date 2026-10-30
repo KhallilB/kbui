@@ -1,5 +1,13 @@
 /// <reference types="vite/client" />
 
+declare module "virtual:kbui-system" {
+  const content: {
+    recipes: import("../catalog/types").RecipeReference[];
+    guide: string;
+  };
+  export default content;
+}
+
 declare module "virtual:kbui-reference" {
   const references: Record<string, import("../catalog/types").ComponentReference>;
   export default references;

@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { babelParseFile } from "storybook/internal/csf-tools";
+import { recipeDefinitions } from "./content.ts";
 
 export function extractDocumentationExamples(markdown: string): string[] {
   const examples: string[] = [];
@@ -37,6 +38,7 @@ export function loadDocumentationExamples(root: string) {
     "docs/guides/forms-and-overlays.md",
     "docs/guides/loading-and-feedback.md",
     "docs/guides/structured-data.md",
+    ...recipeDefinitions.map((recipe) => recipe.guide),
   ].flatMap((path) => {
     const examples = extractDocumentationExamples(readFileSync(join(root, path), "utf8"));
     if (!examples.length) throw new Error(`Missing complete React example in ${path}`);

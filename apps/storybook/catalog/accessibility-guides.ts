@@ -56,7 +56,7 @@ export const accessibilityGuides = {
     ],
     authoring: [
       "Use alt for meaningful visual information and an empty alternative for a decorative attachment tile already identified by its filename.",
-      "Compose Grid as ul with li children. Use named caption actions; never place interactive content in image fallback or nest controls. Gallery modal behavior belongs to Dialog.",
+      "Compose a page of previews as Gallery.Item children of Gallery. Use named caption actions; never place interactive content in image fallback or nest controls. Gallery modal behavior belongs to Dialog.",
     ],
     verify: [
       "Read the gallery as a list and check each figure, alternative and filename. Fail a request: title, format and size must stay readable.",
@@ -235,6 +235,21 @@ export const accessibilityGuides = {
       href: "https://www.w3.org/WAI/ARIA/apg/patterns/table/examples/sortable-table/",
     },
   },
+  Dashboard: {
+    provides: [
+      "Header, metrics, primary and secondary regions in DOM order; regions add no roles or focus stops.",
+      "Primary stays before secondary in reading order when the panels stack.",
+    ],
+    authoring: [
+      "Start with an h1, usually PageHeader's title, and name each panel with an h2.",
+      "Label the metrics list, and state data freshness or partial data as text rather than color alone.",
+    ],
+    verify: [
+      "Browse by headings with a screen reader and confirm the outline runs header, metrics, primary, then secondary.",
+      "At 390, 768 and 1440px check no sideways scroll, no overlapping controls and every target at least 24 by 24 CSS pixels.",
+    ],
+    standards: ["1.3.1", "1.3.2", "1.4.1", "1.4.10", "2.4.6", "2.5.8"],
+  },
   Container: {
     provides: [
       "The as prop selects a native landmark or section element; native naming attributes and refs pass through.",
@@ -265,6 +280,22 @@ export const accessibilityGuides = {
     ],
     standards: ["1.3.1", "1.3.2", "2.4.3", "1.4.10"],
   },
+  Stack: {
+    provides: [
+      "Children flow top to bottom in source order without a role, tab stop or keyboard handler.",
+      "The as prop supports named sections, articles, asides, navigation, native lists and forms.",
+    ],
+    authoring: [
+      "Name a section with aria-labelledby and use li children with ul or ol; add role=list when Safari must announce a list without markers.",
+      "Keep visual and reading order the same; Stack never reorders children.",
+    ],
+    verify: [
+      "Tab through the stack; focus must move top to bottom in reading order.",
+      "At 320 CSS pixels and 200% text size, confirm long words wrap and no child overflows horizontally.",
+      "Read the section, list or form with a screen reader and confirm its name and items are announced.",
+    ],
+    standards: ["1.3.1", "1.3.2", "2.4.3", "1.4.10"],
+  },
   Split: {
     provides: [
       "Two layout-owned tracks stack in DOM order as available width narrows.",
@@ -279,6 +310,21 @@ export const accessibilityGuides = {
       "Narrow the actual parent, not just the browser, and check long text, controls, and nested panels remain usable.",
     ],
     standards: ["1.3.1", "1.3.2", "1.4.10"],
+  },
+  SupportingPane: {
+    provides: [
+      "A main region, then a native aside landmark named by asideLabelledBy or asideLabel, in DOM order at every width.",
+      "The aside moves below main under 48rem of content width; nothing is reordered or hidden.",
+    ],
+    authoring: [
+      "Place the pane inside the page's main, start main with its h1 and name the aside from its visible heading.",
+      "Own any control that hides the aside, and move focus sensibly when it closes.",
+    ],
+    verify: [
+      "List landmarks with a screen reader and confirm the complementary landmark is announced with its name, after the main content.",
+      "At 390, 768 and 1440px, and at 400% zoom, check the aside is below main when narrow, nothing scrolls sideways and no controls overlap.",
+    ],
+    standards: ["1.3.1", "1.3.2", "1.4.10", "2.4.6", "4.1.2"],
   },
   Form: {
     provides: [
@@ -964,6 +1010,24 @@ export const accessibilityGuides = {
     ],
     standards: ["1.3.1", "1.3.5", "2.1.1", "2.5.3", "3.3.1", "3.3.2", "4.1.2"],
   },
+  Gallery: {
+    provides: [
+      "Items render as a native ul with li children, so screen readers announce the list and its item count; itemsLabel names the list.",
+      "Header, filters and items keep DOM order at every width; columns change with the gallery's width and featured items never move ahead of earlier items.",
+      "When empty is set, the empty region replaces the list, so an empty result never leaves a zero-item list behind.",
+    ],
+    authoring: [
+      "Give each meaningful image an alt that says what tells items apart, such as colour or material, without repeating the item heading; use alt='' only beside an equivalent visible description.",
+      "Name each item with a heading, label its Card with aria-labelledby, and include the item name in every item action, starting with the visible label, such as 'Add to cart, The Schu Classic'.",
+      "Put a result count in a role='status' message in filters so filtering is announced without moving focus; when a recovery action in the empty region resets filters, move focus to the control it reset. Keep one h1 in the header and h2 item headings.",
+    ],
+    verify: [
+      "With a screen reader, read the list and confirm its name, item count, each image alternative and each heading; list buttons and confirm every name identifies its item.",
+      "Filter to no results and back by keyboard; confirm the count is announced, the empty state appears with its recovery action, and its recovery action moves focus to the reset control rather than the page start.",
+      "At 390, 768 and 1440px and at 400% zoom, confirm one to four columns, images that keep their ratio, no sideways scroll and no overlapping targets, in light and dark themes.",
+    ],
+    standards: ["1.1.1", "1.3.1", "1.3.2", "1.4.10", "2.4.6", "2.5.3", "2.5.8", "4.1.3"],
+  },
   PageHeader: {
     provides: [
       "The title renders as a native heading, h1 by default, so the page outline starts at the screen's own name.",
@@ -982,6 +1046,28 @@ export const accessibilityGuides = {
       "At 320 CSS pixels wide and at 400% zoom, confirm the title wraps, actions move below the heading and no content scrolls sideways.",
     ],
     standards: ["1.3.1", "1.3.2", "1.4.4", "1.4.10", "2.4.3", "2.4.6", "2.4.7"],
+  },
+  StatsRow: {
+    provides: [
+      "The root is a ul with an explicit list role, so screen readers announce the number of metrics even where list-style: none removes list semantics in WebKit; native aria-label or aria-labelledby names the list.",
+      "Each item reads label, value, change, context and link in that order; the visual alignment across items comes from CSS subgrid and never reorders the DOM.",
+      "The direction glyph is an aria-hidden SVG that sets trend apart by shape as well as color; the change text, not the glyph, carries the meaning for assistive technology.",
+      "Tone colors use the success, danger and muted color tokens, which meet text contrast in light and dark themes; tone is shown by color only, so it supplements text rather than replacing it. The row wraps into more rows instead of scrolling sideways at narrow widths.",
+    ],
+    authoring: [
+      "Write the direction into the change text, such as +12.8% or −9 min, or in words; color and the glyph alone do not convey it.",
+      "When it is not obvious from the label whether a change is good or bad news, say so in the change or context text, such as +12 requests, above target; tone color alone does not convey it.",
+      "Put the unit and period into the label or value and use one unit, precision and comparison period across the row so figures can be compared.",
+      "Name the list with aria-label or aria-labelledby when a screen has more than one row of metrics, and give every link a destination-specific name, such as View orders.",
+      "Use Status or a live region separately if a metric updates while the user is on the page; StatsRow does not announce changes.",
+    ],
+    verify: [
+      "With a screen reader, move into the row and confirm it is announced as a named list with the right item count, then read one item and confirm the label, value, change and period make sense in that order.",
+      "Switch to grayscale or forced colors and confirm each change still shows its direction through its sign or words and the glyph, and that any good or bad news a color implied is also stated in text.",
+      "At 320 CSS pixels wide and at 400% zoom, confirm metrics wrap into more rows with no sideways scrolling and values in the same row stay aligned.",
+      "Tab through a row with links and confirm each link receives a visible focus indicator in reading order.",
+    ],
+    standards: ["1.3.1", "1.3.2", "1.4.1", "1.4.3", "1.4.10", "2.4.4", "2.4.7"],
   },
   EmptyState: {
     provides: [

@@ -34,14 +34,25 @@ validate_responsive() {
 }
 
 validate_built() (
+  site_port=${SITE_VALIDATION_PORT:-4175}
+  qa_port=$((site_port + 1))
+  python3 - "$site_port" "$qa_port" <<'PY'
+import socket
+import sys
+
+for port in map(int, sys.argv[1:]):
+    with socket.socket() as listener:
+        try:
+            listener.bind(("127.0.0.1", port))
+        except OSError as error:
+            raise SystemExit(f"Validation port {port} is unavailable: {error}")
+PY
   run_check "Install deployment tools" npm ci --prefix deployment/site
   run_check "Deployment contracts" npm test --prefix deployment/site
   run_check "Theme override contracts" bun run --cwd apps/storybook verify:overrides
   run_check "Build public site and Storybook" bun run --cwd apps/storybook build:site
   run_check "Stage production site" bun scripts/site-stage.ts
 
-  site_port=${SITE_VALIDATION_PORT:-4175}
-  qa_port=$((site_port + 1))
   qa_output=$(mktemp -d)
   cleanup() {
     for pid in "${site_server_pid:-}" "${qa_server_pid:-}"; do
@@ -59,6 +70,7 @@ validate_built() (
   curl --fail --retry 8 --retry-connrefused --retry-delay 1 "http://127.0.0.1:$site_port/" > /dev/null
   curl --fail --retry 8 --retry-connrefused --retry-delay 1 "http://127.0.0.1:$qa_port/storybook/index.json" > /dev/null
   run_check "Storybook navigation and themes" env STORYBOOK_URL=http://127.0.0.1:$site_port/storybook bun run --cwd apps/storybook verify:storybook
+  run_check "Recipe documentation and navigation" env RECIPE_SITE_URL=http://127.0.0.1:$site_port bun run --cwd apps/storybook verify:recipes
   run_check "Component documentation" env STORYBOOK_URL=http://127.0.0.1:$site_port/storybook bun run --cwd apps/storybook verify:component-docs
   run_check "Chromium and WebKit site journeys" env CATALOG_PREVIEW_URL=http://127.0.0.1:$site_port bun run --cwd apps/storybook verify:release
   run_check "Form controls and reflow" env CONTROL_EDGES_URL=http://127.0.0.1:$qa_port/storybook bun run --cwd apps/storybook verify:controls

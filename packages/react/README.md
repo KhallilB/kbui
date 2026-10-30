@@ -27,6 +27,9 @@ The React adapter provides the components, styles and CSS variables together. In
 
 ## Start here
 
+- [Components and recipes](https://github.com/KhallilB/kbui/blob/main/docs/guides/components-and-recipes.md): importing package APIs and copying application-owned source.
+- [Browse recipes](https://kbui.kcb.pro/recipes/): live compositions and complete source files.
+
 - [Install and configure kbui](https://github.com/KhallilB/kbui/blob/main/docs/guides/using-kbui.md): package setup, themes, and troubleshooting.
 - [Browse live components](https://kbui.kcb.pro/components/): interactive states, code, and API tables.
 - [Accessibility implementation and verification](https://github.com/KhallilB/kbui/blob/main/docs/guides/accessibility.md): requirements, caller responsibilities, manual checks, and evidence limits.
@@ -41,7 +44,7 @@ The React adapter provides the components, styles and CSS variables together. In
 | Collect choices | [Checkbox](docs/components/Checkbox.md) for independent choices; [RadioGroup](docs/components/RadioGroup.md) for one visible choice; [Select](docs/components/Select.md) for a dropdown; [Switch](docs/components/Switch.md) for an immediate setting |
 | Collect text, quantities, or files | [Input](docs/components/Input.md), [Textarea](docs/components/Textarea.md), [NumberField](docs/components/NumberField.md), or [FileInput](docs/components/FileInput.md) |
 | Reveal details or supporting controls | [Disclosure](docs/components/Disclosure.md), [Accordion](docs/components/Accordion.md), or [Popover](docs/components/Popover.md); [drawer and confirmation patterns](https://github.com/KhallilB/kbui/blob/main/docs/guides/forms-and-overlays.md#drawer-pattern) compose Dialog |
-| Arrange a responsive page | [Container](docs/components/Container.md) for the page boundary; [PageHeader](docs/components/PageHeader.md) for the title and page actions; [Inline](docs/components/Inline.md) for rows; [Grid](docs/components/Grid.md) for collections; [Split](docs/components/Split.md) for two columns |
+| Arrange a responsive page | [Container](docs/components/Container.md) for the page boundary; [PageHeader](docs/components/PageHeader.md) for the title and page actions; [StatsRow](docs/components/StatsRow.md) for a row of key metrics; [Dashboard](docs/components/Dashboard.md) for an overview page with metrics and panels; [Inline](docs/components/Inline.md) for rows; [Stack](docs/components/Stack.md) for vertical flow; [Grid](docs/components/Grid.md) for collections; [Split](docs/components/Split.md) for two columns; [SupportingPane](docs/components/SupportingPane.md) for a main task with an aside such as an order summary |
 | Explain state, waiting, or completion | [Spinner](docs/components/Spinner.md) for indeterminate waits; [Skeleton](docs/components/Skeleton.md) for loading placeholders; [Progress](docs/components/Progress.md) for completion; [EmptyState](docs/components/EmptyState.md) for missing content; [Status](docs/components/Status.md) for changing state; [Toast](docs/components/Toast.md) for transient notifications; [Badge](docs/components/Badge.md) for metadata; [Callout](docs/components/Callout.md) for a fuller message |
 | Compare records or scan details | [Table](docs/components/Table.md), [DescriptionList](docs/components/DescriptionList.md), [CollectionList](docs/components/CollectionList.md) and [CollectionRow](docs/components/CollectionRow.md) |
 | Build readable content | [Heading](docs/components/Heading.md) and [Text](docs/components/Text.md) |
@@ -62,7 +65,7 @@ Choose by task. Each page contains a complete usage example, canonical API detai
 | <a id="image"></a>[Image](docs/components/Image.md) | Stable image sizing, crops, containment and failure states. |
 | <a id="thumbnail"></a>[Thumbnail](docs/components/Thumbnail.md) | Captioned products, attachments and gallery previews. |
 
-See [Media and identity](../../docs/guides/media-and-identity.md) for responsive sources, retry and gallery recipes. These components are implemented locally and unreleased.
+See [Media and identity](../../docs/guides/media-and-identity.md) for responsive sources and retry, and [Gallery](docs/components/Gallery.md) for catalog pages. These components are implemented locally and unreleased.
 ### Collections
 
 | Component | Use for |
@@ -126,10 +129,12 @@ See [Media and identity](../../docs/guides/media-and-identity.md) for responsive
 | Component | Use for |
 |---|---|
 | <a id="accordion"></a>[Accordion](docs/components/Accordion.md) | Group related disclosures under headings. |
+| <a id="dashboard"></a>[Dashboard](docs/components/Dashboard.md) | An overview page: header, metrics, then primary and secondary panels. |
 | <a id="disclosure"></a>[Disclosure](docs/components/Disclosure.md) | Reveal optional details and controls inline. |
 | <a id="card"></a>[Card](docs/components/Card.md) | Group related content, with room for links and actions. |
 | <a id="container"></a>[Container](docs/components/Container.md) | Shared page widths and responsive gutters. |
 | <a id="form"></a>[Form](docs/components/Form.md) | One task with grouped fields, then its one submit action. |
+| <a id="gallery"></a>[Gallery](docs/components/Gallery.md) | A page of image-led items, such as a product catalog, in one to four columns. |
 | <a id="grid"></a>[Grid](docs/components/Grid.md) | Arrange content in responsive columns or a single stack. |
 | <a id="inline"></a>[Inline](docs/components/Inline.md) | Wrapping rows with shared spacing and alignment. |
 | <a id="pageheader"></a>[PageHeader](docs/components/PageHeader.md) | Open a screen with its title, context, state badges and page-level actions. |
@@ -138,6 +143,9 @@ See [Media and identity](../../docs/guides/media-and-identity.md) for responsive
 | <a id="separator"></a>[Separator](docs/components/Separator.md) | Semantic or decorative horizontal and vertical rules. |
 | <a id="settings"></a>[Settings](docs/components/Settings.md) | Sections of fields and managed lists, each saved on its own. |
 | <a id="split"></a>[Split](docs/components/Split.md) | Two columns that stack when their parent narrows. |
+| <a id="stack"></a>[Stack](docs/components/Stack.md) | Vertical flow with shared spacing and alignment. |
+| <a id="statsrow"></a>[StatsRow](docs/components/StatsRow.md) | Show comparable metrics in a row that fills its region and wraps when narrow. |
+| <a id="supportingpane"></a>[SupportingPane](docs/components/SupportingPane.md) | A main column with a named aside that moves below it when narrow. |
 
 ### Structured data
 
