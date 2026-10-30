@@ -1,6 +1,24 @@
 import type { AccessibilityGuide } from "./accessibility-standards";
 
 export const accessibilityGuides = {
+  Tabs: {
+    provides: [
+      "Base UI links tab, tablist and tabpanel roles, selection and disabled state. One tab stop enters the list; arrow keys move focus, including disabled tabs for discovery; disabled tabs cannot be selected.",
+      "Horizontal and vertical keyboard navigation, Home/End, automatic or Enter/Space activation, controlled values and retained hidden panels are supported.",
+      "Theme tokens, inset focus outlines, selected indicators and forced-color styles preserve visible interaction cues.",
+    ],
+    authoring: [
+      "Name Tabs.List with aria-label or aria-labelledby, label every tab, and match unique tab and panel values. Use links for page navigation.",
+      "Use activateOnFocus={false} when panel changes need loading. Applications own loading/status feedback, data fetching and controlled selection recovery after removing a tab.",
+      "Use keepMounted to retain drafts. Supply a narrow-screen layout for long vertical labels and ensure hidden panels contain no reachable controls.",
+    ],
+    verify: [
+      "Tab into the selected tab. Arrow through tabs, including disabled ones, then Home/End; confirm focus and selected panel. In manual mode, arrows move only focus and Enter/Space selects.",
+      "With a screen reader, confirm list name, selected and disabled tab announcements, panel name and reading order. This manual check remains unverified by automated stories.",
+      "At 320 CSS pixels, enlarged text, both themes and forced colors, verify readable panels, reachable scrolling tabs and distinct selection/focus. Retained inactive inputs must stay outside Tab order.",
+    ],
+    standards: ["1.3.1", "1.4.1", "1.4.3", "1.4.10", "1.4.11", "2.1.1", "2.4.3", "2.4.7", "4.1.2"],
+  },
   Avatar: {
     provides: [
       "name labels one image role through photo loading and failure; initials are visual-only fallback content.",

@@ -44,6 +44,7 @@ The first line of each stylesheet describes the markup it expects. The table sho
 
 | File | Expected markup |
 |---|---|
+| `tabs.css` | `.kb-tabs` with list, tab, indicator and panel parts; each part carries orientation, variant and size from its nearest root |
 | `image.css` | `.kb-image` with ratio, fit and request state; visual fallback and native decorative img; renderer owns request lifecycle |
 | `avatar.css` | `.kb-avatar` with `data-size` and `data-shape` (`circle`, `square`, `rounded`, `hexagon`, `diamond`); `.kb-avatar-media` inherits root radius and clips upright media for polygons; `.kb-avatar-initials` supplies fallback text; also load image.css |
 | `thumbnail.css` | Native figure with media and caption/title/description; also load image.css |
