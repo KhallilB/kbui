@@ -21,8 +21,6 @@ const composed = (
 });
 const request = (purpose: string, story = "RequestQueue") =>
   composed("recipes/ListDetail.tsx", "recipes/ListDetail.stories.tsx", story, purpose);
-const editorial = (purpose: string) =>
-  composed("site/Examples.tsx", "stories/Compositions.stories.tsx", "Editorial", purpose);
 const planner = (purpose: string, story = "PickAPlan") =>
   composed("site/PlanDemo.tsx", "stories/PlanDemo.stories.tsx", story, purpose);
 const frame = (purpose: string) =>
@@ -37,14 +35,14 @@ const frame = (purpose: string) =>
 export const adoptionRelationships: Record<string, AdoptionRelationship> = {
   Accordion: pending("Settings help and expandable example details"),
   Avatar: pending("Correspondence identity and discoverable people composition"),
-  Badge: editorial("Team-guide metadata alongside article content"),
+  Badge: pending("Recipe and workspace metadata with focused composition proof"),
   Button: planner("Planner actions and activity selection"),
   Callout: pending(
     "Connect existing SettingsScreen/OperationsScreen recovery feedback to focused proof",
   ),
   Card: planner("Planner task surface with stateful activity choices"),
   Checkbox: planner("Activity selection updates progress and summary"),
-  Code: editorial("Literal error identifier in editorial instructions"),
+  Code: pending("Literal identifiers in recipe instructions with focused composition proof"),
   CodeBlock: pending("Complete setup and example source with clipboard parity"),
   Collection: pending("Searchable request workspace with bulk-action recovery"),
   CollectionList: pending("Workspace results with empty and error states"),
@@ -61,7 +59,7 @@ export const adoptionRelationships: Record<string, AdoptionRelationship> = {
   ErrorSummary: pending("Settings and request intake submission errors"),
   Fieldset: pending("Settings and request intake field groups"),
   FileInput: pending("Request intake supporting attachments"),
-  Form: pending("Request intake task and discoverable hotel-booking reference"),
+  Form: pending("Request intake task with validation and submission recovery"),
   FormActions: pending("Settings and request intake submit and cancel actions"),
   FormSection: request("Packaged edit form groups, separate from copied recipe", "EditAndValidate"),
   Gallery: pending("Discoverable product catalog composition"),
