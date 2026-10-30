@@ -44,6 +44,7 @@ const groups = [
   "Structured data",
   "Typography",
   "Media",
+  "Navigation",
 ] as const satisfies readonly ("All" | CatalogGroup)[];
 function isChoice<T extends string>(value: string, choices: readonly T[]): value is T {
   return choices.some((choice) => choice === value);

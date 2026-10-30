@@ -538,6 +538,12 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-popover-motion-easing: var(--kb-motion-easing-standard);
   --kb-popover-enter-scale: 0.98;
   --kb-popover-enter-offset: var(--kb-space-1);
+  --kb-tabs-radius: var(--kb-radius-md);
+  --kb-tabs-list-padding: 3px;
+  --kb-tabs-tab-height-sm: var(--kb-button-height-sm);
+  --kb-tabs-tab-height-md: var(--kb-button-height-md);
+  --kb-tabs-indicator-thickness: 2px;
+  --kb-tabs-panel-padding: var(--kb-space-4);
   --kb-table-background: var(--kb-color-bg);
   --kb-table-header-background: var(--kb-color-surface);
   --kb-table-selected-background: var(--kb-color-surface);

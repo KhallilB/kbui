@@ -30,6 +30,7 @@ import {
   Status,
   Switch,
   Table,
+  Tabs,
   Textarea,
   Thumbnail,
   Toast,
@@ -43,6 +44,19 @@ const every = new Proxy({} as Record<string, string>, {
 const camel = (part: string) => part.replace(/-(\w)/g, (_, c: string) => c.toUpperCase());
 
 const cases: [string, () => ReactElement][] = [
+  [
+    "tabs",
+    () => (
+      <Tabs defaultValue="a" classNames={every}>
+        <Tabs.List aria-label="Tabs">
+          <Tabs.Tab value="a" icon={<svg />} badge="1">
+            A
+          </Tabs.Tab>
+        </Tabs.List>
+        <Tabs.Panel value="a">Panel</Tabs.Panel>
+      </Tabs>
+    ),
+  ],
   ["image", () => <Image src="/a.jpg" alt="Photo" classNames={every} />],
   ["avatar", () => <Avatar name="Maya Chen" classNames={every} />],
   [

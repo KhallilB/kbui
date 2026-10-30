@@ -220,6 +220,7 @@ try {
           }
           if (alignment.text === "center") throw new Error("Example text became center-aligned");
           const fluidSelectors: Record<string, string> = {
+            tabs: ".kb-tabs:not(.kb-tabs .kb-tabs)",
             codeblock: ".kb-codeblock",
             collection: ".kb-collection",
             accordion: ".kb-accordion",

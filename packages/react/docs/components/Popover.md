@@ -82,7 +82,7 @@ Follow the [Base UI focus/positioning contract](https://base-ui.com/react/compon
 
 ## Verification limits
 
-Run `bun run test:overlays` for Chromium, Firefox and WebKit checks in both themes and motion preferences. Scans exclude only Base UI’s implementation focus guards, following maintainer guidance; real controls retain naming checks. See [overlay verification](../../../../docs/guides/accessibility.md#overlay-compatibility) for the policy and manual screen-reader assessment limits.
+Run `bun run test:overlays` for Chromium, Firefox and WebKit checks in both themes and motion preferences. Scans exclude only Base UI’s implementation focus guards, following maintainer guidance; real controls retain naming checks. Native keyboard and scanner negative-control regressions protect that boundary. See [overlay verification](../../../../docs/guides/accessibility.md#overlay-compatibility) for the policy and manual screen-reader assessment limits.
 
 ## Related components
 

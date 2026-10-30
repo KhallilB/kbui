@@ -612,6 +612,19 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.ErrorSummary,
   },
+  Tabs: {
+    use: "Switch between peer views that share the same context without leaving the page.",
+    example: {
+      title: "Inspect release sections",
+      description:
+        "Use arrow keys or click a tab to switch panels while the active indicator tracks the selected tab.",
+    },
+    tips: [
+      'Use variant="pill" for compact view switchers and variant="line" for section headers.',
+      "Set keepMounted on Tabs.Panel when inactive panels hold form state or expensive measurements.",
+    ],
+    accessibility: accessibilityGuides.Tabs,
+  },
   Toolbar: {
     use: "Group related actions in a row, such as editing commands. Use normal buttons when actions do not form a coherent group.",
     example: {

@@ -49,6 +49,7 @@ bun run check            # build, lint, types, examples, unit and package checks
 
 | Document | Covers |
 |---|---|
+| [Tabs](packages/react/docs/components/Tabs.md) | Peer panel switching, keyboard navigation and retained drafts (unreleased) |
 | [Media and identity](docs/guides/media-and-identity.md) | Avatar, stable image framing, thumbnails and gallery recipes (unreleased) |
 | [Collection workflows](packages/react/docs/components/Collection.md) | Sorting, filtering, page selection, pagination, bulk actions and server ownership |
 | [React component guide](packages/react/README.md) | Choose components by task, read APIs, and find focused examples |

@@ -69,6 +69,12 @@ See [Media and identity](../../docs/guides/media-and-identity.md) for responsive
 |---|---|
 | [Collection](docs/components/Collection.md) | Sort, filter, select and paginate records; includes useCollection, Collection.Pagination and Collection.BulkActions. |
 
+### Navigation
+
+| Component | Use it to |
+| --- | --- |
+| <a id="tabs"></a>[Tabs](docs/components/Tabs.md) | Switch between peer panels with keyboard navigation. |
+
 ### Actions
 
 | Component | Use for |

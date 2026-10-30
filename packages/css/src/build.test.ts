@@ -63,6 +63,7 @@ describe("buildCss", () => {
         "image.css",
         "avatar.css",
         "thumbnail.css",
+        "tabs.css",
         "copyabletext.css",
         "codeblock.css",
       ]),

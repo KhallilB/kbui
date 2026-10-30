@@ -247,6 +247,18 @@ export {
   type TableSortDirection,
 } from "./components/Table/Table";
 export {
+  Tabs,
+  type TabsClassKey,
+  type TabsIndicatorProps,
+  type TabsListProps,
+  type TabsOrientation,
+  type TabsPanelProps,
+  type TabsProps,
+  type TabsSize,
+  type TabsTabProps,
+  type TabsVariant,
+} from "./components/Tabs/Tabs";
+export {
   Text,
   type TextElement,
   type TextProps,

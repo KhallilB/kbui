@@ -418,6 +418,18 @@ export const definitions: Record<string, Definition> = {
       FormRecovery: "Form Recovery",
     },
   },
+  Tabs: {
+    group: "Navigation",
+    description:
+      "Switch between peer sections with arrow-key roving focus and an active indicator.",
+    examples: {
+      Default: "Default",
+      Pill: "Pill",
+      Vertical: "Vertical",
+      RetainedDraft: "Retained Draft",
+      Nested: "Nested",
+    },
+  },
   Toolbar: {
     group: "Actions",
     description: "Group related actions with arrow-key navigation.",

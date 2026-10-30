@@ -40,6 +40,7 @@ export const layoutPreviewComponents = [
 ] as const;
 
 export const surfacePreviewComponents = [
+  "tabs",
   "popover",
   "accordion",
   "disclosure",
@@ -92,6 +93,7 @@ export function previewLayout(component: string, _story: string) {
     return { width: 1120, minimum: 160 };
   if (
     [
+      "tabs",
       "copyabletext",
       "codeblock",
       "input",

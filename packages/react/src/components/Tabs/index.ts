@@ -1,0 +1,16 @@
+export {
+  Tabs,
+  type TabsClassKey,
+  TabsIndicator,
+  type TabsIndicatorProps,
+  TabsList,
+  type TabsListProps,
+  type TabsOrientation,
+  TabsPanel,
+  type TabsPanelProps,
+  type TabsProps,
+  type TabsSize,
+  TabsTab,
+  type TabsTabProps,
+  type TabsVariant,
+} from "./Tabs";
