@@ -33,14 +33,30 @@ async function withLine(file: string, line: string, sortable: (stmt: string) => 
   return `${out.join("\n")}\n`;
 }
 
+export function authorNextSteps(name: string): string[] {
+  return [
+    `packages/react/README.md: add ${name} to the grouped component index`,
+    `apps/storybook/catalog/definitions.ts: register ${name} group and curated examples`,
+    `apps/storybook/catalog/component-guides.ts: add usage guidance for ${name}`,
+    `apps/storybook/catalog/accessibility-guides.ts: document verified accessibility behavior and manual checks for ${name}`,
+    "bun run lint:fix && bun run check",
+  ];
+}
+
 export async function newComponent(name: string, root = process.cwd()): Promise<void> {
   if (!/^[A-Z][A-Za-z0-9]*$/.test(name)) throw new Error(`"${name}" must be PascalCase`);
   const lower = name.toLowerCase();
   const reactDir = join(root, "packages/react/src/components", name);
   const cssDir = join(root, "packages/css/src/components");
   const cssFile = join(cssDir, `${lower}.css`);
+  const docsDir = join(root, "packages/react/docs/components");
+  const docFile = join(docsDir, `${name}.md`);
   if ((await exists(reactDir)) || (await exists(cssFile)))
     throw new Error(`${name} already exists`);
+
+  const pkgName = await readFile(join(root, "packages/react/package.json"), "utf8")
+    .then((raw) => (JSON.parse(raw) as { name?: string }).name ?? "@kb.ui/react")
+    .catch(() => "@kb.ui/react");
 
   const indexFile = join(root, "packages/react/src/index.ts");
   const stylesFile = join(root, "packages/css/src/styles.css");
@@ -57,9 +73,17 @@ export async function newComponent(name: string, root = process.cwd()): Promise<
 
   await mkdir(reactDir, { recursive: true });
   await mkdir(cssDir, { recursive: true });
-  const fill = (s: string) => s.replaceAll("__Name__", name).replaceAll("__name__", lower);
+  await mkdir(docsDir, { recursive: true });
+  const fill = (s: string) =>
+    s.replaceAll("__Name__", name).replaceAll("__name__", lower).replaceAll("__pkg__", pkgName);
   for (const file of (await readdir(templates)).filter((f) => !f.startsWith("."))) {
     const body = fill(await readFile(join(templates, file), "utf8"));
+    if (file.endsWith(".md")) {
+      if (!(await exists(docFile))) {
+        await writeFile(docFile, body);
+      }
+      continue;
+    }
     const target = file.endsWith(".css") ? cssFile : join(reactDir, fill(file));
     await writeFile(target, body);
   }
@@ -80,7 +104,9 @@ if (import.meta.main) {
     process.exit(1);
   }
   console.log(
-    `created ${name}: packages/react/src/components/${name}, packages/css/src/components/${name.toLowerCase()}.css`,
+    `created ${name}: packages/react/src/components/${name}, packages/css/src/components/${name.toLowerCase()}.css, packages/react/docs/components/${name}.md`,
   );
-  console.log("next: bun run lint:fix");
+  for (const step of authorNextSteps(name)) {
+    console.log(`next: ${step}`);
+  }
 }

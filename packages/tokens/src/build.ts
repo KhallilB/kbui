@@ -1,4 +1,4 @@
-import { validateTokenCycles } from "./validate";
+import { validateTokenCycles, validateTokenValuesAndTypes } from "./validate";
 
 export type Token = {
   $type: string;
@@ -80,6 +80,7 @@ export function buildTokens(tree: TokenTree): {
     seen.add(name);
   }
   validateTokenCycles(tree);
+  validateTokenValuesAndTypes(tree);
   const decl = (f: Flat, value: string) => `${varName(f.path)}: ${resolve(value, seen)};`;
   const darkOf = (f: Flat) => f.token.$extensions?.["kb.dark"] ?? f.token.$value;
   // Containers redeclare only theme-dependent tokens; the rest inherit consumer :root overrides.
