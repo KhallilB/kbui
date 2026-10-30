@@ -1,6 +1,6 @@
 # Badge
 
-Add a short label to a person, record, or resource. Keep the text meaningful without its color. Use Status when the information changes over time.
+Add a short label to a person, record, or resource. Keep the text meaningful without its color. Use `Status` when the information changes over time.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/components-badge--docs)
 
@@ -17,7 +17,7 @@ export function Example() {
 
 ## More examples
 
-- [Literal identifiers](https://kbui.kcb.pro/storybook/?path=/story/components-badge--mono): Compare monospace metadata.
+- [Literal identifiers](https://kbui.kcb.pro/storybook/?path=/story/components-badge--mono): Show an identifier in a monospace font.
 - [Semantic tones](https://kbui.kcb.pro/storybook/?path=/story/components-badge--tones): Check text remains meaningful across tones.
 
 ## Reference
@@ -30,8 +30,8 @@ export function Example() {
 | `mono`         | `boolean`                                             | `false`   | Small uppercase monospace for short identifiers                             |
 | `preserveCase` | `boolean`                                             | `false`   | Preserve case and spacing for branch names, paths, and other literal values |
 
-Native span props pass through. Badge adds no focus stop or live announcement.
+You can pass native `<span>` props. `Badge` adds no Tab stop or live announcement.
 
 ## Related components
 
-Use [Status](Status.md) for changing state and [Code](Code.md) for code within prose.
+Use [`Status`](Status.md) for changing state and [`Code`](Code.md) for code within prose.

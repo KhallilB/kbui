@@ -1,6 +1,6 @@
 # Inline
 
-Wrapping row for independent content or controls. Adds no toolbar role or keyboard handling; controls retain native tab order. Native props and matching ref pass through.
+Use `Inline` for a row of content or controls that wraps when space runs out. Each control keeps its normal Tab stop; the row adds no toolbar role or keyboard handling. Native HTML props and the matching `ref` pass through.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/layout-inline--docs)
 
@@ -39,4 +39,4 @@ Set `as` explicitly when using an element other than the default. Lists keep the
 
 ## Related components
 
-Use [Toolbar](Toolbar.md) when actions need coordinated arrow-key navigation. Use [Stack](Stack.md) for vertical flow and [Grid](Grid.md) when items need shared columns.
+Use [`Toolbar`](Toolbar.md) when actions need coordinated arrow-key navigation. Use [`Stack`](Stack.md) for vertical flow and [`Grid`](Grid.md) when items need shared columns.

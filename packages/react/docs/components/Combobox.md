@@ -1,8 +1,8 @@
 # Combobox
 
-Use Combobox to filter a longer option list before choosing one or multiple values. Each option has a string `value`, a visible `label`, and an optional `disabled` flag. Single selection uses `string | null`; enable `multiple` to use a `readonly string[]` value and a `(value: string[]) => void` callback. Pass `null` or `[]` for the corresponding empty selection.
+Use `Combobox` to filter a longer option list before choosing one or multiple values. Each option has a string `value`, a visible `label`, and an optional `disabled` flag. Single selection uses `string | null`; enable `multiple` to use a `readonly string[]` value and a `(value: string[]) => void` callback. Pass `null` or `[]` for the corresponding empty selection.
 
-Multiple mode delegates to [MultiSelect](MultiSelect.md), including removable chips, keyboard navigation, clear-all, form submission, and disabled/read-only states. Its popup stays open after selections and deselections, retaining the current filter. Press Escape, click outside, or use the toggle to dismiss it. It uses `.kb-multiselect` CSS anatomy and `ClassNames<MultiSelectSlot>` slots, including `chips`, `chip`, `chipLabel`, and `chipRemove`. Single mode retains `.kb-combobox` anatomy. `ComboboxProps` remains the extensible single-selection interface, so existing wrappers can keep extending it. `ComboboxSingleProps` aliases that interface; use `ComboboxMultipleProps` for a multiple-selection wrapper or React's `ComponentProps<typeof Combobox>` for the complete discriminated union.
+Multiple mode delegates to [`MultiSelect`](MultiSelect.md), including removable chips, keyboard navigation, clear-all, form submission, and disabled/read-only states. Its popup stays open after selections and deselections, retaining the current filter. Press Escape, click outside, or use the toggle to dismiss it. It uses `.kb-multiselect` CSS anatomy and `ClassNames<MultiSelectSlot>` slots, including `chips`, `chip`, `chipLabel`, and `chipRemove`. Single mode retains `.kb-combobox` anatomy. `ComboboxProps` remains the extensible single-selection interface, so existing wrappers can keep extending it. `ComboboxSingleProps` aliases that interface; use `ComboboxMultipleProps` for a multiple-selection wrapper or React's `ComponentProps<typeof Combobox>` for the complete discriminated union.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/components-combobox--docs)
 
@@ -85,4 +85,4 @@ export function DeploymentRegions() {
 
 ## Related components
 
-Use [Select](Select.md) for a dropdown without text filtering, [RadioGroup](RadioGroup.md) for visible options, and [MultiSelect](MultiSelect.md) for several searchable choices.
+Use [`Select`](Select.md) for a dropdown without text filtering, [`RadioGroup`](RadioGroup.md) for visible options, and [`MultiSelect`](MultiSelect.md) for several searchable choices.

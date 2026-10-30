@@ -1,6 +1,6 @@
 # ConfirmAction
 
-`ConfirmAction` puts a destructive action behind a modal confirmation built on [Dialog](Dialog.md). The trigger only opens the confirmation; `onConfirm` runs after a second, explicit choice. It owns Cancel-first focus, the pending guard, blocked dismissal while pending, the failure alert with retry, and closing only after success.
+`ConfirmAction` puts a destructive action behind a modal confirmation built on [`Dialog`](Dialog.md). The trigger only opens the confirmation; `onConfirm` runs after a second, explicit choice. It owns Cancel-first focus, the pending guard, blocked dismissal while pending, the failure alert with retry, and closing only after success.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/components-confirmaction--docs)
 
@@ -46,18 +46,18 @@ export function Example() {
 
 | Part or behavior | Purpose |
 | --- | --- |
-| Trigger | A `danger` [Button](Button.md) by default. Native button props, `ref`, `className` and `disabled` reach it. Replace its look with `render`, such as `render={<Button variant="ghost" size="sm" />}`. |
+| Trigger | A `danger` [`Button`](Button.md) by default. Native button props, `ref`, `className` and `disabled` reach it. Replace its look with `render`, such as `render={<Button variant="ghost" size="sm" />}`. |
 | Popup | A `Dialog.Content` with `.kb-confirmaction`. `title` names it and `description` describes it; `details` adds further consequence content. |
 | Actions | Cancel first, focused on open, then a `danger` confirm button. |
 | Pending | While `onConfirm` runs, the popup has `aria-busy` and `data-pending`, Escape is ignored, and both buttons stay focusable with `aria-disabled` and ignore presses, so focus is never dropped. |
-| Failure | A throw or rejection keeps the dialog open and shows `errorMessage` in a `role="alert"` danger [Callout](Callout.md). Confirming again retries. Closing or reopening clears the error. |
+| Failure | A throw or rejection keeps the dialog open and shows `errorMessage` in a `role="alert"` danger [`Callout`](Callout.md). Confirming again retries. Closing or reopening clears the error. |
 | Success | The dialog closes, focus returns to the trigger or `finalFocus`, then `onConfirmed` runs. |
 | Outside press | Never dismisses, pending or not. |
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
 | `children` | `ReactNode` | required | Trigger text; also the confirm button text unless `confirmLabel` is set |
-| `title` | `ReactNode` | required | Dialog heading and accessible name; ask the question the action settles |
+| `title` | `ReactNode` | required | `Dialog` heading and accessible name; ask the question the action settles |
 | `description` | `ReactNode` | unset | The consequence; the dialog's accessible description |
 | `details` | `ReactNode` | unset | Further consequence content, such as what else is removed |
 | `onConfirm` | `() => unknown` | required | Runs the action. Return a promise for asynchronous work; throw or reject on failure |
@@ -69,7 +69,7 @@ export function Example() {
 | `open` | `boolean` | uncontrolled | Controlled visibility |
 | `defaultOpen` | `boolean` | `false` | Initial visibility when uncontrolled |
 | `onOpenChange` | `(open: boolean) => void` | unset | Each visibility change, including the close after success; pending dismissals never reach it |
-| `finalFocus` | Dialog `finalFocus` | trigger | Focus target after closing; set it when success removes the trigger |
+| `finalFocus` | `Dialog` `finalFocus` | trigger | Focus target after closing; set it when success removes the trigger |
 | `container` | portal container | document body | Themed host for the popup |
 | `classNames` | `{ popup?, backdrop?, details?, error? }` | unset | Classes for inner parts |
 | `render` | Base UI `render` | `<Button variant="danger" />` | Trigger element |
@@ -97,4 +97,4 @@ For an urgent interruption that needs `alertdialog` semantics, use an alert-dial
 
 ## Related components
 
-Use [Dialog](Dialog.md) to compose a confirmation that needs fields or a different action layout. Use [Button](Button.md) `variant="danger"` alone only when the action is reversible, such as one with undo.
+Use [`Dialog`](Dialog.md) to compose a confirmation that needs fields or a different action layout. Use [`Button`](Button.md) `variant="danger"` alone only when the action is reversible, such as one with undo.

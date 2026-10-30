@@ -1,9 +1,9 @@
 .kbui-site .code-editor {
   position: relative;
   margin: 0;
-  border: 1px solid var(--review-line);
-  border-radius: 10px;
-  background: var(--review-paper);
+  border: 1px solid var(--kb-color-border);
+  border-radius: var(--kb-radius-lg);
+  background: var(--kb-color-bg);
   min-width: 0;
 }
 .kbui-site .catalog-skin-code .code-editor pre,
@@ -25,7 +25,7 @@
   overflow: hidden;
   pointer-events: none;
 }
-.kbui-site .code-editor code {
+.kbui-site .catalog-skin-code .code-editor code {
   font: inherit;
   white-space: inherit;
 }
@@ -34,7 +34,7 @@
   display: block;
   background: transparent;
   color: transparent;
-  caret-color: var(--ink);
+  caret-color: var(--kb-color-fg);
   resize: vertical;
   min-height: 210px;
   max-height: 360px;
@@ -55,8 +55,8 @@
   font-size: 10px;
 }
 .kbui-site .code-editor textarea::selection {
-  background: var(--review-selected);
-  color: var(--review-selected-fg);
+  background: light-dark(rgb(33 93 139 / 0.18), rgb(140 200 240 / 0.25));
+  color: transparent;
 }
 @media (forced-colors: active) {
   .kbui-site .catalog-skin-code .code-editor pre {
@@ -64,5 +64,9 @@
   }
   .kbui-site .catalog-skin-code .code-editor textarea {
     color: CanvasText;
+  }
+  .kbui-site .code-editor textarea::selection {
+    background: Highlight;
+    color: HighlightText;
   }
 }

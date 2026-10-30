@@ -1,6 +1,6 @@
 # Settings
 
-Use Settings for a page of preferences or account management: sections of fields, and managed lists such as members, API keys or sessions with row actions. Each section is saved on its own. Settings renders a header region and a sections region with a rule between sections; [FormSection](FormSection.md) children put their heading beside their fields on wide screens and above them on narrow ones. Record rows from [CollectionRow](CollectionRow.md) keep their status and actions end-aligned, on one line beside the main text from 40rem of page width. For one task with a single submit, use [Form](Form.md).
+Use `Settings` for a page of preferences or account management: sections of fields, and managed lists such as members, API keys or sessions with row actions. Each section is saved on its own. `Settings` renders a header region and a sections region with a rule between sections; [`FormSection`](FormSection.md) children put their heading beside their fields on wide screens and above them on narrow ones. Record rows from [`CollectionRow`](CollectionRow.md) keep their status and actions end-aligned, on one line beside the main text from 40rem of page width. For one task with a single submit, use [`Form`](Form.md).
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/layout-settings--docs)
 
@@ -46,12 +46,12 @@ export function Example() {
 | `header` | `ReactNode` | unset | Page title and intro above the sections |
 | `classNames` | `{ header?, sections? }` | unset | Classes for the regions |
 
-Other native div props and `ref` pass through. Direct children of the sections region are separated by a rule; wrap a section in its own `form` when it saves fields, and leave list sections unwrapped.
+Other native `div` props and `ref` pass through. Direct children of the sections region are separated by a rule; wrap a section in its own `form` when it saves fields, and leave list sections unwrapped.
 
-A FormSection inside Settings uses the split layout unless you set its `layout`: header in one third, fields in two thirds from 40rem of section width, stacked below it. Tokens: `--kb-settings-gap` and `--kb-settings-divider`.
+A `FormSection` inside `Settings` uses the split layout unless you set its `layout`: header in one third, fields in two thirds from 40rem of section width, stacked below it. Tokens: `--kb-settings-gap` and `--kb-settings-divider`.
 
-Start the header with an `h1` and keep section headings at `h2`. Put destructive row actions behind a confirmation such as [Dialog](Dialog.md), and announce saved or failed sections with a status message. Your app owns saving, list data and permissions.
+Start the header with an `h1` and keep section headings at `h2`. Put destructive row actions behind a confirmation such as [`Dialog`](Dialog.md), and announce saved or failed sections with a status message. Your app owns saving, list data and permissions.
 
 ## Related components
 
-Use [FormSection](FormSection.md) for each section, [CollectionList](CollectionList.md) for managed lists and [Form](Form.md) for a single task.
+Use [`FormSection`](FormSection.md) for each section, [`CollectionList`](CollectionList.md) for managed lists and [`Form`](Form.md) for a single task.

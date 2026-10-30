@@ -27,6 +27,12 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const box = { width: "100%" } as const;
+const breadcrumbItem = {
+  display: "inline-flex",
+  alignItems: "baseline",
+  gap: "var(--kb-space-2)",
+  margin: 0,
+} as const;
 
 export const Default: Story = {
   render: (args) => (
@@ -86,15 +92,27 @@ export const Breadcrumbs: Story = {
         navigation={
           <nav aria-label="Breadcrumb">
             <ol
-              style={{ display: "flex", gap: "0.5rem", listStyle: "none", margin: 0, padding: 0 }}
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "baseline",
+                gap: "var(--kb-space-2)",
+                listStyle: "none",
+                margin: 0,
+                padding: 0,
+              }}
             >
-              <li>
-                <Link href="#settings">Settings</Link> /
+              <li style={breadcrumbItem}>
+                <Link href="#settings">Settings</Link>
+                <span aria-hidden="true">/</span>
               </li>
-              <li>
-                <Link href="#team">Team</Link> /
+              <li style={breadcrumbItem}>
+                <Link href="#team">Team</Link>
+                <span aria-hidden="true">/</span>
               </li>
-              <li aria-current="page">Roles</li>
+              <li style={breadcrumbItem} aria-current="page">
+                Roles
+              </li>
             </ol>
           </nav>
         }
@@ -104,6 +122,27 @@ export const Breadcrumbs: Story = {
       />
     </div>
   ),
+  play: async ({ canvasElement, userEvent }) => {
+    const canvas = within(canvasElement);
+    const navigation = canvas.getByRole("navigation", { name: "Breadcrumb" });
+    const items = within(navigation).getAllByRole("listitem");
+    await expect(items).toHaveLength(3);
+    await expect(items[2]).toHaveAttribute("aria-current", "page");
+    const tops = items.map((item) => item.getBoundingClientRect().top);
+    await expect(Math.max(...tops) - Math.min(...tops)).toBeLessThanOrEqual(1);
+    await expect(navigation.querySelectorAll('[aria-hidden="true"]')).toHaveLength(2);
+    await expect(
+      Math.abs(
+        navigation.getBoundingClientRect().left -
+          canvas.getByRole("heading", { name: "Roles" }).getBoundingClientRect().left,
+      ),
+    ).toBeLessThanOrEqual(1);
+    within(navigation).getByRole("link", { name: "Settings" }).focus();
+    await userEvent.tab();
+    await expect(within(navigation).getByRole("link", { name: "Team" })).toHaveFocus();
+    await userEvent.tab();
+    await expect(canvas.getByRole("button", { name: "Add role" })).toHaveFocus();
+  },
 };
 
 export const WithTabs: Story = {
