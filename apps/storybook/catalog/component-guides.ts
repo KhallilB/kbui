@@ -701,7 +701,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
     },
     tips: [
       "Pass an empty items array before submission or once errors are resolved; `ErrorSummary` renders nothing when empty.",
-      "Focus the `ErrorSummary` ref when a submit attempt fails so keyboard and screen-reader users hear the summary first.",
+      "Focus the `ErrorSummary` `ref` when a submit attempt fails so keyboard and screen-reader users hear the summary first.",
     ],
     accessibility: accessibilityGuides.ErrorSummary,
   },

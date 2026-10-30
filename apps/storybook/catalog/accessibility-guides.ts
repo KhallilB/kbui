@@ -55,7 +55,7 @@ export const accessibilityGuides = {
       "The figure adds no focus stop; caption Links, Buttons and `Dialog` triggers keep their native interaction.",
     ],
     authoring: [
-      "Use alt for meaningful visual information and an empty alternative for a decorative attachment tile already identified by its filename.",
+      "Use `alt` for meaningful visual information and an empty alternative for a decorative attachment tile already identified by its filename.",
       "Compose a page of previews as `Gallery.Item` children of `Gallery`. Use named caption actions; never place interactive content in image fallback or nest controls. `Gallery` modal behavior belongs to `Dialog`.",
     ],
     verify: [
@@ -206,7 +206,7 @@ export const accessibilityGuides = {
       "ScrollContainer supplies a named keyboard-scrollable region, visible focus and opaque sticky header/edge surfaces. RowActions preserves native control navigation; ScrollContainer reveals focused controls behind sticky headers and pinned edges.",
     ],
     authoring: [
-      "Supply a caption or accessible table name, meaningful column/row headings and record-specific action names. Use explicit id/headers for complex relationships.",
+      "Supply a caption or accessible table name, meaningful column/row headings and record-specific action names. Use explicit `id`/`headers` for complex relationships.",
       "Own ordering, stable selected IDs, eligible select-all scope and request races. Apply one sort header, disable empty select-all and announce pending/results outside busy content. Keep sort labels free of controls; use `Button`/`Menu` for actions and verify dense targets and sticky focus.",
     ],
     verify: [
@@ -271,7 +271,7 @@ export const accessibilityGuides = {
       "The as prop supports native lists and navigation containers.",
     ],
     authoring: [
-      "Use li children with ul or ol and give a nav a meaningful name when needed.",
+      "Use `li` children with `ul` or `ol` and give a `nav` a meaningful name when needed.",
       "Keep independent controls in their normal Tab order; choose `Toolbar` only for a coordinated action group.",
     ],
     verify: [
@@ -393,7 +393,7 @@ export const accessibilityGuides = {
     ],
     authoring: [
       "Use meaningful visible action text. Give icon-only actions an `aria-label` and hide decorative icons; an overriding name must contain the visible label.",
-      "Set `type=submit` for submission. For navigation via render, use an anchor with href, `nativeButton=false`, and `role=link`.",
+      "Set `type=submit` for submission. For navigation via `render`, use an anchor with `href`, `nativeButton=false`, and `role=link`.",
     ],
     verify: [
       "Tab to the action and activate a button with Enter and Space; a rendered link must announce as a link and follow its destination with Enter.",
@@ -657,8 +657,8 @@ export const accessibilityGuides = {
   },
   Link: {
     provides: [
-      "`Link` renders a native anchor with href, keyboard focus styling, and normal link activation.",
-      "Native naming, destination, and ref props pass through.",
+      "`Link` renders a native anchor with `href`, keyboard focus styling, and normal link activation.",
+      "Native naming, destination, and `ref` props pass through.",
     ],
     authoring: [
       "Write link text whose purpose is clear in context and keep any overriding accessible name consistent with visible text.",
@@ -696,7 +696,7 @@ export const accessibilityGuides = {
   NumberField: {
     provides: [
       "The numeric input is associated with its label, helper/error IDs, and invalid state; increment/decrement actions have localizable names.",
-      "`value`/`onValueChange`, `locale`, `inputRef`, and root ref expose controlled state and focus targets.",
+      "`value`/`onValueChange`, `locale`, `inputRef`, and root `ref` expose controlled state and focus targets.",
     ],
     authoring: [
       "Include units and valid formats/ranges in label or description. Keep `null` distinct from zero and validate typed drafts in your app.",
@@ -885,7 +885,7 @@ export const accessibilityGuides = {
   Textarea: {
     provides: [
       "A native `textarea` is associated with a persistent label, helper/error text, and invalid state.",
-      "Native input, form, selection, and ref props pass through; resize controls the CSS resize direction.",
+      "Native input, form, selection, and `ref` props pass through; `resize` controls the CSS resize direction.",
     ],
     authoring: [
       "Name the purpose and explain expected format/length before input when needed; a placeholder does not replace the label.",
@@ -944,11 +944,11 @@ export const accessibilityGuides = {
   },
   ErrorSummary: {
     provides: [
-      "A named alert region accepts a ref for programmatic focus and renders nothing for an empty item list.",
+      "A named alert region accepts a `ref` for programmatic focus and renders nothing for an empty item list.",
       "Fragment links focus matching controls or eligible descendants of a referenced wrapper/group.",
     ],
     authoring: [
-      "After a failed submit, render the errors and focus the summary ref once the DOM is ready; your app owns validation and that focus decision.",
+      "After a failed submit, render the errors and focus the summary `ref` once the DOM is ready; your app owns validation and that focus decision.",
       "Make every `href` target a real field/group ID, name the field and correction in each message, and retain inline field errors.",
     ],
     verify: [
@@ -979,10 +979,10 @@ export const accessibilityGuides = {
   Tooltip: {
     provides: [
       "Base UI supplies tooltip semantics and the trigger description relationship.",
-      "The child trigger receives the primitive’s props/ref behavior while the popup is rendered in a configurable portal.",
+      "The child trigger receives the primitive’s props/`ref` behavior while the popup is rendered in a configurable portal.",
     ],
     authoring: [
-      "Use a focusable `Button` or link child that forwards props/ref and has its own accessible name. Keep required instructions visible outside the tooltip, including on touch devices.",
+      "Use a focusable `Button` or link child that forwards props/`ref` and has its own accessible name. Keep required instructions visible outside the tooltip, including on touch devices.",
       "Keep tooltip content non-interactive and preserve the primitive’s dismissal and hover behavior when restyling or wrapping it.",
     ],
     verify: [
@@ -998,7 +998,7 @@ export const accessibilityGuides = {
   Input: {
     provides: [
       "A native `input` is associated with its persistent label, description, error, and invalid state.",
-      "Native type, name, autocomplete, value events, and control ref pass through; content slots keep the input node stable.",
+      "Native `type`, `name`, `autocomplete`, `value` events, and control `ref` pass through; content slots keep the input node stable.",
     ],
     authoring: [
       "Provide a purpose-specific label, appropriate type/autocomplete, and expected-format instructions; a placeholder does not replace the label.",
@@ -1037,7 +1037,7 @@ export const accessibilityGuides = {
     ],
     authoring: [
       "Use one `h1` per screen. Set `headingLevel` to 2 or 3 only when the header introduces a region below an existing `h1`.",
-      "Wrap breadcrumbs in nav with `aria-label='Breadcrumb'` and mark the current item with `aria-current='page'`; label back links with their destination.",
+      "Wrap breadcrumbs in `nav` with `aria-label='Breadcrumb'` and mark the current item with `aria-current='page'`; label back links with their destination.",
       "Give every action a visible name and keep one primary action; status shown only by color in `meta` also needs text.",
     ],
     verify: [
