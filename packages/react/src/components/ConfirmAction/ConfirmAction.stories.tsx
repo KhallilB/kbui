@@ -145,7 +145,7 @@ export const RowAction: Story = {
     const popup = await page.findByRole("dialog", { name: "Revoke Laptop?" });
     await userEvent.click(within(popup).getByRole("button", { name: "Revoke key" }));
     await waitFor(() => expect(page.queryByRole("dialog")).toBeNull());
-    await expect(canvas.getByRole("status")).toHaveTextContent("Laptop revoked.");
+    await waitFor(() => expect(canvas.getByRole("status")).toHaveTextContent("Laptop revoked."));
     await expect(canvas.queryByRole("button", { name: "Revoke Laptop" })).toBeNull();
     await waitFor(() => expect(canvas.getByRole("heading", { name: "API keys" })).toHaveFocus());
   },

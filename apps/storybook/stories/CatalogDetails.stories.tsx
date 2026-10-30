@@ -19,6 +19,39 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+export const CompleteStylingCopy: Story = {
+  args: { componentId: "combobox", initialAppearance: { theme: "dark" } },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const original = Object.getOwnPropertyDescriptor(navigator, "clipboard");
+    let copied = "";
+    try {
+      Object.defineProperty(navigator, "clipboard", {
+        configurable: true,
+        value: {
+          writeText: async (value: string) => {
+            copied = value;
+          },
+        },
+      });
+      await userEvent.click(canvas.getByRole("radio", { name: "CSS" }));
+      const copy = canvas.getByRole("button", { name: "Copy styling" });
+      await waitFor(() => expect(copy).toBeEnabled());
+      await userEvent.click(copy);
+      expect(copied).toContain('from "@kb.ui/react"');
+      expect(copied).toContain("export default function Example");
+      for (const required of ["options", "onValueChange", "useState", "value"])
+        expect(copied).toContain(required);
+      expect(copied).toContain('setAttribute("data-theme", "dark")');
+      expect(copied).toContain("/* Add to your stylesheet */");
+      expect(copied).toContain('shell: "brand"');
+    } finally {
+      if (original) Object.defineProperty(navigator, "clipboard", original);
+      else Reflect.deleteProperty(navigator, "clipboard");
+    }
+  },
+};
+
 export const EditorSpaceAndHints: Story = {
   args: { componentId: "badge" },
   play: async ({ canvasElement }) => {

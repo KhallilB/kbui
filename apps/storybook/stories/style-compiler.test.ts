@@ -1,11 +1,6 @@
 import { expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
-import {
-  componentStyleTarget,
-  componentStyleUsage,
-  defaultCatalogSkin,
-  presetComponentCss,
-} from "../site/catalog-skin";
+import { componentStyleTarget, defaultCatalogSkin, presetComponentCss } from "../site/catalog-skin";
 import { compileComponentStyle } from "../site/style-compiler";
 
 test("Tailwind compiles real utilities, variants and arbitrary values without Preflight", async () => {
@@ -36,10 +31,6 @@ test("component targets and copied props use the actual styled parts", () => {
   expect(componentStyleTarget("Menu")).toBe(".kb-menu");
   expect(componentStyleTarget("Tooltip")).toBe(".kb-tooltip");
   expect(componentStyleTarget("Progress")).toBe(".kb-progress-indicator");
-  expect(componentStyleUsage("Input", "rounded-none")).toContain(
-    'classNames={{ control: "rounded-none" }}',
-  );
-  expect(componentStyleUsage("Badge", "bg-black")).toContain('className={"bg-black"}');
 });
 
 test("commented Tailwind examples never generate active utilities", async () => {

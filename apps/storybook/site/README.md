@@ -265,3 +265,13 @@ Run `bun run --cwd apps/storybook verify:recipes` against the combined static pr
 ### Preserved request and correspondence recipes
 
 Inbox and ListDetail share the recipe registry, canonical guide, exact copyable files and existing public story IDs with PageHeader and FormSection. Their drafts, history, context, save/reply recovery and resize focus checks remain in their existing stories. Component and recipe names can overlap; their separate documentation IDs preserve import versus copy ownership. These additions are implemented locally and pending publication.
+
+### Complete styling copies
+
+Copy styling starts with the selected canonical React example, including imports, required props, state helpers and compound-component context. CSS mode appends the stylesheet section after the module; save that section in your stylesheet. Tailwind mode adds the active utility classes to the supported public part. Theme overrides, when present, also belong in your stylesheet. Copy code remains available for edits made in the component editor.
+
+The catalog prepares source patches at build time; copying applies those patches immediately without loading a parser. Existing caller classes, unrelated slots and spread-prop order are retained. Each of the 63 family defaults has a required target and its CSS/Tailwind modules compile through `verify:code`. A composition that does not render its named family asks the reader to choose another example instead of inventing a component tag.
+
+`component-style-anatomy.ts` declares the public member/slot and live selector together. Combobox includes its single and multiple-selection shells; MultiSelect and Textarea target their visible controls. The preview observes late portal nodes and retains styling across open/reopen and theme changes. Reset removes styles and classes added by the preview, including classes it reapplied after a caller removed them; pre-existing caller classes remain. Unknown anatomy rejects before creating a stylesheet or observer.
+
+Run `StylingAnatomy.stories.tsx` for real field and portal lifecycle checks, both themes, CSS/Tailwind alignment, invalid-style recovery and managed reset. Existing catalog stories cover the iframe/editor boundary; copied-source compilation remains a separate proof.
