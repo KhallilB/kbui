@@ -440,6 +440,12 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-split-collapse-sm: 32rem;
   --kb-split-collapse-md: 48rem;
   --kb-split-collapse-lg: 64rem;
+  --kb-supportingpane-max-width: var(--kb-container-size-lg);
+  --kb-supportingpane-gutter-sm: var(--kb-space-4);
+  --kb-supportingpane-gutter-md: var(--kb-space-6);
+  --kb-supportingpane-gutter-lg: var(--kb-space-8);
+  --kb-supportingpane-gap: var(--kb-layout-gap-lg);
+  --kb-supportingpane-aside-width: 22rem;
   --kb-separator-color: var(--kb-color-border);
   --kb-separator-width: 1px;
   --kb-separator-min-length: var(--kb-space-4);

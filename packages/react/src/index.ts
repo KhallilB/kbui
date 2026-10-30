@@ -287,6 +287,11 @@ export {
   type StatusTone,
 } from "./components/Status/Status";
 export {
+  SupportingPane,
+  type SupportingPanePart,
+  type SupportingPaneProps,
+} from "./components/SupportingPane/SupportingPane";
+export {
   Switch,
   type SwitchProps,
   type SwitchSize,

@@ -39,6 +39,7 @@ import {
   Stat,
   StatsRow,
   Status,
+  SupportingPane,
   Switch,
   Table,
   Tabs,
@@ -61,6 +62,14 @@ const cases: [string, () => ReactElement][] = [
       <Gallery header="H" filters="F" classNames={every}>
         <Gallery.Item className="slot-item">Item</Gallery.Item>
       </Gallery>
+    ),
+  ],
+  [
+    "supportingpane",
+    () => (
+      <SupportingPane aside="A" asideLabel="A" classNames={every}>
+        Main
+      </SupportingPane>
     ),
   ],
   [

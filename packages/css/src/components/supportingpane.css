@@ -1,0 +1,43 @@
+/* Anatomy: .kb-supportingpane > .kb-supportingpane-main, .kb-supportingpane-aside */
+/* Page frame: fills up to the max width; gutters track the viewport, not the region. */
+.kb-supportingpane {
+  container: kb-supportingpane / inline-size;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--kb-supportingpane-gap);
+  inline-size: 100%;
+  max-inline-size: var(--kb-supportingpane-max-width);
+  margin-inline: auto;
+  padding-inline: var(--kb-supportingpane-gutter-sm);
+  overflow-wrap: anywhere;
+}
+@media (width >= 48rem) {
+  .kb-supportingpane {
+    padding-inline: var(--kb-supportingpane-gutter-md);
+  }
+}
+@media (width >= 64rem) {
+  .kb-supportingpane {
+    padding-inline: var(--kb-supportingpane-gutter-lg);
+  }
+}
+.kb-supportingpane-main,
+.kb-supportingpane-aside {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  gap: var(--kb-supportingpane-gap);
+  flex: 1 1 100%;
+  min-inline-size: 0;
+}
+/* Matches Split's md collapse; container conditions cannot read tokens. */
+@container kb-supportingpane (width >= 48rem) {
+  .kb-supportingpane-main {
+    flex: 1 1 0;
+  }
+  .kb-supportingpane-aside {
+    flex: 0 0 var(--kb-supportingpane-aside-width);
+  }
+}

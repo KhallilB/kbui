@@ -57,6 +57,7 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | `grid.css` | `.kb-grid` with `data-layout` (`auto`, `stack`), `data-columns` (`auto`, `1`, `2`, `3`, `4`), `data-min-item-width` (`sm`, `md`, `lg`), `data-gap` (`none`, `sm`, `md`, `lg`) and `data-align`; resets native list markers and margins |
 | `inline.css` | `.kb-inline` with `data-gap`, `data-align` and `data-justify`; wraps in source order |
 | `split.css` | `.kb-split` with `data-ratio`, `data-collapse`, `data-gap` and `data-align`; two `.kb-split-track` children containing the column content |
+| `supportingpane.css` | `.kb-supportingpane` page frame (up to 80rem, gutters stepping at 48rem and 64rem of viewport) with `-main` and `-aside` regions; the aside sits beside main from 48rem of the pane's content width and below it under that |
 | `separator.css` | Native hr with `.kb-separator` and `data-orientation`; decorative rules need aria-hidden and role none |
 | `heading.css` | Native heading with `.kb-heading` and `data-size` (`sm`, `md`, `lg`, `xl`, `display`); rank follows document outline |
 | `text.css` | `p`, `span` or `div` with `.kb-text`, `data-size` (`sm`, `md`, `lg`) and `data-tone` (`default`, `muted`) |
