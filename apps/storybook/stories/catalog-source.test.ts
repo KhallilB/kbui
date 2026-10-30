@@ -221,22 +221,9 @@ test("default snippets show selected usage without generated setup", () => {
   );
 });
 
-test("site samples cover every playground state and current composition palette", () => {
+test("site samples cover every playground state", () => {
   const samples = loadSiteSamples();
   expect(Object.keys(samples.playground)).toHaveLength(96);
-  expect(Object.keys(samples.surfaces)).toEqual([
-    "editorial",
-    "operations",
-    "operations-1",
-    "operations-2",
-    "operations-3",
-    "operations-4",
-    "operations-5",
-    "operations-6",
-    "operations-7",
-    "creative-false",
-    "creative-true",
-  ]);
   const selected =
     samples.playground[
       playgroundKey({ variant: "danger", size: "lg", theme: "dark", disabled: true, reduced: true })
@@ -246,22 +233,6 @@ test("site samples cover every playground state and current composition palette"
   expect(selected?.snippet).toContain('transition: "none"');
   expect(selected?.code).toContain('root.setAttribute("data-theme", "dark")');
   expect(selected?.snippet).toContain('import { Button } from "@kb.ui/react"');
-  expect(samples.surfaces["creative-true"]?.snippet).toContain("useState(true)");
-  expect(samples.surfaces["creative-false"]?.snippet).toContain("useState(false)");
-  expect(samples.surfaces.operations?.snippet).toContain("<Checkbox");
-  expect(samples.surfaces.operations?.snippet).toContain("useState([false, false, false])");
-  expect(samples.surfaces["operations-7"]?.snippet).toContain("useState([true, true, true])");
-  expect(samples.surfaces.editorial?.snippet).toContain("<Heading");
-  expect(samples.surfaces.editorial?.snippet).toContain("<Text");
-  expect(samples.surfaces.editorial?.snippet).toContain("<Link");
-  expect(samples.surfaces.editorial?.snippet).toContain("<Code");
-  expect(samples.surfaces.editorial?.snippet).toContain(
-    "https://kbui.kcb.pro/storybook/?path=/docs/components-heading--docs",
-  );
-  expect(samples.surfaces["creative-false"]?.snippet).toContain("borderColor");
-  expect(samples.surfaces["creative-false"]?.snippet).toContain("--kb-color-accent-ink");
-  expect(samples.surfaces["creative-false"]?.snippet).toContain("aria-pressed={palette}");
-  expect(samples.surfaces.editorial?.code).toContain(".composition");
 });
 
 test("highlighting recognizes TSX function calls without coloring prose as code", () => {
@@ -299,15 +270,12 @@ test("visible code needs only component imports and usage", () => {
   for (const sample of [
     ...loadCatalogSources().flatMap((entry) => entry.stories),
     ...Object.values(samples.playground),
-    ...Object.values(samples.surfaces),
   ]) {
     expect(sample.snippet).toContain('from "@kb.ui/react"');
     expect(sample.snippet).not.toContain('import "@kb.ui/css/styles.css"');
     expect(sample.snippet).not.toContain("renderExample");
     expect(sample.snippet).not.toContain("document.documentElement");
   }
-  expect(samples.surfaces["creative-false"]?.snippet).not.toContain("<svg");
-  expect(samples.surfaces["creative-false"]?.snippet).not.toContain("className=");
 });
 
 test("default playground example is a direct import and Button", () => {

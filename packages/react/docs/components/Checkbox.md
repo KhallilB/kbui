@@ -1,6 +1,6 @@
 # Checkbox
 
-Use Checkbox when people can select options independently. It includes a label, help text, and error message. Pass `checked` and update it in `onCheckedChange`. Activating a mixed checkbox requests the checked state.
+Use `Checkbox` when people can select options independently. It includes a label, help text, and error message. Pass `checked` and update it in `onCheckedChange`. Activating a mixed checkbox requests the checked state.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/components-checkbox--docs)
 
@@ -25,8 +25,8 @@ export function Example() {
 
 ## More examples
 
-- [Partial selection](https://kbui.kcb.pro/storybook/?path=/story/components-checkbox--mixed): Inspect an aggregate mixed state.
-- [Validation feedback](https://kbui.kcb.pro/storybook/?path=/story/components-checkbox--invalid): Associate an error with the choice.
+- [Partial selection](https://kbui.kcb.pro/storybook/?path=/story/components-checkbox--mixed): Show a partly selected group.
+- [Validation feedback](https://kbui.kcb.pro/storybook/?path=/story/components-checkbox--invalid): Show an error for the choice.
 
 ## Reference
 
@@ -41,7 +41,7 @@ export function Example() {
 | `visuallyHidden`              | `boolean`                    | `false`  | Hide label visually                                     |
 | `controlClassName`            | `string`                     |          | Added to the native checkbox                            |
 | `ref`                         | `Ref<HTMLInputElement>`      |          | Native checkbox, including form and indeterminate state |
-| `name` / `value` / `required` | native input props           |          | Form serialization and validation                       |
+| `name` / `value` / `required` | native `input` props           |          | Form serialization and validation                       |
 | `className`                   | `string`                     |          | Root class                                              |
 
 ```tsx
@@ -57,4 +57,4 @@ Clicking the label or pressing Space calls `onCheckedChange`. The checkbox chang
 
 ## Related components
 
-Use [RadioGroup](RadioGroup.md) for one visible choice and [Switch](Switch.md) for an immediate on/off setting.
+Use [`RadioGroup`](RadioGroup.md) for one visible choice and [`Switch`](Switch.md) for an immediate on/off setting.

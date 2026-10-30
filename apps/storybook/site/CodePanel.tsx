@@ -1,4 +1,4 @@
-import { Button } from "@kb.ui/react";
+import { Button, Code } from "@kb.ui/react";
 import { useEffect, useId, useRef, useState } from "react";
 import type { CodeSample, CodeToken } from "../catalog/types";
 import "./code-panel.css";
@@ -16,10 +16,10 @@ export function HighlightedCode({ code, tokens }: { code: string; tokens: CodeTo
     ];
   });
   return (
-    <code>
+    <Code>
       {content}
       {code.slice(offset)}
-    </code>
+    </Code>
   );
 }
 

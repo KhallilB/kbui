@@ -8,6 +8,9 @@ import { CatalogSkinControls } from "../site/CatalogSkinControls";
 import { type CatalogSkin, defaultCatalogSkin } from "../site/catalog-skin";
 import type { Theme } from "../site/theme-foundations";
 
+const fixtureModule =
+  'import { Button } from "@kb.ui/react"; export default function Example() { return <Button>Run job</Button>; }';
+
 function PreviewFixture() {
   const [skin, setSkin] = useState<CatalogSkin>(defaultCatalogSkin);
   const [theme, setTheme] = useState<Theme>("light");
@@ -15,7 +18,19 @@ function PreviewFixture() {
   const [alternate, setAlternate] = useState(false);
   return (
     <div>
-      <CatalogSkinControls value={skin} onChange={setSkin} theme={theme} />
+      <CatalogSkinControls
+        value={skin}
+        onChange={setSkin}
+        theme={theme}
+        sourceModule={fixtureModule}
+        stylingPatches={[
+          {
+            start: fixtureModule.indexOf("<Button>"),
+            end: fixtureModule.indexOf("<Button>") + 8,
+            text: '<Button className={"__kbui_style_classes__"}>',
+          },
+        ]}
+      />
       <Button onClick={() => setSkin((current) => ({ ...current, palette: "ocean" }))}>
         Fixture Palette Ocean
       </Button>
@@ -152,6 +167,8 @@ export const CommentedStarters: Story = {
         },
       });
       await userEvent.click(page.getByRole("button", { name: "Copy styling" }));
+      await waitFor(() => expect(copied).toContain('from "@kb.ui/react"'));
+      expect(copied).toContain("export default function Example");
       expect(copied).not.toContain("bg-sky-500");
       fireEvent.change(classes, {
         target: {
@@ -161,7 +178,7 @@ export const CommentedStarters: Story = {
       await waitFor(() => expect(button).toHaveClass("bg-sky-500"));
       expect(button).not.toHaveClass("px-3");
       await userEvent.click(page.getByRole("button", { name: "Copy styling" }));
-      expect(copied).toContain('className={"bg-sky-500 text-slate-950"}');
+      await waitFor(() => expect(copied).toContain('className={"bg-sky-500 text-slate-950"}'));
       expect(copied).not.toContain("rounded-full");
       await userEvent.click(page.getByRole("radio", { name: "CSS" }));
       await userEvent.click(page.getByRole("radio", { name: "Tailwind" }));

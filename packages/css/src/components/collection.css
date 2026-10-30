@@ -57,7 +57,8 @@
   padding: var(--kb-collection-cell-padding);
   border-block-start: 1px solid var(--kb-collection-border);
   text-align: start;
-  overflow-wrap: anywhere;
+  /* Whole words: the table already scrolls past its minimum width. */
+  overflow-wrap: break-word;
 }
 .kb-collection-head {
   font-weight: var(--kb-font-weight-strong);
@@ -72,6 +73,14 @@
 .kb-collection-status {
   margin: 0;
   color: var(--kb-color-muted);
+}
+/* The selection count leads; clear and bulk actions end the row. */
+.kb-collection-bulk > [role="status"]:first-of-type {
+  margin-inline-end: auto;
+}
+/* An idle progress region still takes a gap; cancel it so the last action ends the row. */
+.kb-collection-bulk > [role="status"]:last-of-type:empty {
+  margin-inline-start: calc(var(--kb-collection-gap) * -1);
 }
 .kb-collection-bulk {
   margin: 0;
@@ -93,6 +102,8 @@
   min-inline-size: 0;
 }
 .kb-collection-pagination > div:last-child {
+  /* Page controls stay at the end after wrapping below the summary. */
+  margin-inline-start: auto;
   max-inline-size: 100%;
   flex-wrap: nowrap;
   align-items: center;

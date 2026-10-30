@@ -51,24 +51,24 @@ The build writes these values in one `@media (forced-colors: active)` block on `
 
 ## Surface theming
 
-Dialog, Disclosure, Accordion, Button and popup (Popover, Menu, Tooltip) expose material, typography and motion tokens. Defaults reproduce the shipped design; override them on `:root` or a themed container.
+`Dialog`, `Disclosure`, `Accordion`, `Button` and popup (`Popover`, `Menu`, `Tooltip`) expose material, typography and motion tokens. Defaults reproduce the shipped design; override them on `:root` or a themed container.
 
 | Surface | Tokens |
 |---|---|
-| Dialog | `--kb-dialog-background`, `-color`, `-border`, `-border-width`, `-padding`, `-shadow`, `-description-color`, `-overlay-background`, `-title-size`, `-title-family`, `-title-weight` |
-| Dialog sections | `--kb-dialog-header-padding`, `-body-padding`, `-footer-padding` (default `0px`) |
-| Dialog motion | `--kb-dialog-motion-duration`, `-motion-easing`, `-enter-scale`, `-enter-offset`, `-drawer-motion-duration`, `-drawer-motion-easing` |
-| Card | `--kb-card-background`, `-face`, `-color`, `-border`, `-border-width`, `-radius`, `-padding`, `-shadow` |
-| Code block | `--kb-code-block-background`, `-face`, `-border`, `-radius`, `-shadow`, `-font-size`, `-leading`, `-max-height`, `--kb-code-header-background`, `--kb-code-toggle-min-width`, `--kb-code-copy-min-width`, `--kb-code-motion-duration`, `-motion-easing`, `--kb-code-gutter-color`, `--kb-code-line-highlight-background`, `-border`, `--kb-code-syntax-*` |
-| Button | `--kb-button-motion-duration`, `-motion-easing`, `-press-offset` |
-| Popover | `--kb-popover-width`, `-padding`, `-background`, `-color`, `-border`, `-radius`, `-shadow`, `-motion-duration`, `-motion-easing`, `-enter-scale`, `-enter-offset` |
-| Disclosure | `--kb-disclosure-padding`, `-radius`, `-background`, `-color`, `-border`, `-trigger-height`, `-motion-duration`, `-motion-easing` |
-| Accordion | `--kb-accordion-padding`, `-radius`, `-background`, `-color`, `-border`, `-trigger-height`, `-motion-duration`, `-motion-easing` |
+| `Dialog` | `--kb-dialog-background`, `-color`, `-border`, `-border-width`, `-padding`, `-shadow`, `-description-color`, `-overlay-background`, `-title-size`, `-title-family`, `-title-weight` |
+| `Dialog` sections | `--kb-dialog-header-padding`, `-body-padding`, `-footer-padding` (default `0px`) |
+| `Dialog` motion | `--kb-dialog-motion-duration`, `-motion-easing`, `-enter-scale`, `-enter-offset`, `-drawer-motion-duration`, `-drawer-motion-easing` |
+| `Card` | `--kb-card-background`, `-face`, `-color`, `-border`, `-border-width`, `-radius`, `-padding`, `-shadow` |
+| `Code` block | `--kb-code-block-background`, `-face`, `-border`, `-radius`, `-shadow`, `-font-size`, `-leading`, `-max-height`, `--kb-code-header-background`, `--kb-code-toggle-min-width`, `--kb-code-copy-min-width`, `--kb-code-motion-duration`, `-motion-easing`, `--kb-code-gutter-color`, `--kb-code-line-highlight-background`, `-border`, `--kb-code-syntax-*` |
+| `Button` | `--kb-button-motion-duration`, `-motion-easing`, `-press-offset` |
+| `Popover` | `--kb-popover-width`, `-padding`, `-background`, `-color`, `-border`, `-radius`, `-shadow`, `-motion-duration`, `-motion-easing`, `-enter-scale`, `-enter-offset` |
+| `Disclosure` | `--kb-disclosure-padding`, `-radius`, `-background`, `-color`, `-border`, `-trigger-height`, `-motion-duration`, `-motion-easing` |
+| `Accordion` | `--kb-accordion-padding`, `-radius`, `-background`, `-color`, `-border`, `-trigger-height`, `-motion-duration`, `-motion-easing` |
 | Popup | `--kb-popup-motion-duration`, `-motion-easing` |
 
 Outlined Cards use a neutral sheen, a contact rim and a lower ledge with an ambient shadow. `appearance="plain"` adds no face or shadow. Override `--kb-card-face: none` and `--kb-card-shadow: none` for a flat outlined surface; `--kb-card-background` still controls the underlying color.
 
-Reduced motion still disables every transition and the button press offset. A portaled Dialog reads tokens from its `container`; pass a themed host to scope overrides. See [forms and overlays](guides/forms-and-overlays.md).
+Reduced motion still disables every transition and the button press offset. A portaled `Dialog` reads tokens from its `container`; pass a themed host to scope overrides. See [forms and overlays](guides/forms-and-overlays.md).
 
 ## Naming
 
