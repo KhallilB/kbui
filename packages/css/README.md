@@ -52,6 +52,7 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | `container.css` | `.kb-container` with `data-size` (`sm`, `md`, `lg`, `full`) and optional `data-gutter="none"` |
 | `grid.css` | `.kb-grid` with `data-layout` (`auto`, `stack`), `data-columns` (`auto`, `1`, `2`, `3`, `4`), `data-min-item-width` (`sm`, `md`, `lg`), `data-gap` (`none`, `sm`, `md`, `lg`) and `data-align`; resets native list markers and margins |
 | `inline.css` | `.kb-inline` with `data-gap`, `data-align` and `data-justify`; wraps in source order |
+| `stack.css` | `.kb-stack` with `data-gap`, `data-align` (`start`, `center`, `end`, `stretch`) and `data-justify`; flows top to bottom in source order; resets child block margins and native list markers |
 | `split.css` | `.kb-split` with `data-ratio`, `data-collapse`, `data-gap` and `data-align`; two `.kb-split-track` children containing the column content |
 | `separator.css` | Native hr with `.kb-separator` and `data-orientation`; decorative rules need aria-hidden and role none |
 | `heading.css` | Native heading with `.kb-heading` and `data-size` (`sm`, `md`, `lg`, `xl`, `display`); rank follows document outline |

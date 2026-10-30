@@ -411,7 +411,16 @@ test("Switch Props JSDoc documents both offIcon and onIcon and preview layout cl
   const catalogModel = await import("../site/catalog-model");
   expect(typeof (catalogModel as Record<string, unknown>).previewKind).toBe("function");
   const previewKind = (catalogModel as { previewKind: (id: string) => string }).previewKind;
-  for (const id of ["grid", "container", "inline", "split", "separator", "panel", "scrollarea"]) {
+  for (const id of [
+    "grid",
+    "container",
+    "inline",
+    "stack",
+    "split",
+    "separator",
+    "panel",
+    "scrollarea",
+  ]) {
     expect(previewKind(id), id).toBe("layout");
   }
   for (const id of [

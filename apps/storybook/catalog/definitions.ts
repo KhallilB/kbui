@@ -138,6 +138,17 @@ export const definitions: Record<string, Definition> = {
       List: "List",
     },
   },
+  Stack: {
+    group: "Layout",
+    description: "Vertical flow with shared spacing and alignment.",
+    examples: {
+      Default: "Default",
+      Sections: "Sections",
+      Alignment: "Alignment",
+      Justify: "Justify",
+      Form: "Form",
+    },
+  },
   Container: {
     group: "Layout",
     description: "Shared page widths and responsive gutters.",

@@ -153,6 +153,19 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.Inline,
   },
+  Stack: {
+    use: "Arrange headings, content, fields or sections top to bottom with one shared gap.",
+    example: {
+      title: "Give a section its vertical rhythm",
+      description:
+        "Children keep source and tab order while gap replaces their margins. Compare alignment, distribution and nested sections.",
+    },
+    tips: [
+      "Use a wider outer gap and a tighter inner gap to separate sections from their content.",
+      "Use Inline for rows and Grid when items should form columns.",
+    ],
+    accessibility: accessibilityGuides.Stack,
+  },
   Split: {
     use: "Compose two columns that stack when their available width falls below a shared threshold.",
     example: {
