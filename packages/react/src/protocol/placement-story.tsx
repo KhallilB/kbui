@@ -1,6 +1,6 @@
 import type { StoryObj } from "@storybook/react-vite";
 import type { ReactElement } from "react";
-import { expect } from "storybook/test";
+import { expect, waitFor } from "storybook/test";
 import { type PlacementContract, type SizeClass, sizeClasses } from "./placement";
 import { checkPlacement, sizeClassOfRoot } from "./placement-check";
 
@@ -26,15 +26,21 @@ export function placementStory(
     play: async ({ canvasElement }) => {
       // Guards a silent fallback to the default viewport, which would test the wrong size.
       expect(window.innerWidth, "viewport width").toBe(sizeClasses[size]);
+      // Portalled roots render outside the canvas; some appear after an effect or transition.
+      const roots = await waitFor(() => {
+        const found = [...canvasElement.ownerDocument.querySelectorAll<HTMLElement>(contract.root)];
+        expect(found.length, `${contract.root} rendered`).toBeGreaterThan(0);
+        return found;
+      });
       const html = document.documentElement;
       expect(html.scrollWidth, "page overflows sideways").toBeLessThanOrEqual(html.clientWidth);
-      const roots = [...canvasElement.querySelectorAll<HTMLElement>(contract.root)];
-      expect(roots.length, `${contract.root} rendered`).toBeGreaterThan(0);
       expect(
         roots.map((root) => sizeClassOfRoot(root, contract.from)),
         "size class of each root",
       ).toContain(size);
-      for (const root of roots) expect(checkPlacement(root, contract)).toEqual([]);
+      await waitFor(() => {
+        for (const root of roots) expect(checkPlacement(root, contract)).toEqual([]);
+      });
     },
   };
 }
