@@ -81,7 +81,8 @@
   white-space: nowrap;
 }
 
-.kb-status[data-appearance="chip"]::before {
+/* Dot stands in for a missing icon; with an icon it would double the lead. */
+.kb-status[data-appearance="chip"]:not(:has(> .kb-status-icon))::before {
   content: "";
   width: var(--kb-status-dot-size);
   height: var(--kb-status-dot-size);

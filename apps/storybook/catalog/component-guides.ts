@@ -610,7 +610,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Text carries the meaning; `tone` and an optional icon reinforce it. Compare plain text with a chip when the state needs more separation.",
     },
     tips: [
-      'Use `appearance="chip"` for a tinted surface and `compact` for tighter layouts.',
+      'Use `appearance="chip"` for a tinted surface and `compact` for tighter layouts. A chip leads with a dot unless you pass an `icon`.',
       "Set `live` for changing text that should be announced. Static status text does not need it.",
     ],
     accessibility: accessibilityGuides.Status,
