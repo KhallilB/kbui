@@ -60,7 +60,7 @@ Items share equal columns no narrower than `--kb-statsrow-item-min-width` (10rem
 | `appearance` | `plain` / `outlined`  | `plain` | Plain metrics on the page, or each metric on a card surface |
 | `children`   | `StatsRow.Item` nodes | unset   | One item per metric                                       |
 
-`StatsRow.Item` renders an `li` around a [Stat](Stat.md); other native `li` props pass through to it.
+`StatsRow.Item` renders an `li` around a [`Stat`](Stat.md); other native `li` props pass through to it.
 
 | Prop         | Type                                | Default   | Notes                                                                       |
 | ------------ | ----------------------------------- | --------- | --------------------------------------------------------------------------- |
@@ -70,11 +70,11 @@ Items share equal columns no narrower than `--kb-statsrow-item-min-width` (10rem
 | `trend`      | `up` / `down` / `flat`              | unset     | Direction glyph before `change`; hidden from assistive technology; needs `change` |
 | `tone`       | `positive` / `negative` / `neutral` | `neutral` | Colors `change` by whether it is good news, apart from its direction; needs `change` |
 | `context`    | `ReactNode`                         | unset     | Comparison period or freshness, such as `vs. previous month`                |
-| `link`       | `ReactNode`                         | unset     | Link to the detail behind the metric; aligned on the last row of the item   |
+| `link`       | `ReactNode`                         | unset     | `Link` to the detail behind the metric; aligned on the last row of the item   |
 | `classNames` | keyed classes                       | unset     | Style `stat`, `label`, `value`, `trend`, `change`, `glyph`, `context`, `link` |
 
 Keep units comparable across a row: one currency, the same precision and one comparison period. Write the direction into the change text; color and the glyph do not convey it on their own. Tone is color only, so when good or bad news is not obvious from the label, say it in the change or context text, such as `+12 requests, above target`.
 
 ## Related components
 
-Use [Stat](Stat.md) for a single figure, [Progress](Progress.md) when a metric measures completion toward a target, [DescriptionList](DescriptionList.md) for labelled record details that are not comparable figures, and [Grid](Grid.md) for collections of cards that are not metrics.
+Use [`Stat`](Stat.md) for a single figure, [`Progress`](Progress.md) when a metric measures completion toward a target, [`DescriptionList`](DescriptionList.md) for labelled record details that are not comparable figures, and [`Grid`](Grid.md) for collections of cards that are not metrics.

@@ -34,8 +34,8 @@ export function Example() {
 | `size`   | `sm` (40rem) `md` (64rem) `lg` (80rem) `full` (unbounded)  | `lg`    |
 | `gutter` | Shared 1–2rem inline padding; false removes it             | `true`  |
 
-Non-default generic native elements require an explicit `as`; native props and refs follow that element. Explicit `gutter` owns its data attribute even when caller attributes conflict. Widths include gutters. Use one page boundary; nested containers should disable gutters when the parent owns padding.
+Set `as` explicitly when using an element other than the default; native props and refs then match that element. An explicit `gutter` value takes priority over a conflicting data attribute. Widths include side padding. Use one page container, and turn off nested gutters when the parent already provides padding.
 
 ## Related components
 
-Use [Inline](Inline.md) for a row, [Stack](Stack.md) for vertical flow, [Grid](Grid.md) for a collection, and [Split](Split.md) for two responsive columns.
+Use [`Inline`](Inline.md) for a row, [`Stack`](Stack.md) for vertical flow, [`Grid`](Grid.md) for a collection, and [`Split`](Split.md) for two responsive columns.

@@ -17,8 +17,8 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Explore 24 initials identities, six original portraits and five clipping shapes, then pair a fixed-size portrait with a visible name and role.",
     },
     tips: [
-      "Use decorative beside an equivalent visible name to avoid duplicate announcements.",
-      "Supply initials for locale-specific name conventions; keep presence and actions in separate labeled controls.",
+      "Use `decorative` beside an equivalent visible name to avoid duplicate announcements.",
+      "Supply `initials` for locale-specific name conventions; keep presence and actions in separate labeled controls.",
     ],
     accessibility: accessibilityGuides.Avatar,
   },
@@ -27,11 +27,11 @@ export const componentGuides: Record<string, ComponentGuide> = {
     example: {
       title: "Frame media without layout jumps",
       description:
-        "Compare cover and contain, fixed ratios, intrinsic dimensions, and replacement after failure.",
+        "Compare `cover` and `contain`, fixed ratios, intrinsic dimensions, and replacement after failure.",
     },
     tips: [
-      "Use contain for products and documents whose edges matter; position selects a cover crop focal point.",
-      "Use ratio=auto with both width and height for intrinsic framing; choose srcSet, sizes and loading for the real screen.",
+      "Use `contain` for products and documents whose edges matter; `position` selects a cover crop focal point.",
+      "Use `ratio=auto` with both width and height for intrinsic framing; choose `srcSet`, sizes and loading for the real screen.",
     ],
     accessibility: accessibilityGuides.Image,
   },
@@ -40,11 +40,11 @@ export const componentGuides: Record<string, ComponentGuide> = {
     example: {
       title: "Build a readable media collection",
       description:
-        "Compose Thumbnail figures inside Grid list items; use a caption Link for navigation or Dialog trigger for inspection.",
+        "Compose `Thumbnail` figures inside `Grid` list items; use a caption `Link` for navigation or `Dialog` trigger for inspection.",
     },
     tips: [
       "Keep filenames, format and size in the caption; never infer file metadata from a URL.",
-      "Use one clear native action per item. Grid preserves reading order and Dialog supplies modal focus behavior.",
+      "Use one clear native action per item. `Grid` preserves reading order and `Dialog` supplies modal focus behavior.",
     ],
     accessibility: accessibilityGuides.Thumbnail,
   },
@@ -56,8 +56,8 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Preserve case and whitespace, confirm completed copies and recover from denied clipboard access.",
     },
     tips: [
-      "value is authoritative even when children formats its display; expanding or failure reveals exact value for inspection and manual copying.",
-      "Use truncate for full-value disclosure, tone for color, highlight for literal emphasis and automatic URL/email/code detection. Override ambiguous content with format=text or format=code. Use mono=false for prose.",
+      "`value` is authoritative even when `children` formats its display; expanding or failure reveals exact value for inspection and manual copying.",
+      "Use `truncate` for full-value disclosure, `tone` for color, `highlight` for literal emphasis and automatic URL/email/code detection. Override ambiguous content with `format=text` or `format=code`. Use `mono=false` for prose.",
       "Success resets after two seconds by default. Errors remain until retry or content change; callbacks report only current writes.",
     ],
     accessibility: accessibilityGuides.CopyableText,
@@ -70,9 +70,9 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Use the same source for display and clipboard, with readable syntax, optional line numbers and a collapsible viewport.",
     },
     tips: [
-      "CodeBlock always renders a block; use Code for inline literals or automatic block selection.",
+      "`CodeBlock` always renders a block; use `Code` for inline literals or automatic block selection.",
       "Collapsed listings still copy the full original source, without line numbers or visual emphasis.",
-      "Use title to name the scroll region and localize copy feedback through shared props. code.css supplies shared styles and codeblock.css keeps untitled toolbar actions in normal flow.",
+      "Use `title` to name the scroll region and localize copy feedback through shared props. `code.css` supplies shared styles and `codeblock.css` keeps untitled toolbar actions in normal flow.",
     ],
     accessibility: accessibilityGuides.CodeBlock,
   },
@@ -85,12 +85,12 @@ export const componentGuides: Record<string, ComponentGuide> = {
     },
     tips: [
       "Select this page affects eligible visible records only; query and facet changes clear selection.",
-      "Use server mode for remote datasets and useCollection for custom lists. Applications own authorization, fetching and mutation recovery.",
+      "Use server mode for remote datasets and `useCollection` for custom lists. Applications own authorization, fetching and mutation recovery.",
     ],
     accessibility: accessibilityGuides.Collection,
   },
   DescriptionList: {
-    use: "Present named facts about one record; choose Table for column-by-column comparison.",
+    use: "Present named facts about one record; choose `Table` for column-by-column comparison.",
     example: {
       title: "Scan project details",
       description: "Aligned terms and rich values stack in narrow parents.",
@@ -105,7 +105,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
       description: "Compare ordered and filtered lists with aligned metadata.",
     },
     tips: [
-      "Use native ol for meaningful order; put useful empty/error guidance outside an empty list.",
+      "Use native `ol` for meaningful order; put useful empty/error guidance outside an empty list.",
     ],
     accessibility: accessibilityGuides.CollectionList,
   },
@@ -115,7 +115,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
       title: "Review a project record",
       description: "Compare independent selection, navigation and actions.",
     },
-    tips: ["Use a title Link for navigation and Buttons or Menu for separate actions."],
+    tips: ["Use `Link` for the record name. Keep `Button` and `Menu` actions separate."],
     accessibility: accessibilityGuides.CollectionRow,
   },
   Table: {
@@ -128,15 +128,15 @@ export const componentGuides: Record<string, ComponentGuide> = {
     accessibility: accessibilityGuides.Table,
   },
   Container: {
-    use: "Align page sections with shared maximum widths and responsive gutters.",
+    use: "Align page sections with a shared width and responsive side padding.",
     example: {
       title: "Give a workspace a shared page boundary",
       description:
-        "Compose headings, actions and content inside one centered page width. Compare sizes and the composed page example.",
+        "Keep headings, actions and content inside one centered page. Try different sizes in the complete page example.",
     },
     tips: [
-      "Maximum widths include gutters; use the same size across aligned page sections.",
-      "Disable gutters when a parent already owns inline padding.",
+      "Maximum widths include side padding. Use the same size to align page sections.",
+      "Turn off gutters when the parent already provides side padding.",
     ],
     accessibility: accessibilityGuides.Container,
   },
@@ -148,7 +148,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Panels sit two thirds and one third on wide pages and stack, primary first, on narrow ones.",
     },
     tips: [
-      "Use Dashboard instead of Container; it sets the page width and gutters.",
+      "Use `Dashboard` instead of `Container`; it sets the page width and gutters.",
       "Put freshness or partial-data notes in the header as text, beside the page title.",
     ],
     accessibility: accessibilityGuides.Dashboard,
@@ -161,8 +161,8 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Actions retain their native tab order while the row wraps. Compare spacing and alignment examples.",
     },
     tips: [
-      "Use gap for shared spacing between items and wrapped rows.",
-      "Use Toolbar when actions need coordinated arrow-key navigation.",
+      "Use `gap` to set spacing between items and wrapped rows.",
+      "Use `Toolbar` when actions need arrow-key navigation.",
     ],
     accessibility: accessibilityGuides.Inline,
   },
@@ -175,20 +175,20 @@ export const componentGuides: Record<string, ComponentGuide> = {
     },
     tips: [
       "Use a wider outer gap and a tighter inner gap to separate sections from their content.",
-      "Use Inline for rows and Grid when items should form columns.",
+      "Use `Inline` for rows and `Grid` when items should form columns.",
     ],
     accessibility: accessibilityGuides.Stack,
   },
   Split: {
-    use: "Compose two columns that stack when their available width falls below a shared threshold.",
+    use: "Arrange two columns that stack when space is tight.",
     example: {
       title: "Pair primary content with supporting context",
       description:
         "Use equal or weighted columns, then compare the same composition inside narrower parents.",
     },
     tips: [
-      "Provide two children; Split owns the tracks while content retains its own measure.",
-      "Thresholds follow available width; style tracks with classNames.track and use Grid for variable counts.",
+      "Provide two children, one per column. `Split` sets column widths; content keeps its line-length limit.",
+      "Columns stack based on available width. Style each column with `classNames.track`; use `Grid` when the number of items varies.",
     ],
     accessibility: accessibilityGuides.Split,
   },
@@ -200,8 +200,8 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "The aside sits beside main on wide screens and moves below it on narrow ones, in source order.",
     },
     tips: [
-      "Name the aside from its visible heading with asideLabelledBy.",
-      "Start main with the page heading; use Split for proportional columns inside a section.",
+      "Name the aside from its visible heading with `asideLabelledBy`.",
+      "Start main with the page heading; use `Split` for proportional columns inside a section.",
     ],
     accessibility: accessibilityGuides.SupportingPane,
   },
@@ -213,8 +213,8 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Compare a sectioned booking with a short sign-up; actions fill the row on narrow screens.",
     },
     tips: [
-      "Put the submit button first in actions; other actions use type='button' and a quieter variant.",
-      "Group related fields with FormSection; plain fields work for short forms.",
+      "Put the submit button first in `actions`; other actions use `type='button'` and a quieter variant.",
+      "Group related fields with `FormSection`; plain fields work for short forms.",
     ],
     accessibility: accessibilityGuides.Form,
   },
@@ -226,7 +226,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Section headings sit beside their fields on wide screens and above them on narrow ones.",
     },
     tips: [
-      "Wrap each independently saved FormSection in its own form; list sections need no form.",
+      "Wrap each independently saved `FormSection` in its own form; list sections need no form.",
       "Put destructive row actions behind a confirmation dialog.",
     ],
     accessibility: accessibilityGuides.Settings,
@@ -235,37 +235,37 @@ export const componentGuides: Record<string, ComponentGuide> = {
     use: "Divide related content with a horizontal or vertical static rule.",
     example: {
       title: "Separate content groups",
-      description: "Compare a native thematic break with a vertical divider in an Inline row.",
+      description: "Compare a native thematic break with a vertical divider in an `Inline` row.",
     },
     tips: [
-      "Use decorative when the rule repeats an existing visual grouping.",
-      "Vertical rules stretch inside Inline; Separator provides no resize interaction.",
+      "Set `decorative` when the divider repeats an existing visual grouping.",
+      "Vertical rules stretch inside `Inline`. `Separator` cannot be resized.",
     ],
     accessibility: accessibilityGuides.Separator,
   },
   Badge: {
-    use: "Label a role, category, or version beside the thing it describes. Use Status for a state that changes.",
+    use: "Label a role, category, or version beside the thing it describes. Use `Status` for a state that changes.",
     example: {
       title: "Label a collaborator’s role",
       description:
         "A short role label works alongside a name. Try the tone and appearance controls, then compare case-sensitive identifiers below.",
     },
     tips: [
-      "Choose tone to reinforce the text, not to supply its meaning.",
-      "Use preserveCase with mono for literal paths and branch names.",
+      "Choose `tone` to support the written label. The text should explain the meaning on its own.",
+      "Use `preserveCase` with `mono` for paths and branch names.",
     ],
     accessibility: accessibilityGuides.Badge,
   },
   Button: {
-    use: "Use a Button to save, submit, or start a task. Use Link when the main purpose is navigating to another page.",
+    use: "Use a `Button` to save, submit, or start a task. Use `Link` when the main purpose is navigating to another page.",
     example: {
       title: "Make the next action clear",
       description:
-        "Use a specific label such as Save changes. Primary gives the main action emphasis; secondary and ghost leave room for less important actions.",
+        "Use a specific label, such as Save changes. The `primary` variant marks the main action; `secondary` and `ghost` give supporting actions less emphasis.",
     },
     tips: [
-      "Set type=submit for form submission and type=button for other form actions.",
-      "Use danger for destructive actions and size=icon only with an accessible name.",
+      'Set `type="submit"` to submit a form and `type="button"` for other form actions.',
+      'Use `danger` for destructive actions. Give every `size="icon"` button an accessible name.',
     ],
     accessibility: accessibilityGuides.Button,
   },
@@ -277,7 +277,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "One provider owns the message list. Compare overflow, actions and timed dismissal; use F6 to reach notifications.",
     },
     tips: [
-      "Mount one Viewport per provider; use timeout=0 for important messages and time-sensitive actions.",
+      "Mount one `Toast.Viewport` per provider; use `timeout=0` for important messages and time-sensitive actions.",
       "Limit hides older messages while their timers continue. Keep essential results available in the page or a notification history.",
     ],
     accessibility: accessibilityGuides.Toast,
@@ -290,34 +290,34 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "A short title summarizes the issue; the body gives enough context to choose a next step. The actions example shows where a resolution belongs.",
     },
     tips: [
-      "Write the message before choosing its tone.",
-      "Set live only for a message that changes while someone is using the page.",
+      "Write the message first, then choose its tone.",
+      "Set `live` when the message changes while someone is using the page.",
     ],
     accessibility: accessibilityGuides.Callout,
   },
   Card: {
-    use: "Keep one project, resource, or summary together. Card provides a surface; your content supplies its structure and actions.",
+    use: "Keep one project, resource, or summary together. `Card` provides a surface; your content supplies its structure and actions.",
     example: {
       title: "Summarize a project",
       description:
         "A heading and short summary make a useful starting point. Compare the plain appearance for rows and the single-link example for navigation.",
     },
     tips: [
-      "Use the default article for a self-contained item, div for generic grouping, or li inside a list.",
-      "Use appearance=plain when a raised surface would add too much emphasis.",
+      "Use the default `<article>` for a self-contained item, `<div>` for grouping or `<li>` inside a list.",
+      'Use `appearance="plain"` when the card needs less visual emphasis.',
     ],
     accessibility: accessibilityGuides.Card,
   },
   Checkbox: {
-    use: "Let people select independent options or items. Use RadioGroup when exactly one visible choice is allowed.",
+    use: "Let people select independent options or items. Use `RadioGroup` when exactly one visible choice is allowed.",
     example: {
       title: "Include records in a selection",
       description:
-        "The example owns checked state and updates it in onCheckedChange. The mixed example shows an aggregate selection that is partly checked.",
+        "The example owns checked state and updates it in `onCheckedChange`. The mixed example shows an aggregate selection that is partly checked.",
     },
     tips: [
-      "Store checked in your app; a callback alone does not update the control.",
-      "Use indeterminate for a partial aggregate, and description for help rather than a placeholder.",
+      "Store `checked` in your app and update it after the callback.",
+      "Use `indeterminate` for a partly selected group and `description` for help text.",
     ],
     accessibility: accessibilityGuides.Checkbox,
   },
@@ -326,16 +326,16 @@ export const componentGuides: Record<string, ComponentGuide> = {
     example: {
       title: "Make literal code easy to read and copy",
       description:
-        "Single-line strings stay inline in the surrounding text flow; multiline strings or block props such as language, title, or lineNumbers switch automatically to a framed code block.",
+        "Single-line strings stay inline in the surrounding text flow; multiline strings or block props such as `language`, `title`, or `lineNumbers` switch automatically to a framed code block.",
     },
     tips: [
-      "Pass multiline strings, language, title, or lineNumbers to render a block listing; set block={false} to force inline rendering.",
+      "Pass multiline strings, `language`, `title`, or `lineNumbers` to render a block listing; set `block={false}` to force inline rendering.",
       "Set language to tsx, ts, css, html, json, or bash for built-in syntax highlighting, or plain to disable token coloring.",
     ],
     accessibility: accessibilityGuides.Code,
   },
   Popover: {
-    use: "Reveal supporting controls without leaving the current view. Use Dialog for a focused modal task.",
+    use: "Reveal supporting controls without leaving the current view. Use `Dialog` for a focused modal task.",
     example: {
       title: "Adjust a view in context",
       description:
@@ -343,8 +343,8 @@ export const componentGuides: Record<string, ComponentGuide> = {
     },
     tips: [
       "Keep the task short; use Body for fields and Footer for a visible Done or Close action.",
-      "Use container for nested themes and positionerProps for collision boundaries or custom anchors.",
-      "Keep anchor tracking enabled while scrolling. Use Dialog or Drawer when the task needs more room.",
+      "Use container for nested themes and `positionerProps` for collision boundaries or custom anchors.",
+      "Keep anchor tracking enabled while scrolling. Use `Dialog` or Drawer when the task needs more room.",
     ],
     accessibility: accessibilityGuides.Popover,
   },
@@ -357,7 +357,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
     },
     tips: [
       "Keep essential instructions and errors outside closed content.",
-      "Use Panel keepMounted to retain uncontrolled drafts; controlled values remain application-owned.",
+      "Use `Panel` `keepMounted` to retain uncontrolled drafts; controlled values remain application-owned.",
     ],
     accessibility: accessibilityGuides.Disclosure,
   },
@@ -369,8 +369,8 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Tab between triggers and activate with Enter or Space. Compare Multiple and nested groups.",
     },
     tips: [
-      "Give each Item a stable unique value and each Header the appropriate heading rank through render.",
-      "Use controlled value/onValueChange when application state selects open panels; use multiple for independent expansion.",
+      "Give each `Accordion.Item` a stable unique `value` and each `Accordion.Header` the appropriate heading rank through `render`.",
+      "Use controlled `value`/`onValueChange` when application state selects open panels; use `multiple` for independent expansion.",
     ],
     accessibility: accessibilityGuides.Accordion,
   },
@@ -382,9 +382,9 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Open the dialog deliberately, read its description, and cancel with the close action or Escape. The example demonstrates the interaction; your app performs the actual deletion.",
     },
     tips: [
-      "Use title and description on Content, or compose Title and Description parts, without duplicating them.",
+      "Use `title` and `description` on `Dialog.Content`, or compose `Dialog.Title` and `Dialog.Description`, without duplicating them.",
       "Keep submission and error handling in your app; closing a dialog does not save data.",
-      'For a drawer, use Content layout="drawer" with Header, Body and Footer; keep actions outside the scrolling Body.',
+      'For a drawer, use `Dialog.Content` `layout="drawer"` with `Dialog.Header`, `Dialog.Body` and `Dialog.Footer`; keep actions outside the scrolling `Dialog.Body`.',
     ],
     accessibility: accessibilityGuides.Dialog,
   },
@@ -396,9 +396,9 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Open the confirmation, read the consequence, then cancel or confirm. A pending deletion blocks dismissal; the failure example keeps the dialog open for retry. Your app performs the actual deletion.",
     },
     tips: [
-      "Pass the operation as onConfirm and let it throw or reject on failure; never also attach the action to the trigger.",
+      "Pass the operation as `onConfirm` and let it throw or reject on failure; never also attach the action to the trigger.",
       "Write the title as the question the action settles, the description as its consequence, and repeat the verb on the confirm button.",
-      "When success removes the trigger, set finalFocus and remove the row in onConfirmed, which runs after the dialog has closed.",
+      "When success removes the trigger, set `finalFocus` and remove the row in `onConfirmed`, which runs after the dialog has closed.",
     ],
     accessibility: accessibilityGuides.ConfirmAction,
   },
@@ -407,25 +407,25 @@ export const componentGuides: Record<string, ComponentGuide> = {
     example: {
       title: "Review files before uploading",
       description:
-        "The sample retains a small file list and updates it after removal. Your app owns the File objects, acceptance rules, and upload progress.",
+        "The sample retains a small file list and updates it after removal. Your app owns the `File` objects, acceptance rules, and upload progress.",
     },
     tips: [
-      "Give each retained item a stable id and update items after onRemove.",
-      "accept is a picker hint; check your app’s acceptance rules before adding files.",
+      "Give each selected item a stable `id` and update `items` after `onRemove`.",
+      "Use `accept` to suggest file types in the picker. Validate files in your app before adding them.",
     ],
     accessibility: accessibilityGuides.FileInput,
   },
   Grid: {
-    use: "Arrange related items in responsive columns, fixed column counts, or a single vertical list. Grid is layout, not a spreadsheet widget.",
+    use: "Arrange related items in responsive columns, fixed column counts, or a single vertical list. `Grid` is layout, not a spreadsheet widget.",
     example: {
       title: "Arrange project summaries",
       description:
         "Cards share the available width and stack as space gets tighter. Compare fixed column counts, minimum item widths, gap presets, and native list semantics.",
     },
     tips: [
-      "Use layout=stack or columns=1 for one column, auto for responsive columns, or columns=2, 3, or 4 for equal multi-column rows.",
-      "Use minItemWidth (sm, md, lg), gap (none, sm, md, lg), and align (start, center, end, baseline, stretch) before reaching for custom CSS tokens.",
-      "Use as=ul or ol with li children when the collection should announce native list semantics.",
+      "Use `layout=stack` or `columns=1` for one column, auto for responsive columns, or `columns=2`, 3, or 4 for equal multi-column rows.",
+      "Use `minItemWidth` (sm, md, lg), gap (none, sm, md, lg), and align (start, center, end, baseline, stretch) before reaching for custom CSS tokens.",
+      "Use `as=ul` or `ol` with `li` children when the collection should announce native list semantics.",
     ],
     accessibility: accessibilityGuides.Grid,
   },
@@ -434,70 +434,70 @@ export const componentGuides: Record<string, ComponentGuide> = {
     example: {
       title: "Name a section clearly",
       description:
-        "Change level to set the document rank and size to adjust emphasis. The article example combines headings, text, links, and inline code.",
+        "Change `level` to set the document rank and `size` to adjust emphasis. The article example combines headings, text, links, and inline code.",
     },
     tips: [
-      "Keep level semantic even when a smaller section needs a large visual heading.",
-      "Headings have no margin; use the parent layout to set spacing.",
+      "Choose `level` for the document outline. Set visual size separately when needed.",
+      "Headings add no margin; set spacing in the parent layout.",
     ],
     accessibility: accessibilityGuides.Heading,
   },
   Input: {
-    use: "Collect text with a persistent label, optional help, and a specific error message. Use NumberField for stepped quantities.",
+    use: "Collect text with a persistent label, optional help, and a specific error message. Use `NumberField` for stepped quantities.",
     example: {
       title: "Collect an email address",
       description:
         "A visible label stays present while someone types. Compare help and error states, then try the search example’s clear action.",
     },
     tips: [
-      "Use the native type, name, autoComplete, and required props for the field’s purpose.",
-      "Keep editing actions out of disabled and read-only fields; the search example returns focus after clearing.",
+      "Set `type`, `name`, `autoComplete` and `required` to match the field’s purpose.",
+      "Hide editing actions on disabled and read-only fields. The search example returns focus after clearing.",
     ],
     accessibility: accessibilityGuides.Input,
   },
   Link: {
-    use: "Navigate to a destination with a real anchor. Use Button for an action that changes the current interface.",
+    use: "Navigate to a destination with a real anchor. Use `Button` for an action that changes the current interface.",
     example: {
       title: "Give a destination a useful name",
       description:
         "The link keeps a visible underline and inherits the surrounding type size. The in-text example shows how it reads within a sentence.",
     },
     tips: [
-      "Use descriptive link text and a real href.",
-      "Your app owns routing, download behavior, and wording for links that open a new tab.",
+      "Use text that explains the destination and provide a real `href`.",
+      "Your app handles routing, downloads and wording for links that open a new tab.",
     ],
     accessibility: accessibilityGuides.Link,
   },
   Menu: {
-    use: "Put a short list of related actions behind a named trigger. Use Select for choosing a field value.",
+    use: "Put a short list of related actions behind a named trigger. Use `Select` for choosing a field value.",
     example: {
       title: "Keep secondary actions close by",
       description:
         "Open Actions to browse a small menu. Disabled items stay unavailable, and separators group related tasks without becoming extra controls.",
     },
     tips: [
-      "Compose Trigger, Content, Item, and Separator rather than building popup behavior yourself.",
-      "A custom container should carry the intended theme for portaled content.",
+      "Compose `Menu.Trigger`, `Menu.Content`, `Menu.Item` and `Menu.Separator` to keep the built-in popup behavior.",
+      "Apply the intended theme to a custom portal `container`.",
     ],
     accessibility: accessibilityGuides.Menu,
   },
   Combobox: {
-    use: "Let people filter a longer option list by typing before choosing one or multiple values. Enable multiple for removable selection chips. Use Select when a single-choice list is short enough to scan without typing.",
+    use: "Let people filter a longer option list by typing before choosing one or multiple values. Enable multiple for removable selection chips. Use `Select` when a single-choice list is short enough to scan without typing.",
     example: {
       title: "Find a deployment region",
       description:
         "Type to narrow the region list, choose a region with the keyboard or pointer, and clear the selection when needed.",
     },
     tips: [
-      "Pass null for an empty single selection; with multiple, pass an array and update it in onValueChange.",
+      "Pass null for an empty single selection; with multiple, pass an array and update it in `onValueChange`.",
       "Multiple mode keeps the filtered list open across choices; use Escape, an outside click, or the toggle to finish.",
-      "Multiple mode reuses MultiSelect behavior, chip slots, and styling; customize removeLabel for chip actions.",
-      "Keep emptyMessage specific so people know whether no options exist or none match their filter.",
+      "Multiple mode reuses `MultiSelect` behavior, chip slots, and styling; customize `removeLabel` for chip actions.",
+      "Keep `emptyMessage` specific so people know whether no options exist or none match their filter.",
     ],
     accessibility: accessibilityGuides.Combobox,
   },
   MultiSelect: {
-    use: "Let people search a longer list and keep multiple selected values visible as removable chips. Use Checkbox when every choice should stay visible on the page.",
+    use: "Let people search a longer list and keep multiple selected values visible as removable chips. Use `Checkbox` when every choice should stay visible on the page.",
     example: {
       title: "Assign API permission scopes",
       description:
@@ -506,33 +506,33 @@ export const componentGuides: Record<string, ComponentGuide> = {
     tips: [
       "Keep option labels concise so multiple chips wrap cleanly inside bounded containers.",
       "The list stays open after choices and retains the filter; dismiss with Escape, an outside click, or the toggle.",
-      "Customize removeLabel when option labels need extra context in screen reader announcements.",
+      "Customize `removeLabel` when option labels need extra context in screen reader announcements.",
     ],
     accessibility: accessibilityGuides.MultiSelect,
   },
   NumberField: {
-    use: "Collect a numeric quantity that people can type or adjust with steps. Use Input for identifiers such as postal codes.",
+    use: "Collect a numeric quantity that people can type or adjust with steps. Use `Input` for identifiers such as postal codes.",
     example: {
       title: "Count returned stock",
       description:
         "The example owns the count and provides a sensible range and step. Empty and invalid states show how to distinguish no answer from an invalid draft.",
     },
     tips: [
-      "Use null for an empty value and a positive step for increments.",
-      "Bounds guide stepping; your app still validates typed drafts and explains errors.",
+      "Use `null` for an empty value and a positive `step` for increments.",
+      "Bounds control stepping. Your app validates typed values and explains errors.",
     ],
     accessibility: accessibilityGuides.NumberField,
   },
   Panel: {
-    use: "Organize a section with a heading, content, and related actions. Use Card for a simpler self-contained item.",
+    use: "Organize a section with a heading, content, and related actions. Use `Card` for a simpler self-contained item.",
     example: {
       title: "Keep a work section organized",
       description:
         "Header, body, and footer keep a section readable. Compare the tones, then use the collapsible example when people should be able to hide its body.",
     },
     tips: [
-      "Choose tone for emphasis and density for spacing; a status rail follows the tone.",
-      "Enable collapsible before using open, defaultOpen, or Panel.Toggle.",
+      "Choose `tone` for emphasis and `density` for spacing; a status rail follows the tone.",
+      "Enable collapsible before using open, `defaultOpen`, or `Panel.Toggle`.",
       "Set opaque on a panel whose content redraws often; it drops theme glass for a solid fill.",
     ],
     accessibility: accessibilityGuides.Panel,
@@ -542,24 +542,24 @@ export const componentGuides: Record<string, ComponentGuide> = {
     example: {
       title: "Show build progress",
       description:
-        "The task label stays stable while value changes. The steps example uses max and valueText for a count rather than a percentage.",
+        "The task label stays stable while `value` changes. The steps example uses `max` and `valueText` for a count rather than a percentage.",
     },
     tips: [
-      "Keep value between zero and max; max defaults to 100.",
-      "Use valueText when a count such as 3 of 5 files explains progress better than a percentage.",
+      "Keep `value` between zero and `max`. The default `max` is 100.",
+      "Use `valueText` when a count such as “3 of 5 files” explains progress better than a percentage.",
     ],
     accessibility: accessibilityGuides.Progress,
   },
   RadioGroup: {
-    use: "Let people choose one value from a small visible set. Use Select when a longer list belongs in a dropdown.",
+    use: "Let people choose one value from a small visible set. Use `Select` when a longer list belongs in a dropdown.",
     example: {
       title: "Choose a display density",
       description:
         "Compact and Roomy smoothly change option height, padding and spacing. Reset restores the starting density; reduced motion switches instantly.",
     },
     tips: [
-      "Give every item a unique value and update value in onValueChange.",
-      "Segmented choices are radio options, not tabs with associated panels.",
+      "Give every item a unique `value` and update the selected value in `onValueChange`.",
+      "Segmented choices still behave as radio options; they do not switch associated tab panels.",
     ],
     accessibility: accessibilityGuides.RadioGroup,
   },
@@ -568,63 +568,63 @@ export const componentGuides: Record<string, ComponentGuide> = {
     example: {
       title: "Review build output",
       description:
-        "maxHeight keeps the output from taking over the page. Focus the viewport to scroll with the keyboard as well as with a pointer.",
+        "`maxHeight` keeps the output from taking over the page. Focus the viewport to scroll with the keyboard as well as with a pointer.",
     },
     tips: [
-      "Use a CSS length such as 12rem for maxHeight.",
+      "Set `maxHeight` to a CSS length such as `12rem`.",
       "Keep wide content readable and avoid stacking several small scrolling regions.",
     ],
     accessibility: accessibilityGuides.ScrollArea,
   },
   Select: {
-    use: "Choose one field value from a dropdown. Use Menu for actions and RadioGroup for a small set worth showing at once.",
+    use: "Choose one field value from a dropdown. Use `Menu` for actions and `RadioGroup` for a small set worth showing at once.",
     example: {
       title: "Choose which records to show",
       description:
-        "The example stores a string value and uses null for the placeholder. Unavailable options and an empty list stay visibly distinct from a valid choice.",
+        "The example stores a string value and uses `null` for the placeholder. Unavailable options and an empty list stay visibly distinct from a valid choice.",
     },
     tips: [
-      "Use unique option values and update value in onValueChange.",
-      "The default popup stays inside the field’s theme; theme any custom portal container too.",
+      "Give options unique values and update `value` in `onValueChange`.",
+      "The default popup inherits the field’s theme. Apply the theme to any custom portal `container` too.",
     ],
     accessibility: accessibilityGuides.Select,
   },
   Stat: {
-    use: "Show a headline number or short value with the label that explains it. Use Progress for completion toward a total.",
+    use: "Show a headline number or short value with the label that explains it. Use `Progress` for completion toward a total.",
     example: {
       title: "Make an elapsed time readable",
       description:
-        "Keep the label beside the formatted value. Use display for one important figure and the row example for related metrics.",
+        "Keep the label beside the formatted value. Use `display` for one important figure and the row example for related metrics.",
     },
     tips: [
-      "Include a unit or time period when the number needs one.",
-      "Use md in groups so several metrics can share the same hierarchy.",
+      "Include a unit or time period when it helps explain the number.",
+      "Use `md` for groups of related values so they have the same visual weight.",
     ],
     accessibility: accessibilityGuides.Stat,
   },
   Status: {
-    use: "Describe a current state such as running, blocked, or complete. Use Badge for static metadata.",
+    use: "Describe a current state such as running, blocked, or complete. Use `Badge` for static metadata.",
     example: {
       title: "Make a work state explicit",
       description:
-        "Text carries the meaning; tone and an optional icon reinforce it. Compare plain text with a chip when the state needs more separation.",
+        "Text carries the meaning; `tone` and an optional icon reinforce it. Compare plain text with a chip when the state needs more separation.",
     },
     tips: [
-      "Use appearance=chip for a tinted surface and compact for tighter layouts.",
-      "Set live for changing text that should be announced, not for every static status on a page.",
+      'Use `appearance="chip"` for a tinted surface and `compact` for tighter layouts.',
+      "Set `live` for changing text that should be announced. Static status text does not need it.",
     ],
     accessibility: accessibilityGuides.Status,
   },
   Switch: {
-    use: "Turn an immediate preference on or off. Use Checkbox for selecting items or choices submitted together later.",
+    use: "Turn an immediate preference on or off. Use `Checkbox` for selecting items or choices submitted together later.",
     example: {
       title: "Turn email updates on or off",
       description:
         "The example stores checked state in the app. The control describes the preference consistently while its on/off state changes.",
     },
     tips: [
-      "Update checked in onCheckedChange and let your app handle saving.",
-      "Use size ('sm', 'md', 'lg') and offTone/onTone or offColor/onColor for bilateral state colors; decorative icon slots should not contain controls.",
+      "Update checked in `onCheckedChange` and let your app handle saving.",
+      "Use `size` ('sm', 'md', 'lg') and `offTone`/`onTone` or `offColor`/`onColor` for bilateral state colors; decorative icon slots should not contain controls.",
     ],
     accessibility: accessibilityGuides.Switch,
   },
@@ -633,36 +633,36 @@ export const componentGuides: Record<string, ComponentGuide> = {
     example: {
       title: "Write useful supporting copy",
       description:
-        "Choose size for hierarchy and tone for emphasis. The inline example combines text with meaningful emphasis, a link, and literal code.",
+        "Choose `size` for hierarchy and `tone` for emphasis. The inline example combines text with meaningful emphasis, a link, and literal code.",
     },
     tips: [
-      "Use span inside a paragraph and div for block children; p is the default.",
-      "Text has no margin, so set spacing in the parent layout.",
+      'Use `as="span"` inside a paragraph and `as="div"` for block children. The default is `<p>`.',
+      "`Text` adds no margin; set spacing in the parent layout.",
     ],
     accessibility: accessibilityGuides.Text,
   },
   Textarea: {
-    use: "Collect multiline notes, summaries, or configuration payloads with a persistent label and validation feedback. Use Input for single-line text.",
+    use: "Collect multiline notes, summaries, or configuration payloads with a persistent label and validation feedback. Use `Input` for single-line text.",
     example: {
       title: "Write release notes",
       description: "Type into the textarea or compare helper, error, read-only, and resize states.",
     },
     tips: [
       "Use rows to set the initial height and resize to control whether people can drag-resize the field.",
-      "Both native onChange and onValueChange are supported for controlled forms.",
+      "Both native `onChange` and `onValueChange` are supported for controlled forms.",
     ],
     accessibility: accessibilityGuides.Textarea,
   },
   Fieldset: {
-    use: "Group related controls into an understandable form section using native fieldset and legend semantics.",
+    use: "Group related controls into an understandable form section using native `fieldset` and legend semantics.",
     example: {
       title: "Group workspace profile fields",
       description:
         "Related text, multiline, and switch controls share one legend and supporting description.",
     },
     tips: [
-      "Use Fieldset when several controls answer a shared question or belong to the same settings section; nested Switch controls default to the compact sm track.",
-      "Pass disabled on Fieldset to lock every descendant control during saving or archival states.",
+      "Use `Fieldset` when several controls answer a shared question or belong to the same settings section; nested `Switch` controls default to the compact `sm` track.",
+      "Pass `disabled` on `Fieldset` to lock every descendant control during saving or archival states.",
     ],
     accessibility: accessibilityGuides.Fieldset,
   },
@@ -674,8 +674,8 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Compare end-aligned, divided, and split action rows for settings and editing forms.",
     },
     tips: [
-      "Set type='submit' on the primary action and type='button' or type='reset' on secondary actions.",
-      "Use align='between' when a reset or secondary action sits opposite the primary submit button.",
+      "Set `type='submit'` on the primary action and `type='button'` or `type='reset'` on secondary actions.",
+      "Use `align='between'` when a reset or secondary action sits opposite the primary submit button.",
     ],
     accessibility: accessibilityGuides.FormActions,
   },
@@ -687,8 +687,8 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Compare stacked and split layouts, a section-level error and a locked pending save.",
     },
     tips: [
-      "Set headingLevel to fit the page outline; the heading also names the group.",
-      "Pass disabled while saving to lock every field and action in the section.",
+      "Set `headingLevel` to fit the page outline; the heading also names the group.",
+      "Pass `disabled` while saving to lock every field and action in the section.",
     ],
     accessibility: accessibilityGuides.FormSection,
   },
@@ -700,8 +700,8 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Select an error link in the form recovery example to move keyboard focus directly to the invalid field.",
     },
     tips: [
-      "Pass an empty items array before submission or once errors are resolved; ErrorSummary renders nothing when empty.",
-      "Focus the ErrorSummary ref when a submit attempt fails so keyboard and screen-reader users hear the summary first.",
+      "Pass an empty items array before submission or once errors are resolved; `ErrorSummary` renders nothing when empty.",
+      "Focus the `ErrorSummary` `ref` when a submit attempt fails so keyboard and screen-reader users hear the summary first.",
     ],
     accessibility: accessibilityGuides.ErrorSummary,
   },
@@ -713,8 +713,8 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Use arrow keys or click a tab to switch panels while the active indicator tracks the selected tab.",
     },
     tips: [
-      'Use variant="pill" for compact view switchers and variant="line" for section headers.',
-      "Set keepMounted on Tabs.Panel when inactive panels hold form state or expensive measurements.",
+      'Use `variant="pill"` for compact view switchers and `variant="line"` for section headers.',
+      "Set `keepMounted` on `Tabs.Panel` when inactive panels hold form state or expensive measurements.",
     ],
     accessibility: accessibilityGuides.Tabs,
   },
@@ -726,8 +726,8 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "A named toolbar keeps related controls together. Use groups and separators to divide tasks without adding extra tab stops.",
     },
     tips: [
-      "Toolbar.Button uses the shared Button appearance and defaults to ghost.",
-      "Use Checkbox or RadioGroup when a control represents a persistent selection.",
+      "`Toolbar.Button` uses the shared `Button` style and defaults to `ghost`.",
+      "Use `Checkbox` or `RadioGroup` for a choice that stays selected.",
     ],
     accessibility: accessibilityGuides.Toolbar,
   },
@@ -739,8 +739,8 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Hover or focus the stop action to see a brief hint. The trigger keeps its own accessible name even while the hint is closed.",
     },
     tips: [
-      "Use content for the hint and delay for the hover delay in milliseconds.",
-      "Use a themed container when the popup belongs to a nested theme.",
+      "Use `content` for the hint and `delay` for the hover delay in milliseconds.",
+      "Use a themed `container` when the popup belongs to a nested theme.",
     ],
     accessibility: accessibilityGuides.Tooltip,
   },
@@ -752,8 +752,8 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Feature the shop's own model across two columns, filter by brand and search, and recover from no results.",
     },
     tips: [
-      "Wrap each item in Gallery.Item and give its Card a heading; items stretch to the row height.",
-      "Keep one image ratio across items so headings line up; use contain for products whose edges matter.",
+      "Wrap each item in `Gallery.Item` and give its `Card` a heading; items stretch to the row height.",
+      "Keep one image ratio across items so headings line up; use `contain` for products whose edges matter.",
     ],
     accessibility: accessibilityGuides.Gallery,
   },
@@ -762,12 +762,12 @@ export const componentGuides: Record<string, ComponentGuide> = {
     example: {
       title: "Name the screen and its next action",
       description:
-        "Render the title as the page's h1, keep the description to a sentence or two, and end-align one primary action with any secondary actions before it.",
+        "Render the title as the page's `h1`, keep the description to a sentence or two, and end-align one primary action with any secondary actions before it.",
     },
     tips: [
-      "Keep one primary Button in actions; put secondary actions first and move rarely used ones into a Menu.",
-      "Use navigation for a back link or a breadcrumb nav, meta for status Badges, and children for section Tabs or filters that belong to the header.",
-      "Lower headingLevel only when the header introduces a region inside a page that already has an h1.",
+      "Keep one primary `Button` in `actions`; put secondary actions first and move rarely used ones into a `Menu`.",
+      "Use `navigation` for a back link or a breadcrumb `nav`, `meta` for status `Badge` content, and `children` for section `Tabs` or filters that belong to the header.",
+      "Lower `headingLevel` only when the header introduces a region inside a page that already has an `h1`.",
     ],
     accessibility: accessibilityGuides.PageHeader,
   },
@@ -780,7 +780,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
     },
     tips: [
       "Keep units comparable across the row: one currency, one precision and the same period for every change.",
-      "Set trend for the direction and tone for whether it is good news; a rise in refunds is up and negative.",
+      "Set `trend` for the direction and `tone` for whether it is good news; a rise in refunds is `up` and `negative`.",
       "Use outlined for card surfaces and add a link only when a metric has a detail screen.",
     ],
     accessibility: accessibilityGuides.StatsRow,
@@ -793,8 +793,8 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Pair a clear heading and explanation with the primary creation, filter-reset, or retry action so people never hit a dead end.",
     },
     tips: [
-      "Use variant='subtle' for zero-match search or filter results and tone='danger' when a section failed to load and can be retried.",
-      "Set headingLevel to match the surrounding document outline and enable live when the empty state appears dynamically.",
+      "Use `variant='subtle'` for zero-match search or filter results and `tone='danger'` when a section failed to load and can be retried.",
+      "Set `headingLevel` to match the surrounding document outline and enable `live` when the empty state appears dynamically.",
     ],
     accessibility: accessibilityGuides.EmptyState,
   },
@@ -806,22 +806,22 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Match text lines, avatars, and media blocks to the loaded layout so resolving data does not shift the page.",
     },
     tips: [
-      "Wrap loading sections in a container with aria-busy='true' and toggle loading={false} to reveal children in place.",
-      "Use variant='text' with lines for paragraphs, 'circle' for avatars, 'pill' for status chips, and 'rect' for panels or charts.",
-      "Choose animation='wave' for multi-line cascades, 'pulse' for quiet background refreshes, and tone='accent' for synthesis placeholders.",
+      "Wrap loading sections in a container with `aria-busy='true'` and toggle `loading={false}` to reveal children in place.",
+      "Use `variant='text'` with lines for paragraphs, 'circle' for avatars, 'pill' for status chips, and 'rect' for panels or charts.",
+      "Choose `animation='wave'` for multi-line cascades, 'pulse' for quiet background refreshes, and `tone='accent'` for synthesis placeholders.",
     ],
     accessibility: accessibilityGuides.Skeleton,
   },
   Spinner: {
-    use: "Signal an indeterminate wait or busy control when completion percentage is unknown. Use Progress when a numeric percentage exists.",
+    use: "Signal an indeterminate wait or busy control when completion percentage is unknown. Use `Progress` when a numeric percentage exists.",
     example: {
       title: "Communicate active background work",
       description:
         "Render a standalone status spinner with a descriptive label or embed a decorative spinner inside a busy submit button.",
     },
     tips: [
-      "Pass decorative and tone='current' when placing Spinner inside a Button whose label already changes to 'Saving…'.",
-      "Set showLabel (and optional appearance='pill' or variant='orbit' | 'dots' | 'bars') when the spinner stands alone in a toolbar, header, or inline status row.",
+      "Pass `decorative` and `tone='current'` when placing `Spinner` inside a `Button` whose label already changes to 'Saving…'.",
+      "Set `showLabel` (and optional `appearance='pill'` or `variant='orbit'` | 'dots' | 'bars') when the spinner stands alone in a toolbar, header, or inline status row.",
     ],
     accessibility: accessibilityGuides.Spinner,
   },

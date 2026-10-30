@@ -32,10 +32,10 @@ export function Example() {
 | `title`      | `ReactNode`                                           | unset     | Short summary above the message                                 |
 | `tone`       | `neutral` / `info` / `success` / `warning` / `danger` | `neutral` | Reinforces the message without replacing its wording            |
 | `icon`       | `ReactNode`                                           | unset     | Decorative icon; hidden from assistive technology               |
-| `actions`    | `ReactNode`                                           | unset     | Named buttons or links that resolve the message, end-aligned; put the primary last |
-| `live`       | `boolean`                                             | `false`   | Adds role=status for changing message text; does not move focus |
+| `actions`    | `ReactNode`                                           | unset     | Named buttons or links that help resolve the message; end-aligned, primary last |
+| `live`       | `boolean`                                             | `false`   | Adds `role=status` for changing message text; does not move focus |
 | `classNames` | keyed classes                                         | unset     | Style icon, content, title, body, or actions                    |
 
 ## Related components
 
-Use [Status](Status.md) for a short changing state and [Dialog](Dialog.md) for a focused modal task.
+Use [`Status`](Status.md) for a short changing state and [`Dialog`](Dialog.md) for a focused modal task.

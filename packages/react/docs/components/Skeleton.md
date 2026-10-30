@@ -43,4 +43,4 @@ export function Example() {
 
 ## Related components
 
-Use [Spinner](Spinner.md) for compact indeterminate waits, [EmptyState](EmptyState.md) when a query resolves with zero items, and [Card](Card.md) as the owning surface with `aria-busy="true"`.
+Use [`Spinner`](Spinner.md) for compact indeterminate waits, [`EmptyState`](EmptyState.md) when a query resolves with zero items, and [`Card`](Card.md) as the owning surface with `aria-busy="true"`.

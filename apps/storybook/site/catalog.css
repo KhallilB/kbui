@@ -269,6 +269,11 @@
       12px / 1.8 ui-monospace,
       monospace;
     overflow-wrap: anywhere;
+    padding-inline: var(--kb-space-1);
+    border: 1px solid var(--kb-color-border);
+    border-radius: var(--kb-radius-sm);
+    background: var(--kb-color-surface);
+    box-decoration-break: clone;
   }
   .catalog-doc-link {
     color: var(--rust);

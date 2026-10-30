@@ -28,7 +28,7 @@ export function Example() {
 | `target`, `rel`, `download`, `aria-current` | Native anchor props | unset    | Passed through without rewriting |
 | `className`, `ref`                          | Native anchor props | unset    | Ref targets anchor               |
 
-Use descriptive link text. Use Button for an action. Links inherit surrounding type size; Tab focuses, Enter follows, and Space retains native behavior. Callers own new-tab wording and target/rel policy. No disabled link is provided. Color, underline and focus must remain visible.
+Use descriptive link text. Use `Button` for an action. Links inherit surrounding type size; Tab focuses, Enter follows, and Space retains native behavior. Callers own new-tab wording and target/rel policy. No disabled link is provided. Color, underline and focus must remain visible.
 
 ### Router links
 
@@ -49,4 +49,4 @@ const AppLink = ({ href, ...props }: LinkProps) => <RouterLink to={href} {...pro
 
 ## Related components
 
-Use [Button](Button.md) for an action and [Card](Card.md) to group content around a destination.
+Use [`Button`](Button.md) for an action and [`Card`](Card.md) to group content around a destination.

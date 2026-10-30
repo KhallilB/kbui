@@ -1,6 +1,6 @@
 # Panel
 
-Use Panel for a section that needs a header, body, and actions. Its parts help keep those areas aligned. Give the section an accessible name with `aria-labelledby`, pointing to the heading in `Panel.Header`.
+Use `Panel` for a section that needs a header, body, and actions. Its parts help keep those areas aligned. Give the section an accessible name with `aria-labelledby`, pointing to the heading in `Panel.Header`.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/components-panel--docs)
 
@@ -55,7 +55,7 @@ export function Example() {
 | `rail`         | `none` / `accent` / `status`                           | `none`       | Accent stays the accent color; status follows the current tone        |
 | `density`      | `compact` / `standard`                                 | `standard`   | Changes padding without changing semantics                            |
 | `opaque`       | `boolean`                                              | `false`      | Solid fill with no backdrop filter, whatever the theme sets           |
-| `collapsible`  | `boolean`                                              | `false`      | Enables Panel.Toggle and collapsible body behavior                    |
+| `collapsible`  | `boolean`                                              | `false`      | Enables `Panel.Toggle` and collapsible body behavior                    |
 | `open`         | `boolean`                                              | uncontrolled | Current body visibility when collapsible is enabled                   |
 | `defaultOpen`  | `boolean`                                              | `false`      | Initial visibility for an uncontrolled collapsible panel              |
 | `onOpenChange` | `(open: boolean) => void`                              | unset        | Update open here when your app controls visibility                    |
@@ -88,7 +88,7 @@ The handle follows the window splitter pattern. Arrow keys along the group's dir
 
 ## Related components
 
-Use [Card](Card.md) for a self-contained item and [Grid](Grid.md) or [Split](Split.md) to arrange sections.
+Use [`Card`](Card.md) for a self-contained item and [`Grid`](Grid.md) or [`Split`](Split.md) to arrange sections.
 
 ## Resizing without dragging
 

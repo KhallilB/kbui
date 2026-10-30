@@ -61,7 +61,7 @@ Set the theme on the `<html>` element:
 <html data-theme="dark">
 ```
 
-The attribute accepts `"light"` or `"dark"`. Without it, kbui follows the visitor's system setting. Themes switch through CSS variables, so no provider component is needed. Explicit theme containers rebind aliases for nested light/dark scopes. Put the page theme on `<html>` so body-portaled Dialog, Menu and Tooltip share it; a nested preview wrapper alone does not theme body portals.
+The attribute accepts `"light"` or `"dark"`. Without it, kbui follows the visitor's system setting. Themes switch through CSS variables, so no provider component is needed. Explicit theme containers rebind aliases for nested light/dark scopes. Put the page theme on `<html>` so body-portaled `Dialog`, `Menu` and `Tooltip` share it; a nested preview wrapper alone does not theme body portals.
 
 To style one component, pass your own class. kbui's CSS sits in a cascade layer, so your CSS, CSS Modules or Tailwind classes win without kbui names. Components with inner parts take `classNames`:
 
@@ -113,7 +113,7 @@ export function Preferences() {
 }
 ```
 
-This example keeps values in component state. Connect submission to your own storage or API when using it in an app. Your layout owns spacing between fields. Checkbox, Select, RadioGroup and Switch are controlled components; keep their value in state and pass the corresponding change callback.
+This example keeps values in component state. Connect submission to your own storage or API when using it in an app. Your layout owns spacing between fields. `Checkbox`, `Select`, `RadioGroup` and `Switch` are controlled components; keep their value in state and pass the corresponding change callback.
 
 The [React component index](../../packages/react/README.md#components) links to a dedicated API and usage page for every component; Storybook includes the full typed prop reference. The [Examples page](https://kbui.kcb.pro/examples/) shows complete compositions with copyable code. The [forms and overlays guide](forms-and-overlays.md) covers themed popups, structured dialogs and focus behavior.
 
