@@ -36,11 +36,7 @@ const fixture: FlowFixture = {
     await waitFor(() => expect(canvas.getByRole("button", { name: "Edit request" })).toHaveFocus());
   },
   status: (root) => root.querySelector<HTMLElement>(".request-flow-notice") ?? root,
-  gaps: {
-    reselect: "Reselect pushes a history entry and defers focus",
-    history: "History Back keeps the older return row",
-    announcements: "A repeated save sets identical status text",
-  },
+  gaps: {},
 };
 
 const { story, complete } = flow(fixture);

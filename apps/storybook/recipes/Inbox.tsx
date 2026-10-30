@@ -64,6 +64,11 @@ const letters: InboxThread[] = [
 
 type Delivery = { status: "pending" } | { status: "error"; error: string };
 
+// An empty `?message=` is no selection.
+function messageParam() {
+  return new URL(window.location.href).searchParams.get("message") || null;
+}
+
 /** Application-owned correspondence; routing and reply delivery stay local. */
 export function Inbox({
   initialThreads = letters,
@@ -74,9 +79,7 @@ export function Inbox({
   initialThreadId?: string | null | undefined;
   sendReply?: ((id: string, body: string) => Promise<void>) | undefined;
 }) {
-  const [selectedId, setSelectedId] = useState(
-    () => new URL(window.location.href).searchParams.get("message") ?? initialThreadId,
-  );
+  const [selectedId, setSelectedId] = useState(() => messageParam() ?? initialThreadId);
   const [query, setQuery] = useState("");
   const [drafts, setDrafts] = useState<Record<string, string | undefined>>({});
   const [replies, setReplies] = useState<
@@ -113,7 +116,7 @@ export function Inbox({
   useEffect(() => {
     mounted.current = true;
     const onPopState = () => {
-      const next = new URL(window.location.href).searchParams.get("message");
+      const next = messageParam();
       if (currentId.current !== null) lastSelected.current = currentId.current;
       focusTarget.current = next !== null ? "heading" : "list";
       setSelectedId(next);
@@ -178,6 +181,8 @@ export function Inbox({
       return;
     }
     pending.current.add(thread.id);
+    // Sending disables the focused submit; keep focus in the letter.
+    focusTarget.current = "heading";
     setDelivery((current) => ({ ...current, [thread.id]: { status: "pending" } }));
     setAnnouncement(`Sending reply to ${thread.sender}.`);
     try {

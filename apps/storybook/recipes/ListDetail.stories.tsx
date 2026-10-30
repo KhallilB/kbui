@@ -147,9 +147,7 @@ export const UnavailableRequest: Story = {
     await expect(canvas.getByRole("searchbox", { name: "Search requests" })).toHaveFocus();
     await userEvent.click(canvas.getByRole("button", { name: /REQ-1043/ }));
     window.history.back();
-    await waitFor(() =>
-      expect(canvas.getByRole("searchbox", { name: "Search requests" })).toHaveFocus(),
-    );
+    await waitFor(() => expect(canvas.getByRole("button", { name: /REQ-1043/ })).toHaveFocus());
   },
 };
 

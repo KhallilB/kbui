@@ -178,7 +178,8 @@ export function ListDetail({
   const [filter, setFilter] = useState<string | null>("all");
   const [drafts, setDrafts] = useState<Record<string, RequestDraft | undefined>>({});
   const [showContext, setShowContext] = useState(true);
-  const [message, setMessage] = useState("");
+  // New id per outcome re-mounts the text, so a repeated outcome is announced again.
+  const [notice, setNotice] = useState({ id: 0, text: "" });
   const root = useRef<HTMLElement>(null);
   const focused = useRef<HTMLElement | null>(null);
   const currentId = useRef(selectedId);
@@ -202,6 +203,7 @@ export function ListDetail({
   useEffect(() => {
     const onPopState = () => {
       const next = new URL(window.location.href).searchParams.get("request");
+      if (currentId.current) lastSelected.current = currentId.current;
       focusTarget.current = next ? "heading" : "list";
       setSelectedId(next);
     };
@@ -235,6 +237,10 @@ export function ListDetail({
   }, []);
 
   function navigate(next: string | null) {
+    if (next === selectedId) {
+      heading.current?.focus();
+      return;
+    }
     if (selectedId) lastSelected.current = selectedId;
     const url = new URL(window.location.href);
     if (next) url.searchParams.set("request", next);
@@ -242,6 +248,10 @@ export function ListDetail({
     window.history.pushState(window.history.state, "", url);
     focusTarget.current = next ? "heading" : "list";
     setSelectedId(next);
+  }
+
+  function announce(text: string) {
+    setNotice((current) => ({ id: current.id + 1, text }));
   }
 
   function closeEditor() {
@@ -272,7 +282,7 @@ export function ListDetail({
         description="Review site requests and keep work moving."
         meta={
           <Text role="status" size="sm" tone="muted" className="request-flow-notice">
-            {message || "Local demo · Session only"}
+            <span key={notice.id}>{notice.text || "Local demo · Session only"}</span>
           </Text>
         }
       />
@@ -446,7 +456,7 @@ export function ListDetail({
                             }
                             onCancel={() => {
                               closeEditor();
-                              setMessage(`${selected.id} draft discarded.`);
+                              announce(`${selected.id} draft discarded.`);
                             }}
                             onSave={(next) => {
                               setRecords((current) =>
@@ -455,7 +465,7 @@ export function ListDetail({
                                 ),
                               );
                               closeEditor();
-                              setMessage(`${selected.id} saved for this session.`);
+                              announce(`${selected.id} saved for this session.`);
                             }}
                           />
                         ) : (

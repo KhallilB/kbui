@@ -26,7 +26,7 @@ Render `<Inbox />` in a browser. It reads the current URL; connect it to your ro
 | Prop | Use |
 | --- | --- |
 | `initialThreads` | Replace the sample messages. Pass `[]` for an empty inbox. |
-| `initialThreadId` | Open a message on mount when the URL has no `message` parameter. |
+| `initialThreadId` | Open a message on mount when the URL has no `message` parameter or an empty one. |
 | `sendReply` | Optional async function that sends a reply; see below. |
 
 Each thread needs a unique `id` and values for `sender`, `address`, `subject`, `date`, `excerpt`, `paragraphs` and `context`. Use `date` for display text and `paragraphs` for an array of message paragraphs. Pass initial data when mounting; remount to replace the collection. Search matches sender, subject and excerpt, ignoring case. Clear search resets it and focuses the search field.
@@ -73,7 +73,7 @@ Sender details start closed. Show sender details opens a named `<aside>` built w
 
 Each row is a `Button` reached with Tab. Use Tab rather than listbox arrow keys. The current row has `aria-current` and a selection rail; focus has its own ring.
 
-Opening a message adds `message=<id>` to the URL, keeps other parameters and focuses the detail heading. Back to inbox removes the parameter and restores focus to the original row. If that row is missing or filtered out, focus goes to search. Browser Back and Forward use the same rules. Unknown IDs show Message unavailable with a way back.
+Opening a message adds `message=<id>` to the URL, keeps other parameters and focuses the detail heading. Back to inbox removes the parameter and restores focus to the original row. If that row is missing or filtered out, focus goes to search. Browser Back and Forward use the same rules. Unknown IDs show Message unavailable with a way back; an empty `message=` shows the inbox.
 
 If resizing hides the focused control, focus moves to the visible heading or search. Visible controls keep focus. Reload restores URL selection and clears local drafts and replies. Inside an embedded preview, selection changes the iframe URL; use the direct Storybook canvas URL to share a selected message.
 
@@ -93,7 +93,7 @@ Provide a function with this signature:
 type SendReply = (id: string, body: string) => Promise<void>;
 ```
 
-The recipe trims the reply, blocks duplicate submissions and disables the composer while sending.
+The recipe trims the reply, blocks duplicate submissions and disables the composer while sending. Focus moves to the message heading so it does not fall to the page when Send is disabled.
 
 | Result | What happens |
 | --- | --- |
@@ -127,7 +127,7 @@ bun run --cwd apps/storybook test recipes/Inbox.stories.tsx
 bun run --cwd apps/storybook verify:code
 ```
 
-The [workflow stories](../../apps/storybook/recipes/Inbox.stories.tsx) cover selection, sender details, validation, drafts, discard, failed sends, retry, completion after navigation, search, history, missing messages, empty data and long text. The [source check](../../apps/storybook/stories/inbox-source.test.ts) checks the copyable files. `verify:code` compiles the registered source and React examples.
+The [workflow stories](../../apps/storybook/recipes/Inbox.stories.tsx) cover selection, sender details, validation, drafts, discard, failed sends, retry, completion after navigation, search, history, missing messages, empty data and long text. The [source check](../../apps/storybook/stories/inbox-source.test.ts) checks the copyable files. The [flow contract stories](../../apps/storybook/stories/list-detail-flow/Inbox.stories.tsx) check the rules shared with other list-and-detail recipes. `verify:code` compiles the registered source and React examples.
 
 Check light and dark at 320, 768 and 1280 CSS pixels, including the website preview. With keyboard alone, open Mara's message, show and hide sender details, reply, submit whitespace, correct it and send. Go back and check focus. In a wide view, focus search with a message open, then narrow the preview: focus should move to the message heading. Also check long translation notes, forced colors, larger text and browser zoom.
 
