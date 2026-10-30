@@ -76,4 +76,12 @@ export const List: Story = {
       <li>Research</li>
     </Inline>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const list = canvas.getByRole("list", { name: "Project disciplines" });
+    const items = within(list).getAllByRole("listitem");
+    const tops = items.map((item) => item.getBoundingClientRect().top);
+    await expect(Math.max(...tops) - Math.min(...tops)).toBeLessThanOrEqual(1);
+    await expect(getComputedStyle(list).listStyleType).not.toBe("none");
+  },
 };

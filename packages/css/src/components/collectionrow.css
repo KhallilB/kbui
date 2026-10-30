@@ -1,7 +1,9 @@
 /* Anatomy: .kb-collectionrow [data-selected] [data-leading] [data-aside] > .kb-collectionrow-layout > .kb-collectionrow-leading, .kb-collectionrow-content > .kb-collectionrow-title, .kb-collectionrow-description; .kb-collectionrow-aside > .kb-collectionrow-metadata, .kb-collectionrow-actions; .kb-collectionlist, .kb-button [data-size=sm|lg], .kb-status > .kb-status-text */
+/* Own query container, so a row outside a list still collapses; inline padding lives on the layout so the row's width is its parent's. */
 .kb-collectionrow {
+  container: kb-collectionrow / inline-size;
   min-inline-size: 0;
-  padding: var(--kb-collectionrow-padding-block) var(--kb-collectionrow-padding-inline);
+  padding-block: var(--kb-collectionrow-padding-block);
   color: var(--kb-color-fg);
   font-family: var(--kb-font-sans);
   font-size: var(--kb-size-sm);
@@ -12,9 +14,13 @@
   --_collectionrow-leading: 0px;
   --_collectionrow-aside: 0px;
   display: grid;
-  grid-template-columns: var(--_collectionrow-leading) minmax(0, 1fr) var(--_collectionrow-aside);
+  /* Tokens are minimums shared across a list; wider leading media or a one-line aside grows its row. */
+  grid-template-columns:
+    minmax(var(--_collectionrow-leading), auto) minmax(0, 1fr)
+    minmax(var(--_collectionrow-aside), auto);
   align-items: start;
   min-inline-size: 0;
+  padding-inline: var(--kb-collectionrow-padding-inline);
 }
 .kb-collectionrow[data-leading] > .kb-collectionrow-layout {
   --_collectionrow-leading: var(--kb-collectionrow-leading-width);
@@ -35,6 +41,7 @@
 .kb-collectionrow-leading {
   grid-column: 1;
   min-inline-size: 0;
+  max-inline-size: 40cqi;
   padding-inline-end: var(--kb-collectionrow-gap);
 }
 .kb-collectionrow-content {
@@ -48,15 +55,22 @@
   margin-block-start: var(--kb-space-1);
   color: var(--kb-color-muted);
 }
+/* Status and actions share one end-aligned line, wrapping only when they cannot fit. */
 .kb-collectionrow-aside {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
   grid-column: 3;
   gap: var(--kb-space-2);
   min-inline-size: 0;
+  max-inline-size: 50cqi;
   padding-inline-start: var(--kb-collectionrow-gap);
   text-align: end;
 }
 .kb-collectionrow-metadata {
+  min-inline-size: 0;
+  max-inline-size: 100%;
   color: var(--kb-color-muted);
 }
 .kb-collectionrow .kb-status {
@@ -72,6 +86,7 @@
   flex-wrap: wrap;
   gap: var(--kb-space-2);
   min-inline-size: 0;
+  max-inline-size: 100%;
 }
 .kb-collectionrow-actions > :where(button, a) {
   max-inline-size: 100%;
@@ -92,18 +107,16 @@
 .kb-collectionrow[data-selected] {
   background: var(--kb-color-surface);
 }
-@container kb-collectionlist (width < 40rem) {
+/* Compact: the aside stacks beneath content and stays end-aligned. */
+@container kb-collectionrow (width < 48rem) {
   .kb-collectionrow > .kb-collectionrow-layout {
-    grid-template-columns: var(--_collectionrow-leading) minmax(0, 1fr);
+    grid-template-columns: minmax(var(--_collectionrow-leading), auto) minmax(0, 1fr);
     row-gap: var(--kb-collectionrow-gap);
   }
   .kb-collectionrow-aside {
     grid-column: 2;
+    max-inline-size: none;
     padding-inline-start: 0;
-    text-align: start;
-  }
-  .kb-collectionrow-actions {
-    justify-content: flex-start;
   }
 }
 @media (forced-colors: active) {

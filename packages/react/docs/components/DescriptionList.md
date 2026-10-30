@@ -1,6 +1,6 @@
 # DescriptionList
 
-Present named facts about one record with native description-list relationships. Use Table when readers need to compare the same fields across records.
+Present named facts about one record with native description-list relationships. Use `Table` when readers need to compare the same fields across records.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/components-descriptionlist--docs)
 
@@ -52,10 +52,10 @@ export function Example() {
 
 Every part accepts its native attributes, `className`, `style` and ref. Types are `DescriptionListProps`, `DescriptionListItemProps`, `DescriptionListTermProps` and `DescriptionListDetailProps`. Use a real `dt` before its `dd` values; the description list does not become a table or listbox. Group alternate names inside one Term when they share values. Native IDs and `aria-labelledby` remain available for richer relationships.
 
-Values align to the same column across Items. Long labels, identifiers and composed Status text wrap, including chips with decorative icons; native links and controls retain their keyboard behavior. Use a deliberate stacked layout for narrow details, or override `--kb-descriptionlist-term-width` when the default 12rem label cap does not fit your labels. Other tokens control column/row gaps and comfortable/dense block padding. Nested lists keep their own layout and density.
+Values align to the same column across Items. Long labels, identifiers and composed `Status` text wrap, including chips with decorative icons; native links and controls retain their keyboard behavior. Use a deliberate stacked layout for narrow details, or override `--kb-descriptionlist-term-width` when the default 12rem label cap does not fit your labels. Other tokens control column/row gaps and comfortable/dense block padding. Nested lists keep their own layout and density.
 
 Keep zero values visible. Write a meaningful unavailable value such as Not scheduled rather than silently omitting a required fact. Your app owns formatting, units, timezone, localization, loading, errors and announcements. Do not use term text as an input label; controls still need their own labels and relationships. A description list supplies native relationships, not interactive field validation.
 
 ## Related components
 
-Use [Table](Table.md) for comparing fields across records, [CollectionRow](CollectionRow.md) for summarizing records with actions, and [Status](Status.md) for an explicit state. See [Structured data](../../../../docs/guides/structured-data.md) for choosing and composing these patterns.
+Use [`Table`](Table.md) for comparing fields across records, [`CollectionRow`](CollectionRow.md) for summarizing records with actions, and [`Status`](Status.md) for an explicit state. See [Structured data](../../../../docs/guides/structured-data.md) for choosing and composing these patterns.

@@ -63,9 +63,9 @@ PY
   trap cleanup EXIT
 
   run_check "Build internal control fixtures" bun run --cwd apps/storybook build:internal --output-dir "$qa_output/storybook"
-  python3 -m http.server "$site_port" --bind 127.0.0.1 --directory deployment/site/public &
+  node apps/storybook/node_modules/vite/bin/vite.js preview --config apps/storybook/vite.site.config.ts --host 127.0.0.1 --port "$site_port" --strictPort --outDir "$PWD/deployment/site/public" &
   site_server_pid=$!
-  python3 -m http.server "$qa_port" --bind 127.0.0.1 --directory "$qa_output" &
+  node apps/storybook/node_modules/vite/bin/vite.js preview --config apps/storybook/vite.site.config.ts --host 127.0.0.1 --port "$qa_port" --strictPort --outDir "$qa_output" &
   qa_server_pid=$!
   curl --fail --retry 8 --retry-connrefused --retry-delay 1 "http://127.0.0.1:$site_port/" > /dev/null
   curl --fail --retry 8 --retry-connrefused --retry-delay 1 "http://127.0.0.1:$qa_port/storybook/index.json" > /dev/null

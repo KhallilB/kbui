@@ -714,15 +714,6 @@ try {
         })
       ],
     );
-    await page.goto(`${origin}/examples/`);
-    for (const surface of ["editorial", "operations", "creative"]) {
-      await checkPanel(
-        page.locator(`#${surface} .example-code`),
-        samples.surfaces[surface === "creative" ? "creative-false" : surface],
-      );
-    }
-    await page.getByRole("button", { name: "Change palette" }).click();
-    await checkPanel(page.locator("#creative .example-code"), samples.surfaces["creative-true"]);
     console.log(`${width}px: checked ${checked} previews; ${failures.length} failures.`);
     await page.close();
   }

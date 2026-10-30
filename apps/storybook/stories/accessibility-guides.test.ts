@@ -50,7 +50,8 @@ test("MultiSelect guidance renders author tasks, manual checks and actual standa
   ])
     expect(html).toContain(`>${heading}</h3>`);
   expect(html).toContain("Backspace");
-  expect(html).toContain("removeLabel");
+  expect(html).toContain("<code>removeLabel</code>");
+  expect(html).not.toContain("`removeLabel`");
   expect(html).toContain('href="https://www.w3.org/TR/WCAG22/#name-role-value"');
   expect(html).toContain("MultiSelect.test.tsx");
   expect(html).toContain("screen reader");

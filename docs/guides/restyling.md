@@ -2,7 +2,7 @@
 
 Style kbui components the same way you style your own elements. kbui's CSS sits in the `kbui` cascade layer, so any rule you write outside a layer wins over it, whatever its specificity. You do not need kbui class names or tokens to change one component.
 
-Published packages use monochrome and persimmon defaults shared with the documentation site. Import `@kb.ui/react/styles.css` once; no site theme stylesheet is needed. The palette lives in `packages/tokens/tokens.json`, and Card’s face and shadow use the same material roles as raised controls. For package choices and upgrades, follow the [installation guide](using-kbui.md).
+Published packages use monochrome and persimmon defaults shared with the documentation site. Import `@kb.ui/react/styles.css` once; no site theme stylesheet is needed. The palette lives in `packages/tokens/tokens.json`, and `Card`’s face and shadow use the same material roles as raised controls. For package choices and upgrades, follow the [installation guide](using-kbui.md).
 
 ## Style one component
 
@@ -16,7 +16,7 @@ Pass a class with `className`. It lands on the component's root element:
 .checkout { background: #0b6e4f; border-radius: 999px; }
 ```
 
-Components with inner parts also take `classNames`, keyed by part. Split uses `classNames={{ track: "project-column" }}` for its column tracks. The props type lists every part, so your editor completes the names:
+Components with inner parts also take `classNames`, keyed by part. `Split` uses `classNames={{ track: "project-column" }}` for its column tracks. The props type lists every part, so your editor completes the names:
 
 ```tsx
 <Input label="Email" classNames={{ control: "signup-input", label: "signup-label" }} />
@@ -116,9 +116,9 @@ Set action fill, hover and text together. Dark primary actions use a deeper fill
 }
 ```
 
-Keep action text at least 4.5:1 against both rendered fills, including any sheen or overlay. The default dark action uses white text; a custom palette should choose its foreground for contrast rather than assume dark mode always needs white. Segmented RadioGroup defaults share the action pair. Changing the brand accent alone does not replace the dark action colors.
+Keep action text at least 4.5:1 against both rendered fills, including any sheen or overlay. The default dark action uses white text; a custom palette should choose its foreground for contrast rather than assume dark mode always needs white. Segmented `RadioGroup` defaults share the action pair. Changing the brand accent alone does not replace the dark action colors.
 
-Use Button variants when they fit. Local classes may change colors as well as layout and shape; check intentional overrides in both themes, including hover, focus and disabled states. For component contributions, follow [Theme and state support](adding-a-component.md#theme-and-state-support).
+Use `Button` variants when they fit. Local classes may change colors as well as layout and shape; check intentional overrides in both themes, including hover, focus and disabled states. For component contributions, follow [Theme and state support](adding-a-component.md#theme-and-state-support).
 
 Global scale tokens move every component that aliases them. Component tokens, such as `--kb-button-height-md`, adjust one component and take precedence for it. `packages/tokens/tokens.json` lists every token with its default.
 
@@ -143,7 +143,7 @@ To retheme a section with tokens, put `data-theme` on the wrapper together with 
 }
 ```
 
-Without `data-theme`, an alias such as `--kb-panel-background` keeps the value resolved at `:root`. Dialog, Menu and Tooltip render into `<body>`, outside the wrapper, so they use the page's restyle by default. Pass a stable themed wrapper as `container` to keep a nested theme; see [forms and overlays](forms-and-overlays.md#theme-hosts-and-portals).
+Without `data-theme`, an alias such as `--kb-panel-background` keeps the value resolved at `:root`. `Dialog`, `Menu` and `Tooltip` render into `<body>`, outside the wrapper, so they use the page's restyle by default. Pass a stable themed wrapper as `container` to keep a nested theme; see [forms and overlays](forms-and-overlays.md#theme-hosts-and-portals).
 
 Set `--kb-color-bg` for the page canvas and `--kb-material-surface-bg` for elevated content such as Cards, Panels, Dialogs and popups. The default light theme separates white content surfaces from the chalk canvas; a theme that wants one shared fill can set both roles.
 
