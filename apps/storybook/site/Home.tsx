@@ -199,6 +199,12 @@ export function Home({
             <SiteLink href={`${siteRoot}components/?component=radiogroup`}>RadioGroup</SiteLink>,
             and <SiteLink href={`${siteRoot}components/?component=switch`}>Switch</SiteLink>.
           </p>
+          <p className="parts-more">
+            Import <SiteLink href={`${siteRoot}components/`}>components</SiteLink> for package APIs.
+            Copy <SiteLink href={`${siteRoot}recipes/`}>recipes</SiteLink> for application-owned
+            compositions. Explore <SiteLink href={`${siteRoot}examples/`}>examples</SiteLink> to see
+            them together.
+          </p>
         </section>
         <section data-motion-phase="waiting" className="other-ways" aria-labelledby="ways-title">
           <div>

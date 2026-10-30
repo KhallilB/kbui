@@ -43,7 +43,9 @@ const preview: Preview = {
     backgrounds: { disable: true },
     controls: { matchers: { color: /(background|color)$/i } },
     docs: { container: ReferenceDocs, page: ReferencePage },
-    options: { storySort: { order: ["Introduction", "Foundations", "Components", "Layout"] } },
+    options: {
+      storySort: { order: ["Introduction", "Foundations", "Components", "Layout", "Recipes"] },
+    },
   },
   globalTypes: {
     previewTheme: { description: "Catalog preview theme override" },

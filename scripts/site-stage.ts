@@ -9,6 +9,7 @@ const entries = [
   "components/index.html",
   "components/qa/index.html",
   "examples/index.html",
+  "recipes/index.html",
   "changelog/index.html",
   "playground/index.html",
   "storybook/index.html",

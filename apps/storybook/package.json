@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "dev:site": "vite --config vite.site.config.ts --host 127.0.0.1 --port 4173",
     "build:site": "bun catalog/verify-code.ts && vite build --config vite.site.config.ts && storybook build --quiet --disable-telemetry --output-dir dist/storybook && bun catalog/verify.ts",
-    "test:site": "KBUI_STORYBOOK_INTERNAL=1 vitest run --config vitest.site.config.ts stories/Home.stories.tsx stories/Compositions.stories.tsx stories/Workbench.stories.tsx stories/PlanDemo.stories.tsx stories/Examples.stories.tsx stories/Changelog.stories.tsx stories/Catalog.stories.tsx stories/CatalogDetails.stories.tsx stories/Setup.stories.tsx stories/SkinComparison.stories.tsx --maxWorkers=2",
+    "test:site": "KBUI_STORYBOOK_INTERNAL=1 vitest run --config vitest.site.config.ts stories/Home.stories.tsx stories/Compositions.stories.tsx stories/Workbench.stories.tsx stories/PlanDemo.stories.tsx stories/Examples.stories.tsx stories/Recipes.stories.tsx stories/Changelog.stories.tsx stories/Catalog.stories.tsx stories/CatalogDetails.stories.tsx stories/Setup.stories.tsx stories/SkinComparison.stories.tsx --maxWorkers=2",
     "preview:site": "vite preview --config vite.site.config.ts --host 127.0.0.1 --port 4174 --strictPort",
     "verify:catalog": "bun catalog/verify.ts",
     "verify:storybook": "bun catalog/verify-storybook.ts",
@@ -26,7 +26,8 @@
     "verify:depth": "bun catalog/verify-depth.ts",
     "dev:internal": "KBUI_STORYBOOK_INTERNAL=1 storybook dev -p 6008 --no-open --disable-telemetry",
     "build:internal": "KBUI_STORYBOOK_INTERNAL=1 storybook build --quiet --disable-telemetry",
-    "test:overlays": "KBUI_STORYBOOK_INTERNAL=1 vitest run --config vitest.overlays.config.ts ../../packages/react/src/components/Accordion/Accordion.stories.tsx ../../packages/react/src/components/Disclosure/Disclosure.stories.tsx ../../packages/react/src/components/Dialog/Dialog.stories.tsx ../../packages/react/src/components/Popover/Popover.stories.tsx stories/OverlayCompatibility.stories.tsx"
+    "test:overlays": "KBUI_STORYBOOK_INTERNAL=1 vitest run --config vitest.overlays.config.ts ../../packages/react/src/components/Accordion/Accordion.stories.tsx ../../packages/react/src/components/Disclosure/Disclosure.stories.tsx ../../packages/react/src/components/Dialog/Dialog.stories.tsx ../../packages/react/src/components/Popover/Popover.stories.tsx stories/OverlayCompatibility.stories.tsx",
+    "verify:recipes": "node --experimental-strip-types catalog/verify-recipes.ts"
   },
   "dependencies": {
     "@kb.ui/css": "workspace:*",
@@ -46,6 +47,7 @@
     "@vitejs/plugin-react": "^6.1.2",
     "@vitest/browser-playwright": "^5.0.5",
     "axe-core": "4.14.0",
+    "markdown-to-jsx": "9.10.4",
     "playwright": "1.64.1",
     "prettier": "3.9.10",
     "react": "^19.3.1",

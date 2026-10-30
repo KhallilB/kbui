@@ -47,3 +47,11 @@ export type ComponentReference = {
   guide: import("./component-guides").ComponentGuide;
   tables: Extract<ApiBlock, { kind: "table" }>[];
 };
+
+export type RecipeReference = Omit<import("./content").RecipeDefinition, "files"> & {
+  kind: "recipe";
+  docsId: string;
+  markdown: string;
+  stories: { id: string; name: string; exportName: string }[];
+  files: { path: string; name: string; language: "CSS" | "React"; sample: CodeSample }[];
+};

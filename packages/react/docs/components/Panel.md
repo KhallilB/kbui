@@ -30,6 +30,7 @@ export function Example() {
 - [Optional details](https://kbui.kcb.pro/storybook/?path=/story/components-panel--collapsible): Expand and collapse a section from its toggle.
 - [Section actions](https://kbui.kcb.pro/storybook/?path=/story/components-panel--toolbar): Group actions alongside the section heading.
 - [Nested sections](https://kbui.kcb.pro/storybook/?path=/story/components-panel--nested): Inspect depth and grouping inside a parent panel.
+- [Opaque surface](https://kbui.kcb.pro/storybook/?path=/story/components-panel--opaque): Compare a glass panel with one that drops the blur.
 
 ## Reference
 
@@ -53,6 +54,7 @@ export function Example() {
 | `tone`         | `quiet` / `default` / `sunken` / `active` / `critical` | `default`    | Changes the surface emphasis; pair state colors with explanatory text |
 | `rail`         | `none` / `accent` / `status`                           | `none`       | Accent stays the accent color; status follows the current tone        |
 | `density`      | `compact` / `standard`                                 | `standard`   | Changes padding without changing semantics                            |
+| `opaque`       | `boolean`                                              | `false`      | Solid fill with no backdrop filter, whatever the theme sets           |
 | `collapsible`  | `boolean`                                              | `false`      | Enables Panel.Toggle and collapsible body behavior                    |
 | `open`         | `boolean`                                              | uncontrolled | Current body visibility when collapsible is enabled                   |
 | `defaultOpen`  | `boolean`                                              | `false`      | Initial visibility for an uncontrolled collapsible panel              |
@@ -61,6 +63,12 @@ export function Example() {
 `quiet` removes the panel background; `sunken` gives it a recessed surface. Use `Panel.Well` for logs or other output that should sit inside the panel. Customize the shape with `--kb-panel-radius`, the rim with `--kb-panel-rim-top`, `--kb-panel-border`, and `--kb-panel-rim-bottom`, and the depth with `--kb-panel-shadow` or `--kb-panel-shadow-active`.
 
 For additional lighting, use `--kb-panel-sheen`, `--kb-panel-backdrop`, `--kb-panel-glow`, `--kb-panel-glow-active`, and `--kb-panel-glow-critical`. These effects stay off by default. Active and critical tones change the upper rim and glow colors. The rail follows the panel’s rounded corners.
+
+`opaque` turns off the theme’s glass for one panel: it drops `--kb-panel-backdrop` and paints the tone fill over the `--kb-panel-background-opaque` base. Use it under content that redraws often, such as a live terminal or log, where a backdrop blur costs memory and compositing work. It fills even a `quiet` panel. Nested panels keep their own glass; give each one that holds live content `opaque` too. Set `--kb-panel-background-opaque` in your theme to change the base; keep it a solid color that contrasts with `--kb-color-fg` in light and dark.
+
+```tsx
+<Panel opaque aria-labelledby="terminal-title">…</Panel>
+```
 
 ## Resizable panels
 

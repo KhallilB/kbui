@@ -122,6 +122,14 @@ export const definitions: Record<string, Definition> = {
       ContentMeasures: "Content Measures",
     },
   },
+  SupportingPane: {
+    group: "Layout",
+    description: "A main column with a named aside that moves below it when narrow.",
+    examples: {
+      ShoeCart: "Shoe Cart",
+      Inspector: "Inspector",
+    },
+  },
   Form: {
     group: "Layout",
     description: "One task with grouped fields, then its one submit action.",
@@ -154,6 +162,26 @@ export const definitions: Record<string, Definition> = {
       List: "List",
     },
   },
+  Stack: {
+    group: "Layout",
+    description: "Vertical flow with shared spacing and alignment.",
+    examples: {
+      Default: "Default",
+      Sections: "Sections",
+      Alignment: "Alignment",
+      Justify: "Justify",
+      Form: "Form",
+    },
+  },
+  Gallery: {
+    group: "Layout",
+    description: "A page of image-led items, such as a product catalog, in one to four columns.",
+    examples: {
+      ProductCatalog: "Product Catalog",
+      NoResults: "No Results",
+      Inspection: "Inspection",
+    },
+  },
   PageHeader: {
     group: "Layout",
     description: "Open a screen with its title, context, state badges and page-level actions.",
@@ -165,10 +193,28 @@ export const definitions: Record<string, Definition> = {
       NarrowWrap: "Narrow Wrap",
     },
   },
+  StatsRow: {
+    group: "Layout",
+    description: "Show comparable metrics in a row that fills its region and wraps when narrow.",
+    examples: {
+      Default: "Sales metrics",
+      Outlined: "Outlined with Links",
+      DirectionAndTone: "Direction and Tone",
+      Wrap: "Compact Wrap",
+    },
+  },
   Container: {
     group: "Layout",
     description: "Shared page widths and responsive gutters.",
     examples: { Default: "Default", Sizes: "Sizes", Responsive: "Responsive", Page: "Page" },
+  },
+  Dashboard: {
+    group: "Layout",
+    description: "An overview page: header, metrics, then primary and secondary panels.",
+    examples: {
+      SalesOverview: "Sales Overview",
+      MetricsAndPrimary: "Metrics and Primary",
+    },
   },
   Checkbox: {
     group: "Forms",

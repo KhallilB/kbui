@@ -63,4 +63,4 @@ Grid removes list markers. Include `role="list"` on list renderings to retain li
 
 ## Related components
 
-Use [Split](Split.md) for exactly two weighted columns and [Inline](Inline.md) for a wrapping row of independent items.
+Use [Split](Split.md) for exactly two weighted columns, [Inline](Inline.md) for a wrapping row of independent items, and [Stack](Stack.md) for vertical flow that never forms columns.

@@ -1,0 +1,62 @@
+/* Anatomy: .kb-dashboard > .kb-dashboard-header, .kb-dashboard-metrics, .kb-dashboard-panels > .kb-dashboard-primary, .kb-dashboard-secondary */
+.kb-dashboard {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--kb-dashboard-gap);
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: var(--kb-dashboard-max-width);
+  margin-inline: auto;
+  /* Gutters step with the width the page is given, so embedded pages size like viewports. */
+  padding-inline: calc(
+    var(--kb-dashboard-gutter-sm) +
+    clamp(
+      0px,
+      (100% + 1px - var(--kb-dashboard-gutter-md-from)) *
+      99999,
+      var(--kb-dashboard-gutter-md) -
+      var(--kb-dashboard-gutter-sm)
+    ) +
+    clamp(
+      0px,
+      (100% + 1px - var(--kb-dashboard-gutter-lg-from)) *
+      99999,
+      var(--kb-dashboard-gutter-lg) -
+      var(--kb-dashboard-gutter-md)
+    )
+  );
+}
+.kb-dashboard-header,
+.kb-dashboard-metrics {
+  min-inline-size: 0;
+}
+.kb-dashboard-panels {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--kb-dashboard-gap);
+  min-inline-size: 0;
+}
+.kb-dashboard-primary,
+.kb-dashboard-secondary {
+  --_dashboard-share: calc(2 / 3);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--kb-dashboard-gap);
+  box-sizing: border-box;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  flex: 1 1 100%;
+  /* Large multiplier stacks below the collapse width; 0.5px slack keeps the split from wrapping on rounding. */
+  flex-basis: min(
+    100%,
+    max(
+      calc((var(--kb-dashboard-collapse) - 100%) * 99999),
+      calc((100% - var(--kb-dashboard-gap)) * var(--_dashboard-share) - 0.5px)
+    )
+  );
+}
+.kb-dashboard-secondary {
+  --_dashboard-share: calc(1 / 3);
+}

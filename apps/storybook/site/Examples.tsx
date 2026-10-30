@@ -242,7 +242,11 @@ export function Examples({
           <h1>
             See components <em>in context.</em>
           </h1>
-          <p>Try a complete app demo, or explore three smaller examples with code you can adapt.</p>
+          <p>
+            Explore larger compositions and their application state. Follow component links for
+            package APIs, or browse <SiteLink href={`${siteRoot}recipes/`}>recipes</SiteLink> for
+            source to copy and adapt.
+          </p>
         </div>
         <section className="workspace-example" aria-label="Interactive demo">
           <div>

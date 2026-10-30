@@ -172,3 +172,7 @@
     }
   }
 }
+.kbui-examples .page-heading p a[href] {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

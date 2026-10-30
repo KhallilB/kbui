@@ -1,6 +1,6 @@
 # Settings
 
-Use Settings for a page of preferences or account management: sections of fields, and managed lists such as members, API keys or sessions with row actions. Each section is saved on its own. Settings renders a header region and a sections region with a rule between sections; [FormSection](FormSection.md) children put their heading beside their fields on wide screens and above them on narrow ones. For one task with a single submit, use [Form](Form.md).
+Use Settings for a page of preferences or account management: sections of fields, and managed lists such as members, API keys or sessions with row actions. Each section is saved on its own. Settings renders a header region and a sections region with a rule between sections; [FormSection](FormSection.md) children put their heading beside their fields on wide screens and above them on narrow ones. Record rows from [CollectionRow](CollectionRow.md) keep their status and actions end-aligned, on one line beside the main text from 40rem of page width. For one task with a single submit, use [Form](Form.md).
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/layout-settings--docs)
 

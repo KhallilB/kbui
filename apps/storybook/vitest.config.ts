@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [storybookTest({ configDir: ".storybook" })],
   optimizeDeps: {
     include: [
+      "markdown-to-jsx/react",
       "@babel/standalone",
       "prettier/standalone",
       "prettier/plugins/babel",

@@ -140,6 +140,19 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.Container,
   },
+  Dashboard: {
+    use: "Lay out an overview page as a header, a row of metrics, then primary and secondary panels.",
+    example: {
+      title: "Rebuild a sales dashboard",
+      description:
+        "Panels sit two thirds and one third on wide pages and stack, primary first, on narrow ones.",
+    },
+    tips: [
+      "Use Dashboard instead of Container; it sets the page width and gutters.",
+      "Put freshness or partial-data notes in the header as text, beside the page title.",
+    ],
+    accessibility: accessibilityGuides.Dashboard,
+  },
   Inline: {
     use: "Arrange independent content or actions in a row that wraps when space runs out.",
     example: {
@@ -153,6 +166,19 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.Inline,
   },
+  Stack: {
+    use: "Arrange headings, content, fields or sections top to bottom with one shared gap.",
+    example: {
+      title: "Give a section its vertical rhythm",
+      description:
+        "Children keep source and tab order while gap replaces their margins. Compare alignment, distribution and nested sections.",
+    },
+    tips: [
+      "Use a wider outer gap and a tighter inner gap to separate sections from their content.",
+      "Use Inline for rows and Grid when items should form columns.",
+    ],
+    accessibility: accessibilityGuides.Stack,
+  },
   Split: {
     use: "Compose two columns that stack when their available width falls below a shared threshold.",
     example: {
@@ -165,6 +191,19 @@ export const componentGuides: Record<string, ComponentGuide> = {
       "Thresholds follow available width; style tracks with classNames.track and use Grid for variable counts.",
     ],
     accessibility: accessibilityGuides.Split,
+  },
+  SupportingPane: {
+    use: "Lay out one main task with supporting context, such as a cart and its order summary, in a framed page.",
+    example: {
+      title: "Keep the order summary beside the cart",
+      description:
+        "The aside sits beside main on wide screens and moves below it on narrow ones, in source order.",
+    },
+    tips: [
+      "Name the aside from its visible heading with asideLabelledBy.",
+      "Start main with the page heading; use Split for proportional columns inside a section.",
+    ],
+    accessibility: accessibilityGuides.SupportingPane,
   },
   Form: {
     use: "Lay out one task, such as checkout, booking or sign-up, as a header, grouped fields and one submit action.",
@@ -494,6 +533,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
     tips: [
       "Choose tone for emphasis and density for spacing; a status rail follows the tone.",
       "Enable collapsible before using open, defaultOpen, or Panel.Toggle.",
+      "Set opaque on a panel whose content redraws often; it drops theme glass for a solid fill.",
     ],
     accessibility: accessibilityGuides.Panel,
   },
@@ -704,6 +744,19 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.Tooltip,
   },
+  Gallery: {
+    use: "Lay out a page of image-led items, such as a product catalog, as a header, filters and a list that grows from one to four columns.",
+    example: {
+      title: "Rebuild a sneaker catalog",
+      description:
+        "Feature the shop's own model across two columns, filter by brand and search, and recover from no results.",
+    },
+    tips: [
+      "Wrap each item in Gallery.Item and give its Card a heading; items stretch to the row height.",
+      "Keep one image ratio across items so headings line up; use contain for products whose edges matter.",
+    ],
+    accessibility: accessibilityGuides.Gallery,
+  },
   PageHeader: {
     use: "Open every screen with one header that names the page, gives brief context, shows its status and holds the page-level actions.",
     example: {
@@ -717,6 +770,20 @@ export const componentGuides: Record<string, ComponentGuide> = {
       "Lower headingLevel only when the header introduces a region inside a page that already has an h1.",
     ],
     accessibility: accessibilityGuides.PageHeader,
+  },
+  StatsRow: {
+    use: "Summarize a screen or region with a few comparable metrics, such as the key figures at the top of a dashboard.",
+    example: {
+      title: "Compare a period's key figures",
+      description:
+        "Give each metric a label, a value with its unit, the change with its sign and the comparison period. Name the list when the screen has more than one row.",
+    },
+    tips: [
+      "Keep units comparable across the row: one currency, one precision and the same period for every change.",
+      "Set trend for the direction and tone for whether it is good news; a rise in refunds is up and negative.",
+      "Use outlined for card surfaces and add a link only when a metric has a detail screen.",
+    ],
+    accessibility: accessibilityGuides.StatsRow,
   },
   EmptyState: {
     use: "Explain why a collection, search query, or section has no items to show and offer the direct action that populates or recovers it.",

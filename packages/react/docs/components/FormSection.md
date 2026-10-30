@@ -41,14 +41,14 @@ export function Example() {
 | `description` | `ReactNode` | unset | Help text; added to the group's `aria-describedby` |
 | `error` | `ReactNode` | unset | Section error; sets `data-invalid` and `aria-invalid` and describes the group |
 | `actions` | `ReactNode` | unset | Buttons rendered in [FormActions](FormActions.md) after the fields |
-| `actionsAlign` | `"start" \| "end" \| "between"` | `"start"` | Alignment of the actions row |
+| `actionsAlign` | `"start" \| "end" \| "between"` | `"end"` | Alignment of the actions row |
 | `layout` | `"stack" \| "split"` | unset | Heading above or beside the fields; unset stacks, or splits inside Settings |
 | `disabled` | `boolean` | `false` | Native fieldset disabling for every field and action |
 | `classNames` | `{ header?, title?, description?, body?, fields?, error?, actions? }` | unset | Classes for inner parts |
 
 Other native fieldset props and `ref` pass through. A caller `aria-describedby` follows the description and error ids, and a caller `aria-invalid` token such as `"spelling"` is kept. The section heading names the group with `aria-labelledby`, unless you pass `aria-label`: a native legend cannot sit in the split layout's first column.
 
-Split layout puts the header in one third and the fields in two thirds when the section is at least `--kb-formsection-collapse` (40rem) wide, and stacks them below that. Below 30rem of row width, each button or link in the actions fills its own row so targets stay wide on phones; other content, such as a spinner, keeps its size. Tokens: `--kb-formsection-gap`, `--kb-formsection-header-gap`, `--kb-formsection-fields-gap` and `--kb-formsection-collapse`.
+Split layout puts the header in one third and the fields in two thirds when the section is at least `--kb-formsection-collapse` (40rem) wide, and stacks them below that. Actions sit last in the section body, end-aligned. Below 30rem of row width, each button or link in the actions fills its own row so targets stay wide on phones; other content, such as a spinner, keeps its size. Tokens: `--kb-formsection-gap`, `--kb-formsection-header-gap`, `--kb-formsection-fields-gap` and `--kb-formsection-collapse`.
 
 Your app owns validation, saving and the announcement of saved or failed sections. While saving, pass `disabled` and `aria-busy`. Native disabling takes focus away from the pressed Save button, so move focus to a status message outside the section (`role="status"`, `tabIndex={-1}`) and report the result there.
 

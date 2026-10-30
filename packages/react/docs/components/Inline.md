@@ -39,4 +39,4 @@ Non-default generic native elements require an explicit `as`. Lists retain marke
 
 ## Related components
 
-Use [Toolbar](Toolbar.md) when actions need coordinated arrow-key navigation. Use [Grid](Grid.md) when items need shared columns.
+Use [Toolbar](Toolbar.md) when actions need coordinated arrow-key navigation. Use [Stack](Stack.md) for vertical flow and [Grid](Grid.md) when items need shared columns.

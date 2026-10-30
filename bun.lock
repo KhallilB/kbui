@@ -32,6 +32,7 @@
         "@vitejs/plugin-react": "^6.1.2",
         "@vitest/browser-playwright": "^5.0.5",
         "axe-core": "4.14.0",
+        "markdown-to-jsx": "9.10.4",
         "playwright": "1.64.1",
         "prettier": "3.9.10",
         "react": "^19.3.1",
@@ -45,14 +46,14 @@
     },
     "packages/css": {
       "name": "@kb.ui/css",
-      "version": "0.10.4",
+      "version": "0.11.0",
       "devDependencies": {
         "lightningcss": "1.33.0",
       },
     },
     "packages/react": {
       "name": "@kb.ui/react",
-      "version": "0.10.4",
+      "version": "0.11.0",
       "dependencies": {
         "@base-ui/react": "1.9.0",
         "clsx": "^2.1.1",
@@ -80,7 +81,7 @@
     },
     "packages/tokens": {
       "name": "@kb.ui/tokens",
-      "version": "0.10.4",
+      "version": "0.11.0",
     },
   },
   "packages": {
@@ -713,6 +714,8 @@
     "lz-string": ["lz-string@1.5.0", "", { "bin": { "lz-string": "bin/bin.js" } }, "sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ=="],
 
     "magic-string": ["magic-string@1.4.3", "", { "dependencies": { "@jridgewell/sourcemap-codec": "^1.6.0" } }, "sha512-z12OxmaPGE0F4xlpGdjuAUckipLpQlTAuAmyGhNoD7ODpYUzvDfvtxUbjM/jwznyP178oju/KDdyi220wNJ0RQ=="],
+
+    "markdown-to-jsx": ["markdown-to-jsx@9.10.4", "", { "peerDependencies": { "react": ">= 16.0.0", "solid-js": ">=1.0.0", "vue": ">=3.0.0" }, "optionalPeers": ["react", "solid-js", "vue"] }, "sha512-l0jxHMVbWzE2AWzBpNrxZAMcjZfpUOMjzK/AWTzvto2Oc+eki3WNEMMwTYHeM/ZogjbHbg1A518ytYMsHcMjVQ=="],
 
     "mdast-util-to-hast": ["mdast-util-to-hast@13.2.1", "", { "dependencies": { "@types/hast": "^3.0.0", "@types/mdast": "^4.0.0", "@ungap/structured-clone": "^1.0.0", "devlop": "^1.0.0", "micromark-util-sanitize-uri": "^2.0.0", "trim-lines": "^3.0.0", "unist-util-position": "^5.0.0", "unist-util-visit": "^5.0.0", "vfile": "^6.0.0" } }, "sha512-cctsq2wp5vTsLIcaymblUriiTcZd0CwWtCbLvrOzYCDZoWyMNV8sZ7krj09FSnsiJi3WVsHLM4k6Dq/yaPyCXA=="],
 

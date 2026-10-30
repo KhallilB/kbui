@@ -1,4 +1,4 @@
-/* Anatomy: .kb-panel [data-tone=quiet|default|sunken|active|critical] [data-rail=none|accent|status] [data-density=compact|standard] [data-nested] [data-collapsible] [data-open] [data-closed] > .kb-panel-glow, .kb-panel-plate > .kb-panel-rail; .kb-panel-header > .kb-panel-toolbar, .kb-panel-toggle [data-panel-open]; .kb-panel-body > .kb-panel-well; .kb-panel-footer; sibling .kb-panel-group [data-direction=row|column] > .kb-panel-handle [data-orientation=vertical|horizontal] [data-dragging] */
+/* Anatomy: .kb-panel [data-tone=quiet|default|sunken|active|critical] [data-rail=none|accent|status] [data-density=compact|standard] [data-nested] [data-opaque] [data-collapsible] [data-open] [data-closed] > .kb-panel-glow, .kb-panel-plate > .kb-panel-rail; .kb-panel-header > .kb-panel-toolbar, .kb-panel-toggle [data-panel-open]; .kb-panel-body > .kb-panel-well; .kb-panel-footer; sibling .kb-panel-group [data-direction=row|column] > .kb-panel-handle [data-orientation=vertical|horizontal] [data-dragging] */
 .kb-panel {
   --_panel-bg: var(--kb-panel-background);
   --_panel-seam: var(--kb-panel-border);
@@ -46,6 +46,14 @@
   backdrop-filter: var(--kb-panel-backdrop);
   pointer-events: none;
   transition: background-color var(--kb-motion-duration-base) var(--kb-motion-easing-standard);
+}
+
+/* Opaque: no glass; the tone fill sits on a solid base so nothing behind shows through. */
+.kb-panel[data-opaque] > .kb-panel-plate {
+  background:
+    linear-gradient(to bottom, var(--_panel-sheen), transparent 55%),
+    linear-gradient(var(--_panel-bg) 0 0), var(--kb-panel-background-opaque);
+  backdrop-filter: none;
 }
 
 /* Rim: a masked ring, lit at the top and fading down through the border. */

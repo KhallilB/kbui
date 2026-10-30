@@ -50,8 +50,10 @@ bun run check            # build, lint, types, examples, unit and package checks
 | Document | Covers |
 |---|---|
 | [PageHeader](packages/react/docs/components/PageHeader.md) | Screen title, context, status and wrapping page actions (unreleased) |
+| [StatsRow](packages/react/docs/components/StatsRow.md) | Comparable metrics with trends and links that wrap without sideways scrolling (unreleased) |
 | [Tabs](packages/react/docs/components/Tabs.md) | Peer panel switching, keyboard navigation and retained drafts (unreleased) |
 | [Media and identity](docs/guides/media-and-identity.md) | Avatar, stable image framing, thumbnails and gallery recipes (unreleased) |
+| [Gallery](packages/react/docs/components/Gallery.md) | Product catalogs and media pages: header, filters and one to four columns of image-led items (unreleased) |
 | [Collection workflows](packages/react/docs/components/Collection.md) | Sorting, filtering, page selection, pagination, bulk actions and server ownership |
 | [React component guide](packages/react/README.md) | Choose components by task, read APIs, and find focused examples |
 | [Maintained features](docs/features.md) | Implementation, canonical docs, examples and current limits |
@@ -61,6 +63,7 @@ bun run check            # build, lint, types, examples, unit and package checks
 | [Layout composition](docs/guides/layout.md) | Shared page widths, gutters, wrapping rows, alignment and column collapse |
 | [Using kbui in a project](docs/guides/using-kbui.md) | Installing, theming, updating and troubleshooting |
 | [Restyling kbui](docs/guides/restyling.md) | Style components with your own classes or Tailwind; tokens for app-wide changes |
+| [Components and recipes](docs/guides/components-and-recipes.md) | Choose supported APIs, copyable compositions and larger examples |
 | [Adding a component](docs/guides/adding-a-component.md) | The generator, styles, tests and stories |
 | [Forms and overlays](docs/guides/forms-and-overlays.md) | Form sections, action rows, error summaries, theme hosts for popups, structured dialogs, drawers, confirmations, disclosure and popover choices, surface tokens and accessibility checks |
 | [Loading and feedback](docs/guides/loading-and-feedback.md) | Waiting states, skeleton placeholders, empty and zero-result recovery, toast queues and asynchronous submission/retry recipes |

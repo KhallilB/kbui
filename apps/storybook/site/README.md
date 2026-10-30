@@ -60,7 +60,7 @@ Spacing has three local foundations: `--page-gutter` for shared page edges, `--s
 
 ## Catalog source contract
 
-The catalog covers all 58 public components. `catalog/source.ts` uses Storybook's own CSF parser to derive example names and IDs from colocated component stories. It reads API tables and usage blocks from `packages/react/docs/components/<Name>.md`; `catalog/definitions.ts` holds grouping, short descriptions and curated example exports and labels. The source test compares the catalog against public exports and rejects malformed API rows or missing guide entries.
+The catalog covers all 63 public components. `catalog/source.ts` uses Storybook's own CSF parser to derive example names and IDs from colocated component stories. It reads API tables and usage blocks from `packages/react/docs/components/<Name>.md`; `catalog/definitions.ts` holds grouping, short descriptions and curated example exports and labels. The source test compares the catalog against public exports and rejects malformed API rows or missing guide entries.
 
 A build-time virtual module supplies that data to the site and Storybook without bundling the Node parser into the browser. Guide and component-story changes invalidate the module during development. `build:site` ends with `verify:catalog`, which checks every story and documentation ID against the built Storybook index. An ID mismatch fails the build.
 
@@ -160,7 +160,7 @@ Tokens rebind their aliases in both explicit theme containers, including nested 
 
 ### Complete component catalog
 
-Open `/components/`. All 58 public components and their canonical Storybook examples use current package implementations and their shared default palette. Search and category filters live in the full-page directory; component details provide state selection, API summaries, code and optional paired light/dark previews. Theme changes send a same-origin, exact-parent message to each preview; the Storybook root updates without remounting the story. Existing input values and interaction state survive. Reload preview intentionally resets interaction state and retains the selected theme. Readiness compares canonical document URLs, preserving origin/path/query guards while accepting equivalent query order and encoding. Root theme scope covers portaled Dialog, Popover, Menu and Tooltip. Catalog previews use `embed=true`, preventing automated story playback from pulling focus or opening overlays on load.
+Open `/components/`. All 63 public components and their canonical Storybook examples use current package implementations and their shared default palette. Search and category filters live in the full-page directory; component details provide state selection, API summaries, code and optional paired light/dark previews. Theme changes send a same-origin, exact-parent message to each preview; the Storybook root updates without remounting the story. Existing input values and interaction state survive. Reload preview intentionally resets interaction state and retains the selected theme. Readiness compares canonical document URLs, preserving origin/path/query guards while accepting equivalent query order and encoding. Root theme scope covers portaled Dialog, Popover, Menu and Tooltip. Catalog previews use `embed=true`, preventing automated story playback from pulling focus or opening overlays on load.
 
 **Typography and theme foundations** shows body copy, headings, supporting text, an identifier and four surface levels. Body text is 15px/1.6; helpers 13px; controls 14px; standard headings 22px/18px, with larger page titles. Inline identifiers remain at least 13px. Local system sans/mono stacks require no font download.
 
@@ -254,3 +254,10 @@ Production Storybook contains public MDX guides and canonical component stories 
 Component Accessibility sections read `catalog/accessibility-guides.ts`: implemented support, author responsibilities, verification procedures, and linked WCAG/APG sources. `catalog/AccessibilityReference.tsx` renders the contract; `catalog/verify-component-docs.ts` verifies the built sections. Shared requirements and test-record guidance live in `docs/guides/accessibility.md`.
 
 Popover previews use surface alignment, a 480px minimum and reserved popup footprint. Their normal preview pane stays in page flow instead of using editor pane height caps; paired examples remain reachable through page scrolling. Centering a trigger alone in a small iframe can collapse its fields even when the surrounding page is large. The built preview gate opens Default and Controlled in their actual iframes, checks all fields/actions through clipping ancestors, exercises paired themes, and verifies immediate preferences plus keyboard Save/discard behavior.
+
+
+### Shared recipe presentation
+
+`catalog/content.ts` registers canonical guides, exact recipe source files, dependencies and CSF targets. `virtual:kbui-system` supplies `/recipes/` and thin public Storybook wrappers. `GuideContent` renders the same Markdown on both surfaces with host-relative links and raw HTML disabled. Existing component and Storybook URLs remain unchanged.
+
+Run `bun run --cwd apps/storybook verify:recipes` against the combined static preview; set `RECIPE_SITE_URL` for a different base URL. These Chromium journeys run during `validate:site built`, covering 320/768/1280px, both themes, source discovery, history, refresh, invalid URLs, documentation links and draft retention. Recipes stay outside component counts.
