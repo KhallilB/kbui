@@ -592,6 +592,17 @@ describe("grid component tokens", () => {
     expect(css).toContain("--kb-grid-min-item-width-md: var(--kb-grid-min-item-width);");
     expect(css).toContain("--kb-grid-min-item-width-lg: 24rem;");
   });
+
+  test("defines page frame, region and filter tokens for Gallery", () => {
+    const { css } = buildTokens(real as TokenTree);
+    expect(css).toContain("--kb-gallery-max-width: var(--kb-container-size-lg);");
+    expect(css).toContain("--kb-gallery-gutter-sm: var(--kb-space-4);");
+    expect(css).toContain("--kb-gallery-gutter-md: var(--kb-space-6);");
+    expect(css).toContain("--kb-gallery-gutter-lg: var(--kb-space-8);");
+    expect(css).toContain("--kb-gallery-gap: var(--kb-space-6);");
+    expect(css).toContain("--kb-gallery-filters-gap: var(--kb-space-3);");
+    expect(css).toContain("--kb-gallery-filter-min-width: 12rem;");
+  });
 });
 
 describe("loading and feedback component tokens", () => {

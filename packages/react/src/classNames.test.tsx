@@ -18,6 +18,7 @@ import {
   ErrorSummary,
   Fieldset,
   FileInput,
+  Gallery,
   Image,
   Input,
   MultiSelect,
@@ -49,6 +50,14 @@ const every = new Proxy({} as Record<string, string>, {
 const camel = (part: string) => part.replace(/-(\w)/g, (_, c: string) => c.toUpperCase());
 
 const cases: [string, () => ReactElement][] = [
+  [
+    "gallery",
+    () => (
+      <Gallery header="H" filters="F" classNames={every}>
+        <Gallery.Item className="slot-item">Item</Gallery.Item>
+      </Gallery>
+    ),
+  ],
   [
     "tabs",
     () => (

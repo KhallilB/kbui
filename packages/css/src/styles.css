@@ -26,6 +26,7 @@
 @import "./components/fieldset.css" layer(kbui.components);
 @import "./components/fileinput.css" layer(kbui.components);
 @import "./components/formactions.css" layer(kbui.components);
+@import "./components/gallery.css" layer(kbui.components);
 @import "./components/grid.css" layer(kbui.components);
 @import "./components/heading.css" layer(kbui.components);
 @import "./components/image.css" layer(kbui.components);
