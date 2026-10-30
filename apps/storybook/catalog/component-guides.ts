@@ -520,6 +520,7 @@ export const componentGuides: Record<string, ComponentGuide> = {
     tips: [
       "Choose tone for emphasis and density for spacing; a status rail follows the tone.",
       "Enable collapsible before using open, defaultOpen, or Panel.Toggle.",
+      "Set opaque on a panel whose content redraws often; it drops theme glass for a solid fill.",
     ],
     accessibility: accessibilityGuides.Panel,
   },
