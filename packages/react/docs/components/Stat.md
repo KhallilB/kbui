@@ -31,4 +31,4 @@ export function Example() {
 
 ## Related components
 
-Use [Progress](Progress.md) when the number represents completion and [Status](Status.md) for changing state.
+Use [`Progress`](Progress.md) when the number represents completion and [`Status`](Status.md) for changing state.

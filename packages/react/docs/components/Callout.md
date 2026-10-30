@@ -38,4 +38,4 @@ export function Example() {
 
 ## Related components
 
-Use [Status](Status.md) for a short changing state and [Dialog](Dialog.md) for a focused modal task.
+Use [`Status`](Status.md) for a short changing state and [`Dialog`](Dialog.md) for a focused modal task.

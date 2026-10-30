@@ -1,6 +1,6 @@
 # Switch
 
-Use Switch for a preference that takes effect as soon as it changes. Pass `checked` and update it in `onCheckedChange`; your app handles saving and form reset. Switch uses a labelled native checkbox with `role="switch"`. Use Checkbox when people are selecting items instead.
+Use Switch for a preference that takes effect as soon as it changes. Pass `checked` and update it in `onCheckedChange`; your app handles saving and form reset. Switch uses a labelled native checkbox with `role="switch"`. Use `Checkbox` when people are selecting items instead.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/components-switch--docs)
 
@@ -40,7 +40,7 @@ export function Example() {
 | `tone`                                 | `"accent" \| "neutral" \| "info" \| "success" \| "warning" \| "danger"` | `"accent"`           | Checked-state track tone when `onTone` is unset                                                                                      |
 | `offTone` / `onTone`                   | `SwitchTone`                                                            | `"neutral"` / `tone` | Independent track tone for unchecked and checked sides                                                                               |
 | `offColor` / `onColor`                 | `string`                                                                |                      | Custom CSS color for the unchecked or checked track                                                                                  |
-| `description` / `error`                | `string`                                                                |                      | Associated helper/error text; error sets aria-invalid                                                                                |
+| `description` / `error`                | `string`                                                                |                      | Associated helper/error text; error sets `aria-invalid`                                                                                |
 | `disabled` / `readOnly`                | `boolean`                                                               | `false`              | Disabled blocks focus/changes; read-only keeps focus and form value while blocking edits                                             |
 | `visuallyHidden`                       | `boolean`                                                               | `false`              | Hide label visually, keep its accessible name                                                                                        |
 | `offIcon` / `onIcon`                   | `ReactNode`                                                             |                      | Decorative slots; do not place interactive content inside                                                                            |
@@ -70,4 +70,4 @@ Import `useState` from React and `Switch` from `@kb.ui/react`. Clicking or press
 
 ## Related components
 
-Use [Checkbox](Checkbox.md) for a choice submitted with other answers and [RadioGroup](RadioGroup.md) for one of several settings.
+Use [`Checkbox`](Checkbox.md) for a choice submitted with other answers and [`RadioGroup`](RadioGroup.md) for one of several settings.

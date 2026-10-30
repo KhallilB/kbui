@@ -128,15 +128,15 @@ export const componentGuides: Record<string, ComponentGuide> = {
     accessibility: accessibilityGuides.Table,
   },
   Container: {
-    use: "Align page sections with shared maximum widths and responsive gutters.",
+    use: "Align page sections with a shared width and responsive side padding.",
     example: {
       title: "Give a workspace a shared page boundary",
       description:
-        "Compose headings, actions and content inside one centered page width. Compare sizes and the composed page example.",
+        "Keep headings, actions and content inside one centered page. Try different sizes in the complete page example.",
     },
     tips: [
-      "Maximum widths include gutters; use the same size across aligned page sections.",
-      "Disable gutters when a parent already owns inline padding.",
+      "Maximum widths include side padding. Use the same size to align page sections.",
+      "Turn off gutters when the parent already provides side padding.",
     ],
     accessibility: accessibilityGuides.Container,
   },
@@ -161,8 +161,8 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Actions retain their native tab order while the row wraps. Compare spacing and alignment examples.",
     },
     tips: [
-      "Use gap for shared spacing between items and wrapped rows.",
-      "Use Toolbar when actions need coordinated arrow-key navigation.",
+      "Use `gap` to set spacing between items and wrapped rows.",
+      "Use `Toolbar` when actions need arrow-key navigation.",
     ],
     accessibility: accessibilityGuides.Inline,
   },
@@ -180,15 +180,15 @@ export const componentGuides: Record<string, ComponentGuide> = {
     accessibility: accessibilityGuides.Stack,
   },
   Split: {
-    use: "Compose two columns that stack when their available width falls below a shared threshold.",
+    use: "Arrange two columns that stack when space is tight.",
     example: {
       title: "Pair primary content with supporting context",
       description:
         "Use equal or weighted columns, then compare the same composition inside narrower parents.",
     },
     tips: [
-      "Provide two children; Split owns the tracks while content retains its own measure.",
-      "Thresholds follow available width; style tracks with classNames.track and use Grid for variable counts.",
+      "Provide two children, one per column. `Split` sets column widths; content keeps its line-length limit.",
+      "Columns stack based on available width. Style each column with `classNames.track`; use `Grid` when the number of items varies.",
     ],
     accessibility: accessibilityGuides.Split,
   },
@@ -235,37 +235,37 @@ export const componentGuides: Record<string, ComponentGuide> = {
     use: "Divide related content with a horizontal or vertical static rule.",
     example: {
       title: "Separate content groups",
-      description: "Compare a native thematic break with a vertical divider in an Inline row.",
+      description: "Compare a native thematic break with a vertical divider in an `Inline` row.",
     },
     tips: [
-      "Use decorative when the rule repeats an existing visual grouping.",
-      "Vertical rules stretch inside Inline; Separator provides no resize interaction.",
+      "Set `decorative` when the divider repeats an existing visual grouping.",
+      "Vertical rules stretch inside `Inline`. `Separator` cannot be resized.",
     ],
     accessibility: accessibilityGuides.Separator,
   },
   Badge: {
-    use: "Label a role, category, or version beside the thing it describes. Use Status for a state that changes.",
+    use: "Label a role, category, or version beside the thing it describes. Use `Status` for a state that changes.",
     example: {
       title: "Label a collaborator’s role",
       description:
         "A short role label works alongside a name. Try the tone and appearance controls, then compare case-sensitive identifiers below.",
     },
     tips: [
-      "Choose tone to reinforce the text, not to supply its meaning.",
-      "Use preserveCase with mono for literal paths and branch names.",
+      "Choose `tone` to support the written label. The text should explain the meaning on its own.",
+      "Use `preserveCase` with `mono` for paths and branch names.",
     ],
     accessibility: accessibilityGuides.Badge,
   },
   Button: {
-    use: "Use a Button to save, submit, or start a task. Use Link when the main purpose is navigating to another page.",
+    use: "Use a `Button` to save, submit, or start a task. Use `Link` when the main purpose is navigating to another page.",
     example: {
       title: "Make the next action clear",
       description:
-        "Use a specific label such as Save changes. Primary gives the main action emphasis; secondary and ghost leave room for less important actions.",
+        "Use a specific label, such as Save changes. The `primary` variant marks the main action; `secondary` and `ghost` give supporting actions less emphasis.",
     },
     tips: [
-      "Set type=submit for form submission and type=button for other form actions.",
-      "Use danger for destructive actions and size=icon only with an accessible name.",
+      'Set `type="submit"` to submit a form and `type="button"` for other form actions.',
+      'Use `danger` for destructive actions. Give every `size="icon"` button an accessible name.',
     ],
     accessibility: accessibilityGuides.Button,
   },
@@ -290,34 +290,34 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "A short title summarizes the issue; the body gives enough context to choose a next step. The actions example shows where a resolution belongs.",
     },
     tips: [
-      "Write the message before choosing its tone.",
-      "Set live only for a message that changes while someone is using the page.",
+      "Write the message first, then choose its tone.",
+      "Set `live` when the message changes while someone is using the page.",
     ],
     accessibility: accessibilityGuides.Callout,
   },
   Card: {
-    use: "Keep one project, resource, or summary together. Card provides a surface; your content supplies its structure and actions.",
+    use: "Keep one project, resource, or summary together. `Card` provides a surface; your content supplies its structure and actions.",
     example: {
       title: "Summarize a project",
       description:
         "A heading and short summary make a useful starting point. Compare the plain appearance for rows and the single-link example for navigation.",
     },
     tips: [
-      "Use the default article for a self-contained item, div for generic grouping, or li inside a list.",
-      "Use appearance=plain when a raised surface would add too much emphasis.",
+      "Use the default `<article>` for a self-contained item, `<div>` for grouping or `<li>` inside a list.",
+      'Use `appearance="plain"` when the card needs less visual emphasis.',
     ],
     accessibility: accessibilityGuides.Card,
   },
   Checkbox: {
-    use: "Let people select independent options or items. Use RadioGroup when exactly one visible choice is allowed.",
+    use: "Let people select independent options or items. Use `RadioGroup` when exactly one visible choice is allowed.",
     example: {
       title: "Include records in a selection",
       description:
-        "The example owns checked state and updates it in onCheckedChange. The mixed example shows an aggregate selection that is partly checked.",
+        "The example owns checked state and updates it in `onCheckedChange`. The mixed example shows an aggregate selection that is partly checked.",
     },
     tips: [
-      "Store checked in your app; a callback alone does not update the control.",
-      "Use indeterminate for a partial aggregate, and description for help rather than a placeholder.",
+      "Store `checked` in your app and update it after the callback.",
+      "Use `indeterminate` for a partly selected group and `description` for help text.",
     ],
     accessibility: accessibilityGuides.Checkbox,
   },
@@ -407,11 +407,11 @@ export const componentGuides: Record<string, ComponentGuide> = {
     example: {
       title: "Review files before uploading",
       description:
-        "The sample retains a small file list and updates it after removal. Your app owns the File objects, acceptance rules, and upload progress.",
+        "The sample retains a small file list and updates it after removal. Your app owns the `File` objects, acceptance rules, and upload progress.",
     },
     tips: [
-      "Give each retained item a stable id and update items after onRemove.",
-      "accept is a picker hint; check your app’s acceptance rules before adding files.",
+      "Give each selected item a stable `id` and update `items` after `onRemove`.",
+      "Use `accept` to suggest file types in the picker. Validate files in your app before adding them.",
     ],
     accessibility: accessibilityGuides.FileInput,
   },
@@ -437,47 +437,47 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Change level to set the document rank and size to adjust emphasis. The article example combines headings, text, links, and inline code.",
     },
     tips: [
-      "Keep level semantic even when a smaller section needs a large visual heading.",
-      "Headings have no margin; use the parent layout to set spacing.",
+      "Choose `level` for the document outline. Set visual size separately when needed.",
+      "Headings add no margin; set spacing in the parent layout.",
     ],
     accessibility: accessibilityGuides.Heading,
   },
   Input: {
-    use: "Collect text with a persistent label, optional help, and a specific error message. Use NumberField for stepped quantities.",
+    use: "Collect text with a persistent label, optional help, and a specific error message. Use `NumberField` for stepped quantities.",
     example: {
       title: "Collect an email address",
       description:
         "A visible label stays present while someone types. Compare help and error states, then try the search example’s clear action.",
     },
     tips: [
-      "Use the native type, name, autoComplete, and required props for the field’s purpose.",
-      "Keep editing actions out of disabled and read-only fields; the search example returns focus after clearing.",
+      "Set `type`, `name`, `autoComplete` and `required` to match the field’s purpose.",
+      "Hide editing actions on disabled and read-only fields. The search example returns focus after clearing.",
     ],
     accessibility: accessibilityGuides.Input,
   },
   Link: {
-    use: "Navigate to a destination with a real anchor. Use Button for an action that changes the current interface.",
+    use: "Navigate to a destination with a real anchor. Use `Button` for an action that changes the current interface.",
     example: {
       title: "Give a destination a useful name",
       description:
         "The link keeps a visible underline and inherits the surrounding type size. The in-text example shows how it reads within a sentence.",
     },
     tips: [
-      "Use descriptive link text and a real href.",
-      "Your app owns routing, download behavior, and wording for links that open a new tab.",
+      "Use text that explains the destination and provide a real `href`.",
+      "Your app handles routing, downloads and wording for links that open a new tab.",
     ],
     accessibility: accessibilityGuides.Link,
   },
   Menu: {
-    use: "Put a short list of related actions behind a named trigger. Use Select for choosing a field value.",
+    use: "Put a short list of related actions behind a named trigger. Use `Select` for choosing a field value.",
     example: {
       title: "Keep secondary actions close by",
       description:
         "Open Actions to browse a small menu. Disabled items stay unavailable, and separators group related tasks without becoming extra controls.",
     },
     tips: [
-      "Compose Trigger, Content, Item, and Separator rather than building popup behavior yourself.",
-      "A custom container should carry the intended theme for portaled content.",
+      "Compose `Menu.Trigger`, `Menu.Content`, `Menu.Item` and `Menu.Separator` to keep the built-in popup behavior.",
+      "Apply the intended theme to a custom portal `container`.",
     ],
     accessibility: accessibilityGuides.Menu,
   },
@@ -511,20 +511,20 @@ export const componentGuides: Record<string, ComponentGuide> = {
     accessibility: accessibilityGuides.MultiSelect,
   },
   NumberField: {
-    use: "Collect a numeric quantity that people can type or adjust with steps. Use Input for identifiers such as postal codes.",
+    use: "Collect a numeric quantity that people can type or adjust with steps. Use `Input` for identifiers such as postal codes.",
     example: {
       title: "Count returned stock",
       description:
         "The example owns the count and provides a sensible range and step. Empty and invalid states show how to distinguish no answer from an invalid draft.",
     },
     tips: [
-      "Use null for an empty value and a positive step for increments.",
-      "Bounds guide stepping; your app still validates typed drafts and explains errors.",
+      "Use `null` for an empty value and a positive `step` for increments.",
+      "Bounds control stepping. Your app validates typed values and explains errors.",
     ],
     accessibility: accessibilityGuides.NumberField,
   },
   Panel: {
-    use: "Organize a section with a heading, content, and related actions. Use Card for a simpler self-contained item.",
+    use: "Organize a section with a heading, content, and related actions. Use `Card` for a simpler self-contained item.",
     example: {
       title: "Keep a work section organized",
       description:
@@ -545,21 +545,21 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "The task label stays stable while value changes. The steps example uses max and valueText for a count rather than a percentage.",
     },
     tips: [
-      "Keep value between zero and max; max defaults to 100.",
-      "Use valueText when a count such as 3 of 5 files explains progress better than a percentage.",
+      "Keep `value` between zero and `max`. The default `max` is 100.",
+      "Use `valueText` when a count such as “3 of 5 files” explains progress better than a percentage.",
     ],
     accessibility: accessibilityGuides.Progress,
   },
   RadioGroup: {
-    use: "Let people choose one value from a small visible set. Use Select when a longer list belongs in a dropdown.",
+    use: "Let people choose one value from a small visible set. Use `Select` when a longer list belongs in a dropdown.",
     example: {
       title: "Choose a display density",
       description:
         "Compact and Roomy smoothly change option height, padding and spacing. Reset restores the starting density; reduced motion switches instantly.",
     },
     tips: [
-      "Give every item a unique value and update value in onValueChange.",
-      "Segmented choices are radio options, not tabs with associated panels.",
+      "Give every item a unique `value` and update the selected value in `onValueChange`.",
+      "Segmented choices still behave as radio options; they do not switch associated tab panels.",
     ],
     accessibility: accessibilityGuides.RadioGroup,
   },
@@ -571,52 +571,52 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "maxHeight keeps the output from taking over the page. Focus the viewport to scroll with the keyboard as well as with a pointer.",
     },
     tips: [
-      "Use a CSS length such as 12rem for maxHeight.",
+      "Set `maxHeight` to a CSS length such as `12rem`.",
       "Keep wide content readable and avoid stacking several small scrolling regions.",
     ],
     accessibility: accessibilityGuides.ScrollArea,
   },
   Select: {
-    use: "Choose one field value from a dropdown. Use Menu for actions and RadioGroup for a small set worth showing at once.",
+    use: "Choose one field value from a dropdown. Use `Menu` for actions and `RadioGroup` for a small set worth showing at once.",
     example: {
       title: "Choose which records to show",
       description:
         "The example stores a string value and uses null for the placeholder. Unavailable options and an empty list stay visibly distinct from a valid choice.",
     },
     tips: [
-      "Use unique option values and update value in onValueChange.",
-      "The default popup stays inside the field’s theme; theme any custom portal container too.",
+      "Give options unique values and update `value` in `onValueChange`.",
+      "The default popup inherits the field’s theme. Apply the theme to any custom portal `container` too.",
     ],
     accessibility: accessibilityGuides.Select,
   },
   Stat: {
-    use: "Show a headline number or short value with the label that explains it. Use Progress for completion toward a total.",
+    use: "Show a headline number or short value with the label that explains it. Use `Progress` for completion toward a total.",
     example: {
       title: "Make an elapsed time readable",
       description:
         "Keep the label beside the formatted value. Use display for one important figure and the row example for related metrics.",
     },
     tips: [
-      "Include a unit or time period when the number needs one.",
-      "Use md in groups so several metrics can share the same hierarchy.",
+      "Include a unit or time period when it helps explain the number.",
+      "Use `md` for groups of related values so they have the same visual weight.",
     ],
     accessibility: accessibilityGuides.Stat,
   },
   Status: {
-    use: "Describe a current state such as running, blocked, or complete. Use Badge for static metadata.",
+    use: "Describe a current state such as running, blocked, or complete. Use `Badge` for static metadata.",
     example: {
       title: "Make a work state explicit",
       description:
         "Text carries the meaning; tone and an optional icon reinforce it. Compare plain text with a chip when the state needs more separation.",
     },
     tips: [
-      "Use appearance=chip for a tinted surface and compact for tighter layouts.",
-      "Set live for changing text that should be announced, not for every static status on a page.",
+      'Use `appearance="chip"` for a tinted surface and `compact` for tighter layouts.',
+      "Set `live` for changing text that should be announced. Static status text does not need it.",
     ],
     accessibility: accessibilityGuides.Status,
   },
   Switch: {
-    use: "Turn an immediate preference on or off. Use Checkbox for selecting items or choices submitted together later.",
+    use: "Turn an immediate preference on or off. Use `Checkbox` for selecting items or choices submitted together later.",
     example: {
       title: "Turn email updates on or off",
       description:
@@ -636,8 +636,8 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Choose size for hierarchy and tone for emphasis. The inline example combines text with meaningful emphasis, a link, and literal code.",
     },
     tips: [
-      "Use span inside a paragraph and div for block children; p is the default.",
-      "Text has no margin, so set spacing in the parent layout.",
+      'Use `as="span"` inside a paragraph and `as="div"` for block children. The default is `<p>`.',
+      "`Text` adds no margin; set spacing in the parent layout.",
     ],
     accessibility: accessibilityGuides.Text,
   },
@@ -726,8 +726,8 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "A named toolbar keeps related controls together. Use groups and separators to divide tasks without adding extra tab stops.",
     },
     tips: [
-      "Toolbar.Button uses the shared Button appearance and defaults to ghost.",
-      "Use Checkbox or RadioGroup when a control represents a persistent selection.",
+      "`Toolbar.Button` uses the shared `Button` style and defaults to `ghost`.",
+      "Use `Checkbox` or `RadioGroup` for a choice that stays selected.",
     ],
     accessibility: accessibilityGuides.Toolbar,
   },
@@ -739,8 +739,8 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Hover or focus the stop action to see a brief hint. The trigger keeps its own accessible name even while the hint is closed.",
     },
     tips: [
-      "Use content for the hint and delay for the hover delay in milliseconds.",
-      "Use a themed container when the popup belongs to a nested theme.",
+      "Use `content` for the hint and `delay` for the hover delay in milliseconds.",
+      "Use a themed `container` when the popup belongs to a nested theme.",
     ],
     accessibility: accessibilityGuides.Tooltip,
   },

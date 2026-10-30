@@ -33,8 +33,8 @@ export function Example() {
 | `size`             | `sm` \| `md` \| `lg` \| `xl` \| `display` | From level | Levels 1–6 map to xl, lg, md, sm, sm, sm; display is an explicit hero size |
 | `className`, `ref` | Native heading props                      | unset      | Classes merge; ref targets native heading                                  |
 
-Use one page title and nest section ranks without skipping levels. Adjust `size` for context without changing the outline. Headings have no margin; use Grid or parent layout for spacing. See [Typography](https://github.com/KhallilB/kbui/blob/main/docs/guides/typography.md) for composition, CSS recipes and accessibility guidance.
+Use one page title and nest section ranks without skipping levels. Adjust `size` for context without changing the outline. Headings have no margin; use `Grid` or parent layout for spacing. See [Typography](https://github.com/KhallilB/kbui/blob/main/docs/guides/typography.md) for composition, CSS recipes and accessibility guidance.
 
 ## Related components
 
-Pair with [Text](Text.md), [Link](Link.md), and [Code](Code.md) for readable document content.
+Pair with [`Text`](Text.md), [`Link`](Link.md), and [`Code`](Code.md) for readable document content.

@@ -40,7 +40,7 @@ Plain HTML works as well:
 
 ## Components
 
-The first line of each stylesheet describes the markup it expects. The table shows common entries; [styles.css](src/styles.css) lists every component import.
+The first line of each stylesheet describes the markup it expects. The table shows common entries; [`styles.css`](src/styles.css) lists every component import.
 
 | File | Expected markup |
 |---|---|
@@ -48,7 +48,7 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | `image.css` | `.kb-image` with ratio, fit and request state; visual fallback and native decorative img; renderer owns request lifecycle |
 | `avatar.css` | `.kb-avatar` with `data-size` and `data-shape` (`circle`, `square`, `rounded`, `hexagon`, `diamond`); `.kb-avatar-media` inherits root radius and clips upright media for polygons; `.kb-avatar-initials` supplies fallback text; also load image.css |
 | `thumbnail.css` | Native figure with media and caption/title/description; also load image.css |
-| `collection.css` | `.kb-collection` with toolbar, filters, native table, page checkboxes, bulk actions and pagination; renderer owns state; partial imports need Button, Checkbox, Input and Select CSS |
+| `collection.css` | `.kb-collection` with toolbar, filters, native table, page checkboxes, bulk actions and pagination; renderer owns state; partial imports need `Button`, `Checkbox`, `Input` and Select CSS |
 | `container.css` | `.kb-container` with `data-size` (`sm`, `md`, `lg`, `full`) and optional `data-gutter="none"` |
 | `dashboard.css` | `.kb-dashboard` page frame with `-header`, `-metrics` and `-panels` regions; `-primary` and `-secondary` sit two thirds and one third from 60rem of panels width and stack below it |
 | `pageheader.css` | `.kb-pageheader` with `data-size` (`sm`, `md`, `lg`) and optional `data-divider`, wrapping `-navigation`, `-main`, `-heading`, `-eyebrow`, `-headline`, `-title`, `-meta`, `-description`, `-actions` and `-body` parts; actions wrap below the heading without media queries |
@@ -59,7 +59,7 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | `stack.css` | `.kb-stack` with `data-gap`, `data-align` (`start`, `center`, `end`, `stretch`) and `data-justify`; flows top to bottom in source order; resets child block margins and native list markers |
 | `split.css` | `.kb-split` with `data-ratio`, `data-collapse`, `data-gap` and `data-align`; two `.kb-split-track` children containing the column content |
 | `supportingpane.css` | `.kb-supportingpane` page frame (up to 80rem, gutters stepping at 48rem and 64rem of viewport) with `-main` and `-aside` regions; the aside sits beside main from 48rem of the pane's content width and below it under that |
-| `separator.css` | Native hr with `.kb-separator` and `data-orientation`; decorative rules need aria-hidden and role none |
+| `separator.css` | Native hr with `.kb-separator` and `data-orientation`; decorative rules need `aria-hidden` and role none |
 | `heading.css` | Native heading with `.kb-heading` and `data-size` (`sm`, `md`, `lg`, `xl`, `display`); rank follows document outline |
 | `text.css` | `p`, `span` or `div` with `.kb-text`, `data-size` (`sm`, `md`, `lg`) and `data-tone` (`default`, `muted`) |
 | `link.css` | Native anchor with href and `.kb-link`; underline and visible keyboard focus |
@@ -68,7 +68,7 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | `codeblock.css` | `.kb-codeblock` block toolbar; also import `code.css` for shared listing anatomy and tokens |
 | `button.css` | `.kb-button` with `data-variant` (`primary`, `secondary`, `ghost`, `danger`), `data-size` (`sm`, `md`, `lg`, `icon`) and `data-disabled` |
 | `numberfield.css` | `.kb-numberfield` with size/state attributes, label, grouped input/step controls and full-width help/error |
-| `fileinput.css` | `.kb-fileinput` with labeled picker, retained list and named removal controls; also load Button CSS when importing parts |
+| `fileinput.css` | `.kb-fileinput` with labeled picker, retained list and named removal controls; also load `Button` CSS when importing parts |
 | `combobox.css` | `.kb-combobox` with labeled search input, clear/trigger actions, portaled listbox popup and polite empty status |
 | `multiselect.css` | `.kb-multiselect` with labeled chip toolbar, removable selection chips, search input, clear/trigger actions and portaled listbox popup |
 | `input.css` | `.kb-input` with `data-size`, `data-invalid` and `data-disabled`, wrapping `-label`, `-shell`, `-start`, `-control`, `-end`, `-description` and `-error` parts |

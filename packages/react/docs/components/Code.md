@@ -74,4 +74,4 @@ Block copying shares the [copy feedback props](CopyableText.md#reference): `disa
 
 ## Related components
 
-Use [CodeBlock](CodeBlock.md) for explicit block semantics, [CopyableText](CopyableText.md) for copyable identifiers, [Text](Text.md) for prose and [Link](Link.md) for a destination.
+Use [`CodeBlock`](CodeBlock.md) for explicit block semantics, [`CopyableText`](CopyableText.md) for copyable identifiers, [`Text`](Text.md) for prose and [`Link`](Link.md) for a destination.

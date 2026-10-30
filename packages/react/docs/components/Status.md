@@ -1,6 +1,6 @@
 # Status
 
-Use Status for a state such as running, blocked, or complete. Always include text so the meaning is clear without relying on color or an icon.
+Use `Status` for a state such as running, blocked, or complete. Always include text so the meaning is clear without relying on color or an icon.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/components-status--docs)
 
@@ -21,7 +21,7 @@ export function Example() {
 
 ## More examples
 
-- [Changing state](https://kbui.kcb.pro/storybook/?path=/story/components-status--live): Inspect the status announcement contract.
+- [Changing state](https://kbui.kcb.pro/storybook/?path=/story/components-status--live): Check how status updates are announced.
 - [Supporting iconography](https://kbui.kcb.pro/storybook/?path=/story/components-status--with-icon): Keep meaning in text when an icon is present.
 - [A compact state label](https://kbui.kcb.pro/storybook/?path=/story/components-status--chip): Compare a contained appearance.
 
@@ -44,4 +44,4 @@ export function Example() {
 
 ## Related components
 
-Use [Badge](Badge.md) for static metadata, [Progress](Progress.md) for completion, and [Callout](Callout.md) for a fuller message.
+Use [`Badge`](Badge.md) for static metadata, [`Progress`](Progress.md) for completion, and [`Callout`](Callout.md) for a fuller message.

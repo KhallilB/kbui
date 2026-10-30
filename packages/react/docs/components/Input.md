@@ -1,6 +1,6 @@
 # Input
 
-Use Input for text entry. It keeps the label, help text, and error message together, and has space for icons or actions at either end.
+Use `Input` for text entry. It keeps the label, help text, and error message together, and has space for icons or actions at either end.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/components-input--docs)
 
@@ -79,4 +79,4 @@ The field label names the input. Give each action its own accessible name, and h
 
 ## Related components
 
-Use [Textarea](Textarea.md) for multiline answers, [NumberField](NumberField.md) for numeric stepping, and [Combobox](Combobox.md) for a searchable choice from existing values.
+Use [`Textarea`](Textarea.md) for multiline answers, [`NumberField`](NumberField.md) for numeric stepping, and [`Combobox`](Combobox.md) for a searchable choice from existing values.

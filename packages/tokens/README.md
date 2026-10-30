@@ -28,7 +28,7 @@ If your app does not load the full React or CSS stylesheet, import `@kb.ui/token
 
 ## Exports
 
-| Import | File | Contents |
+| Import | `File` | Contents |
 |---|---|---|
 | `@kb.ui/tokens/tokens.css` | `dist/tokens.css` | All variables on `:root`; theme-dependent variables rebound on `[data-theme="light"]` and `[data-theme="dark"]`, plus a system-setting fallback and system-color overrides for tokens with a `kb.forced` value under `forced-colors: active` |
 | `@kb.ui/tokens` | `dist/tokens.js`, `dist/tokens.d.ts` | `tokens`, a nested read-only object of variable names |
@@ -48,4 +48,4 @@ The build rejects a token file that:
 - uses a key with characters other than letters, digits, `_` and `-`
 - has a `$value` that is not a string
 
-[docs/tokens.md](../../docs/tokens.md) explains token kinds, naming and dark mode.
+[`docs/tokens.md`](../../docs/tokens.md) explains token kinds, naming and dark mode.

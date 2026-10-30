@@ -29,7 +29,7 @@ export function Installation() {
 
 Choose heading rank from the document outline. Visual size can change independently: `Heading level={2} size="sm"` remains a section heading. Use Text for prose and native `strong` or `em` for meaningful emphasis. Use `Text as="span"` inside a sentence; use `as="div"` only when grouping block content. Components remove their own margins; spacing belongs to the parent layout.
 
-The [canonical React API](../../packages/react/docs/components/Heading.md) lists props and defaults. The [composed article](../../packages/react/src/components/Heading/Heading.stories.tsx) exercises all four inside an existing Panel, in both themes. Other colocated stories cover sizes, supporting text, links within prose, inline code paths and syntax-highlighted multiline code blocks.
+The [canonical React API](../../packages/react/docs/components/Heading.md) lists props and defaults. The [composed article](../../packages/react/src/components/Heading/Heading.stories.tsx) exercises all four inside an existing `Panel`, in both themes. Other colocated stories cover sizes, supporting text, links within prose, inline code paths and syntax-highlighted multiline code blocks.
 
 ## Framework-free recipes
 
@@ -80,4 +80,4 @@ Use a page title, then nest headings according to their relationships; avoid ski
 
 Keep underlines and keyboard outlines visible. Link text inherits its surrounding size, Code inherits ink, and long identifiers wrap without clipping. Do not use color alone to convey state. Secondary ink, link tokens and syntax tokens are tuned for the shipped light/dark surfaces; custom backgrounds and token overrides need their own contrast checks. Forced-colors mode retains native link/focus colors and maps syntax tokens to system colors.
 
-Do not truncate essential prose or put arbitrary block elements inside Text's default paragraph. Allow browser zoom and text spacing changes; no fixed text heights or hidden overflow are used on inline prose. Inline Code represents short computer-code fragments, following the [native code element](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/code), while multiline strings or block props render a framed `pre`/`code` listing with non-selectable line numbers and polite copy status announcements.
+Do not truncate essential prose or put arbitrary block elements inside Text's default paragraph. Allow browser zoom and text spacing changes; no fixed text heights or hidden overflow are used on inline prose. Inline `Code` represents short computer-code fragments, following the [native code element](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/code), while multiline strings or block props render a framed `pre`/`code` listing with non-selectable line numbers and polite copy status announcements.

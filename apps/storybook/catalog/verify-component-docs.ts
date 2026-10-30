@@ -31,6 +31,12 @@ try {
       await docs.locator(".reference-api caption").first().innerText(),
       `${entry.name} API`,
     );
+    assert.deepEqual(
+      await docs.locator("#reference-props > ul > li code").allTextContents(),
+      references[entry.name]?.guide.tips.flatMap((text) =>
+        [...text.matchAll(/`([^`]+)`/g)].map((match) => match[1]),
+      ),
+    );
     for (const group of ["provides", "authoring", "verify"] as const) {
       assert.deepEqual(
         await docs

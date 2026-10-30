@@ -1,6 +1,6 @@
 # FileInput
 
-Use FileInput to choose files, review the selected list, and remove items. Your app decides which files to accept, keeps the File objects, and handles uploads. See [Retained file selection](https://github.com/KhallilB/kbui/blob/main/docs/guides/file-inputs.md) for examples, keyboard behavior, and styling. Available since v0.6.0.
+Use `FileInput` to choose files, review the selected list, and remove items. Your app decides which files to accept, keeps the `File` objects, and handles uploads. See [Retained file selection](https://github.com/KhallilB/kbui/blob/main/docs/guides/file-inputs.md) for examples, keyboard behavior, and styling. Available since v0.6.0.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/components-fileinput--docs)
 
@@ -67,8 +67,8 @@ The example retains each original `File` alongside its display metadata. Your ap
 | `inputRef`, `triggerRef`                             | element refs                         | unset                   | Hidden native input and visible picker access                        |
 | `triggerClassName`, `listClassName`, `itemClassName` | `string`                             | unset                   | Classes for picker, retained list, and items                         |
 
-Root native div props/ref and className pass through. Root aria-describedby merges after helper/error. Item button refs remain internal to preserve focus; use public item/content classes and renderItem for presentation. Use these props and classes rather than reaching into individual item buttons. The `×` mark is decorative; removal has a full accessible filename label.
+Native `<div>` props, `ref` and `className` apply to the root. Root `aria-describedby` IDs follow the help and error IDs. Item button refs stay internal so removal can restore focus. Customize items through the item/content classes and `renderItem`; avoid changing individual item buttons. The `×` is decorative, and each removal button is named with the full filename.
 
 ## Related components
 
-Use [Progress](Progress.md) to present caller-owned upload progress. File selection and uploading are separate steps.
+Use [`Progress`](Progress.md) to show upload progress supplied by your app. File selection and uploading are separate steps.
