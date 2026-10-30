@@ -276,6 +276,15 @@ export const definitions: Record<string, Definition> = {
       Sections: "Sections",
     },
   },
+  ConfirmAction: {
+    group: "Actions",
+    description: "Put a destructive action behind one confirmation that closes only after success.",
+    examples: {
+      Default: "Default",
+      FailureAndRetry: "Failure and Retry",
+      RowAction: "Row Action",
+    },
+  },
   FileInput: {
     group: "Forms",
     description: "Choose files, review the list, and remove individual items.",

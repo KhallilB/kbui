@@ -37,7 +37,7 @@ The React adapter provides the components, styles and CSS variables together. In
 
 | Task | Start here |
 |---|---|
-| Run an action or navigate | [Button](docs/components/Button.md) for actions; [Link](docs/components/Link.md) for destinations |
+| Run an action or navigate | [Button](docs/components/Button.md) for actions; [ConfirmAction](docs/components/ConfirmAction.md) for destructive actions; [Link](docs/components/Link.md) for destinations |
 | Collect choices | [Checkbox](docs/components/Checkbox.md) for independent choices; [RadioGroup](docs/components/RadioGroup.md) for one visible choice; [Select](docs/components/Select.md) for a dropdown; [Switch](docs/components/Switch.md) for an immediate setting |
 | Collect text, quantities, or files | [Input](docs/components/Input.md), [Textarea](docs/components/Textarea.md), [NumberField](docs/components/NumberField.md), or [FileInput](docs/components/FileInput.md) |
 | Reveal details or supporting controls | [Disclosure](docs/components/Disclosure.md), [Accordion](docs/components/Accordion.md), or [Popover](docs/components/Popover.md); [drawer and confirmation patterns](https://github.com/KhallilB/kbui/blob/main/docs/guides/forms-and-overlays.md#drawer-pattern) compose Dialog |
@@ -83,6 +83,7 @@ See [Media and identity](../../docs/guides/media-and-identity.md) for responsive
 | <a id="button"></a>[Button](docs/components/Button.md) | Trigger an action or link to another page. |
 | <a id="popover"></a>[Popover](docs/components/Popover.md) | Reveal supporting controls in an anchored popup. |
 | <a id="dialog"></a>[Dialog](docs/components/Dialog.md) | Keep a focused task in a dialog while the page waits behind it. |
+| <a id="confirmaction"></a>[ConfirmAction](docs/components/ConfirmAction.md) | Put a destructive action behind one confirmation that closes only after success. |
 | <a id="menu"></a>[Menu](docs/components/Menu.md) | Keep related actions in a compact popup menu. |
 | <a id="toolbar"></a>[Toolbar](docs/components/Toolbar.md) | Group related actions with arrow-key navigation. |
 

@@ -80,6 +80,7 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | `collectionrow.css` | Native li with aligned leading/content/aside slots, selected state, wrapping actions and responsive stacking |
 | `table.css` | Native table parts with density, sorting, selected rows, sticky headers/edges, a keyboard-scrollable container and independent row actions; see [Table API](../react/docs/components/Table.md) |
 | `dialog.css` | `.kb-dialog-popup` with `-title`, `-description` and `-actions` parts, beside a `.kb-dialog-backdrop`. Both use Base UI's open, starting and ending attributes for animation |
+| `confirmaction.css` | `.kb-confirmaction` on a `.kb-dialog-popup`, with `data-pending` and `-details` and `-error` parts; the error reuses `.kb-callout` |
 
 ## Build and test
 

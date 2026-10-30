@@ -15,6 +15,7 @@
 @import "./components/collectionlist.css" layer(kbui.components);
 @import "./components/collectionrow.css" layer(kbui.components);
 @import "./components/combobox.css" layer(kbui.components);
+@import "./components/confirmaction.css" layer(kbui.components);
 @import "./components/container.css" layer(kbui.components);
 @import "./components/copyabletext.css" layer(kbui.components);
 @import "./components/descriptionlist.css" layer(kbui.components);

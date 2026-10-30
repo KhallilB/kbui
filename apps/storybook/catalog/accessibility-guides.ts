@@ -497,6 +497,28 @@ export const accessibilityGuides = {
       href: "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/",
     },
   },
+  ConfirmAction: {
+    provides: [
+      "Builds on Dialog: modal semantics, focus containment and trigger focus return. title names the dialog and description describes it.",
+      "Cancel comes first and receives initial focus. Outside presses never dismiss. While onConfirm is pending, Escape is blocked, the popup is aria-busy, and Cancel and confirm stay focusable with aria-disabled, ignoring presses.",
+      "A thrown or rejected onConfirm keeps the dialog open and inserts a role=alert Callout; confirming again retries. The dialog closes only after success.",
+    ],
+    authoring: [
+      "Name the trigger with the action and its object; a short visible label in a row needs aria-label that starts with that visible text, such as Revoke Laptop.",
+      "Make onConfirm settle: reject on failure and own timeouts, authorization and idempotency. Write errorMessage so it says what failed and what to do next.",
+      "Announce success in the page. When success removes the trigger, pass finalFocus and remove it in onConfirmed. For urgent interruptions that need alertdialog semantics, use an alert-dialog primitive instead.",
+    ],
+    verify: [
+      "By keyboard, open the confirmation; focus lands on Cancel. Tab and Shift+Tab stay inside. Escape and Cancel close it without running the action and focus returns to the trigger.",
+      "Confirm, then press Escape and confirm again while pending; the dialog stays open and the action runs once. After success, focus returns to the trigger or finalFocus target.",
+      "Make the action fail; with a screen reader, confirm the alert is announced, the dialog keeps its name and description, and retry succeeds. This manual check remains unverified by automated stories.",
+    ],
+    standards: ["2.1.1", "2.1.2", "2.4.3", "3.3.1", "3.3.4", "4.1.2", "4.1.3"],
+    pattern: {
+      title: "Modal dialog pattern",
+      href: "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/",
+    },
+  },
   FileInput: {
     provides: [
       "A labeled picker button opens the native file input; selection and confirmed-removal feedback use announcement regions.",
