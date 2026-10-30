@@ -20,7 +20,18 @@ export function placementBreaksStory(
     name: "Placement catches breaks",
     tags: ["!dev", "!autodocs"],
     globals: { viewport: { value: "desktop", isRotated: false } },
-    parameters: { layout: "fullscreen" },
+    parameters: {
+      layout: "fullscreen",
+      // Copies of one screen repeat its landmarks; the size stories scan it once.
+      a11y: {
+        options: {
+          rules: {
+            "landmark-unique": { enabled: false },
+            "landmark-no-duplicate-main": { enabled: false },
+          },
+        },
+      },
+    },
     render: () => (
       <>
         <style>{Object.values(breaks).map((broken) => broken.css)}</style>
