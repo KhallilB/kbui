@@ -619,6 +619,18 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-collectionrow-leading-width: 3rem;
   --kb-collectionrow-aside-width: 12rem;
   --kb-collectionrow-gap: var(--kb-space-3);
+  --kb-pageheader-gap: var(--kb-space-4);
+  --kb-pageheader-main-gap: var(--kb-space-4);
+  --kb-pageheader-heading-gap: var(--kb-space-1);
+  --kb-pageheader-headline-gap: var(--kb-space-2);
+  --kb-pageheader-actions-gap: var(--kb-space-2);
+  --kb-pageheader-heading-min-width: 18rem;
+  --kb-pageheader-description-max-width: var(--kb-text-measure);
+  --kb-pageheader-title-size-sm: var(--kb-heading-size-lg);
+  --kb-pageheader-title-size-md: var(--kb-heading-size-xl);
+  --kb-pageheader-title-size-lg: var(--kb-heading-size-display);
+  --kb-pageheader-divider: var(--kb-color-border);
+  --kb-pageheader-divider-gap: var(--kb-space-5);
   color-scheme: light;
 }
 
@@ -803,6 +815,7 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-table-header-background: var(--kb-color-surface);
   --kb-table-selected-background: var(--kb-color-surface);
   --kb-table-border: var(--kb-color-border);
+  --kb-pageheader-divider: var(--kb-color-border);
   color-scheme: light;
 }
 
@@ -987,6 +1000,7 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-table-header-background: var(--kb-color-surface);
   --kb-table-selected-background: var(--kb-color-surface);
   --kb-table-border: var(--kb-color-border);
+  --kb-pageheader-divider: var(--kb-color-border);
   color-scheme: dark;
 }
 
@@ -1172,6 +1186,7 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-table-header-background: var(--kb-color-surface);
     --kb-table-selected-background: var(--kb-color-surface);
     --kb-table-border: var(--kb-color-border);
+    --kb-pageheader-divider: var(--kb-color-border);
     color-scheme: dark;
   }
 }

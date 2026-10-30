@@ -179,6 +179,12 @@ export {
   type NumberFieldSize,
 } from "./components/NumberField/NumberField";
 export {
+  PageHeader,
+  type PageHeaderHeadingLevel,
+  type PageHeaderProps,
+  type PageHeaderSize,
+} from "./components/PageHeader/PageHeader";
+export {
   Panel,
   type PanelBodyProps,
   type PanelDensity,

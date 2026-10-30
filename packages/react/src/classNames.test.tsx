@@ -21,6 +21,7 @@ import {
   Input,
   MultiSelect,
   NumberField,
+  PageHeader,
   Popover,
   Progress,
   RadioGroup,
@@ -329,6 +330,22 @@ const cases: [string, () => ReactElement][] = [
       >
         Body
       </EmptyState>
+    ),
+  ],
+  [
+    "pageheader",
+    () => (
+      <PageHeader
+        navigation={<a href="/">N</a>}
+        eyebrow="E"
+        title="T"
+        meta="M"
+        description="D"
+        actions={<button type="button">A</button>}
+        classNames={every}
+      >
+        Body
+      </PageHeader>
     ),
   ],
   [

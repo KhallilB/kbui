@@ -897,6 +897,25 @@ export const accessibilityGuides = {
     ],
     standards: ["1.3.1", "1.3.5", "2.1.1", "2.5.3", "3.3.1", "3.3.2", "4.1.2"],
   },
+  PageHeader: {
+    provides: [
+      "The title renders as a native heading, h1 by default, so the page outline starts at the screen's own name.",
+      "The root is a plain div rather than header, so it never adds a second banner landmark beside the site header.",
+      "Navigation, title, description, actions and body keep that DOM order; actions follow the heading in reading and focus order even when they are end-aligned or wrap below it.",
+      "Meta renders outside the heading element, so status badges do not change the heading's accessible name.",
+    ],
+    authoring: [
+      "Use one h1 per screen. Set headingLevel to 2 or 3 only when the header introduces a region below an existing h1.",
+      "Wrap breadcrumbs in nav with aria-label='Breadcrumb' and mark the current item with aria-current='page'; label back links with their destination.",
+      "Give every action a visible name and keep one primary action; status shown only by color in meta also needs text.",
+    ],
+    verify: [
+      "List headings with a screen reader or browser outline and confirm the title is the first h1 and its name excludes meta badges.",
+      "Tab from the top of the page and confirm focus reaches navigation links, then actions, then body controls, each with a visible focus indicator.",
+      "At 320 CSS pixels wide and at 400% zoom, confirm the title wraps, actions move below the heading and no content scrolls sideways.",
+    ],
+    standards: ["1.3.1", "1.3.2", "1.4.4", "1.4.10", "2.4.3", "2.4.6", "2.4.7"],
+  },
   EmptyState: {
     provides: [
       "The title renders as a semantic heading (h2–h4, default h3) while the icon slot is marked aria-hidden.",
