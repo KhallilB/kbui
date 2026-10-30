@@ -48,7 +48,7 @@ The React adapter provides the components, styles and CSS variables together. In
 
 Start with the complete Usage example on a component page. Its More examples section links to focused, working Storybook states; Related components explains nearby alternatives. Use the live Docs page for component-specific keyboard, focus, and labeling guidance. Check those contracts with your app’s actual content and flows.
 
-For searchable choices, compare [Combobox](docs/components/Combobox.md) and [MultiSelect](docs/components/MultiSelect.md). For complete forms, start with [Fieldset](docs/components/Fieldset.md), [FormActions](docs/components/FormActions.md), and [ErrorSummary](docs/components/ErrorSummary.md).
+For searchable choices, compare [Combobox](docs/components/Combobox.md) and [MultiSelect](docs/components/MultiSelect.md). For complete forms, start with [Form](docs/components/Form.md) or [Settings](docs/components/Settings.md), group fields with [FormSection](docs/components/FormSection.md), and recover with [ErrorSummary](docs/components/ErrorSummary.md).
 
 ## Components
 
@@ -96,6 +96,7 @@ See [Media and identity](../../docs/guides/media-and-identity.md) for responsive
 | <a id="fieldset"></a>[Fieldset](docs/components/Fieldset.md) | Group related fields with a native fieldset, legend, and section help. |
 | <a id="fileinput"></a>[FileInput](docs/components/FileInput.md) | Choose files, review the list, and remove individual items. |
 | <a id="formactions"></a>[FormActions](docs/components/FormActions.md) | Align submit, reset, and secondary actions at the end of a form. |
+| <a id="formsection"></a>[FormSection](docs/components/FormSection.md) | A headed group of related fields with its error and actions. |
 | <a id="input"></a>[Input](docs/components/Input.md) | Collect text with a clear label, help text, and error feedback. |
 | <a id="multiselect"></a>[MultiSelect](docs/components/MultiSelect.md) | Search a list and keep multiple selections visible as removable chips. |
 | <a id="numberfield"></a>[NumberField](docs/components/NumberField.md) | Enter a number by typing or using step buttons. |
@@ -127,11 +128,13 @@ See [Media and identity](../../docs/guides/media-and-identity.md) for responsive
 | <a id="disclosure"></a>[Disclosure](docs/components/Disclosure.md) | Reveal optional details and controls inline. |
 | <a id="card"></a>[Card](docs/components/Card.md) | Group related content, with room for links and actions. |
 | <a id="container"></a>[Container](docs/components/Container.md) | Shared page widths and responsive gutters. |
+| <a id="form"></a>[Form](docs/components/Form.md) | One task with grouped fields, then its one submit action. |
 | <a id="grid"></a>[Grid](docs/components/Grid.md) | Arrange content in responsive columns or a single stack. |
 | <a id="inline"></a>[Inline](docs/components/Inline.md) | Wrapping rows with shared spacing and alignment. |
 | <a id="panel"></a>[Panel](docs/components/Panel.md) | Organize a section with a header, content, and actions. |
 | <a id="scrollarea"></a>[ScrollArea](docs/components/ScrollArea.md) | Keep longer content in a scrollable, keyboard-accessible region. |
 | <a id="separator"></a>[Separator](docs/components/Separator.md) | Semantic or decorative horizontal and vertical rules. |
+| <a id="settings"></a>[Settings](docs/components/Settings.md) | Sections of fields and managed lists, each saved on its own. |
 | <a id="split"></a>[Split](docs/components/Split.md) | Two columns that stack when their parent narrows. |
 
 ### Structured data

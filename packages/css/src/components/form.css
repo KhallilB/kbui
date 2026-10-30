@@ -1,0 +1,36 @@
+/* Anatomy: .kb-form [data-width=sm|md|full] > .kb-form-header, .kb-form-body, .kb-form-actions */
+.kb-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--kb-form-gap);
+  min-inline-size: 0;
+  max-inline-size: var(--kb-form-width-md);
+  margin: 0;
+}
+.kb-form[data-width="sm"] {
+  max-inline-size: var(--kb-form-width-sm);
+}
+.kb-form[data-width="full"] {
+  max-inline-size: none;
+}
+.kb-form-header,
+.kb-form-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-inline-size: 0;
+}
+.kb-form-header {
+  gap: var(--kb-space-2);
+}
+.kb-form-body {
+  gap: var(--kb-form-gap);
+}
+.kb-form-actions {
+  container: kb-form-actions / inline-size;
+}
+/* Full-width actions keep phone targets wide; literal because queries cannot read tokens. */
+@container kb-form-actions (width < 30rem) {
+  .kb-form-actions > * {
+    flex: 1 1 100%;
+  }
+}

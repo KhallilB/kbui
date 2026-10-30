@@ -1,0 +1,86 @@
+/* Anatomy: .kb-formsection [data-layout=stack|split] [data-disabled] [data-invalid] > .kb-formsection-header > .kb-formsection-title, .kb-formsection-description; .kb-formsection-body > .kb-formsection-fields, .kb-formsection-error, .kb-formsection-actions */
+.kb-formsection {
+  --_formsection-column-gap: var(--kb-layout-gap-lg);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--kb-formsection-gap) var(--_formsection-column-gap);
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: var(--kb-color-fg);
+}
+.kb-formsection-header,
+.kb-formsection-body {
+  --_formsection-share: calc(2 / 3);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  box-sizing: border-box;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  flex: 1 1 100%;
+}
+.kb-formsection-header {
+  --_formsection-share: calc(1 / 3);
+  gap: var(--kb-formsection-header-gap);
+}
+.kb-formsection-body {
+  gap: var(--kb-formsection-fields-gap);
+}
+/* Settings sections split unless the caller picks a layout. */
+.kb-formsection[data-layout="split"] > :is(.kb-formsection-header, .kb-formsection-body),
+.kb-settings
+  .kb-formsection:not([data-layout])
+  > :is(.kb-formsection-header, .kb-formsection-body) {
+  /* Large multiplier stacks below the threshold at fractional-pixel widths. */
+  flex-basis: min(
+    100%,
+    max(
+      calc((var(--kb-formsection-collapse) - 100%) * 99999),
+      calc((100% - var(--_formsection-column-gap)) * var(--_formsection-share))
+    )
+  );
+}
+.kb-formsection-description,
+.kb-formsection-error {
+  margin: 0;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+  font-size: var(--kb-text-small-size);
+  line-height: var(--kb-text-leading-body);
+}
+.kb-formsection-description {
+  color: var(--kb-color-muted);
+}
+.kb-formsection-fields {
+  display: grid;
+  gap: var(--kb-formsection-fields-gap);
+  min-inline-size: 0;
+}
+.kb-formsection-error {
+  color: var(--kb-color-danger);
+}
+.kb-formsection-actions {
+  container: kb-formsection-actions / inline-size;
+}
+/* Full-width actions keep phone targets wide; literal because queries cannot read tokens. */
+@container kb-formsection-actions (width < 30rem) {
+  .kb-formsection-actions > * {
+    flex: 1 1 100%;
+  }
+}
+.kb-formsection:is(:disabled, [data-disabled]) > .kb-formsection-header {
+  opacity: 0.5;
+}
+@media (forced-colors: active) {
+  .kb-formsection,
+  .kb-formsection-description,
+  .kb-formsection-error {
+    color: CanvasText;
+  }
+  .kb-formsection:is(:disabled, [data-disabled]) > .kb-formsection-header {
+    color: GrayText;
+    opacity: 1;
+  }
+}

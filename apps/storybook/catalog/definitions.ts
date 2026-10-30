@@ -122,6 +122,22 @@ export const definitions: Record<string, Definition> = {
       ContentMeasures: "Content Measures",
     },
   },
+  Form: {
+    group: "Layout",
+    description: "One task with grouped fields, then its one submit action.",
+    examples: {
+      HotelBooking: "Hotel Booking",
+      SignUp: "Sign Up",
+    },
+  },
+  Settings: {
+    group: "Layout",
+    description: "Sections of fields and managed lists, each saved on its own.",
+    examples: {
+      Notifications: "Notifications",
+      TeamMembers: "Team Members",
+    },
+  },
   Separator: {
     group: "Layout",
     description: "Semantic or decorative horizontal and vertical rules.",
@@ -408,6 +424,16 @@ export const definitions: Record<string, Definition> = {
       Default: "Default",
       WithDivider: "With Divider",
       SplitAlignment: "Split Alignment",
+    },
+  },
+  FormSection: {
+    group: "Forms",
+    description: "A headed group of related fields with its error and actions.",
+    examples: {
+      Default: "Default",
+      SplitLayout: "Split Layout",
+      SectionError: "Section Error",
+      PendingSave: "Pending Save",
     },
   },
   ErrorSummary: {

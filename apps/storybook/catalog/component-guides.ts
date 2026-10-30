@@ -166,6 +166,32 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.Split,
   },
+  Form: {
+    use: "Lay out one task, such as checkout, booking or sign-up, as a header, grouped fields and one submit action.",
+    example: {
+      title: "Book a room in one pass",
+      description:
+        "Compare a sectioned booking with a short sign-up; actions fill the row on narrow screens.",
+    },
+    tips: [
+      "Put the submit button first in actions; other actions use type='button' and a quieter variant.",
+      "Group related fields with FormSection; plain fields work for short forms.",
+    ],
+    accessibility: accessibilityGuides.Form,
+  },
+  Settings: {
+    use: "Lay out a settings page as headed sections of fields and managed lists, each with its own save.",
+    example: {
+      title: "Manage notifications and team members",
+      description:
+        "Section headings sit beside their fields on wide screens and above them on narrow ones.",
+    },
+    tips: [
+      "Wrap each independently saved FormSection in its own form; list sections need no form.",
+      "Put destructive row actions behind a confirmation dialog.",
+    ],
+    accessibility: accessibilityGuides.Settings,
+  },
   Separator: {
     use: "Divide related content with a horizontal or vertical static rule.",
     example: {
@@ -598,6 +624,19 @@ export const componentGuides: Record<string, ComponentGuide> = {
       "Use align='between' when a reset or secondary action sits opposite the primary submit button.",
     ],
     accessibility: accessibilityGuides.FormActions,
+  },
+  FormSection: {
+    use: "Group related fields under a section heading with optional description, section error and actions.",
+    example: {
+      title: "Save one section at a time",
+      description:
+        "Compare stacked and split layouts, a section-level error and a locked pending save.",
+    },
+    tips: [
+      "Set headingLevel to fit the page outline; the heading also names the group.",
+      "Pass disabled while saving to lock every field and action in the section.",
+    ],
+    accessibility: accessibilityGuides.FormSection,
   },
   ErrorSummary: {
     use: "Summarize validation problems at the top of a form after submission and link each message to its field.",

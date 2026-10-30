@@ -280,6 +280,36 @@ export const accessibilityGuides = {
     ],
     standards: ["1.3.1", "1.3.2", "1.4.10"],
   },
+  Form: {
+    provides: [
+      "A native form with header, body and actions regions in DOM order; regions add no roles.",
+      "Actions keep DOM order and fill the row below 30rem, so each button is a full-width target.",
+    ],
+    authoring: [
+      "Name the form with aria-label or aria-labelledby when it should be a landmark, and keep one submit action.",
+      "Own validation, ErrorSummary focus, pending state and success feedback in your app.",
+    ],
+    verify: [
+      "Complete the form by keyboard at 390px, then submit with Enter from a field; only the submit action runs.",
+      "Check every action and control is at least 24 by 24 CSS pixels and nothing scrolls sideways at 390, 768 and 1440px.",
+    ],
+    standards: ["1.3.1", "1.3.2", "1.4.10", "2.4.3", "2.5.8", "3.3.1"],
+  },
+  Settings: {
+    provides: [
+      "Header and sections regions in DOM order; sections stay in reading order when they collapse.",
+      "FormSection children split beside their headings from 40rem of section width and stack below it.",
+    ],
+    authoring: [
+      "Start with an h1 in the header and use h2 section headings so headings outline the page.",
+      "Confirm destructive row actions and announce saved or failed sections with a status message.",
+    ],
+    verify: [
+      "Browse by headings with a screen reader and confirm each section heading names its group.",
+      "At 390, 768 and 1440px check no sideways scroll, no overlapping controls and every target at least 24 by 24 CSS pixels.",
+    ],
+    standards: ["1.3.1", "1.3.2", "1.4.10", "2.4.6", "2.5.8", "4.1.3"],
+  },
   Separator: {
     provides: [
       "A semantic rule uses native hr semantics and exposes orientation when vertical.",
@@ -828,6 +858,21 @@ export const accessibilityGuides = {
       "Narrow the row and Tab through wrapped actions, then verify failed submission has a perceivable error and usable focus destination.",
     ],
     standards: ["1.3.2", "2.1.1", "2.4.3", "2.5.3", "3.2.2", "3.3.1"],
+  },
+  FormSection: {
+    provides: [
+      "A native fieldset named by its section heading, described by its description and error.",
+      "disabled locks every field and action in the section; data-invalid follows error or aria-invalid.",
+    ],
+    authoring: [
+      "Choose headingLevel to fit the page outline and keep field labels specific.",
+      "Pair a section error with field errors and announce save results outside the section.",
+    ],
+    verify: [
+      "With a screen reader, enter the group and confirm its name, description and any error are read.",
+      "Tab from the last field to the section actions, then trigger a pending save and confirm controls lock.",
+    ],
+    standards: ["1.3.1", "2.4.3", "2.4.6", "3.3.1", "4.1.2"],
   },
   ErrorSummary: {
     provides: [
