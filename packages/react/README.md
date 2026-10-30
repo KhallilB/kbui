@@ -62,7 +62,7 @@ Choose by task. Each page contains a complete usage example, canonical API detai
 | <a id="image"></a>[Image](docs/components/Image.md) | Stable image sizing, crops, containment and failure states. |
 | <a id="thumbnail"></a>[Thumbnail](docs/components/Thumbnail.md) | Captioned products, attachments and gallery previews. |
 
-See [Media and identity](../../docs/guides/media-and-identity.md) for responsive sources, retry and gallery recipes. These components are implemented locally and unreleased.
+See [Media and identity](../../docs/guides/media-and-identity.md) for responsive sources and retry, and [Gallery](docs/components/Gallery.md) for catalog pages. These components are implemented locally and unreleased.
 ### Collections
 
 | Component | Use for |
@@ -131,6 +131,7 @@ See [Media and identity](../../docs/guides/media-and-identity.md) for responsive
 | <a id="card"></a>[Card](docs/components/Card.md) | Group related content, with room for links and actions. |
 | <a id="container"></a>[Container](docs/components/Container.md) | Shared page widths and responsive gutters. |
 | <a id="form"></a>[Form](docs/components/Form.md) | One task with grouped fields, then its one submit action. |
+| <a id="gallery"></a>[Gallery](docs/components/Gallery.md) | A page of image-led items, such as a product catalog, in one to four columns. |
 | <a id="grid"></a>[Grid](docs/components/Grid.md) | Arrange content in responsive columns or a single stack. |
 | <a id="inline"></a>[Inline](docs/components/Inline.md) | Wrapping rows with shared spacing and alignment. |
 | <a id="pageheader"></a>[PageHeader](docs/components/PageHeader.md) | Open a screen with its title, context, state badges and page-level actions. |
