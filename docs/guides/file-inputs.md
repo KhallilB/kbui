@@ -39,9 +39,9 @@ This example rejects duplicate filenames, so it also uses filenames as item IDs.
 
 Pass the selected list through `items`, and update it when `onRemove(id)` is called. Each item needs a unique, stable `id`, a visible `name`, and an optional `description: ReactNode`. `onFiles(File[])` gives your app the original `File` objects without reading or filtering them. The `accept` prop helps the picker suggest file types; it does not validate them. Check every file in your app, then decide which items and errors to show.
 
-After a selection, `FileInput` clears the native input so the same file can be chosen again. Canceling the picker or choosing no files leaves the list unchanged and does not call `onFiles`. The labelled picker button opens the hidden native input.
+After a selection, `FileInput` clears the native `input` so the same file can be chosen again. Canceling the picker or choosing no files leaves the list unchanged and does not call `onFiles`. The labelled picker button opens the hidden native `input`.
 
-Because the native input is cleared, a normal form submission does not include the selected list. Keep the `File` objects in your app’s state and build `FormData` when uploading. `FileInput` does not provide `name`, `form`, or `required` props for file submission.
+Because the native `input` is cleared, a normal form submission does not include the selected list. Keep the `File` objects in your app’s state and build `FormData` when uploading. `FileInput` does not provide `name`, `form`, or `required` props for file submission.
 
 When someone removes a file with the keyboard, focus moves after your app removes that item from `items`: to the next file, the previous file if there is no next file, or the picker if the list is empty. If your app keeps the item, focus stays where it is. A delayed update does not pull focus back after someone has moved elsewhere. Unrelated list updates do not move focus.
 

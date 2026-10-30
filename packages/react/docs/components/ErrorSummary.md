@@ -1,6 +1,6 @@
 # ErrorSummary
 
-Place ErrorSummary at the top of a form when submission fails so people can see what went wrong and jump directly to each invalid field. When `items` is empty, nothing is rendered.
+Place `ErrorSummary` at the top of a form when submission fails so people can see what went wrong and jump directly to each invalid field. When `items` is empty, nothing is rendered.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/components-errorsummary--docs)
 
@@ -39,8 +39,8 @@ This example shows a failed-submission state. The Form recovery story below demo
 | `onItemSelect` | `(href: string, event: MouseEvent<HTMLAnchorElement>) => void`       | unset                  | Called when a recovery link is clicked                           |
 | `classNames`   | `ClassNames<"title" \| "description" \| "list" \| "item" \| "link">` | unset                  | Classes for inner parts                                          |
 
-ErrorSummary renders an alert region with `tabIndex={-1}` so your submit handler can focus it when validation fails. Clicking an `#id` link focuses the matching control or the first enabled control inside a referenced group. Pair ErrorSummary with inline `error` props on each invalid field.
+`ErrorSummary` renders an alert region with `tabIndex={-1}` so your submit handler can focus it when validation fails. Clicking an `#id` link focuses the matching control or the first enabled control inside a referenced group. Pair `ErrorSummary` with inline `error` props on each invalid field.
 
 ## Related components
 
-Keep inline errors on [Input](Input.md), [Textarea](Textarea.md), and other fields. Use [FormActions](FormActions.md) for the submit controls.
+Keep inline errors on [`Input`](Input.md), [`Textarea`](Textarea.md), and other fields. Use [`FormActions`](FormActions.md) for the submit controls.

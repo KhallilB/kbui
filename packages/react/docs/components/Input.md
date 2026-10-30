@@ -33,7 +33,7 @@ export function Example() {
 | `size`                        | `"sm" \| "md" \| "lg"` | `"md"`   | Field height. Replaces the native `size` attribute            |
 | `className`                   | `string`               |          | Applied to the wrapper, not the input element                 |
 
-Other native input props, including `value` and `defaultValue`, pass through to the input. Base UI's `onValueChange` is also supported.
+Other native `input` props, including `value` and `defaultValue`, pass through to the input. Base UI's `onValueChange` is also supported.
 
 ## Search composition
 

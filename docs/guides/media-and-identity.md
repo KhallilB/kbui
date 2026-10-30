@@ -1,8 +1,8 @@
 # Media and identity
 
-Use Avatar for recognizable people and organizations, Image for stable media framing, and Thumbnail for captioned product and attachment previews. Compose pages of media with [Gallery](../../packages/react/docs/components/Gallery.md) and focused inspection with Dialog. These components are implemented locally and unreleased.
+Use `Avatar` for recognizable people and organizations, `Image` for stable media framing, and `Thumbnail` for captioned product and attachment previews. Compose pages of media with [`Gallery`](../../packages/react/docs/components/Gallery.md) and focused inspection with `Dialog`. These components are implemented locally and unreleased.
 
-[Avatar API](../../packages/react/docs/components/Avatar.md) · [Image API](../../packages/react/docs/components/Image.md) · [Thumbnail API](../../packages/react/docs/components/Thumbnail.md)
+[`Avatar` API](../../packages/react/docs/components/Avatar.md) · [`Image` API](../../packages/react/docs/components/Image.md) · [`Thumbnail` API](../../packages/react/docs/components/Thumbnail.md)
 
 ## Choose framing before fetching
 
@@ -31,11 +31,11 @@ export function ResponsiveProduct() {
 }
 ```
 
-Choose `sizes` for the actual rendered column. Use lazy loading for offscreen media; leave leading content eager when appropriate. Image forwards native source, decoding, priority, CORS and referrer options; your application owns its image host, authorization and URL policy. Framework image optimizers remain application concerns; CSS anatomy can frame an app-owned renderer.
+Choose `sizes` for the actual rendered column. Use lazy loading for offscreen media; leave leading content eager when appropriate. `Image` forwards native source, decoding, priority, CORS and referrer options; your application owns its image host, authorization and URL policy. Framework image optimizers remain application concerns; CSS anatomy can frame an app-owned renderer.
 
 ## Preserve identity through failure
 
-Image exposes `empty`, `loading`, `loaded` and `error` states. Missing/blank sources create no request. Loading and failure retain the same reserved frame and visual fallback. The outer image role retains `alt` in every state; the inner img is decorative to avoid duplicate speech.
+`Image` exposes `empty`, `loading`, `loaded` and `error` states. Missing/blank sources create no request. Loading and failure retain the same reserved frame and visual fallback. The outer image role retains `alt` in every state; the inner img is decorative to avoid duplicate speech.
 
 A new `src`, `srcSet` or `sizes` starts fresh request state. Use a changed key for a deliberate same-URL retry. The component adds no automatic retries or timeout. Observe `onError` to provide caller-owned, localized feedback outside the image. Fallback content is visual-only and must contain no links, buttons or other focusable elements.
 
@@ -66,11 +66,11 @@ export function RetryPreview() {
 }
 ```
 
-Avatar reuses this request lifecycle with fixed dimensions. The default initials derive from first and last whitespace-separated names; supply `initials` for preferred/local forms. Keep the full `name` as identity. Set `decorative` beside an equivalent visible name. Localize unnamed identity with `aria-label`.
+`Avatar` reuses this request lifecycle with fixed dimensions. The default initials derive from first and last whitespace-separated names; supply `initials` for preferred/local forms. Keep the full `name` as identity. Set `decorative` beside an equivalent visible name. Localize unnamed identity with `aria-label`.
 
 ## Build a gallery in reading order
 
-[Gallery](../../packages/react/docs/components/Gallery.md) renders the list, its columns and an optional header and filters; keep each preview inside a `Gallery.Item`. Put its action in the caption so filenames and titles remain readable when the media fails. A real link owns navigation and download behavior. A Dialog trigger owns inspection. Avoid wrapping a whole figure in a button or nesting multiple controls.
+[`Gallery`](../../packages/react/docs/components/Gallery.md) renders the list, its columns and an optional header and filters; keep each preview inside a `Gallery.Item`. Put its action in the caption so filenames and titles remain readable when the media fails. A real link owns navigation and download behavior. A `Dialog` trigger owns inspection. Avoid wrapping a whole figure in a button or nesting multiple controls.
 
 ```tsx
 import "@kb.ui/react/styles.css";
@@ -115,7 +115,7 @@ For attachments, use an empty alternative on a decorative format tile and put th
 
 ## Styling and plain HTML
 
-`--kb-avatar-*`, `--kb-image-*` and `--kb-thumbnail-*` tokens own dimensions, type, colors and spacing. Native themes rebind semantic aliases; `classNames` styles individual parts. Image `style.aspectRatio` allows a custom ratio. Keep contrast, source order and focus rings when restyling.
+`--kb-avatar-*`, `--kb-image-*` and `--kb-thumbnail-*` tokens own dimensions, type, colors and spacing. Native themes rebind semantic aliases; `classNames` styles individual parts. `Image` `style.aspectRatio` allows a custom ratio. Keep contrast, source order and focus rings when restyling.
 
 ```html
 <figure class="kb-thumbnail" aria-labelledby="attachment-title">
@@ -129,7 +129,7 @@ For attachments, use an empty alternative on a decorative format tile and put th
 </figure>
 ```
 
-For a standalone meaningful Image, give the frame `role="img"` and `aria-label`. The native inner `img.kb-image-image` uses `alt=""` and `aria-hidden="true"`. Your renderer owns load/error state updates. Avatar and Thumbnail use Image CSS as well as their own stylesheet; importing the complete package stylesheet supplies all three.
+For a standalone meaningful `Image`, give the frame `role="img"` and `aria-label`. The native inner `img.kb-image-image` uses `alt=""` and `aria-hidden="true"`. Your renderer owns load/error state updates. `Avatar` and `Thumbnail` use `Image` CSS as well as their own stylesheet; importing the complete package stylesheet supplies all three.
 
 ## Verify real content
 
@@ -139,7 +139,7 @@ Read standalone identity and meaningful images once with a screen reader; decora
 
 ## Editorial image collection
 
-The [Image asset library](https://kbui.kcb.pro/storybook/?path=/story/components-image--asset-library) offers ten original warm editorial illustrations: six fictional portrait identities, two objects and two scenes. Each preview includes its own download link. The [Avatar portrait collection](https://kbui.kcb.pro/storybook/?path=/story/components-avatar--portraits) shows the portraits at identity sizes; [Initials](https://kbui.kcb.pro/storybook/?path=/story/components-avatar--initials) covers 24 names, scripts and custom marks; [Shapes](https://kbui.kcb.pro/storybook/?path=/story/components-avatar--shapes) compares circle, square, rounded, hexagon and diamond framing.
+The [`Image` asset library](https://kbui.kcb.pro/storybook/?path=/story/components-image--asset-library) offers ten original warm editorial illustrations: six fictional portrait identities, two objects and two scenes. Each preview includes its own download link. The [`Avatar` portrait collection](https://kbui.kcb.pro/storybook/?path=/story/components-avatar--portraits) shows the portraits at identity sizes; [Initials](https://kbui.kcb.pro/storybook/?path=/story/components-avatar--initials) covers 24 names, scripts and custom marks; [Shapes](https://kbui.kcb.pro/storybook/?path=/story/components-avatar--shapes) compares circle, square, rounded, hexagon and diamond framing.
 
 Download selected JPEGs and serve them from your application. The npm component package does not include this optional site collection or an image-generation service. The examples use `./media/` relative to their document; adapt that URL to your application's asset base. The collection manifest lives beside its images as `media/catalog.json` in the built site and Storybook output.
 

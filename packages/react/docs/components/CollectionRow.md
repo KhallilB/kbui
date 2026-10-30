@@ -1,6 +1,6 @@
 # CollectionRow
 
-Make one record easy to scan inside CollectionList. Compose its primary name, supporting detail, optional selection, metadata and independent actions.
+Make one record easy to scan inside `CollectionList`. Compose its primary name, supporting detail, optional selection, metadata and independent actions.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/components-collectionrow--docs)
 
@@ -34,29 +34,29 @@ export function Example() {
 
 ## More examples
 
-- [Selection and actions](https://kbui.kcb.pro/storybook/?path=/story/components-collectionrow--selection-and-actions): Checkbox, primary navigation, independent Buttons, Menu focus return and disabled actions.
+- [Selection and actions](https://kbui.kcb.pro/storybook/?path=/story/components-collectionrow--selection-and-actions): `Checkbox`, primary navigation, independent Buttons, `Menu` focus return and disabled actions.
 - [Long content](https://kbui.kcb.pro/storybook/?path=/story/components-collectionrow--long-content): Wrapping identifiers, metadata and action text.
 
 ## Reference
 
 | Prop | Default | Behavior |
 |---|---|---|
-| `title` | required | Record name as a ReactNode; compose a Link or correctly ranked Heading when appropriate |
-| `description` | unset | Supporting ReactNode, including DescriptionList or zero values |
-| `leading` | unset | Avatar, decorative icon or a separately named selection control |
-| `metadata` | unset | Status, formatted number, timestamp or other concise ReactNode |
-| `actions` | unset | Named Buttons, links or Menu composition; controls keep their own semantics |
+| `title` | required | Record name as a `ReactNode`; compose a `Link` or correctly ranked `Heading` when appropriate |
+| `description` | unset | Supporting `ReactNode`, including `DescriptionList` or zero values |
+| `leading` | unset | `Avatar`, decorative icon or a separately named selection control |
+| `metadata` | unset | `Status`, formatted number, timestamp or other concise `ReactNode` |
+| `actions` | unset | Named Buttons, links or `Menu` composition; controls keep their own semantics |
 | `selected` | false | Visual state; a selection control owns accessible checked state |
 | `classNames` | unset | Extra classes for `layout`, `leading`, `content`, `title`, `description`, `aside`, `metadata` and `actions` |
 
-CollectionRow renders native `li`; place it inside CollectionList or another native list. Optional null, boolean and empty-string content omits its slot; numeric zero remains visible. Native list-item attributes, `className`, `style` and ref pass through. `CollectionRowProps` replaces the native title tooltip attribute with the required record title; use a Tooltip composition for contextual help. CollectionRow has no whole-row click handler, navigation destination or automatic focus stop. A link in title handles navigation; an action Button handles its own workflow. Independent actions do not toggle selection implicitly.
+`CollectionRow` renders native `li`; place it inside `CollectionList` or another native list. Optional null, boolean and empty-string content omits its slot; numeric zero remains visible. Native list-item attributes, `className`, `style` and ref pass through. `CollectionRowProps` replaces the native title tooltip attribute with the required record title; use a `Tooltip` composition for contextual help. `CollectionRow` has no whole-row click handler, navigation destination or automatic focus stop. A link in title handles navigation; an action `Button` handles its own workflow. Independent actions do not toggle selection implicitly.
 
-Keep a persistent, record-specific name on selection controls and actions. Hide decorative icons yourself, and supply meaningful alternative text for informative images. When content can be selected, keep `selected` consistent with Checkbox checked state; use stable IDs when filtering or sorting. Disable actual controls for unavailable operations rather than treating the whole row as disabled. A selected row is an ordinary list item, so CollectionRow does not emit grid/listbox `aria-selected` semantics.
+Keep a persistent, record-specific name on selection controls and actions. Hide decorative icons yourself, and supply meaningful alternative text for informative images. When content can be selected, keep `selected` consistent with `Checkbox` checked state; use stable IDs when filtering or sorting. Disable actual controls for unavailable operations rather than treating the whole row as disabled. A selected row is an ordinary list item, so `CollectionRow` does not emit grid/listbox `aria-selected` semantics.
 
-CollectionList aligns optional leading and aside columns across rows. The defaults reserve 3rem for leading content and 12rem for an aside; override `--kb-collectionrow-leading-width` and `--kb-collectionrow-aside-width` for your content. Set padding and gap with component tokens. Below 40rem of parent list width, metadata and actions stack beneath content in DOM order. Long labels and composed Status text wrap, including chips with decorative icons. Action Buttons retain size-based minimum heights while expanding for text. Dense list spacing does not shrink control targets. Standalone native lists do not provide CollectionList's shared responsive alignment; use the paired components for this behavior.
+`CollectionList` aligns optional leading and aside columns across rows. The defaults reserve 3rem for leading content and 12rem for an aside; override `--kb-collectionrow-leading-width` and `--kb-collectionrow-aside-width` for your content. Set padding and gap with component tokens. Below 40rem of parent list width, metadata and actions stack beneath content in DOM order. Long labels and composed `Status` text wrap, including chips with decorative icons. Action Buttons retain size-based minimum heights while expanding for text. Dense list spacing does not shrink control targets. Standalone native lists do not provide `CollectionList`'s shared responsive alignment; use the paired components for this behavior.
 
 Your app owns loading, error text, formatting, focus after a removed record, and selection scope. Avoid nesting interactive controls inside the title link or making the whole list item act as another button. Verify keyboard order, responsive wrapping and focus in your actual composition; automated stories do not establish screen-reader interoperability or complete-page accessibility.
 
 ## Related components
 
-Use [CollectionList](CollectionList.md) for a native record list, [DescriptionList](DescriptionList.md) for key/value details, [Table](Table.md) for comparison across columns, and [Menu](Menu.md) for overflow actions. See [Structured data](../../../../docs/guides/structured-data.md) for the shared decision guide.
+Use [`CollectionList`](CollectionList.md) for a native record list, [`DescriptionList`](DescriptionList.md) for key/value details, [`Table`](Table.md) for comparison across columns, and [`Menu`](Menu.md) for overflow actions. See [Structured data](../../../../docs/guides/structured-data.md) for the shared decision guide.

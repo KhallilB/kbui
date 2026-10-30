@@ -23,7 +23,7 @@ export function Example() {
 
 - [Document hierarchy](https://kbui.kcb.pro/storybook/?path=/story/components-heading--hierarchy): Compare semantic heading ranks.
 - [Visual hierarchy](https://kbui.kcb.pro/storybook/?path=/story/components-heading--sizes): Compare sizes separately from heading rank.
-- [A complete article](https://kbui.kcb.pro/storybook/?path=/story/components-heading--article): Combine Heading, Text, Link, and Code.
+- [A complete article](https://kbui.kcb.pro/storybook/?path=/story/components-heading--article): Combine `Heading`, `Text`, `Link`, and `Code`.
 
 ## Reference
 

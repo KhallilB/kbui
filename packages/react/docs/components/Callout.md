@@ -33,7 +33,7 @@ export function Example() {
 | `tone`       | `neutral` / `info` / `success` / `warning` / `danger` | `neutral` | Reinforces the message without replacing its wording            |
 | `icon`       | `ReactNode`                                           | unset     | Decorative icon; hidden from assistive technology               |
 | `actions`    | `ReactNode`                                           | unset     | Named buttons or links that help resolve the message            |
-| `live`       | `boolean`                                             | `false`   | Adds role=status for changing message text; does not move focus |
+| `live`       | `boolean`                                             | `false`   | Adds `role=status` for changing message text; does not move focus |
 | `classNames` | keyed classes                                         | unset     | Style icon, content, title, body, or actions                    |
 
 ## Related components

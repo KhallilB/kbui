@@ -1,6 +1,6 @@
 # Switch
 
-Use Switch for a preference that takes effect as soon as it changes. Pass `checked` and update it in `onCheckedChange`; your app handles saving and form reset. Switch uses a labelled native checkbox with `role="switch"`. Use `Checkbox` when people are selecting items instead.
+Use `Switch` for a preference that takes effect as soon as it changes. Pass `checked` and update it in `onCheckedChange`; your app handles saving and form reset. `Switch` uses a labelled native checkbox with `role="switch"`. Use `Checkbox` when people are selecting items instead.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/components-switch--docs)
 
@@ -44,9 +44,9 @@ export function Example() {
 | `disabled` / `readOnly`                | `boolean`                                                               | `false`              | Disabled blocks focus/changes; read-only keeps focus and form value while blocking edits                                             |
 | `visuallyHidden`                       | `boolean`                                                               | `false`              | Hide label visually, keep its accessible name                                                                                        |
 | `offIcon` / `onIcon`                   | `ReactNode`                                                             |                      | Decorative slots; do not place interactive content inside                                                                            |
-| `name` / `value` / `form` / `required` | native input props                                                      |                      | Native form ownership, successful value and validation                                                                               |
+| `name` / `value` / `form` / `required` | native `input` props                                                      |                      | Native form ownership, successful value and validation                                                                               |
 | `ref`                                  | `Ref<HTMLInputElement>`                                                 |                      | Native checkbox, never an extra hidden control                                                                                       |
-| `className` / `controlClassName`       | `string`                                                                |                      | Root/native input class                                                                                                              |
+| `className` / `controlClassName`       | `string`                                                                |                      | Root/native `input` class                                                                                                              |
 | `style`                                | `CSSProperties`                                                         |                      | Native input styles; CSS custom properties also reach visible track and thumb                                                        |
 
 ```tsx

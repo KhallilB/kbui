@@ -31,7 +31,7 @@ export function Example() {
 
 | Part             | Props and responsibility                                                                 |
 | ---------------- | ---------------------------------------------------------------------------------------- |
-| `Menu`           | Root; use open/defaultOpen and `onOpenChange` when your app controls visibility            |
+| `Menu`           | Root; use open/`defaultOpen` and `onOpenChange` when your app controls visibility            |
 | `Menu.Trigger`   | Named trigger; render a `Button` for shared styling                                        |
 | `Menu.Content`   | Popup; side defaults to bottom, align to start; container chooses the themed portal host |
 | `Menu.Item`      | Action text and click handler; disabled prevents selection                               |

@@ -54,7 +54,7 @@ The example retains each original `File` alongside its display metadata. Your ap
 | `onFiles`                                            | `(files: File[]) => void`            | required                | Check the selection and update retained files in your app            |
 | `onRemove`                                           | `(id: string) => void`               | required                | Request removal; update items to confirm it                          |
 | `accept`                                             | `string`                             | unset                   | Native picker hint, such as image/*; does not validate files         |
-| `multiple`                                           | `boolean`                            | `true`                  | Allow multiple selection; use a singular chooseLabel for single mode |
+| `multiple`                                           | `boolean`                            | `true`                  | Allow multiple selection; use a singular `chooseLabel` for single mode |
 | `disabled`, `readOnly`                               | `boolean`                            | `false`                 | Prevent edits while keeping the retained list visible                |
 | `description`, `error`                               | `string`                             | unset                   | Help or actionable rejection text associated with the field          |
 | `visuallyHidden`                                     | `boolean`                            | `false`                 | Hide the visual label while preserving its accessible name           |
@@ -64,7 +64,7 @@ The example retains each original `File` alongside its display metadata. Your ap
 | `removedMessage`                                     | `(item: FileInputItem) => string`    | filename + removed.     | Announcement after removal is confirmed                              |
 | `selectionMessage`                                   | `(count: number) => string`          | count + files selected. | Announcement after native selection                                  |
 | `renderItem`                                         | `(item: FileInputItem) => ReactNode` | name + description      | Custom item content; keep visible file identity                      |
-| `inputRef`, `triggerRef`                             | element refs                         | unset                   | Hidden native input and visible picker access                        |
+| `inputRef`, `triggerRef`                             | element refs                         | unset                   | Hidden native `input` and visible picker access                        |
 | `triggerClassName`, `listClassName`, `itemClassName` | `string`                             | unset                   | Classes for picker, retained list, and items                         |
 
 Native `<div>` props, `ref` and `className` apply to the root. Root `aria-describedby` IDs follow the help and error IDs. Item button refs stay internal so removal can restore focus. Customize items through the item/content classes and `renderItem`; avoid changing individual item buttons. The `×` is decorative, and each removal button is named with the full filename.

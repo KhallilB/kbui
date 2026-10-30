@@ -59,7 +59,7 @@ The build writes these values in one `@media (forced-colors: active)` block on `
 | `Dialog` sections | `--kb-dialog-header-padding`, `-body-padding`, `-footer-padding` (default `0px`) |
 | `Dialog` motion | `--kb-dialog-motion-duration`, `-motion-easing`, `-enter-scale`, `-enter-offset`, `-drawer-motion-duration`, `-drawer-motion-easing` |
 | `Card` | `--kb-card-background`, `-face`, `-color`, `-border`, `-border-width`, `-radius`, `-padding`, `-shadow` |
-| Code block | `--kb-code-block-background`, `-face`, `-border`, `-radius`, `-shadow`, `-font-size`, `-leading`, `-max-height`, `--kb-code-header-background`, `--kb-code-toggle-min-width`, `--kb-code-copy-min-width`, `--kb-code-motion-duration`, `-motion-easing`, `--kb-code-gutter-color`, `--kb-code-line-highlight-background`, `-border`, `--kb-code-syntax-*` |
+| `Code` block | `--kb-code-block-background`, `-face`, `-border`, `-radius`, `-shadow`, `-font-size`, `-leading`, `-max-height`, `--kb-code-header-background`, `--kb-code-toggle-min-width`, `--kb-code-copy-min-width`, `--kb-code-motion-duration`, `-motion-easing`, `--kb-code-gutter-color`, `--kb-code-line-highlight-background`, `-border`, `--kb-code-syntax-*` |
 | `Button` | `--kb-button-motion-duration`, `-motion-easing`, `-press-offset` |
 | `Popover` | `--kb-popover-width`, `-padding`, `-background`, `-color`, `-border`, `-radius`, `-shadow`, `-motion-duration`, `-motion-easing`, `-enter-scale`, `-enter-offset` |
 | `Disclosure` | `--kb-disclosure-padding`, `-radius`, `-background`, `-color`, `-border`, `-trigger-height`, `-motion-duration`, `-motion-easing` |

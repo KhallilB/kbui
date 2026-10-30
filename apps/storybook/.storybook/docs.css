@@ -227,7 +227,8 @@ body {
 .reference-description code,
 .reference-use code,
 .reference-section > p code,
-.reference-section > ul code {
+.reference-section > ul code,
+.reference-section > ol code {
   color: var(--kb-color-fg);
   background: var(--kb-color-surface);
   padding-inline: var(--kb-space-1);

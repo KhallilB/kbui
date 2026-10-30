@@ -49,7 +49,7 @@ The title renders as an `h1`. Actions sit at the end of the title row. Below 40r
 | `description`  | `ReactNode`     | unset    | One or two sentences of context below the title                                                                       |
 | `eyebrow`      | `ReactNode`     | unset    | Short section or object-type label above the title                                                                    |
 | `navigation`   | `ReactNode`     | unset    | Back link or breadcrumb `nav` above the heading                                                                       |
-| `meta`         | `ReactNode`     | unset    | Status badges or metadata beside the title; kept out of the heading's accessible name                                 |
+| `meta`         | `ReactNode`     | unset    | `Status` badges or metadata beside the title; kept out of the heading's accessible name                                 |
 | `actions`      | `ReactNode`     | unset    | Page-level buttons or links; end-aligned, wrapping below the heading when narrow                                      |
 | `headingLevel` | `1` / `2` / `3` | `1`      | Heading rank; lower it only when the header introduces a region below an existing `h1`                                |
 | `size`         | `sm` / `md` / `lg` | `md`  | Title scale: `sm` uses the `h2` size, `md` the `h1` size, `lg` the display size                                       |
@@ -59,8 +59,8 @@ The title renders as an `h1`. Actions sit at the end of the title row. Below 40r
 
 The root is a `div`, not `header`. A `header` outside `main` or a sectioning element becomes a banner landmark and would compete with the site header. Other native `div` props pass through to the root.
 
-Keep one primary action. Put secondary actions before it and move rarely used actions into a [Menu](Menu.md).
+Keep one primary action. Put secondary actions before it and move rarely used actions into a [`Menu`](Menu.md).
 
 ## Related components
 
-Use [Heading](Heading.md) for section titles inside the page, [EmptyState](EmptyState.md) when the page has no content yet, [Toolbar](Toolbar.md) for a dense group of controls that act on the content below, and [Container](Container.md) to set the page width the header shares with its content.
+Use [`Heading`](Heading.md) for section titles inside the page, [`EmptyState`](EmptyState.md) when the page has no content yet, [`Toolbar`](Toolbar.md) for a dense group of controls that act on the content below, and [`Container`](Container.md) to set the page width the header shares with its content.

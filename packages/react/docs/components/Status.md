@@ -39,7 +39,7 @@ export function Example() {
 | `tone`       | `neutral` / `info` / `running` / `success` / `warning` / `blocked` | `neutral` | Reinforces the written state                                            |
 | `appearance` | `plain` / `chip`                                                   | `plain`   | Plain stays inline; chip adds separation with a tinted surface          |
 | `icon`       | `ReactNode`                                                        | unset     | Optional decorative icon; the text still names the state                |
-| `live`       | `boolean`                                                          | `false`   | Adds role=status for changing text; does not move focus                 |
+| `live`       | `boolean`                                                          | `false`   | Adds `role=status` for changing text; does not move focus                 |
 | `compact`    | `boolean`                                                          | `false`   | Tighter spacing and smaller text for dense layouts                      |
 
 ## Related components

@@ -12,6 +12,7 @@ import {
 import { type PropsWithChildren, useEffect, useLayoutEffect, useState } from "react";
 import { GLOBALS_UPDATED } from "storybook/internal/core-events";
 import { AccessibilityReference } from "../catalog/AccessibilityReference";
+import { InlineCode } from "../catalog/InlineCode";
 import type { ComponentReference } from "../catalog/types";
 import { readThemePreference, type ThemePreference } from "../site/site-theme";
 import { referencePreference, resolveTheme, storybookThemes } from "./theme";
@@ -198,15 +199,6 @@ export function ReferencePage() {
       </section>
     </>
   );
-}
-
-function InlineCode({ text }: { text: string }) {
-  let offset = 0;
-  return text.split(/(`[^`]+`)/g).map((part) => {
-    const key = offset;
-    offset += part.length;
-    return part.startsWith("`") ? <code key={key}>{part.slice(1, -1)}</code> : part;
-  });
 }
 
 function ReferenceProps({ reference }: { reference: ComponentReference }) {

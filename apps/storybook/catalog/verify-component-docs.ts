@@ -42,7 +42,15 @@ try {
         await docs
           .locator(`#reference-accessibility [data-accessibility="${group}"] li`)
           .allTextContents(),
-        references[entry.name]?.guide.accessibility[group],
+        references[entry.name]?.guide.accessibility[group].map((text) => text.replaceAll("`", "")),
+      );
+      assert.deepEqual(
+        await docs
+          .locator(`#reference-accessibility [data-accessibility="${group}"] li code`)
+          .allTextContents(),
+        references[entry.name]?.guide.accessibility[group].flatMap((text) =>
+          [...text.matchAll(/`([^`]+)`/g)].map((match) => match[1]),
+        ),
       );
     }
     await docs.getByRole("heading", { name: "Standards and patterns", exact: true }).waitFor();

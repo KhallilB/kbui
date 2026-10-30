@@ -41,7 +41,7 @@ export function Example() {
 | `visuallyHidden`              | `boolean`                    | `false`  | Hide label visually                                     |
 | `controlClassName`            | `string`                     |          | Added to the native checkbox                            |
 | `ref`                         | `Ref<HTMLInputElement>`      |          | Native checkbox, including form and indeterminate state |
-| `name` / `value` / `required` | native input props           |          | Form serialization and validation                       |
+| `name` / `value` / `required` | native `input` props           |          | Form serialization and validation                       |
 | `className`                   | `string`                     |          | Root class                                              |
 
 ```tsx
