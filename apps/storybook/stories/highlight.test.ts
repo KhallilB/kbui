@@ -1,5 +1,10 @@
 import { expect, test } from "bun:test";
-import { highlightCode } from "../catalog/highlight";
+import {
+  getHighlightCacheSize,
+  hasHighlightCacheEntry,
+  highlightCode,
+  MAX_HIGHLIGHT_CACHE_ENTRIES,
+} from "../catalog/highlight";
 
 test("CSS highlights selectors, properties and values using CSS grammar", () => {
   const code = ".save { color: var(--kb-color-accent); padding: 12px; }";
@@ -33,4 +38,24 @@ test("shell highlights command flags and comments", () => {
   expect(parts).toContainEqual(["--save", "attribute"]);
   expect(parts).toContainEqual(["# install", "comment"]);
   expect(parts).toContainEqual(['"@kb.ui/react"', "string"]);
+});
+
+test("highlight cache caps retained entries with LRU eviction and returns isolated token copies", () => {
+  const firstDraft = "const retainedDraft = 0;";
+  const evictedDraft = "const evictedDraft = 1;";
+  const initialTokens = highlightCode(firstDraft, "tsx");
+  initialTokens[0]?.push("mutated" as never);
+  expect(highlightCode(firstDraft, "tsx")[0]?.length).toBe(3);
+
+  highlightCode(evictedDraft, "tsx");
+  for (let index = 0; index < MAX_HIGHLIGHT_CACHE_ENTRIES - 2; index++) {
+    highlightCode(`const draft_${index} = ${index};`, "tsx");
+  }
+  // Touch firstDraft so evictedDraft becomes the least-recently-used entry.
+  highlightCode(firstDraft, "tsx");
+  highlightCode("const overflowDraft = 9999;", "tsx");
+
+  expect(getHighlightCacheSize()).toBeLessThanOrEqual(MAX_HIGHLIGHT_CACHE_ENTRIES);
+  expect(hasHighlightCacheEntry(firstDraft, "tsx")).toBe(true);
+  expect(hasHighlightCacheEntry(evictedDraft, "tsx")).toBe(false);
 });

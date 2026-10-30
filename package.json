@@ -27,6 +27,7 @@
     "docs:up": "docker compose -f docker/compose.yml up -d --build docs",
     "docs:down": "docker compose -f docker/compose.yml stop docs",
     "new": "bun scripts/new-component.ts",
+    "check:tokens": "bun scripts/token-api.ts",
     "test:consumer": "bun scripts/check-consumer.ts",
     "test:overlays": "bun run --filter @kb.ui/storybook test:overlays"
   },
