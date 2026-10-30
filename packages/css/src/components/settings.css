@@ -1,0 +1,27 @@
+/* Anatomy: .kb-settings > .kb-settings-header, .kb-settings-sections */
+.kb-settings {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--kb-settings-gap);
+  min-inline-size: 0;
+}
+.kb-settings-header {
+  display: grid;
+  gap: var(--kb-space-2);
+  min-inline-size: 0;
+}
+.kb-settings-sections {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--kb-settings-gap);
+  min-inline-size: 0;
+}
+.kb-settings-sections > * + * {
+  padding-block-start: var(--kb-settings-gap);
+  border-block-start: 1px solid var(--kb-settings-divider);
+}
+@media (forced-colors: active) {
+  .kb-settings-sections > * + * {
+    border-block-start-color: CanvasText;
+  }
+}
