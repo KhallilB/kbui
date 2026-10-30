@@ -1,5 +1,74 @@
 # Changelog
 
+## [0.11.0](https://github.com/KhallilB/kbui/compare/v0.10.4...v0.11.0) (2026-10-30)
+
+
+### Features
+
+* add collection workflow components and contracts ([0fb0850](https://github.com/KhallilB/kbui/commit/0fb0850ed35307a7d48b7687724616268897e440))
+* add collection workflow components and contracts ([d8237a7](https://github.com/KhallilB/kbui/commit/d8237a7f89f20aefa9ac48bbb988e1c5e4fb5140))
+* add editorial media catalog and avatar silhouettes ([065e743](https://github.com/KhallilB/kbui/commit/065e743549fc87784cfc5745412ee21150faa5f4))
+* add media and identity components ([7abcca0](https://github.com/KhallilB/kbui/commit/7abcca08dd32a981ba122a654ad53557b3b487a4))
+* add media and identity components with editorial catalog ([e9f53f9](https://github.com/KhallilB/kbui/commit/e9f53f92d314f2aafe160acc5d1d3f3ce6af56ce))
+* **css:** use full tone ink on callout titles and opaque surface mix ([96e6e37](https://github.com/KhallilB/kbui/commit/96e6e3744304c7e065124517a3cbb10818c401ad))
+* **feedback:** add EmptyState, Spinner, Skeleton, and loading recipes ([c5ff9c6](https://github.com/KhallilB/kbui/commit/c5ff9c69dfcfb94cb0afa52e486aabc8b0b84ea7))
+* **loading:** add expressive Spinner variants and Skeleton animation modes ([c501a78](https://github.com/KhallilB/kbui/commit/c501a780f11e8804b1f8fd3a64b3538868733ee7))
+* **react:** add accessible Tabs component ([20ab9be](https://github.com/KhallilB/kbui/commit/20ab9be907bc4461f37a25233a41c004d289f9ea))
+* **react:** add accessible Tabs component ([03ec539](https://github.com/KhallilB/kbui/commit/03ec539f6a04757cb98f9f0abc6de55292143beb))
+* **react:** add collapsible height transition and stable Code action widths ([fba810b](https://github.com/KhallilB/kbui/commit/fba810b323984b9d8e2cfdf1a53d582df4f88806))
+* **react:** add composable Toast manager ([6d98f70](https://github.com/KhallilB/kbui/commit/6d98f70aa762d06c263237251cb1051f26b0dcc5))
+* **react:** add composable Toast manager ([3811650](https://github.com/KhallilB/kbui/commit/38116501b60f43869a0942fea9637813e6787be9))
+* **react:** add copyable content patterns and automatic highlighting ([88e58a2](https://github.com/KhallilB/kbui/commit/88e58a24d52e53222aaa8b28ef84eab3a11fadbd))
+* **react:** add CopyableText and CodeBlock ([7db99ee](https://github.com/KhallilB/kbui/commit/7db99ee8d7ef918be50a686290b6f7bddee43b1e))
+* **react:** add disclosure and overlay components ([8528933](https://github.com/KhallilB/kbui/commit/8528933cc6d95bed389ef491e6f6bc30bf4354ed))
+* **react:** add disclosure and overlay components ([b4eaf61](https://github.com/KhallilB/kbui/commit/b4eaf618b80426da0eb57b84718e942a388be976))
+* **react:** add EmptyState, Spinner, Skeleton and Toast with async feedback recipes ([116e1c7](https://github.com/KhallilB/kbui/commit/116e1c705dc9ea86b4d3b21ccb57101c253cf306))
+* **react:** add Grid layout options and reset list chrome ([b2e5d3a](https://github.com/KhallilB/kbui/commit/b2e5d3a1fe789c37f00ab87d6eb5b3d68469a372))
+* **react:** add Grid layout options and reset list chrome ([09e82eb](https://github.com/KhallilB/kbui/commit/09e82ebdc11b66f60d3a31e0ff712f87c48c5fa2))
+* **react:** add Link.Provider router seam ([2a12ecf](https://github.com/KhallilB/kbui/commit/2a12ecfbaf1ba00a4ac67fad6dcc1be6f04bc447))
+* **react:** add Link.Provider router seam for Link and Button href ([43db186](https://github.com/KhallilB/kbui/commit/43db186acc1941b4308aba4cdeb48a709cb86179))
+* **react:** add minLines and collapsedLines to Code ([86c89b2](https://github.com/KhallilB/kbui/commit/86c89b25805906aa2c57c76924438fb9e84f3725))
+* **react:** add multiple selection to Combobox ([2886901](https://github.com/KhallilB/kbui/commit/28869012a5cf9e7b412f38a09bf7393baa222138))
+* **react:** add multiple selection to Combobox ([8f8baad](https://github.com/KhallilB/kbui/commit/8f8baadb6f343a6785867fe5cd78616c07992a8a))
+* **react:** add native structured-data components ([af36359](https://github.com/KhallilB/kbui/commit/af3635957d95211fe5d281631d8f45969fd0bbea))
+* **react:** add native structured-data components ([e9a05bd](https://github.com/KhallilB/kbui/commit/e9a05bdc118f53964f93774bf0039dbeca9e1fff))
+* **react:** add syntax-highlighted multiline Code blocks ([068b608](https://github.com/KhallilB/kbui/commit/068b6086e83e7b4a60457cf16aca8b79eac88f6f))
+* **react:** add syntax-highlighted multiline Code blocks ([dd389d5](https://github.com/KhallilB/kbui/commit/dd389d58d93906e042cafe953bb19e7465228c39))
+* **storybook:** add studio focus overlay and elevate theme comparison cards ([12436c0](https://github.com/KhallilB/kbui/commit/12436c0ec6e1203d96bc66f882416e1f9bedc58a))
+* **storybook:** add studio focus overlay and elevate theme comparison cards ([ca2178d](https://github.com/KhallilB/kbui/commit/ca2178d0d66e37060a1d8655e4fa83884514f2a7))
+
+
+### Bug Fixes
+
+* **css:** distinguish selected multi-select options ([6979ab9](https://github.com/KhallilB/kbui/commit/6979ab93aad354f6af69826c5d45adb3c1cdf51f))
+* **css:** respect reduced motion in built popover styles ([2566125](https://github.com/KhallilB/kbui/commit/2566125a8c92cd2e0154e49affd1821174568a42))
+* **css:** strengthen Callout tone borders, fills, and titles ([529e5a9](https://github.com/KhallilB/kbui/commit/529e5a98c048d5d12a92019078de036bbf312b6e))
+* **css:** strengthen Callout tone borders, fills, and titles ([e78a615](https://github.com/KhallilB/kbui/commit/e78a61575a1eea4ba792a9dfefd6b7a5f58ee5bd))
+* **css:** strengthen multi-select checkbox contrast ([a59f597](https://github.com/KhallilB/kbui/commit/a59f597c2b7bdcfc4382ee09786b1d2e15df7506))
+* preserve avatar shape through image stylesheet cascade ([b06e454](https://github.com/KhallilB/kbui/commit/b06e454c3f859d79fb525306716e7cd00efdabfd))
+* **react:** keep filtered multi-select choices open ([81b3ab2](https://github.com/KhallilB/kbui/commit/81b3ab2c8c69e3bc833171161a329d39371bcf79))
+* **react:** preserve ComboboxProps extension compatibility ([847b03d](https://github.com/KhallilB/kbui/commit/847b03d76945ab0d1fa41d1c3e869a5e2a85ad0a))
+* **react:** preserve unknown fenced code and integrate current components ([a8150b5](https://github.com/KhallilB/kbui/commit/a8150b52c91e0cb72247093a8494321593dc2c81))
+* **react:** preserve wrapping for static table headings ([eee8340](https://github.com/KhallilB/kbui/commit/eee8340f4e639edd2622a1e227785f662464dcf9))
+* **react:** prevent focus entering closing disclosure panels ([3c59755](https://github.com/KhallilB/kbui/commit/3c5975514762f6540ca568351b312ad30616c23e))
+* **react:** refine table heading usability and preserve fixed layouts ([4c58747](https://github.com/KhallilB/kbui/commit/4c58747c6b59f0add33e740f7d86e7b2d958cf1b))
+* **storybook:** give root Firefox launches an owned home ([dba398b](https://github.com/KhallilB/kbui/commit/dba398bf647cad184f1e1deb70fafbe0ecc93a17))
+* **storybook:** load accessibility guides in native Node ([d9d5656](https://github.com/KhallilB/kbui/commit/d9d5656e2c5f03d91c7d3faf5f115ff73c12abfb))
+
+
+### Documentation
+
+* **a11y:** make component accessibility guidance actionable ([2167f29](https://github.com/KhallilB/kbui/commit/2167f2909a76571b42ccd3286b0550973b7094f7))
+* align overlay command coverage with component stories ([eec8b93](https://github.com/KhallilB/kbui/commit/eec8b93da3c5ee43027ed239e694cbcef0017694))
+* define bounded component-family review limits ([e868a93](https://github.com/KhallilB/kbui/commit/e868a93490608f08f0fa0a1539b7bb0664979d3a))
+* define bounded component-family review limits ([728974d](https://github.com/KhallilB/kbui/commit/728974d73998177cf7644a755b895421ecac1a16))
+* guide component and screen pattern contributions ([1a2c8ea](https://github.com/KhallilB/kbui/commit/1a2c8ead9ebc7dc31fb3f7a9c2a2a22ff225db7f))
+* guide component and screen pattern contributions ([5f5f46e](https://github.com/KhallilB/kbui/commit/5f5f46e4d35a8728ecd8ad6869bbededce99788a))
+* **react:** organize component references and accessibility guidance ([9dff98e](https://github.com/KhallilB/kbui/commit/9dff98e7ff28326fb10ada636f7c45742f44d6e6))
+* **react:** split component references into focused guides ([82cde43](https://github.com/KhallilB/kbui/commit/82cde43625aed2ab11139b0ec38f8385b9bdfcb1))
+* restore the feature map table header ([1d13ec1](https://github.com/KhallilB/kbui/commit/1d13ec1f4ae998947dcd5e0e607869cda7959c20))
+* scope overlay verification claims to component stories ([b525ceb](https://github.com/KhallilB/kbui/commit/b525cebc2160893833661007674544c4ee210a82))
+
 ## [0.10.4](https://github.com/KhallilB/kbui/compare/v0.10.3...v0.10.4) (2026-10-29)
 
 

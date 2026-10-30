@@ -1,6 +1,6 @@
 {
   "name": "kbui",
-  "version": "0.10.4",
+  "version": "0.11.0",
   "private": true,
   "license": "MIT",
   "packageManager": "bun@1.3.11",
