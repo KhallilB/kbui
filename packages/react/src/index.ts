@@ -82,6 +82,11 @@ export {
   type CopyableTextTone,
 } from "./components/CopyableText/CopyableText";
 export {
+  Dashboard,
+  type DashboardPart,
+  type DashboardProps,
+} from "./components/Dashboard/Dashboard";
+export {
   DescriptionList,
   type DescriptionListDetailProps,
   type DescriptionListItemProps,
@@ -143,6 +148,12 @@ export {
   type FormSectionPart,
   type FormSectionProps,
 } from "./components/FormSection/FormSection";
+export {
+  Gallery,
+  type GalleryItemProps,
+  type GalleryPart,
+  type GalleryProps,
+} from "./components/Gallery/Gallery";
 export {
   Grid,
   type GridColumns,
@@ -260,6 +271,13 @@ export {
   type SplitProps,
   type SplitRatio,
 } from "./components/Split/Split";
+export {
+  Stack,
+  type StackAlign,
+  type StackElement,
+  type StackJustify,
+  type StackProps,
+} from "./components/Stack/Stack";
 export { Stat, type StatProps, type StatSize } from "./components/Stat/Stat";
 export {
   StatsRow,
@@ -275,6 +293,11 @@ export {
   type StatusProps,
   type StatusTone,
 } from "./components/Status/Status";
+export {
+  SupportingPane,
+  type SupportingPanePart,
+  type SupportingPaneProps,
+} from "./components/SupportingPane/SupportingPane";
 export {
   Switch,
   type SwitchProps,

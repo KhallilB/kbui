@@ -13,6 +13,7 @@ import {
   Combobox,
   ConfirmAction,
   CopyableText,
+  Dashboard,
   Dialog,
   EmptyState,
   ErrorSummary,
@@ -20,6 +21,7 @@ import {
   FileInput,
   Form,
   FormSection,
+  Gallery,
   Image,
   Input,
   MultiSelect,
@@ -37,6 +39,7 @@ import {
   Stat,
   StatsRow,
   Status,
+  SupportingPane,
   Switch,
   Table,
   Tabs,
@@ -53,6 +56,22 @@ const every = new Proxy({} as Record<string, string>, {
 const camel = (part: string) => part.replace(/-(\w)/g, (_, c: string) => c.toUpperCase());
 
 const cases: [string, () => ReactElement][] = [
+  [
+    "gallery",
+    () => (
+      <Gallery header="H" filters="F" classNames={every}>
+        <Gallery.Item className="slot-item">Item</Gallery.Item>
+      </Gallery>
+    ),
+  ],
+  [
+    "supportingpane",
+    () => (
+      <SupportingPane aside="A" asideLabel="A" classNames={every}>
+        Main
+      </SupportingPane>
+    ),
+  ],
   [
     "tabs",
     () => (
@@ -84,6 +103,10 @@ const cases: [string, () => ReactElement][] = [
         classNames={every}
       />
     ),
+  ],
+  [
+    "dashboard",
+    () => <Dashboard header="H" metrics="M" primary="P" secondary="S" classNames={every} />,
   ],
   [
     "copyabletext",

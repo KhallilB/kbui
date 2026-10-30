@@ -1,43 +1,61 @@
 .request-flow {
   --kb-grid-gap: var(--kb-space-4);
   --kb-panel-padding: var(--kb-space-6);
-  --kb-pageheader-gap: var(--kb-space-3);
-  --kb-pageheader-heading-gap: var(--kb-space-3);
+  --kb-pageheader-heading-gap: var(--kb-space-2);
   display: grid;
   gap: var(--kb-space-6);
   container-type: inline-size;
   overflow-wrap: anywhere;
 }
 
+.request-flow-notice {
+  max-inline-size: 30ch;
+}
+
 .request-flow-layout {
   display: grid;
-  grid-template-columns: minmax(16rem, 21rem) minmax(0, 1fr);
+  grid-template-columns: minmax(15rem, 18rem) minmax(0, 1fr);
   gap: var(--kb-space-6);
   align-items: start;
 }
 
+.request-flow-list {
+  --kb-panel-padding: var(--kb-space-4);
+}
+
 .request-flow .kb-panel-header {
-  padding-block-end: var(--kb-space-2);
+  padding-block-end: var(--kb-space-3);
 }
 
 .request-flow .kb-panel-header + .kb-panel-body {
-  padding-block-start: var(--kb-space-2);
+  padding-block-start: var(--kb-space-3);
 }
 
 .request-flow-detail-heading {
   inline-size: 100%;
-  gap: var(--kb-space-3);
+  gap: var(--kb-space-4);
   container-type: inline-size;
+  font-weight: var(--kb-font-weight-regular);
+}
+
+.request-flow-navigation {
+  gap: var(--kb-space-1);
 }
 
 .request-flow-title {
-  flex: 1 1 12rem;
+  flex: 1 1 16rem;
   min-inline-size: 0;
+  font-size: var(--kb-heading-size-xl);
+  text-wrap: pretty;
 }
 
 .request-flow-copy {
   display: grid;
   gap: var(--kb-space-3);
+}
+
+.request-flow-summary {
+  max-inline-size: 54ch;
 }
 
 .request-flow-section,
@@ -46,23 +64,29 @@
 }
 
 .request-flow-editor {
-  --kb-formsection-header-gap: var(--kb-space-3);
-  --kb-formsection-fields-gap: var(--kb-space-6);
+  --kb-formsection-header-gap: var(--kb-space-2);
+  --kb-formsection-fields-gap: var(--kb-space-5);
 }
 
 .request-flow-editor .kb-formsection-description {
-  font-size: var(--kb-text-body-size);
+  font-size: var(--kb-text-small-size);
 }
 
 .request-flow-workspace,
+.request-flow-primary,
 .request-flow-list,
 .request-flow-layout > * {
   min-inline-size: 0;
 }
 
+.request-flow-content {
+  --kb-split-collapse-sm: 38rem;
+  container-type: inline-size;
+}
+
 .request-flow-items {
   display: grid;
-  gap: var(--kb-space-2);
+  gap: var(--kb-space-1);
   padding: 0;
   margin: 0;
   list-style: none;
@@ -76,9 +100,11 @@
   inline-size: 100%;
   block-size: auto;
   padding: var(--kb-space-3);
+  font-weight: var(--kb-font-weight-regular);
   text-align: start;
   white-space: normal;
-  border: 1px solid var(--kb-color-border);
+  border: 1px solid transparent;
+  box-shadow: none;
 }
 
 .request-flow-row[aria-current="true"] {
@@ -87,14 +113,50 @@
   box-shadow: inset 3px 0 var(--kb-color-accent);
 }
 
+.request-flow-id {
+  font-family: var(--kb-font-mono);
+  font-size: var(--kb-text-caption-size);
+  letter-spacing: 0.02em;
+}
+
 .request-flow-row-title {
   font-weight: var(--kb-font-weight-strong);
+  line-height: var(--kb-text-leading-control);
+}
+
+.request-flow-row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--kb-space-2);
+  inline-size: 100%;
+}
+
+.request-flow-context {
+  display: grid;
+  gap: var(--kb-space-4);
+  padding-inline-start: var(--kb-space-5);
+  border-inline-start: 1px solid var(--kb-color-border);
+}
+
+.request-flow-context > .kb-heading {
+  color: var(--kb-color-muted);
+  font-size: var(--kb-text-small-size);
+  letter-spacing: normal;
 }
 
 .request-flow-facts {
   display: grid;
-  gap: var(--kb-space-4);
+  gap: var(--kb-space-3);
   margin: 0;
+}
+
+.request-flow-facts > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: var(--kb-space-3);
+  align-items: baseline;
 }
 
 .request-flow-facts dt {
@@ -103,7 +165,20 @@
 }
 
 .request-flow-facts dd {
-  margin: var(--kb-space-1) 0 0;
+  margin: 0;
+  font-size: var(--kb-text-control-size);
+}
+
+.request-flow-activity {
+  display: grid;
+  gap: var(--kb-space-2);
+  padding-block-start: var(--kb-space-4);
+  border-block-start: 1px solid var(--kb-color-border);
+}
+
+.request-flow-activity .kb-heading {
+  font-size: var(--kb-text-small-size);
+  letter-spacing: normal;
 }
 
 .request-flow-empty {
@@ -123,9 +198,19 @@
   }
 }
 
+@container (max-width: 37.99rem) {
+  .request-flow-context {
+    padding-inline-start: 0;
+    padding-block-start: var(--kb-space-5);
+    border-inline-start: 0;
+    border-block-start: 1px solid var(--kb-color-border);
+  }
+}
+
 @container (max-width: 24rem) {
   .request-flow-title {
     flex-basis: 100%;
+    font-size: var(--kb-heading-size-lg);
   }
 
   .request-flow-form-actions > .kb-button {

@@ -31,7 +31,7 @@ export function Example() {
 }
 ```
 
-The title renders as an `h1`. Actions sit at the end of the title row and wrap below the heading when the header is narrower than the heading's minimum width, so no width needs a media query.
+The title renders as an `h1`. Actions sit at the end of the title row. Below 40rem of header width they take their own row under the heading, still end-aligned; wider headers move them below only when the heading's minimum width no longer fits.
 
 ## More examples
 

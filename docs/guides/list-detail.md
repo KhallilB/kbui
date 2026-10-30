@@ -14,14 +14,16 @@ The website recipe page and Storybook expose the exact source files and runnable
 | --- | --- |
 | Page introduction | [PageHeader](../../packages/react/docs/components/PageHeader.md) supplies the title, description and metadata |
 | Request list | Panel, Input, Select and ordinary Button controls for application-owned selection; every row is a separate tab stop |
-| Detail and supporting pane | Named Panel region and native aside inside Split; context always describes the saved selected record |
+| Detail and supporting pane | One named Panel holds the request header, task and native aside; Split separates primary content from saved-record context |
 | Edit form | Native form, [FormSection](../../packages/react/docs/components/FormSection.md), Input, Select and Button; labelled fields and first-error focus |
 | Layout | Container, Grid, Inline, Split and local container-query CSS; source order remains list, detail, context |
 | Feedback | Status includes visible status text; a separate polite status region announces saves and cancellations |
 
 The application owns records, filters, URL selection, drafts and submission. Component implementations own their control behavior. This recipe imports only public package exports and its listed local files.
 
-Default spacing follows the shared token scale: 24px between major regions and form fields, 16px between queue controls, 12px within heading-and-description groups, and 4px within record metadata. Panel gutters use 24px on wider layouts and 16px on narrow layouts. Detail metadata fills the header width; its title and Edit action share a wrapping row. In narrow headers, Edit moves below the full-width title. Header and body content retain matching space around dividers. At the narrowest widths, form actions stack at full width in source order.
+The queue stays compact while the selected request has the strongest title. One detail surface spans the request header, task and context rail; owner, site and requester appear once in that rail, with the latest activity below. Context uses smaller labels and a quiet dividing rule rather than another raised panel.
+
+Spacing follows the shared token scale: 24px between major regions, 20px between form fields, 16px between queue controls, and 4px within queue metadata. Queue gutters use 16px; detail gutters use 24px on wider layouts and 16px on narrow layouts. The full-width header pairs the request ID and status with navigation, followed by the title and Edit action. In narrow headers, Edit moves below the title. Header and body content retain matching space around dividers. At the narrowest widths, form actions stack at full width in source order.
 
 ## Selection, navigation and narrow layouts
 
@@ -33,24 +35,20 @@ import { Heading, Panel, Split, Text } from "@kb.ui/react";
 
 export function RequestRegions() {
   return (
-    <Split ratio="wide-start" collapse="md" align="start">
-      <Panel aria-labelledby="request-title">
-        <Panel.Header>
-          <Heading level={2} id="request-title">Warehouse access</Heading>
-        </Panel.Header>
-        <Panel.Body>
+    <Panel aria-labelledby="request-title">
+      <Panel.Header>
+        <Heading level={2} id="request-title">Warehouse access</Heading>
+      </Panel.Header>
+      <Panel.Body>
+        <Split ratio="wide-start" collapse="sm" align="start">
           <Text>Confirm visitor access with the site lead.</Text>
-        </Panel.Body>
-      </Panel>
-      <aside aria-label="Request context">
-        <Panel tone="quiet" aria-labelledby="context-title">
-          <Panel.Header>
-            <Heading level={2} id="context-title">Site context</Heading>
-          </Panel.Header>
-          <Panel.Body><Text>North depot · Maya Chen</Text></Panel.Body>
-        </Panel>
-      </aside>
-    </Split>
+          <aside aria-labelledby="context-title">
+            <Heading level={3} size="sm" id="context-title">Request context</Heading>
+            <Text>North depot · Maya Chen</Text>
+          </aside>
+        </Split>
+      </Panel.Body>
+    </Panel>
   );
 }
 ```
@@ -59,7 +57,7 @@ Search matches ID, title, owner and site without case sensitivity; the status fi
 
 Selecting a row writes `request=<id>` to the current browser URL, preserves other URL parameters and focuses the detail heading. Browser Back and Forward read that parameter. Missing IDs show Request unavailable with a return action. In an embedded preview, selection belongs to the iframe URL; use the direct Storybook canvas URL to share a selected record. Production applications should replace this small history adapter with their router and accessible navigation contract.
 
-Below 48rem of available recipe width, the selected detail replaces the list. Back to requests restores the originating row or search. At larger widths, list and detail share the screen. Split stacks the supporting pane below detail when its own available width is narrow. Hide context removes that aside; Show context restores it. Hiding context leaves the detail and edit form available.
+Below 48rem of available recipe width, the selected detail replaces the list. Back to requests restores the originating row or search. At larger widths, list and detail share the screen. The recipe sets Split’s small collapse token to 38rem, stacking context below the task when its available width is narrower. The dividing rule moves above context when stacked. Hide context removes that aside; Show context restores it. Hiding context leaves the detail and edit form available.
 
 ## Editing and recovery
 

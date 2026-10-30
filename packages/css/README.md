@@ -50,11 +50,15 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | `thumbnail.css` | Native figure with media and caption/title/description; also load image.css |
 | `collection.css` | `.kb-collection` with toolbar, filters, native table, page checkboxes, bulk actions and pagination; renderer owns state; partial imports need Button, Checkbox, Input and Select CSS |
 | `container.css` | `.kb-container` with `data-size` (`sm`, `md`, `lg`, `full`) and optional `data-gutter="none"` |
+| `dashboard.css` | `.kb-dashboard` page frame with `-header`, `-metrics` and `-panels` regions; `-primary` and `-secondary` sit two thirds and one third from 60rem of panels width and stack below it |
 | `pageheader.css` | `.kb-pageheader` with `data-size` (`sm`, `md`, `lg`) and optional `data-divider`, wrapping `-navigation`, `-main`, `-heading`, `-eyebrow`, `-headline`, `-title`, `-meta`, `-description`, `-actions` and `-body` parts; actions wrap below the heading without media queries |
+| `gallery.css` | `.kb-gallery` page frame (up to 80rem, gutters 1, 1.5 and 2rem from 48 and 64rem of viewport width) with `-header`, `-filters`, `-empty` and `-items` regions; `-items` is a `.kb-grid` list of `.kb-gallery-item` with optional `data-featured`. One to four columns from 30, 48 and 64rem of gallery width; item content stretches to the row height. Also load `grid.css` |
 | `statsrow.css` | `.kb-statsrow` list with `data-appearance` (`plain`, `outlined`) and `.kb-statsrow-item` children holding a `.kb-stat`, `-trend` (`-change` with `data-trend`, `data-tone` and `-glyph`, `-context`) and `-link`; equal columns fill the region and wrap below `--kb-statsrow-item-min-width`; subgrid aligns parts across a row; also load stat.css |
 | `grid.css` | `.kb-grid` with `data-layout` (`auto`, `stack`), `data-columns` (`auto`, `1`, `2`, `3`, `4`), `data-min-item-width` (`sm`, `md`, `lg`), `data-gap` (`none`, `sm`, `md`, `lg`) and `data-align`; resets native list markers and margins |
 | `inline.css` | `.kb-inline` with `data-gap`, `data-align` and `data-justify`; wraps in source order |
+| `stack.css` | `.kb-stack` with `data-gap`, `data-align` (`start`, `center`, `end`, `stretch`) and `data-justify`; flows top to bottom in source order; resets child block margins and native list markers |
 | `split.css` | `.kb-split` with `data-ratio`, `data-collapse`, `data-gap` and `data-align`; two `.kb-split-track` children containing the column content |
+| `supportingpane.css` | `.kb-supportingpane` page frame (up to 80rem, gutters stepping at 48rem and 64rem of viewport) with `-main` and `-aside` regions; the aside sits beside main from 48rem of the pane's content width and below it under that |
 | `separator.css` | Native hr with `.kb-separator` and `data-orientation`; decorative rules need aria-hidden and role none |
 | `heading.css` | Native heading with `.kb-heading` and `data-size` (`sm`, `md`, `lg`, `xl`, `display`); rank follows document outline |
 | `text.css` | `p`, `span` or `div` with `.kb-text`, `data-size` (`sm`, `md`, `lg`) and `data-tone` (`default`, `muted`) |

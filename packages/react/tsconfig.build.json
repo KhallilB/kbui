@@ -9,5 +9,11 @@
     "types": []
   },
   "include": ["src"],
-  "exclude": ["src/**/*.test.*", "src/**/*.stories.*"]
+  "exclude": [
+    "src/**/*.test.*",
+    "src/**/*.stories.*",
+    "src/**/*.card.ts",
+    "src/**/*.placement.*",
+    "src/protocol"
+  ]
 }

@@ -38,4 +38,4 @@ Non-default generic native elements require an explicit `as`; native props and r
 
 ## Related components
 
-Use [Inline](Inline.md) for a row, [Grid](Grid.md) for a collection, and [Split](Split.md) for two responsive columns.
+Use [Inline](Inline.md) for a row, [Stack](Stack.md) for vertical flow, [Grid](Grid.md) for a collection, and [Split](Split.md) for two responsive columns.

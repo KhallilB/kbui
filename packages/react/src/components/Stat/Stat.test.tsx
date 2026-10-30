@@ -15,6 +15,13 @@ describe("Stat", () => {
     expect(value).toHaveTextContent("04:12");
   });
 
+  // StatsRow places these two parts on subgrid rows; a third part breaks its alignment.
+  test("keeps exactly a label and a value", () => {
+    const { container } = render(<Stat label="Revenue" value="$12k" />);
+    const parts = Array.from(container.querySelector(".kb-stat")?.children ?? []);
+    expect(parts.map((part) => part.className)).toEqual(["kb-stat-label", "kb-stat-value"]);
+  });
+
   test("display size and ref", () => {
     const ref = createRef<HTMLDivElement>();
     render(<Stat ref={ref} size="display" label="Running" value={3} />);

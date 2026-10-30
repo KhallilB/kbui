@@ -332,6 +332,10 @@ describe("tokens.json", () => {
     expect(css).toMatch(/--kb-panel-seam: \d+px;/);
   });
 
+  test("backs opaque panels with the solid surface material", () => {
+    expect(css).toContain("--kb-panel-background-opaque: var(--kb-material-surface-bg);");
+  });
+
   test("defines a lit rim that runs from rim-top through the border to rim-bottom", () => {
     for (const name of ["rim-top", "rim-bottom"]) {
       expect(css).toContain(`--kb-panel-${name}: `);
@@ -605,6 +609,17 @@ describe("grid component tokens", () => {
     expect(css).toContain("--kb-grid-min-item-width-md: var(--kb-grid-min-item-width);");
     expect(css).toContain("--kb-grid-min-item-width-lg: 24rem;");
   });
+
+  test("defines page frame, region and filter tokens for Gallery", () => {
+    const { css } = buildTokens(real as TokenTree);
+    expect(css).toContain("--kb-gallery-max-width: var(--kb-container-size-lg);");
+    expect(css).toContain("--kb-gallery-gutter-sm: var(--kb-space-4);");
+    expect(css).toContain("--kb-gallery-gutter-md: var(--kb-space-6);");
+    expect(css).toContain("--kb-gallery-gutter-lg: var(--kb-space-8);");
+    expect(css).toContain("--kb-gallery-gap: var(--kb-space-6);");
+    expect(css).toContain("--kb-gallery-filters-gap: var(--kb-space-3);");
+    expect(css).toContain("--kb-gallery-filter-min-width: 12rem;");
+  });
 });
 
 describe("loading and feedback component tokens", () => {
@@ -705,6 +720,18 @@ describe("page header tokens", () => {
   });
 });
 
+describe("supporting pane tokens", () => {
+  test("defines the page frame, gutters, gap and aside width", () => {
+    const { css } = buildTokens(real as TokenTree);
+    expect(css).toContain("--kb-supportingpane-max-width: var(--kb-container-size-lg);");
+    expect(css).toContain("--kb-supportingpane-gutter-sm: var(--kb-space-4);");
+    expect(css).toContain("--kb-supportingpane-gutter-md: var(--kb-space-6);");
+    expect(css).toContain("--kb-supportingpane-gutter-lg: var(--kb-space-8);");
+    expect(css).toContain("--kb-supportingpane-gap: var(--kb-layout-gap-lg);");
+    expect(css).toContain("--kb-supportingpane-aside-width: 22rem;");
+  });
+});
+
 describe("stats row tokens", () => {
   test("aliases outlined items to the card surface and tones to status roles", () => {
     const { css } = buildTokens(real as TokenTree);
@@ -715,5 +742,18 @@ describe("stats row tokens", () => {
     expect(css).toContain("--kb-statsrow-positive: var(--kb-color-success);");
     expect(css).toContain("--kb-statsrow-negative: var(--kb-color-danger);");
     expect(css).toContain("--kb-statsrow-neutral: var(--kb-color-muted);");
+  });
+});
+
+describe("dashboard tokens", () => {
+  test("aliases page width to the large container and gutters to the space scale", () => {
+    const { css } = buildTokens(real as TokenTree);
+    expect(css).toContain("--kb-dashboard-max-width: var(--kb-container-size-lg);");
+    expect(css).toContain("--kb-dashboard-gutter-sm: var(--kb-space-4);");
+    expect(css).toContain("--kb-dashboard-gutter-md: var(--kb-space-6);");
+    expect(css).toContain("--kb-dashboard-gutter-lg: var(--kb-space-8);");
+    expect(css).toContain("--kb-dashboard-gutter-md-from: 48rem;");
+    expect(css).toContain("--kb-dashboard-gutter-lg-from: 64rem;");
+    expect(css).toContain("--kb-dashboard-collapse: 60rem;");
   });
 });

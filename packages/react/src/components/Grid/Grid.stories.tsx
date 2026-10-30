@@ -83,7 +83,8 @@ export const Columns: Story = {
     const three = canvas.getByTestId("columns-3");
     const twoCols = getComputedStyle(two).gridTemplateColumns.split(" ").length;
     const threeCols = getComputedStyle(three).gridTemplateColumns.split(" ").length;
-    if (window.innerWidth <= 480) {
+    // Explicit columns collapse on the grid's own width, below 30rem.
+    if (two.getBoundingClientRect().width < 480) {
       expect(twoCols).toBe(1);
       expect(threeCols).toBe(1);
     } else {
@@ -149,7 +150,7 @@ export const GapsAndAlignment: Story = {
       .getAllByRole("article")
       .map((card) => card.getBoundingClientRect());
     if (!first || !second) throw new Error("Expected two cards");
-    if (window.innerWidth > 480) {
+    if (grid.getBoundingClientRect().width >= 480) {
       expect(first.top).toBeCloseTo(second.top, 0);
       expect(second.height).toBeGreaterThan(first.height);
     }

@@ -35,16 +35,16 @@ export function Example() {
 
 ## Reference
 
-| Prop                        | Type                                                | Default                | Notes                                                                                          |
-| --------------------------- | --------------------------------------------------- | ---------------------- | ---------------------------------------------------------------------------------------------- |
-| `as`                        | `div` / `ul` / `ol`                                 | `div`                  | Use ul or ol for a collection; children must then be list items                                |
-| `layout`                    | `auto` / `stack`                                    | `auto`                 | Auto fits equal columns to available width; stack uses one column                              |
-| `columns`                   | `auto` / `1` / `2` / `3` / `4`                      | `auto`                 | Explicit equal column count (collapsing to 1 on narrow mobile viewports) or automatic wrapping |
-| `minItemWidth`              | `sm` / `md` / `lg`                                  | `md`                   | Minimum width (`14rem`, `18.75rem`, `24rem`) before automatic columns wrap                     |
-| `gap`                       | `none` / `sm` / `md` / `lg`                         | `lg` (`--kb-grid-gap`) | Space between columns and stacked rows                                                         |
-| `align`                     | `start` / `center` / `end` / `baseline` / `stretch` | `stretch`              | Cross-axis alignment within each grid row                                                      |
-| `children`                  | `ReactNode`                                         | unset                  | Content in document and keyboard order                                                         |
-| `className`, `style`, `ref` | native element props                                | unset                  | Style and reference the chosen container                                                       |
+| Prop                        | Type                                                | Default                | Notes                                                                                                    |
+| --------------------------- | --------------------------------------------------- | ---------------------- | -------------------------------------------------------------------------------------------------------- |
+| `as`                        | `div` / `ul` / `ol`                                 | `div`                  | Use ul or ol for a collection; children must then be list items                                          |
+| `layout`                    | `auto` / `stack`                                    | `auto`                 | Auto fits equal columns to available width; stack uses one column                                        |
+| `columns`                   | `auto` / `1` / `2` / `3` / `4`                      | `auto`                 | Explicit equal column count (collapsing to 1 when the grid is narrower than 30rem) or automatic wrapping |
+| `minItemWidth`              | `sm` / `md` / `lg`                                  | `md`                   | Minimum width (`14rem`, `18.75rem`, `24rem`) before automatic columns wrap                               |
+| `gap`                       | `none` / `sm` / `md` / `lg`                         | `lg` (`--kb-grid-gap`) | Space between columns and stacked rows                                                                   |
+| `align`                     | `start` / `center` / `end` / `baseline` / `stretch` | `stretch`              | Cross-axis alignment within each grid row                                                                |
+| `children`                  | `ReactNode`                                         | unset                  | Content in document and keyboard order                                                                   |
+| `className`, `style`, `ref` | native element props                                | unset                  | Style and reference the chosen container                                                                 |
 
 ```tsx
 <Grid as="ul" role="list" layout="stack" gap="md" aria-label="Projects">
@@ -63,4 +63,4 @@ Grid removes list markers. Include `role="list"` on list renderings to retain li
 
 ## Related components
 
-Use [Split](Split.md) for exactly two weighted columns and [Inline](Inline.md) for a wrapping row of independent items.
+Use [Split](Split.md) for exactly two weighted columns, [Inline](Inline.md) for a wrapping row of independent items, and [Stack](Stack.md) for vertical flow that never forms columns.

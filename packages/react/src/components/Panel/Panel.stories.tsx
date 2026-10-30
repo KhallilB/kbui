@@ -219,6 +219,77 @@ export const TokenOverridesLight: Story = {
   globals: { theme: "light" },
 };
 
+// Glass like an app theme might set, over a busy backdrop so see-through fills show.
+const glass = {
+  "--kb-panel-background": "color-mix(in oklab, var(--kb-color-surface) 62%, transparent)",
+  "--kb-panel-backdrop": "blur(28px) saturate(150%)",
+  background:
+    "repeating-linear-gradient(45deg, var(--kb-color-accent) 0 12px, var(--kb-color-bg) 12px 24px)",
+} as object;
+
+const channels = (color: string) => (color.match(/[\d.]+/g) ?? []).slice(0, 3).map(Number);
+const luminance = (color: string) => {
+  const [r = 0, g = 0, b = 0] = channels(color).map((v) => {
+    const c = v / 255;
+    return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+const contrast = (a: string, b: string) => {
+  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x) as [number, number];
+  return (hi + 0.05) / (lo + 0.05);
+};
+
+/** Opaque drops the theme's backdrop blur and fills solid; use it under content that redraws often. */
+export const Opaque: Story = {
+  render: (args) => (
+    <div style={{ ...row, ...glass, padding: 24 }}>
+      {[false, true].map((opaque) => (
+        <Panel
+          {...args}
+          key={String(opaque)}
+          opaque={opaque}
+          aria-labelledby={`opaque-${opaque}`}
+          style={{ width: "100%", flex: "1 1 280px", minWidth: 0 }}
+        >
+          <Panel.Header>
+            <h3 id={`opaque-${opaque}`}>{opaque ? "Opaque" : "Glass"}</h3>
+          </Panel.Header>
+          <Panel.Body>
+            {opaque ? "Solid fill, no backdrop blur." : "Theme glass blurs what is behind."}
+            <Panel.Well>
+              <code>$ tail -f build.log</code>
+            </Panel.Well>
+          </Panel.Body>
+        </Panel>
+      ))}
+      <span data-probe style={{ background: "var(--kb-color-surface)" }} />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    expectDepth(canvasElement);
+    const plate = (selector: string) => {
+      const found = canvasElement.querySelector<HTMLElement>(`${selector} > .kb-panel-plate`);
+      if (!found) throw new Error(`no plate for ${selector}`);
+      return getComputedStyle(found);
+    };
+    expect(plate(".kb-panel:not([data-opaque])").backdropFilter).toContain("blur(28px)");
+    const solid = plate(".kb-panel[data-opaque]");
+    expect(solid.backdropFilter).toBe("none");
+    expect(solid.backgroundColor).toMatch(/^rgb\(/);
+    // The see-through tint lands between the solid base and the surface; text clears AA on both.
+    const panel = canvasElement.querySelector<HTMLElement>(".kb-panel[data-opaque]");
+    const probe = canvasElement.querySelector<HTMLElement>("[data-probe]");
+    if (!panel || !probe) throw new Error("no opaque panel");
+    const text = getComputedStyle(panel).color;
+    for (const fill of [solid.backgroundColor, getComputedStyle(probe).backgroundColor]) {
+      // The parser reads rgb() only; another format must fail, not pass by accident.
+      for (const color of [text, fill]) expect(color).toMatch(/^rgb\(/);
+      expect(contrast(text, fill)).toBeGreaterThanOrEqual(4.5);
+    }
+  },
+};
+
 export const Toolbar: Story = {
   render: (args) => (
     <Panel

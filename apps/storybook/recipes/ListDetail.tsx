@@ -232,18 +232,21 @@ export function ListDetail({
 
   return (
     <Container as="main" size="full" gutter={false} className="request-flow">
-      <PageHeader title="Requests" description="A clear next step for every site request.">
-        <Text size="sm" tone="muted">
-          Operations desk · Local session demo
-        </Text>
-      </PageHeader>
-      <Text role="status" size="sm" className="request-flow-notice">
-        {message || "Edits and drafts last until you reload this page."}
-      </Text>
+      <PageHeader
+        title="Requests"
+        size="sm"
+        eyebrow="Operations desk"
+        description="Review site requests and keep work moving."
+        meta={
+          <Text role="status" size="sm" tone="muted" className="request-flow-notice">
+            {message || "Local demo · Session only"}
+          </Text>
+        }
+      />
       <div className="request-flow-layout" data-selected={selectedId ? "true" : "false"}>
         <Panel className="request-flow-list" aria-labelledby={`${id}-queue`}>
           <Panel.Header>
-            <Heading level={2} size="md" id={`${id}-queue`}>
+            <Heading level={2} size="sm" id={`${id}-queue`}>
               Request queue
             </Heading>
           </Panel.Header>
@@ -280,19 +283,25 @@ export function ListDetail({
                         }}
                         onClick={() => navigate(record.id)}
                       >
-                        <Text as="span" size="sm" tone="muted">
+                        <Text as="span" size="sm" tone="muted" className="request-flow-id">
                           {record.id}
                         </Text>
                         <Text as="span" className="request-flow-row-title">
                           {record.title}
                         </Text>
-                        <Status tone={statusTones[record.status]} compact>
-                          {record.status}
-                        </Status>
-                        <Text as="span" size="sm" tone="muted">
-                          {record.owner}
-                          {drafts[record.id] ? " · Unsaved draft" : ""}
-                        </Text>
+                        <span className="request-flow-row-meta">
+                          <Status tone={statusTones[record.status]} compact>
+                            {record.status}
+                          </Status>
+                          <Text as="span" size="sm" tone="muted">
+                            {record.owner}
+                          </Text>
+                        </span>
+                        {drafts[record.id] && (
+                          <Text as="span" size="sm" tone="muted">
+                            Unsaved draft
+                          </Text>
+                        )}
                       </Button>
                     </li>
                   ))}
@@ -327,124 +336,116 @@ export function ListDetail({
         <div className="request-flow-workspace">
           {selectedId ? (
             <Grid layout="stack">
-              <Inline justify="between">
-                <Button variant="ghost" onClick={() => navigate(null)}>
-                  Back to requests
-                </Button>
-                {selected && (
-                  <Button
-                    variant="secondary"
-                    aria-expanded={showContext}
-                    aria-controls={`${id}-context`}
-                    onClick={() => setShowContext((current) => !current)}
-                  >
-                    {showContext ? "Hide context" : "Show context"}
-                  </Button>
-                )}
-              </Inline>
               {selected ? (
-                <Split ratio="wide-start" collapse="md" align="start" gap="lg">
-                  <Panel aria-labelledby={`${id}-detail`}>
-                    <Panel.Header>
-                      <Grid layout="stack" className="request-flow-detail-heading">
-                        <Inline justify="between">
-                          <Text size="sm" tone="muted">
+                <Panel className="request-flow-detail" aria-labelledby={`${id}-detail`}>
+                  <Panel.Header>
+                    <Grid layout="stack" className="request-flow-detail-heading">
+                      <Inline justify="between">
+                        <Inline gap="sm">
+                          <Text size="sm" tone="muted" className="request-flow-id">
                             {selected.id}
                           </Text>
                           <Status tone={statusTones[selected.status]} appearance="chip">
                             {selected.status}
                           </Status>
                         </Inline>
-                        <Inline justify="between" align="start" gap="sm">
-                          <Heading
-                            className="request-flow-title"
-                            ref={heading}
-                            tabIndex={-1}
-                            level={2}
-                            id={`${id}-detail`}
+                        <Inline gap="sm" className="request-flow-navigation">
+                          <Button size="sm" variant="ghost" onClick={() => navigate(null)}>
+                            Back to requests
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            aria-expanded={showContext}
+                            aria-controls={`${id}-context`}
+                            onClick={() => setShowContext((current) => !current)}
                           >
-                            {selected.title}
-                          </Heading>
-                          {!draft && (
-                            <Button
-                              ref={edit}
-                              variant="secondary"
-                              onClick={() =>
-                                setDrafts((current) => ({
-                                  ...current,
-                                  [selected.id]: {
-                                    title: selected.title,
-                                    owner: selected.owner,
-                                    status: selected.status,
-                                  },
-                                }))
-                              }
-                            >
-                              Edit request
-                            </Button>
-                          )}
+                            {showContext ? "Hide context" : "Show context"}
+                          </Button>
                         </Inline>
-                      </Grid>
-                    </Panel.Header>
-                    <Panel.Body>
-                      {draft ? (
-                        <RequestEditor
-                          key={selected.id}
-                          draft={draft}
-                          onChange={(next) =>
-                            setDrafts((current) => ({ ...current, [selected.id]: next }))
-                          }
-                          onCancel={() => {
-                            closeEditor();
-                            setMessage(`${selected.id} draft discarded.`);
-                          }}
-                          onSave={(next) => {
-                            setRecords((current) =>
-                              current.map((record) =>
-                                record.id === selected.id ? { ...record, ...next } : record,
-                              ),
-                            );
-                            closeEditor();
-                            setMessage(`${selected.id} saved for this session.`);
-                          }}
-                        />
-                      ) : (
-                        <Grid layout="stack" className="request-flow-section">
+                      </Inline>
+                      <Inline justify="between" align="start" gap="sm">
+                        <Heading
+                          className="request-flow-title"
+                          ref={heading}
+                          tabIndex={-1}
+                          level={2}
+                          id={`${id}-detail`}
+                        >
+                          {selected.title}
+                        </Heading>
+                        {!draft && (
+                          <Button
+                            ref={edit}
+                            variant="secondary"
+                            onClick={() =>
+                              setDrafts((current) => ({
+                                ...current,
+                                [selected.id]: {
+                                  title: selected.title,
+                                  owner: selected.owner,
+                                  status: selected.status,
+                                },
+                              }))
+                            }
+                          >
+                            Edit request
+                          </Button>
+                        )}
+                      </Inline>
+                    </Grid>
+                  </Panel.Header>
+                  <Panel.Body>
+                    <Split
+                      ratio="wide-start"
+                      collapse="sm"
+                      align="start"
+                      gap="lg"
+                      className="request-flow-content"
+                    >
+                      <div className="request-flow-primary">
+                        {draft ? (
+                          <RequestEditor
+                            key={selected.id}
+                            draft={draft}
+                            onChange={(next) =>
+                              setDrafts((current) => ({ ...current, [selected.id]: next }))
+                            }
+                            onCancel={() => {
+                              closeEditor();
+                              setMessage(`${selected.id} draft discarded.`);
+                            }}
+                            onSave={(next) => {
+                              setRecords((current) =>
+                                current.map((record) =>
+                                  record.id === selected.id ? { ...record, ...next } : record,
+                                ),
+                              );
+                              closeEditor();
+                              setMessage(`${selected.id} saved for this session.`);
+                            }}
+                          />
+                        ) : (
                           <div className="request-flow-copy">
-                            <Heading level={3} size="md">
+                            <Heading level={3} size="sm">
                               What needs to happen
                             </Heading>
-                            <Text>{selected.summary}</Text>
+                            <Text className="request-flow-summary">{selected.summary}</Text>
                           </div>
-                          <dl className="request-flow-facts">
-                            <div>
-                              <dt>Owner</dt>
-                              <dd>{selected.owner}</dd>
-                            </div>
-                            <div>
-                              <dt>Site</dt>
-                              <dd>{selected.site}</dd>
-                            </div>
-                          </dl>
-                        </Grid>
-                      )}
-                    </Panel.Body>
-                  </Panel>
-                  {showContext && (
-                    <Container
-                      as="aside"
-                      size="full"
-                      gutter={false}
-                      aria-label="Request context"
-                      id={`${id}-context`}
-                    >
-                      <Panel tone="quiet" aria-labelledby={`${id}-context-title`}>
-                        <Panel.Header>
-                          <Heading level={2} size="md" id={`${id}-context-title`}>
+                        )}
+                      </div>
+                      {showContext && (
+                        <Container
+                          as="aside"
+                          size="full"
+                          gutter={false}
+                          className="request-flow-context"
+                          aria-label="Request context"
+                          id={`${id}-context`}
+                        >
+                          <Heading level={3} size="sm" id={`${id}-context-title`}>
                             Request context
                           </Heading>
-                        </Panel.Header>
-                        <Panel.Body>
                           <Grid layout="stack" className="request-flow-section">
                             <dl className="request-flow-facts">
                               <div>
@@ -460,24 +461,24 @@ export function ListDetail({
                                 <dd>{selected.owner}</dd>
                               </div>
                             </dl>
-                            <div className="request-flow-copy">
-                              <Heading level={3} size="md">
+                            <div className="request-flow-activity">
+                              <Heading level={4} size="sm">
                                 Latest activity
                               </Heading>
-                              <Text size="sm" tone="muted">
-                                {selected.activity}
-                              </Text>
+                              <Text size="sm">{selected.activity}</Text>
                             </div>
-                            <Text size="sm">Saved status: {selected.status}</Text>
                           </Grid>
-                        </Panel.Body>
-                      </Panel>
-                    </Container>
-                  )}
-                </Split>
+                        </Container>
+                      )}
+                    </Split>
+                  </Panel.Body>
+                </Panel>
               ) : (
                 <Panel>
                   <Panel.Body>
+                    <Button variant="ghost" onClick={() => navigate(null)}>
+                      Back to requests
+                    </Button>
                     <Heading ref={heading} tabIndex={-1} level={2}>
                       Request unavailable
                     </Heading>
