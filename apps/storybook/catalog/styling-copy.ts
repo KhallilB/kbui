@@ -1,77 +1,11 @@
 import { packages } from "@babel/standalone";
+import { componentStyleAnatomy } from "../site/component-style-anatomy.ts";
 import {
   applyStylingPatches,
   type StylingPatch,
   stylingClassMarker,
   stylingThemeMarker,
 } from "../site/styling-copy.ts";
-
-// Copy targets name public composition points; preview anatomy stays independently owned.
-const targets: Record<string, { member?: string; slot?: string }> = {
-  Accordion: {},
-  Avatar: {},
-  Badge: {},
-  Button: {},
-  Callout: {},
-  Card: {},
-  Checkbox: { slot: "mark" },
-  Code: {},
-  CodeBlock: {},
-  Collection: {},
-  CollectionList: {},
-  CollectionRow: {},
-  Combobox: { slot: "shell" },
-  ConfirmAction: { slot: "popup" },
-  Container: {},
-  CopyableText: {},
-  Dashboard: {},
-  DescriptionList: {},
-  Dialog: { member: "Content" },
-  Disclosure: {},
-  EmptyState: {},
-  ErrorSummary: {},
-  Fieldset: {},
-  FileInput: { slot: "trigger" },
-  Form: {},
-  FormActions: {},
-  FormSection: {},
-  Gallery: {},
-  Grid: {},
-  Heading: {},
-  Image: {},
-  Inline: {},
-  Input: { slot: "control" },
-  Link: {},
-  Menu: { member: "Content" },
-  MultiSelect: { slot: "shell" },
-  NumberField: { slot: "group" },
-  PageHeader: {},
-  Panel: {},
-  Popover: { member: "Content" },
-  Progress: { slot: "indicator" },
-  RadioGroup: { member: "Item", slot: "control" },
-  ScrollArea: { slot: "thumb" },
-  Select: { slot: "control" },
-  Separator: {},
-  Settings: {},
-  Skeleton: {},
-  Spinner: {},
-  Split: {},
-  Stack: {},
-  Stat: { slot: "value" },
-  StatsRow: {},
-  Status: {},
-  SupportingPane: {},
-  Switch: { slot: "track" },
-  Table: {},
-  Tabs: {},
-  Text: {},
-  Textarea: { slot: "control" },
-  Thumbnail: {},
-  Toast: {},
-  Toolbar: {},
-  Tooltip: {},
-};
 
 export function createStylingPatches(
   name: string,
@@ -81,8 +15,7 @@ export function createStylingPatches(
   const classes = stylingClassMarker;
   if (source.includes(stylingClassMarker) || source.includes(stylingThemeMarker))
     throw new Error(`Reserved styling-copy marker: ${name}`);
-  const target = Object.hasOwn(targets, name) ? targets[name] : undefined;
-  if (!target) throw new Error(`Missing styling-copy metadata: ${name}`);
+  const target = componentStyleAnatomy(name);
   const ast = packages.parser.parse(source, {
     sourceType: "module",
     plugins: ["typescript", "jsx"],
