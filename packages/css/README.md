@@ -52,6 +52,7 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | `container.css` | `.kb-container` with `data-size` (`sm`, `md`, `lg`, `full`) and optional `data-gutter="none"` |
 | `dashboard.css` | `.kb-dashboard` page frame with `-header`, `-metrics` and `-panels` regions; `-primary` and `-secondary` sit two thirds and one third from 60rem of panels width and stack below it |
 | `pageheader.css` | `.kb-pageheader` with `data-size` (`sm`, `md`, `lg`) and optional `data-divider`, wrapping `-navigation`, `-main`, `-heading`, `-eyebrow`, `-headline`, `-title`, `-meta`, `-description`, `-actions` and `-body` parts; actions wrap below the heading without media queries |
+| `statsrow.css` | `.kb-statsrow` list with `data-appearance` (`plain`, `outlined`) and `.kb-statsrow-item` children holding a `.kb-stat`, `-trend` (`-change` with `data-trend`, `data-tone` and `-glyph`, `-context`) and `-link`; equal columns fill the region and wrap below `--kb-statsrow-item-min-width`; subgrid aligns parts across a row; also load stat.css |
 | `grid.css` | `.kb-grid` with `data-layout` (`auto`, `stack`), `data-columns` (`auto`, `1`, `2`, `3`, `4`), `data-min-item-width` (`sm`, `md`, `lg`), `data-gap` (`none`, `sm`, `md`, `lg`) and `data-align`; resets native list markers and margins |
 | `inline.css` | `.kb-inline` with `data-gap`, `data-align` and `data-justify`; wraps in source order |
 | `split.css` | `.kb-split` with `data-ratio`, `data-collapse`, `data-gap` and `data-align`; two `.kb-split-track` children containing the column content |
