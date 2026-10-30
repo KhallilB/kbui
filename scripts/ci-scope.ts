@@ -1,7 +1,10 @@
 import { appendFileSync } from "node:fs";
+import { recipeDefinitions, systemGuide } from "../apps/storybook/catalog/content";
 
 export function requiresBrowserChecks(paths: string[]): boolean {
   return paths.some((path) => {
+    if (path === systemGuide || recipeDefinitions.some((recipe) => recipe.guide === path))
+      return true;
     if (/^packages\/react\/docs\/components\/.*\.md$/i.test(path)) return true;
     if (/\.md$/i.test(path)) return false;
     if (/^(?:docs\/|apps\/storybook\/docs\/).*\.mdx$/i.test(path)) return false;

@@ -1,5 +1,7 @@
 # Adding a component
 
+First choose the delivery contract in [Components and recipes](components-and-recipes.md). Copyable application compositions follow [recipe contribution guidance](../../CONTRIBUTING.md#components-and-recipes) and do not add package exports.
+
 A component lives in two places: a stylesheet in `@kb.ui/css`, and a component file with its test and story in `@kb.ui/react`. The generator creates all four files.
 
 Before generating a new component, establish its task, existing or concurrent coverage, owning responsibility and acceptance evidence using [Developing components and screen patterns](component-and-screen-patterns.md). Existing composition, an extension or a maintained screen recipe may supply the needed contract.

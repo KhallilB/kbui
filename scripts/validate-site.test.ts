@@ -46,6 +46,7 @@ if [[ "$command" == "\${FAIL_COMMAND:-}" ]]; then exit 23; fi
       PATH: `${bin}:${process.env.PATH}`,
       COMMAND_LOG: log,
       FAIL_COMMAND: failure,
+      SITE_VALIDATION_PORT: "4175",
       TMPDIR: temporary,
     },
   });
@@ -79,6 +80,7 @@ const builtCommands = [
   "bun scripts/site-stage.ts",
   "bun run --cwd apps/storybook build:internal --output-dir ",
   "bun run --cwd apps/storybook verify:storybook",
+  "bun run --cwd apps/storybook verify:recipes",
   "bun run --cwd apps/storybook verify:component-docs",
   "bun run --cwd apps/storybook verify:release",
   "bun run --cwd apps/storybook verify:controls",
@@ -122,5 +124,20 @@ test("built verification failures prevent deployment checks and clean temporary 
   expect(validation.result.exitCode).toBe(23);
   expect(validation.commands).not.toContain("bun run --cwd apps/storybook verify:controls");
   expect(validation.commands).not.toContain("npm run build --prefix deployment/site");
+  expect(validation.temporary).toEqual([]);
+});
+
+test("recipe verification failure stops later built-site checks", () => {
+  const validation = validate("built", "bun run --cwd apps/storybook verify:recipes");
+  expect(validation.result.exitCode).toBe(23);
+  expect(validation.commands).not.toContain("bun run --cwd apps/storybook verify:component-docs");
+  expect(validation.commands).not.toContain("npm run check --prefix deployment/site");
+  expect(validation.temporary).toEqual([]);
+});
+
+test("occupied validation ports stop before building or staging", () => {
+  const validation = validate("built", "python3 - 4175 4176");
+  expect(validation.result.exitCode).toBe(23);
+  expect(validation.commands).toEqual(["python3 - 4175 4176"]);
   expect(validation.temporary).toEqual([]);
 });

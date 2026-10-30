@@ -5,6 +5,7 @@ import { createRoot } from "react-dom/client";
 import { Changelog } from "./Changelog";
 import { Examples } from "./Examples";
 import { Home } from "./Home";
+import { Recipes } from "./Recipes";
 import { Setup } from "./Setup";
 import { SkinComparison } from "./SkinComparison";
 import { Workbench } from "./Workbench";
@@ -26,6 +27,8 @@ createRoot(root).render(
       <Workbench />
     ) : root.dataset.page === "examples" ? (
       <Examples />
+    ) : root.dataset.page === "recipes" ? (
+      <Recipes search={window.location.search} />
     ) : root.dataset.page === "changelog" ? (
       <Changelog />
     ) : (

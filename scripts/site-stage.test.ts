@@ -28,6 +28,7 @@ function fixture() {
     "components/index.html",
     "components/qa/index.html",
     "examples/index.html",
+    "recipes/index.html",
     "changelog/index.html",
     "playground/index.html",
     "storybook/index.html",
@@ -99,5 +100,14 @@ test("missing QA entry fails before replacing previous artifact", () => {
   expect(() => stageSite(source, destination)).toThrow(
     "Missing site entry: components/qa/index.html",
   );
+  expect(readFileSync(join(destination, "previous"), "utf8")).toBe("keep");
+});
+
+test("missing recipe route preserves the previous deployment artifact", () => {
+  const { source, destination } = fixture();
+  mkdirSync(destination);
+  writeFileSync(join(destination, "previous"), "keep");
+  rmSync(join(source, "recipes/index.html"));
+  expect(() => stageSite(source, destination)).toThrow("Missing site entry: recipes/index.html");
   expect(readFileSync(join(destination, "previous"), "utf8")).toBe("keep");
 });

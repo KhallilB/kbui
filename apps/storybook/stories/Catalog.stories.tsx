@@ -84,6 +84,7 @@ export const SlidingFilter: Story = {
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     for (const dark of [false, true]) {
       if (dark) await userEvent.click(canvas.getByRole("switch", { name: "Dark mode" }));
+      typography.scrollIntoView({ block: "center", behavior: "instant" });
       const start = indicator.getBoundingClientRect();
       await userEvent.click(typography);
       expect(typography).toBeChecked();
@@ -237,12 +238,11 @@ export const UnknownComponent: Story = {
 };
 
 export const CompactInput: Story = {
-  args: { componentId: "input" },
+  args: { componentId: "input", initialCompare: true },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const frame = canvas.getByTitle("Input — Default live example");
-    const initialHeight = frame.getBoundingClientRect().height;
-    expect(initialHeight).toBeGreaterThanOrEqual(96);
+    expect(frame.getBoundingClientRect().height).toBeLessThanOrEqual(220);
     const stage = frame.parentElement;
     if (!stage) throw new Error("Missing preview stage");
     const style = getComputedStyle(stage);
@@ -257,10 +257,10 @@ export const CompactInput: Story = {
       "true",
     );
     await waitFor(() =>
-      expect(frame.getBoundingClientRect().height).toBeGreaterThanOrEqual(initialHeight),
+      expect(frame.getBoundingClientRect().height).toBeCloseTo(Math.min(480, innerHeight * 0.6), 0),
     );
     await userEvent.click(canvas.getByRole("button", { name: "Compact preview" }));
-    await waitFor(() => expect(frame.getBoundingClientRect().height).toBeCloseTo(initialHeight, 0));
+    await waitFor(() => expect(frame.getBoundingClientRect().height).toBeLessThanOrEqual(220));
     await userEvent.click(canvas.getByRole("button", { name: "Expand preview" }));
     await userEvent.click(canvas.getByRole("radio", { name: "With Error" }));
     const nextFrame = canvas.getByTitle("Input — With Error live example") as HTMLIFrameElement;
@@ -282,18 +282,17 @@ export const CompactInput: Story = {
     await waitFor(() =>
       expect(
         canvas.getByTitle("Input — With Error live example").getBoundingClientRect().height,
-      ).toBeGreaterThanOrEqual(96),
+      ).toBeLessThanOrEqual(220),
     );
   },
 };
 
 export const AdaptivePreview: Story = {
-  args: { componentId: "badge" },
+  args: { componentId: "badge", initialCompare: true },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const frame = canvas.getByTitle("Badge — Default live example") as HTMLIFrameElement;
-    const initialHeight = frame.getBoundingClientRect().height;
-    expect(initialHeight).toBeGreaterThanOrEqual(96);
+    expect(frame.getBoundingClientRect().height).toBeLessThanOrEqual(160);
     await new Promise<void>((resolve) => {
       frame.addEventListener("load", () => resolve(), { once: true });
       frame.dataset.previewSrc = "about:blank";
@@ -307,19 +306,43 @@ export const AdaptivePreview: Story = {
     root.id = "storybook-root";
     root.style.height = "410px";
     doc.body.replaceChildren(root);
-    await waitFor(() => expect(frame.getBoundingClientRect().height).toBeGreaterThanOrEqual(442));
+    await waitFor(() => expect(frame.getBoundingClientRect().height).toBe(442));
     root.style.height = "40px";
-    await waitFor(() => expect(frame.getBoundingClientRect().height).toBeCloseTo(initialHeight, 0));
+    await waitFor(() => expect(frame.getBoundingClientRect().height).toBeLessThanOrEqual(160));
     await userEvent.click(canvas.getByRole("button", { name: "Expand preview" }));
     await waitFor(() =>
-      expect(frame.getBoundingClientRect().height).toBeGreaterThanOrEqual(
-        Math.min(480, innerHeight * 0.6) - 0.5,
-      ),
+      expect(frame.getBoundingClientRect().height).toBeCloseTo(Math.min(480, innerHeight * 0.6), 0),
     );
     root.style.height = "610px";
-    await waitFor(() => expect(frame.getBoundingClientRect().height).toBeGreaterThanOrEqual(642));
+    await waitFor(() => expect(frame.getBoundingClientRect().height).toBe(642));
     await userEvent.click(canvas.getByRole("button", { name: "Compact preview" }));
-    expect(frame.getBoundingClientRect().height).toBeGreaterThanOrEqual(642);
+    expect(frame.getBoundingClientRect().height).toBe(642);
+  },
+};
+
+export const FilledEditorPreview: Story = {
+  args: { componentId: "input" },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const frame = canvas.getByTitle("Input — Default live example");
+    const host = frame.parentElement;
+    if (!host) throw new Error("Missing preview host");
+    if (innerWidth >= 520) {
+      expect(host).toHaveAttribute("data-fill", "true");
+      const style = getComputedStyle(host);
+      const available =
+        host.clientHeight -
+        Number.parseFloat(style.paddingTop) -
+        Number.parseFloat(style.paddingBottom);
+      expect(frame.getBoundingClientRect().height).toBeCloseTo(available, 0);
+    } else {
+      expect(host).not.toHaveAttribute("data-fill");
+      expect(frame.getBoundingClientRect().height).toBeLessThanOrEqual(220);
+    }
+    await userEvent.click(canvas.getByRole("checkbox", { name: "Compare light and dark" }));
+    expect(canvas.getByTitle("Input — Default live example")).toBe(frame);
+    expect(host).not.toHaveAttribute("data-fill");
+    await waitFor(() => expect(frame.getBoundingClientRect().height).toBeLessThanOrEqual(220));
   },
 };
 
@@ -426,7 +449,7 @@ export const FocusedDetails: Story = {
 };
 
 export const StateContinuity: Story = {
-  args: { componentId: "badge", storybookRoot: "about:blank#" },
+  args: { componentId: "badge", storybookRoot: "about:blank#", initialCompare: true },
   render: (args) => <Catalog key="state-continuity" {...args} />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

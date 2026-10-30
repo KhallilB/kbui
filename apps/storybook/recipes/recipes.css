@@ -1,0 +1,50 @@
+.page-header {
+  min-inline-size: 0;
+}
+
+.page-header-copy {
+  display: grid;
+  flex: 1 1 var(--kb-grid-min-item-width);
+  gap: var(--kb-space-3);
+}
+
+.page-header-actions {
+  flex: 0 1 auto;
+}
+
+.page-header-actions .kb-button {
+  min-block-size: var(--kb-button-height-md);
+  block-size: auto;
+  padding-block: var(--kb-space-2);
+  overflow-wrap: anywhere;
+}
+
+.form-section {
+  min-inline-size: 0;
+  inline-size: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow-wrap: anywhere;
+}
+
+.form-section-legend {
+  inline-size: 100%;
+  margin: 0;
+  margin-block-end: var(--kb-space-3);
+  padding: 0;
+}
+
+.form-section-description {
+  margin-block-end: var(--kb-space-4);
+}
+
+.form-section-error {
+  color: var(--kb-color-danger);
+}
+
+@media (forced-colors: active) {
+  .form-section-error {
+    color: CanvasText;
+  }
+}

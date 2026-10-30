@@ -16,6 +16,7 @@ on:
       - 'mise.toml'
       - '!**/*.md'
       - 'packages/react/docs/components/**'
+      - 'docs/guides/**'
   workflow_dispatch:
 
 permissions:

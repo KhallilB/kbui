@@ -254,3 +254,10 @@ Production Storybook contains public MDX guides and canonical component stories 
 Component Accessibility sections read `catalog/accessibility-guides.ts`: implemented support, author responsibilities, verification procedures, and linked WCAG/APG sources. `catalog/AccessibilityReference.tsx` renders the contract; `catalog/verify-component-docs.ts` verifies the built sections. Shared requirements and test-record guidance live in `docs/guides/accessibility.md`.
 
 Popover previews use surface alignment, a 480px minimum and reserved popup footprint. Their normal preview pane stays in page flow instead of using editor pane height caps; paired examples remain reachable through page scrolling. Centering a trigger alone in a small iframe can collapse its fields even when the surrounding page is large. The built preview gate opens Default and Controlled in their actual iframes, checks all fields/actions through clipping ancestors, exercises paired themes, and verifies immediate preferences plus keyboard Save/discard behavior.
+
+
+### Shared recipe presentation
+
+`catalog/content.ts` registers canonical guides, exact recipe source files, dependencies and CSF targets. `virtual:kbui-system` supplies `/recipes/` and thin public Storybook wrappers. `GuideContent` renders the same Markdown on both surfaces with host-relative links and raw HTML disabled. Existing component and Storybook URLs remain unchanged.
+
+Run `bun run --cwd apps/storybook verify:recipes` against the combined static preview; set `RECIPE_SITE_URL` for a different base URL. These Chromium journeys run during `validate:site built`, covering 320/768/1280px, both themes, source discovery, history, refresh, invalid URLs, documentation links and draft retention. Recipes stay outside component counts.
