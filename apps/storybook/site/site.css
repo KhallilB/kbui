@@ -683,9 +683,12 @@
     text-decoration-thickness: 2px;
   }
   .inner-page {
+    padding-block: 24px var(--section-space);
+  }
+  .inner-page:where(:not(.kb-container)) {
     max-width: 1440px;
     margin-inline: auto;
-    padding: 24px var(--page-gutter) var(--section-space);
+    padding-inline: var(--page-gutter);
   }
   .page-heading {
     max-width: 760px;

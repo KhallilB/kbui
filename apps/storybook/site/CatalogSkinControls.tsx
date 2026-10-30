@@ -1,4 +1,4 @@
-import { RadioGroup } from "@kb.ui/react";
+import { Heading, RadioGroup, Text } from "@kb.ui/react";
 import { type ReactNode, useEffect, useId, useRef, useState } from "react";
 import { CatalogEditorActions } from "./CatalogEditorActions";
 import { CatalogEditorNotice } from "./CatalogEditorNotice";
@@ -104,11 +104,11 @@ export function CatalogSkinControls({
     <section id={id} className="catalog-skin-controls" aria-label="Preview styling">
       <div className="catalog-style-settings">
         <div className="catalog-skin-heading">
-          <p className="catalog-styling-eyebrow">{component} playground</p>
-          <h3>Make it yours</h3>
-          <p>
+          <Text className="catalog-styling-eyebrow">{component} playground</Text>
+          <Heading level={3}>Make it yours</Heading>
+          <Text>
             Edit {example ? "content, props or styles" : "the styles"} and watch {component} change.
-          </p>
+          </Text>
         </div>
       </div>
       <div className="catalog-editor-panel">
@@ -177,9 +177,9 @@ export function CatalogSkinControls({
                 : "Add utility classes, including hover:, dark: and arbitrary values. Tailwind v4."}
           </small>
           {error && (
-            <p className="catalog-style-error" role="alert">
+            <Text className="catalog-style-error" role="alert">
               {error}
-            </p>
+            </Text>
           )}
           {(touched[mode] || copyState) && (
             <CatalogEditorNotice
