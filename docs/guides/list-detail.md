@@ -57,7 +57,7 @@ Search matches ID, title, owner and site without case sensitivity; the status fi
 
 Selecting a row writes `request=<id>` to the current browser URL, preserves other URL parameters and focuses the detail heading. Browser Back and Forward read that parameter. Missing IDs show Request unavailable with a return action. In an embedded preview, selection belongs to the iframe URL; use the direct Storybook canvas URL to share a selected record. Production applications should replace this small history adapter with their router and accessible navigation contract.
 
-Below 48rem of available recipe width, the selected detail replaces the list. Back to requests restores the originating row or search. At larger widths, list and detail share the screen. The recipe sets Split’s small collapse token to 38rem, stacking context below the task when its available width is narrower. The dividing rule moves above context when stacked. Hide context removes that aside; Show context restores it. Hiding context leaves the detail and edit form available.
+Below 48rem of available recipe width, the selected detail replaces the list. If resizing hides the focused list control, focus moves to the selected detail heading. Resizing keeps visible edit-field focus and draft values intact. Back to requests restores the originating row or search. At larger widths, list and detail share the screen. The recipe sets Split’s small collapse token to 38rem, stacking context below the task when its available width is narrower. The dividing rule moves above context when stacked. Hide context removes that aside; Show context restores it. Hiding context leaves the detail and edit form available.
 
 ## Editing and recovery
 
@@ -69,7 +69,7 @@ Records and drafts live in memory. Reload retains URL selection but restores ini
 
 ## Verify the workflow
 
-Run the [recipe stories](../../apps/storybook/recipes/ListDetail.stories.tsx) for keyboard selection and return focus, context visibility, validation, committed updates, retained drafts, cancellation, search/filter recovery, unavailable selection and empty data. Verify generated recipe source with the [source contract](../../apps/storybook/stories/list-detail-source.test.ts).
+Run the [recipe stories](../../apps/storybook/recipes/ListDetail.stories.tsx) for keyboard selection and return focus, context visibility, validation, committed updates, retained drafts, cancellation, search/filter recovery, unavailable selection and empty data. Verify generated recipe source with the [source contract](../../apps/storybook/stories/list-detail-source.test.ts). Run the [responsive focus stories](../../apps/storybook/stories/RequestLayout.stories.tsx) for wide-to-narrow focus recovery, draft retention and filtered-row return focus.
 
 Check 320, 768 and 1280 CSS pixels in light and dark. Open the long international-shipment record and confirm all content wraps without horizontal page scrolling. Use keyboard alone to select, edit, reject a blank field, correct it and save; inspect focus after every step. Check history and reload through a direct canvas URL. In forced colors, selected rows retain a visible border and controls retain their focus indicators. Enlarge text and browser zoom, and confirm list/detail switching follows available space.
 

@@ -5,6 +5,7 @@ import { loadRecipeSources } from "./recipes.ts";
 const origin = process.env.RECIPE_SITE_URL ?? "http://127.0.0.1:4174";
 const browser = await chromium.launch();
 const recipes = loadRecipeSources();
+let currentPage: import("playwright").Page | undefined;
 let checks = 0;
 try {
   for (const width of [320, 768, 1280]) {
@@ -14,6 +15,8 @@ try {
         colorScheme: theme,
         reducedMotion: "reduce",
       });
+      currentPage = page;
+      page.on("pageerror", (error) => console.error(`Recipe page error: ${error.message}`));
       page.setDefaultTimeout(15_000);
       await page.goto(`${origin}/recipes/?theme=${theme}`);
       await page.getByRole("heading", { level: 1, name: "Recipes", exact: true }).waitFor();
@@ -56,6 +59,8 @@ try {
     viewport: { width: 1280, height: 900 },
     reducedMotion: "reduce",
   });
+  currentPage = page;
+  page.on("pageerror", (error) => console.error(`Recipe page error: ${error.message}`));
   await page.goto(`${origin}/recipes/`);
   await page.getByRole("link", { name: "FormSection", exact: true }).click();
   await page.getByRole("heading", { name: "FormSection", level: 1 }).waitFor();
@@ -134,6 +139,21 @@ try {
   console.log(
     `Recipes verified: ${checks} theme/viewport and Storybook contexts; refresh, history, unknown URLs and draft-preserving theme changes.`,
   );
+} catch (error) {
+  if (currentPage && !currentPage.isClosed()) {
+    console.error(`Recipe failure URL: ${currentPage.url()}`);
+    for (const frame of currentPage.frames()) {
+      console.error(
+        `Frame ${frame.url()}: ${(
+          await frame
+            .locator("body")
+            .innerText()
+            .catch(() => "unavailable")
+        ).slice(0, 2000)}`,
+      );
+    }
+  }
+  throw error;
 } finally {
   await browser.close();
 }

@@ -179,6 +179,9 @@ export function ListDetail({
   const [drafts, setDrafts] = useState<Record<string, RequestDraft | undefined>>({});
   const [showContext, setShowContext] = useState(true);
   const [message, setMessage] = useState("");
+  const root = useRef<HTMLElement>(null);
+  const focused = useRef<HTMLElement | null>(null);
+  const currentId = useRef(selectedId);
   const search = useRef<HTMLInputElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const edit = useRef<HTMLButtonElement>(null);
@@ -207,12 +210,29 @@ export function ListDetail({
   }, []);
 
   useEffect(() => {
+    currentId.current = selectedId;
     if (focusTarget.current === "heading") heading.current?.focus();
     if (focusTarget.current === "edit") edit.current?.focus();
     if (focusTarget.current === "list")
       (rows.current.get(lastSelected.current ?? "") ?? search.current)?.focus();
     focusTarget.current = null;
   });
+
+  useEffect(() => {
+    const observer = new ResizeObserver(() => {
+      const active = document.activeElement;
+      const candidate = active === document.body ? focused.current : active;
+      if (
+        candidate instanceof HTMLElement &&
+        root.current?.contains(candidate) &&
+        candidate.getClientRects().length === 0
+      ) {
+        (currentId.current !== null ? heading.current : search.current)?.focus();
+      }
+    });
+    if (root.current) observer.observe(root.current);
+    return () => observer.disconnect();
+  }, []);
 
   function navigate(next: string | null) {
     if (selectedId) lastSelected.current = selectedId;
@@ -231,7 +251,20 @@ export function ListDetail({
   }
 
   return (
-    <Container as="main" size="full" gutter={false} className="request-flow">
+    <Container
+      ref={root}
+      as="main"
+      size="full"
+      gutter={false}
+      className="request-flow"
+      onFocusCapture={(event) => {
+        focused.current = event.target;
+      }}
+      onBlurCapture={(event) => {
+        // Hidden controls may blur before ResizeObserver runs.
+        if (event.target.getClientRects().length) focused.current = null;
+      }}
+    >
       <PageHeader
         title="Requests"
         size="sm"

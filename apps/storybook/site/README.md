@@ -261,3 +261,7 @@ Popover previews use surface alignment, a 480px minimum and reserved popup footp
 `catalog/content.ts` registers canonical guides, exact recipe source files, dependencies and CSF targets. `virtual:kbui-system` supplies `/recipes/` and thin public Storybook wrappers. `GuideContent` renders the same Markdown on both surfaces with host-relative links and raw HTML disabled. Existing component and Storybook URLs remain unchanged.
 
 Run `bun run --cwd apps/storybook verify:recipes` against the combined static preview; set `RECIPE_SITE_URL` for a different base URL. These Chromium journeys run during `validate:site built`, covering 320/768/1280px, both themes, source discovery, history, refresh, invalid URLs, documentation links and draft retention. Recipes stay outside component counts.
+
+### Preserved request and correspondence recipes
+
+Inbox and ListDetail share the recipe registry, canonical guide, exact copyable files and existing public story IDs with PageHeader and FormSection. Their drafts, history, context, save/reply recovery and resize focus checks remain in their existing stories. Component and recipe names can overlap; their separate documentation IDs preserve import versus copy ownership. These additions are implemented locally and pending publication.
