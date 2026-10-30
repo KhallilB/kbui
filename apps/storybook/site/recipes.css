@@ -1,0 +1,85 @@
+.kbui-recipes {
+  .system-guide {
+    max-inline-size: 85ch;
+  }
+  .recipe-sources > * {
+    min-inline-size: 0;
+  }
+  .recipe-directory {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: var(--kb-space-6);
+    padding: 0;
+    margin-block: 0 var(--kb-space-8);
+    list-style: none;
+  }
+  .recipe-directory li {
+    padding: var(--kb-space-6);
+    border: 1px solid var(--review-line);
+    border-radius: var(--site-radius-surface);
+    background: var(--review-paper);
+  }
+  .recipe-directory a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 44px;
+    text-decoration: underline;
+  }
+  .recipe-directory p {
+    margin-block: var(--kb-space-3);
+  }
+  .recipe-directory span,
+  .recipe-ownership {
+    color: var(--muted);
+    font-size: var(--kb-text-small-size);
+  }
+  .recipe-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--kb-space-2) var(--kb-space-5);
+    margin-block: var(--kb-space-4);
+  }
+  .recipe-links a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 44px;
+    text-decoration: underline;
+  }
+  .recipe-links a[aria-current] {
+    font-weight: var(--kb-font-weight-strong);
+    text-decoration-thickness: 2px;
+  }
+  .recipe-preview {
+    --preview-inset: var(--kb-space-4);
+    margin-block: var(--kb-space-6);
+  }
+  .catalog-preview-frame {
+    position: relative;
+    inline-size: 100%;
+    padding: var(--preview-inset);
+    border: 1px solid var(--review-line);
+    border-radius: var(--site-radius-surface);
+  }
+  .catalog-preview-frame iframe {
+    display: block;
+    inline-size: 100%;
+    border: 0;
+  }
+  .catalog-preview-frame iframe[data-visible="false"] {
+    position: absolute;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .catalog-preview-status {
+    font-size: var(--kb-text-small-size);
+  }
+  .recipe-sources {
+    display: grid;
+    gap: var(--kb-space-4);
+    margin-block-start: var(--kb-space-8);
+  }
+  #system-guide,
+  #recipe-source {
+    scroll-margin-block-start: calc(var(--site-header-height, 96px) + var(--kb-space-4));
+  }
+}

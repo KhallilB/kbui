@@ -91,6 +91,17 @@ Each component has a canonical API and complete usage example in `packages/react
 
 Run `bun run --filter @kb.ui/storybook dev:internal` to inspect those fixtures at http://localhost:6008. Browser test commands opt into the same internal scope with `KBUI_STORYBOOK_INTERNAL=1`. Keep validation fixtures while they protect unique behavior; delete one only after equivalent coverage exists elsewhere. Do not remove tests just to tidy navigation. `build:site` rejects internal stories in its public index and verifies every catalog link. `validate:site` builds a separate temporary QA Storybook for built control-edge checks, then removes it; deployment staging contains only public docs. Set `SITE_VALIDATION_PORT` when local ports 4175/4176 are occupied; QA uses the next port.
 
+### Components and recipes
+
+Use [Components and recipes](docs/guides/components-and-recipes.md) for the delivery and ownership distinction. Layout remains a component category. Component work follows [Adding a component](docs/guides/adding-a-component.md); a recipe adds no package export or component inventory entry.
+
+For a recipe, keep executable source, required CSS and runnable stories in `apps/storybook/recipes`. Put its canonical explanation, dependencies, application responsibilities and verification guidance in `docs/guides/<name>.md`. Register its guide, source files, component dependencies and default story in `apps/storybook/catalog/content.ts`. Use a thin `apps/storybook/docs/<Name>.mdx` wrapper around `RecipeDocs`; preserve its story title and IDs when updating it. The website and Storybook share the guide and exact copyable files through `virtual:kbui-system`. Do not duplicate the guide in MDX or page JSX.
+
+`verify:code` compiles registered recipe modules and guide examples. `build:site` rejects missing guides, files, local source dependencies, component dependencies and built Storybook targets. Add behavior tests for represented interactions, source-loading rejection cases and affected navigation; check both themes, narrow layouts and keyboard access. Browser-check scope derives from registered guides, and deployment includes `docs/guides/**` so future recipes need no separate guide allowlist. Against a combined static preview, `verify:recipes` checks recipe discovery, live previews, refresh/history, invalid URLs, Storybook links and theme changes. It runs during `validate:site`.
+
+Examples remain larger demonstrations with links to their reusable parts. Contributor and agent instructions link to these rules rather than keeping another delivery checklist.
+
+
 ## Component conventions
 
 The existing components follow every rule below and are the best reference.

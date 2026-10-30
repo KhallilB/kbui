@@ -27,6 +27,9 @@ The React adapter provides the components, styles and CSS variables together. In
 
 ## Start here
 
+- [Components and recipes](https://github.com/KhallilB/kbui/blob/main/docs/guides/components-and-recipes.md): importing package APIs and copying application-owned source.
+- [Browse recipes](https://kbui.kcb.pro/recipes/): live compositions and complete source files.
+
 - [Install and configure kbui](https://github.com/KhallilB/kbui/blob/main/docs/guides/using-kbui.md): package setup, themes, and troubleshooting.
 - [Browse live components](https://kbui.kcb.pro/components/): interactive states, code, and API tables.
 - [Accessibility implementation and verification](https://github.com/KhallilB/kbui/blob/main/docs/guides/accessibility.md): requirements, caller responsibilities, manual checks, and evidence limits.

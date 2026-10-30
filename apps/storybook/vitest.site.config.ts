@@ -17,6 +17,7 @@ export default defineConfig({
     projects: viewports.map((name) => ({
       optimizeDeps: {
         include: [
+          "markdown-to-jsx/react",
           "@babel/standalone",
           "prettier/standalone",
           "prettier/plugins/babel",

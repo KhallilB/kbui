@@ -62,6 +62,7 @@ bun run check            # build, lint, types, examples, unit and package checks
 | [Layout composition](docs/guides/layout.md) | Shared page widths, gutters, wrapping rows, alignment and column collapse |
 | [Using kbui in a project](docs/guides/using-kbui.md) | Installing, theming, updating and troubleshooting |
 | [Restyling kbui](docs/guides/restyling.md) | Style components with your own classes or Tailwind; tokens for app-wide changes |
+| [Components and recipes](docs/guides/components-and-recipes.md) | Choose supported APIs, copyable compositions and larger examples |
 | [Adding a component](docs/guides/adding-a-component.md) | The generator, styles, tests and stories |
 | [Forms and overlays](docs/guides/forms-and-overlays.md) | Form sections, action rows, error summaries, theme hosts for popups, structured dialogs, drawers, confirmations, disclosure and popover choices, surface tokens and accessibility checks |
 | [Loading and feedback](docs/guides/loading-and-feedback.md) | Waiting states, skeleton placeholders, empty and zero-result recovery, toast queues and asynchronous submission/retry recipes |

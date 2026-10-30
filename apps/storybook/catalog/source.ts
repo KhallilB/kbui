@@ -15,6 +15,7 @@ import { exampleCode } from "./code.ts";
 import { componentGuides } from "./component-guides.ts";
 import { definitions } from "./definitions.ts";
 import { type CodeLanguage, highlightSample } from "./highlight.ts";
+import { loadSystemContent, recipeSourceFiles } from "./recipes.ts";
 import { loadSiteSamples, siteSampleFiles } from "./site-samples.ts";
 import type { ApiBlock, CatalogEntry, ComponentReference } from "./types";
 
@@ -29,6 +30,7 @@ const sampleId = "virtual:kbui-site-samples";
 const resolvedSampleId = "\0virtual:kbui-site-samples";
 const resolvedId = `\0${virtualId}`;
 const referenceId = "\0virtual:kbui-reference";
+const systemId = "\0virtual:kbui-system";
 const guidancePath = fileURLToPath(new URL("./component-guides.ts", import.meta.url));
 
 function cells(line: string): string[] {
@@ -194,6 +196,7 @@ export function catalogPlugin(): Plugin {
   return {
     name: "kbui-catalog-source",
     resolveId(id) {
+      if (id === "virtual:kbui-system") return systemId;
       if (id === "virtual:kbui-reference") return referenceId;
       if (id === "virtual:kbui-setup-samples") return "\0virtual:kbui-setup-samples";
       if (id === virtualId) return resolvedId;
@@ -201,6 +204,7 @@ export function catalogPlugin(): Plugin {
       if (id === sampleId) return resolvedSampleId;
     },
     load(id) {
+      if (id === systemId) return `export default ${JSON.stringify(loadSystemContent())};`;
       if (id === referenceId) return `export default ${JSON.stringify(loadComponentReferences())};`;
       if (id === "\0virtual:kbui-setup-samples") {
         const sample = (code: string, language: CodeLanguage = "tsx") =>
@@ -229,6 +233,7 @@ export function catalogPlugin(): Plugin {
         return `export default ${JSON.stringify(parseChangelog(readFileSync(changelogPath, "utf8"), Object.keys(definitions)))};`;
     },
     buildStart() {
+      for (const path of recipeSourceFiles) this.addWatchFile(path);
       for (const name of Object.keys(definitions))
         this.addWatchFile(resolve(referenceRoot, `${name}.md`));
       this.addWatchFile(guidancePath);
@@ -244,11 +249,14 @@ export function catalogPlugin(): Plugin {
         file !== guidancePath &&
         file !== setupPath &&
         file !== changelogPath &&
+        !recipeSourceFiles.includes(file) &&
         !file.startsWith(componentsRoot) &&
         !siteSampleFiles.includes(file)
       )
         return;
       const module = server.moduleGraph.getModuleById(resolvedId);
+      const system = server.moduleGraph.getModuleById(systemId);
+      if (system) server.moduleGraph.invalidateModule(system);
       if (module) server.moduleGraph.invalidateModule(module);
       const reference = server.moduleGraph.getModuleById(referenceId);
       if (reference) server.moduleGraph.invalidateModule(reference);

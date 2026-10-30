@@ -22,6 +22,13 @@ import "./site-accent.css";
 import "./surface-polish.css";
 
 export const installation = "setup/";
+const navigation = [
+  ["setup", "Get started", installation],
+  ["playground", "Playground", "playground/"],
+  ["examples", "Examples", "examples/"],
+  ["components", "Components", "components/"],
+  ["recipes", "Recipes", "recipes/"],
+] as const;
 const SiteThemeContext = createContext<"light" | "dark">("light");
 const SystemThemeContext = createContext(true);
 
@@ -53,7 +60,7 @@ export function SiteFrame({
   onThemeChange,
 }: {
   children: ReactNode;
-  current: "home" | "playground" | "examples" | "components" | "setup" | "changelog";
+  current: "home" | "playground" | "examples" | "components" | "recipes" | "setup" | "changelog";
   siteRoot: string;
   storybookRoot: string;
   className?: string;
@@ -135,24 +142,15 @@ export function SiteFrame({
               <Brand />
             </a>
             <nav aria-label="Main navigation">
-              <a
-                href={themed(`${siteRoot}playground/`)}
-                aria-current={current === "playground" ? "page" : undefined}
-              >
-                Playground
-              </a>
-              <a
-                href={themed(`${siteRoot}examples/`)}
-                aria-current={current === "examples" ? "page" : undefined}
-              >
-                Examples
-              </a>
-              <a
-                href={themed(`${siteRoot}components/`)}
-                aria-current={current === "components" ? "page" : undefined}
-              >
-                Components
-              </a>
+              {navigation.map(([page, label, path]) => (
+                <a
+                  key={page}
+                  href={themed(`${siteRoot}${path}`)}
+                  aria-current={current === page ? "page" : undefined}
+                >
+                  {label}
+                </a>
+              ))}
             </nav>
             <ThemeToggle theme={activeTheme} onChange={changeTheme} />
           </header>

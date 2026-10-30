@@ -1,0 +1,15 @@
+import { expect, test } from "bun:test";
+import { guideLink } from "../site/guide-links";
+
+test("canonical guide links keep host prefixes and component or recipe anchors", () => {
+  const guide = "docs/guides/page-header.md";
+  expect(
+    guideLink("../../packages/react/docs/components/Input.md#search-composition", guide, "/kbui/"),
+  ).toBe("/kbui/components/?component=input#search-composition");
+  expect(guideLink("form-section.md#contract", guide, "/kbui/")).toBe(
+    "/kbui/recipes/?recipe=formsection#contract",
+  );
+  expect(guideLink("#verification", guide, "../")).toBe("#verification");
+  expect(guideLink("https://www.w3.org/WAI/", guide, "../")).toBe("https://www.w3.org/WAI/");
+  expect(guideLink("javascript:alert(1)", guide, "../")).toBe("#");
+});
