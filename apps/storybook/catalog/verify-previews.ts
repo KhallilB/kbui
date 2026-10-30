@@ -238,6 +238,7 @@ try {
             emptystate: ".kb-emptystate",
             pageheader: ".kb-pageheader",
             gallery: ".kb-gallery",
+            statsrow: ".kb-statsrow",
             toast: ".kb-toast-viewport[data-placement=inline]",
             progress: ".kb-progress",
             scrollarea: ".kb-scrollarea",

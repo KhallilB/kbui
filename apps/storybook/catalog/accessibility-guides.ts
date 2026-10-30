@@ -1001,6 +1001,28 @@ export const accessibilityGuides = {
     ],
     standards: ["1.3.1", "1.3.2", "1.4.4", "1.4.10", "2.4.3", "2.4.6", "2.4.7"],
   },
+  StatsRow: {
+    provides: [
+      "The root is a ul with an explicit list role, so screen readers announce the number of metrics even where list-style: none removes list semantics in WebKit; native aria-label or aria-labelledby names the list.",
+      "Each item reads label, value, change, context and link in that order; the visual alignment across items comes from CSS subgrid and never reorders the DOM.",
+      "The direction glyph is an aria-hidden SVG that sets trend apart by shape as well as color; the change text, not the glyph, carries the meaning for assistive technology.",
+      "Tone colors use the success, danger and muted color tokens, which meet text contrast in light and dark themes; tone is shown by color only, so it supplements text rather than replacing it. The row wraps into more rows instead of scrolling sideways at narrow widths.",
+    ],
+    authoring: [
+      "Write the direction into the change text, such as +12.8% or −9 min, or in words; color and the glyph alone do not convey it.",
+      "When it is not obvious from the label whether a change is good or bad news, say so in the change or context text, such as +12 requests, above target; tone color alone does not convey it.",
+      "Put the unit and period into the label or value and use one unit, precision and comparison period across the row so figures can be compared.",
+      "Name the list with aria-label or aria-labelledby when a screen has more than one row of metrics, and give every link a destination-specific name, such as View orders.",
+      "Use Status or a live region separately if a metric updates while the user is on the page; StatsRow does not announce changes.",
+    ],
+    verify: [
+      "With a screen reader, move into the row and confirm it is announced as a named list with the right item count, then read one item and confirm the label, value, change and period make sense in that order.",
+      "Switch to grayscale or forced colors and confirm each change still shows its direction through its sign or words and the glyph, and that any good or bad news a color implied is also stated in text.",
+      "At 320 CSS pixels wide and at 400% zoom, confirm metrics wrap into more rows with no sideways scrolling and values in the same row stay aligned.",
+      "Tab through a row with links and confirm each link receives a visible focus indicator in reading order.",
+    ],
+    standards: ["1.3.1", "1.3.2", "1.4.1", "1.4.3", "1.4.10", "2.4.4", "2.4.7"],
+  },
   EmptyState: {
     provides: [
       "The title renders as a semantic heading (h2–h4, default h3) while the icon slot is marked aria-hidden.",

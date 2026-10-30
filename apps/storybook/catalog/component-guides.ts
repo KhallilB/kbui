@@ -731,6 +731,20 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.PageHeader,
   },
+  StatsRow: {
+    use: "Summarize a screen or region with a few comparable metrics, such as the key figures at the top of a dashboard.",
+    example: {
+      title: "Compare a period's key figures",
+      description:
+        "Give each metric a label, a value with its unit, the change with its sign and the comparison period. Name the list when the screen has more than one row.",
+    },
+    tips: [
+      "Keep units comparable across the row: one currency, one precision and the same period for every change.",
+      "Set trend for the direction and tone for whether it is good news; a rise in refunds is up and negative.",
+      "Use outlined for card surfaces and add a link only when a metric has a detail screen.",
+    ],
+    accessibility: accessibilityGuides.StatsRow,
+  },
   EmptyState: {
     use: "Explain why a collection, search query, or section has no items to show and offer the direct action that populates or recovers it.",
     example: {

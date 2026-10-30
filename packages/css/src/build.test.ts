@@ -65,6 +65,7 @@ describe("buildCss", () => {
         "thumbnail.css",
         "tabs.css",
         "pageheader.css",
+        "statsrow.css",
         "copyabletext.css",
         "codeblock.css",
         "confirmaction.css",
@@ -573,6 +574,15 @@ describe("buildCss", () => {
     );
     expect(pageHeaderCss).toContain("flex: 1 1 var(--kb-pageheader-heading-min-width)");
     expect(pageHeaderCss).toContain("flex-wrap: wrap");
+
+    const statsRowCss = await read("statsrow.css");
+    expect(statsRowCss.split("\n")[0]).toContain(
+      ".kb-statsrow [data-appearance=plain|outlined] > .kb-statsrow-item",
+    );
+    expect(statsRowCss).toContain("auto-fit");
+    expect(statsRowCss).toContain("minmax(min(100%, var(--kb-statsrow-item-min-width)), 1fr)");
+    expect(statsRowCss).toContain("grid-template-rows: subgrid");
+    expect(statsRowCss).toContain(".kb-statsrow-item > .kb-stat");
 
     const toastCss = await read("toast.css");
     expect(toastCss.split("\n")[0]).toContain(".kb-toast");
