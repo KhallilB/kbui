@@ -1,4 +1,4 @@
-.kbui-site:is(.kbui-lab, .kbui-catalog, .kbui-examples, .kbui-setup) {
+.kbui-site:is(.kbui-lab, .kbui-catalog, .kbui-setup) {
   --surface-ease: cubic-bezier(0.22, 1, 0.36, 1);
 
   .page-heading {
@@ -182,7 +182,7 @@
   }
 }
 
-.kbui-site:is(.kbui-examples, .kbui-setup) {
+.kbui-site.kbui-setup {
   .setup-nav {
     gap: 10px;
     padding-bottom: 28px;
@@ -201,17 +201,6 @@
     border-color: var(--kb-color-accent-hover);
     color: var(--kb-color-accent-fg);
     background: var(--kb-color-accent);
-  }
-  .example-section {
-    border-color: var(--review-line);
-  }
-  .example-description h2 {
-    font-size: clamp(30px, 3.5vw, 44px);
-    letter-spacing: -0.045em;
-    line-height: 1.12;
-  }
-  .example-description > p {
-    line-height: 1.75;
   }
   .setup-step {
     padding-block: 44px;
@@ -280,14 +269,6 @@
         border-color 180ms ease,
         box-shadow 240ms var(--surface-ease);
     }
-    .sample-bottom .link-arrow {
-      transition: transform 220ms var(--surface-ease);
-    }
-    .composition {
-      transition:
-        box-shadow 240ms var(--surface-ease),
-        border-color 200ms ease;
-    }
     @media (hover: hover) and (pointer: fine) and (forced-colors: none) {
       .setup-nav > a:not([aria-current]):hover {
         border-color: var(--review-control);
@@ -295,16 +276,12 @@
         background: var(--review-hover);
         transform: translateY(-2px);
       }
-      .sample-bottom a:hover .link-arrow {
-        transform: translate(2px, -2px);
-      }
     }
     .setup-nav > a:active {
       transform: translateY(1px);
     }
   }
   @media (forced-colors: active) {
-    .composition,
     .setup-preview,
     .setup-step .install-builder {
       box-shadow: none;
