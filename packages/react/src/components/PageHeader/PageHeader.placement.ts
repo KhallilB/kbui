@@ -1,8 +1,9 @@
 import { definePlacement } from "../../protocol/placement";
 
-// CSS moves actions onto the title row from 40rem of header; medium starts at 48rem, so it holds.
+// Medium matches the stylesheet query that moves actions onto the title row.
 export const placement = definePlacement({
   root: ".kb-pageheader",
+  from: { medium: 40 },
   rules: [
     { part: ":scope", place: "fill" },
     { part: ".kb-pageheader-actions", place: "end" },

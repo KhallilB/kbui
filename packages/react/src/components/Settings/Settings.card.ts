@@ -2,8 +2,8 @@ import { defineCard } from "../../protocol/card";
 import { placement } from "./Settings.placement";
 
 export default defineCard({
-  // Placeholder until a card role may be null: an intent is the screen root, not a slot.
-  role: "layout",
+  // An intent is the screen root, not a slot.
+  role: null,
   use: "A page of headed sections, each saved on its own, and managed lists with row actions, such as members, API keys or sessions.",
   instead: {
     Form: "the page is one task with one submit",

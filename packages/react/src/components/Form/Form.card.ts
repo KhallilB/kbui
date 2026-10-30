@@ -2,8 +2,8 @@ import { defineCard } from "../../protocol/card";
 import { placement } from "./Form.placement";
 
 export default defineCard({
-  // Placeholder until a card role may be null: an intent is the screen root, not a slot.
-  role: "layout",
+  // An intent is the screen root, not a slot.
+  role: null,
   use: "One task with grouped fields and one submit action, such as checkout, booking or sign-up.",
   instead: {
     Settings: "each section saves on its own or holds a managed list",
