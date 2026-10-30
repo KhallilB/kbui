@@ -35,7 +35,11 @@ export type CatalogEntry = {
   description: string;
   apiHeading: string;
   api: ApiBlock[];
-  stories: ({ id: string; name: string } & CodeSample)[];
+  stories: ({
+    id: string;
+    name: string;
+    styling: import("../site/styling-copy").StylingPatch[];
+  } & CodeSample)[];
   examples?: { id: string; name: string }[];
   defaultStoryId: string;
   docsId: string;
