@@ -21,6 +21,11 @@ try {
     console.log(`Checking ${entry.name} (${theme})`);
     await page.goto(`${origin}/?path=/docs/${entry.docsId}&globals=theme:${theme}`);
     try {
+      await docs
+        .locator(".reference-api caption")
+        .first()
+        .filter({ hasText: `${entry.name} API` })
+        .waitFor();
       await docs.locator("#reference-accessibility").waitFor();
     } catch (error) {
       console.error(await docs.locator("body").innerText());

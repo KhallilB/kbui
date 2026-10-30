@@ -45,7 +45,7 @@ try {
   await chooseTheme("Light");
   await checkTheme("light");
   await page.getByRole("link", { name: "Introduction", exact: true }).click();
-  await docs.getByRole("heading", { level: 1 }).waitFor();
+  await docs.getByRole("navigation", { name: "Explore kbui" }).waitFor();
   await checkTheme("light");
   await chooseTheme("System");
   await checkTheme("dark");
