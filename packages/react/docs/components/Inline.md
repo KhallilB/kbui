@@ -35,7 +35,7 @@ export function Example() {
 | `align`   | `start` `center` `end` `baseline` `stretch`    | `center` |
 | `justify` | `start` `center` `end` `between`               | `start`  |
 
-Set `as` explicitly when using an element other than the default. Lists keep their markers and native spacing; use `<li>` children. Choose `Toolbar` when actions need arrow-key navigation. See [Layout composition](https://github.com/KhallilB/kbui/blob/main/docs/guides/layout.md).
+Set `as` explicitly when using an element other than the default. Lists keep their markers and outer spacing; `gap` controls spacing between `<li>` children. Choose `Toolbar` when actions need arrow-key navigation. See [Layout composition](https://github.com/KhallilB/kbui/blob/main/docs/guides/layout.md).
 
 ## Related components
 

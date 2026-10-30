@@ -41,6 +41,8 @@ This example shows a failed-submission state. The Form recovery story below demo
 
 `ErrorSummary` renders an alert region with `tabIndex={-1}` so your submit handler can focus it when validation fails. Clicking an `#id` link focuses the matching control or the first enabled control inside a referenced group. Pair `ErrorSummary` with inline `error` props on each invalid field.
 
+Error links keep their list markers. The list's `gap` controls spacing between items without added prose margins.
+
 ## Related components
 
 Keep inline errors on [`Input`](Input.md), [`Textarea`](Textarea.md), and other fields. Use [`FormActions`](FormActions.md) for the submit controls.
