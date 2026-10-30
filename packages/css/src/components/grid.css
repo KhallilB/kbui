@@ -1,9 +1,10 @@
 /* Anatomy: .kb-grid [data-layout=auto|stack] [data-columns=auto|1|2|3|4] [data-min-item-width=sm|md|lg] [data-gap=none|sm|md|lg] [data-align=start|center|end|baseline|stretch] > * */
 .kb-grid {
   --_grid-min-width: var(--kb-grid-min-item-width);
+  --_grid-gap: var(--kb-grid-gap);
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--_grid-min-width)), 1fr));
-  gap: var(--kb-grid-gap);
+  gap: var(--_grid-gap);
   align-items: stretch;
   min-inline-size: 0;
   margin: 0;
@@ -31,15 +32,36 @@
 }
 
 .kb-grid[data-columns="2"] {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  --_grid-columns: 2;
 }
 
 .kb-grid[data-columns="3"] {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  --_grid-columns: 3;
 }
 
 .kb-grid[data-columns="4"] {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  --_grid-columns: 4;
+}
+
+/* Own width, not viewport: below 30rem the track minimum becomes 100%, leaving one column. */
+.kb-grid:is([data-columns="2"], [data-columns="3"], [data-columns="4"]) {
+  grid-template-columns: repeat(
+      auto-fill,
+      minmax(
+        min(
+          100%,
+          max(
+            calc(
+              (100% - (var(--_grid-columns) - 1) * var(--_grid-gap)) /
+              var(--_grid-columns) -
+              0.5px
+            ),
+            calc((30rem - 100%) * 99999)
+          )
+        ),
+        1fr
+      )
+    );
 }
 
 .kb-grid[data-layout="stack"],
@@ -47,28 +69,20 @@
   grid-template-columns: minmax(0, 1fr);
 }
 
-@media (max-width: 480px) {
-  .kb-grid[data-columns="2"],
-  .kb-grid[data-columns="3"],
-  .kb-grid[data-columns="4"] {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
 .kb-grid[data-gap="none"] {
-  gap: 0;
+  --_grid-gap: 0px;
 }
 
 .kb-grid[data-gap="sm"] {
-  gap: var(--kb-layout-gap-sm);
+  --_grid-gap: var(--kb-layout-gap-sm);
 }
 
 .kb-grid[data-gap="md"] {
-  gap: var(--kb-layout-gap-md);
+  --_grid-gap: var(--kb-layout-gap-md);
 }
 
 .kb-grid[data-gap="lg"] {
-  gap: var(--kb-layout-gap-lg);
+  --_grid-gap: var(--kb-layout-gap-lg);
 }
 
 .kb-grid[data-align="start"] {

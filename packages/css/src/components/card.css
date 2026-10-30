@@ -22,7 +22,14 @@
   line-height: var(--kb-text-leading-body);
 }
 
+/* Nearest query container decides; the viewport query covers pages that declare none. */
 @media (max-width: 580px) {
+  .kb-card {
+    --kb-card-padding: var(--kb-card-padding-compact);
+  }
+}
+
+@container (max-width: 36.25rem) {
   .kb-card {
     --kb-card-padding: var(--kb-card-padding-compact);
   }

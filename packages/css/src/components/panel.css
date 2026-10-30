@@ -208,6 +208,11 @@
   box-shadow: var(--kb-material-raised-shadow);
 }
 
+/* Ends the title row even after wrapping, when no toolbar pushes it there. */
+.kb-panel-header > .kb-panel-toggle {
+  margin-inline-start: auto;
+}
+
 .kb-panel-toggle:hover {
   border-color: var(--kb-color-muted);
 }
