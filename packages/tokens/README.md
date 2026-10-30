@@ -44,8 +44,10 @@ bun run --cwd packages/tokens test
 The build rejects a token file that:
 
 - contains an alias, such as `{blue.600}`, pointing at a token that does not exist
+- forms an alias cycle within the effective light, dark, or forced-colors mode graph
+- uses an unsupported `$type`, a malformed CSS value for its `$type`, or an incompatible alias target `$type`
 - has two paths that produce the same variable name
 - uses a key with characters other than letters, digits, `_` and `-`
 - has a `$value` that is not a string
 
-[docs/tokens.md](../../docs/tokens.md) explains token kinds, naming and dark mode.
+[docs/tokens.md](../../docs/tokens.md) explains the CSS-native DTCG-inspired format, token kinds, naming and dark mode.

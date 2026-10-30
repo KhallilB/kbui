@@ -1,6 +1,6 @@
 # Tokens
 
-Every kbui value is defined in one file, `packages/tokens/tokens.json`. The file follows the [W3C Design Tokens](https://www.designtokens.org/tr/drafts/format/) format, and the build turns each entry into a CSS custom property prefixed with `--kb-`.
+Every kbui value is defined in one file, `packages/tokens/tokens.json`. The file uses a CSS-native string format inspired by [W3C Design Tokens](https://www.designtokens.org/tr/2025.10/format/) (`$type`, `$value`, and `$extensions` for `kb.dark` and `kb.forced`) rather than structured DTCG object values, and the build turns each entry into a CSS custom property prefixed with `--kb-`.
 
 Published defaults use chalk and graphite surfaces with persimmon accents. `color.accent` owns action fills; `color.accent-ink` owns readable small accent text, including running statuses. Success, warning and danger retain separate semantic colors. Themes follow system preference unless an explicit `data-theme` is set. React and CSS package stylesheets include these variables; token-only consumers can load `@kb.ui/tokens/tokens.css`.
 
@@ -82,7 +82,7 @@ A path in braces makes one token refer to another:
 "accent": { "$type": "color", "$value": "{blue.600}" }
 ```
 
-This builds to `--kb-color-accent: var(--kb-blue-600);`. The reference stays live, so changing `--kb-blue-600` changes every token that points at it. The build stops with an error if an alias points at a token that does not exist.
+This builds to `--kb-color-accent: var(--kb-blue-600);`. The reference stays live, so changing `--kb-blue-600` changes every token that points at it. The build stops with an error if an alias points at a token that does not exist, forms a cycle within the effective light, dark or forced-colors graph, or references an incompatible token `$type`.
 
 The reference resolves where the alias is declared: on `:root`, and again on each `[data-theme]` container for aliases that depend on a theme value. An override on `:root` flows through every alias. An override on a plain wrapper element does not, because the alias already holds the root value there. Put `data-theme` on the wrapper to make it rebind aliases; [Restyling kbui](guides/restyling.md#restyle-part-of-a-page) shows the pattern. Or set the component token directly, such as `--kb-panel-background`.
 
