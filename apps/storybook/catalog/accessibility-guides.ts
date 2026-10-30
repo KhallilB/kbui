@@ -148,8 +148,7 @@ export const accessibilityGuides = {
       "Native dl, grouped div, dt and dd preserve label/value relationships. Native IDs, naming attributes, refs and rich values pass through.",
     ],
     authoring: [
-      "Use one Term before its Detail values in each Item. Give meaningful labels, units and unavailable-value text; keep zero values visible.",
-      "Name interactive controls within values separately. Own formatting, async updates, validation and focus; description text is not an input label.",
+      "Place Term before Detail values in each Item. Keep zero, units and unavailable text meaningful. Name value controls separately; descriptions are not input labels. Own formatting, async updates, validation and focus.",
     ],
     verify: [
       "Read term/value relationships in screen-reader browse mode and check repeated values stay associated with the intended term.",
@@ -164,8 +163,7 @@ export const accessibilityGuides = {
       "Immediate rows share aligned leading/aside columns; nested lists retain their own density and responsive boundaries. No listbox or arrow-key selection model is added.",
     ],
     authoring: [
-      "Use li children, a meaningful collection name where needed, and ol only when sequence is meaningful.",
-      "Own records, stable keys, filters, requests, pagination and selection scope. Keep filters mounted and announce results outside busy content.",
+      "Use li children and a meaningful list name; choose ol for meaningful order. Own records, stable keys, filtering, requests, pagination and selection scope. Keep filters mounted and announce results outside busy content.",
     ],
     verify: [
       "Inspect a named list and list-item count; ordered markers must reflect start/reversed in DOM order.",
@@ -180,8 +178,7 @@ export const accessibilityGuides = {
       "Leading, title, description, metadata and actions accept caller-owned controls; their normal DOM/Tab order is preserved. Selected state also has a forced-colors outline.",
     ],
     authoring: [
-      "Use CollectionList or another native list parent. Supply a meaningful title, record-specific links/action names and a separately labeled selection Checkbox.",
-      "Hide decorative icons yourself and label informative images. Keep selected consistent with actual checked state and use stable record IDs.",
+      "Use a native list parent, meaningful title, record-specific actions and a separately named Checkbox. Keep selected consistent with checked state and stable IDs. Hide decorative icons and label informative images.",
       "Own action handlers, disabled eligibility, announcements and focus recovery after record removal. Do not nest actions inside the title link or make the whole li another button.",
     ],
     verify: [
@@ -210,8 +207,7 @@ export const accessibilityGuides = {
     ],
     authoring: [
       "Supply a caption or accessible table name, meaningful column/row headings and record-specific action names. Use explicit id/headers for complex relationships.",
-      "Own ordering, stable selected IDs, eligible select-all scope and request races; update only one active sort header. Disable select-all when nothing is eligible.",
-      "Announce pending/results outside busy content; keep sort labels free of nested controls. Use Button/Menu for actions and verify dense targets and sticky focus visibility.",
+      "Own ordering, stable selected IDs, eligible select-all scope and request races. Apply one sort header, disable empty select-all and announce pending/results outside busy content. Keep sort labels free of controls; use Button/Menu for actions and verify dense targets and sticky focus.",
     ],
     verify: [
       "Tab to a sort button, press Enter and Space: order and announced aria-sort change while focus stays on the same button. Disabled sorting must not request updates.",
