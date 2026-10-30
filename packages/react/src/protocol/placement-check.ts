@@ -127,16 +127,19 @@ function checkRule(root: HTMLElement, rule: PlacementRule, el: HTMLElement, ref:
 }
 
 // Inside a sideways scroller, a target past the edge is reachable by scrolling.
+const scrolls = (el: Element) => /auto|scroll/.test(getComputedStyle(el).overflowX);
+
+// Includes the root: a scroller root's own content may sit past its edge.
 function scrolled(el: Element, root: Element) {
-  for (let node = el.parentElement; node && node !== root; node = node.parentElement)
-    if (/auto|scroll/.test(getComputedStyle(node).overflowX)) return true;
+  for (let node = el.parentElement; node && node !== root.parentElement; node = node.parentElement)
+    if (scrolls(node)) return true;
   return false;
 }
 
 // Overflow, overlap and target size hold for every container at every size.
 function checkUsable(root: HTMLElement): string[] {
   const errors: string[] = [];
-  if (root.scrollWidth > root.clientWidth + tolerance)
+  if (!scrolls(root) && root.scrollWidth > root.clientWidth + tolerance)
     errors.push(`overflows sideways by ${root.scrollWidth - root.clientWidth}px`);
   const box = root.getBoundingClientRect();
   const targets = [...root.querySelectorAll<HTMLElement>(targetSelector)]
