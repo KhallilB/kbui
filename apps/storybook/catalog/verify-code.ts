@@ -42,7 +42,6 @@ try {
       ...sample,
     })),
     ...loadDocumentationExamples(fileURLToPath(new URL("../../../", import.meta.url))),
-    ...Object.entries(site.surfaces).map(([id, sample]) => ({ id: `surface-${id}`, ...sample })),
   ];
   for (const story of examples) {
     writeFileSync(join(directory, `${story.id}.tsx`), story.code);
