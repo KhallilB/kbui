@@ -44,12 +44,26 @@ const highlighter = await createHighlighterCore({
 
 export type CodeLanguage = "tsx" | "css" | "html" | "shellscript";
 
+export const MAX_HIGHLIGHT_CACHE_ENTRIES = 512;
+
 const highlightCache = new Map<string, CodeToken[]>();
+
+export function getHighlightCacheSize(): number {
+  return highlightCache.size;
+}
+
+export function hasHighlightCacheEntry(code: string, language: CodeLanguage = "tsx"): boolean {
+  return highlightCache.has(`${language}\0${code}`);
+}
 
 export function highlightCode(code: string, language: CodeLanguage = "tsx"): CodeToken[] {
   const key = `${language}\0${code}`;
   const cached = highlightCache.get(key);
-  if (cached) return cached.map((token) => [...token] as CodeToken);
+  if (cached) {
+    highlightCache.delete(key);
+    highlightCache.set(key, cached);
+    return cached.map((token) => [...token] as CodeToken);
+  }
   const result: CodeToken[] = [];
   const { tokens } = highlighter.codeToTokens(code, { lang: language, theme: "kbui-paper" });
   for (const line of tokens) {
@@ -62,6 +76,10 @@ export function highlightCode(code: string, language: CodeLanguage = "tsx"): Cod
       if (previous && previous[1] === start && previous[2] === kind) previous[1] = end;
       else result.push([start, end, kind]);
     }
+  }
+  if (highlightCache.size >= MAX_HIGHLIGHT_CACHE_ENTRIES) {
+    const oldestKey = highlightCache.keys().next().value;
+    if (oldestKey !== undefined) highlightCache.delete(oldestKey);
   }
   highlightCache.set(key, result);
   return result.map((token) => [...token] as CodeToken);
