@@ -78,7 +78,7 @@ Inactive panels unmount by default. `keepMounted` preserves their DOM and draft 
 
 ## Styling and accessibility
 
-Each part receives its nearest root’s `data-variant`, `data-size` and `data-orientation`, so nested roots retain independent styling. Use the documented classes and component tokens: `--kb-tabs-radius`, `--kb-tabs-list-padding`, `--kb-tabs-tab-height-sm`, `--kb-tabs-tab-height-md`, `--kb-tabs-indicator-thickness` and `--kb-tabs-panel-padding`. The tab list scrolls horizontally when labels exceed available width. Vertical layouts need enough room for labels and content; applications can choose horizontal orientation at narrow widths.
+Each part receives its nearest root’s `data-variant`, `data-size` and `data-orientation`, so nested roots retain independent styling. Use the documented classes and component tokens: `--kb-tabs-radius`, `--kb-tabs-list-padding`, `--kb-tabs-tab-height-sm`, `--kb-tabs-tab-height-md`, `--kb-tabs-indicator-thickness` and `--kb-tabs-panel-padding`. The tab list scrolls horizontally when labels exceed available width. Vertical tabs place the list beside the panel from 48rem of their own width; at narrower widths, the panel moves beneath the list.
 
 For right-to-left interfaces, combine HTML `dir="rtl"` with Base UI `DirectionProvider direction="rtl"` so keyboard direction matches layout.
 
