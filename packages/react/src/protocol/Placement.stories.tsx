@@ -25,8 +25,10 @@ const contract = definePlacement({
 const css = `
 .kb-placementfixture-region { container-type: inline-size; }
 .kb-placementfixture-region[data-pane] { inline-size: 24rem; }
-.kb-placementfixture { display: grid; gap: 1rem; padding: 1rem; border: 1px solid; }
+.kb-placementfixture { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; padding: 1rem; border: 1px solid; }
 .kb-placementfixture-main p { max-inline-size: 30rem; margin: 0; }
+.kb-placementfixture-scroll { overflow-x: auto; }
+.kb-placementfixture-scroll button { margin-inline-start: 200rem; }
 .kb-placementfixture-actions { display: flex; justify-content: flex-end; gap: 0.5rem; }
 .kb-placementfixture button { min-block-size: 32px; padding-inline: 0.75rem; }
 @container (width >= 48rem) {
@@ -55,7 +57,14 @@ function Fixture({ broken, pane }: { broken?: string; pane?: boolean }) {
       >
         <div className="kb-placementfixture-main">
           <h2>Members</h2>
-          <p>People who can open this workspace, with their roles and the date they joined it.</p>
+          <p>
+            People who can open this workspace, with their <a href="#roles">roles</a> and the date
+            they joined it.
+          </p>
+          {/* biome-ignore lint/a11y/noNoninteractiveTabindex: axe needs scrollers focusable. */}
+          <div className="kb-placementfixture-scroll" tabIndex={0}>
+            <button type="button">Older entries</button>
+          </div>
         </div>
         <div className="kb-placementfixture-actions">
           <button type="button">Cancel</button>

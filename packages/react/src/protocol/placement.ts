@@ -44,7 +44,8 @@ export function definePlacement<const C extends PlacementContract>(contract: C):
 /** Data errors a contract can carry without rendering. */
 export function validatePlacement(contract: PlacementContract): string[] {
   const errors: string[] = [];
-  if (!/^\.kb-[a-z]+$/.test(contract.root)) errors.push(`root ${contract.root} is not a kb class`);
+  if (!/^\.kb-[a-z]+(?:-[a-z]+)*$/.test(contract.root))
+    errors.push(`root ${contract.root} is not a kb class`);
   if (contract.rules.length === 0) errors.push(`${contract.root} has no rules`);
   for (const rule of contract.rules) {
     const label = `${contract.root} ${rule.part} ${rule.place}`;

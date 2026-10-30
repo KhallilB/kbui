@@ -120,6 +120,13 @@ function checkRule(root: HTMLElement, rule: PlacementRule, el: HTMLElement, ref:
   }
 }
 
+// Inside a sideways scroller, a target past the edge is reachable by scrolling.
+function scrolled(el: Element, root: Element) {
+  for (let node = el.parentElement; node && node !== root; node = node.parentElement)
+    if (/auto|scroll/.test(getComputedStyle(node).overflowX)) return true;
+  return false;
+}
+
 // Overflow, overlap and target size hold for every container at every size.
 function checkUsable(root: HTMLElement): string[] {
   const errors: string[] = [];
@@ -131,10 +138,12 @@ function checkUsable(root: HTMLElement): string[] {
     .map((el) => ({ el, rect: el.getBoundingClientRect() }));
   const name = (el: Element) => el.getAttribute("aria-label") ?? el.textContent?.trim() ?? "";
   for (const { el, rect } of targets) {
-    if (rect.width < 24 - 0.5 || rect.height < 24 - 0.5)
+    // WCAG 2.5.8 exempts targets inside a sentence.
+    const inline = getComputedStyle(el).display === "inline";
+    if (!inline && (rect.width < 24 - 0.5 || rect.height < 24 - 0.5))
       errors.push(`target "${name(el)}" is ${Math.round(rect.width)}×${Math.round(rect.height)}`);
-    if (rect.left < box.left - tolerance || rect.right > box.right + tolerance)
-      errors.push(`target "${name(el)}" leaves the container`);
+    const outside = rect.left < box.left - tolerance || rect.right > box.right + tolerance;
+    if (outside && !scrolled(el, root)) errors.push(`target "${name(el)}" leaves the container`);
   }
   for (const [i, a] of targets.entries())
     for (const b of targets.slice(i + 1)) {

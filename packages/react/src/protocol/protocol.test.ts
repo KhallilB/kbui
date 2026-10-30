@@ -46,6 +46,9 @@ describe("placement contracts", () => {
       "section .kb-x-b measure: max must be > 0 rem",
     ]);
     expect(validatePlacement({ root: ".kb-x", rules: [] })).toEqual([".kb-x has no rules"]);
+    // Parts that act as the root, such as a dialog popup, are valid roots.
+    const popup = { root: ".kb-dialog-popup", rules: [{ part: ":scope", place: "fill" }] } as const;
+    expect(validatePlacement(popup)).toEqual([]);
   });
 
   test("lists every kb class a contract names", () => {
