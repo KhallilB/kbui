@@ -18,6 +18,8 @@ import {
   ErrorSummary,
   Fieldset,
   FileInput,
+  Form,
+  FormSection,
   Gallery,
   Image,
   Input,
@@ -29,6 +31,7 @@ import {
   RadioGroup,
   ScrollArea,
   Select,
+  Settings,
   Skeleton,
   Spinner,
   Split,
@@ -137,6 +140,36 @@ const cases: [string, () => ReactElement][] = [
       <Fieldset legend="L" description="d" error="e" classNames={every}>
         Child
       </Fieldset>
+    ),
+  ],
+  [
+    "formsection",
+    () => (
+      <FormSection
+        title="T"
+        description="d"
+        error="e"
+        actions={<button type="submit">S</button>}
+        classNames={every}
+      >
+        Child
+      </FormSection>
+    ),
+  ],
+  [
+    "form",
+    () => (
+      <Form header="H" actions={<button type="submit">S</button>} classNames={every}>
+        Body
+      </Form>
+    ),
+  ],
+  [
+    "settings",
+    () => (
+      <Settings header="H" classNames={every}>
+        Body
+      </Settings>
     ),
   ],
   [

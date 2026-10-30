@@ -25,7 +25,9 @@
 @import "./components/errorsummary.css" layer(kbui.components);
 @import "./components/fieldset.css" layer(kbui.components);
 @import "./components/fileinput.css" layer(kbui.components);
+@import "./components/form.css" layer(kbui.components);
 @import "./components/formactions.css" layer(kbui.components);
+@import "./components/formsection.css" layer(kbui.components);
 @import "./components/gallery.css" layer(kbui.components);
 @import "./components/grid.css" layer(kbui.components);
 @import "./components/heading.css" layer(kbui.components);
@@ -44,6 +46,7 @@
 @import "./components/scrollarea.css" layer(kbui.components);
 @import "./components/select.css" layer(kbui.components);
 @import "./components/separator.css" layer(kbui.components);
+@import "./components/settings.css" layer(kbui.components);
 @import "./components/skeleton.css" layer(kbui.components);
 @import "./components/spinner.css" layer(kbui.components);
 @import "./components/split.css" layer(kbui.components);

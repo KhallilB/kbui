@@ -451,6 +451,15 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-fieldset-legend-size: var(--kb-text-h4-size);
   --kb-formactions-gap: var(--kb-space-2);
   --kb-formactions-padding-top: var(--kb-space-4);
+  --kb-form-gap: var(--kb-space-6);
+  --kb-form-width-sm: 32rem;
+  --kb-form-width-md: 40rem;
+  --kb-formsection-gap: var(--kb-space-4);
+  --kb-formsection-header-gap: var(--kb-space-1);
+  --kb-formsection-fields-gap: var(--kb-space-4);
+  --kb-formsection-collapse: 40rem;
+  --kb-settings-gap: var(--kb-space-8);
+  --kb-settings-divider: var(--kb-color-border);
   --kb-errorsummary-padding: var(--kb-space-4);
   --kb-errorsummary-radius: var(--kb-radius-md);
   --kb-errorsummary-gap: var(--kb-space-2);
@@ -782,6 +791,7 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-code-syntax-operator: #47505e;
   --kb-code-syntax-property: #1f5173;
   --kb-separator-color: var(--kb-color-border);
+  --kb-settings-divider: var(--kb-color-border);
   --kb-skeleton-base: var(--kb-color-surface);
   --kb-skeleton-highlight: var(--kb-material-raised-top);
   --kb-skeleton-border: var(--kb-material-soft-border);
@@ -967,6 +977,7 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-code-syntax-operator: #c8d0dc;
   --kb-code-syntax-property: #9ac7eb;
   --kb-separator-color: var(--kb-color-border);
+  --kb-settings-divider: var(--kb-color-border);
   --kb-skeleton-base: var(--kb-color-surface);
   --kb-skeleton-highlight: var(--kb-material-raised-top);
   --kb-skeleton-border: var(--kb-material-soft-border);
@@ -1153,6 +1164,7 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-code-syntax-operator: #c8d0dc;
     --kb-code-syntax-property: #9ac7eb;
     --kb-separator-color: var(--kb-color-border);
+    --kb-settings-divider: var(--kb-color-border);
     --kb-skeleton-base: var(--kb-color-surface);
     --kb-skeleton-highlight: var(--kb-material-raised-top);
     --kb-skeleton-border: var(--kb-material-soft-border);
