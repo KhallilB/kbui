@@ -30,7 +30,10 @@ export function placementStory(
       expect(html.scrollWidth, "page overflows sideways").toBeLessThanOrEqual(html.clientWidth);
       const roots = [...canvasElement.querySelectorAll<HTMLElement>(contract.root)];
       expect(roots.length, `${contract.root} rendered`).toBeGreaterThan(0);
-      expect(roots.map(sizeClassOfRoot), "size class of each root").toContain(size);
+      expect(
+        roots.map((root) => sizeClassOfRoot(root, contract.from)),
+        "size class of each root",
+      ).toContain(size);
       for (const root of roots) expect(checkPlacement(root, contract)).toEqual([]);
     },
   };

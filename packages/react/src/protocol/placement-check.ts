@@ -1,4 +1,5 @@
 import {
+  type Breakpoints,
   type PlacementContract,
   type PlacementRule,
   type SizeClass,
@@ -156,16 +157,16 @@ function checkUsable(root: HTMLElement): string[] {
 }
 
 /** Size class of `root`, from its parent's content width. */
-export function sizeClassOfRoot(root: HTMLElement): SizeClass {
+export function sizeClassOfRoot(root: HTMLElement, from?: Breakpoints): SizeClass {
   const rem = Number.parseFloat(getComputedStyle(document.documentElement).fontSize);
-  return sizeClassOf(contentBox(root.parentElement ?? root).width / rem);
+  return sizeClassOf(contentBox(root.parentElement ?? root).width / rem, from);
 }
 
 /** Every broken promise in `root`, as readable lines; empty when the contract holds. */
 export function checkPlacement(
   root: HTMLElement,
   contract: PlacementContract,
-  size: SizeClass = sizeClassOfRoot(root),
+  size: SizeClass = sizeClassOfRoot(root, contract.from),
 ): string[] {
   const errors = checkUsable(root).map((error) => `${contract.root} ${error}`);
   for (const rule of contract.rules) {

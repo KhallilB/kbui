@@ -3,9 +3,11 @@ import { join } from "node:path";
 import { describe, expect, test } from "vitest";
 import { type Card, validateCard } from "./card";
 import {
+  contractsOf,
   definePlacement,
   type PlacementContract,
   placementClasses,
+  rootClass,
   sizeClassOf,
   validatePlacement,
 } from "./placement";
@@ -18,15 +20,52 @@ function anatomyClasses(name: string) {
   return new Set(line?.match(/\.kb-[a-z][a-z-]*/g) ?? []);
 }
 
+const popup: PlacementContract = {
+  root: ".kb-dialog-popup",
+  rules: [{ part: ":scope", place: "fill" }],
+};
+
 describe("placement contracts", () => {
   test("size class follows container width in rem", () => {
-    expect([24, 47.9, 48, 63.9, 64, 90].map(sizeClassOf)).toEqual([
+    expect([24, 47.9, 48, 63.9, 64, 90].map((width) => sizeClassOf(width))).toEqual([
       "compact",
       "compact",
       "medium",
       "medium",
       "wide",
       "wide",
+    ]);
+  });
+
+  test("a contract can move where medium and wide begin", () => {
+    expect([39.9, 40, 63.9, 64].map((width) => sizeClassOf(width, { medium: 40 }))).toEqual([
+      "compact",
+      "medium",
+      "medium",
+      "wide",
+    ]);
+    expect(sizeClassOf(56, { wide: 56 })).toBe("wide");
+    expect(validatePlacement({ ...popup, from: { medium: 0 } })).toEqual([
+      ".kb-dialog-popup from.medium must be > 0 rem",
+    ]);
+    expect(validatePlacement({ ...popup, from: { medium: 64 } })).toEqual([
+      ".kb-dialog-popup from.medium must be below from.wide",
+    ]);
+  });
+
+  test("roots may carry attribute qualifiers", () => {
+    for (const root of ['.kb-formsection[data-layout="split"]', ".kb-x[data-a][data-b='c']"])
+      expect(validatePlacement({ ...popup, root }), root).toEqual([]);
+    for (const root of [".kb-x[", ".kb-x [data-a]", ".kb-x[data-a] .kb-y"])
+      expect(validatePlacement({ ...popup, root })).toEqual([`root ${root} is not a kb class`]);
+    expect(rootClass('.kb-formsection[data-layout="split"]')).toBe(".kb-formsection");
+  });
+
+  test("a module exports one contract or one per arrangement", () => {
+    expect(contractsOf(popup)).toEqual([{ contract: popup, ref: "placement" }]);
+    expect(contractsOf([popup, popup]).map(({ ref }) => ref)).toEqual([
+      "placement[0]",
+      "placement[1]",
     ]);
   });
 
@@ -47,7 +86,6 @@ describe("placement contracts", () => {
     ]);
     expect(validatePlacement({ root: ".kb-x", rules: [] })).toEqual([".kb-x has no rules"]);
     // Parts that act as the root, such as a dialog popup, are valid roots.
-    const popup = { root: ".kb-dialog-popup", rules: [{ part: ":scope", place: "fill" }] } as const;
     expect(validatePlacement(popup)).toEqual([]);
   });
 
@@ -75,15 +113,19 @@ describe("placement contracts", () => {
   );
   test.each(contracts)("%s contract matches its anatomy and stories", async (name) => {
     const { placement } = (await import(`../components/${name}/${name}.placement.ts`)) as {
-      placement: PlacementContract;
+      placement: PlacementContract | readonly PlacementContract[];
     };
-    expect(validatePlacement(placement)).toEqual([]);
     const declared = anatomyClasses(name);
-    const own = placementClasses(placement).filter((cls) => cls.startsWith(placement.root));
-    expect(own.filter((cls) => !declared.has(cls))).toEqual([]);
     const stories = readFileSync(join(components, name, `${name}.placement.stories.tsx`), "utf8");
-    for (const size of ["compact", "medium", "wide"])
-      expect(stories, `${name} ${size} story`).toContain(`placement, "${size}"`);
+    for (const { contract, ref } of contractsOf(placement)) {
+      expect(validatePlacement(contract)).toEqual([]);
+      const own = placementClasses(contract).filter((cls) =>
+        cls.startsWith(rootClass(contract.root)),
+      );
+      expect(own.filter((cls) => !declared.has(cls))).toEqual([]);
+      for (const size of ["compact", "medium", "wide"])
+        expect(stories, `${name} ${ref} ${size} story`).toContain(`${ref}, "${size}"`);
+    }
   });
 });
 
@@ -97,6 +139,8 @@ describe("identity cards", () => {
 
   test("a complete card has no gaps", () => {
     expect(validateCard(complete)).toEqual([]);
+    // Whole-screen intents fill no slot of another piece.
+    expect(validateCard({ ...complete, role: null })).toEqual([]);
   });
 
   test("names each gap", () => {

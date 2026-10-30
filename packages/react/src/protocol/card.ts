@@ -16,7 +16,8 @@ export type Slot = { roles: readonly Role[]; max?: number | undefined };
 
 /** Identity card for an intent or pattern; local until M4's protocol package adopts it. */
 export type Card = {
-  role: Role;
+  /** Null for whole-screen intents, which fill no other piece's slot. */
+  role: Role | null;
   /** One sentence: the job it does. */
   use: string;
   /** Nearest neighbour name → the condition that picks it instead. */

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect } from "storybook/test";
-import { definePlacement } from "./placement";
+import { definePlacement, type PlacementContract } from "./placement";
 import { checkPlacement, sizeClassOfRoot } from "./placement-check";
 import { placementStory } from "./placement-story";
 
@@ -126,6 +126,13 @@ export const CatchesBrokenRules: StoryObj = {
     // A narrow pane on a wide page is compact: its parent decides, not the viewport.
     expect(sizeClassOfRoot(pane)).toBe("compact");
     expect(checkPlacement(pane, contract)).toEqual([]);
+    // The pane still stacks, so a medium-only line rule fires only once medium starts at 20rem.
+    const sideBySide = { ...contract, rules: [{ part: ":scope", place: "line", at: ["medium"] }] };
+    expect(checkPlacement(pane, sideBySide as PlacementContract)).toEqual([]);
+    expect(sizeClassOfRoot(pane, { medium: 20 })).toBe("medium");
+    expect(
+      checkPlacement(pane, { ...sideBySide, from: { medium: 20 } } as PlacementContract),
+    ).toContain(".kb-placementfixture :scope line: children wrap onto more than one line");
     // Side by side at 1440, so the compact-only stack rule must fire when asked.
     expect(checkPlacement(kept, contract, "compact")).toContain(
       ".kb-placementfixture :scope stack: child 2 is not below child 1",

@@ -4,14 +4,23 @@ export type SizeClass = keyof typeof sizeClasses;
 
 /** Container widths, in rem, where medium and wide begin. */
 export const sizeBreakpoints = { medium: 48, wide: 64 } as const;
+export type Breakpoints = { medium?: number | undefined; wide?: number | undefined };
 
 /**
  * Size class of a container `width` rem wide. Parent width, not viewport,
  * so a piece in a pane or dialog follows the space it actually has.
  */
-export function sizeClassOf(width: number): SizeClass {
-  if (width >= sizeBreakpoints.wide) return "wide";
-  return width >= sizeBreakpoints.medium ? "medium" : "compact";
+export function sizeClassOf(width: number, from?: Breakpoints): SizeClass {
+  const { medium, wide } = breakpoints(from);
+  if (width >= wide) return "wide";
+  return width >= medium ? "medium" : "compact";
+}
+
+function breakpoints(from: Breakpoints | undefined) {
+  return {
+    medium: from?.medium ?? sizeBreakpoints.medium,
+    wide: from?.wide ?? sizeBreakpoints.wide,
+  };
 }
 
 type Scope = {
@@ -33,7 +42,10 @@ export type PlacementRule = Scope &
 
 /** Where a container puts its children; the stylesheet applies it, the story test checks it. */
 export type PlacementContract = {
+  /** A `.kb-*` class, optionally qualified by attributes: `.kb-x[data-layout="split"]`. */
   root: string;
+  /** Rem widths where this container switches, when not the shared 48 and 64. */
+  from?: Breakpoints | undefined;
   rules: readonly PlacementRule[];
 };
 
@@ -44,9 +56,15 @@ export function definePlacement<const C extends PlacementContract>(contract: C):
 /** Data errors a contract can carry without rendering. */
 export function validatePlacement(contract: PlacementContract): string[] {
   const errors: string[] = [];
-  if (!/^\.kb-[a-z]+(?:-[a-z]+)*$/.test(contract.root))
+  if (!/^\.kb-[a-z]+(?:-[a-z]+)*(?:\[[a-z-]+(?:=(?:"[^"]*"|'[^']*'))?\])*$/.test(contract.root))
     errors.push(`root ${contract.root} is not a kb class`);
   if (contract.rules.length === 0) errors.push(`${contract.root} has no rules`);
+  for (const [name, rem] of Object.entries(contract.from ?? {}))
+    if (rem !== undefined && !(rem > 0))
+      errors.push(`${contract.root} from.${name} must be > 0 rem`);
+  const { medium, wide } = breakpoints(contract.from);
+  if (medium > 0 && medium >= wide)
+    errors.push(`${contract.root} from.medium must be below from.wide`);
   for (const rule of contract.rules) {
     const label = `${contract.root} ${rule.part} ${rule.place}`;
     if (!rule.part.trim()) errors.push(`${label}: empty part`);
@@ -54,6 +72,24 @@ export function validatePlacement(contract: PlacementContract): string[] {
     if (rule.place === "measure" && !(rule.max > 0)) errors.push(`${label}: max must be > 0 rem`);
   }
   return errors;
+}
+
+/** The root's own class, without attribute qualifiers. */
+export function rootClass(root: string): string {
+  return root.replace(/\[.*$/, "");
+}
+
+/** A module's `placement` export, one contract or one per arrangement, with how stories name each. */
+export function contractsOf(placement: PlacementContract | readonly PlacementContract[]) {
+  if (!isList(placement)) return [{ contract: placement, ref: "placement" }];
+  return placement.map((contract, i) => ({ contract, ref: `placement[${i}]` }));
+}
+
+// Array.isArray does not narrow readonly arrays.
+function isList(
+  placement: PlacementContract | readonly PlacementContract[],
+): placement is readonly PlacementContract[] {
+  return Array.isArray(placement);
 }
 
 /** `.kb-*` classes a contract names, for the anatomy drift check. */
