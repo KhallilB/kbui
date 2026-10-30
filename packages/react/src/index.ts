@@ -64,6 +64,11 @@ export {
   type ComboboxSlot,
 } from "./components/Combobox/Combobox";
 export {
+  ConfirmAction,
+  type ConfirmActionProps,
+  type ConfirmActionSlot,
+} from "./components/ConfirmAction/ConfirmAction";
+export {
   Container,
   type ContainerElement,
   type ContainerProps,
@@ -178,6 +183,12 @@ export {
   type NumberFieldProps,
   type NumberFieldSize,
 } from "./components/NumberField/NumberField";
+export {
+  PageHeader,
+  type PageHeaderHeadingLevel,
+  type PageHeaderProps,
+  type PageHeaderSize,
+} from "./components/PageHeader/PageHeader";
 export {
   Panel,
   type PanelBodyProps,

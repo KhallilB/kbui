@@ -50,6 +50,7 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | `thumbnail.css` | Native figure with media and caption/title/description; also load image.css |
 | `collection.css` | `.kb-collection` with toolbar, filters, native table, page checkboxes, bulk actions and pagination; renderer owns state; partial imports need Button, Checkbox, Input and Select CSS |
 | `container.css` | `.kb-container` with `data-size` (`sm`, `md`, `lg`, `full`) and optional `data-gutter="none"` |
+| `pageheader.css` | `.kb-pageheader` with `data-size` (`sm`, `md`, `lg`) and optional `data-divider`, wrapping `-navigation`, `-main`, `-heading`, `-eyebrow`, `-headline`, `-title`, `-meta`, `-description`, `-actions` and `-body` parts; actions wrap below the heading without media queries |
 | `grid.css` | `.kb-grid` with `data-layout` (`auto`, `stack`), `data-columns` (`auto`, `1`, `2`, `3`, `4`), `data-min-item-width` (`sm`, `md`, `lg`), `data-gap` (`none`, `sm`, `md`, `lg`) and `data-align`; resets native list markers and margins |
 | `inline.css` | `.kb-inline` with `data-gap`, `data-align` and `data-justify`; wraps in source order |
 | `stack.css` | `.kb-stack` with `data-gap`, `data-align` (`start`, `center`, `end`, `stretch`) and `data-justify`; flows top to bottom in source order; resets child block margins and native list markers |
@@ -81,6 +82,7 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | `collectionrow.css` | Native li with aligned leading/content/aside slots, selected state, wrapping actions and responsive stacking |
 | `table.css` | Native table parts with density, sorting, selected rows, sticky headers/edges, a keyboard-scrollable container and independent row actions; see [Table API](../react/docs/components/Table.md) |
 | `dialog.css` | `.kb-dialog-popup` with `-title`, `-description` and `-actions` parts, beside a `.kb-dialog-backdrop`. Both use Base UI's open, starting and ending attributes for animation |
+| `confirmaction.css` | `.kb-confirmaction` on a `.kb-dialog-popup`, with `data-pending` and `-details` and `-error` parts; the error reuses `.kb-callout` |
 
 ## Build and test
 

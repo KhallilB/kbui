@@ -149,6 +149,17 @@ export const definitions: Record<string, Definition> = {
       Form: "Form",
     },
   },
+  PageHeader: {
+    group: "Layout",
+    description: "Open a screen with its title, context, state badges and page-level actions.",
+    examples: {
+      Default: "Default",
+      DetailWithStatus: "Detail with Status",
+      Breadcrumbs: "Breadcrumbs",
+      WithTabs: "With Tabs",
+      NarrowWrap: "Narrow Wrap",
+    },
+  },
   Container: {
     group: "Layout",
     description: "Shared page widths and responsive gutters.",
@@ -285,6 +296,15 @@ export const definitions: Record<string, Definition> = {
       ConfirmationRecovery: "Confirmation Recovery",
       CustomLayout: "Custom Layout",
       Sections: "Sections",
+    },
+  },
+  ConfirmAction: {
+    group: "Actions",
+    description: "Put a destructive action behind one confirmation that closes only after success.",
+    examples: {
+      Default: "Default",
+      FailureAndRetry: "Failure and Retry",
+      RowAction: "Row Action",
     },
   },
   FileInput: {

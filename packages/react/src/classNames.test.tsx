@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { fireEvent, render, within } from "@testing-library/react";
 import type { ReactElement } from "react";
 import { describe, expect, test } from "vitest";
 import {
@@ -11,6 +11,7 @@ import {
   CollectionList,
   CollectionRow,
   Combobox,
+  ConfirmAction,
   CopyableText,
   Dialog,
   EmptyState,
@@ -21,6 +22,7 @@ import {
   Input,
   MultiSelect,
   NumberField,
+  PageHeader,
   Popover,
   Progress,
   RadioGroup,
@@ -332,6 +334,22 @@ const cases: [string, () => ReactElement][] = [
     ),
   ],
   [
+    "pageheader",
+    () => (
+      <PageHeader
+        navigation={<a href="/">N</a>}
+        eyebrow="E"
+        title="T"
+        meta="M"
+        description="D"
+        actions={<button type="button">A</button>}
+        classNames={every}
+      >
+        Body
+      </PageHeader>
+    ),
+  ],
+  [
     "spinner",
     () => (
       <div>
@@ -424,6 +442,40 @@ describe("classNames", () => {
       </Dialog>,
     );
     expect(host.querySelector(".kb-dialog-backdrop")).toHaveClass("slot-backdrop");
+    host.remove();
+  });
+  test("confirm action passes classNames to its portaled parts", async () => {
+    const host = document.createElement("div");
+    document.body.append(host);
+    const view = render(
+      <ConfirmAction
+        defaultOpen
+        title="Delete?"
+        details="Gone for good."
+        container={host}
+        classNames={every}
+        onConfirm={() => {
+          throw new Error("x");
+        }}
+      >
+        Delete
+      </ConfirmAction>,
+    );
+    fireEvent.click(within(host).getByRole("button", { name: "Delete" }));
+    await within(host).findByRole("alert");
+    expect(host.querySelector(".kb-confirmaction")).toHaveClass("slot-popup");
+    expect(host.querySelector(".kb-dialog-backdrop")).toHaveClass("slot-backdrop");
+    for (const el of host.querySelectorAll<HTMLElement>('[class*="kb-confirmaction-"]')) {
+      for (const cls of el.classList) {
+        if (cls.startsWith("kb-confirmaction-")) {
+          expect(el.classList, cls).toContain(
+            `slot-${camel(cls.slice("kb-confirmaction-".length))}`,
+          );
+        }
+      }
+    }
+    expect(host.querySelectorAll('[class*="kb-confirmaction-"]')).toHaveLength(2);
+    view.unmount();
     host.remove();
   });
   test("popover content passes classNames to its positioner", () => {

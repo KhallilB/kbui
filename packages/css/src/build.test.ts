@@ -64,8 +64,10 @@ describe("buildCss", () => {
         "avatar.css",
         "thumbnail.css",
         "tabs.css",
+        "pageheader.css",
         "copyabletext.css",
         "codeblock.css",
+        "confirmaction.css",
       ]),
     );
   });
@@ -308,6 +310,7 @@ describe("buildCss", () => {
       "fieldset.css",
       "formactions.css",
       "errorsummary.css",
+      "confirmaction.css",
     ]) {
       const css = await readFile(join(src, "components", file), "utf8");
       const refs = [...css.matchAll(/var\(\s*(--kb-[a-z0-9-]+)/g)]
@@ -547,6 +550,13 @@ describe("buildCss", () => {
     expect(emptyStateCss.split("\n")[0]).toContain("[data-variant=surface|subtle|plain]");
     expect(emptyStateCss).toContain("var(--kb-emptystate-max-width)");
     expect(emptyStateCss).toContain(".kb-emptystate-actions");
+
+    const pageHeaderCss = await read("pageheader.css");
+    expect(pageHeaderCss.split("\n")[0]).toContain(
+      ".kb-pageheader [data-size=sm|md|lg] [data-divider]",
+    );
+    expect(pageHeaderCss).toContain("flex: 1 1 var(--kb-pageheader-heading-min-width)");
+    expect(pageHeaderCss).toContain("flex-wrap: wrap");
 
     const toastCss = await read("toast.css");
     expect(toastCss.split("\n")[0]).toContain(".kb-toast");

@@ -336,6 +336,20 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.Dialog,
   },
+  ConfirmAction: {
+    use: "Delete, revoke, reset or otherwise destroy data through one route: a trigger that opens a confirmation, which runs the action only after an explicit second choice.",
+    example: {
+      title: "Delete a project from a danger zone",
+      description:
+        "Open the confirmation, read the consequence, then cancel or confirm. A pending deletion blocks dismissal; the failure example keeps the dialog open for retry. Your app performs the actual deletion.",
+    },
+    tips: [
+      "Pass the operation as onConfirm and let it throw or reject on failure; never also attach the action to the trigger.",
+      "Write the title as the question the action settles, the description as its consequence, and repeat the verb on the confirm button.",
+      "When success removes the trigger, set finalFocus and remove the row in onConfirmed, which runs after the dialog has closed.",
+    ],
+    accessibility: accessibilityGuides.ConfirmAction,
+  },
   FileInput: {
     use: "Choose files, keep the selected list visible, and let people remove individual items before uploading.",
     example: {
@@ -663,6 +677,20 @@ export const componentGuides: Record<string, ComponentGuide> = {
       "Use a themed container when the popup belongs to a nested theme.",
     ],
     accessibility: accessibilityGuides.Tooltip,
+  },
+  PageHeader: {
+    use: "Open every screen with one header that names the page, gives brief context, shows its status and holds the page-level actions.",
+    example: {
+      title: "Name the screen and its next action",
+      description:
+        "Render the title as the page's h1, keep the description to a sentence or two, and end-align one primary action with any secondary actions before it.",
+    },
+    tips: [
+      "Keep one primary Button in actions; put secondary actions first and move rarely used ones into a Menu.",
+      "Use navigation for a back link or a breadcrumb nav, meta for status Badges, and children for section Tabs or filters that belong to the header.",
+      "Lower headingLevel only when the header introduces a region inside a page that already has an h1.",
+    ],
+    accessibility: accessibilityGuides.PageHeader,
   },
   EmptyState: {
     use: "Explain why a collection, search query, or section has no items to show and offer the direct action that populates or recovers it.",

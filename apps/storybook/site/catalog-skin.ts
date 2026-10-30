@@ -104,6 +104,7 @@ const examples: Record<string, Example> = {
   Card: { open: "<Card", close: ">…</Card>", css: outline },
   Checkbox: { open: '<Checkbox label="Email me"', slot: "mark", css: outline },
   Dialog: { open: "<Dialog.Content", close: ">…</Dialog.Content>", css: outline },
+  PageHeader: { open: '<PageHeader title="Orders"', close: " />", css: outline },
   EmptyState: { open: '<EmptyState title="No items"', close: " />", css: outline },
   FileInput: { open: '<FileInput label="Files"', slot: "trigger", css: fill },
   Grid: { open: "<Grid", close: ">…</Grid>", css: () => ["gap: 2rem;"] },
