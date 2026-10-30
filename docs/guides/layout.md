@@ -61,6 +61,18 @@ Tracks fill their assigned columns while children retain their own reading measu
 
 [Dashboard](../../packages/react/docs/components/Dashboard.md) is a layout intent for overview pages: header, metrics, primary and secondary regions in that order. It is its own page frame, so use it instead of Container: it fills the width up to 80rem, with gutters of 1rem below 48rem, 1.5rem from 48rem and 2rem from 64rem of its parent's width; as a direct flex item, wrap it in its own block such as `main` so the gutters measure its column, not the whole row. Primary and secondary share a row, two thirds and one third, once the panels region is 60rem wide; below that each fills its own row, primary first. Like Split, these thresholds use available width, not the viewport.
 
+## Main task with an aside
+
+Use [SupportingPane](../../packages/react/docs/components/SupportingPane.md) when one task fills the page and supporting context sits beside it, such as a cart and its order summary or a list and an inspector. It frames the page itself, so do not wrap it in Container.
+
+| Width | Page frame | Main and aside |
+| --- | --- | --- |
+| Viewport under 48rem | 1rem gutters | Aside below main, both full width |
+| Viewport 48rem to 64rem | 1.5rem gutters | Beside each other once the pane's content is 48rem wide; otherwise stacked |
+| Viewport 64rem and wider | 2rem gutters, page capped at 80rem | Aside 22rem wide, main fills the rest |
+
+The collapse point uses the pane's own content width, so a pane in a narrow parent stays stacked on a wide screen. Main comes first in source, reading and Tab order at every width. The aside is a native `aside`; name it from its visible heading with `asideLabelledBy`.
+
 ## Semantics and accessibility
 
 Choose landmarks from document structure with Container's native `as` prop. Container, Grid, Inline, Stack and Split default to div; non-default generic element types require an explicit `as` so native props and refs stay aligned. Named sections and aside elements keep their native semantics. Layout does not add grid roles, focus management or tab stops. Inline controls remain independent tab stops; choose Toolbar for coordinated arrow-key navigation.

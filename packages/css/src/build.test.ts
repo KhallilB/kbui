@@ -69,6 +69,7 @@ describe("buildCss", () => {
         "copyabletext.css",
         "codeblock.css",
         "confirmaction.css",
+        "supportingpane.css",
       ]),
     );
   });
@@ -180,6 +181,16 @@ describe("buildCss", () => {
     const root = css.match(/\.kb-panel \{[^}]*\}/)?.[0] ?? "";
     expect(root).not.toMatch(/filter|overflow/);
     expect(root).toContain("border-radius: var(--kb-panel-radius)");
+  });
+
+  test("opaque panel drops the glass and paints its fill on a solid base", async () => {
+    const css = await readFile(join(src, "components", "panel.css"), "utf8");
+    const opaque = css.match(/\.kb-panel\[data-opaque\] > \.kb-panel-plate \{[^}]*\}/)?.[0] ?? "";
+    expect(opaque).toContain("backdrop-filter: none");
+    expect(opaque).toContain("var(--_panel-sheen)");
+    expect(opaque).toContain("var(--_panel-bg)");
+    expect(opaque).toMatch(/var\(--kb-panel-background-opaque\);/);
+    expect(css.split("\n")[0]).toContain("[data-opaque]");
   });
 
   test("panel paints rim, sheen, glass, glow, shadow and well from tokens", async () => {
@@ -584,6 +595,13 @@ describe("buildCss", () => {
     expect(pageHeaderCss).toContain("flex: 1 1 var(--kb-pageheader-heading-min-width)");
     expect(pageHeaderCss).toContain("flex-wrap: wrap");
 
+    const supportingPaneCss = await read("supportingpane.css");
+    expect(supportingPaneCss.split("\n")[0]).toContain(
+      ".kb-supportingpane > .kb-supportingpane-main, .kb-supportingpane-aside",
+    );
+    expect(supportingPaneCss).toContain("container: kb-supportingpane / inline-size");
+    expect(supportingPaneCss).toContain("@container kb-supportingpane (width >= 48rem)");
+    expect(supportingPaneCss).toContain("max-inline-size: var(--kb-supportingpane-max-width)");
     const statsRowCss = await read("statsrow.css");
     expect(statsRowCss.split("\n")[0]).toContain(
       ".kb-statsrow [data-appearance=plain|outlined] > .kb-statsrow-item",

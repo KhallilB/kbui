@@ -58,6 +58,7 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | `inline.css` | `.kb-inline` with `data-gap`, `data-align` and `data-justify`; wraps in source order |
 | `stack.css` | `.kb-stack` with `data-gap`, `data-align` (`start`, `center`, `end`, `stretch`) and `data-justify`; flows top to bottom in source order; resets child block margins and native list markers |
 | `split.css` | `.kb-split` with `data-ratio`, `data-collapse`, `data-gap` and `data-align`; two `.kb-split-track` children containing the column content |
+| `supportingpane.css` | `.kb-supportingpane` page frame (up to 80rem, gutters stepping at 48rem and 64rem of viewport) with `-main` and `-aside` regions; the aside sits beside main from 48rem of the pane's content width and below it under that |
 | `separator.css` | Native hr with `.kb-separator` and `data-orientation`; decorative rules need aria-hidden and role none |
 | `heading.css` | Native heading with `.kb-heading` and `data-size` (`sm`, `md`, `lg`, `xl`, `display`); rank follows document outline |
 | `text.css` | `p`, `span` or `div` with `.kb-text`, `data-size` (`sm`, `md`, `lg`) and `data-tone` (`default`, `muted`) |

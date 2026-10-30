@@ -55,6 +55,7 @@
 @import "./components/stat.css" layer(kbui.components);
 @import "./components/statsrow.css" layer(kbui.components);
 @import "./components/status.css" layer(kbui.components);
+@import "./components/supportingpane.css" layer(kbui.components);
 @import "./components/switch.css" layer(kbui.components);
 @import "./components/table.css" layer(kbui.components);
 @import "./components/tabs.css" layer(kbui.components);
