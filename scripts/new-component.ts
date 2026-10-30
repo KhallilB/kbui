@@ -9,7 +9,7 @@ const exists = (p: string) =>
     () => false,
   );
 
-const specifier = (stmt: string) => stmt.match(/"([^"]*)"\s*;?\s*$/)?.[1] ?? "";
+const specifier = (stmt: string) => stmt.match(/"([^"]*)"[^"]*$/)?.[1] ?? "";
 
 // Sorted slots only: other statements and blank lines keep their position.
 async function withLine(file: string, line: string, sortable: (stmt: string) => boolean) {
@@ -49,8 +49,10 @@ export async function newComponent(name: string, root = process.cwd()): Promise<
     `export { ${name}, type ${name}Props } from "./components/${name}/${name}";`,
     (s) => s.startsWith("export "),
   );
-  const styles = await withLine(stylesFile, `@import "./components/${lower}.css";`, (s) =>
-    s.includes("./components/"),
+  const styles = await withLine(
+    stylesFile,
+    `@import "./components/${lower}.css" layer(kbui.components);`,
+    (s) => s.includes("./components/"),
   );
 
   await mkdir(reactDir, { recursive: true });

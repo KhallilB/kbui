@@ -1,17 +1,17 @@
 # Loading and feedback
 
-Asynchronous interfaces move through four states: **waiting**, **missing content**, **completion**, and **recoverable failure**. Choose the feedback primitive that matches both the scope of the state and what the person can do next.
+Show whether work is waiting, content is missing, a task finished, or something failed. Choose a component that explains what happened and what people can do next.
 
 ## Choosing the right feedback surface
 
 | State | Primary component | When to use | Accessibility contract |
 |---|---|---|---|
-| Short indeterminate wait or busy control | [Spinner](../../packages/react/docs/components/Spinner.md) | Button submission, inline refresh, or short wait with unknown duration | Standalone `Spinner` exposes `role="status"` and an accessible `label`; set `decorative` inside a `Button` whose text already changes (for example, `"Saving…"`) |
-| Known completion ratio | [Progress](../../packages/react/docs/components/Progress.md) | File upload, multi-step migration, or batch export with a numeric percentage | Native or ARIA progressbar with a visible label and value |
-| Incoming layout placeholder | [Skeleton](../../packages/react/docs/components/Skeleton.md) | Initial load of cards, lists, or detail views whose geometry is known ahead of time | `Skeleton` is `aria-hidden="true"`; mark the owning container `aria-busy="true"` and pair with a `Status` or `Spinner` announcement |
-| Empty collection or zero-match filter | [EmptyState](../../packages/react/docs/components/EmptyState.md) | First-run onboarding, empty resource lists, or search/filter queries with zero results | Semantic heading (`h2`–`h4`) plus primary recovery action; set `live` when revealed dynamically after filtering |
-| Transient completion or background failure | [Toast](../../packages/react/docs/components/Toast.md) | Background save confirmation, async job completion, or non-blocking failure with retry/undo | Polite `status` (or `alert` for `danger`), keyboard-reachable viewport (`F6`), and pause-on-hover/focus |
-| Persistent inline warning or blocker | [Callout](../../packages/react/docs/components/Callout.md) / [ErrorSummary](../../packages/react/docs/components/ErrorSummary.md) | Section-level warnings, degraded dependencies, or form validation errors that require editing fields | Keep persistent remediation in document flow; use `ErrorSummary` to link directly to invalid form controls |
+| Short indeterminate wait or busy control | [`Spinner`](../../packages/react/docs/components/Spinner.md) | `Button` submission, inline refresh, or short wait with unknown duration | Standalone `Spinner` exposes `role="status"` and an accessible `label`; set `decorative` inside a `Button` whose text already changes (for example, `"Saving…"`) |
+| Known completion ratio | [`Progress`](../../packages/react/docs/components/Progress.md) | File upload, multi-step migration, or batch export with a numeric percentage | Native or ARIA progressbar with a visible label and value |
+| Incoming layout placeholder | [`Skeleton`](../../packages/react/docs/components/Skeleton.md) | Initial load of cards, lists, or detail views whose geometry is known ahead of time | `Skeleton` is `aria-hidden="true"`; mark the owning container `aria-busy="true"` and pair with a `Status` or `Spinner` announcement |
+| Empty collection or zero-match filter | [`EmptyState`](../../packages/react/docs/components/EmptyState.md) | First-run onboarding, empty resource lists, or search/filter queries with zero results | Semantic heading (`h2`–`h4`) plus primary recovery action; set `live` when revealed dynamically after filtering |
+| Transient completion or background failure | [`Toast`](../../packages/react/docs/components/Toast.md) | Background save confirmation, async job completion, or non-blocking failure with retry/undo | Polite `status` (or `alert` for `danger`), keyboard-reachable viewport (`F6`), and pause-on-hover/focus |
+| Persistent inline warning or blocker | [`Callout`](../../packages/react/docs/components/Callout.md) / [`ErrorSummary`](../../packages/react/docs/components/ErrorSummary.md) | Section-level warnings, degraded dependencies, or form validation errors that require editing fields | Keep warnings and errors in the page; use `ErrorSummary` to link to fields that need correction |
 
 ## Asynchronous submission and retry recipe
 

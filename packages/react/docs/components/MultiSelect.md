@@ -1,6 +1,6 @@
 # MultiSelect
 
-Use MultiSelect when people need to search a longer list and keep multiple selections visible as removable chips. Selected values render inside a named chip toolbar with keyboard arrow/Backspace/Delete support and per-chip remove buttons. Choosing or deselecting an option keeps the popup open and preserves the filter. Escape, an outside click, or the toggle closes it.
+Use `MultiSelect` when people need to search a longer list and keep multiple selections visible as removable chips. Selected values render inside a named chip toolbar with keyboard arrow/Backspace/Delete support and per-chip remove buttons. Choosing or deselecting an option keeps the popup open and preserves the filter. Escape, an outside click, or the toggle closes it.
 
 [All components](../../README.md#components) · [Usage](#usage) · [Examples](#more-examples) · [Reference](#reference) · [Live examples and accessibility](https://kbui.kcb.pro/storybook/?path=/docs/components-multiselect--docs)
 
@@ -56,4 +56,4 @@ export function ScopeMultiSelect() {
 
 ## Related components
 
-Use [Combobox](Combobox.md) for one searchable choice and [Checkbox](Checkbox.md) for independent choices that should remain visible.
+Use [`Combobox`](Combobox.md) for one searchable choice and [`Checkbox`](Checkbox.md) for independent choices that should remain visible.

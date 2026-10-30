@@ -16,18 +16,20 @@ beforeEach(async () => {
   );
   await writeFile(
     join(root, "packages/css/src/styles.css"),
-    '@import "./reset.css";\n@import "./components/zed.css";\n',
+    '@import "./reset.css" layer(kbui.reset);\n@import "./components/zed.css" layer(kbui.components);\n',
   );
 });
 
 afterEach(() => rm(root, { recursive: true, force: true }));
 
 describe("newComponent", () => {
-  test("stamps four files and registers exports", async () => {
+  test("stamps four files, registers layered CSS import, and compiles generated TSX", async () => {
     await newComponent("Badge", root);
     const tsx = await readFile(join(root, "packages/react/src/components/Badge/Badge.tsx"), "utf8");
     expect(tsx).toContain("export function Badge(");
     expect(tsx).toContain('kb("badge"');
+    const transpiler = new Bun.Transpiler({ loader: "tsx" });
+    expect(() => transpiler.transformSync(tsx)).not.toThrow();
     expect(
       await readFile(join(root, "packages/react/src/components/Badge/Badge.test.tsx"), "utf8"),
     ).toContain('describe("Badge"');
@@ -40,11 +42,12 @@ describe("newComponent", () => {
       'export { Badge, type BadgeProps } from "./components/Badge/Badge";',
     );
     expect(await readFile(join(root, "packages/css/src/styles.css"), "utf8")).toContain(
-      '@import "./components/badge.css";',
+      '@import "./components/badge.css" layer(kbui.components);',
     );
   });
 
-  test("keeps exports and imports sorted", async () => {
+  test("keeps exports and layered component imports sorted", async () => {
+    await newComponent("Zeta", root);
     await newComponent("Badge", root);
     const index = await readFile(join(root, "packages/react/src/index.ts"), "utf8");
     expect(index).toBe(
@@ -54,15 +57,17 @@ describe("newComponent", () => {
         "  Zed,",
         "  type ZedProps,",
         '} from "./components/Zed/Zed";',
+        'export { Zeta, type ZetaProps } from "./components/Zeta/Zeta";',
         'export { kb } from "./utils/kb";',
         "",
       ].join("\n"),
     );
     const css = await readFile(join(root, "packages/css/src/styles.css"), "utf8");
-    expect(css.split("\n").slice(0, 3)).toEqual([
-      '@import "./reset.css";',
-      '@import "./components/badge.css";',
-      '@import "./components/zed.css";',
+    expect(css.split("\n").slice(0, 4)).toEqual([
+      '@import "./reset.css" layer(kbui.reset);',
+      '@import "./components/badge.css" layer(kbui.components);',
+      '@import "./components/zed.css" layer(kbui.components);',
+      '@import "./components/zeta.css" layer(kbui.components);',
     ]);
   });
 
