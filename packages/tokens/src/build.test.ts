@@ -332,6 +332,10 @@ describe("tokens.json", () => {
     expect(css).toMatch(/--kb-panel-seam: \d+px;/);
   });
 
+  test("backs opaque panels with the solid surface material", () => {
+    expect(css).toContain("--kb-panel-background-opaque: var(--kb-material-surface-bg);");
+  });
+
   test("defines a lit rim that runs from rim-top through the border to rim-bottom", () => {
     for (const name of ["rim-top", "rim-bottom"]) {
       expect(css).toContain(`--kb-panel-${name}: `);

@@ -29,6 +29,19 @@ describe("Panel", () => {
     expect(root).toHaveClass("kb-panel", "extra");
   });
 
+  test("marks opaque panels only when asked", () => {
+    const { container, rerender } = render(<Panel>x</Panel>);
+    expect(container.querySelector(".kb-panel")).not.toHaveAttribute("data-opaque");
+    rerender(<Panel opaque>x</Panel>);
+    expect(container.querySelector(".kb-panel")).toHaveAttribute("data-opaque", "");
+    rerender(
+      <Panel opaque collapsible>
+        x
+      </Panel>,
+    );
+    expect(container.querySelector(".kb-panel")).toHaveAttribute("data-opaque", "");
+  });
+
   test("accepts the sunken tone for recessed planes", () => {
     const tone: PanelTone = "sunken";
     const { container } = render(<Panel tone={tone}>x</Panel>);

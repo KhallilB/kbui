@@ -182,6 +182,16 @@ describe("buildCss", () => {
     expect(root).toContain("border-radius: var(--kb-panel-radius)");
   });
 
+  test("opaque panel drops the glass and paints its fill on a solid base", async () => {
+    const css = await readFile(join(src, "components", "panel.css"), "utf8");
+    const opaque = css.match(/\.kb-panel\[data-opaque\] > \.kb-panel-plate \{[^}]*\}/)?.[0] ?? "";
+    expect(opaque).toContain("backdrop-filter: none");
+    expect(opaque).toContain("var(--_panel-sheen)");
+    expect(opaque).toContain("var(--_panel-bg)");
+    expect(opaque).toMatch(/var\(--kb-panel-background-opaque\);/);
+    expect(css.split("\n")[0]).toContain("[data-opaque]");
+  });
+
   test("panel paints rim, sheen, glass, glow, shadow and well from tokens", async () => {
     const css = await readFile(join(src, "components", "panel.css"), "utf8");
     const rule = (sel: RegExp) =>

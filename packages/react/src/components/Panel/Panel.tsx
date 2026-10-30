@@ -27,6 +27,8 @@ export type PanelProps = ComponentProps<"section"> & {
   rail?: PanelRail;
   /** Padding scale. */
   density?: PanelDensity;
+  /** Solid fill with no theme backdrop filter; for content that redraws often. */
+  opaque?: boolean;
   /** Makes Panel.Body collapse and expand from Panel.Toggle. */
   collapsible?: boolean;
   /** Controlled open state; collapsible only. */
@@ -76,6 +78,7 @@ function PanelRoot({
   tone = "default",
   rail = "none",
   density = "standard",
+  opaque = false,
   collapsible = false,
   open,
   defaultOpen,
@@ -86,7 +89,7 @@ function PanelRoot({
   ...props
 }: PanelProps) {
   const nested = useContext(NestedContext);
-  const attrs = kb("panel", { tone, rail, density, nested, collapsible }, className);
+  const attrs = kb("panel", { tone, rail, density, nested, opaque, collapsible }, className);
   const content = (
     <NestedContext value={true}>
       <CollapsibleContext value={collapsible}>
