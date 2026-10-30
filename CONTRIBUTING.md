@@ -27,6 +27,7 @@ bun run storybook
 | `bun run test:overlays` | Checks overlay/disclosure states, native keyboard boundaries and scanner scope in Chromium, Firefox and WebKit, both themes and motion preferences. CI runs it. |
 | `bun run validate:site` | After `bun run build`, runs the complete site/browser and deployment dry-run checks. PR and main validation share these stages; without an argument this command runs all stages. Needs Bash and the documented deployment Node version. |
 | `bun run new <Name>` | Generates a new component. See [Adding a component](docs/guides/adding-a-component.md). |
+| `bun run check:tokens` | Compares the current token inventory against `--base <ref>` and rejects unauthorized token removals, renames, or `$type` changes. |
 | `bun run lint:fix` | Applies Biome's fixes. |
 | `bun run docs:up` | Serves a static Storybook build from Docker at http://localhost:6007. `bun run docs:down` stops it. |
 
