@@ -1,10 +1,17 @@
 import { expect, test } from "bun:test";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { loadCsf } from "storybook/internal/csf-tools";
+import {
+  loadCatalogSources as loadCatalogSourcesFromModule,
+  loadComponentReferences,
+} from "../catalog/component-sources";
 import { loadCatalogSources } from "../catalog/source";
 
 test("each component owns a full prop or composition reference", () => {
+  expect(loadCatalogSourcesFromModule).toBe(loadCatalogSources);
+  const references = loadComponentReferences();
   const entries = loadCatalogSources();
+  expect(Object.keys(references).sort()).toEqual(entries.map((entry) => entry.name).sort());
   for (const entry of entries) {
     expect(entry.apiHeading, entry.name).toBe(entry.name);
     expect(
