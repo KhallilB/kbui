@@ -18,9 +18,10 @@ Pick the layout by how the page saves. [Form](../../packages/react/docs/componen
 | --- | --- | --- |
 | Section at least 40rem wide | Sections stack unless `layout="split"`; the form stops at 40rem (`md`) or 32rem (`sm`) | Each section heading sits in the first third, fields in the other two |
 | Section narrower than 40rem | Same | Heading above its fields |
+| Actions row at least 30rem wide | Actions last and end-aligned | Section actions last in the section and end-aligned |
 | Actions row narrower than 30rem | Each action fills its own row, submit first | Same for section actions |
 
-Neither layout reorders content: reading order, Tab order and visual order match at every width. Wrap each independently saved Settings section in its own `form`, and keep destructive row actions behind a confirmation. kbui controls keep pointer targets at least 24 by 24 CSS pixels; the layouts never shrink them. Your app owns validation, saving and announcing results.
+Neither layout reorders content: reading order, Tab order and visual order match at every width. Wrap each independently saved Settings section in its own `form`, and keep destructive row actions behind a confirmation. Settings keeps each record row's status and actions end-aligned, on one line beside its main text from 40rem of page width. kbui controls keep pointer targets at least 24 by 24 CSS pixels; the layouts never shrink them. Your app owns validation, saving and announcing results.
 
 ## Theme hosts and portals
 

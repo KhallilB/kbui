@@ -1,6 +1,7 @@
 /* Anatomy: .kb-pageheader [data-size=sm|md|lg] [data-divider] > .kb-pageheader-navigation, .kb-pageheader-main > .kb-pageheader-heading > .kb-pageheader-eyebrow, .kb-pageheader-headline > .kb-pageheader-title, .kb-pageheader-meta; .kb-pageheader-description; .kb-pageheader-actions; .kb-pageheader-body */
 
 .kb-pageheader {
+  container: kb-pageheader / inline-size;
   --_pageheader-title-size: var(--kb-pageheader-title-size-md);
   --_pageheader-description-size: var(--kb-text-body-size);
   display: flex;
@@ -111,8 +112,17 @@
   flex: 0 1 auto;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: flex-end;
+  margin-inline-start: auto;
   gap: var(--kb-pageheader-actions-gap);
   min-inline-size: 0;
+}
+
+/* Compact headers put actions on their own row; literal because queries cannot read tokens. */
+@container kb-pageheader (width < 40rem) {
+  .kb-pageheader-actions {
+    flex-basis: 100%;
+  }
 }
 
 .kb-pageheader-body {
