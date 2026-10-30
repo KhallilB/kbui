@@ -16,6 +16,8 @@ const contract = definePlacement({
     { part: ".kb-placementfixture-main", place: "start" },
     { part: ".kb-placementfixture-main p", place: "measure", max: 30 },
     { part: ".kb-placementfixture-actions", place: "end" },
+    // A padded control is placed by its box, not its label.
+    { part: "[data-primary]", place: "end" },
     { part: ".kb-placementfixture-actions", place: "last" },
     { part: ".kb-placementfixture-actions", place: "line" },
     { part: ".kb-placementfixture-actions", place: "primary-last", primary: "[data-primary]" },

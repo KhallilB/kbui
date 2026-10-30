@@ -43,6 +43,11 @@ function extent(el: Element): Box {
   return width > 0 ? { left, right, top, bottom, width } : el.getBoundingClientRect();
 }
 
+// Controls are placed by their box; containers by where their contents sit.
+function edges(el: Element): Box {
+  return el.matches(targetSelector) ? el.getBoundingClientRect() : extent(el);
+}
+
 function children(el: Element) {
   return [...el.children].filter(shown);
 }
@@ -86,11 +91,11 @@ function checkRule(root: HTMLElement, rule: PlacementRule, el: HTMLElement, ref:
       return near(box.width, want) ? null : `is ${px(box.width)} wide, want ${px(want)}`;
     }
     case "start": {
-      const left = extent(el).left;
+      const left = edges(el).left;
       return near(left, area.left) ? null : `starts at ${px(left)}, region at ${px(area.left)}`;
     }
     case "end": {
-      const right = extent(el).right;
+      const right = edges(el).right;
       return near(right, area.right) ? null : `ends at ${px(right)}, region at ${px(area.right)}`;
     }
     case "last": {
