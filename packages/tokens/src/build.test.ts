@@ -716,3 +716,16 @@ describe("supporting pane tokens", () => {
     expect(css).toContain("--kb-supportingpane-aside-width: 22rem;");
   });
 });
+
+describe("stats row tokens", () => {
+  test("aliases outlined items to the card surface and tones to status roles", () => {
+    const { css } = buildTokens(real as TokenTree);
+    expect(css).toContain("--kb-statsrow-item-min-width: 10rem;");
+    expect(css).toContain("--kb-statsrow-item-background: var(--kb-card-background);");
+    expect(css).toContain("--kb-statsrow-item-border: var(--kb-card-border);");
+    expect(css).toContain("--kb-statsrow-item-radius: var(--kb-card-radius);");
+    expect(css).toContain("--kb-statsrow-positive: var(--kb-color-success);");
+    expect(css).toContain("--kb-statsrow-negative: var(--kb-color-danger);");
+    expect(css).toContain("--kb-statsrow-neutral: var(--kb-color-muted);");
+  });
+});

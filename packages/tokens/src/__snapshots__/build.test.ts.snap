@@ -646,6 +646,18 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-pageheader-title-size-lg: var(--kb-heading-size-display);
   --kb-pageheader-divider: var(--kb-color-border);
   --kb-pageheader-divider-gap: var(--kb-space-5);
+  --kb-statsrow-column-gap: var(--kb-space-5);
+  --kb-statsrow-row-gap: var(--kb-space-5);
+  --kb-statsrow-item-gap: var(--kb-space-2);
+  --kb-statsrow-item-min-width: 10rem;
+  --kb-statsrow-item-padding: var(--kb-space-4);
+  --kb-statsrow-item-background: var(--kb-card-background);
+  --kb-statsrow-item-border: var(--kb-card-border);
+  --kb-statsrow-item-border-width: var(--kb-card-border-width);
+  --kb-statsrow-item-radius: var(--kb-card-radius);
+  --kb-statsrow-positive: var(--kb-color-success);
+  --kb-statsrow-negative: var(--kb-color-danger);
+  --kb-statsrow-neutral: var(--kb-color-muted);
   color-scheme: light;
 }
 
@@ -832,6 +844,11 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-table-selected-background: var(--kb-color-surface);
   --kb-table-border: var(--kb-color-border);
   --kb-pageheader-divider: var(--kb-color-border);
+  --kb-statsrow-item-background: var(--kb-card-background);
+  --kb-statsrow-item-border: var(--kb-card-border);
+  --kb-statsrow-positive: var(--kb-color-success);
+  --kb-statsrow-negative: var(--kb-color-danger);
+  --kb-statsrow-neutral: var(--kb-color-muted);
   color-scheme: light;
 }
 
@@ -1018,6 +1035,11 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-table-selected-background: var(--kb-color-surface);
   --kb-table-border: var(--kb-color-border);
   --kb-pageheader-divider: var(--kb-color-border);
+  --kb-statsrow-item-background: var(--kb-card-background);
+  --kb-statsrow-item-border: var(--kb-card-border);
+  --kb-statsrow-positive: var(--kb-color-success);
+  --kb-statsrow-negative: var(--kb-color-danger);
+  --kb-statsrow-neutral: var(--kb-color-muted);
   color-scheme: dark;
 }
 
@@ -1205,6 +1227,11 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-table-selected-background: var(--kb-color-surface);
     --kb-table-border: var(--kb-color-border);
     --kb-pageheader-divider: var(--kb-color-border);
+    --kb-statsrow-item-background: var(--kb-card-background);
+    --kb-statsrow-item-border: var(--kb-card-border);
+    --kb-statsrow-positive: var(--kb-color-success);
+    --kb-statsrow-negative: var(--kb-color-danger);
+    --kb-statsrow-neutral: var(--kb-color-muted);
     color-scheme: dark;
   }
 }
