@@ -1,6 +1,7 @@
 import { expect, test } from "bun:test";
 import * as publicApi from "@kb.ui/react";
 import { babelParse, loadCsf } from "storybook/internal/csf-tools";
+import { parseApiSection as parseApiSectionFromModule } from "../catalog/api-markdown";
 import { exampleCode } from "../catalog/code";
 import { definitions } from "../catalog/definitions";
 import { highlightCode } from "../catalog/highlight";
@@ -97,7 +98,14 @@ test("catalog covers every public component with canonical API and CSF stories",
 
 test("API generation rejects malformed table rows", () => {
   const guide = "## Button\n\n| Prop | Type |\n|---|---|\n| `variant` | `primary` | `ghost` |\n";
-  expect(() => parseApiSection(guide, "Button")).toThrow("Malformed API row: Button");
+  expect(parseApiSectionFromModule).toBe(parseApiSection);
+  expect(() => parseApiSectionFromModule(guide, "Button")).toThrow("Malformed API row: Button");
+  expect(() =>
+    parseApiSectionFromModule("## Button\n\n| Prop | Type |\n|---|bad|\n| `a` | `b` |\n", "Button"),
+  ).toThrow("Malformed API table: Button");
+  expect(() => parseApiSectionFromModule("## Other\n\nText\n", "Button")).toThrow(
+    "Missing canonical API section: Button",
+  );
 });
 
 test("API generation rejects a missing component row even when notes remain", () => {
