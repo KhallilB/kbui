@@ -114,6 +114,18 @@ describe("buildTokens", () => {
     expect(() => buildTokens(bad)).toThrow(/\$value/);
   });
 
+  test("throws on unsupported $type or incompatible alias target", () => {
+    expect(() => buildTokens({ a: { $type: "bogus", $value: "1px" } })).toThrow(
+      /Unsupported token \$type/,
+    );
+    expect(() =>
+      buildTokens({
+        size: { $type: "dimension", $value: "1rem" },
+        tint: { $type: "color", $value: "{size}" },
+      }),
+    ).toThrow(/Incompatible token alias/);
+  });
+
   test("ignores $-prefixed group metadata", () => {
     const grouped = {
       g: { $description: "notes", x: { $type: "color", $value: "#111" } },

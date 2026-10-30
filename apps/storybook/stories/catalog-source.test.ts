@@ -1,15 +1,23 @@
 import { expect, test } from "bun:test";
 import * as publicApi from "@kb.ui/react";
 import { babelParse, loadCsf } from "storybook/internal/csf-tools";
+import { parseApiSection as parseApiSectionFromModule } from "../catalog/api-markdown";
+import { catalogPlugin as catalogPluginFromModule } from "../catalog/catalog-plugin";
 import { exampleCode } from "../catalog/code";
+import {
+  componentsRoot,
+  loadCatalogSources as loadCatalogSourcesFromModule,
+  referenceRoot,
+} from "../catalog/component-sources";
 import { definitions } from "../catalog/definitions";
 import { highlightCode } from "../catalog/highlight";
 import { loadSiteSamples } from "../catalog/site-samples";
-import { loadCatalogSources, parseApiSection } from "../catalog/source";
+import { catalogPlugin, loadCatalogSources, parseApiSection } from "../catalog/source";
 import { browsableStories } from "../site/catalog-model";
 import { playgroundKey } from "../site/playground-model";
 
 test("catalog offers a curated set of useful examples while retaining internal stories", () => {
+  expect(loadCatalogSourcesFromModule).toBe(loadCatalogSources);
   const entries = loadCatalogSources();
   for (const entry of entries) {
     const choices = browsableStories(entry);
@@ -97,7 +105,14 @@ test("catalog covers every public component with canonical API and CSF stories",
 
 test("API generation rejects malformed table rows", () => {
   const guide = "## Button\n\n| Prop | Type |\n|---|---|\n| `variant` | `primary` | `ghost` |\n";
-  expect(() => parseApiSection(guide, "Button")).toThrow("Malformed API row: Button");
+  expect(parseApiSectionFromModule).toBe(parseApiSection);
+  expect(() => parseApiSectionFromModule(guide, "Button")).toThrow("Malformed API row: Button");
+  expect(() =>
+    parseApiSectionFromModule("## Button\n\n| Prop | Type |\n|---|bad|\n| `a` | `b` |\n", "Button"),
+  ).toThrow("Malformed API table: Button");
+  expect(() => parseApiSectionFromModule("## Other\n\nText\n", "Button")).toThrow(
+    "Missing canonical API section: Button",
+  );
 });
 
 test("API generation rejects a missing component row even when notes remain", () => {
@@ -423,4 +438,69 @@ test("standalone component pages preserve API tables and nested guidance", () =>
     { kind: "heading", level: 2, text: "Props" },
     { kind: "table", headers: ["Prop", "Type"], rows: [["`disabled`", "`boolean`"]] },
   ]);
+});
+
+test("catalogPlugin resolves virtual modules, watches sources, and invalidates on hot updates", () => {
+  expect(catalogPluginFromModule).toBe(catalogPlugin);
+  const plugin = catalogPlugin();
+  const resolveId =
+    typeof plugin.resolveId === "function" ? plugin.resolveId : plugin.resolveId?.handler;
+  if (!resolveId) throw new Error("Missing resolveId hook");
+  expect(resolveId.call({} as never, "virtual:kbui-catalog", undefined, { isEntry: false })).toBe(
+    "\0virtual:kbui-catalog",
+  );
+  expect(resolveId.call({} as never, "virtual:kbui-reference", undefined, { isEntry: false })).toBe(
+    "\0virtual:kbui-reference",
+  );
+  expect(resolveId.call({} as never, "virtual:kbui-system", undefined, { isEntry: false })).toBe(
+    "\0virtual:kbui-system",
+  );
+
+  const watched: string[] = [];
+  const buildStart =
+    typeof plugin.buildStart === "function" ? plugin.buildStart : plugin.buildStart?.handler;
+  if (!buildStart) throw new Error("Missing buildStart hook");
+  buildStart.call(
+    {
+      addWatchFile(file: string) {
+        watched.push(file);
+      },
+    } as never,
+    {} as never,
+  );
+  expect(watched.some((file) => file.startsWith(referenceRoot))).toBe(true);
+  expect(watched.some((file) => file.startsWith(componentsRoot))).toBe(true);
+
+  const invalidated: string[] = [];
+  let reloaded = false;
+  const handleHotUpdate =
+    typeof plugin.handleHotUpdate === "function"
+      ? plugin.handleHotUpdate
+      : plugin.handleHotUpdate?.handler;
+  if (!handleHotUpdate) throw new Error("Missing handleHotUpdate hook");
+  const server = {
+    moduleGraph: {
+      getModuleById(id: string) {
+        return { id };
+      },
+      invalidateModule(mod: { id: string }) {
+        invalidated.push(mod.id);
+      },
+    },
+    ws: {
+      send(payload: { type: string }) {
+        if (payload.type === "full-reload") reloaded = true;
+      },
+    },
+  };
+  expect(
+    handleHotUpdate.call({} as never, { file: "/unrelated/file.ts", server } as never),
+  ).toBeUndefined();
+  expect(invalidated).toEqual([]);
+  expect(
+    handleHotUpdate.call({} as never, { file: `${referenceRoot}/Button.md`, server } as never),
+  ).toEqual([]);
+  expect(invalidated).toContain("\0virtual:kbui-catalog");
+  expect(invalidated).toContain("\0virtual:kbui-reference");
+  expect(reloaded).toBe(true);
 });

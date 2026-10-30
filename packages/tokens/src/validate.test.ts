@@ -125,3 +125,124 @@ describe("validateTokenCycles", () => {
     expect(() => validateTokenCycles(rawTokens as TokenTree)).not.toThrow();
   });
 });
+
+describe("validateTokenValuesAndTypes", () => {
+  test("rejects unknown token $type kinds", () => {
+    const tree: TokenTree = {
+      mystery: { $type: " unknownKind ", $value: "12px" },
+    };
+    expect(() => buildTokens(tree)).toThrow(/Unsupported token \$type/);
+  });
+
+  test("rejects malformed color values across light, dark, and forced modes", () => {
+    expect(() =>
+      buildTokens({
+        color: { badHex: { $type: "color", $value: "#12345" } },
+      }),
+    ).toThrow(/Invalid color value/);
+
+    expect(() =>
+      buildTokens({
+        color: {
+          badDark: {
+            $type: "color",
+            $value: "#ffffff",
+            $extensions: { "kb.dark": "not-a-color" },
+          },
+        },
+      }),
+    ).toThrow(/Invalid color value/);
+
+    expect(() =>
+      buildTokens({
+        color: {
+          badForced: {
+            $type: "color",
+            $value: "#ffffff",
+            $extensions: { "kb.forced": "rgb(300 0 0)" },
+          },
+        },
+      }),
+    ).toThrow(/Invalid color value/);
+  });
+
+  test("rejects malformed dimension, duration, fontWeight, cubicBezier, number, gradient, and shadow values", () => {
+    expect(() =>
+      buildTokens({
+        space: { bad: { $type: "dimension", $value: "16invalid" } },
+      }),
+    ).toThrow(/Invalid dimension value/);
+
+    expect(() =>
+      buildTokens({
+        motion: { badDuration: { $type: "duration", $value: "-20ms" } },
+      }),
+    ).toThrow(/Invalid duration value/);
+
+    expect(() =>
+      buildTokens({
+        font: { badWeight: { $type: "fontWeight", $value: "450" } },
+      }),
+    ).toThrow(/Invalid fontWeight value/);
+
+    expect(() =>
+      buildTokens({
+        motion: { badCurve: { $type: "cubicBezier", $value: "cubic-bezier(1.5, 0, 0.2, 1)" } },
+      }),
+    ).toThrow(/Invalid cubicBezier value/);
+
+    expect(() =>
+      buildTokens({
+        scale: { badNumber: { $type: "number", $value: "NaN" } },
+      }),
+    ).toThrow(/Invalid number value/);
+
+    expect(() =>
+      buildTokens({
+        face: { badGradient: { $type: "gradient", $value: "url(foo.png)" } },
+      }),
+    ).toThrow(/Invalid gradient value/);
+
+    expect(() =>
+      buildTokens({
+        elevation: { badShadow: { $type: "shadow", $value: "invalid-shadow" } },
+      }),
+    ).toThrow(/Invalid shadow value/);
+  });
+
+  test("rejects incompatible alias types while allowing valid composite color/shadow/gradient aliases", () => {
+    expect(() =>
+      buildTokens({
+        space: { md: { $type: "dimension", $value: "1rem" } },
+        color: { wrong: { $type: "color", $value: "{space.md}" } },
+      }),
+    ).toThrow(/Incompatible token alias \{space\.md\} \(dimension\) for color\.wrong \(color\)/);
+
+    expect(() =>
+      buildTokens({
+        blue: { "500": { $type: "color", $value: "#2563eb" } },
+        space: { wrong: { $type: "dimension", $value: "{blue.500}" } },
+      }),
+    ).toThrow(/Incompatible token alias \{blue\.500\} \(color\) for space\.wrong \(dimension\)/);
+
+    const validComposite: TokenTree = {
+      color: {
+        top: { $type: "color", $value: "#ffffff" },
+        bottom: { $type: "color", $value: "#f4f4f5" },
+      },
+      material: {
+        baseShadow: { $type: "shadow", $value: "0 1px 2px rgb(0 0 0 / 0.1)" },
+        face: {
+          $type: "gradient",
+          $value: "linear-gradient(180deg, {color.top}, {color.bottom})",
+        },
+        layeredShadow: {
+          $type: "shadow",
+          $value:
+            "{material.baseShadow}, 0 4px 8px color-mix(in srgb, {color.top} 50%, {color.bottom})",
+        },
+      },
+    };
+    expect(() => buildTokens(validComposite)).not.toThrow();
+  });
+});
