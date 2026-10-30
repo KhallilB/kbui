@@ -310,6 +310,9 @@ describe("buildCss", () => {
       "textarea.css",
       "fieldset.css",
       "formactions.css",
+      "form.css",
+      "formsection.css",
+      "settings.css",
       "errorsummary.css",
       "confirmaction.css",
     ]) {
@@ -332,6 +335,11 @@ describe("buildCss", () => {
     const textareaCss = await readFile(join(src, "components", "textarea.css"), "utf8");
     expect(textareaCss).toContain("max-inline-size: 100%");
     expect(textareaCss).toContain(".kb-textarea[data-invalid] .kb-textarea-control:focus-visible");
+    const formSectionCss = await readFile(join(src, "components", "formsection.css"), "utf8");
+    expect(formSectionCss).toMatch(/\.kb-settings\s+\.kb-formsection:not\(\[data-layout\]\)/);
+    expect(formSectionCss).toContain("@container kb-formsection-actions (width < 30rem)");
+    const formCss = await readFile(join(src, "components", "form.css"), "utf8");
+    expect(formCss).toContain("@container kb-form-actions (width < 30rem)");
   });
 
   test("every component stylesheet references only defined tokens and styles.css imports stay sorted", async () => {
