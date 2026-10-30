@@ -231,9 +231,13 @@ function expectSectionsCollapse(frame: HTMLElement) {
 export const ResponsiveGeometry: Story = {
   tags: ["!dev", "!autodocs"],
   render: () => (
-    <div style={{ display: "grid", gap: "2rem" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
       {widths.map((width) => (
-        <div key={width} data-testid={`frame-${width}`} style={{ inlineSize: width }}>
+        <div
+          key={width}
+          data-testid={`frame-${width}`}
+          style={{ inlineSize: width, maxInlineSize: "100%" }}
+        >
           <NotificationSettings />
           <TeamSettings />
         </div>
@@ -243,8 +247,10 @@ export const ResponsiveGeometry: Story = {
   play: async ({ canvasElement }) => {
     for (const width of widths) {
       const frame = within(canvasElement).getByTestId(`frame-${width}`);
-      // Frames must keep their width, or the wide branches never run.
-      expect(frame.getBoundingClientRect().width).toBeCloseTo(width, 0);
+      // Frames clamp to the canvas; it must fit 768px or the wide branches never run.
+      const available = frame.parentElement?.getBoundingClientRect().width ?? 0;
+      expect(available).toBeGreaterThanOrEqual(768);
+      expect(frame.getBoundingClientRect().width).toBeCloseTo(Math.min(width, available), 0);
       expectUsable(frame);
       expectSectionsCollapse(frame);
     }

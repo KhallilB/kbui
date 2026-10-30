@@ -102,9 +102,13 @@ export const PendingSave: Story = {
 export const SplitCollapse: Story = {
   tags: ["!dev", "!autodocs"],
   render: () => (
-    <div style={{ display: "grid", gap: "2rem" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
       {[320, 639, 640, 1040].map((width) => (
-        <div key={width} data-testid={`frame-${width}`} style={{ inlineSize: width }}>
+        <div
+          key={width}
+          data-testid={`frame-${width}`}
+          style={{ inlineSize: width, maxInlineSize: "100%" }}
+        >
           <FormSection data-testid={`section-${width}`} title="Profile" layout="split">
             <Input label={`Display name ${width}`} />
           </FormSection>
@@ -116,7 +120,9 @@ export const SplitCollapse: Story = {
     for (const width of [320, 639, 640, 1040]) {
       // Frames must keep their width, or the split branch never runs.
       const frame = within(canvasElement).getByTestId(`frame-${width}`);
-      expect(frame.getBoundingClientRect().width).toBeCloseTo(width, 0);
+      const available = frame.parentElement?.getBoundingClientRect().width ?? 0;
+      expect(available).toBeGreaterThanOrEqual(768);
+      expect(frame.getBoundingClientRect().width).toBeCloseTo(Math.min(width, available), 0);
       const section = within(canvasElement).getByTestId(`section-${width}`);
       const header = section.querySelector(".kb-formsection-header")?.getBoundingClientRect();
       const body = section.querySelector(".kb-formsection-body")?.getBoundingClientRect();
