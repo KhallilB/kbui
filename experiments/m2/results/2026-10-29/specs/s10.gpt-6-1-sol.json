@@ -1,0 +1,559 @@
+{
+  "spec": {
+    "root": "workspace-settings",
+    "elements": {
+      "workspace-settings": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg",
+          "className": "mx-auto w-full max-w-4xl p-6"
+        },
+        "children": [
+          "page-header",
+          "archived-notice",
+          "settings-content",
+          "archive-dialog"
+        ]
+      },
+      "page-header": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "page-title",
+          "page-description"
+        ]
+      },
+      "page-title": {
+        "type": "Heading",
+        "props": {
+          "text": "Workspace settings",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "page-description": {
+        "type": "Text",
+        "props": {
+          "text": "Make this space your own. Manage workspace identity, onboarding, and message history.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "archived-notice": {
+        "type": "Alert",
+        "props": {
+          "title": "Workspace archived",
+          "message": "This workspace is now read-only. Existing messages and files remain available according to your retention policy.",
+          "type": "info"
+        },
+        "visible": {
+          "$state": "/archived"
+        },
+        "children": []
+      },
+      "settings-content": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "visible": {
+          "$state": "/archived",
+          "not": true
+        },
+        "children": [
+          "identity-card",
+          "channels-card",
+          "retention-card",
+          "save-row",
+          "save-notice",
+          "archive-card"
+        ]
+      },
+      "identity-card": {
+        "type": "Card",
+        "props": {
+          "title": "Workspace identity",
+          "description": "Your name and logo appear in the workspace switcher and invitations."
+        },
+        "children": [
+          "identity-fields"
+        ]
+      },
+      "identity-fields": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "workspace-name",
+          "logo-row"
+        ]
+      },
+      "workspace-name": {
+        "type": "Input",
+        "props": {
+          "label": "Workspace name",
+          "name": "workspaceName",
+          "value": {
+            "$bindState": "/workspaceName"
+          },
+          "placeholder": "e.g. Northstar Studio",
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter a workspace name."
+            },
+            {
+              "type": "maxLength",
+              "message": "Use 60 characters or fewer.",
+              "args": {
+                "max": 60
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "logo-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "lg",
+          "align": "center"
+        },
+        "children": [
+          "workspace-avatar",
+          "logo-fields"
+        ]
+      },
+      "workspace-avatar": {
+        "type": "Avatar",
+        "props": {
+          "name": {
+            "$state": "/workspaceName"
+          },
+          "src": {
+            "$state": "/logoUrl"
+          },
+          "size": "lg"
+        },
+        "children": []
+      },
+      "logo-fields": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm",
+          "className": "flex-1"
+        },
+        "children": [
+          "logo-url",
+          "logo-help",
+          "remove-logo"
+        ]
+      },
+      "logo-url": {
+        "type": "Input",
+        "props": {
+          "label": "Workspace logo URL",
+          "name": "logoUrl",
+          "placeholder": "https://example.com/logo.png",
+          "value": {
+            "$bindState": "/logoUrl"
+          },
+          "checks": [
+            {
+              "type": "url",
+              "message": "Enter a valid image URL or leave this blank."
+            }
+          ]
+        },
+        "children": []
+      },
+      "logo-help": {
+        "type": "Text",
+        "props": {
+          "text": "Use a square PNG or JPG. Leave blank to display workspace initials.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "remove-logo": {
+        "type": "Button",
+        "props": {
+          "label": "Remove logo",
+          "variant": "secondary"
+        },
+        "visible": {
+          "$state": "/logoUrl"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/logoUrl",
+              "value": ""
+            }
+          }
+        },
+        "children": []
+      },
+      "channels-card": {
+        "type": "Card",
+        "props": {
+          "title": "Default channels",
+          "description": "New members automatically join the channels you select. Existing memberships stay as they are."
+        },
+        "children": [
+          "channel-list"
+        ]
+      },
+      "channel-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/channels",
+          "key": "id"
+        },
+        "children": [
+          "channel-row"
+        ]
+      },
+      "channel-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "channel-checkbox",
+          "channel-description"
+        ]
+      },
+      "channel-checkbox": {
+        "type": "Checkbox",
+        "props": {
+          "label": {
+            "$item": "name"
+          },
+          "name": {
+            "$item": "id"
+          },
+          "checked": {
+            "$bindItem": "selected"
+          }
+        },
+        "children": []
+      },
+      "channel-description": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "description"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "retention-card": {
+        "type": "Card",
+        "props": {
+          "title": "Data retention",
+          "description": "Choose how long messages and their attached files stay in this workspace."
+        },
+        "children": [
+          "retention-fields"
+        ]
+      },
+      "retention-fields": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "retention-select",
+          "retention-warning"
+        ]
+      },
+      "retention-select": {
+        "type": "Select",
+        "props": {
+          "label": "Keep messages and files for",
+          "name": "retention",
+          "options": [
+            "30 days",
+            "90 days",
+            "1 year",
+            "Forever"
+          ],
+          "value": {
+            "$bindState": "/retention"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Select a retention period."
+            }
+          ]
+        },
+        "children": []
+      },
+      "retention-warning": {
+        "type": "Alert",
+        "props": {
+          "title": "Older content will be permanently deleted",
+          "message": {
+            "$template": "Saving this policy schedules messages and attached files older than ${/retention} for deletion. This includes content already in the workspace."
+          },
+          "type": "warning"
+        },
+        "visible": {
+          "$state": "/retention",
+          "neq": "Forever"
+        },
+        "children": []
+      },
+      "save-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "save-help",
+          "save-button"
+        ]
+      },
+      "save-help": {
+        "type": "Text",
+        "props": {
+          "text": "Changes apply to the entire workspace.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "save-button": {
+        "type": "Button",
+        "props": {
+          "label": "Save changes",
+          "variant": "primary"
+        },
+        "on": {
+          "press": {
+            "action": "validateForm",
+            "params": {
+              "statePath": "/saveValidation"
+            }
+          }
+        },
+        "children": []
+      },
+      "save-notice": {
+        "type": "Alert",
+        "props": {
+          "title": "Settings validated",
+          "message": "Your settings are ready. This preview does not persist changes to a server.",
+          "type": "success"
+        },
+        "visible": {
+          "$state": "/saveValidation/valid"
+        },
+        "children": []
+      },
+      "archive-card": {
+        "type": "Card",
+        "props": {
+          "title": "Archive workspace",
+          "description": "Close this workspace to new activity while keeping its history available. Your retention policy still applies.",
+          "className": "border-red-200"
+        },
+        "children": [
+          "archive-row"
+        ]
+      },
+      "archive-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "lg",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "archive-help",
+          "archive-button"
+        ]
+      },
+      "archive-help": {
+        "type": "Text",
+        "props": {
+          "text": "Members will no longer be able to send messages or upload files.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "archive-button": {
+        "type": "Button",
+        "props": {
+          "label": "Archive workspace…",
+          "variant": "danger"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/archiveDialogOpen",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "archive-dialog": {
+        "type": "Dialog",
+        "props": {
+          "title": "Archive this workspace?",
+          "description": "This preview will switch the workspace to a read-only state. No server changes will be made.",
+          "openPath": "/archiveDialogOpen"
+        },
+        "visible": {
+          "$state": "/archived",
+          "not": true
+        },
+        "children": [
+          "archive-dialog-content"
+        ]
+      },
+      "archive-dialog-content": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "archive-confirmation",
+          "archive-dialog-actions"
+        ]
+      },
+      "archive-confirmation": {
+        "type": "Checkbox",
+        "props": {
+          "label": "I understand that members will no longer be able to post and that the retention policy will still apply.",
+          "name": "archiveAcknowledged",
+          "checked": {
+            "$bindState": "/archiveAcknowledged"
+          }
+        },
+        "children": []
+      },
+      "archive-dialog-actions": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "justify": "end"
+        },
+        "children": [
+          "archive-cancel",
+          "archive-confirm"
+        ]
+      },
+      "archive-cancel": {
+        "type": "Button",
+        "props": {
+          "label": "Cancel",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/archiveDialogOpen",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      },
+      "archive-confirm": {
+        "type": "Button",
+        "props": {
+          "label": "Archive workspace",
+          "variant": "danger",
+          "disabled": {
+            "$cond": {
+              "$state": "/archiveAcknowledged"
+            },
+            "$then": false,
+            "$else": true
+          }
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/archived",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "archived": false,
+      "workspaceName": "Northstar Studio",
+      "logoUrl": "",
+      "channels": [
+        {
+          "id": "general",
+          "name": "# general",
+          "description": "Workspace news and everyday conversation.",
+          "selected": true
+        },
+        {
+          "id": "announcements",
+          "name": "# announcements",
+          "description": "Important updates from the team.",
+          "selected": true
+        },
+        {
+          "id": "introductions",
+          "name": "# introductions",
+          "description": "A friendly place for new members to say hello.",
+          "selected": true
+        },
+        {
+          "id": "random",
+          "name": "# random",
+          "description": "Off-topic chats, recommendations, and small discoveries.",
+          "selected": false
+        }
+      ],
+      "retention": "Forever",
+      "saveValidation": {
+        "valid": false,
+        "errors": {}
+      },
+      "archiveDialogOpen": false,
+      "archiveAcknowledged": false
+    }
+  },
+  "patchLines": 52,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [],
+  "fixes": []
+}

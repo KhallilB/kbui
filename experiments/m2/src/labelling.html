@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>M2 labelling</title>
+    <style>
+      :root {
+        --bg: #f6f6f4;
+        --panel: #ffffff;
+        --ink: #1c1c1a;
+        --muted: #6b6b66;
+        --line: #e4e4df;
+        --accent: #2f5bd3;
+        --yes: #b42318;
+        --yes-bg: #fdecea;
+        --no: #1f7a3d;
+        --no-bg: #e9f6ee;
+        --unsure: #8a6a00;
+        --unsure-bg: #fbf3d9;
+        --focus: #2f5bd3;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        font: 14px/1.45 ui-sans-serif, system-ui, sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+        display: grid;
+        grid-template-rows: auto 1fr;
+      }
+      button {
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+      }
+      kbd {
+        font: 11px ui-monospace, monospace;
+        border: 1px solid var(--line);
+        border-bottom-width: 2px;
+        border-radius: 4px;
+        padding: 0 4px;
+        background: var(--panel);
+        color: var(--muted);
+      }
+      header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 10px 16px;
+        background: var(--panel);
+        border-bottom: 1px solid var(--line);
+      }
+      header h1 {
+        font-size: 14px;
+        margin: 0;
+      }
+      .meter {
+        flex: 1;
+        max-width: 320px;
+        height: 6px;
+        background: var(--line);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .meter span {
+        display: block;
+        height: 100%;
+        background: var(--accent);
+        transition: width 0.2s;
+      }
+      .spacer {
+        flex: 1;
+      }
+      .status {
+        color: var(--muted);
+        font-size: 12px;
+        min-width: 120px;
+        text-align: right;
+      }
+      .status.error {
+        color: var(--yes);
+      }
+      header input {
+        font: inherit;
+        padding: 4px 8px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        width: 140px;
+      }
+      .ghost {
+        white-space: nowrap;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        border-radius: 6px;
+        padding: 4px 10px;
+      }
+      .ghost[aria-pressed="true"] {
+        border-color: var(--accent);
+        background: #eef2fc;
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: 72px minmax(0, 1fr) clamp(300px, 32vw, 420px);
+        min-height: 0;
+      }
+      nav {
+        overflow-y: auto;
+        border-right: 1px solid var(--line);
+        background: var(--panel);
+        padding: 8px;
+        display: grid;
+        gap: 4px;
+        align-content: start;
+      }
+      nav button {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
+        border: 1px solid transparent;
+        background: none;
+        border-radius: 6px;
+        padding: 4px 6px;
+        font-variant-numeric: tabular-nums;
+      }
+      nav button[aria-current="true"] {
+        border-color: var(--accent);
+        background: #eef2fc;
+      }
+      .ring {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: conic-gradient(var(--accent) var(--p), var(--line) 0);
+      }
+      .ring.full {
+        background: var(--no);
+      }
+      main {
+        display: grid;
+        grid-template-rows: auto auto 1fr;
+        min-height: 0;
+        min-width: 0;
+      }
+      .prompt {
+        padding: 14px 20px 6px;
+        font-size: 15px;
+        max-width: 900px;
+      }
+      .prompt small {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        margin-bottom: 2px;
+      }
+      .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        padding: 6px 20px 10px;
+        border-bottom: 1px solid var(--line);
+      }
+      .seg {
+        margin: 0;
+        padding: 0;
+        min-width: 0;
+        display: inline-flex;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        overflow: hidden;
+        background: var(--panel);
+      }
+      .seg button {
+        white-space: nowrap;
+        border: 0;
+        background: none;
+        padding: 5px 12px;
+      }
+      .seg button + button {
+        border-left: 1px solid var(--line);
+      }
+      .seg button[aria-pressed="true"] {
+        background: var(--ink);
+        color: #fff;
+      }
+      .viewer {
+        overflow: auto;
+        padding: 20px;
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+        justify-content: safe center;
+      }
+      .viewer figure {
+        margin: 0;
+        flex: none;
+      }
+      .viewer figcaption {
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 4px;
+      }
+      .viewer img {
+        display: block;
+        background: #fff;
+        box-shadow:
+          0 0 0 1px var(--line),
+          0 2px 10px rgb(0 0 0 / 0.06);
+      }
+      .viewer img {
+        cursor: zoom-in;
+      }
+      .viewer.zoomed img {
+        cursor: zoom-out;
+      }
+      aside {
+        background: var(--panel);
+        border-left: 1px solid var(--line);
+        display: grid;
+        grid-template-rows: 1fr auto;
+        min-height: 0;
+      }
+      .questions {
+        overflow-y: auto;
+        padding: 8px 12px 16px;
+      }
+      .family {
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin: 14px 4px 6px;
+      }
+      .q {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 10px 12px;
+        margin-bottom: 8px;
+        background: var(--panel);
+      }
+      .q[aria-current="true"] {
+        border-color: var(--focus);
+        box-shadow: 0 0 0 3px rgb(47 91 211 / 0.15);
+      }
+      .q p {
+        margin: 0 0 4px;
+      }
+      .q .hint {
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+      .answers {
+        display: flex;
+        gap: 6px;
+      }
+      .ans {
+        flex: 1;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        border-radius: 6px;
+        padding: 4px 0;
+      }
+      .ans[data-a="yes"][aria-pressed="true"] {
+        background: var(--yes-bg);
+        border-color: var(--yes);
+        color: var(--yes);
+      }
+      .ans[data-a="no"][aria-pressed="true"] {
+        background: var(--no-bg);
+        border-color: var(--no);
+        color: var(--no);
+      }
+      .ans[data-a="unsure"][aria-pressed="true"] {
+        background: var(--unsure-bg);
+        border-color: var(--unsure);
+        color: var(--unsure);
+      }
+      .foot {
+        border-top: 1px solid var(--line);
+        padding: 10px 12px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .primary {
+        border: 0;
+        background: var(--ink);
+        color: #fff;
+        border-radius: 6px;
+        padding: 6px 12px;
+      }
+      .keys {
+        font-size: 11px;
+        color: var(--muted);
+        width: 100%;
+      }
+      .stage {
+        display: flex;
+        min-height: 0;
+        min-width: 0;
+      }
+      .stage .viewer {
+        flex: 1;
+        min-width: 0;
+      }
+      .outline {
+        flex: 0 0 46%;
+        overflow: auto;
+        border-left: 1px solid var(--line);
+        background: var(--panel);
+        font: 12px/1.6 ui-monospace, monospace;
+        padding: 0 16px 16px;
+      }
+      .q .note {
+        margin-bottom: 8px;
+        padding: 6px 8px;
+        border-radius: 6px;
+        background: var(--bg);
+        font-size: 12px;
+      }
+      .outline[hidden] {
+        display: none;
+      }
+      .outline-head {
+        position: sticky;
+        top: 0;
+        background: var(--panel);
+        padding: 10px 0 6px;
+        font: 11px ui-sans-serif, system-ui, sans-serif;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .outline .d {
+        color: #a3a39c;
+      }
+      .outline .f {
+        color: var(--accent);
+      }
+      :focus-visible {
+        outline: 2px solid var(--focus);
+        outline-offset: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>M2 labelling</h1>
+      <div class="meter" aria-hidden="true"><span id="meter"></span></div>
+      <span id="count"></span>
+      <span class="spacer"></span>
+      <label>Labeller <input id="who" placeholder="your name" /></label>
+      <button class="ghost" id="import" type="button">Import</button>
+      <button class="ghost" id="export" type="button">Export</button>
+      <span class="status" id="status" role="status"></span>
+    </header>
+    <div class="layout">
+      <nav id="list" aria-label="Screens"></nav>
+      <main>
+        <div class="prompt"><small id="where"></small><span id="prompt"></span></div>
+        <div class="toolbar">
+          <fieldset class="seg" id="widths" aria-label="Width"></fieldset>
+          <fieldset class="seg" id="zoom" aria-label="Zoom"></fieldset>
+          <button class="ghost" id="open-outline" type="button">Spec outline <kbd>O</kbd></button>
+        </div>
+        <div class="stage">
+          <div class="viewer" id="viewer"></div>
+          <section class="outline" id="outline" aria-label="Spec outline" hidden>
+            <div class="outline-head">Spec outline · type, depth, text, behaviour</div>
+            <div id="outline-body"></div>
+          </section>
+        </div>
+      </main>
+      <aside>
+        <div class="questions" id="questions"></div>
+        <div class="foot">
+          <button class="ghost" id="rest" type="button">Rest are no <kbd>A</kbd></button>
+          <span class="spacer"></span>
+          <button class="ghost" id="prev" type="button">← Prev</button>
+          <button class="primary" id="next" type="button">Next →</button>
+          <div class="keys">
+            <kbd>Y</kbd> <kbd>N</kbd> <kbd>U</kbd> answer · <kbd>⌫</kbd> clear · <kbd>↑</kbd><kbd>↓</kbd> question ·
+            <kbd>←</kbd><kbd>→</kbd> screen · <kbd>1</kbd>–<kbd>4</kbd> width · <kbd>F</kbd> zoom · click a screenshot to enlarge
+          </div>
+        </div>
+      </aside>
+    </div>
+    <input type="file" id="file" accept="application/json" hidden />
+    <script>
+      const DATA = /*DATA*/ null;
+      const KEY = `m2-${DATA.recheck ? "recheck" : "labels"}-${DATA.study}`;
+      const ANSWERS = ["yes", "no", "unsure"];
+      const $ = (id) => document.getElementById(id);
+
+      let saved = { labeller: "", labels: {} };
+      try {
+        saved = { ...saved, ...JSON.parse(localStorage.getItem(KEY) || "{}") };
+      } catch {}
+      const VIEW_KEY = `${KEY}-view`;
+      const ZOOMS = { width: "Fit width", page: "Fit page", actual: "100%" };
+      const view = { screen: 0, question: 0, width: "all", zoom: "width", outline: false };
+      try {
+        const kept = JSON.parse(localStorage.getItem(VIEW_KEY) || "{}");
+        if (kept.width) view.width = kept.width;
+        if (kept.zoom in ZOOMS) view.zoom = kept.zoom;
+        view.outline = Boolean(kept.outline);
+      } catch {}
+      const keepView = () => {
+        try {
+          localStorage.setItem(
+            VIEW_KEY,
+            JSON.stringify({ width: view.width, zoom: view.zoom, outline: view.outline }),
+          );
+        } catch {}
+      };
+
+      // Recheck screens carry their own subset of questions.
+      const qs = (s) => (s.rules ? DATA.rules.filter((r) => s.rules.includes(r.id)) : DATA.rules);
+      const labelsOf = (token) => saved.labels[token] || {};
+      const answered = (token) => Object.keys(labelsOf(token)).length;
+      const firstOpen = (s) => {
+        const i = qs(s).findIndex((r) => !labelsOf(s.token)[r.id]);
+        return i < 0 ? 0 : i;
+      };
+
+      // Server mode writes DATA.file beside the results; local storage covers file:// use.
+      let timer;
+      function persist() {
+        try {
+          localStorage.setItem(KEY, JSON.stringify(saved));
+        } catch {}
+        if (!DATA.server) return;
+        $("status").className = "status";
+        $("status").textContent = "Saving…";
+        clearTimeout(timer);
+        timer = setTimeout(async () => {
+          try {
+            const res = await fetch(DATA.file, {
+              method: "PUT",
+              headers: { "content-type": "application/json" },
+              body: JSON.stringify(payload()),
+            });
+            if (!res.ok) throw new Error(await res.text());
+            $("status").textContent = `Saved to ${DATA.file}`;
+          } catch (e) {
+            $("status").className = "status error";
+            $("status").textContent = `Not saved: ${e.message}`;
+          }
+        }, 300);
+      }
+      const payload = () => ({
+        study: DATA.study,
+        labeller: saved.labeller,
+        labels: saved.labels,
+      });
+
+      function renderList() {
+        $("list").replaceChildren(
+          ...DATA.screens.map((s, i) => {
+            const b = document.createElement("button");
+            b.type = "button";
+            const n = answered(s.token);
+            const of = qs(s).length;
+            b.setAttribute("aria-current", String(i === view.screen));
+            b.setAttribute("aria-label", `Screen ${s.token}, ${n} of ${of} answered`);
+            b.innerHTML = `<span>${s.token}</span><span class="ring ${n === of ? "full" : ""}" style="--p:${(100 * n) / of}%"></span>`;
+            b.onclick = () => go(i);
+            return b;
+          }),
+        );
+        const total = DATA.screens.reduce((sum, s) => sum + answered(s.token), 0);
+        const all = DATA.screens.reduce((sum, s) => sum + qs(s).length, 0);
+        $("count").textContent = `${total}/${all} answered`;
+        $("meter").style.width = `${(100 * total) / all}%`;
+      }
+
+      function renderScreen() {
+        const s = DATA.screens[view.screen];
+        $("outline").hidden = !view.outline;
+        $("open-outline").setAttribute("aria-pressed", String(view.outline));
+        $("where").textContent = `Screen ${s.token} · ${view.screen + 1} of ${DATA.screens.length} · ${answered(s.token)}/${qs(s).length} answered`;
+        $("prompt").textContent = s.prompt;
+        $("widths").replaceChildren(
+          ...[...s.widths.map(String), "all"].map((w, i) => {
+            const b = document.createElement("button");
+            b.type = "button";
+            b.textContent = w === "all" ? "All widths" : `${w}px`;
+            b.title = `Key ${i + 1}`;
+            b.setAttribute("aria-pressed", String(view.width === w));
+            b.onclick = () => setWidth(w);
+            return b;
+          }),
+        );
+        const shown = view.width === "all" ? s.widths : [Number(view.width)];
+        $("zoom").replaceChildren(
+          ...Object.entries(ZOOMS).map(([z, name]) => {
+            const b = document.createElement("button");
+            b.type = "button";
+            b.textContent = name;
+            b.setAttribute("aria-pressed", String(view.zoom === z));
+            b.onclick = () => setZoom(z);
+            return b;
+          }),
+        );
+        $("viewer").className = `viewer${view.zoom === "actual" ? " zoomed" : ""}`;
+        $("viewer").replaceChildren(
+          ...shown.map((w) => {
+            const f = document.createElement("figure");
+            f.innerHTML = `<figcaption>${w}px</figcaption><img alt="Screen ${s.token} at ${w}px" src="blind/${s.token}.${w}.jpg">`;
+            const img = f.querySelector("img");
+            img.onload = layout;
+            // In all widths, a click opens that width; otherwise it toggles 100%.
+            img.onclick = () =>
+              view.width === "all"
+                ? setWidth(String(w))
+                : setZoom(view.zoom === "actual" ? "width" : "actual");
+            return f;
+          }),
+        );
+        layout();
+        $("outline-body").innerHTML = s.outline;
+        renderQuestions();
+      }
+
+      function renderQuestions() {
+        const s = DATA.screens[view.screen];
+        const own = labelsOf(s.token);
+        const parts = [];
+        let family = "";
+        qs(s).forEach((r, i) => {
+          if (r.family !== family) {
+            family = r.family;
+            parts.push(`<div class="family">${family}</div>`);
+          }
+          parts.push(
+            `<div class="q" data-i="${i}" aria-current="${i === view.question}"><p>${r.question}</p><div class="hint">${r.hint}</div>${s.notes?.[r.id] ? `<div class="note">${s.notes[r.id]}</div>` : ""}<div class="answers" role="group" aria-label="${r.id}">${ANSWERS.map(
+              (a) =>
+                `<button type="button" class="ans" data-a="${a}" aria-pressed="${own[r.id] === a}">${a[0].toUpperCase()}${a.slice(1)}</button>`,
+            ).join("")}</div></div>`,
+          );
+        });
+        $("questions").innerHTML = parts.join("");
+        for (const q of $("questions").querySelectorAll(".q")) {
+          const i = Number(q.dataset.i);
+          q.onclick = (e) => {
+            const a = e.target.closest("button")?.dataset.a;
+            if (a) answer(a, i);
+            else focusQuestion(i);
+          };
+        }
+        $("questions")
+          .querySelector(`[data-i="${view.question}"]`)
+          ?.scrollIntoView({ block: "nearest" });
+        $("next").textContent = view.screen === DATA.screens.length - 1 ? "Done" : "Next →";
+      }
+
+      function focusQuestion(i) {
+        view.question = Math.max(0, Math.min(qs(DATA.screens[view.screen]).length - 1, i));
+        renderQuestions();
+      }
+
+      function answer(a, i = view.question) {
+        const s = DATA.screens[view.screen];
+        const own = { ...labelsOf(s.token) };
+        const id = qs(s)[i].id;
+        // Choosing the current answer again clears it.
+        if (a === null || own[id] === a) delete own[id];
+        else own[id] = a;
+        saved.labels[s.token] = own;
+        persist();
+        renderList();
+        $("where").textContent = `Screen ${s.token} · ${view.screen + 1} of ${DATA.screens.length} · ${answered(s.token)}/${qs(s).length} answered`;
+        // Move to the next open question on this screen, else stay put.
+        const next = qs(s).findIndex((r, j) => j > i && !labelsOf(s.token)[r.id]);
+        focusQuestion(!own[id] || next < 0 ? i : next);
+      }
+
+      function go(i) {
+        view.screen = (i + DATA.screens.length) % DATA.screens.length;
+        view.question = firstOpen(DATA.screens[view.screen]);
+        $("viewer").scrollTo(0, 0);
+        renderList();
+        renderScreen();
+      }
+
+      // Sizes screenshots from their real pixels against the space the viewer has now.
+      function layout() {
+        const v = $("viewer");
+        const imgs = [...v.querySelectorAll("img")];
+        if (!imgs.length) return;
+        const sizes = imgs.map((img) => [img.naturalWidth, img.naturalHeight]);
+        if (sizes.some(([w]) => !w)) return;
+        const roomW = v.clientWidth - 40 - 20 * (imgs.length - 1);
+        const roomH = v.clientHeight - 40 - 22;
+        const totalW = sizes.reduce((a, [w]) => a + w, 0);
+        const tallest = Math.max(...sizes.map(([, h]) => h));
+        // Small phone shots may grow a little to fill the space; never blur past 1.5x.
+        const grow = imgs.length > 1 ? 1 : 1.5;
+        let k = 1;
+        if (view.zoom === "width") k = Math.min(grow, roomW / totalW);
+        if (view.zoom === "page") k = Math.min(grow, roomW / totalW, roomH / tallest);
+        imgs.forEach((img, i) => {
+          img.style.width = `${Math.floor(sizes[i][0] * k)}px`;
+        });
+      }
+      new ResizeObserver(layout).observe($("viewer"));
+
+      function setZoom(z) {
+        view.zoom = z;
+        keepView();
+        renderScreen();
+      }
+
+      function setWidth(w) {
+        view.width = w;
+        keepView();
+        renderScreen();
+      }
+
+      $("prev").onclick = () => go(view.screen - 1);
+      $("next").onclick = () => go(view.screen + 1);
+      $("rest").onclick = () => {
+        const s = DATA.screens[view.screen];
+        const own = { ...labelsOf(s.token) };
+        for (const r of qs(s)) own[r.id] ||= "no";
+        saved.labels[s.token] = own;
+        persist();
+        renderList();
+        renderScreen();
+      };
+      function toggleOutline() {
+        view.outline = $("outline").hidden;
+        keepView();
+        renderScreen();
+      }
+      $("open-outline").onclick = toggleOutline;
+      $("who").oninput = () => {
+        saved.labeller = $("who").value;
+        persist();
+      };
+      $("export").onclick = () => {
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(
+          new Blob([JSON.stringify(payload(), null, 2)], { type: "application/json" }),
+        );
+        a.download = DATA.file;
+        a.click();
+      };
+      $("import").onclick = () => $("file").click();
+      $("file").onchange = async () => {
+        const file = $("file").files[0];
+        if (!file) return;
+        try {
+          const data = JSON.parse(await file.text());
+          if (data.study !== DATA.study) throw new Error(`file is for study ${data.study}`);
+          saved = { labeller: data.labeller || "", labels: data.labels || {} };
+          $("who").value = saved.labeller;
+          persist();
+          go(view.screen);
+        } catch (e) {
+          $("status").className = "status error";
+          $("status").textContent = `Import failed: ${e.message}`;
+        }
+      };
+
+      document.addEventListener("keydown", (e) => {
+        if (e.target instanceof HTMLInputElement || e.metaKey || e.ctrlKey || e.altKey) return;
+        const s = DATA.screens[view.screen];
+        const keys = {
+          y: () => answer("yes"),
+          n: () => answer("no"),
+          u: () => answer("unsure"),
+          backspace: () => answer(null),
+          a: () => DATA.recheck || $("rest").click(),
+          f: () => {
+            const order = Object.keys(ZOOMS);
+            setZoom(order[(order.indexOf(view.zoom) + 1) % order.length]);
+          },
+          o: toggleOutline,
+          arrowdown: () => focusQuestion(view.question + 1),
+          arrowup: () => focusQuestion(view.question - 1),
+          arrowright: () => go(view.screen + 1),
+          arrowleft: () => go(view.screen - 1),
+          1: () => setWidth(String(s.widths[0])),
+          2: () => setWidth(String(s.widths[1])),
+          3: () => setWidth(String(s.widths[2])),
+          4: () => setWidth("all"),
+        };
+        const run = keys[e.key.toLowerCase()];
+        if (run) {
+          e.preventDefault();
+          run();
+        }
+      });
+
+
+      // Merge the saved file under local answers, then resume at the first open screen.
+      (async () => {
+        if (DATA.server) {
+          try {
+            const res = await fetch(DATA.file, { cache: "no-store" });
+            if (res.ok) {
+              const file = await res.json();
+              const labels = { ...file.labels };
+              for (const [t, own] of Object.entries(saved.labels)) labels[t] = { ...labels[t], ...own };
+              saved = { labeller: saved.labeller || file.labeller || "", labels };
+              if (saved.labeller === "unnamed") saved.labeller = "";
+            }
+          } catch {}
+          $("status").textContent = `Saves to ${DATA.file}`;
+        } else {
+          $("status").textContent = "Saves in this browser";
+        }
+        $("who").value = saved.labeller;
+        if (DATA.recheck) {
+          document.querySelector("h1").textContent = "M2 recheck";
+          document.title = `M2 recheck ${DATA.study}`;
+          $("rest").hidden = true;
+        }
+        const resume = DATA.screens.findIndex((s) => answered(s.token) < qs(s).length);
+        go(resume < 0 ? 0 : resume);
+      })();
+    </script>
+  </body>
+</html>

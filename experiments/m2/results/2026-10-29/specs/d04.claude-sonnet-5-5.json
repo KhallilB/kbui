@@ -1,0 +1,396 @@
+{
+  "spec": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "header",
+          "metrics",
+          "details"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "title-stack",
+          "status-badge"
+        ]
+      },
+      "title-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "title",
+          "subtitle"
+        ]
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Server Monitoring",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Production cluster · us-east-1 · Last updated just now",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "status-badge": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$state": "/overview/status"
+          },
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "metrics": {
+        "type": "Grid",
+        "props": {
+          "columns": 4,
+          "gap": "md"
+        },
+        "children": [
+          "cpu-card",
+          "mem-card",
+          "err-card",
+          "up-card"
+        ]
+      },
+      "cpu-card": {
+        "type": "Card",
+        "props": {
+          "title": "CPU Usage",
+          "description": "Average across 12 nodes"
+        },
+        "children": [
+          "cpu-value",
+          "cpu-progress"
+        ]
+      },
+      "cpu-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$template": "${/metrics/cpu}%"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "cpu-progress": {
+        "type": "Progress",
+        "props": {
+          "value": {
+            "$state": "/metrics/cpu"
+          },
+          "max": 100,
+          "label": "Utilization"
+        },
+        "children": []
+      },
+      "mem-card": {
+        "type": "Card",
+        "props": {
+          "title": "Memory",
+          "description": "384 GB total"
+        },
+        "children": [
+          "mem-value",
+          "mem-progress"
+        ]
+      },
+      "mem-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$template": "${/metrics/memory}%"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "mem-progress": {
+        "type": "Progress",
+        "props": {
+          "value": {
+            "$state": "/metrics/memory"
+          },
+          "max": 100,
+          "label": "Utilization"
+        },
+        "children": []
+      },
+      "err-card": {
+        "type": "Card",
+        "props": {
+          "title": "Error Rate",
+          "description": "Last 24 hours"
+        },
+        "children": [
+          "err-value",
+          "err-progress"
+        ]
+      },
+      "err-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$template": "${/metrics/errorRate}%"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "err-progress": {
+        "type": "Progress",
+        "props": {
+          "value": {
+            "$state": "/metrics/errorRate"
+          },
+          "max": 10,
+          "label": "Of 10% threshold"
+        },
+        "children": []
+      },
+      "up-card": {
+        "type": "Card",
+        "props": {
+          "title": "Uptime",
+          "description": "Last 30 days"
+        },
+        "children": [
+          "up-value",
+          "up-progress"
+        ]
+      },
+      "up-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$template": "${/metrics/uptime}%"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "up-progress": {
+        "type": "Progress",
+        "props": {
+          "value": {
+            "$state": "/metrics/uptime"
+          },
+          "max": 100,
+          "label": "SLA target 99.9%"
+        },
+        "children": []
+      },
+      "details": {
+        "type": "Card",
+        "props": {
+          "title": "Recent Incidents",
+          "description": "Latest events across your infrastructure"
+        },
+        "children": [
+          "filter",
+          "incident-list"
+        ]
+      },
+      "filter": {
+        "type": "ButtonGroup",
+        "props": {
+          "buttons": [
+            {
+              "label": "All",
+              "value": "all"
+            },
+            {
+              "label": "Open",
+              "value": "open"
+            },
+            {
+              "label": "Resolved",
+              "value": "resolved"
+            }
+          ],
+          "selected": {
+            "$bindState": "/incidentFilter"
+          }
+        },
+        "children": []
+      },
+      "incident-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/incidents",
+          "key": "id"
+        },
+        "children": [
+          "incident-row"
+        ]
+      },
+      "incident-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "align": "center",
+          "justify": "between"
+        },
+        "visible": {
+          "$or": [
+            {
+              "$state": "/incidentFilter",
+              "eq": "all"
+            },
+            {
+              "$item": "status",
+              "eq": "__never__",
+              "not": true
+            }
+          ]
+        },
+        "children": [
+          "incident-info",
+          "incident-meta"
+        ]
+      },
+      "incident-info": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "none"
+        },
+        "children": [
+          "incident-title",
+          "incident-desc"
+        ]
+      },
+      "incident-title": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "title"
+          },
+          "variant": "lead"
+        },
+        "children": []
+      },
+      "incident-desc": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${server} · ${time}"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "incident-meta": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "align": "center",
+          "gap": "sm"
+        },
+        "children": [
+          "severity-badge",
+          "status-text"
+        ]
+      },
+      "severity-badge": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "severity"
+          },
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "status-text": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "status"
+          },
+          "variant": "secondary"
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "overview": {
+        "status": "Operational"
+      },
+      "metrics": {
+        "cpu": 62,
+        "memory": 78,
+        "errorRate": 1.4,
+        "uptime": 99.97
+      },
+      "incidentFilter": "all",
+      "incidents": [
+        {
+          "id": "1",
+          "title": "Elevated API latency",
+          "server": "api-prod-03",
+          "time": "12 min ago",
+          "severity": "High",
+          "status": "open"
+        },
+        {
+          "id": "2",
+          "title": "Database connection pool exhausted",
+          "server": "db-primary-01",
+          "time": "2 hours ago",
+          "severity": "Critical",
+          "status": "resolved"
+        },
+        {
+          "id": "3",
+          "title": "Disk usage above 85%",
+          "server": "worker-prod-07",
+          "time": "5 hours ago",
+          "severity": "Medium",
+          "status": "open"
+        },
+        {
+          "id": "4",
+          "title": "Failed deployment rollback",
+          "server": "web-prod-12",
+          "time": "Yesterday",
+          "severity": "Low",
+          "status": "resolved"
+        }
+      ]
+    }
+  },
+  "patchLines": 38,
+  "skippedLines": 0,
+  "firstNodeMs": 2286,
+  "issues": [],
+  "fixes": []
+}

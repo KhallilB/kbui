@@ -1,0 +1,363 @@
+{
+  "promptId": "d07",
+  "model": "gpt-6-1-sol",
+  "resolvedModel": "gpt-6.1-sol",
+  "cli": "codex",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:22:01.424Z",
+  "totalMs": 65018,
+  "lines": [
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"dashboard\"}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/dashboard\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"xl\",\"className\":\"mx-auto max-w-7xl p-6 lg:p-10 bg-slate-50 text-slate-950\"},\"children\":[\"header\",\"metrics\",\"delivery-grid\",\"people-grid\",\"footer\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"lg\",\"align\":\"center\",\"justify\":\"between\",\"className\":\"flex-wrap\"},\"children\":[\"project-heading\",\"project-status\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/project-heading\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"eyebrow\",\"project-title\",\"project-description\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/eyebrow\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"WORKSPACE / PROJECT OVERVIEW\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/project-title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$state\":\"/project/name\"},\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/project\",\"value\":{\"name\":\"Atlas platform launch\",\"description\":\"A clearer workspace for every team. One launch, four workstreams.\",\"status\":\"On track\",\"updated\":\"Updated October 29, 2026 · All dates in Pacific Time\"}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/project-description\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$state\":\"/project/description\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/project-status\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\",\"align\":\"end\"},\"children\":[\"status-badge\",\"update-time\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/status-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$state\":\"/project/status\"},\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/update-time\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$state\":\"/project/updated\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metrics\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":4,\"gap\":\"md\",\"className\":\"grid-cols-1 sm:grid-cols-2 lg:grid-cols-4\"},\"repeat\":{\"statePath\":\"/metrics\",\"key\":\"id\"},\"children\":[\"metric-card\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics\",\"value\":[]}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics/0\",\"value\":{\"id\":\"completion\",\"label\":\"Task completion\",\"value\":\"72%\",\"context\":\"36 of 50 tasks complete\"}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics/1\",\"value\":{\"id\":\"milestones\",\"label\":\"Milestones reached\",\"value\":\"2 / 4\",\"context\":\"Next: Public beta · Nov 6\"}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics/2\",\"value\":{\"id\":\"team\",\"label\":\"Team capacity\",\"value\":\"80%\",\"context\":\"96 of 120 hours allocated this week\"}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics/3\",\"value\":{\"id\":\"deadlines\",\"label\":\"Due in the next 7 days\",\"value\":\"4\",\"context\":\"Oct 30–Nov 5 · One item at risk\"}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metric-card\",\"value\":{\"type\":\"Card\",\"props\":{\"className\":\"bg-white\"},\"children\":[\"metric-label\",\"metric-value\",\"metric-context\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metric-label\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"label\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metric-value\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$item\":\"value\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metric-context\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"context\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/delivery-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"lg\",\"className\":\"grid-cols-1 lg:grid-cols-2\"},\"children\":[\"milestones-card\",\"completion-card\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/milestones-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Launch milestones\",\"description\":\"From discovery to general availability.\",\"className\":\"bg-white\"},\"children\":[\"milestones-list\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/milestones-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"repeat\":{\"statePath\":\"/milestones\",\"key\":\"id\"},\"children\":[\"milestone\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/milestones\",\"value\":[]}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/milestones/0\",\"value\":{\"id\":\"discovery\",\"name\":\"Discovery & scope\",\"date\":\"Completed Oct 2\",\"status\":\"Complete\",\"progress\":100,\"owner\":\"Maya Chen\"}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/milestones/1\",\"value\":{\"id\":\"design\",\"name\":\"Design sign-off\",\"date\":\"Completed Oct 16\",\"status\":\"Complete\",\"progress\":100,\"owner\":\"Leo Martin\"}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/milestones/2\",\"value\":{\"id\":\"beta\",\"name\":\"Public beta\",\"date\":\"Due Nov 6\",\"status\":\"In progress\",\"progress\":75,\"owner\":\"Priya Shah\"}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/milestones/3\",\"value\":{\"id\":\"launch\",\"name\":\"General availability\",\"date\":\"Due Nov 20\",\"status\":\"Upcoming\",\"progress\":20,\"owner\":\"Noah Williams\"}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/milestone\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"milestone-heading\",\"milestone-progress\",\"milestone-meta\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/milestone-heading\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"justify\":\"between\",\"align\":\"center\"},\"children\":[\"milestone-name\",\"milestone-status\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/milestone-name\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$item\":\"name\"},\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/milestone-status\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"status\"},\"variant\":{\"$cond\":{\"$item\":\"status\",\"eq\":\"Complete\"},\"$then\":\"secondary\",\"$else\":\"outline\"}},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/milestone-progress\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$item\":\"progress\"},\"max\":100,\"label\":{\"$template\":\"${progress}% complete\"}},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/milestone-meta\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${date} · ${owner}\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/completion-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Task completion\",\"description\":\"A snapshot of delivery across all workstreams.\",\"className\":\"bg-white\"},\"children\":[\"overall-progress\",\"completion-note\",\"completion-separator\",\"workstreams\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/overall-progress\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$state\":\"/completion/percent\"},\"max\":100,\"label\":{\"$state\":\"/completion/label\"}},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/completion\",\"value\":{\"percent\":72,\"label\":\"36 of 50 tasks complete · 72%\",\"note\":\"36 complete · 9 in progress · 4 to do · 1 blocked\"}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/completion-note\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$state\":\"/completion/note\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/completion-separator\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/workstreams\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"repeat\":{\"statePath\":\"/workstreams\",\"key\":\"id\"},\"children\":[\"workstream\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/workstreams\",\"value\":[]}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/workstreams/0\",\"value\":{\"id\":\"design\",\"name\":\"Design\",\"percent\":100,\"count\":\"10 of 10 tasks\"}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/workstreams/1\",\"value\":{\"id\":\"engineering\",\"name\":\"Engineering\",\"percent\":70,\"count\":\"14 of 20 tasks\"}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/workstreams/2\",\"value\":{\"id\":\"quality\",\"name\":\"Quality assurance\",\"percent\":60,\"count\":\"6 of 10 tasks\"}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/workstreams/3\",\"value\":{\"id\":\"marketing\",\"name\":\"Go-to-market\",\"percent\":60,\"count\":\"6 of 10 tasks\"}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/workstream\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"workstream-heading\",\"workstream-progress\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/workstream-heading\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"justify\":\"between\",\"gap\":\"sm\"},\"children\":[\"workstream-name\",\"workstream-count\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/workstream-name\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"name\"}},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/workstream-count\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"count\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/workstream-progress\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$item\":\"percent\"},\"max\":100,\"label\":{\"$template\":\"${name} · ${percent}%\"}},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/people-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"lg\",\"className\":\"grid-cols-1 lg:grid-cols-2\"},\"children\":[\"workload-card\",\"deadlines-card\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/workload-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Team workload\",\"description\":\"Allocated hours / available hours · Oct 26–30\",\"className\":\"bg-white\"},\"children\":[\"capacity-alert\",\"team-list\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/capacity-alert\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Priya is at capacity\",\"message\":\"Move the next engineering assignment to Noah, who has 6 hours available.\",\"type\":\"warning\"},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/team-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"repeat\":{\"statePath\":\"/team\",\"key\":\"id\"},\"children\":[\"team-member\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/team\",\"value\":[]}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/team/0\",\"value\":{\"id\":\"maya\",\"name\":\"Maya Chen\",\"role\":\"Project lead\",\"hours\":\"18 / 24 h\",\"utilization\":75,\"status\":\"6 h available\"}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/team/1\",\"value\":{\"id\":\"leo\",\"name\":\"Leo Martin\",\"role\":\"Product designer\",\"hours\":\"22 / 32 h\",\"utilization\":69,\"status\":\"10 h available\"}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/team/2\",\"value\":{\"id\":\"priya\",\"name\":\"Priya Shah\",\"role\":\"Frontend engineer\",\"hours\":\"30 / 30 h\",\"utilization\":100,\"status\":\"At capacity\"}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/team/3\",\"value\":{\"id\":\"noah\",\"name\":\"Noah Williams\",\"role\":\"Platform engineer\",\"hours\":\"26 / 34 h\",\"utilization\":76,\"status\":\"8 h available\"}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"replace\",\"path\":\"/elements/capacity-alert/props/message\",\"value\":\"Move the next engineering assignment to Noah, who has 8 hours available.\"}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/team-member\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"member-heading\",\"member-progress\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/member-heading\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"member-identity\",\"member-status\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/member-identity\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"align\":\"center\"},\"children\":[\"member-avatar\",\"member-details\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/member-avatar\",\"value\":{\"type\":\"Avatar\",\"props\":{\"name\":{\"$item\":\"name\"},\"size\":\"md\"},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/member-details\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"none\"},\"children\":[\"member-name\",\"member-role\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/member-name\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"name\"}},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/member-role\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"role\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/member-status\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"status\"},\"variant\":{\"$cond\":{\"$item\":\"utilization\",\"gte\":100},\"$then\":\"default\",\"$else\":\"outline\"}},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/member-progress\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$item\":\"utilization\"},\"max\":100,\"label\":{\"$template\":\"${hours} allocated · ${utilization}%\"}},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/deadlines-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Upcoming deadlines\",\"description\":\"Next 7 days · October 30–November 5\",\"className\":\"bg-white\"},\"children\":[\"deadline-list\",\"deadline-separator\",\"deadline-note\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/deadline-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"repeat\":{\"statePath\":\"/deadlines\",\"key\":\"id\"},\"children\":[\"deadline\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/deadlines\",\"value\":[]}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/deadlines/0\",\"value\":{\"id\":\"accessibility\",\"title\":\"Accessibility review\",\"due\":\"Tomorrow · Oct 30\",\"owner\":\"Leo Martin\",\"status\":\"Ready for review\",\"risk\":false}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/deadlines/1\",\"value\":{\"id\":\"integration\",\"title\":\"Billing integration\",\"due\":\"Mon, Nov 2\",\"owner\":\"Priya Shah\",\"status\":\"At risk\",\"risk\":true}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/deadlines/2\",\"value\":{\"id\":\"infrastructure\",\"title\":\"Production readiness check\",\"due\":\"Wed, Nov 4\",\"owner\":\"Noah Williams\",\"status\":\"In progress\",\"risk\":false}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/state/deadlines/3\",\"value\":{\"id\":\"launch-brief\",\"title\":\"Beta launch brief\",\"due\":\"Thu, Nov 5\",\"owner\":\"Maya Chen\",\"status\":\"In progress\",\"risk\":false}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/deadline\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"deadline-heading\",\"deadline-meta\",\"deadline-risk\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/deadline-heading\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"deadline-title\",\"deadline-status\"]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/deadline-title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$item\":\"title\"},\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/deadline-status\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"status\"},\"variant\":{\"$cond\":{\"$item\":\"risk\",\"eq\":true},\"$then\":\"destructive\",\"$else\":\"outline\"}},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/deadline-meta\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${due} · ${owner}\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/deadline-risk\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Waiting on payment-provider sandbox credentials.\",\"variant\":\"muted\"},\"visible\":{\"$item\":\"risk\",\"eq\":true},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/deadline-separator\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/deadline-note\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Next checkpoint: Public beta on November 6.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 64260,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/footer\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Planning snapshot · Workload reflects this week; task completion reflects the full project.\",\"variant\":\"caption\"},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 28091,
+    "cached_input_tokens": 12288,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 3949,
+    "reasoning_output_tokens": 181
+  },
+  "streamedLines": false
+}

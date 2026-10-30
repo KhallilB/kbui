@@ -1,0 +1,224 @@
+{
+  "spec": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Card",
+        "props": {
+          "title": "Appearance",
+          "description": "Customize how your code editor looks",
+          "maxWidth": "md",
+          "centered": true
+        },
+        "children": [
+          "layout"
+        ]
+      },
+      "layout": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "theme-select",
+          "font-section",
+          "line-section",
+          "ligatures",
+          "sep",
+          "preview-section",
+          "actions"
+        ]
+      },
+      "theme-select": {
+        "type": "Select",
+        "props": {
+          "label": "Color Theme",
+          "name": "theme",
+          "options": [
+            "Dark+",
+            "Light+",
+            "Monokai",
+            "Solarized Dark",
+            "Solarized Light",
+            "GitHub Dark",
+            "Nord"
+          ],
+          "placeholder": "Choose a theme",
+          "value": {
+            "$bindState": "/appearance/theme"
+          }
+        },
+        "children": []
+      },
+      "font-section": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "font-label",
+          "font-slider"
+        ]
+      },
+      "font-label": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "Font Size: ${/appearance/fontSize}px"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "font-slider": {
+        "type": "Slider",
+        "props": {
+          "min": 8,
+          "max": 32,
+          "step": 1,
+          "value": {
+            "$bindState": "/appearance/fontSize"
+          }
+        },
+        "children": []
+      },
+      "line-section": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "line-label",
+          "line-slider"
+        ]
+      },
+      "line-label": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "Line Height: ${/appearance/lineHeight}"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "line-slider": {
+        "type": "Slider",
+        "props": {
+          "min": 1,
+          "max": 2.5,
+          "step": 0.1,
+          "value": {
+            "$bindState": "/appearance/lineHeight"
+          }
+        },
+        "children": []
+      },
+      "ligatures": {
+        "type": "Switch",
+        "props": {
+          "label": "Enable font ligatures",
+          "name": "ligatures",
+          "checked": {
+            "$bindState": "/appearance/ligatures"
+          }
+        },
+        "children": []
+      },
+      "sep": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "preview-section": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "preview-title",
+          "preview-summary",
+          "preview-code"
+        ]
+      },
+      "preview-title": {
+        "type": "Heading",
+        "props": {
+          "text": "Preview",
+          "level": "h4"
+        },
+        "children": []
+      },
+      "preview-summary": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${/appearance/theme} · ${/appearance/fontSize}px · line height ${/appearance/lineHeight}"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "preview-code": {
+        "type": "Text",
+        "props": {
+          "text": "function greet(name) { return `Hello, ${name}!`; }",
+          "variant": "code"
+        },
+        "children": []
+      },
+      "actions": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "justify": "end"
+        },
+        "children": [
+          "reset-btn"
+        ]
+      },
+      "reset-btn": {
+        "type": "Button",
+        "props": {
+          "label": "Reset to Defaults",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/appearance",
+              "value": {
+                "theme": "Dark+",
+                "fontSize": 14,
+                "lineHeight": 1.5,
+                "ligatures": true
+              }
+            }
+          }
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "appearance": {
+        "theme": "Dark+",
+        "fontSize": 14,
+        "lineHeight": 1.5,
+        "ligatures": true
+      }
+    }
+  },
+  "patchLines": 19,
+  "skippedLines": 0,
+  "firstNodeMs": 4679,
+  "issues": [],
+  "fixes": []
+}

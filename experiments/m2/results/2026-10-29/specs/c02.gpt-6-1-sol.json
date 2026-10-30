@@ -1,0 +1,704 @@
+{
+  "spec": {
+    "root": "checkout",
+    "elements": {
+      "checkout": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "xl",
+          "className": "mx-auto max-w-6xl px-6 py-10"
+        },
+        "children": [
+          "header",
+          "checkout-layout"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center"
+        },
+        "children": [
+          "brand",
+          "back-to-shop"
+        ]
+      },
+      "brand": {
+        "type": "Heading",
+        "props": {
+          "text": "STRIDE / Checkout",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "back-to-shop": {
+        "type": "Link",
+        "props": {
+          "label": "← Continue shopping",
+          "href": "/shop"
+        },
+        "children": []
+      },
+      "checkout-layout": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "xl",
+          "className": "grid-cols-1 lg:grid-cols-[1.2fr_1fr]"
+        },
+        "children": [
+          "checkout-form",
+          "order-summary"
+        ]
+      },
+      "checkout-form": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "contact-card",
+          "newsletter-card",
+          "shipping-card",
+          "payment-card",
+          "place-order",
+          "review-success"
+        ]
+      },
+      "contact-card": {
+        "type": "Card",
+        "props": {
+          "title": "01 / Contact",
+          "description": "Where should we send your order updates?"
+        },
+        "children": [
+          "email"
+        ]
+      },
+      "email": {
+        "type": "Input",
+        "props": {
+          "label": "Email address",
+          "name": "email",
+          "type": "email",
+          "placeholder": "you@example.com",
+          "value": {
+            "$bindState": "/email"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter your email address."
+            },
+            {
+              "type": "email",
+              "message": "Enter a valid email address."
+            }
+          ]
+        },
+        "children": []
+      },
+      "newsletter-card": {
+        "type": "Card",
+        "props": {
+          "title": "Good shoes. First dibs.",
+          "description": "Get early access to new drops, styling inspiration, and subscriber-only offers.",
+          "className": "border-emerald-200 bg-emerald-50"
+        },
+        "children": [
+          "newsletter-badge",
+          "newsletter-opt-in",
+          "newsletter-note"
+        ]
+      },
+      "newsletter-badge": {
+        "type": "Badge",
+        "props": {
+          "text": "The STRIDE newsletter",
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "newsletter-opt-in": {
+        "type": "Checkbox",
+        "props": {
+          "label": "Yes, send me the STRIDE newsletter at the email above.",
+          "name": "newsletter",
+          "checked": {
+            "$bindState": "/newsletter"
+          }
+        },
+        "children": []
+      },
+      "newsletter-note": {
+        "type": "Text",
+        "props": {
+          "text": "Optional. Unsubscribe anytime. Your order updates arrive either way.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "shipping-card": {
+        "type": "Card",
+        "props": {
+          "title": "02 / Delivery",
+          "description": "Free standard shipping on this order."
+        },
+        "children": [
+          "name-grid",
+          "address",
+          "apartment",
+          "location-grid",
+          "country",
+          "delivery-note"
+        ]
+      },
+      "name-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "md"
+        },
+        "children": [
+          "first-name",
+          "last-name"
+        ]
+      },
+      "first-name": {
+        "type": "Input",
+        "props": {
+          "label": "First name",
+          "name": "firstName",
+          "value": {
+            "$bindState": "/firstName"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter your first name."
+            }
+          ]
+        },
+        "children": []
+      },
+      "last-name": {
+        "type": "Input",
+        "props": {
+          "label": "Last name",
+          "name": "lastName",
+          "value": {
+            "$bindState": "/lastName"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter your last name."
+            }
+          ]
+        },
+        "children": []
+      },
+      "address": {
+        "type": "Input",
+        "props": {
+          "label": "Street address",
+          "name": "address",
+          "placeholder": "123 Market Street",
+          "value": {
+            "$bindState": "/address"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter your street address."
+            }
+          ]
+        },
+        "children": []
+      },
+      "apartment": {
+        "type": "Input",
+        "props": {
+          "label": "Apartment, suite, etc. (optional)",
+          "name": "apartment",
+          "value": {
+            "$bindState": "/apartment"
+          },
+          "checks": [
+            {
+              "type": "maxLength",
+              "message": "Use 80 characters or fewer.",
+              "args": {
+                "max": 80
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "location-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 3,
+          "gap": "md",
+          "className": "grid-cols-1 sm:grid-cols-3"
+        },
+        "children": [
+          "city",
+          "region",
+          "postal-code"
+        ]
+      },
+      "city": {
+        "type": "Input",
+        "props": {
+          "label": "City",
+          "name": "city",
+          "value": {
+            "$bindState": "/city"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter your city."
+            }
+          ]
+        },
+        "children": []
+      },
+      "region": {
+        "type": "Input",
+        "props": {
+          "label": "State",
+          "name": "region",
+          "placeholder": "CA",
+          "value": {
+            "$bindState": "/region"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter your state."
+            }
+          ]
+        },
+        "children": []
+      },
+      "postal-code": {
+        "type": "Input",
+        "props": {
+          "label": "ZIP code",
+          "name": "postalCode",
+          "value": {
+            "$bindState": "/postalCode"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter your ZIP code."
+            },
+            {
+              "type": "pattern",
+              "message": "Enter a valid US ZIP code.",
+              "args": {
+                "pattern": "^\\d{5}(-\\d{4})?$"
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "country": {
+        "type": "Select",
+        "props": {
+          "label": "Country",
+          "name": "country",
+          "options": [
+            "United States"
+          ],
+          "value": {
+            "$bindState": "/country"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Select your country."
+            }
+          ]
+        },
+        "children": []
+      },
+      "delivery-note": {
+        "type": "Text",
+        "props": {
+          "text": "Standard delivery · 3–5 business days",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "payment-card": {
+        "type": "Card",
+        "props": {
+          "title": "03 / Payment",
+          "description": "Choose how you’d like to pay. Payment details are collected in the next step."
+        },
+        "children": [
+          "payment-method"
+        ]
+      },
+      "payment-method": {
+        "type": "Radio",
+        "props": {
+          "label": "Payment method",
+          "name": "paymentMethod",
+          "options": [
+            "Credit or debit card",
+            "PayPal"
+          ],
+          "value": {
+            "$bindState": "/paymentMethod"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Choose a payment method."
+            }
+          ]
+        },
+        "children": []
+      },
+      "place-order": {
+        "type": "Button",
+        "props": {
+          "label": "Review order →",
+          "variant": "primary"
+        },
+        "on": {
+          "press": {
+            "action": "validateForm",
+            "params": {
+              "statePath": "/checkoutValidation"
+            }
+          }
+        },
+        "children": []
+      },
+      "review-success": {
+        "type": "Alert",
+        "props": {
+          "title": "Your checkout details are ready",
+          "message": "This preview validates your details. No payment has been taken and no order has been placed.",
+          "type": "success"
+        },
+        "visible": {
+          "$state": "/checkoutValidation/valid",
+          "eq": true
+        },
+        "children": []
+      },
+      "order-summary": {
+        "type": "Card",
+        "props": {
+          "title": "Your bag",
+          "description": "A little more stride in your everyday.",
+          "className": "self-start lg:sticky lg:top-8"
+        },
+        "children": [
+          "products",
+          "summary-divider",
+          "subtotal-row",
+          "shipping-row",
+          "tax-row",
+          "total-divider",
+          "total-row",
+          "tax-note",
+          "returns-note"
+        ]
+      },
+      "products": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "repeat": {
+          "statePath": "/products",
+          "key": "id"
+        },
+        "children": [
+          "product-row"
+        ]
+      },
+      "product-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "product-image",
+          "product-copy",
+          "product-price"
+        ]
+      },
+      "product-image": {
+        "type": "Image",
+        "props": {
+          "src": {
+            "$item": "image"
+          },
+          "alt": {
+            "$item": "alt"
+          },
+          "width": 80,
+          "height": 80
+        },
+        "children": []
+      },
+      "product-copy": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm",
+          "className": "flex-1"
+        },
+        "children": [
+          "product-name",
+          "product-details"
+        ]
+      },
+      "product-name": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "name"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "product-details": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "details"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "product-price": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "price"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "summary-divider": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "subtotal-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between"
+        },
+        "children": [
+          "subtotal-label",
+          "subtotal-value"
+        ]
+      },
+      "subtotal-label": {
+        "type": "Text",
+        "props": {
+          "text": "Subtotal"
+        },
+        "children": []
+      },
+      "subtotal-value": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$state": "/summary/subtotal"
+          }
+        },
+        "children": []
+      },
+      "shipping-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between"
+        },
+        "children": [
+          "shipping-label",
+          "shipping-value"
+        ]
+      },
+      "shipping-label": {
+        "type": "Text",
+        "props": {
+          "text": "Standard shipping"
+        },
+        "children": []
+      },
+      "shipping-value": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$state": "/summary/shipping"
+          },
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "tax-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between"
+        },
+        "children": [
+          "tax-label",
+          "tax-value"
+        ]
+      },
+      "tax-label": {
+        "type": "Text",
+        "props": {
+          "text": "Estimated tax"
+        },
+        "children": []
+      },
+      "tax-value": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$state": "/summary/tax"
+          }
+        },
+        "children": []
+      },
+      "total-divider": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "total-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center"
+        },
+        "children": [
+          "total-label",
+          "total-value"
+        ]
+      },
+      "total-label": {
+        "type": "Heading",
+        "props": {
+          "text": "Estimated total · USD",
+          "level": "h3"
+        },
+        "children": []
+      },
+      "total-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$state": "/summary/total"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "tax-note": {
+        "type": "Text",
+        "props": {
+          "text": "Preview estimate uses 8% tax. Final tax depends on your delivery address.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "returns-note": {
+        "type": "Text",
+        "props": {
+          "text": "Need help finding your fit? Check our sizing and returns policies before ordering.",
+          "variant": "muted"
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "email": "",
+      "newsletter": false,
+      "firstName": "",
+      "lastName": "",
+      "address": "",
+      "apartment": "",
+      "city": "",
+      "region": "",
+      "postalCode": "",
+      "country": "United States",
+      "paymentMethod": "Credit or debit card",
+      "checkoutValidation": {
+        "valid": false,
+        "errors": {}
+      },
+      "products": [
+        {
+          "id": "shoe-001",
+          "name": "Everyday Runner",
+          "details": "Chalk / Sage · US 9 · Qty 1",
+          "price": "$128.00",
+          "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=240&h=240&fit=crop",
+          "alt": "Red running sneaker"
+        },
+        {
+          "id": "shoe-002",
+          "name": "Court Classic",
+          "details": "Cloud White · US 9 · Qty 1",
+          "price": "$110.00",
+          "image": "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=240&h=240&fit=crop",
+          "alt": "Classic casual sneakers"
+        },
+        {
+          "id": "care-001",
+          "name": "Sneaker Care Kit",
+          "details": "Cleaner + soft brush · Qty 1",
+          "price": "$18.00",
+          "image": "",
+          "alt": "Sneaker cleaner and soft brush care kit"
+        }
+      ],
+      "summary": {
+        "subtotal": "$256.00",
+        "shipping": "Free",
+        "tax": "$20.48",
+        "total": "$276.48"
+      }
+    }
+  },
+  "patchLines": 70,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [],
+  "fixes": []
+}

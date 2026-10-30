@@ -1,0 +1,280 @@
+{
+  "spec": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "header",
+          "summary",
+          "list-card"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "title",
+          "subtitle"
+        ]
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Integrations",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Connect your CRM with the tools your team already uses.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "summary": {
+        "type": "Alert",
+        "props": {
+          "title": "Connected apps",
+          "message": "Manage which apps can sync contacts, deals and activity with your CRM.",
+          "type": "info"
+        },
+        "children": []
+      },
+      "list-card": {
+        "type": "Card",
+        "props": {
+          "title": "Available integrations",
+          "description": "Connect or disconnect apps at any time.",
+          "maxWidth": "full"
+        },
+        "children": [
+          "list"
+        ]
+      },
+      "list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/integrations",
+          "key": "id"
+        },
+        "children": [
+          "row"
+        ]
+      },
+      "row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "info",
+          "actions"
+        ]
+      },
+      "info": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center"
+        },
+        "children": [
+          "avatar",
+          "details"
+        ]
+      },
+      "avatar": {
+        "type": "Avatar",
+        "props": {
+          "name": {
+            "$item": "name"
+          },
+          "size": "md"
+        },
+        "children": []
+      },
+      "details": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "none"
+        },
+        "children": [
+          "name-row",
+          "desc"
+        ]
+      },
+      "name-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm",
+          "align": "center"
+        },
+        "children": [
+          "app-name",
+          "badge-connected",
+          "badge-disconnected"
+        ]
+      },
+      "app-name": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "name"
+          },
+          "level": "h4"
+        },
+        "children": []
+      },
+      "badge-connected": {
+        "type": "Badge",
+        "props": {
+          "text": "Connected",
+          "variant": "default"
+        },
+        "visible": {
+          "$item": "connected",
+          "eq": true
+        },
+        "children": []
+      },
+      "badge-disconnected": {
+        "type": "Badge",
+        "props": {
+          "text": "Not connected",
+          "variant": "outline"
+        },
+        "visible": {
+          "$item": "connected",
+          "eq": false
+        },
+        "children": []
+      },
+      "desc": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "description"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "actions": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm",
+          "align": "center"
+        },
+        "children": [
+          "btn-connect",
+          "btn-disconnect"
+        ]
+      },
+      "btn-connect": {
+        "type": "Button",
+        "props": {
+          "label": "Connect",
+          "variant": "primary"
+        },
+        "visible": {
+          "$item": "connected",
+          "eq": false
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": {
+                "$item": "connected"
+              },
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "btn-disconnect": {
+        "type": "Button",
+        "props": {
+          "label": "Disconnect",
+          "variant": "danger"
+        },
+        "visible": {
+          "$item": "connected",
+          "eq": true
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": {
+                "$item": "connected"
+              },
+              "value": false
+            }
+          }
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "integrations": [
+        {
+          "id": "slack",
+          "name": "Slack",
+          "description": "Get deal alerts and notifications in your team channels.",
+          "connected": true
+        },
+        {
+          "id": "gmail",
+          "name": "Gmail",
+          "description": "Sync emails and log conversations to contact records.",
+          "connected": true
+        },
+        {
+          "id": "zapier",
+          "name": "Zapier",
+          "description": "Automate workflows between your CRM and 5,000+ apps.",
+          "connected": false
+        },
+        {
+          "id": "gcal",
+          "name": "Google Calendar",
+          "description": "Schedule meetings and sync events with contacts.",
+          "connected": false
+        },
+        {
+          "id": "stripe",
+          "name": "Stripe",
+          "description": "Track payments and subscriptions against customer accounts.",
+          "connected": true
+        }
+      ]
+    }
+  },
+  "patchLines": 26,
+  "skippedLines": 0,
+  "firstNodeMs": 1698,
+  "issues": [],
+  "fixes": []
+}

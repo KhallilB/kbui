@@ -1,0 +1,519 @@
+{
+  "spec": {
+    "root": "team-page",
+    "elements": {
+      "team-page": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg",
+          "className": "mx-auto w-full max-w-6xl p-8"
+        },
+        "children": [
+          "page-header",
+          "team-card",
+          "invite-dialog"
+        ]
+      },
+      "page-header": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "align": "center",
+          "justify": "between",
+          "gap": "lg"
+        },
+        "children": [
+          "page-title",
+          "invite-trigger"
+        ]
+      },
+      "page-title": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "title",
+          "subtitle"
+        ]
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Team members",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Manage the people who have access to your workspace.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "invite-trigger": {
+        "type": "Button",
+        "props": {
+          "label": "Invite member",
+          "variant": "primary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/inviteOpen",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "team-card": {
+        "type": "Card",
+        "props": {
+          "title": "Workspace members",
+          "description": "Admins manage the workspace. Members collaborate. Viewers have read-only access.",
+          "maxWidth": "full"
+        },
+        "children": [
+          "member-list",
+          "access-note"
+        ]
+      },
+      "member-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "none"
+        },
+        "repeat": {
+          "statePath": "/members",
+          "key": "id"
+        },
+        "children": [
+          "member-row",
+          "row-divider"
+        ]
+      },
+      "member-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "align": "center",
+          "justify": "between",
+          "gap": "lg",
+          "className": "flex-wrap py-5"
+        },
+        "children": [
+          "member-identity",
+          "member-controls"
+        ]
+      },
+      "member-identity": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "align": "center",
+          "gap": "md"
+        },
+        "children": [
+          "member-avatar",
+          "member-details"
+        ]
+      },
+      "member-avatar": {
+        "type": "Avatar",
+        "props": {
+          "name": {
+            "$item": "name"
+          },
+          "size": "md"
+        },
+        "children": []
+      },
+      "member-details": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "member-name",
+          "member-email"
+        ]
+      },
+      "member-name": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "name"
+          }
+        },
+        "children": []
+      },
+      "member-email": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "email"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "member-controls": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "align": "center",
+          "gap": "md"
+        },
+        "children": [
+          "member-status",
+          "owner-role",
+          "member-role",
+          "remove-member"
+        ]
+      },
+      "member-status": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "status"
+          },
+          "variant": {
+            "$cond": {
+              "$item": "status",
+              "eq": "Invited"
+            },
+            "$then": "outline",
+            "$else": "secondary"
+          }
+        },
+        "children": []
+      },
+      "owner-role": {
+        "type": "Badge",
+        "props": {
+          "text": "Owner",
+          "variant": "outline"
+        },
+        "visible": {
+          "$item": "isOwner"
+        },
+        "children": []
+      },
+      "member-role": {
+        "type": "Select",
+        "props": {
+          "label": "Role",
+          "name": {
+            "$template": "role-${id}"
+          },
+          "options": [
+            "Admin",
+            "Member",
+            "Viewer"
+          ],
+          "value": {
+            "$bindItem": "role"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Choose a role."
+            }
+          ]
+        },
+        "visible": {
+          "$item": "isOwner",
+          "not": true
+        },
+        "children": []
+      },
+      "remove-member": {
+        "type": "Button",
+        "props": {
+          "label": "Remove",
+          "variant": "danger"
+        },
+        "visible": {
+          "$item": "isOwner",
+          "not": true
+        },
+        "on": {
+          "press": {
+            "action": "removeState",
+            "params": {
+              "statePath": "/members",
+              "index": {
+                "$index": true
+              }
+            }
+          }
+        },
+        "children": []
+      },
+      "row-divider": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "access-note": {
+        "type": "Text",
+        "props": {
+          "text": "Role changes apply immediately. Removing someone revokes their workspace access. The workspace owner cannot be removed here.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "invite-dialog": {
+        "type": "Dialog",
+        "props": {
+          "title": "Invite a team member",
+          "description": "Add someone to your workspace and choose their access level.",
+          "openPath": "/inviteOpen"
+        },
+        "children": [
+          "invite-fields",
+          "invite-preview-note",
+          "review-invite",
+          "confirm-invite",
+          "close-invite"
+        ]
+      },
+      "invite-fields": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "invite-name",
+          "invite-email",
+          "invite-role"
+        ]
+      },
+      "invite-name": {
+        "type": "Input",
+        "props": {
+          "label": "Full name",
+          "name": "inviteName",
+          "placeholder": "Taylor Chen",
+          "value": {
+            "$bindState": "/inviteName"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter a name."
+            }
+          ]
+        },
+        "watch": {
+          "/inviteName": {
+            "action": "setState",
+            "params": {
+              "statePath": "/inviteValidation/valid",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      },
+      "invite-email": {
+        "type": "Input",
+        "props": {
+          "label": "Work email",
+          "name": "inviteEmail",
+          "type": "email",
+          "placeholder": "taylor@company.com",
+          "value": {
+            "$bindState": "/inviteEmail"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter an email address."
+            },
+            {
+              "type": "email",
+              "message": "Enter a valid email address."
+            }
+          ]
+        },
+        "watch": {
+          "/inviteEmail": {
+            "action": "setState",
+            "params": {
+              "statePath": "/inviteValidation/valid",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      },
+      "invite-role": {
+        "type": "Select",
+        "props": {
+          "label": "Workspace role",
+          "name": "inviteRole",
+          "options": [
+            "Admin",
+            "Member",
+            "Viewer"
+          ],
+          "value": {
+            "$bindState": "/inviteRole"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Choose a role."
+            }
+          ]
+        },
+        "watch": {
+          "/inviteRole": {
+            "action": "setState",
+            "params": {
+              "statePath": "/inviteValidation/valid",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      },
+      "invite-preview-note": {
+        "type": "Text",
+        "props": {
+          "text": "Demo workspace: invitations update this list locally. No email is sent.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "review-invite": {
+        "type": "Button",
+        "props": {
+          "label": "Review invitation",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "validateForm",
+            "params": {
+              "statePath": "/inviteValidation"
+            }
+          }
+        },
+        "children": []
+      },
+      "confirm-invite": {
+        "type": "Button",
+        "props": {
+          "label": "Add invited member",
+          "variant": "primary"
+        },
+        "visible": {
+          "$state": "/inviteValidation/valid"
+        },
+        "on": {
+          "press": {
+            "action": "pushState",
+            "params": {
+              "statePath": "/members",
+              "value": {
+                "id": "$id",
+                "name": {
+                  "$state": "/inviteName"
+                },
+                "email": {
+                  "$state": "/inviteEmail"
+                },
+                "role": {
+                  "$state": "/inviteRole"
+                },
+                "status": "Invited",
+                "isOwner": false
+              },
+              "clearStatePath": "/inviteEmail"
+            }
+          }
+        },
+        "children": []
+      },
+      "close-invite": {
+        "type": "Button",
+        "props": {
+          "label": "Close",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/inviteOpen",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "inviteOpen": false,
+      "members": [
+        {
+          "id": "member-1",
+          "name": "Alex Morgan",
+          "email": "alex@acme.co",
+          "role": "Owner",
+          "status": "Active",
+          "isOwner": true
+        },
+        {
+          "id": "member-2",
+          "name": "Jordan Lee",
+          "email": "jordan@acme.co",
+          "role": "Admin",
+          "status": "Active",
+          "isOwner": false
+        },
+        {
+          "id": "member-3",
+          "name": "Priya Shah",
+          "email": "priya@acme.co",
+          "role": "Member",
+          "status": "Active",
+          "isOwner": false
+        },
+        {
+          "id": "member-4",
+          "name": "Sam Rivera",
+          "email": "sam@acme.co",
+          "role": "Viewer",
+          "status": "Invited",
+          "isOwner": false
+        }
+      ],
+      "inviteName": "",
+      "inviteValidation": {
+        "valid": false,
+        "errors": {}
+      },
+      "inviteEmail": "",
+      "inviteRole": "Member"
+    }
+  },
+  "patchLines": 41,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [],
+  "fixes": []
+}

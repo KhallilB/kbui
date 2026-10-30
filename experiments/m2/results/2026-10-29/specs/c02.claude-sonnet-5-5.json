@@ -1,0 +1,1005 @@
+{
+  "spec": {
+    "root": "page",
+    "elements": {
+      "page": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg",
+          "align": "stretch"
+        },
+        "children": [
+          "header",
+          "main-grid"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "page-title",
+          "page-sub"
+        ]
+      },
+      "page-title": {
+        "type": "Heading",
+        "props": {
+          "text": "Checkout",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "page-sub": {
+        "type": "Text",
+        "props": {
+          "text": "You're almost there! Complete your order below.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "main-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "lg"
+        },
+        "children": [
+          "left-col",
+          "right-col"
+        ]
+      },
+      "left-col": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg",
+          "align": "stretch"
+        },
+        "children": [
+          "contact-card",
+          "shipping-card",
+          "payment-card"
+        ]
+      },
+      "contact-card": {
+        "type": "Card",
+        "props": {
+          "title": "Contact Information",
+          "description": "We'll send your order confirmation here",
+          "maxWidth": "full"
+        },
+        "children": [
+          "contact-stack"
+        ]
+      },
+      "contact-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "email-input",
+          "phone-input"
+        ]
+      },
+      "email-input": {
+        "type": "Input",
+        "props": {
+          "label": "Email",
+          "name": "email",
+          "type": "email",
+          "placeholder": "you@example.com",
+          "value": {
+            "$bindState": "/form/email"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Email is required"
+            },
+            {
+              "type": "email",
+              "message": "Please enter a valid email"
+            }
+          ],
+          "validateOn": "blur"
+        },
+        "children": []
+      },
+      "phone-input": {
+        "type": "Input",
+        "props": {
+          "label": "Phone (optional)",
+          "name": "phone",
+          "type": "text",
+          "placeholder": "(555) 123-4567",
+          "value": {
+            "$bindState": "/form/phone"
+          }
+        },
+        "children": []
+      },
+      "shipping-card": {
+        "type": "Card",
+        "props": {
+          "title": "Shipping Address",
+          "maxWidth": "full"
+        },
+        "children": [
+          "shipping-stack"
+        ]
+      },
+      "shipping-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "name-grid",
+          "address-input",
+          "city-grid",
+          "country-select",
+          "shipping-method"
+        ]
+      },
+      "name-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "md"
+        },
+        "children": [
+          "first-name",
+          "last-name"
+        ]
+      },
+      "first-name": {
+        "type": "Input",
+        "props": {
+          "label": "First name",
+          "name": "firstName",
+          "type": "text",
+          "placeholder": "Jane",
+          "value": {
+            "$bindState": "/form/firstName"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "First name is required"
+            }
+          ]
+        },
+        "children": []
+      },
+      "last-name": {
+        "type": "Input",
+        "props": {
+          "label": "Last name",
+          "name": "lastName",
+          "type": "text",
+          "placeholder": "Doe",
+          "value": {
+            "$bindState": "/form/lastName"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Last name is required"
+            }
+          ]
+        },
+        "children": []
+      },
+      "address-input": {
+        "type": "Input",
+        "props": {
+          "label": "Address",
+          "name": "address",
+          "type": "text",
+          "placeholder": "123 Main Street",
+          "value": {
+            "$bindState": "/form/address"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Address is required"
+            }
+          ]
+        },
+        "children": []
+      },
+      "city-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 3,
+          "gap": "md"
+        },
+        "children": [
+          "city-input",
+          "state-input",
+          "zip-input"
+        ]
+      },
+      "city-input": {
+        "type": "Input",
+        "props": {
+          "label": "City",
+          "name": "city",
+          "type": "text",
+          "placeholder": "Portland",
+          "value": {
+            "$bindState": "/form/city"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "City is required"
+            }
+          ]
+        },
+        "children": []
+      },
+      "state-input": {
+        "type": "Input",
+        "props": {
+          "label": "State",
+          "name": "state",
+          "type": "text",
+          "placeholder": "OR",
+          "value": {
+            "$bindState": "/form/state"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "State is required"
+            }
+          ]
+        },
+        "children": []
+      },
+      "zip-input": {
+        "type": "Input",
+        "props": {
+          "label": "ZIP code",
+          "name": "zip",
+          "type": "text",
+          "placeholder": "97201",
+          "value": {
+            "$bindState": "/form/zip"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "ZIP is required"
+            },
+            {
+              "type": "pattern",
+              "message": "Enter a valid ZIP code",
+              "args": {
+                "pattern": "^[0-9]{5}$"
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "country-select": {
+        "type": "Select",
+        "props": {
+          "label": "Country",
+          "name": "country",
+          "options": [
+            "United States",
+            "Canada",
+            "United Kingdom",
+            "Australia",
+            "Germany"
+          ],
+          "value": {
+            "$bindState": "/form/country"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Country is required"
+            }
+          ]
+        },
+        "children": []
+      },
+      "shipping-method": {
+        "type": "Radio",
+        "props": {
+          "label": "Shipping method",
+          "name": "shippingMethod",
+          "options": [
+            "Standard (5-7 days) - Free",
+            "Express (2-3 days) - $9.99",
+            "Overnight - $24.99"
+          ],
+          "value": {
+            "$bindState": "/form/shippingMethod"
+          }
+        },
+        "children": []
+      },
+      "payment-card": {
+        "type": "Card",
+        "props": {
+          "title": "Payment",
+          "description": "All transactions are secure and encrypted",
+          "maxWidth": "full"
+        },
+        "children": [
+          "payment-stack"
+        ]
+      },
+      "payment-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "card-name",
+          "card-number",
+          "card-grid"
+        ]
+      },
+      "card-name": {
+        "type": "Input",
+        "props": {
+          "label": "Name on card",
+          "name": "cardName",
+          "type": "text",
+          "placeholder": "Jane Doe",
+          "value": {
+            "$bindState": "/form/cardName"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Name on card is required"
+            }
+          ]
+        },
+        "children": []
+      },
+      "card-number": {
+        "type": "Input",
+        "props": {
+          "label": "Card number",
+          "name": "cardNumber",
+          "type": "text",
+          "placeholder": "1234 5678 9012 3456",
+          "value": {
+            "$bindState": "/form/cardNumber"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Card number is required"
+            },
+            {
+              "type": "pattern",
+              "message": "Enter a valid 16-digit card number",
+              "args": {
+                "pattern": "^[0-9 ]{16,19}$"
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "card-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "md"
+        },
+        "children": [
+          "card-expiry",
+          "card-cvc"
+        ]
+      },
+      "card-expiry": {
+        "type": "Input",
+        "props": {
+          "label": "Expiry (MM/YY)",
+          "name": "expiry",
+          "type": "text",
+          "placeholder": "08/28",
+          "value": {
+            "$bindState": "/form/expiry"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Expiry is required"
+            },
+            {
+              "type": "pattern",
+              "message": "Use MM/YY format",
+              "args": {
+                "pattern": "^(0[1-9]|1[0-2])\\/[0-9]{2}$"
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "card-cvc": {
+        "type": "Input",
+        "props": {
+          "label": "CVC",
+          "name": "cvc",
+          "type": "password",
+          "placeholder": "123",
+          "value": {
+            "$bindState": "/form/cvc"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "CVC is required"
+            },
+            {
+              "type": "pattern",
+              "message": "Enter 3 or 4 digits",
+              "args": {
+                "pattern": "^[0-9]{3,4}$"
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "right-col": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg",
+          "align": "stretch"
+        },
+        "children": [
+          "summary-card",
+          "newsletter-card"
+        ]
+      },
+      "summary-card": {
+        "type": "Card",
+        "props": {
+          "title": "Order Summary",
+          "maxWidth": "full"
+        },
+        "children": [
+          "summary-stack"
+        ]
+      },
+      "summary-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "cart-list",
+          "sep-1",
+          "totals-stack",
+          "promo-note",
+          "place-order"
+        ]
+      },
+      "cart-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/cart",
+          "key": "id"
+        },
+        "children": [
+          "cart-item"
+        ]
+      },
+      "cart-item": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "cart-item-left",
+          "cart-item-price"
+        ]
+      },
+      "cart-item-left": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center"
+        },
+        "children": [
+          "cart-item-img",
+          "cart-item-info"
+        ]
+      },
+      "cart-item-img": {
+        "type": "Image",
+        "props": {
+          "alt": {
+            "$item": "name"
+          },
+          "width": 64,
+          "height": 64
+        },
+        "children": []
+      },
+      "cart-item-info": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "none"
+        },
+        "children": [
+          "cart-item-name",
+          "cart-item-meta"
+        ]
+      },
+      "cart-item-name": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "name"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "cart-item-meta": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "Size ${size} · ${color} · Qty ${qty}"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "cart-item-price": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "priceLabel"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "sep-1": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "totals-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "row-subtotal",
+          "row-shipping",
+          "row-discount",
+          "row-total"
+        ]
+      },
+      "row-subtotal": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between"
+        },
+        "children": [
+          "subtotal-label",
+          "subtotal-value"
+        ]
+      },
+      "subtotal-label": {
+        "type": "Text",
+        "props": {
+          "text": "Subtotal",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "subtotal-value": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$state": "/totals/subtotal"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "row-shipping": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between"
+        },
+        "children": [
+          "shipping-label",
+          "shipping-value"
+        ]
+      },
+      "shipping-label": {
+        "type": "Text",
+        "props": {
+          "text": "Shipping",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "shipping-value": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$state": "/totals/shipping"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "row-discount": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between"
+        },
+        "children": [
+          "discount-label",
+          "discount-value"
+        ]
+      },
+      "discount-label": {
+        "type": "Text",
+        "props": {
+          "text": "Newsletter discount (10%)",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "discount-value": {
+        "type": "Text",
+        "props": {
+          "text": "Applied after you subscribe",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "row-total": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between"
+        },
+        "children": [
+          "total-label",
+          "total-value"
+        ]
+      },
+      "total-label": {
+        "type": "Heading",
+        "props": {
+          "text": "Total",
+          "level": "h3"
+        },
+        "children": []
+      },
+      "total-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$state": "/totals/total"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "promo-note": {
+        "type": "Alert",
+        "props": {
+          "title": "Free shipping unlocked",
+          "message": "Your order qualifies for free standard shipping.",
+          "type": "success"
+        },
+        "children": []
+      },
+      "place-order": {
+        "type": "Button",
+        "props": {
+          "label": "Place Order",
+          "variant": "primary"
+        },
+        "on": {
+          "press": {
+            "action": "validateForm",
+            "params": {
+              "statePath": "/formValidation"
+            }
+          }
+        },
+        "children": []
+      },
+      "newsletter-card": {
+        "type": "Card",
+        "props": {
+          "title": "Get 10% off your first order",
+          "description": "Join the Stride Club newsletter and unlock exclusive perks.",
+          "maxWidth": "full"
+        },
+        "children": [
+          "nl-stack"
+        ]
+      },
+      "nl-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "nl-badge",
+          "nl-benefits",
+          "nl-switch",
+          "nl-fields",
+          "nl-success"
+        ]
+      },
+      "nl-badge": {
+        "type": "Badge",
+        "props": {
+          "text": "Limited-time offer",
+          "variant": "default"
+        },
+        "children": []
+      },
+      "nl-benefits": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "benefit-1",
+          "benefit-2",
+          "benefit-3",
+          "benefit-4"
+        ]
+      },
+      "benefit-1": {
+        "type": "Text",
+        "props": {
+          "text": "✓ 10% off this order, applied instantly",
+          "variant": "body"
+        },
+        "children": []
+      },
+      "benefit-2": {
+        "type": "Text",
+        "props": {
+          "text": "✓ Early access to new releases and sales",
+          "variant": "body"
+        },
+        "children": []
+      },
+      "benefit-3": {
+        "type": "Text",
+        "props": {
+          "text": "✓ Free shipping on every future order",
+          "variant": "body"
+        },
+        "children": []
+      },
+      "benefit-4": {
+        "type": "Text",
+        "props": {
+          "text": "✓ Birthday surprise and style tips. Unsubscribe anytime.",
+          "variant": "body"
+        },
+        "children": []
+      },
+      "nl-switch": {
+        "type": "Switch",
+        "props": {
+          "label": "Yes, sign me up and apply my 10% discount",
+          "name": "newsletter",
+          "checked": {
+            "$bindState": "/form/newsletter"
+          }
+        },
+        "children": []
+      },
+      "nl-fields": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "visible": {
+          "$state": "/form/newsletter"
+        },
+        "children": [
+          "nl-interests",
+          "nl-email",
+          "nl-subscribe"
+        ]
+      },
+      "nl-interests": {
+        "type": "ToggleGroup",
+        "props": {
+          "items": [
+            {
+              "label": "Women",
+              "value": "women"
+            },
+            {
+              "label": "Men",
+              "value": "men"
+            },
+            {
+              "label": "Kids",
+              "value": "kids"
+            },
+            {
+              "label": "Sale",
+              "value": "sale"
+            }
+          ],
+          "type": "single",
+          "value": {
+            "$bindState": "/form/interests"
+          }
+        },
+        "children": []
+      },
+      "nl-email": {
+        "type": "Input",
+        "props": {
+          "label": "Newsletter email",
+          "name": "newsletterEmail",
+          "type": "email",
+          "placeholder": "you@example.com",
+          "value": {
+            "$bindState": "/form/newsletterEmail"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter your email to get your discount"
+            },
+            {
+              "type": "email",
+              "message": "Please enter a valid email"
+            }
+          ],
+          "validateOn": "blur"
+        },
+        "children": []
+      },
+      "nl-subscribe": {
+        "type": "Button",
+        "props": {
+          "label": "Claim My 10% Off",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": [
+            {
+              "action": "validateForm",
+              "params": {
+                "statePath": "/newsletterValidation"
+              }
+            },
+            {
+              "action": "setState",
+              "params": {
+                "statePath": "/newsletterDone",
+                "value": true
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "nl-success": {
+        "type": "Alert",
+        "props": {
+          "title": "Welcome to the Stride Club!",
+          "message": "Your 10% discount will be applied at checkout. Check your inbox for a welcome email.",
+          "type": "success"
+        },
+        "visible": {
+          "$state": "/newsletterDone"
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "form": {
+        "email": "",
+        "phone": "",
+        "firstName": "",
+        "lastName": "",
+        "address": "",
+        "city": "",
+        "state": "",
+        "zip": "",
+        "country": "United States",
+        "shippingMethod": "Standard (5-7 days) - Free",
+        "cardName": "",
+        "cardNumber": "",
+        "expiry": "",
+        "cvc": "",
+        "newsletter": true,
+        "newsletterEmail": "",
+        "interests": "women"
+      },
+      "cart": [
+        {
+          "id": "1",
+          "name": "AirStride Runner",
+          "size": "9",
+          "color": "Midnight Blue",
+          "qty": 1,
+          "priceLabel": "$129.00"
+        },
+        {
+          "id": "2",
+          "name": "Classic Leather Loafer",
+          "size": "9",
+          "color": "Cognac",
+          "qty": 1,
+          "priceLabel": "$149.00"
+        },
+        {
+          "id": "3",
+          "name": "Everyday Crew Socks (3-pack)",
+          "size": "M",
+          "color": "White",
+          "qty": 2,
+          "priceLabel": "$24.00"
+        }
+      ],
+      "totals": {
+        "subtotal": "$326.00",
+        "shipping": "Free",
+        "total": "$326.00"
+      },
+      "newsletterDone": false
+    }
+  },
+  "patchLines": 78,
+  "skippedLines": 0,
+  "firstNodeMs": 1850,
+  "issues": [],
+  "fixes": []
+}

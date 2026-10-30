@@ -1,0 +1,442 @@
+{
+  "promptId": "d08",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:22:04.706Z",
+  "totalMs": 55719,
+  "lines": [
+    {
+      "t": 25496,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+    },
+    {
+      "t": 25803,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"children\":[\"header\",\"kpis\",\"middle\",\"shipments-card\",\"products-card\"]}}"
+    },
+    {
+      "t": 26075,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"title\",\"subtitle\"]}}"
+    },
+    {
+      "t": 26333,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Warehouse Inventory Dashboard\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 26702,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtitle\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Main Distribution Center · Updated Oct 29, 2026\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 27033,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/kpis\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":5,\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/kpis\",\"key\":\"id\"},\"children\":[\"kpi-card\"]}}"
+    },
+    {
+      "t": 27303,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/kpi-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":{\"$item\":\"label\"}},\"children\":[\"kpi-value\",\"kpi-note\"]}}"
+    },
+    {
+      "t": 27578,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/kpi-value\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$item\":\"value\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 27910,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/kpi-note\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"note\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 27970,
+      "text": "{\"op\":\"add\",\"path\":\"/state/kpis\",\"value\":[]}"
+    },
+    {
+      "t": 28241,
+      "text": "{\"op\":\"add\",\"path\":\"/state/kpis/0\",\"value\":{\"id\":\"units\",\"label\":\"Total Units\",\"value\":\"11,861\",\"note\":\"Across 6 categories\"}}"
+    },
+    {
+      "t": 28504,
+      "text": "{\"op\":\"add\",\"path\":\"/state/kpis/1\",\"value\":{\"id\":\"skus\",\"label\":\"Active SKUs\",\"value\":\"40\",\"note\":\"27 healthy\"}}"
+    },
+    {
+      "t": 28732,
+      "text": "{\"op\":\"add\",\"path\":\"/state/kpis/2\",\"value\":{\"id\":\"low\",\"label\":\"Low Stock\",\"value\":\"10\",\"note\":\"Below reorder point\"}}"
+    },
+    {
+      "t": 28967,
+      "text": "{\"op\":\"add\",\"path\":\"/state/kpis/3\",\"value\":{\"id\":\"out\",\"label\":\"Out of Stock\",\"value\":\"3\",\"note\":\"Needs immediate action\"}}"
+    },
+    {
+      "t": 29377,
+      "text": "{\"op\":\"add\",\"path\":\"/state/kpis/4\",\"value\":{\"id\":\"incoming\",\"label\":\"Incoming Shipments\",\"value\":\"6\",\"note\":\"2 arriving this week\"}}"
+    },
+    {
+      "t": 29576,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/middle\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"md\"},\"children\":[\"levels-card\",\"low-card\"]}}"
+    },
+    {
+      "t": 30057,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/levels-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Stock Levels by Category\",\"description\":\"Share of SKUs at healthy stock levels\",\"maxWidth\":\"full\"},\"children\":[\"levels-list\"]}}"
+    },
+    {
+      "t": 30377,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/levels-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/categories\",\"key\":\"name\"},\"children\":[\"level-item\"]}}"
+    },
+    {
+      "t": 30942,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/level-item\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$item\":\"pct\"},\"max\":100,\"label\":{\"$template\":\"${name}: ${units} units · ${healthy} SKUs healthy (${pct}%)\"}},\"children\":[]}}"
+    },
+    {
+      "t": 30966,
+      "text": "{\"op\":\"add\",\"path\":\"/state/categories\",\"value\":[]}"
+    },
+    {
+      "t": 31235,
+      "text": "{\"op\":\"add\",\"path\":\"/state/categories/0\",\"value\":{\"name\":\"Electronics\",\"units\":\"991\",\"healthy\":\"4/8\",\"pct\":50}}"
+    },
+    {
+      "t": 31434,
+      "text": "{\"op\":\"add\",\"path\":\"/state/categories/1\",\"value\":{\"name\":\"Packaging\",\"units\":\"7,904\",\"healthy\":\"5/8\",\"pct\":63}}"
+    },
+    {
+      "t": 31707,
+      "text": "{\"op\":\"add\",\"path\":\"/state/categories/2\",\"value\":{\"name\":\"Tools\",\"units\":\"943\",\"healthy\":\"6/7\",\"pct\":86}}"
+    },
+    {
+      "t": 31869,
+      "text": "{\"op\":\"add\",\"path\":\"/state/categories/3\",\"value\":{\"name\":\"Safety\",\"units\":\"492\",\"healthy\":\"4/7\",\"pct\":57}}"
+    },
+    {
+      "t": 32074,
+      "text": "{\"op\":\"add\",\"path\":\"/state/categories/4\",\"value\":{\"name\":\"Office\",\"units\":\"1,057\",\"healthy\":\"4/5\",\"pct\":80}}"
+    },
+    {
+      "t": 32307,
+      "text": "{\"op\":\"add\",\"path\":\"/state/categories/5\",\"value\":{\"name\":\"Cleaning\",\"units\":\"474\",\"healthy\":\"4/5\",\"pct\":80}}"
+    },
+    {
+      "t": 32672,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/low-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Items Running Low\",\"description\":\"Out of stock and below reorder point\",\"maxWidth\":\"full\"},\"children\":[\"low-list\"]}}"
+    },
+    {
+      "t": 33034,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/low-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"repeat\":{\"statePath\":\"/lowStock\",\"key\":\"sku\"},\"children\":[\"low-row\"]}}"
+    },
+    {
+      "t": 33438,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/low-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"low-name\",\"low-right\"]}}"
+    },
+    {
+      "t": 33642,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/low-name\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${name} (${sku})\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 33978,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/low-right\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"align\":\"center\"},\"children\":[\"low-qty\",\"low-badge\"]}}"
+    },
+    {
+      "t": 34303,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/low-qty\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${qty} / ${reorder}\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 34600,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/low-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"status\"},\"variant\":{\"$item\":\"variant\"}},\"children\":[]}}"
+    },
+    {
+      "t": 34702,
+      "text": "{\"op\":\"add\",\"path\":\"/state/lowStock\",\"value\":[]}"
+    },
+    {
+      "t": 34999,
+      "text": "{\"op\":\"add\",\"path\":\"/state/lowStock/0\",\"value\":{\"sku\":\"EL-1006\",\"name\":\"Label Printer\",\"qty\":\"0\",\"reorder\":\"10\",\"status\":\"Out of Stock\",\"variant\":\"destructive\"}}"
+    },
+    {
+      "t": 35375,
+      "text": "{\"op\":\"add\",\"path\":\"/state/lowStock/1\",\"value\":{\"sku\":\"PK-2007\",\"name\":\"Padded Mailer 6x9\",\"qty\":\"0\",\"reorder\":\"250\",\"status\":\"Out of Stock\",\"variant\":\"destructive\"}}"
+    },
+    {
+      "t": 35710,
+      "text": "{\"op\":\"add\",\"path\":\"/state/lowStock/2\",\"value\":{\"sku\":\"SF-4005\",\"name\":\"Steel-Toe Boots\",\"qty\":\"0\",\"reorder\":\"20\",\"status\":\"Out of Stock\",\"variant\":\"destructive\"}}"
+    },
+    {
+      "t": 36033,
+      "text": "{\"op\":\"add\",\"path\":\"/state/lowStock/3\",\"value\":{\"sku\":\"EL-1005\",\"name\":\"Barcode Scanner\",\"qty\":\"12\",\"reorder\":\"20\",\"status\":\"Low Stock\",\"variant\":\"secondary\"}}"
+    },
+    {
+      "t": 36350,
+      "text": "{\"op\":\"add\",\"path\":\"/state/lowStock/4\",\"value\":{\"sku\":\"SF-4007\",\"name\":\"First Aid Kit\",\"qty\":\"14\",\"reorder\":\"15\",\"status\":\"Low Stock\",\"variant\":\"secondary\"}}"
+    },
+    {
+      "t": 36701,
+      "text": "{\"op\":\"add\",\"path\":\"/state/lowStock/5\",\"value\":{\"sku\":\"TL-3004\",\"name\":\"Tape Measure 25ft\",\"qty\":\"18\",\"reorder\":\"30\",\"status\":\"Low Stock\",\"variant\":\"secondary\"}}"
+    },
+    {
+      "t": 37041,
+      "text": "{\"op\":\"add\",\"path\":\"/state/lowStock/6\",\"value\":{\"sku\":\"OF-5005\",\"name\":\"Clipboard\",\"qty\":\"19\",\"reorder\":\"40\",\"status\":\"Low Stock\",\"variant\":\"secondary\"}}"
+    },
+    {
+      "t": 37367,
+      "text": "{\"op\":\"add\",\"path\":\"/state/lowStock/7\",\"value\":{\"sku\":\"CL-6003\",\"name\":\"Trash Bags 55gal\",\"qty\":\"33\",\"reorder\":\"60\",\"status\":\"Low Stock\",\"variant\":\"secondary\"}}"
+    },
+    {
+      "t": 37750,
+      "text": "{\"op\":\"add\",\"path\":\"/state/lowStock/8\",\"value\":{\"sku\":\"SF-4002\",\"name\":\"Safety Vest Hi-Vis\",\"qty\":\"41\",\"reorder\":\"60\",\"status\":\"Low Stock\",\"variant\":\"secondary\"}}"
+    },
+    {
+      "t": 38102,
+      "text": "{\"op\":\"add\",\"path\":\"/state/lowStock/9\",\"value\":{\"sku\":\"EL-1008\",\"name\":\"Rechargeable Battery AA 4pk\",\"qty\":\"45\",\"reorder\":\"120\",\"status\":\"Low Stock\",\"variant\":\"secondary\"}}"
+    },
+    {
+      "t": 38456,
+      "text": "{\"op\":\"add\",\"path\":\"/state/lowStock/10\",\"value\":{\"sku\":\"EL-1002\",\"name\":\"Wireless Mouse\",\"qty\":\"62\",\"reorder\":\"80\",\"status\":\"Low Stock\",\"variant\":\"secondary\"}}"
+    },
+    {
+      "t": 38782,
+      "text": "{\"op\":\"add\",\"path\":\"/state/lowStock/11\",\"value\":{\"sku\":\"PK-2004\",\"name\":\"Bubble Wrap Roll\",\"qty\":\"76\",\"reorder\":\"100\",\"status\":\"Low Stock\",\"variant\":\"secondary\"}}"
+    },
+    {
+      "t": 39107,
+      "text": "{\"op\":\"add\",\"path\":\"/state/lowStock/12\",\"value\":{\"sku\":\"PK-2006\",\"name\":\"Stretch Film Roll\",\"qty\":\"88\",\"reorder\":\"90\",\"status\":\"Low Stock\",\"variant\":\"secondary\"}}"
+    },
+    {
+      "t": 39474,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/shipments-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Incoming Shipments\",\"description\":\"Scheduled inbound deliveries\",\"maxWidth\":\"full\"},\"children\":[\"shipments-table\"]}}"
+    },
+    {
+      "t": 39906,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/shipments-table\",\"value\":{\"type\":\"Table\",\"props\":{\"columns\":[\"Shipment\",\"Supplier\",\"Contents\",\"Units\",\"ETA\",\"Status\"],\"rows\":{\"$state\":\"/shipmentRows\"}},\"children\":[]}}"
+    },
+    {
+      "t": 40008,
+      "text": "{\"op\":\"add\",\"path\":\"/state/shipmentRows\",\"value\":[]}"
+    },
+    {
+      "t": 40538,
+      "text": "{\"op\":\"add\",\"path\":\"/state/shipmentRows/0\",\"value\":[\"SHP-8841\",\"PackRight Supply\",\"Padded Mailers, Bubble Wrap\",\"1,200\",\"Oct 30, 2026\",\"In Transit\"]}"
+    },
+    {
+      "t": 40969,
+      "text": "{\"op\":\"add\",\"path\":\"/state/shipmentRows/1\",\"value\":[\"SHP-8842\",\"TechSource Ltd.\",\"Label Printers, Barcode Scanners\",\"60\",\"Oct 31, 2026\",\"In Transit\"]}"
+    },
+    {
+      "t": 41340,
+      "text": "{\"op\":\"add\",\"path\":\"/state/shipmentRows/2\",\"value\":[\"SHP-8843\",\"SafeWorks Inc.\",\"Steel-Toe Boots, Safety Vests\",\"180\",\"Nov 3, 2026\",\"Scheduled\"]}"
+    },
+    {
+      "t": 41744,
+      "text": "{\"op\":\"add\",\"path\":\"/state/shipmentRows/3\",\"value\":[\"SHP-8844\",\"CleanCo Wholesale\",\"Trash Bags, Floor Cleaner\",\"400\",\"Nov 4, 2026\",\"Scheduled\"]}"
+    },
+    {
+      "t": 42104,
+      "text": "{\"op\":\"add\",\"path\":\"/state/shipmentRows/4\",\"value\":[\"SHP-8845\",\"OfficeHub\",\"Clipboards, Sticky Notes\",\"350\",\"Nov 6, 2026\",\"Scheduled\"]}"
+    },
+    {
+      "t": 42543,
+      "text": "{\"op\":\"add\",\"path\":\"/state/shipmentRows/5\",\"value\":[\"SHP-8846\",\"PowerCell Distributors\",\"Rechargeable Batteries, Wireless Mice\",\"520\",\"Nov 8, 2026\",\"Delayed\"]}"
+    },
+    {
+      "t": 42904,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/products-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Full Product List\",\"description\":\"All 40 products in inventory\",\"maxWidth\":\"full\"},\"children\":[\"products-table\"]}}"
+    },
+    {
+      "t": 43370,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/products-table\",\"value\":{\"type\":\"Table\",\"props\":{\"columns\":[\"SKU\",\"Product\",\"Category\",\"Location\",\"On Hand\",\"Reorder Pt\",\"Status\"],\"rows\":{\"$state\":\"/productRows\"},\"caption\":\"Showing 40 of 40 products\"},\"children\":[]}}"
+    },
+    {
+      "t": 43484,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows\",\"value\":[]}"
+    },
+    {
+      "t": 43708,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/0\",\"value\":[\"EL-1001\",\"USB-C Cable 2m\",\"Electronics\",\"A-01\",\"480\",\"150\",\"In Stock\"]}"
+    },
+    {
+      "t": 43973,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/1\",\"value\":[\"EL-1002\",\"Wireless Mouse\",\"Electronics\",\"A-02\",\"62\",\"80\",\"Low Stock\"]}"
+    },
+    {
+      "t": 44209,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/2\",\"value\":[\"EL-1003\",\"Mechanical Keyboard\",\"Electronics\",\"A-03\",\"134\",\"60\",\"In Stock\"]}"
+    },
+    {
+      "t": 44472,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/3\",\"value\":[\"EL-1004\",\"27in Monitor\",\"Electronics\",\"A-04\",\"38\",\"25\",\"In Stock\"]}"
+    },
+    {
+      "t": 44701,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/4\",\"value\":[\"EL-1005\",\"Barcode Scanner\",\"Electronics\",\"A-05\",\"12\",\"20\",\"Low Stock\"]}"
+    },
+    {
+      "t": 44940,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/5\",\"value\":[\"EL-1006\",\"Label Printer\",\"Electronics\",\"A-06\",\"0\",\"10\",\"Out of Stock\"]}"
+    },
+    {
+      "t": 45203,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/6\",\"value\":[\"EL-1007\",\"Power Strip 6-Outlet\",\"Electronics\",\"A-07\",\"220\",\"100\",\"In Stock\"]}"
+    },
+    {
+      "t": 45468,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/7\",\"value\":[\"EL-1008\",\"Rechargeable Battery AA 4pk\",\"Electronics\",\"A-08\",\"45\",\"120\",\"Low Stock\"]}"
+    },
+    {
+      "t": 45740,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/8\",\"value\":[\"PK-2001\",\"Cardboard Box Small\",\"Packaging\",\"B-01\",\"1850\",\"500\",\"In Stock\"]}"
+    },
+    {
+      "t": 46002,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/9\",\"value\":[\"PK-2002\",\"Cardboard Box Medium\",\"Packaging\",\"B-02\",\"1320\",\"500\",\"In Stock\"]}"
+    },
+    {
+      "t": 46237,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/10\",\"value\":[\"PK-2003\",\"Cardboard Box Large\",\"Packaging\",\"B-03\",\"410\",\"400\",\"In Stock\"]}"
+    },
+    {
+      "t": 46501,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/11\",\"value\":[\"PK-2004\",\"Bubble Wrap Roll\",\"Packaging\",\"B-04\",\"76\",\"100\",\"Low Stock\"]}"
+    },
+    {
+      "t": 46739,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/12\",\"value\":[\"PK-2005\",\"Packing Tape 48mm\",\"Packaging\",\"B-05\",\"960\",\"300\",\"In Stock\"]}"
+    },
+    {
+      "t": 47003,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/13\",\"value\":[\"PK-2006\",\"Stretch Film Roll\",\"Packaging\",\"B-06\",\"88\",\"90\",\"Low Stock\"]}"
+    },
+    {
+      "t": 47270,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/14\",\"value\":[\"PK-2007\",\"Padded Mailer 6x9\",\"Packaging\",\"B-07\",\"0\",\"250\",\"Out of Stock\"]}"
+    },
+    {
+      "t": 47502,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/15\",\"value\":[\"PK-2008\",\"Shipping Labels 4x6\",\"Packaging\",\"B-08\",\"3200\",\"1000\",\"In Stock\"]}"
+    },
+    {
+      "t": 47737,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/16\",\"value\":[\"TL-3001\",\"Cordless Drill\",\"Tools\",\"C-01\",\"27\",\"15\",\"In Stock\"]}"
+    },
+    {
+      "t": 48008,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/17\",\"value\":[\"TL-3002\",\"Socket Set 40pc\",\"Tools\",\"C-02\",\"33\",\"20\",\"In Stock\"]}"
+    },
+    {
+      "t": 48238,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/18\",\"value\":[\"TL-3003\",\"Box Cutter\",\"Tools\",\"C-03\",\"310\",\"100\",\"In Stock\"]}"
+    },
+    {
+      "t": 48474,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/19\",\"value\":[\"TL-3004\",\"Tape Measure 25ft\",\"Tools\",\"C-04\",\"18\",\"30\",\"Low Stock\"]}"
+    },
+    {
+      "t": 48703,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/20\",\"value\":[\"TL-3005\",\"Pallet Jack\",\"Tools\",\"C-05\",\"6\",\"4\",\"In Stock\"]}"
+    },
+    {
+      "t": 48936,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/21\",\"value\":[\"TL-3006\",\"Hand Truck\",\"Tools\",\"C-06\",\"9\",\"5\",\"In Stock\"]}"
+    },
+    {
+      "t": 49168,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/22\",\"value\":[\"TL-3007\",\"Zip Ties 100pk\",\"Tools\",\"C-07\",\"540\",\"200\",\"In Stock\"]}"
+    },
+    {
+      "t": 49435,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/23\",\"value\":[\"SF-4001\",\"Hard Hat\",\"Safety\",\"D-01\",\"74\",\"50\",\"In Stock\"]}"
+    },
+    {
+      "t": 49715,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/24\",\"value\":[\"SF-4002\",\"Safety Vest Hi-Vis\",\"Safety\",\"D-02\",\"41\",\"60\",\"Low Stock\"]}"
+    },
+    {
+      "t": 49935,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/25\",\"value\":[\"SF-4003\",\"Work Gloves L\",\"Safety\",\"D-03\",\"190\",\"120\",\"In Stock\"]}"
+    },
+    {
+      "t": 50181,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/26\",\"value\":[\"SF-4004\",\"Safety Goggles\",\"Safety\",\"D-04\",\"115\",\"80\",\"In Stock\"]}"
+    },
+    {
+      "t": 50435,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/27\",\"value\":[\"SF-4005\",\"Steel-Toe Boots\",\"Safety\",\"D-05\",\"0\",\"20\",\"Out of Stock\"]}"
+    },
+    {
+      "t": 50667,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/28\",\"value\":[\"SF-4006\",\"Ear Plugs 200pk\",\"Safety\",\"D-06\",\"58\",\"40\",\"In Stock\"]}"
+    },
+    {
+      "t": 50936,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/29\",\"value\":[\"SF-4007\",\"First Aid Kit\",\"Safety\",\"D-07\",\"14\",\"15\",\"Low Stock\"]}"
+    },
+    {
+      "t": 51176,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/30\",\"value\":[\"OF-5001\",\"Copy Paper Ream\",\"Office\",\"E-01\",\"640\",\"200\",\"In Stock\"]}"
+    },
+    {
+      "t": 51433,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/31\",\"value\":[\"OF-5002\",\"Ballpoint Pens 12pk\",\"Office\",\"E-02\",\"275\",\"100\",\"In Stock\"]}"
+    },
+    {
+      "t": 51669,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/32\",\"value\":[\"OF-5003\",\"Sticky Notes 12pk\",\"Office\",\"E-03\",\"92\",\"80\",\"In Stock\"]}"
+    },
+    {
+      "t": 51942,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/33\",\"value\":[\"OF-5004\",\"Stapler Heavy Duty\",\"Office\",\"E-04\",\"31\",\"25\",\"In Stock\"]}"
+    },
+    {
+      "t": 52171,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/34\",\"value\":[\"OF-5005\",\"Clipboard\",\"Office\",\"E-05\",\"19\",\"40\",\"Low Stock\"]}"
+    },
+    {
+      "t": 52449,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/35\",\"value\":[\"CL-6001\",\"Floor Cleaner 1gal\",\"Cleaning\",\"F-01\",\"64\",\"40\",\"In Stock\"]}"
+    },
+    {
+      "t": 52671,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/36\",\"value\":[\"CL-6002\",\"Disinfectant Wipes\",\"Cleaning\",\"F-02\",\"150\",\"100\",\"In Stock\"]}"
+    },
+    {
+      "t": 52942,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/37\",\"value\":[\"CL-6003\",\"Trash Bags 55gal\",\"Cleaning\",\"F-03\",\"33\",\"60\",\"Low Stock\"]}"
+    },
+    {
+      "t": 53177,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/38\",\"value\":[\"CL-6004\",\"Push Broom\",\"Cleaning\",\"F-04\",\"22\",\"10\",\"In Stock\"]}"
+    },
+    {
+      "t": 55719,
+      "text": "{\"op\":\"add\",\"path\":\"/state/productRows/39\",\"value\":[\"CL-6005\",\"Paper Towels 12pk\",\"Cleaning\",\"F-05\",\"205\",\"120\",\"In Stock\"]}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 935,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 9467,
+    "output_tokens_details": {
+      "thinking_tokens": 3087
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 935,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 9467,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 935,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 935
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

@@ -1,0 +1,4 @@
+node_modules/
+.render-dist/
+results/smoke/
+results/*/blind/

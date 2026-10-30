@@ -1,0 +1,316 @@
+{
+  "spec": {
+    "root": "privacy-page",
+    "elements": {
+      "privacy-page": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg",
+          "className": "mx-auto w-full max-w-3xl px-6 py-10"
+        },
+        "children": [
+          "page-header",
+          "privacy-settings",
+          "download-card",
+          "privacy-note"
+        ]
+      },
+      "page-header": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "eyebrow",
+          "page-title",
+          "page-description",
+          "autosave-badge"
+        ]
+      },
+      "eyebrow": {
+        "type": "Text",
+        "props": {
+          "text": "ACCOUNT SETTINGS",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "page-title": {
+        "type": "Heading",
+        "props": {
+          "text": "Your privacy, your choice",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "page-description": {
+        "type": "Text",
+        "props": {
+          "text": "Choose who can find you, reach you, and use your information.",
+          "variant": "lead"
+        },
+        "children": []
+      },
+      "autosave-badge": {
+        "type": "Badge",
+        "props": {
+          "text": "Changes apply automatically",
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "privacy-settings": {
+        "type": "Grid",
+        "props": {
+          "columns": 1,
+          "gap": "lg"
+        },
+        "children": [
+          "visibility-card",
+          "messages-card",
+          "sharing-card"
+        ]
+      },
+      "visibility-card": {
+        "type": "Card",
+        "props": {
+          "title": "Profile visibility",
+          "description": "Control who can see your posts, photos, and full profile."
+        },
+        "children": [
+          "visibility-options",
+          "visibility-note"
+        ]
+      },
+      "visibility-options": {
+        "type": "Radio",
+        "props": {
+          "label": "Who can see my profile",
+          "name": "profileVisibility",
+          "options": [
+            "Everyone",
+            "Followers",
+            "Only me"
+          ],
+          "value": {
+            "$bindState": "/profileVisibility"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Choose who can see your profile."
+            }
+          ]
+        },
+        "children": []
+      },
+      "visibility-note": {
+        "type": "Text",
+        "props": {
+          "text": "Your display name and profile photo remain visible so people can recognize you.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "messages-card": {
+        "type": "Card",
+        "props": {
+          "title": "Messages",
+          "description": "Decide who can start a new conversation with you."
+        },
+        "children": [
+          "message-options",
+          "messages-note"
+        ]
+      },
+      "message-options": {
+        "type": "Select",
+        "props": {
+          "label": "Who can message me",
+          "name": "messageAudience",
+          "options": [
+            "Everyone",
+            "People I follow",
+            "No one"
+          ],
+          "value": {
+            "$bindState": "/messageAudience"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Choose who can message you."
+            }
+          ]
+        },
+        "children": []
+      },
+      "messages-note": {
+        "type": "Text",
+        "props": {
+          "text": "Existing conversations stay open. You can block someone from their profile at any time.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "sharing-card": {
+        "type": "Card",
+        "props": {
+          "title": "Partner data sharing",
+          "description": "Choose whether partners can use your activity for personalized advertising."
+        },
+        "children": [
+          "sharing-toggle",
+          "sharing-note"
+        ]
+      },
+      "sharing-toggle": {
+        "type": "Switch",
+        "props": {
+          "label": "Share activity data with advertising partners",
+          "name": "partnerSharing",
+          "checked": {
+            "$bindState": "/partnerSharing"
+          }
+        },
+        "children": []
+      },
+      "sharing-note": {
+        "type": "Text",
+        "props": {
+          "text": "Optional. Turning this off stops future sharing for ad personalization. You’ll still see ads, and it won’t affect your account access.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "download-card": {
+        "type": "Card",
+        "props": {
+          "title": "Download your data",
+          "description": "Get a copy of your profile, posts, photos, messages, and account activity."
+        },
+        "children": [
+          "download-details",
+          "download-button",
+          "download-dialog"
+        ]
+      },
+      "download-details": {
+        "type": "Text",
+        "props": {
+          "text": "Choose a file format and review what your archive will include.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "download-button": {
+        "type": "Button",
+        "props": {
+          "label": "Download my data",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/downloadOpen",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "download-dialog": {
+        "type": "Dialog",
+        "props": {
+          "title": "Your data archive",
+          "description": "Choose how you’d like to receive a copy of your information.",
+          "openPath": "/downloadOpen"
+        },
+        "children": [
+          "export-format",
+          "export-sensitive-note",
+          "export-preview-note",
+          "close-download"
+        ]
+      },
+      "export-format": {
+        "type": "Radio",
+        "props": {
+          "label": "Archive format",
+          "name": "exportFormat",
+          "options": [
+            "HTML — easy to browse",
+            "JSON — machine readable"
+          ],
+          "value": {
+            "$bindState": "/exportFormat"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Choose an archive format."
+            }
+          ]
+        },
+        "children": []
+      },
+      "export-sensitive-note": {
+        "type": "Alert",
+        "props": {
+          "title": "Keep your archive private",
+          "message": "Your archive includes personal information and private messages. Store it somewhere secure.",
+          "type": "info"
+        },
+        "children": []
+      },
+      "export-preview-note": {
+        "type": "Text",
+        "props": {
+          "text": "This preview doesn’t connect to an account. Downloading an archive will be available when the app’s data export service is connected.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "close-download": {
+        "type": "Button",
+        "props": {
+          "label": "Done",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/downloadOpen",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      },
+      "privacy-note": {
+        "type": "Text",
+        "props": {
+          "text": "Preview: settings update within this page. Connect your account service to save them permanently.",
+          "variant": "caption"
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "profileVisibility": "Followers",
+      "messageAudience": "People I follow",
+      "partnerSharing": false,
+      "downloadOpen": false,
+      "exportFormat": "HTML — easy to browse"
+    }
+  },
+  "patchLines": 31,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [],
+  "fixes": []
+}

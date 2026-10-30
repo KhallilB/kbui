@@ -1,0 +1,618 @@
+{
+  "spec": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg",
+          "className": "max-w-3xl mx-auto p-6"
+        },
+        "children": [
+          "header",
+          "general-card",
+          "logo-card",
+          "channels-card",
+          "retention-card",
+          "danger-card",
+          "archive-dialog"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "title",
+          "subtitle",
+          "saved-alert"
+        ]
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Workspace Settings",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Manage how your workspace looks, behaves, and stores data.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "saved-alert": {
+        "type": "Alert",
+        "props": {
+          "title": "Settings saved",
+          "message": "Your workspace changes have been applied.",
+          "type": "success"
+        },
+        "visible": {
+          "$state": "/settings/saved"
+        },
+        "children": []
+      },
+      "general-card": {
+        "type": "Card",
+        "props": {
+          "title": "General",
+          "description": "Basic information about your workspace",
+          "maxWidth": "full"
+        },
+        "children": [
+          "general-stack"
+        ]
+      },
+      "general-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "ws-name",
+          "ws-desc",
+          "save-general"
+        ]
+      },
+      "ws-name": {
+        "type": "Input",
+        "props": {
+          "label": "Workspace name",
+          "name": "workspaceName",
+          "type": "text",
+          "placeholder": "e.g. Acme Team",
+          "value": {
+            "$bindState": "/settings/name"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Workspace name is required"
+            },
+            {
+              "type": "minLength",
+              "message": "Name must be at least 3 characters",
+              "args": {
+                "min": 3
+              }
+            },
+            {
+              "type": "maxLength",
+              "message": "Name must be 40 characters or fewer",
+              "args": {
+                "max": 40
+              }
+            }
+          ],
+          "validateOn": "blur"
+        },
+        "children": []
+      },
+      "ws-desc": {
+        "type": "Textarea",
+        "props": {
+          "label": "Description",
+          "name": "workspaceDescription",
+          "placeholder": "What is this workspace for?",
+          "rows": 3,
+          "value": {
+            "$bindState": "/settings/description"
+          },
+          "checks": [
+            {
+              "type": "maxLength",
+              "message": "Description must be 200 characters or fewer",
+              "args": {
+                "max": 200
+              }
+            }
+          ],
+          "validateOn": "blur"
+        },
+        "children": []
+      },
+      "save-general": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm",
+          "justify": "end"
+        },
+        "children": [
+          "save-btn"
+        ]
+      },
+      "save-btn": {
+        "type": "Button",
+        "props": {
+          "label": "Save changes",
+          "variant": "primary"
+        },
+        "on": {
+          "press": [
+            {
+              "action": "validateForm",
+              "params": {
+                "statePath": "/formValidation"
+              }
+            },
+            {
+              "action": "setState",
+              "params": {
+                "statePath": "/settings/saved",
+                "value": true
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "logo-card": {
+        "type": "Card",
+        "props": {
+          "title": "Logo",
+          "description": "Shown in the sidebar and in invitations",
+          "maxWidth": "full"
+        },
+        "children": [
+          "logo-row"
+        ]
+      },
+      "logo-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "lg",
+          "align": "center"
+        },
+        "children": [
+          "logo-avatar",
+          "logo-actions"
+        ]
+      },
+      "logo-avatar": {
+        "type": "Avatar",
+        "props": {
+          "name": {
+            "$state": "/settings/name"
+          },
+          "size": "lg"
+        },
+        "children": []
+      },
+      "logo-actions": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "logo-buttons",
+          "logo-hint"
+        ]
+      },
+      "logo-buttons": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm"
+        },
+        "children": [
+          "upload-logo",
+          "remove-logo"
+        ]
+      },
+      "upload-logo": {
+        "type": "Button",
+        "props": {
+          "label": "Upload logo",
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "remove-logo": {
+        "type": "Button",
+        "props": {
+          "label": "Remove",
+          "variant": "danger"
+        },
+        "children": []
+      },
+      "logo-hint": {
+        "type": "Text",
+        "props": {
+          "text": "PNG or SVG, at least 256×256px, up to 2MB.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "channels-card": {
+        "type": "Card",
+        "props": {
+          "title": "Default channels",
+          "description": "New members are automatically added to these channels",
+          "maxWidth": "full"
+        },
+        "children": [
+          "channel-list",
+          "channel-add-row"
+        ]
+      },
+      "channel-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "repeat": {
+          "statePath": "/channels",
+          "key": "id"
+        },
+        "children": [
+          "channel-row"
+        ]
+      },
+      "channel-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "channel-badge",
+          "channel-remove"
+        ]
+      },
+      "channel-badge": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$template": "# ${name}"
+          },
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "channel-remove": {
+        "type": "Button",
+        "props": {
+          "label": "Remove",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "removeState",
+            "params": {
+              "statePath": "/channels",
+              "index": {
+                "$index": true
+              }
+            }
+          }
+        },
+        "children": []
+      },
+      "channel-add-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm",
+          "align": "end"
+        },
+        "children": [
+          "new-channel",
+          "add-channel"
+        ]
+      },
+      "new-channel": {
+        "type": "Input",
+        "props": {
+          "label": "Add a channel",
+          "name": "newChannel",
+          "type": "text",
+          "placeholder": "e.g. engineering",
+          "value": {
+            "$bindState": "/settings/newChannel"
+          }
+        },
+        "children": []
+      },
+      "add-channel": {
+        "type": "Button",
+        "props": {
+          "label": "Add",
+          "variant": "primary"
+        },
+        "on": {
+          "press": {
+            "action": "pushState",
+            "params": {
+              "statePath": "/channels",
+              "value": {
+                "id": "$id",
+                "name": {
+                  "$state": "/settings/newChannel"
+                }
+              },
+              "clearStatePath": "/settings/newChannel"
+            }
+          }
+        },
+        "children": []
+      },
+      "retention-card": {
+        "type": "Card",
+        "props": {
+          "title": "Data retention",
+          "description": "Control how long messages and files are kept",
+          "maxWidth": "full"
+        },
+        "children": [
+          "retention-stack"
+        ]
+      },
+      "retention-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "retention-select",
+          "retention-alert"
+        ]
+      },
+      "retention-select": {
+        "type": "Select",
+        "props": {
+          "label": "Keep messages for",
+          "name": "retention",
+          "options": [
+            "30 days",
+            "90 days",
+            "1 year",
+            "3 years",
+            "Forever"
+          ],
+          "placeholder": "Choose a period",
+          "value": {
+            "$bindState": "/settings/retention"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Please choose a retention period"
+            }
+          ],
+          "validateOn": "change"
+        },
+        "children": []
+      },
+      "retention-alert": {
+        "type": "Alert",
+        "props": {
+          "title": "Messages will be permanently deleted",
+          "message": "Anything older than the selected period is removed and cannot be recovered.",
+          "type": "warning"
+        },
+        "visible": {
+          "$state": "/settings/retention",
+          "neq": "Forever"
+        },
+        "children": []
+      },
+      "danger-card": {
+        "type": "Card",
+        "props": {
+          "title": "Danger zone",
+          "description": "Irreversible actions for this workspace",
+          "maxWidth": "full"
+        },
+        "children": [
+          "danger-row"
+        ]
+      },
+      "danger-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "danger-text",
+          "archive-btn"
+        ]
+      },
+      "danger-text": {
+        "type": "Text",
+        "props": {
+          "text": "Archiving makes the workspace read-only. Members can no longer post, but history is preserved.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "archive-btn": {
+        "type": "Button",
+        "props": {
+          "label": "Archive workspace",
+          "variant": "danger"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/archiveOpen",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "archive-dialog": {
+        "type": "Dialog",
+        "props": {
+          "title": "Archive this workspace?",
+          "description": "The workspace becomes read-only for all members. You can restore it later.",
+          "openPath": "/archiveOpen"
+        },
+        "children": [
+          "archive-stack"
+        ]
+      },
+      "archive-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "confirm-input",
+          "archive-actions"
+        ]
+      },
+      "confirm-input": {
+        "type": "Input",
+        "props": {
+          "label": "Type the workspace name to confirm",
+          "name": "confirmName",
+          "type": "text",
+          "placeholder": {
+            "$state": "/settings/name"
+          },
+          "value": {
+            "$bindState": "/settings/confirmName"
+          },
+          "checks": [
+            {
+              "type": "matches",
+              "message": "Name does not match",
+              "args": {
+                "other": {
+                  "$state": "/settings/name"
+                }
+              }
+            }
+          ],
+          "validateOn": "change"
+        },
+        "children": []
+      },
+      "archive-actions": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm",
+          "justify": "end"
+        },
+        "children": [
+          "cancel-archive",
+          "confirm-archive"
+        ]
+      },
+      "cancel-archive": {
+        "type": "Button",
+        "props": {
+          "label": "Cancel",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/archiveOpen",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      },
+      "confirm-archive": {
+        "type": "Button",
+        "props": {
+          "label": "Archive workspace",
+          "variant": "danger"
+        },
+        "on": {
+          "press": [
+            {
+              "action": "validateForm",
+              "params": {
+                "statePath": "/archiveValidation"
+              }
+            },
+            {
+              "action": "setState",
+              "params": {
+                "statePath": "/archiveOpen",
+                "value": false
+              }
+            }
+          ]
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "settings": {
+        "name": "Acme Team",
+        "description": "Where the Acme team collaborates",
+        "retention": "1 year",
+        "newChannel": "",
+        "confirmName": "",
+        "saved": false
+      },
+      "archiveOpen": false,
+      "channels": [
+        {
+          "id": "1",
+          "name": "general"
+        },
+        {
+          "id": "2",
+          "name": "announcements"
+        },
+        {
+          "id": "3",
+          "name": "random"
+        }
+      ]
+    }
+  },
+  "patchLines": 48,
+  "skippedLines": 0,
+  "firstNodeMs": 6605,
+  "issues": [],
+  "fixes": []
+}

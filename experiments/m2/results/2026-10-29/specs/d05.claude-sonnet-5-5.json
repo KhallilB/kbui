@@ -1,0 +1,420 @@
+{
+  "spec": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "header",
+          "metrics",
+          "filters",
+          "table-card"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "title-group",
+          "header-actions"
+        ]
+      },
+      "title-group": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "title",
+          "subtitle"
+        ]
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Marketing Campaign Dashboard",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Performance overview across all active channels",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "header-actions": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm",
+          "align": "center"
+        },
+        "children": [
+          "range-select",
+          "export-btn"
+        ]
+      },
+      "range-select": {
+        "type": "Select",
+        "props": {
+          "label": "Date range",
+          "name": "range",
+          "options": [
+            "Last 7 days",
+            "Last 30 days",
+            "Last 90 days"
+          ],
+          "value": {
+            "$bindState": "/filters/range"
+          }
+        },
+        "children": []
+      },
+      "export-btn": {
+        "type": "Button",
+        "props": {
+          "label": "Export report",
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "metrics": {
+        "type": "Grid",
+        "props": {
+          "columns": 4,
+          "gap": "md"
+        },
+        "children": [
+          "m-impressions",
+          "m-clicks",
+          "m-spend",
+          "m-cpa"
+        ]
+      },
+      "m-impressions": {
+        "type": "Card",
+        "props": {
+          "title": "Impressions"
+        },
+        "children": [
+          "m-impressions-stack"
+        ]
+      },
+      "m-impressions-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "m-impressions-value",
+          "m-impressions-delta"
+        ]
+      },
+      "m-impressions-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$state": "/metrics/impressions"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "m-impressions-delta": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$state": "/metrics/impressionsDelta"
+          },
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "m-clicks": {
+        "type": "Card",
+        "props": {
+          "title": "Clicks"
+        },
+        "children": [
+          "m-clicks-stack"
+        ]
+      },
+      "m-clicks-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "m-clicks-value",
+          "m-clicks-delta"
+        ]
+      },
+      "m-clicks-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$state": "/metrics/clicks"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "m-clicks-delta": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$state": "/metrics/clicksDelta"
+          },
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "m-spend": {
+        "type": "Card",
+        "props": {
+          "title": "Spend"
+        },
+        "children": [
+          "m-spend-stack"
+        ]
+      },
+      "m-spend-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "m-spend-value",
+          "m-spend-delta"
+        ]
+      },
+      "m-spend-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$state": "/metrics/spend"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "m-spend-delta": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$state": "/metrics/spendDelta"
+          },
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "m-cpa": {
+        "type": "Card",
+        "props": {
+          "title": "Cost per Acquisition"
+        },
+        "children": [
+          "m-cpa-stack"
+        ]
+      },
+      "m-cpa-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "m-cpa-value",
+          "m-cpa-delta"
+        ]
+      },
+      "m-cpa-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$state": "/metrics/cpa"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "m-cpa-delta": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$state": "/metrics/cpaDelta"
+          },
+          "variant": "default"
+        },
+        "children": []
+      },
+      "filters": {
+        "type": "Card",
+        "props": {
+          "title": "Channel",
+          "description": "Filter campaign performance by channel"
+        },
+        "children": [
+          "channel-group"
+        ]
+      },
+      "channel-group": {
+        "type": "ButtonGroup",
+        "props": {
+          "buttons": [
+            {
+              "label": "All",
+              "value": "All"
+            },
+            {
+              "label": "Search",
+              "value": "Search"
+            },
+            {
+              "label": "Social",
+              "value": "Social"
+            },
+            {
+              "label": "Email",
+              "value": "Email"
+            },
+            {
+              "label": "Display",
+              "value": "Display"
+            }
+          ],
+          "selected": {
+            "$bindState": "/filters/channel"
+          }
+        },
+        "children": []
+      },
+      "table-card": {
+        "type": "Card",
+        "props": {
+          "title": "Campaigns",
+          "description": "Detailed performance by campaign",
+          "maxWidth": "full"
+        },
+        "children": [
+          "campaign-table"
+        ]
+      },
+      "campaign-table": {
+        "type": "Table",
+        "props": {
+          "columns": [
+            "Campaign",
+            "Channel",
+            "Status",
+            "Impressions",
+            "Clicks",
+            "CTR",
+            "Spend",
+            "CPA"
+          ],
+          "rows": [
+            [
+              "Summer Sale 2026",
+              "Search",
+              "Active",
+              "612,400",
+              "18,320",
+              "2.99%",
+              "$10,450",
+              "$21.80"
+            ],
+            [
+              "Brand Awareness Q4",
+              "Display",
+              "Active",
+              "824,900",
+              "11,240",
+              "1.36%",
+              "$8,900",
+              "$29.15"
+            ],
+            [
+              "Retargeting - Cart Abandoners",
+              "Social",
+              "Active",
+              "398,200",
+              "14,780",
+              "3.71%",
+              "$7,260",
+              "$18.45"
+            ],
+            [
+              "Holiday Newsletter",
+              "Email",
+              "Scheduled",
+              "215,600",
+              "9,870",
+              "4.58%",
+              "$2,140",
+              "$12.90"
+            ],
+            [
+              "Product Launch Teaser",
+              "Social",
+              "Paused",
+              "274,100",
+              "6,540",
+              "2.39%",
+              "$5,310",
+              "$34.60"
+            ],
+            [
+              "Competitor Keywords",
+              "Search",
+              "Active",
+              "156,100",
+              "8,192",
+              "5.25%",
+              "$7,760",
+              "$26.30"
+            ]
+          ],
+          "caption": "Showing 6 of 6 campaigns"
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "filters": {
+        "range": "Last 30 days",
+        "channel": "All"
+      },
+      "metrics": {
+        "impressions": "2,481,300",
+        "impressionsDelta": "+12.4% vs prev",
+        "clicks": "68,942",
+        "clicksDelta": "+8.1% vs prev",
+        "spend": "$41,820",
+        "spendDelta": "+5.6% vs prev",
+        "cpa": "$24.37",
+        "cpaDelta": "-6.2% vs prev"
+      }
+    }
+  },
+  "patchLines": 32,
+  "skippedLines": 0,
+  "firstNodeMs": 2504,
+  "issues": [],
+  "fixes": []
+}

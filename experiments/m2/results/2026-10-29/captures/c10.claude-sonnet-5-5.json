@@ -1,0 +1,206 @@
+{
+  "promptId": "c10",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:17:20.147Z",
+  "totalMs": 21135,
+  "lines": [
+    {
+      "t": 2386,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+    },
+    {
+      "t": 3129,
+      "text": "{\"op\":\"add\",\"path\":\"/state/form\",\"value\":{\"firstName\":\"\",\"lastName\":\"\",\"email\":\"\",\"password\":\"\",\"confirmPassword\":\"\",\"plan\":\"Family (4 people)\",\"mealsPerWeek\":3,\"diet\":\"Omnivore\",\"allergies\":{\"nuts\":false,\"dairy\":false,\"gluten\":false,\"shellfish\":false,\"eggs\":false,\"soy\":false},\"dislikes\":\"\",\"spice\":\"Medium\",\"deliveryDay\":\"Wednesday\",\"terms\":false,\"newsletter\":true}}"
+    },
+    {
+      "t": 3130,
+      "text": "{\"op\":\"add\",\"path\":\"/state/submitted\",\"value\":false}"
+    },
+    {
+      "t": 3883,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Create your FreshCrate account\",\"description\":\"Tell us about yourself and how you like to eat. Your first box ships free.\",\"maxWidth\":\"lg\",\"centered\":true},\"children\":[\"form-stack\"]}}"
+    },
+    {
+      "t": 5032,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/form-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"children\":[\"success-alert\",\"account-heading\",\"name-grid\",\"email\",\"password-grid\",\"sep-1\",\"plan-heading\",\"plan-grid\",\"meals-slider\",\"sep-2\",\"diet-heading\",\"diet\",\"allergy-label\",\"allergy-grid\",\"spice\",\"dislikes\",\"sep-3\",\"delivery-heading\",\"delivery-day\",\"terms\",\"newsletter\",\"submit-row\"]}}"
+    },
+    {
+      "t": 5383,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/success-alert\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Welcome aboard!\",\"message\":\"Your account is created. Check your inbox to confirm your email and pick your first recipes.\",\"type\":\"success\"},\"visible\":{\"$state\":\"/submitted\"},\"children\":[]}}"
+    },
+    {
+      "t": 5782,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/account-heading\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Account details\",\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 5853,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/name-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"md\"},\"children\":[\"first-name\",\"last-name\"]}}"
+    },
+    {
+      "t": 6296,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/first-name\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"First name\",\"name\":\"firstName\",\"type\":\"text\",\"placeholder\":\"Jane\",\"value\":{\"$bindState\":\"/form/firstName\"},\"checks\":[{\"type\":\"required\",\"message\":\"First name is required\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 6881,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/last-name\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Last name\",\"name\":\"lastName\",\"type\":\"text\",\"placeholder\":\"Doe\",\"value\":{\"$bindState\":\"/form/lastName\"},\"checks\":[{\"type\":\"required\",\"message\":\"Last name is required\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 7293,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/email\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Email\",\"name\":\"email\",\"type\":\"email\",\"placeholder\":\"jane@example.com\",\"value\":{\"$bindState\":\"/form/email\"},\"checks\":[{\"type\":\"required\",\"message\":\"Email is required\"},{\"type\":\"email\",\"message\":\"Enter a valid email address\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 7632,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/password-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"md\"},\"children\":[\"password\",\"confirm-password\"]}}"
+    },
+    {
+      "t": 8163,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/password\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Password\",\"name\":\"password\",\"type\":\"password\",\"placeholder\":\"At least 8 characters\",\"value\":{\"$bindState\":\"/form/password\"},\"checks\":[{\"type\":\"required\",\"message\":\"Password is required\"},{\"type\":\"minLength\",\"message\":\"Must be at least 8 characters\",\"args\":{\"min\":8}}]},\"children\":[]}}"
+    },
+    {
+      "t": 8880,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/confirm-password\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Confirm password\",\"name\":\"confirmPassword\",\"type\":\"password\",\"placeholder\":\"Re-enter password\",\"value\":{\"$bindState\":\"/form/confirmPassword\"},\"checks\":[{\"type\":\"required\",\"message\":\"Please confirm your password\"},{\"type\":\"matches\",\"message\":\"Passwords do not match\",\"args\":{\"other\":{\"$state\":\"/form/password\"}}}]},\"children\":[]}}"
+    },
+    {
+      "t": 9097,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sep-1\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 9359,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/plan-heading\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Your plan\",\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 9627,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/plan-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":1,\"gap\":\"md\"},\"children\":[\"plan\"]}}"
+    },
+    {
+      "t": 10312,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/plan\",\"value\":{\"type\":\"Select\",\"props\":{\"label\":\"Household size\",\"name\":\"plan\",\"options\":[\"Single (1 person)\",\"Couple (2 people)\",\"Family (4 people)\",\"Large family (6 people)\"],\"placeholder\":\"Choose a plan\",\"value\":{\"$bindState\":\"/form/plan\"},\"checks\":[{\"type\":\"required\",\"message\":\"Please choose a plan\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 10755,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/meals-slider\",\"value\":{\"type\":\"Slider\",\"props\":{\"label\":\"Meals per week (1-7)\",\"min\":1,\"max\":7,\"step\":1,\"value\":{\"$bindState\":\"/form/mealsPerWeek\"}},\"children\":[]}}"
+    },
+    {
+      "t": 10937,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sep-2\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 11196,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/diet-heading\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Dietary preferences\",\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 11906,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/diet\",\"value\":{\"type\":\"Radio\",\"props\":{\"label\":\"Which best describes your diet?\",\"name\":\"diet\",\"options\":[\"Omnivore\",\"Pescatarian\",\"Vegetarian\",\"Vegan\",\"Keto\",\"Paleo\"],\"value\":{\"$bindState\":\"/form/diet\"},\"checks\":[{\"type\":\"required\",\"message\":\"Please pick a diet\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 12296,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/allergy-label\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Allergies and intolerances (we'll exclude these from your recipes)\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 12693,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/allergy-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":3,\"gap\":\"sm\"},\"children\":[\"al-nuts\",\"al-dairy\",\"al-gluten\",\"al-shellfish\",\"al-eggs\",\"al-soy\"]}}"
+    },
+    {
+      "t": 13100,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/al-nuts\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"Nuts\",\"name\":\"nuts\",\"checked\":{\"$bindState\":\"/form/allergies/nuts\"}},\"children\":[]}}"
+    },
+    {
+      "t": 13437,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/al-dairy\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"Dairy\",\"name\":\"dairy\",\"checked\":{\"$bindState\":\"/form/allergies/dairy\"}},\"children\":[]}}"
+    },
+    {
+      "t": 13796,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/al-gluten\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"Gluten\",\"name\":\"gluten\",\"checked\":{\"$bindState\":\"/form/allergies/gluten\"}},\"children\":[]}}"
+    },
+    {
+      "t": 14165,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/al-shellfish\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"Shellfish\",\"name\":\"shellfish\",\"checked\":{\"$bindState\":\"/form/allergies/shellfish\"}},\"children\":[]}}"
+    },
+    {
+      "t": 14499,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/al-eggs\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"Eggs\",\"name\":\"eggs\",\"checked\":{\"$bindState\":\"/form/allergies/eggs\"}},\"children\":[]}}"
+    },
+    {
+      "t": 14847,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/al-soy\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"Soy\",\"name\":\"soy\",\"checked\":{\"$bindState\":\"/form/allergies/soy\"}},\"children\":[]}}"
+    },
+    {
+      "t": 15371,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/spice\",\"value\":{\"type\":\"ButtonGroup\",\"props\":{\"buttons\":[{\"label\":\"Mild\",\"value\":\"Mild\"},{\"label\":\"Medium\",\"value\":\"Medium\"},{\"label\":\"Hot\",\"value\":\"Hot\"}],\"selected\":{\"$bindState\":\"/form/spice\"}},\"children\":[]}}"
+    },
+    {
+      "t": 15913,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/dislikes\",\"value\":{\"type\":\"Textarea\",\"props\":{\"label\":\"Ingredients you dislike (optional)\",\"name\":\"dislikes\",\"placeholder\":\"e.g. cilantro, mushrooms, olives\",\"rows\":3,\"value\":{\"$bindState\":\"/form/dislikes\"}},\"children\":[]}}"
+    },
+    {
+      "t": 16136,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sep-3\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 16386,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/delivery-heading\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Delivery\",\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 17036,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/delivery-day\",\"value\":{\"type\":\"Select\",\"props\":{\"label\":\"Preferred delivery day\",\"name\":\"deliveryDay\",\"options\":[\"Monday\",\"Tuesday\",\"Wednesday\",\"Thursday\",\"Friday\",\"Saturday\"],\"value\":{\"$bindState\":\"/form/deliveryDay\"},\"checks\":[{\"type\":\"required\",\"message\":\"Choose a delivery day\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 17533,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/terms\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"I agree to the Terms of Service and Privacy Policy\",\"name\":\"terms\",\"checked\":{\"$bindState\":\"/form/terms\"},\"checks\":[{\"type\":\"required\",\"message\":\"You must accept the terms to continue\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 17967,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/newsletter\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Send me weekly recipe inspiration and offers\",\"name\":\"newsletter\",\"checked\":{\"$bindState\":\"/form/newsletter\"}},\"children\":[]}}"
+    },
+    {
+      "t": 18337,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/submit-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"justify\":\"between\",\"align\":\"center\"},\"children\":[\"signin-link\",\"submit\"]}}"
+    },
+    {
+      "t": 18610,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/signin-link\",\"value\":{\"type\":\"Link\",\"props\":{\"label\":\"Already have an account? Sign in\",\"href\":\"/signin\"},\"children\":[]}}"
+    },
+    {
+      "t": 21135,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/submit\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Create account\",\"variant\":\"primary\"},\"on\":{\"press\":[{\"action\":\"validateForm\",\"params\":{\"statePath\":\"/formValidation\"}},{\"action\":\"setState\",\"params\":{\"statePath\":\"/submitted\",\"value\":true}}]},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 915,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 3733,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 915,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 3733,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 915,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 915
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

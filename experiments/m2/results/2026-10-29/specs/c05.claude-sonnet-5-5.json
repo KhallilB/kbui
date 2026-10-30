@@ -1,0 +1,483 @@
+{
+  "spec": {
+    "root": "page",
+    "elements": {
+      "page": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "xl",
+          "align": "center",
+          "className": "max-w-6xl mx-auto p-6"
+        },
+        "children": [
+          "header",
+          "billing",
+          "plans",
+          "faq-card"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm",
+          "align": "center"
+        },
+        "children": [
+          "title",
+          "subtitle"
+        ]
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Simple pricing for every thinker",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Start free. Upgrade to Pro when you're ready to unlock unlimited notes, AI search and sync across every device.",
+          "variant": "lead"
+        },
+        "children": []
+      },
+      "billing": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "center"
+        },
+        "children": [
+          "billing-toggle",
+          "savings-badge"
+        ]
+      },
+      "billing-toggle": {
+        "type": "ButtonGroup",
+        "props": {
+          "buttons": [
+            {
+              "label": "Monthly",
+              "value": "monthly"
+            },
+            {
+              "label": "Yearly",
+              "value": "yearly"
+            }
+          ],
+          "selected": {
+            "$bindState": "/billing"
+          }
+        },
+        "children": []
+      },
+      "savings-badge": {
+        "type": "Badge",
+        "props": {
+          "text": "Save 20% yearly",
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "plans": {
+        "type": "Grid",
+        "props": {
+          "columns": 3,
+          "gap": "lg",
+          "className": "items-stretch w-full"
+        },
+        "children": [
+          "free-card",
+          "pro-card",
+          "team-card"
+        ]
+      },
+      "free-card": {
+        "type": "Card",
+        "props": {
+          "title": "Free",
+          "description": "For casual note-taking"
+        },
+        "children": [
+          "free-price",
+          "free-sep",
+          "free-features",
+          "free-btn"
+        ]
+      },
+      "free-price": {
+        "type": "Heading",
+        "props": {
+          "text": "$0",
+          "level": "h2"
+        },
+        "children": []
+      },
+      "free-sep": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "free-features": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "repeat": {
+          "statePath": "/freeFeatures",
+          "key": "id"
+        },
+        "children": [
+          "free-feature-text"
+        ]
+      },
+      "free-feature-text": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "text"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "free-btn": {
+        "type": "Button",
+        "props": {
+          "label": "Get started free",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/selectedPlan",
+              "value": "free"
+            }
+          }
+        },
+        "children": []
+      },
+      "pro-card": {
+        "type": "Card",
+        "props": {
+          "title": "Pro",
+          "description": "Most popular — for power users",
+          "className": "border-2 border-primary shadow-xl scale-105"
+        },
+        "children": [
+          "pro-badge",
+          "pro-price",
+          "pro-note",
+          "pro-sep",
+          "pro-features",
+          "pro-btn",
+          "pro-guarantee"
+        ]
+      },
+      "pro-badge": {
+        "type": "Badge",
+        "props": {
+          "text": "★ Most Popular · Best Value",
+          "variant": "default"
+        },
+        "children": []
+      },
+      "pro-price": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$cond": {
+              "$state": "/billing",
+              "eq": "yearly"
+            },
+            "$then": "$8 / month",
+            "$else": "$10 / month"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "pro-note": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$cond": {
+              "$state": "/billing",
+              "eq": "yearly"
+            },
+            "$then": "Billed $96 yearly — you save $24",
+            "$else": "Billed monthly. Switch to yearly and save 20%"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "pro-sep": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "pro-features": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "repeat": {
+          "statePath": "/proFeatures",
+          "key": "id"
+        },
+        "children": [
+          "pro-feature-text"
+        ]
+      },
+      "pro-feature-text": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "text"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "pro-btn": {
+        "type": "Button",
+        "props": {
+          "label": "Start 14-day free trial",
+          "variant": "primary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/selectedPlan",
+              "value": "pro"
+            }
+          }
+        },
+        "children": []
+      },
+      "pro-guarantee": {
+        "type": "Text",
+        "props": {
+          "text": "No credit card required · Cancel anytime",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "team-card": {
+        "type": "Card",
+        "props": {
+          "title": "Team",
+          "description": "For teams that think together"
+        },
+        "children": [
+          "team-price",
+          "team-note",
+          "team-sep",
+          "team-features",
+          "team-btn"
+        ]
+      },
+      "team-price": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$cond": {
+              "$state": "/billing",
+              "eq": "yearly"
+            },
+            "$then": "$20 / user / month",
+            "$else": "$25 / user / month"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "team-note": {
+        "type": "Text",
+        "props": {
+          "text": "Minimum 3 users",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "team-sep": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "team-features": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "repeat": {
+          "statePath": "/teamFeatures",
+          "key": "id"
+        },
+        "children": [
+          "team-feature-text"
+        ]
+      },
+      "team-feature-text": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "text"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "team-btn": {
+        "type": "Button",
+        "props": {
+          "label": "Contact sales",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/selectedPlan",
+              "value": "team"
+            }
+          }
+        },
+        "children": []
+      },
+      "faq-card": {
+        "type": "Card",
+        "props": {
+          "title": "Frequently asked questions",
+          "maxWidth": "lg",
+          "centered": true
+        },
+        "children": [
+          "faq"
+        ]
+      },
+      "faq": {
+        "type": "Accordion",
+        "props": {
+          "type": "single",
+          "items": [
+            {
+              "title": "Can I try Pro before paying?",
+              "content": "Yes. Every Pro plan starts with a 14-day free trial, no credit card required."
+            },
+            {
+              "title": "What happens to my notes if I downgrade?",
+              "content": "Your notes are never deleted. On the Free plan you can view and export everything, and edit up to 100 notes."
+            },
+            {
+              "title": "Can I switch plans anytime?",
+              "content": "Absolutely. Upgrade, downgrade or cancel whenever you like, and we'll prorate the difference."
+            },
+            {
+              "title": "Do you offer discounts for students?",
+              "content": "Yes, students and educators get 50% off Pro with a valid school email."
+            }
+          ]
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "billing": "yearly",
+      "freeFeatures": [
+        {
+          "id": "f1",
+          "text": "✓ Up to 100 notes"
+        },
+        {
+          "id": "f2",
+          "text": "✓ Sync on 1 device"
+        },
+        {
+          "id": "f3",
+          "text": "✓ Basic search"
+        },
+        {
+          "id": "f4",
+          "text": "✓ 100 MB attachments"
+        }
+      ],
+      "proFeatures": [
+        {
+          "id": "p1",
+          "text": "✓ Everything in Free, plus:"
+        },
+        {
+          "id": "p2",
+          "text": "✓ Unlimited notes & notebooks"
+        },
+        {
+          "id": "p3",
+          "text": "✓ Sync across unlimited devices"
+        },
+        {
+          "id": "p4",
+          "text": "✓ AI-powered search & summaries"
+        },
+        {
+          "id": "p5",
+          "text": "✓ 50 GB attachments"
+        },
+        {
+          "id": "p6",
+          "text": "✓ Offline mode & version history"
+        },
+        {
+          "id": "p7",
+          "text": "✓ Priority support"
+        }
+      ],
+      "teamFeatures": [
+        {
+          "id": "t1",
+          "text": "✓ Everything in Pro, plus:"
+        },
+        {
+          "id": "t2",
+          "text": "✓ Shared workspaces & permissions"
+        },
+        {
+          "id": "t3",
+          "text": "✓ Real-time collaboration"
+        },
+        {
+          "id": "t4",
+          "text": "✓ Admin controls & SSO"
+        },
+        {
+          "id": "t5",
+          "text": "✓ 1 TB shared storage"
+        }
+      ],
+      "selectedPlan": ""
+    }
+  },
+  "patchLines": 54,
+  "skippedLines": 0,
+  "firstNodeMs": 1717,
+  "issues": [],
+  "fixes": []
+}

@@ -1,0 +1,198 @@
+{
+  "promptId": "d04",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:21:07.529Z",
+  "totalMs": 16436,
+  "lines": [
+    {
+      "t": 2272,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+    },
+    {
+      "t": 2286,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"children\":[\"header\",\"metrics\",\"details\"]}}"
+    },
+    {
+      "t": 2619,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"title-stack\",\"status-badge\"]}}"
+    },
+    {
+      "t": 3007,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"title\",\"subtitle\"]}}"
+    },
+    {
+      "t": 3466,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Server Monitoring\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 3531,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtitle\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Production cluster · us-east-1 · Last updated just now\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 3819,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/status-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$state\":\"/overview/status\"},\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 4175,
+      "text": "{\"op\":\"add\",\"path\":\"/state/overview\",\"value\":{\"status\":\"Operational\"}}"
+    },
+    {
+      "t": 4286,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metrics\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":4,\"gap\":\"md\"},\"children\":[\"cpu-card\",\"mem-card\",\"err-card\",\"up-card\"]}}"
+    },
+    {
+      "t": 4702,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cpu-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"CPU Usage\",\"description\":\"Average across 12 nodes\"},\"children\":[\"cpu-value\",\"cpu-progress\"]}}"
+    },
+    {
+      "t": 5035,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cpu-value\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$template\":\"${/metrics/cpu}%\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 5324,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cpu-progress\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$state\":\"/metrics/cpu\"},\"max\":100,\"label\":\"Utilization\"},\"children\":[]}}"
+    },
+    {
+      "t": 5657,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/mem-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Memory\",\"description\":\"384 GB total\"},\"children\":[\"mem-value\",\"mem-progress\"]}}"
+    },
+    {
+      "t": 5923,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/mem-value\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$template\":\"${/metrics/memory}%\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 6290,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/mem-progress\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$state\":\"/metrics/memory\"},\"max\":100,\"label\":\"Utilization\"},\"children\":[]}}"
+    },
+    {
+      "t": 6609,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/err-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Error Rate\",\"description\":\"Last 24 hours\"},\"children\":[\"err-value\",\"err-progress\"]}}"
+    },
+    {
+      "t": 6890,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/err-value\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$template\":\"${/metrics/errorRate}%\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 7321,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/err-progress\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$state\":\"/metrics/errorRate\"},\"max\":10,\"label\":\"Of 10% threshold\"},\"children\":[]}}"
+    },
+    {
+      "t": 7660,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/up-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Uptime\",\"description\":\"Last 30 days\"},\"children\":[\"up-value\",\"up-progress\"]}}"
+    },
+    {
+      "t": 7857,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/up-value\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$template\":\"${/metrics/uptime}%\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 8188,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/up-progress\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$state\":\"/metrics/uptime\"},\"max\":100,\"label\":\"SLA target 99.9%\"},\"children\":[]}}"
+    },
+    {
+      "t": 8454,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics\",\"value\":{\"cpu\":62,\"memory\":78,\"errorRate\":1.4,\"uptime\":99.97}}"
+    },
+    {
+      "t": 8898,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/details\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Recent Incidents\",\"description\":\"Latest events across your infrastructure\"},\"children\":[\"filter\",\"incident-list\"]}}"
+    },
+    {
+      "t": 9417,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/filter\",\"value\":{\"type\":\"ButtonGroup\",\"props\":{\"buttons\":[{\"label\":\"All\",\"value\":\"all\"},{\"label\":\"Open\",\"value\":\"open\"},{\"label\":\"Resolved\",\"value\":\"resolved\"}],\"selected\":{\"$bindState\":\"/incidentFilter\"}},\"children\":[]}}"
+    },
+    {
+      "t": 9518,
+      "text": "{\"op\":\"add\",\"path\":\"/state/incidentFilter\",\"value\":\"all\"}"
+    },
+    {
+      "t": 9856,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/incident-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/incidents\",\"key\":\"id\"},\"children\":[\"incident-row\"]}}"
+    },
+    {
+      "t": 10517,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/incident-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"align\":\"center\",\"justify\":\"between\"},\"visible\":{\"$or\":[{\"$state\":\"/incidentFilter\",\"eq\":\"all\"},{\"$item\":\"status\",\"eq\":\"__never__\",\"not\":true}]},\"children\":[\"incident-info\",\"incident-meta\"]}}"
+    },
+    {
+      "t": 10800,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/incident-info\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"none\"},\"children\":[\"incident-title\",\"incident-desc\"]}}"
+    },
+    {
+      "t": 11118,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/incident-title\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"title\"},\"variant\":\"lead\"},\"children\":[]}}"
+    },
+    {
+      "t": 11422,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/incident-desc\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${server} · ${time}\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 11723,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/incident-meta\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"align\":\"center\",\"gap\":\"sm\"},\"children\":[\"severity-badge\",\"status-text\"]}}"
+    },
+    {
+      "t": 11984,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/severity-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"severity\"},\"variant\":\"outline\"},\"children\":[]}}"
+    },
+    {
+      "t": 12251,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/status-text\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"status\"},\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 12372,
+      "text": "{\"op\":\"add\",\"path\":\"/state/incidents\",\"value\":[]}"
+    },
+    {
+      "t": 12819,
+      "text": "{\"op\":\"add\",\"path\":\"/state/incidents/0\",\"value\":{\"id\":\"1\",\"title\":\"Elevated API latency\",\"server\":\"api-prod-03\",\"time\":\"12 min ago\",\"severity\":\"High\",\"status\":\"open\"}}"
+    },
+    {
+      "t": 13226,
+      "text": "{\"op\":\"add\",\"path\":\"/state/incidents/1\",\"value\":{\"id\":\"2\",\"title\":\"Database connection pool exhausted\",\"server\":\"db-primary-01\",\"time\":\"2 hours ago\",\"severity\":\"Critical\",\"status\":\"resolved\"}}"
+    },
+    {
+      "t": 13660,
+      "text": "{\"op\":\"add\",\"path\":\"/state/incidents/2\",\"value\":{\"id\":\"3\",\"title\":\"Disk usage above 85%\",\"server\":\"worker-prod-07\",\"time\":\"5 hours ago\",\"severity\":\"Medium\",\"status\":\"open\"}}"
+    },
+    {
+      "t": 16436,
+      "text": "{\"op\":\"add\",\"path\":\"/state/incidents/3\",\"value\":{\"id\":\"4\",\"title\":\"Failed deployment rollback\",\"server\":\"web-prod-12\",\"time\":\"Yesterday\",\"severity\":\"Low\",\"status\":\"resolved\"}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 927,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 2611,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 927,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2611,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 927,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 927
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

@@ -1,0 +1,394 @@
+{
+  "promptId": "d10",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:23:00.425Z",
+  "totalMs": 45762,
+  "lines": [
+    {
+      "t": 16839,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+    },
+    {
+      "t": 17294,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\",\"className\":\"p-6 max-w-6xl mx-auto\"},\"children\":[\"header\",\"summary-grid\",\"mid-grid\",\"roster-card\"]}}"
+    },
+    {
+      "t": 17631,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"title\",\"subtitle\"]}}"
+    },
+    {
+      "t": 17877,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Classroom Dashboard\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 18233,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtitle\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${/class/name} · ${/class/period} · ${/class/date}\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 18533,
+      "text": "{\"op\":\"add\",\"path\":\"/state/class\",\"value\":{\"name\":\"Grade 8 Science\",\"period\":\"Period 3\",\"date\":\"Thursday, Oct 29, 2026\"}}"
+    },
+    {
+      "t": 18898,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/summary-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":4,\"gap\":\"md\"},\"children\":[\"sum-att\",\"sum-comp\",\"sum-avg\",\"sum-risk\"]}}"
+    },
+    {
+      "t": 19276,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-att\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Attendance Today\",\"description\":\"Present or late\"},\"children\":[\"sum-att-val\",\"sum-att-note\"]}}"
+    },
+    {
+      "t": 19634,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-att-val\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$template\":\"${/summary/attendanceRate}%\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 20040,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-att-note\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${/summary/present} present · ${/summary/late} late · ${/summary/absent} absent\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 20371,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-comp\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Assignment Completion\",\"description\":\"Class average\"},\"children\":[\"sum-comp-val\",\"sum-comp-bar\"]}}"
+    },
+    {
+      "t": 20670,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-comp-val\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$template\":\"${/summary/completion}%\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 21012,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-comp-bar\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$state\":\"/summary/completion\"},\"max\":100},\"children\":[]}}"
+    },
+    {
+      "t": 21372,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-avg\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Class Average\",\"description\":\"Across all graded work\"},\"children\":[\"sum-avg-val\",\"sum-avg-note\"]}}"
+    },
+    {
+      "t": 21704,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-avg-val\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$template\":\"${/summary/average}%\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 22040,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-avg-note\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Up 1.2 points from last month\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 22405,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-risk\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Needs Attention\",\"description\":\"Grade below 70%\"},\"children\":[\"sum-risk-val\",\"sum-risk-note\"]}}"
+    },
+    {
+      "t": 22720,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-risk-val\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$template\":\"${/summary/atRisk} students\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 23015,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-risk-note\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Follow-up recommended\",\"variant\":\"destructive\"},\"children\":[]}}"
+    },
+    {
+      "t": 23319,
+      "text": "{\"op\":\"add\",\"path\":\"/state/summary\",\"value\":{\"attendanceRate\":88,\"present\":24,\"late\":4,\"absent\":4,\"completion\":82,\"average\":83.5,\"atRisk\":3}}"
+    },
+    {
+      "t": 23577,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/mid-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"md\"},\"children\":[\"att-card\",\"assign-card\"]}}"
+    },
+    {
+      "t": 23942,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/att-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Attendance Breakdown\",\"description\":\"32 enrolled students\"},\"children\":[\"att-stack\"]}}"
+    },
+    {
+      "t": 24235,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/att-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"att-present\",\"att-late\",\"att-absent\"]}}"
+    },
+    {
+      "t": 24618,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/att-present\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":75,\"max\":100,\"label\":\"Present · 24 students\"},\"children\":[]}}"
+    },
+    {
+      "t": 24841,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/att-late\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":12.5,\"max\":100,\"label\":\"Late · 4 students\"},\"children\":[]}}"
+    },
+    {
+      "t": 25125,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/att-absent\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":12.5,\"max\":100,\"label\":\"Absent · 4 students\"},\"children\":[]}}"
+    },
+    {
+      "t": 25475,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/assign-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Assignment Completion\",\"description\":\"Submissions by assignment\"},\"children\":[\"assign-list\"]}}"
+    },
+    {
+      "t": 25802,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/assign-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/assignments\",\"key\":\"id\"},\"children\":[\"assign-item\"]}}"
+    },
+    {
+      "t": 26202,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/assign-item\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$item\":\"percent\"},\"max\":100,\"label\":{\"$template\":\"${title} · due ${due} · ${submitted}/32 submitted\"}},\"children\":[]}}"
+    },
+    {
+      "t": 26311,
+      "text": "{\"op\":\"add\",\"path\":\"/state/assignments\",\"value\":[]}"
+    },
+    {
+      "t": 26677,
+      "text": "{\"op\":\"add\",\"path\":\"/state/assignments/0\",\"value\":{\"id\":\"a1\",\"title\":\"Lab Report: Density\",\"due\":\"Oct 14\",\"submitted\":31,\"percent\":97}}"
+    },
+    {
+      "t": 26970,
+      "text": "{\"op\":\"add\",\"path\":\"/state/assignments/1\",\"value\":{\"id\":\"a2\",\"title\":\"Ch. 5 Worksheet\",\"due\":\"Oct 20\",\"submitted\":29,\"percent\":91}}"
+    },
+    {
+      "t": 27396,
+      "text": "{\"op\":\"add\",\"path\":\"/state/assignments/2\",\"value\":{\"id\":\"a3\",\"title\":\"Vocabulary Quiz\",\"due\":\"Oct 24\",\"submitted\":27,\"percent\":84}}"
+    },
+    {
+      "t": 27722,
+      "text": "{\"op\":\"add\",\"path\":\"/state/assignments/3\",\"value\":{\"id\":\"a4\",\"title\":\"Ecosystems Project\",\"due\":\"Oct 28\",\"submitted\":22,\"percent\":69}}"
+    },
+    {
+      "t": 28006,
+      "text": "{\"op\":\"add\",\"path\":\"/state/assignments/4\",\"value\":{\"id\":\"a5\",\"title\":\"Reading Reflection\",\"due\":\"Nov 2\",\"submitted\":14,\"percent\":44}}"
+    },
+    {
+      "t": 28539,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/roster-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Student Roster\",\"description\":\"All 32 students · today's attendance, assignment completion and current grade\",\"maxWidth\":\"full\"},\"children\":[\"roster-head\",\"roster-sep\",\"roster-list\"]}}"
+    },
+    {
+      "t": 29010,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/roster-head\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"align\":\"center\",\"justify\":\"between\",\"className\":\"px-2\"},\"children\":[\"rh-student\",\"rh-att\",\"rh-comp\",\"rh-grade\"]}}"
+    },
+    {
+      "t": 29277,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/rh-student\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Student\",\"variant\":\"muted\",\"className\":\"w-48\"},\"children\":[]}}"
+    },
+    {
+      "t": 29545,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/rh-att\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Attendance\",\"variant\":\"muted\",\"className\":\"w-24\"},\"children\":[]}}"
+    },
+    {
+      "t": 29803,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/rh-comp\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Assignments\",\"variant\":\"muted\",\"className\":\"w-40\"},\"children\":[]}}"
+    },
+    {
+      "t": 30072,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/rh-grade\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Grade\",\"variant\":\"muted\",\"className\":\"w-24\"},\"children\":[]}}"
+    },
+    {
+      "t": 30309,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/roster-sep\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 30640,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/roster-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"repeat\":{\"statePath\":\"/students\",\"key\":\"id\"},\"children\":[\"row\"]}}"
+    },
+    {
+      "t": 31112,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"align\":\"center\",\"justify\":\"between\",\"className\":\"px-2 py-1 border-b\"},\"children\":[\"row-student\",\"row-att\",\"row-comp\",\"row-grade\"]}}"
+    },
+    {
+      "t": 31447,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-student\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"align\":\"center\",\"gap\":\"sm\",\"className\":\"w-48\"},\"children\":[\"row-avatar\",\"row-name\"]}}"
+    },
+    {
+      "t": 31712,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-avatar\",\"value\":{\"type\":\"Avatar\",\"props\":{\"name\":{\"$item\":\"name\"},\"size\":\"sm\"},\"children\":[]}}"
+    },
+    {
+      "t": 31971,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-name\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"name\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 32313,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-att\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"className\":\"w-24\"},\"children\":[\"badge-present\",\"badge-late\",\"badge-absent\"]}}"
+    },
+    {
+      "t": 32655,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/badge-present\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Present\",\"variant\":\"secondary\"},\"visible\":{\"$item\":\"attendance\",\"eq\":\"Present\"},\"children\":[]}}"
+    },
+    {
+      "t": 32978,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/badge-late\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Late\",\"variant\":\"outline\"},\"visible\":{\"$item\":\"attendance\",\"eq\":\"Late\"},\"children\":[]}}"
+    },
+    {
+      "t": 33304,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/badge-absent\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Absent\",\"variant\":\"destructive\"},\"visible\":{\"$item\":\"attendance\",\"eq\":\"Absent\"},\"children\":[]}}"
+    },
+    {
+      "t": 33620,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-comp\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"className\":\"w-40\"},\"children\":[\"row-progress\"]}}"
+    },
+    {
+      "t": 33942,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-progress\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$item\":\"completion\"},\"max\":100,\"label\":{\"$template\":\"${completion}%\"}},\"children\":[]}}"
+    },
+    {
+      "t": 34207,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row-grade\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${grade} (${score}%)\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 34318,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students\",\"value\":[]}"
+    },
+    {
+      "t": 34571,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/0\",\"value\":{\"id\":\"s1\",\"name\":\"Ava Anderson\",\"attendance\":\"Present\",\"completion\":96,\"score\":94,\"grade\":\"A\"}}"
+    },
+    {
+      "t": 34871,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/1\",\"value\":{\"id\":\"s2\",\"name\":\"Liam Bennett\",\"attendance\":\"Present\",\"completion\":88,\"score\":85,\"grade\":\"B\"}}"
+    },
+    {
+      "t": 35153,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/2\",\"value\":{\"id\":\"s3\",\"name\":\"Noah Carter\",\"attendance\":\"Late\",\"completion\":72,\"score\":78,\"grade\":\"C+\"}}"
+    },
+    {
+      "t": 35422,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/3\",\"value\":{\"id\":\"s4\",\"name\":\"Emma Davis\",\"attendance\":\"Present\",\"completion\":100,\"score\":97,\"grade\":\"A\"}}"
+    },
+    {
+      "t": 35670,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/4\",\"value\":{\"id\":\"s5\",\"name\":\"Olivia Evans\",\"attendance\":\"Absent\",\"completion\":60,\"score\":71,\"grade\":\"C-\"}}"
+    },
+    {
+      "t": 35983,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/5\",\"value\":{\"id\":\"s6\",\"name\":\"Mason Foster\",\"attendance\":\"Present\",\"completion\":92,\"score\":89,\"grade\":\"B+\"}}"
+    },
+    {
+      "t": 36242,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/6\",\"value\":{\"id\":\"s7\",\"name\":\"Sophia Garcia\",\"attendance\":\"Present\",\"completion\":84,\"score\":91,\"grade\":\"A-\"}}"
+    },
+    {
+      "t": 36554,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/7\",\"value\":{\"id\":\"s8\",\"name\":\"Lucas Hughes\",\"attendance\":\"Present\",\"completion\":78,\"score\":76,\"grade\":\"C\"}}"
+    },
+    {
+      "t": 36850,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/8\",\"value\":{\"id\":\"s9\",\"name\":\"Isabella Ito\",\"attendance\":\"Present\",\"completion\":98,\"score\":95,\"grade\":\"A\"}}"
+    },
+    {
+      "t": 37076,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/9\",\"value\":{\"id\":\"s10\",\"name\":\"Ethan Jackson\",\"attendance\":\"Late\",\"completion\":66,\"score\":69,\"grade\":\"D+\"}}"
+    },
+    {
+      "t": 37372,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/10\",\"value\":{\"id\":\"s11\",\"name\":\"Mia Kim\",\"attendance\":\"Present\",\"completion\":90,\"score\":88,\"grade\":\"B+\"}}"
+    },
+    {
+      "t": 37638,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/11\",\"value\":{\"id\":\"s12\",\"name\":\"Logan Lopez\",\"attendance\":\"Present\",\"completion\":82,\"score\":83,\"grade\":\"B\"}}"
+    },
+    {
+      "t": 37928,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/12\",\"value\":{\"id\":\"s13\",\"name\":\"Amelia Martinez\",\"attendance\":\"Present\",\"completion\":94,\"score\":92,\"grade\":\"A-\"}}"
+    },
+    {
+      "t": 38226,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/13\",\"value\":{\"id\":\"s14\",\"name\":\"James Nguyen\",\"attendance\":\"Absent\",\"completion\":48,\"score\":64,\"grade\":\"D\"}}"
+    },
+    {
+      "t": 38486,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/14\",\"value\":{\"id\":\"s15\",\"name\":\"Harper Owens\",\"attendance\":\"Present\",\"completion\":86,\"score\":84,\"grade\":\"B\"}}"
+    },
+    {
+      "t": 38751,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/15\",\"value\":{\"id\":\"s16\",\"name\":\"Benjamin Patel\",\"attendance\":\"Present\",\"completion\":100,\"score\":98,\"grade\":\"A\"}}"
+    },
+    {
+      "t": 39047,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/16\",\"value\":{\"id\":\"s17\",\"name\":\"Evelyn Quinn\",\"attendance\":\"Present\",\"completion\":74,\"score\":80,\"grade\":\"B-\"}}"
+    },
+    {
+      "t": 39311,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/17\",\"value\":{\"id\":\"s18\",\"name\":\"Elijah Reyes\",\"attendance\":\"Late\",\"completion\":80,\"score\":77,\"grade\":\"C+\"}}"
+    },
+    {
+      "t": 39632,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/18\",\"value\":{\"id\":\"s19\",\"name\":\"Abigail Singh\",\"attendance\":\"Present\",\"completion\":91,\"score\":90,\"grade\":\"A-\"}}"
+    },
+    {
+      "t": 39873,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/19\",\"value\":{\"id\":\"s20\",\"name\":\"Henry Thompson\",\"attendance\":\"Present\",\"completion\":70,\"score\":73,\"grade\":\"C\"}}"
+    },
+    {
+      "t": 40153,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/20\",\"value\":{\"id\":\"s21\",\"name\":\"Ella Underwood\",\"attendance\":\"Present\",\"completion\":95,\"score\":93,\"grade\":\"A\"}}"
+    },
+    {
+      "t": 40442,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/21\",\"value\":{\"id\":\"s22\",\"name\":\"Jackson Vargas\",\"attendance\":\"Absent\",\"completion\":55,\"score\":68,\"grade\":\"D+\"}}"
+    },
+    {
+      "t": 40718,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/22\",\"value\":{\"id\":\"s23\",\"name\":\"Scarlett Walker\",\"attendance\":\"Present\",\"completion\":89,\"score\":87,\"grade\":\"B+\"}}"
+    },
+    {
+      "t": 41010,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/23\",\"value\":{\"id\":\"s24\",\"name\":\"Sebastian Xu\",\"attendance\":\"Present\",\"completion\":83,\"score\":82,\"grade\":\"B-\"}}"
+    },
+    {
+      "t": 41281,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/24\",\"value\":{\"id\":\"s25\",\"name\":\"Grace Young\",\"attendance\":\"Present\",\"completion\":97,\"score\":96,\"grade\":\"A\"}}"
+    },
+    {
+      "t": 41551,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/25\",\"value\":{\"id\":\"s26\",\"name\":\"Aiden Zimmerman\",\"attendance\":\"Late\",\"completion\":76,\"score\":75,\"grade\":\"C\"}}"
+    },
+    {
+      "t": 41843,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/26\",\"value\":{\"id\":\"s27\",\"name\":\"Chloe Adams\",\"attendance\":\"Present\",\"completion\":93,\"score\":91,\"grade\":\"A-\"}}"
+    },
+    {
+      "t": 42106,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/27\",\"value\":{\"id\":\"s28\",\"name\":\"Daniel Brooks\",\"attendance\":\"Present\",\"completion\":81,\"score\":79,\"grade\":\"C+\"}}"
+    },
+    {
+      "t": 42392,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/28\",\"value\":{\"id\":\"s29\",\"name\":\"Lily Chen\",\"attendance\":\"Present\",\"completion\":99,\"score\":99,\"grade\":\"A+\"}}"
+    },
+    {
+      "t": 42680,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/29\",\"value\":{\"id\":\"s30\",\"name\":\"Matthew Diaz\",\"attendance\":\"Present\",\"completion\":68,\"score\":72,\"grade\":\"C-\"}}"
+    },
+    {
+      "t": 42941,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/30\",\"value\":{\"id\":\"s31\",\"name\":\"Zoe Edwards\",\"attendance\":\"Present\",\"completion\":87,\"score\":86,\"grade\":\"B\"}}"
+    },
+    {
+      "t": 45762,
+      "text": "{\"op\":\"add\",\"path\":\"/state/students/31\",\"value\":{\"id\":\"s32\",\"name\":\"Owen Flores\",\"attendance\":\"Absent\",\"completion\":62,\"score\":70,\"grade\":\"C-\"}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 926,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 7932,
+    "output_tokens_details": {
+      "thinking_tokens": 1957
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 926,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 7932,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 926,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 926
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

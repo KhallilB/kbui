@@ -1,0 +1,450 @@
+{
+  "spec": {
+    "root": "dashboard",
+    "elements": {
+      "dashboard": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "xl",
+          "className": "mx-auto max-w-7xl p-6 md:p-10 bg-slate-50"
+        },
+        "children": [
+          "header",
+          "metrics",
+          "main-grid",
+          "insight"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "align": "center",
+          "justify": "between",
+          "gap": "lg",
+          "className": "flex-wrap"
+        },
+        "children": [
+          "header-copy",
+          "week-badge"
+        ]
+      },
+      "header-copy": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "eyebrow",
+          "title",
+          "subtitle"
+        ]
+      },
+      "eyebrow": {
+        "type": "Text",
+        "props": {
+          "text": "PACE / YOUR DAILY MOMENTUM",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "A little stronger, every day.",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Your activity, recovery, and goals in one place.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "week-badge": {
+        "type": "Badge",
+        "props": {
+          "text": "October 26–November 1, 2026",
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "metrics": {
+        "type": "Grid",
+        "props": {
+          "columns": 4,
+          "gap": "md",
+          "className": "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+        },
+        "repeat": {
+          "statePath": "/metrics",
+          "key": "id"
+        },
+        "children": [
+          "metric-card"
+        ]
+      },
+      "metric-card": {
+        "type": "Card",
+        "props": {
+          "title": {
+            "$item": "label"
+          },
+          "className": "h-full rounded-2xl"
+        },
+        "children": [
+          "metric-value",
+          "metric-detail",
+          "metric-progress"
+        ]
+      },
+      "metric-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "value"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "metric-detail": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "detail"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "metric-progress": {
+        "type": "Progress",
+        "props": {
+          "value": {
+            "$item": "progress"
+          },
+          "max": 100,
+          "label": {
+            "$item": "target"
+          }
+        },
+        "children": []
+      },
+      "main-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "lg",
+          "className": "grid-cols-1 lg:grid-cols-2"
+        },
+        "children": [
+          "workouts-card",
+          "goals-card"
+        ]
+      },
+      "workouts-card": {
+        "type": "Card",
+        "props": {
+          "title": "Your week in motion",
+          "description": "Three sessions completed • 112 active minutes",
+          "className": "rounded-2xl"
+        },
+        "children": [
+          "workouts-list"
+        ]
+      },
+      "workouts-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "repeat": {
+          "statePath": "/workouts",
+          "key": "id"
+        },
+        "children": [
+          "workout-row"
+        ]
+      },
+      "workout-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm",
+          "className": "border-b border-slate-100 pb-4"
+        },
+        "children": [
+          "workout-top",
+          "workout-date",
+          "workout-detail"
+        ]
+      },
+      "workout-top": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center",
+          "gap": "md"
+        },
+        "children": [
+          "workout-name",
+          "workout-duration"
+        ]
+      },
+      "workout-name": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "name"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "workout-duration": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "duration"
+          },
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "workout-date": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${date} · ${intensity} intensity"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "workout-detail": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "detail"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "goals-card": {
+        "type": "Card",
+        "props": {
+          "title": "Keep your goals moving",
+          "description": "Small milestones. Lasting momentum.",
+          "className": "rounded-2xl"
+        },
+        "children": [
+          "goals-list"
+        ]
+      },
+      "goals-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "xl"
+        },
+        "repeat": {
+          "statePath": "/goals",
+          "key": "id"
+        },
+        "children": [
+          "goal-block"
+        ]
+      },
+      "goal-block": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "goal-top",
+          "goal-current",
+          "goal-progress",
+          "goal-next"
+        ]
+      },
+      "goal-top": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center",
+          "gap": "md"
+        },
+        "children": [
+          "goal-title",
+          "goal-period"
+        ]
+      },
+      "goal-title": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "title"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "goal-period": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "period"
+          },
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "goal-current": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "current"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "goal-progress": {
+        "type": "Progress",
+        "props": {
+          "value": {
+            "$item": "progress"
+          },
+          "max": 100,
+          "label": {
+            "$item": "title"
+          }
+        },
+        "children": []
+      },
+      "goal-next": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "next"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "insight": {
+        "type": "Alert",
+        "props": {
+          "title": "Your next small win",
+          "message": "You’re 1,568 steps from today’s target. A short walk is a great way to keep your momentum going.",
+          "type": "info"
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "metrics": [
+        {
+          "id": "steps",
+          "label": "Steps today",
+          "value": "8,432",
+          "detail": "1,568 steps to your daily goal",
+          "progress": 84.32,
+          "target": "10,000-step target"
+        },
+        {
+          "id": "workouts",
+          "label": "Workouts this week",
+          "value": "3 of 4",
+          "detail": "One more session to hit your goal",
+          "progress": 75,
+          "target": "Weekly workout goal"
+        },
+        {
+          "id": "sleep",
+          "label": "Sleep last night",
+          "value": "7h 24m",
+          "detail": "36 minutes short of your target",
+          "progress": 92.5,
+          "target": "8-hour nightly target"
+        },
+        {
+          "id": "minutes",
+          "label": "Active minutes this week",
+          "value": "112 min",
+          "detail": "38 minutes to your weekly goal",
+          "progress": 74.67,
+          "target": "150-minute weekly target"
+        }
+      ],
+      "workouts": [
+        {
+          "id": "w1",
+          "name": "Full-body strength",
+          "date": "Thursday, October 29",
+          "duration": "40 min",
+          "intensity": "Moderate",
+          "detail": "Squats, rows, presses, and core"
+        },
+        {
+          "id": "w2",
+          "name": "Morning run",
+          "date": "Tuesday, October 27",
+          "duration": "32 min",
+          "intensity": "Vigorous",
+          "detail": "5.1 km • 6:16 /km average pace"
+        },
+        {
+          "id": "w3",
+          "name": "Yoga & mobility",
+          "date": "Monday, October 26",
+          "duration": "40 min",
+          "intensity": "Light",
+          "detail": "Recovery flow and hip mobility"
+        }
+      ],
+      "goals": [
+        {
+          "id": "walking",
+          "title": "Walk 70,000 steps",
+          "period": "This week",
+          "current": "42,160 / 70,000 steps",
+          "progress": 60.23,
+          "next": "27,840 steps remaining"
+        },
+        {
+          "id": "consistency",
+          "title": "Complete 16 workouts",
+          "period": "October",
+          "current": "13 / 16 workouts",
+          "progress": 81.25,
+          "next": "3 sessions remaining"
+        },
+        {
+          "id": "rest",
+          "title": "Get 8 hours of sleep",
+          "period": "This week",
+          "current": "2 / 5 target nights",
+          "progress": 40,
+          "next": "3 qualifying nights remaining"
+        }
+      ]
+    }
+  },
+  "patchLines": 45,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [],
+  "fixes": []
+}

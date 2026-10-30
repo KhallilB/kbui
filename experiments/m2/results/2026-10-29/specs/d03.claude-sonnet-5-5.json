@@ -1,0 +1,499 @@
+{
+  "spec": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "header",
+          "accounts-grid",
+          "middle-grid",
+          "tx-card"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center"
+        },
+        "children": [
+          "header-text",
+          "period-select"
+        ]
+      },
+      "header-text": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "title",
+          "subtitle"
+        ]
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Personal Finance Dashboard",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Overview for October 2026",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "period-select": {
+        "type": "ButtonGroup",
+        "props": {
+          "buttons": [
+            {
+              "label": "Week",
+              "value": "week"
+            },
+            {
+              "label": "Month",
+              "value": "month"
+            },
+            {
+              "label": "Year",
+              "value": "year"
+            }
+          ],
+          "selected": {
+            "$bindState": "/period"
+          }
+        },
+        "children": []
+      },
+      "accounts-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 4,
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/accounts",
+          "key": "id"
+        },
+        "children": [
+          "account-card"
+        ]
+      },
+      "account-card": {
+        "type": "Card",
+        "props": {
+          "title": {
+            "$item": "name"
+          },
+          "description": {
+            "$item": "type"
+          }
+        },
+        "children": [
+          "account-balance",
+          "account-change"
+        ]
+      },
+      "account-balance": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "balance"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "account-change": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "change"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "middle-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "md"
+        },
+        "children": [
+          "spending-card",
+          "summary-card"
+        ]
+      },
+      "spending-card": {
+        "type": "Card",
+        "props": {
+          "title": "Monthly Spending by Category",
+          "description": "Budget usage for October",
+          "maxWidth": "full"
+        },
+        "children": [
+          "category-list"
+        ]
+      },
+      "category-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/categories",
+          "key": "id"
+        },
+        "children": [
+          "category-row"
+        ]
+      },
+      "category-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "category-label",
+          "category-progress"
+        ]
+      },
+      "category-label": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${name}: $${spent} of $${budget}"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "category-progress": {
+        "type": "Progress",
+        "props": {
+          "value": {
+            "$item": "percent"
+          },
+          "max": 100
+        },
+        "children": []
+      },
+      "summary-card": {
+        "type": "Card",
+        "props": {
+          "title": "Monthly Summary",
+          "description": "Income vs. expenses",
+          "maxWidth": "full"
+        },
+        "children": [
+          "summary-stack"
+        ]
+      },
+      "summary-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "income-row",
+          "expense-row",
+          "sep-1",
+          "savings-row",
+          "over-alert"
+        ]
+      },
+      "income-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center"
+        },
+        "children": [
+          "income-label",
+          "income-value"
+        ]
+      },
+      "income-label": {
+        "type": "Text",
+        "props": {
+          "text": "Total Income",
+          "variant": "body"
+        },
+        "children": []
+      },
+      "income-value": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$state": "/summary/income"
+          },
+          "variant": "default"
+        },
+        "children": []
+      },
+      "expense-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center"
+        },
+        "children": [
+          "expense-label",
+          "expense-value"
+        ]
+      },
+      "expense-label": {
+        "type": "Text",
+        "props": {
+          "text": "Total Expenses",
+          "variant": "body"
+        },
+        "children": []
+      },
+      "expense-value": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$state": "/summary/expenses"
+          },
+          "variant": "destructive"
+        },
+        "children": []
+      },
+      "sep-1": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "savings-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center"
+        },
+        "children": [
+          "savings-label",
+          "savings-value"
+        ]
+      },
+      "savings-label": {
+        "type": "Text",
+        "props": {
+          "text": "Net Savings",
+          "variant": "lead"
+        },
+        "children": []
+      },
+      "savings-value": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$state": "/summary/savings"
+          },
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "over-alert": {
+        "type": "Alert",
+        "props": {
+          "title": "Dining Out is over budget",
+          "message": "You've spent $10 more than your $300 monthly budget.",
+          "type": "warning"
+        },
+        "children": []
+      },
+      "tx-card": {
+        "type": "Card",
+        "props": {
+          "title": "Recent Transactions",
+          "description": "Latest activity across your accounts",
+          "maxWidth": "full"
+        },
+        "children": [
+          "tx-table"
+        ]
+      },
+      "tx-table": {
+        "type": "Table",
+        "props": {
+          "columns": [
+            "Date",
+            "Merchant",
+            "Category",
+            "Account",
+            "Amount"
+          ],
+          "rows": [
+            [
+              "Oct 28",
+              "Whole Foods Market",
+              "Groceries",
+              "Credit Card",
+              "-$84.32"
+            ],
+            [
+              "Oct 27",
+              "Acme Corp Payroll",
+              "Income",
+              "Checking",
+              "+$3,100.00"
+            ],
+            [
+              "Oct 26",
+              "Shell Gas Station",
+              "Transportation",
+              "Credit Card",
+              "-$46.10"
+            ],
+            [
+              "Oct 25",
+              "Blue Bottle Coffee",
+              "Dining Out",
+              "Checking",
+              "-$12.75"
+            ],
+            [
+              "Oct 24",
+              "Netflix",
+              "Entertainment",
+              "Credit Card",
+              "-$15.49"
+            ],
+            [
+              "Oct 23",
+              "City Power & Light",
+              "Utilities",
+              "Checking",
+              "-$98.20"
+            ],
+            [
+              "Oct 22",
+              "Transfer to Savings",
+              "Transfer",
+              "Checking",
+              "-$500.00"
+            ],
+            [
+              "Oct 20",
+              "Trattoria Roma",
+              "Dining Out",
+              "Credit Card",
+              "-$68.90"
+            ]
+          ],
+          "caption": "Showing the 8 most recent transactions"
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "period": "month",
+      "accounts": [
+        {
+          "id": "1",
+          "name": "Checking",
+          "type": "Chase •••• 4821",
+          "balance": "$4,820.55",
+          "change": "+$320.00 this month"
+        },
+        {
+          "id": "2",
+          "name": "Savings",
+          "type": "Ally •••• 9033",
+          "balance": "$18,450.00",
+          "change": "+$500.00 this month"
+        },
+        {
+          "id": "3",
+          "name": "Credit Card",
+          "type": "Visa •••• 1177",
+          "balance": "-$1,236.40",
+          "change": "Due Nov 12"
+        },
+        {
+          "id": "4",
+          "name": "Investments",
+          "type": "Fidelity •••• 5560",
+          "balance": "$52,908.12",
+          "change": "+2.4% this month"
+        }
+      ],
+      "categories": [
+        {
+          "id": "1",
+          "name": "Housing",
+          "spent": 1450,
+          "budget": 1500,
+          "percent": 97
+        },
+        {
+          "id": "2",
+          "name": "Groceries",
+          "spent": 520,
+          "budget": 650,
+          "percent": 80
+        },
+        {
+          "id": "3",
+          "name": "Dining Out",
+          "spent": 310,
+          "budget": 300,
+          "percent": 100
+        },
+        {
+          "id": "4",
+          "name": "Transportation",
+          "spent": 180,
+          "budget": 250,
+          "percent": 72
+        },
+        {
+          "id": "5",
+          "name": "Entertainment",
+          "spent": 95,
+          "budget": 150,
+          "percent": 63
+        },
+        {
+          "id": "6",
+          "name": "Utilities",
+          "spent": 210,
+          "budget": 240,
+          "percent": 88
+        }
+      ],
+      "summary": {
+        "income": "$6,200.00",
+        "expenses": "$2,765.00",
+        "savings": "$3,435.00"
+      }
+    }
+  },
+  "patchLines": 46,
+  "skippedLines": 0,
+  "firstNodeMs": 2980,
+  "issues": [],
+  "fixes": []
+}

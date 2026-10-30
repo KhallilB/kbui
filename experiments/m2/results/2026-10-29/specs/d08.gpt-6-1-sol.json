@@ -1,0 +1,1246 @@
+{
+  "spec": {
+    "root": "dashboard",
+    "elements": {
+      "dashboard": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "xl",
+          "className": "mx-auto max-w-7xl p-6 lg:p-10 bg-slate-50 text-slate-900"
+        },
+        "children": [
+          "header",
+          "metrics",
+          "stock-overview",
+          "operations",
+          "catalog"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "align": "center",
+          "justify": "between",
+          "gap": "lg",
+          "className": "flex-wrap"
+        },
+        "children": [
+          "header-copy",
+          "warehouse-badge"
+        ]
+      },
+      "header-copy": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "eyebrow",
+          "title",
+          "subtitle"
+        ]
+      },
+      "eyebrow": {
+        "type": "Text",
+        "props": {
+          "text": "OPERATIONS / INVENTORY",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Warehouse overview",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Stock on hand, replenishment priorities, and inbound deliveries.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "warehouse-badge": {
+        "type": "Badge",
+        "props": {
+          "text": "WH-01 · Oakland",
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "metrics": {
+        "type": "Grid",
+        "props": {
+          "columns": 4,
+          "gap": "md",
+          "className": "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
+        },
+        "repeat": {
+          "statePath": "/metrics",
+          "key": "id"
+        },
+        "children": [
+          "metric-card"
+        ]
+      },
+      "metric-card": {
+        "type": "Card",
+        "props": {
+          "className": "border-slate-200 bg-white"
+        },
+        "children": [
+          "metric-label",
+          "metric-value",
+          "metric-detail"
+        ]
+      },
+      "metric-label": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "label"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "metric-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "value"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "metric-detail": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "detail"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "stock-overview": {
+        "type": "Card",
+        "props": {
+          "title": "Stock health",
+          "description": "Products above their reorder point",
+          "className": "border-slate-200 bg-white"
+        },
+        "children": [
+          "health-progress",
+          "health-note"
+        ]
+      },
+      "health-progress": {
+        "type": "Progress",
+        "props": {
+          "value": {
+            "$state": "/stockHealth"
+          },
+          "max": 100,
+          "label": "85% healthy · 34 products"
+        },
+        "children": []
+      },
+      "health-note": {
+        "type": "Text",
+        "props": {
+          "text": "6 products need replenishment. All products currently have stock available.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "operations": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "lg",
+          "className": "grid-cols-1 lg:grid-cols-2"
+        },
+        "children": [
+          "low-stock",
+          "incoming"
+        ]
+      },
+      "low-stock": {
+        "type": "Card",
+        "props": {
+          "title": "Replenishment priorities",
+          "description": "6 products at or below their reorder point",
+          "className": "border-amber-200 bg-white"
+        },
+        "children": [
+          "low-alert",
+          "low-list"
+        ]
+      },
+      "low-alert": {
+        "type": "Alert",
+        "props": {
+          "title": "Reorder attention needed",
+          "message": "Review available units against each product’s reorder point.",
+          "type": "warning"
+        },
+        "children": []
+      },
+      "low-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/products",
+          "key": "id"
+        },
+        "visible": {
+          "$item": "low",
+          "eq": true
+        },
+        "children": [
+          "low-row"
+        ]
+      },
+      "low-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center",
+          "gap": "md",
+          "className": "border-b border-slate-100 py-3"
+        },
+        "children": [
+          "low-copy",
+          "low-quantity"
+        ]
+      },
+      "low-copy": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "low-name",
+          "low-sku"
+        ]
+      },
+      "low-name": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "name"
+          }
+        },
+        "children": []
+      },
+      "low-sku": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${sku} · Bin ${location}"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "low-quantity": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "align": "end",
+          "gap": "sm"
+        },
+        "children": [
+          "low-badge",
+          "low-threshold"
+        ]
+      },
+      "low-badge": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$template": "${stock} available"
+          },
+          "variant": "destructive"
+        },
+        "children": []
+      },
+      "low-threshold": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "Reorder at ${reorder}"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "incoming": {
+        "type": "Card",
+        "props": {
+          "title": "Incoming shipments",
+          "description": "3 deliveries · 1,440 units on the way",
+          "className": "border-slate-200 bg-white"
+        },
+        "children": [
+          "shipment-list",
+          "shipment-note"
+        ]
+      },
+      "shipment-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "repeat": {
+          "statePath": "/shipments",
+          "key": "id"
+        },
+        "children": [
+          "shipment-card"
+        ]
+      },
+      "shipment-card": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm",
+          "className": "rounded-lg border border-slate-200 p-4"
+        },
+        "children": [
+          "shipment-top",
+          "shipment-supplier",
+          "shipment-contents",
+          "shipment-eta",
+          "shipment-meta"
+        ]
+      },
+      "shipment-top": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center",
+          "gap": "md"
+        },
+        "children": [
+          "shipment-id",
+          "shipment-status"
+        ]
+      },
+      "shipment-id": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "id"
+          },
+          "variant": "code"
+        },
+        "children": []
+      },
+      "shipment-status": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "status"
+          },
+          "variant": {
+            "$item": "variant"
+          }
+        },
+        "children": []
+      },
+      "shipment-supplier": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "supplier"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "shipment-contents": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "contents"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "shipment-eta": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "Expected ${eta}"
+          }
+        },
+        "children": []
+      },
+      "shipment-meta": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${quantity} units · ${dock} · ${po}"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "shipment-note": {
+        "type": "Text",
+        "props": {
+          "text": "Expected units are excluded from available stock until received. Delivery times are Pacific Time.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "catalog": {
+        "type": "Card",
+        "props": {
+          "title": "Full product inventory",
+          "description": "40 products · Available stock excludes incoming shipments",
+          "className": "border-slate-200 bg-white"
+        },
+        "children": [
+          "catalog-controls",
+          "catalog-header",
+          "product-list",
+          "catalog-footer"
+        ]
+      },
+      "catalog-controls": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "align": "center",
+          "justify": "between",
+          "gap": "md",
+          "className": "flex-wrap pb-4"
+        },
+        "children": [
+          "stock-filter",
+          "units-note"
+        ]
+      },
+      "stock-filter": {
+        "type": "ToggleGroup",
+        "props": {
+          "items": [
+            {
+              "label": "All products",
+              "value": "all"
+            },
+            {
+              "label": "Low stock",
+              "value": "low"
+            },
+            {
+              "label": "Healthy",
+              "value": "healthy"
+            }
+          ],
+          "type": "single",
+          "value": {
+            "$bindState": "/stockFilter"
+          }
+        },
+        "children": []
+      },
+      "units-note": {
+        "type": "Text",
+        "props": {
+          "text": "Quantities use each product’s listed unit or pack.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "catalog-header": {
+        "type": "Grid",
+        "props": {
+          "columns": 6,
+          "gap": "md",
+          "className": "hidden md:grid border-y border-slate-200 bg-slate-50 px-4 py-3"
+        },
+        "children": [
+          "col-product",
+          "col-category",
+          "col-bin",
+          "col-stock",
+          "col-reorder",
+          "col-status"
+        ]
+      },
+      "col-product": {
+        "type": "Text",
+        "props": {
+          "text": "PRODUCT / SKU",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "col-category": {
+        "type": "Text",
+        "props": {
+          "text": "CATEGORY",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "col-bin": {
+        "type": "Text",
+        "props": {
+          "text": "BIN LOCATION",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "col-stock": {
+        "type": "Text",
+        "props": {
+          "text": "AVAILABLE",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "col-reorder": {
+        "type": "Text",
+        "props": {
+          "text": "REORDER POINT",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "col-status": {
+        "type": "Text",
+        "props": {
+          "text": "STATUS",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "product-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "none"
+        },
+        "repeat": {
+          "statePath": "/products",
+          "key": "id"
+        },
+        "children": [
+          "product-row"
+        ]
+      },
+      "product-row": {
+        "type": "Grid",
+        "props": {
+          "columns": 6,
+          "gap": "md",
+          "className": "grid-cols-2 md:grid-cols-6 items-center border-b border-slate-100 px-4 py-4"
+        },
+        "visible": {
+          "$or": [
+            {
+              "$state": "/stockFilter",
+              "eq": "all"
+            },
+            {
+              "$state": "/stockFilter",
+              "not": true
+            },
+            {
+              "$and": [
+                {
+                  "$state": "/stockFilter",
+                  "eq": "low"
+                },
+                {
+                  "$item": "low",
+                  "eq": true
+                }
+              ]
+            },
+            {
+              "$and": [
+                {
+                  "$state": "/stockFilter",
+                  "eq": "healthy"
+                },
+                {
+                  "$item": "low",
+                  "eq": false
+                }
+              ]
+            }
+          ]
+        },
+        "children": [
+          "product-identity",
+          "product-category",
+          "product-bin",
+          "product-stock",
+          "product-reorder",
+          "product-status"
+        ]
+      },
+      "product-identity": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "product-name",
+          "product-sku"
+        ]
+      },
+      "product-name": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "name"
+          }
+        },
+        "children": []
+      },
+      "product-sku": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "sku"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "product-category": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "category"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "product-bin": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "location"
+          },
+          "variant": "code"
+        },
+        "children": []
+      },
+      "product-stock": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${stock} available"
+          }
+        },
+        "children": []
+      },
+      "product-reorder": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "Reorder at ${reorder}"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "product-status": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "status"
+          },
+          "variant": {
+            "$item": "variant"
+          }
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "metrics": [
+        {
+          "id": "products",
+          "label": "Active products",
+          "value": "40",
+          "detail": "Across 6 product categories"
+        },
+        {
+          "id": "low",
+          "label": "Running low",
+          "value": "6",
+          "detail": "At or below reorder point"
+        },
+        {
+          "id": "shipments",
+          "label": "Incoming shipments",
+          "value": "3",
+          "detail": "1,440 units expected"
+        },
+        {
+          "id": "healthy",
+          "label": "Healthy stock",
+          "value": "34 / 40",
+          "detail": "85% of products above reorder point"
+        }
+      ],
+      "stockHealth": 85,
+      "products": [
+        {
+          "id": "p01",
+          "sku": "PKG-1001",
+          "name": "Corrugated Box · Small",
+          "category": "Packaging",
+          "location": "A-01-01",
+          "stock": 840,
+          "reorder": 200,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p02",
+          "sku": "PKG-1002",
+          "name": "Corrugated Box · Medium",
+          "category": "Packaging",
+          "location": "A-01-02",
+          "stock": 620,
+          "reorder": 200,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p03",
+          "sku": "PKG-1003",
+          "name": "Corrugated Box · Large",
+          "category": "Packaging",
+          "location": "A-01-03",
+          "stock": 42,
+          "reorder": 100,
+          "status": "Low stock",
+          "variant": "destructive",
+          "low": true
+        },
+        {
+          "id": "p04",
+          "sku": "PKG-1004",
+          "name": "Padded Mailer · A4",
+          "category": "Packaging",
+          "location": "A-02-01",
+          "stock": 1250,
+          "reorder": 300,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p05",
+          "sku": "PKG-1005",
+          "name": "Bubble Wrap · 50 m",
+          "category": "Packaging",
+          "location": "A-02-02",
+          "stock": 96,
+          "reorder": 30,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p06",
+          "sku": "PKG-1006",
+          "name": "Packing Tape · Clear",
+          "category": "Packaging",
+          "location": "A-03-01",
+          "stock": 480,
+          "reorder": 120,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p07",
+          "sku": "PKG-1007",
+          "name": "Stretch Film · 500 mm",
+          "category": "Packaging",
+          "location": "A-03-02",
+          "stock": 180,
+          "reorder": 50,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p08",
+          "sku": "PKG-1008",
+          "name": "Thermal Shipping Labels · Roll",
+          "category": "Packaging",
+          "location": "A-04-01",
+          "stock": 18,
+          "reorder": 40,
+          "status": "Low stock",
+          "variant": "destructive",
+          "low": true
+        },
+        {
+          "id": "p09",
+          "sku": "SAF-2001",
+          "name": "Nitrile Gloves · Box",
+          "category": "Safety",
+          "location": "B-01-01",
+          "stock": 240,
+          "reorder": 60,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p10",
+          "sku": "SAF-2002",
+          "name": "Safety Glasses · Clear",
+          "category": "Safety",
+          "location": "B-01-02",
+          "stock": 156,
+          "reorder": 40,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p11",
+          "sku": "SAF-2003",
+          "name": "High-Visibility Vest · L",
+          "category": "Safety",
+          "location": "B-02-01",
+          "stock": 88,
+          "reorder": 25,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p12",
+          "sku": "SAF-2004",
+          "name": "Earplugs · Box",
+          "category": "Safety",
+          "location": "B-02-02",
+          "stock": 74,
+          "reorder": 20,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p13",
+          "sku": "SAF-2005",
+          "name": "First Aid Refill Kit",
+          "category": "Safety",
+          "location": "B-03-01",
+          "stock": 32,
+          "reorder": 10,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p14",
+          "sku": "SAF-2006",
+          "name": "Cut-Resistant Gloves · Pair",
+          "category": "Safety",
+          "location": "B-03-02",
+          "stock": 12,
+          "reorder": 30,
+          "status": "Low stock",
+          "variant": "destructive",
+          "low": true
+        },
+        {
+          "id": "p15",
+          "sku": "TLS-3001",
+          "name": "Retractable Utility Knife",
+          "category": "Tools",
+          "location": "C-01-01",
+          "stock": 125,
+          "reorder": 35,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p16",
+          "sku": "TLS-3002",
+          "name": "Replacement Blades · Pack",
+          "category": "Tools",
+          "location": "C-01-02",
+          "stock": 210,
+          "reorder": 50,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p17",
+          "sku": "TLS-3003",
+          "name": "Tape Dispenser · Heavy Duty",
+          "category": "Tools",
+          "location": "C-02-01",
+          "stock": 64,
+          "reorder": 20,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p18",
+          "sku": "TLS-3004",
+          "name": "Measuring Tape · 5 m",
+          "category": "Tools",
+          "location": "C-02-02",
+          "stock": 92,
+          "reorder": 25,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p19",
+          "sku": "TLS-3005",
+          "name": "Rubber Mallet · 16 oz",
+          "category": "Tools",
+          "location": "C-03-01",
+          "stock": 48,
+          "reorder": 15,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p20",
+          "sku": "TLS-3006",
+          "name": "Hex Key Set · Metric",
+          "category": "Tools",
+          "location": "C-03-02",
+          "stock": 56,
+          "reorder": 15,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p21",
+          "sku": "CLN-4001",
+          "name": "All-Purpose Cleaner · 5 L",
+          "category": "Cleaning",
+          "location": "D-01-01",
+          "stock": 84,
+          "reorder": 25,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p22",
+          "sku": "CLN-4002",
+          "name": "Absorbent Spill Pads · Pack",
+          "category": "Cleaning",
+          "location": "D-01-02",
+          "stock": 8,
+          "reorder": 20,
+          "status": "Low stock",
+          "variant": "destructive",
+          "low": true
+        },
+        {
+          "id": "p23",
+          "sku": "CLN-4003",
+          "name": "Microfiber Cloths · Pack",
+          "category": "Cleaning",
+          "location": "D-02-01",
+          "stock": 160,
+          "reorder": 40,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p24",
+          "sku": "CLN-4004",
+          "name": "Industrial Broom",
+          "category": "Cleaning",
+          "location": "D-02-02",
+          "stock": 38,
+          "reorder": 10,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p25",
+          "sku": "CLN-4005",
+          "name": "Waste Bags · 120 L Roll",
+          "category": "Cleaning",
+          "location": "D-03-01",
+          "stock": 320,
+          "reorder": 80,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p26",
+          "sku": "CLN-4006",
+          "name": "Hand Soap Refill · 1 L",
+          "category": "Cleaning",
+          "location": "D-03-02",
+          "stock": 110,
+          "reorder": 30,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p27",
+          "sku": "STO-5001",
+          "name": "Stackable Tote · 20 L",
+          "category": "Storage",
+          "location": "E-01-01",
+          "stock": 220,
+          "reorder": 60,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p28",
+          "sku": "STO-5002",
+          "name": "Stackable Tote · 50 L",
+          "category": "Storage",
+          "location": "E-01-02",
+          "stock": 145,
+          "reorder": 40,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p29",
+          "sku": "STO-5003",
+          "name": "Shelf Bin · Small",
+          "category": "Storage",
+          "location": "E-02-01",
+          "stock": 360,
+          "reorder": 100,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p30",
+          "sku": "STO-5004",
+          "name": "Shelf Divider · Steel",
+          "category": "Storage",
+          "location": "E-02-02",
+          "stock": 180,
+          "reorder": 50,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p31",
+          "sku": "STO-5005",
+          "name": "Pallet Cover · Waterproof",
+          "category": "Storage",
+          "location": "E-03-01",
+          "stock": 15,
+          "reorder": 30,
+          "status": "Low stock",
+          "variant": "destructive",
+          "low": true
+        },
+        {
+          "id": "p32",
+          "sku": "STO-5006",
+          "name": "Rack Label Holder · Pack",
+          "category": "Storage",
+          "location": "E-03-02",
+          "stock": 95,
+          "reorder": 25,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p33",
+          "sku": "STO-5007",
+          "name": "Picking Basket · 30 L",
+          "category": "Storage",
+          "location": "E-04-01",
+          "stock": 72,
+          "reorder": 20,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p34",
+          "sku": "MRO-6001",
+          "name": "Cable Ties · 200 mm Pack",
+          "category": "Maintenance",
+          "location": "F-01-01",
+          "stock": 420,
+          "reorder": 100,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p35",
+          "sku": "MRO-6002",
+          "name": "AA Batteries · Pack",
+          "category": "Maintenance",
+          "location": "F-01-02",
+          "stock": 185,
+          "reorder": 50,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p36",
+          "sku": "MRO-6003",
+          "name": "Multipurpose Lubricant · 400 mL",
+          "category": "Maintenance",
+          "location": "F-02-01",
+          "stock": 68,
+          "reorder": 20,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p37",
+          "sku": "MRO-6004",
+          "name": "Duct Tape · Silver",
+          "category": "Maintenance",
+          "location": "F-02-02",
+          "stock": 132,
+          "reorder": 35,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p38",
+          "sku": "MRO-6005",
+          "name": "Thermal Printer Ribbon",
+          "category": "Maintenance",
+          "location": "F-03-01",
+          "stock": 6,
+          "reorder": 20,
+          "status": "Low stock",
+          "variant": "destructive",
+          "low": true
+        },
+        {
+          "id": "p39",
+          "sku": "MRO-6006",
+          "name": "Conveyor Roller · 50 mm",
+          "category": "Maintenance",
+          "location": "F-03-02",
+          "stock": 28,
+          "reorder": 8,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        },
+        {
+          "id": "p40",
+          "sku": "MRO-6007",
+          "name": "Caster Wheel · Locking",
+          "category": "Maintenance",
+          "location": "F-04-01",
+          "stock": 44,
+          "reorder": 12,
+          "status": "Healthy",
+          "variant": "secondary",
+          "low": false
+        }
+      ],
+      "shipments": [
+        {
+          "id": "INB-2048",
+          "supplier": "Pacific Packaging Co.",
+          "contents": "Corrugated Box · Large",
+          "quantity": 480,
+          "eta": "Oct 29, 2026 · 2:00–4:00 PM",
+          "status": "In transit",
+          "variant": "default",
+          "dock": "Dock 02",
+          "po": "PO-10842"
+        },
+        {
+          "id": "INB-2049",
+          "supplier": "Bay Area Industrial Supply",
+          "contents": "Cut-resistant gloves · 120 pairs; spill pads · 480 packs",
+          "quantity": 600,
+          "eta": "Oct 30, 2026 · 9:00–11:00 AM",
+          "status": "Confirmed",
+          "variant": "secondary",
+          "dock": "Dock 01",
+          "po": "PO-10851"
+        },
+        {
+          "id": "INB-2050",
+          "supplier": "West Coast Label & Print",
+          "contents": "Thermal labels · 240 rolls; printer ribbons · 120 units",
+          "quantity": 360,
+          "eta": "Oct 31, 2026 · 10:00 AM–12:00 PM",
+          "status": "Scheduled",
+          "variant": "outline",
+          "dock": "Dock 03",
+          "po": "PO-10857"
+        }
+      ],
+      "stockFilter": "all"
+    }
+  },
+  "patchLines": 113,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [
+    {
+      "code": "missing_child",
+      "message": "Element \"catalog\" references child \"catalog-footer\" which does not exist in the elements map.",
+      "elementKey": "catalog"
+    }
+  ],
+  "fixes": []
+}

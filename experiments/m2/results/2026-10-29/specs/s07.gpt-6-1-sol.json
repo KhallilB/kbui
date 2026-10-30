@@ -1,0 +1,350 @@
+{
+  "spec": {
+    "root": "appearance",
+    "elements": {
+      "appearance": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg",
+          "className": "mx-auto w-full max-w-3xl p-8"
+        },
+        "children": [
+          "header",
+          "settings",
+          "preview",
+          "footer"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "eyebrow",
+          "title",
+          "description"
+        ]
+      },
+      "eyebrow": {
+        "type": "Text",
+        "props": {
+          "text": "EDITOR SETTINGS",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Appearance",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "description": {
+        "type": "Text",
+        "props": {
+          "text": "Make your editor feel like yours. Changes apply instantly.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "settings": {
+        "type": "Card",
+        "props": {
+          "title": "Editor style",
+          "description": "Choose your colors and fine-tune readability.",
+          "maxWidth": "full"
+        },
+        "children": [
+          "controls"
+        ]
+      },
+      "controls": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "theme",
+          "separator",
+          "typography"
+        ]
+      },
+      "theme": {
+        "type": "Select",
+        "props": {
+          "label": "Color theme",
+          "name": "theme",
+          "options": [
+            "Dark",
+            "Light",
+            "High contrast"
+          ],
+          "value": {
+            "$bindState": "/appearance/theme"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Choose a color theme."
+            }
+          ]
+        },
+        "watch": {
+          "/appearance/theme": {
+            "action": "setState",
+            "params": {
+              "statePath": "/appearance/previewColors",
+              "value": {
+                "$cond": {
+                  "$state": "/appearance/theme",
+                  "eq": "Light"
+                },
+                "$then": "bg-slate-50 text-slate-900",
+                "$else": {
+                  "$cond": {
+                    "$state": "/appearance/theme",
+                    "eq": "High contrast"
+                  },
+                  "$then": "bg-black text-white ring-2 ring-yellow-400",
+                  "$else": "bg-slate-950 text-slate-200"
+                }
+              }
+            }
+          }
+        },
+        "children": []
+      },
+      "separator": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "typography": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "lg",
+          "className": "max-sm:grid-cols-1"
+        },
+        "children": [
+          "fontControls",
+          "lineControls"
+        ]
+      },
+      "fontControls": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "fontValue",
+          "fontSlider",
+          "fontHint"
+        ]
+      },
+      "fontSlider": {
+        "type": "Slider",
+        "props": {
+          "label": "Font size",
+          "min": 10,
+          "max": 24,
+          "step": 1,
+          "value": {
+            "$bindState": "/appearance/fontSize"
+          }
+        },
+        "children": []
+      },
+      "fontValue": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$template": "${/appearance/fontSize} px"
+          },
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "fontHint": {
+        "type": "Text",
+        "props": {
+          "text": "10–24 px · Default 14 px",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "lineControls": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "lineValue",
+          "lineSlider",
+          "lineHint"
+        ]
+      },
+      "lineSlider": {
+        "type": "Slider",
+        "props": {
+          "label": "Line height",
+          "min": 1.2,
+          "max": 2.2,
+          "step": 0.1,
+          "value": {
+            "$bindState": "/appearance/lineHeight"
+          }
+        },
+        "children": []
+      },
+      "lineValue": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$template": "${/appearance/lineHeight}×"
+          },
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "lineHint": {
+        "type": "Text",
+        "props": {
+          "text": "1.2–2.2× · Default 1.6×",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "preview": {
+        "type": "Card",
+        "props": {
+          "title": "Live preview",
+          "description": "A little room to see the difference.",
+          "maxWidth": "full"
+        },
+        "children": [
+          "previewHeader",
+          "code"
+        ]
+      },
+      "previewHeader": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center",
+          "className": "mb-4"
+        },
+        "children": [
+          "filename",
+          "previewTheme"
+        ]
+      },
+      "filename": {
+        "type": "Text",
+        "props": {
+          "text": "welcome.ts",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "previewTheme": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$state": "/appearance/theme"
+          },
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "code": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "none",
+          "className": {
+            "$template": "rounded-lg p-5 overflow-x-auto font-mono text-[${/appearance/fontSize}px] leading-[${/appearance/lineHeight}] ${/appearance/previewColors}"
+          }
+        },
+        "children": [
+          "codeText"
+        ]
+      },
+      "codeText": {
+        "type": "Text",
+        "props": {
+          "text": "// A workspace that feels like home.\nconst greeting = (name: string) => {\n  return `Hello, ${name}!`;\n};\n\ngreeting('world');",
+          "variant": "code"
+        },
+        "children": []
+      },
+      "footer": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "align": "center",
+          "justify": "between",
+          "gap": "md"
+        },
+        "children": [
+          "saveNote",
+          "reset"
+        ]
+      },
+      "saveNote": {
+        "type": "Text",
+        "props": {
+          "text": "Changes apply automatically to this workspace.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "reset": {
+        "type": "Button",
+        "props": {
+          "label": "Reset to defaults",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/appearance",
+              "value": {
+                "theme": "Dark",
+                "fontSize": 14,
+                "lineHeight": 1.6,
+                "previewColors": "bg-slate-950 text-slate-200"
+              }
+            }
+          }
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "appearance": {
+        "theme": "Dark",
+        "fontSize": 14,
+        "lineHeight": 1.6,
+        "previewColors": "bg-slate-950 text-slate-200"
+      }
+    }
+  },
+  "patchLines": 34,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [],
+  "fixes": []
+}

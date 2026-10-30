@@ -1,0 +1,878 @@
+{
+  "spec": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "header",
+          "kpis",
+          "middle",
+          "shipments-card",
+          "products-card"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "title",
+          "subtitle"
+        ]
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Warehouse Inventory Dashboard",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Main Distribution Center · Updated Oct 29, 2026",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "kpis": {
+        "type": "Grid",
+        "props": {
+          "columns": 5,
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/kpis",
+          "key": "id"
+        },
+        "children": [
+          "kpi-card"
+        ]
+      },
+      "kpi-card": {
+        "type": "Card",
+        "props": {
+          "title": {
+            "$item": "label"
+          }
+        },
+        "children": [
+          "kpi-value",
+          "kpi-note"
+        ]
+      },
+      "kpi-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "value"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "kpi-note": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "note"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "middle": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "md"
+        },
+        "children": [
+          "levels-card",
+          "low-card"
+        ]
+      },
+      "levels-card": {
+        "type": "Card",
+        "props": {
+          "title": "Stock Levels by Category",
+          "description": "Share of SKUs at healthy stock levels",
+          "maxWidth": "full"
+        },
+        "children": [
+          "levels-list"
+        ]
+      },
+      "levels-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/categories",
+          "key": "name"
+        },
+        "children": [
+          "level-item"
+        ]
+      },
+      "level-item": {
+        "type": "Progress",
+        "props": {
+          "value": {
+            "$item": "pct"
+          },
+          "max": 100,
+          "label": {
+            "$template": "${name}: ${units} units · ${healthy} SKUs healthy (${pct}%)"
+          }
+        },
+        "children": []
+      },
+      "low-card": {
+        "type": "Card",
+        "props": {
+          "title": "Items Running Low",
+          "description": "Out of stock and below reorder point",
+          "maxWidth": "full"
+        },
+        "children": [
+          "low-list"
+        ]
+      },
+      "low-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "repeat": {
+          "statePath": "/lowStock",
+          "key": "sku"
+        },
+        "children": [
+          "low-row"
+        ]
+      },
+      "low-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "low-name",
+          "low-right"
+        ]
+      },
+      "low-name": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${name} (${sku})"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "low-right": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm",
+          "align": "center"
+        },
+        "children": [
+          "low-qty",
+          "low-badge"
+        ]
+      },
+      "low-qty": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "${qty} / ${reorder}"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "low-badge": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "status"
+          },
+          "variant": {
+            "$item": "variant"
+          }
+        },
+        "children": []
+      },
+      "shipments-card": {
+        "type": "Card",
+        "props": {
+          "title": "Incoming Shipments",
+          "description": "Scheduled inbound deliveries",
+          "maxWidth": "full"
+        },
+        "children": [
+          "shipments-table"
+        ]
+      },
+      "shipments-table": {
+        "type": "Table",
+        "props": {
+          "columns": [
+            "Shipment",
+            "Supplier",
+            "Contents",
+            "Units",
+            "ETA",
+            "Status"
+          ],
+          "rows": {
+            "$state": "/shipmentRows"
+          }
+        },
+        "children": []
+      },
+      "products-card": {
+        "type": "Card",
+        "props": {
+          "title": "Full Product List",
+          "description": "All 40 products in inventory",
+          "maxWidth": "full"
+        },
+        "children": [
+          "products-table"
+        ]
+      },
+      "products-table": {
+        "type": "Table",
+        "props": {
+          "columns": [
+            "SKU",
+            "Product",
+            "Category",
+            "Location",
+            "On Hand",
+            "Reorder Pt",
+            "Status"
+          ],
+          "rows": {
+            "$state": "/productRows"
+          },
+          "caption": "Showing 40 of 40 products"
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "kpis": [
+        {
+          "id": "units",
+          "label": "Total Units",
+          "value": "11,861",
+          "note": "Across 6 categories"
+        },
+        {
+          "id": "skus",
+          "label": "Active SKUs",
+          "value": "40",
+          "note": "27 healthy"
+        },
+        {
+          "id": "low",
+          "label": "Low Stock",
+          "value": "10",
+          "note": "Below reorder point"
+        },
+        {
+          "id": "out",
+          "label": "Out of Stock",
+          "value": "3",
+          "note": "Needs immediate action"
+        },
+        {
+          "id": "incoming",
+          "label": "Incoming Shipments",
+          "value": "6",
+          "note": "2 arriving this week"
+        }
+      ],
+      "categories": [
+        {
+          "name": "Electronics",
+          "units": "991",
+          "healthy": "4/8",
+          "pct": 50
+        },
+        {
+          "name": "Packaging",
+          "units": "7,904",
+          "healthy": "5/8",
+          "pct": 63
+        },
+        {
+          "name": "Tools",
+          "units": "943",
+          "healthy": "6/7",
+          "pct": 86
+        },
+        {
+          "name": "Safety",
+          "units": "492",
+          "healthy": "4/7",
+          "pct": 57
+        },
+        {
+          "name": "Office",
+          "units": "1,057",
+          "healthy": "4/5",
+          "pct": 80
+        },
+        {
+          "name": "Cleaning",
+          "units": "474",
+          "healthy": "4/5",
+          "pct": 80
+        }
+      ],
+      "lowStock": [
+        {
+          "sku": "EL-1006",
+          "name": "Label Printer",
+          "qty": "0",
+          "reorder": "10",
+          "status": "Out of Stock",
+          "variant": "destructive"
+        },
+        {
+          "sku": "PK-2007",
+          "name": "Padded Mailer 6x9",
+          "qty": "0",
+          "reorder": "250",
+          "status": "Out of Stock",
+          "variant": "destructive"
+        },
+        {
+          "sku": "SF-4005",
+          "name": "Steel-Toe Boots",
+          "qty": "0",
+          "reorder": "20",
+          "status": "Out of Stock",
+          "variant": "destructive"
+        },
+        {
+          "sku": "EL-1005",
+          "name": "Barcode Scanner",
+          "qty": "12",
+          "reorder": "20",
+          "status": "Low Stock",
+          "variant": "secondary"
+        },
+        {
+          "sku": "SF-4007",
+          "name": "First Aid Kit",
+          "qty": "14",
+          "reorder": "15",
+          "status": "Low Stock",
+          "variant": "secondary"
+        },
+        {
+          "sku": "TL-3004",
+          "name": "Tape Measure 25ft",
+          "qty": "18",
+          "reorder": "30",
+          "status": "Low Stock",
+          "variant": "secondary"
+        },
+        {
+          "sku": "OF-5005",
+          "name": "Clipboard",
+          "qty": "19",
+          "reorder": "40",
+          "status": "Low Stock",
+          "variant": "secondary"
+        },
+        {
+          "sku": "CL-6003",
+          "name": "Trash Bags 55gal",
+          "qty": "33",
+          "reorder": "60",
+          "status": "Low Stock",
+          "variant": "secondary"
+        },
+        {
+          "sku": "SF-4002",
+          "name": "Safety Vest Hi-Vis",
+          "qty": "41",
+          "reorder": "60",
+          "status": "Low Stock",
+          "variant": "secondary"
+        },
+        {
+          "sku": "EL-1008",
+          "name": "Rechargeable Battery AA 4pk",
+          "qty": "45",
+          "reorder": "120",
+          "status": "Low Stock",
+          "variant": "secondary"
+        },
+        {
+          "sku": "EL-1002",
+          "name": "Wireless Mouse",
+          "qty": "62",
+          "reorder": "80",
+          "status": "Low Stock",
+          "variant": "secondary"
+        },
+        {
+          "sku": "PK-2004",
+          "name": "Bubble Wrap Roll",
+          "qty": "76",
+          "reorder": "100",
+          "status": "Low Stock",
+          "variant": "secondary"
+        },
+        {
+          "sku": "PK-2006",
+          "name": "Stretch Film Roll",
+          "qty": "88",
+          "reorder": "90",
+          "status": "Low Stock",
+          "variant": "secondary"
+        }
+      ],
+      "shipmentRows": [
+        [
+          "SHP-8841",
+          "PackRight Supply",
+          "Padded Mailers, Bubble Wrap",
+          "1,200",
+          "Oct 30, 2026",
+          "In Transit"
+        ],
+        [
+          "SHP-8842",
+          "TechSource Ltd.",
+          "Label Printers, Barcode Scanners",
+          "60",
+          "Oct 31, 2026",
+          "In Transit"
+        ],
+        [
+          "SHP-8843",
+          "SafeWorks Inc.",
+          "Steel-Toe Boots, Safety Vests",
+          "180",
+          "Nov 3, 2026",
+          "Scheduled"
+        ],
+        [
+          "SHP-8844",
+          "CleanCo Wholesale",
+          "Trash Bags, Floor Cleaner",
+          "400",
+          "Nov 4, 2026",
+          "Scheduled"
+        ],
+        [
+          "SHP-8845",
+          "OfficeHub",
+          "Clipboards, Sticky Notes",
+          "350",
+          "Nov 6, 2026",
+          "Scheduled"
+        ],
+        [
+          "SHP-8846",
+          "PowerCell Distributors",
+          "Rechargeable Batteries, Wireless Mice",
+          "520",
+          "Nov 8, 2026",
+          "Delayed"
+        ]
+      ],
+      "productRows": [
+        [
+          "EL-1001",
+          "USB-C Cable 2m",
+          "Electronics",
+          "A-01",
+          "480",
+          "150",
+          "In Stock"
+        ],
+        [
+          "EL-1002",
+          "Wireless Mouse",
+          "Electronics",
+          "A-02",
+          "62",
+          "80",
+          "Low Stock"
+        ],
+        [
+          "EL-1003",
+          "Mechanical Keyboard",
+          "Electronics",
+          "A-03",
+          "134",
+          "60",
+          "In Stock"
+        ],
+        [
+          "EL-1004",
+          "27in Monitor",
+          "Electronics",
+          "A-04",
+          "38",
+          "25",
+          "In Stock"
+        ],
+        [
+          "EL-1005",
+          "Barcode Scanner",
+          "Electronics",
+          "A-05",
+          "12",
+          "20",
+          "Low Stock"
+        ],
+        [
+          "EL-1006",
+          "Label Printer",
+          "Electronics",
+          "A-06",
+          "0",
+          "10",
+          "Out of Stock"
+        ],
+        [
+          "EL-1007",
+          "Power Strip 6-Outlet",
+          "Electronics",
+          "A-07",
+          "220",
+          "100",
+          "In Stock"
+        ],
+        [
+          "EL-1008",
+          "Rechargeable Battery AA 4pk",
+          "Electronics",
+          "A-08",
+          "45",
+          "120",
+          "Low Stock"
+        ],
+        [
+          "PK-2001",
+          "Cardboard Box Small",
+          "Packaging",
+          "B-01",
+          "1850",
+          "500",
+          "In Stock"
+        ],
+        [
+          "PK-2002",
+          "Cardboard Box Medium",
+          "Packaging",
+          "B-02",
+          "1320",
+          "500",
+          "In Stock"
+        ],
+        [
+          "PK-2003",
+          "Cardboard Box Large",
+          "Packaging",
+          "B-03",
+          "410",
+          "400",
+          "In Stock"
+        ],
+        [
+          "PK-2004",
+          "Bubble Wrap Roll",
+          "Packaging",
+          "B-04",
+          "76",
+          "100",
+          "Low Stock"
+        ],
+        [
+          "PK-2005",
+          "Packing Tape 48mm",
+          "Packaging",
+          "B-05",
+          "960",
+          "300",
+          "In Stock"
+        ],
+        [
+          "PK-2006",
+          "Stretch Film Roll",
+          "Packaging",
+          "B-06",
+          "88",
+          "90",
+          "Low Stock"
+        ],
+        [
+          "PK-2007",
+          "Padded Mailer 6x9",
+          "Packaging",
+          "B-07",
+          "0",
+          "250",
+          "Out of Stock"
+        ],
+        [
+          "PK-2008",
+          "Shipping Labels 4x6",
+          "Packaging",
+          "B-08",
+          "3200",
+          "1000",
+          "In Stock"
+        ],
+        [
+          "TL-3001",
+          "Cordless Drill",
+          "Tools",
+          "C-01",
+          "27",
+          "15",
+          "In Stock"
+        ],
+        [
+          "TL-3002",
+          "Socket Set 40pc",
+          "Tools",
+          "C-02",
+          "33",
+          "20",
+          "In Stock"
+        ],
+        [
+          "TL-3003",
+          "Box Cutter",
+          "Tools",
+          "C-03",
+          "310",
+          "100",
+          "In Stock"
+        ],
+        [
+          "TL-3004",
+          "Tape Measure 25ft",
+          "Tools",
+          "C-04",
+          "18",
+          "30",
+          "Low Stock"
+        ],
+        [
+          "TL-3005",
+          "Pallet Jack",
+          "Tools",
+          "C-05",
+          "6",
+          "4",
+          "In Stock"
+        ],
+        [
+          "TL-3006",
+          "Hand Truck",
+          "Tools",
+          "C-06",
+          "9",
+          "5",
+          "In Stock"
+        ],
+        [
+          "TL-3007",
+          "Zip Ties 100pk",
+          "Tools",
+          "C-07",
+          "540",
+          "200",
+          "In Stock"
+        ],
+        [
+          "SF-4001",
+          "Hard Hat",
+          "Safety",
+          "D-01",
+          "74",
+          "50",
+          "In Stock"
+        ],
+        [
+          "SF-4002",
+          "Safety Vest Hi-Vis",
+          "Safety",
+          "D-02",
+          "41",
+          "60",
+          "Low Stock"
+        ],
+        [
+          "SF-4003",
+          "Work Gloves L",
+          "Safety",
+          "D-03",
+          "190",
+          "120",
+          "In Stock"
+        ],
+        [
+          "SF-4004",
+          "Safety Goggles",
+          "Safety",
+          "D-04",
+          "115",
+          "80",
+          "In Stock"
+        ],
+        [
+          "SF-4005",
+          "Steel-Toe Boots",
+          "Safety",
+          "D-05",
+          "0",
+          "20",
+          "Out of Stock"
+        ],
+        [
+          "SF-4006",
+          "Ear Plugs 200pk",
+          "Safety",
+          "D-06",
+          "58",
+          "40",
+          "In Stock"
+        ],
+        [
+          "SF-4007",
+          "First Aid Kit",
+          "Safety",
+          "D-07",
+          "14",
+          "15",
+          "Low Stock"
+        ],
+        [
+          "OF-5001",
+          "Copy Paper Ream",
+          "Office",
+          "E-01",
+          "640",
+          "200",
+          "In Stock"
+        ],
+        [
+          "OF-5002",
+          "Ballpoint Pens 12pk",
+          "Office",
+          "E-02",
+          "275",
+          "100",
+          "In Stock"
+        ],
+        [
+          "OF-5003",
+          "Sticky Notes 12pk",
+          "Office",
+          "E-03",
+          "92",
+          "80",
+          "In Stock"
+        ],
+        [
+          "OF-5004",
+          "Stapler Heavy Duty",
+          "Office",
+          "E-04",
+          "31",
+          "25",
+          "In Stock"
+        ],
+        [
+          "OF-5005",
+          "Clipboard",
+          "Office",
+          "E-05",
+          "19",
+          "40",
+          "Low Stock"
+        ],
+        [
+          "CL-6001",
+          "Floor Cleaner 1gal",
+          "Cleaning",
+          "F-01",
+          "64",
+          "40",
+          "In Stock"
+        ],
+        [
+          "CL-6002",
+          "Disinfectant Wipes",
+          "Cleaning",
+          "F-02",
+          "150",
+          "100",
+          "In Stock"
+        ],
+        [
+          "CL-6003",
+          "Trash Bags 55gal",
+          "Cleaning",
+          "F-03",
+          "33",
+          "60",
+          "Low Stock"
+        ],
+        [
+          "CL-6004",
+          "Push Broom",
+          "Cleaning",
+          "F-04",
+          "22",
+          "10",
+          "In Stock"
+        ],
+        [
+          "CL-6005",
+          "Paper Towels 12pk",
+          "Cleaning",
+          "F-05",
+          "205",
+          "120",
+          "In Stock"
+        ]
+      ]
+    }
+  },
+  "patchLines": 99,
+  "skippedLines": 0,
+  "firstNodeMs": 25803,
+  "issues": [],
+  "fixes": []
+}

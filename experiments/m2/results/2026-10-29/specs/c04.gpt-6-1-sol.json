@@ -1,0 +1,560 @@
+{
+  "spec": {
+    "root": "cart-page",
+    "elements": {
+      "cart-page": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "xl",
+          "className": "mx-auto max-w-7xl px-6 py-8 bg-stone-50 text-stone-950"
+        },
+        "children": [
+          "store-header",
+          "header-divider",
+          "page-heading",
+          "cart-layout",
+          "payment-drawer"
+        ]
+      },
+      "store-header": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "store-name",
+          "shopping-link"
+        ]
+      },
+      "store-name": {
+        "type": "Heading",
+        "props": {
+          "text": "SOLE / SUPPLY",
+          "level": "h2"
+        },
+        "children": []
+      },
+      "shopping-link": {
+        "type": "Link",
+        "props": {
+          "label": "← Continue shopping",
+          "href": "/collections/sneakers"
+        },
+        "children": []
+      },
+      "header-divider": {
+        "type": "Separator",
+        "props": {},
+        "children": []
+      },
+      "page-heading": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "cart-eyebrow",
+          "cart-title",
+          "cart-subtitle"
+        ]
+      },
+      "cart-eyebrow": {
+        "type": "Text",
+        "props": {
+          "text": "01 / YOUR BAG     →     02 / PAYMENT",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "cart-title": {
+        "type": "Heading",
+        "props": {
+          "text": "Good picks. Great next steps.",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "cart-subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Your next rotation is almost ready. Review your pairings below.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "cart-layout": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "xl",
+          "align": "start",
+          "className": "flex-col lg:flex-row"
+        },
+        "children": [
+          "cart-content",
+          "order-summary"
+        ]
+      },
+      "cart-content": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg",
+          "className": "w-full min-w-0 flex-1"
+        },
+        "children": [
+          "bag-heading",
+          "cart-items",
+          "delivery-note",
+          "help-link"
+        ]
+      },
+      "bag-heading": {
+        "type": "Heading",
+        "props": {
+          "text": "In your bag",
+          "level": "h2"
+        },
+        "children": []
+      },
+      "cart-items": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/items",
+          "key": "id"
+        },
+        "children": [
+          "cart-item"
+        ]
+      },
+      "cart-item": {
+        "type": "Card",
+        "props": {
+          "className": "rounded-2xl border-stone-200 bg-white shadow-none"
+        },
+        "children": [
+          "item-layout"
+        ]
+      },
+      "item-layout": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "lg",
+          "align": "center",
+          "className": "flex-wrap sm:flex-nowrap"
+        },
+        "children": [
+          "item-image",
+          "item-details",
+          "item-price"
+        ]
+      },
+      "item-image": {
+        "type": "Image",
+        "props": {
+          "src": {
+            "$item": "image"
+          },
+          "alt": {
+            "$template": "${name} sneaker"
+          },
+          "width": 144,
+          "height": 144
+        },
+        "children": []
+      },
+      "item-details": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm",
+          "className": "flex-1"
+        },
+        "children": [
+          "item-category",
+          "item-name",
+          "item-color",
+          "item-size"
+        ]
+      },
+      "item-category": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "category"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "item-name": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "name"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "item-color": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "color"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "item-size": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "Size ${size}  ·  Qty ${quantity}"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "item-price": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "price"
+          },
+          "variant": "lead"
+        },
+        "children": []
+      },
+      "delivery-note": {
+        "type": "Alert",
+        "props": {
+          "title": "Shipping is on us",
+          "message": "Your bag qualifies for free standard shipping. No code needed.",
+          "type": "success"
+        },
+        "children": []
+      },
+      "help-link": {
+        "type": "Link",
+        "props": {
+          "label": "Questions about fit? View the size guide",
+          "href": "/pages/size-guide"
+        },
+        "children": []
+      },
+      "order-summary": {
+        "type": "Card",
+        "props": {
+          "title": "Order summary",
+          "className": "w-full lg:w-96 lg:sticky lg:top-8 rounded-2xl bg-white border-stone-200 shadow-none"
+        },
+        "children": [
+          "summary-rows",
+          "summary-divider",
+          "total-row",
+          "tax-note",
+          "payment-button",
+          "guest-note",
+          "benefits",
+          "promo-section"
+        ]
+      },
+      "summary-rows": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/summary",
+          "key": "id"
+        },
+        "children": [
+          "summary-row"
+        ]
+      },
+      "summary-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "gap": "md"
+        },
+        "children": [
+          "summary-label",
+          "summary-value"
+        ]
+      },
+      "summary-label": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "label"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "summary-value": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "value"
+          }
+        },
+        "children": []
+      },
+      "summary-divider": {
+        "type": "Separator",
+        "props": {},
+        "children": []
+      },
+      "total-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center"
+        },
+        "children": [
+          "total-label",
+          "total-value"
+        ]
+      },
+      "total-label": {
+        "type": "Heading",
+        "props": {
+          "text": "Total before tax",
+          "level": "h3"
+        },
+        "children": []
+      },
+      "total-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$state": "/total"
+          },
+          "level": "h2"
+        },
+        "children": []
+      },
+      "tax-note": {
+        "type": "Text",
+        "props": {
+          "text": "Any applicable tax is calculated after you enter your shipping address, before you pay.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "payment-button": {
+        "type": "Button",
+        "props": {
+          "label": "Continue to payment →",
+          "variant": "primary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/paymentOpen",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "guest-note": {
+        "type": "Text",
+        "props": {
+          "text": "Checkout as a guest. No account required.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "benefits": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm",
+          "className": "rounded-xl bg-stone-100 p-4"
+        },
+        "children": [
+          "returns-note",
+          "payment-note"
+        ]
+      },
+      "returns-note": {
+        "type": "Text",
+        "props": {
+          "text": "30-day returns on unworn pairs",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "payment-note": {
+        "type": "Text",
+        "props": {
+          "text": "Review your final total before placing an order.",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "promo-section": {
+        "type": "Collapsible",
+        "props": {
+          "title": "Have a promo code?",
+          "defaultOpen": false
+        },
+        "children": [
+          "promo-note"
+        ]
+      },
+      "promo-note": {
+        "type": "Text",
+        "props": {
+          "text": "You can enter a promo code at checkout before confirming payment.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "payment-drawer": {
+        "type": "Drawer",
+        "props": {
+          "title": "Continue to payment",
+          "description": "Choose how you’d like to pay. Your order has not been placed.",
+          "openPath": "/paymentOpen"
+        },
+        "children": [
+          "checkout-preview",
+          "payment-method",
+          "payment-explanation",
+          "back-button"
+        ]
+      },
+      "checkout-preview": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "3 pairs · ${/total} before tax · Free standard shipping"
+          },
+          "variant": "lead"
+        },
+        "children": []
+      },
+      "payment-method": {
+        "type": "Radio",
+        "props": {
+          "label": "Preferred payment method",
+          "name": "paymentMethod",
+          "options": [
+            "Credit or debit card",
+            "PayPal",
+            "Apple Pay"
+          ],
+          "value": {
+            "$bindState": "/paymentMethod"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Choose a payment method."
+            }
+          ]
+        },
+        "children": []
+      },
+      "payment-explanation": {
+        "type": "Alert",
+        "props": {
+          "title": "Checkout preview",
+          "message": "This storefront preview does not process payments. A live checkout would collect your address, calculate tax, and securely authorize your selected payment method.",
+          "type": "info"
+        },
+        "children": []
+      },
+      "back-button": {
+        "type": "Button",
+        "props": {
+          "label": "Back to your bag",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/paymentOpen",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "items": [
+        {
+          "id": "sn-001",
+          "name": "Airform 01",
+          "category": "Everyday / Low top",
+          "color": "Chalk / Forest",
+          "size": "US 9",
+          "quantity": 1,
+          "price": "$140.00",
+          "image": "https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=500&q=85"
+        },
+        {
+          "id": "sn-002",
+          "name": "Court Standard",
+          "category": "Court / Low top",
+          "color": "Cloud / Sand",
+          "size": "US 9",
+          "quantity": 1,
+          "price": "$130.00",
+          "image": "https://images.unsplash.com/photo-1600269452121-4f2416e55c28?auto=format&fit=crop&w=500&q=85"
+        },
+        {
+          "id": "sn-003",
+          "name": "Track Runner",
+          "category": "Running / Retro",
+          "color": "Stone / Slate",
+          "size": "US 9",
+          "quantity": 1,
+          "price": "$120.00",
+          "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=85"
+        }
+      ],
+      "summary": [
+        {
+          "id": "subtotal",
+          "label": "Subtotal · 3 items",
+          "value": "$390.00"
+        },
+        {
+          "id": "shipping",
+          "label": "Standard shipping",
+          "value": "FREE"
+        }
+      ],
+      "total": "$390.00",
+      "paymentOpen": false,
+      "paymentMethod": "Credit or debit card"
+    }
+  },
+  "patchLines": 57,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [],
+  "fixes": []
+}

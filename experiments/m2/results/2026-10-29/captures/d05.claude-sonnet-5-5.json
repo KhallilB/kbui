@@ -1,0 +1,174 @@
+{
+  "promptId": "d05",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:21:23.965Z",
+  "totalMs": 17256,
+  "lines": [
+    {
+      "t": 2503,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+    },
+    {
+      "t": 2504,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"children\":[\"header\",\"metrics\",\"filters\",\"table-card\"]}}"
+    },
+    {
+      "t": 2861,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"title-group\",\"header-actions\"]}}"
+    },
+    {
+      "t": 3269,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title-group\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"title\",\"subtitle\"]}}"
+    },
+    {
+      "t": 3638,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Marketing Campaign Dashboard\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 3722,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtitle\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Performance overview across all active channels\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 4104,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header-actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"align\":\"center\"},\"children\":[\"range-select\",\"export-btn\"]}}"
+    },
+    {
+      "t": 4541,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/range-select\",\"value\":{\"type\":\"Select\",\"props\":{\"label\":\"Date range\",\"name\":\"range\",\"options\":[\"Last 7 days\",\"Last 30 days\",\"Last 90 days\"],\"value\":{\"$bindState\":\"/filters/range\"}},\"children\":[]}}"
+    },
+    {
+      "t": 4645,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/export-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Export report\",\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 5179,
+      "text": "{\"op\":\"add\",\"path\":\"/state/filters\",\"value\":{\"range\":\"Last 30 days\",\"channel\":\"All\"}}"
+    },
+    {
+      "t": 5293,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/metrics\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":4,\"gap\":\"md\"},\"children\":[\"m-impressions\",\"m-clicks\",\"m-spend\",\"m-cpa\"]}}"
+    },
+    {
+      "t": 5569,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m-impressions\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Impressions\"},\"children\":[\"m-impressions-stack\"]}}"
+    },
+    {
+      "t": 5905,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m-impressions-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"m-impressions-value\",\"m-impressions-delta\"]}}"
+    },
+    {
+      "t": 6298,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m-impressions-value\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$state\":\"/metrics/impressions\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 6664,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m-impressions-delta\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$state\":\"/metrics/impressionsDelta\"},\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 6844,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m-clicks\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Clicks\"},\"children\":[\"m-clicks-stack\"]}}"
+    },
+    {
+      "t": 7189,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m-clicks-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"m-clicks-value\",\"m-clicks-delta\"]}}"
+    },
+    {
+      "t": 7483,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m-clicks-value\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$state\":\"/metrics/clicks\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 7848,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m-clicks-delta\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$state\":\"/metrics/clicksDelta\"},\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 8065,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m-spend\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Spend\"},\"children\":[\"m-spend-stack\"]}}"
+    },
+    {
+      "t": 8255,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m-spend-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"m-spend-value\",\"m-spend-delta\"]}}"
+    },
+    {
+      "t": 8529,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m-spend-value\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$state\":\"/metrics/spend\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 8832,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m-spend-delta\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$state\":\"/metrics/spendDelta\"},\"variant\":\"outline\"},\"children\":[]}}"
+    },
+    {
+      "t": 8962,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m-cpa\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Cost per Acquisition\"},\"children\":[\"m-cpa-stack\"]}}"
+    },
+    {
+      "t": 9261,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m-cpa-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"m-cpa-value\",\"m-cpa-delta\"]}}"
+    },
+    {
+      "t": 9561,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m-cpa-value\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$state\":\"/metrics/cpa\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 9930,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/m-cpa-delta\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$state\":\"/metrics/cpaDelta\"},\"variant\":\"default\"},\"children\":[]}}"
+    },
+    {
+      "t": 10761,
+      "text": "{\"op\":\"add\",\"path\":\"/state/metrics\",\"value\":{\"impressions\":\"2,481,300\",\"impressionsDelta\":\"+12.4% vs prev\",\"clicks\":\"68,942\",\"clicksDelta\":\"+8.1% vs prev\",\"spend\":\"$41,820\",\"spendDelta\":\"+5.6% vs prev\",\"cpa\":\"$24.37\",\"cpaDelta\":\"-6.2% vs prev\"}}"
+    },
+    {
+      "t": 11135,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/filters\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Channel\",\"description\":\"Filter campaign performance by channel\"},\"children\":[\"channel-group\"]}}"
+    },
+    {
+      "t": 11731,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/channel-group\",\"value\":{\"type\":\"ButtonGroup\",\"props\":{\"buttons\":[{\"label\":\"All\",\"value\":\"All\"},{\"label\":\"Search\",\"value\":\"Search\"},{\"label\":\"Social\",\"value\":\"Social\"},{\"label\":\"Email\",\"value\":\"Email\"},{\"label\":\"Display\",\"value\":\"Display\"}],\"selected\":{\"$bindState\":\"/filters/channel\"}},\"children\":[]}}"
+    },
+    {
+      "t": 12062,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/table-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Campaigns\",\"description\":\"Detailed performance by campaign\",\"maxWidth\":\"full\"},\"children\":[\"campaign-table\"]}}"
+    },
+    {
+      "t": 17256,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/campaign-table\",\"value\":{\"type\":\"Table\",\"props\":{\"columns\":[\"Campaign\",\"Channel\",\"Status\",\"Impressions\",\"Clicks\",\"CTR\",\"Spend\",\"CPA\"],\"rows\":[[\"Summer Sale 2026\",\"Search\",\"Active\",\"612,400\",\"18,320\",\"2.99%\",\"$10,450\",\"$21.80\"],[\"Brand Awareness Q4\",\"Display\",\"Active\",\"824,900\",\"11,240\",\"1.36%\",\"$8,900\",\"$29.15\"],[\"Retargeting - Cart Abandoners\",\"Social\",\"Active\",\"398,200\",\"14,780\",\"3.71%\",\"$7,260\",\"$18.45\"],[\"Holiday Newsletter\",\"Email\",\"Scheduled\",\"215,600\",\"9,870\",\"4.58%\",\"$2,140\",\"$12.90\"],[\"Product Launch Teaser\",\"Social\",\"Paused\",\"274,100\",\"6,540\",\"2.39%\",\"$5,310\",\"$34.60\"],[\"Competitor Keywords\",\"Search\",\"Active\",\"156,100\",\"8,192\",\"5.25%\",\"$7,760\",\"$26.30\"]],\"caption\":\"Showing 6 of 6 campaigns\"},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 928,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 2621,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 928,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2621,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 928,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 928
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

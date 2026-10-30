@@ -1,0 +1,358 @@
+{
+  "promptId": "s05",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:18:39.845Z",
+  "totalMs": 34803,
+  "lines": [
+    {
+      "t": 4402,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+    },
+    {
+      "t": 4402,
+      "text": "{\"op\":\"add\",\"path\":\"/state/selectedPlan\",\"value\":\"Pro\"}"
+    },
+    {
+      "t": 4604,
+      "text": "{\"op\":\"add\",\"path\":\"/state/showChangePlan\",\"value\":false}"
+    },
+    {
+      "t": 4822,
+      "text": "{\"op\":\"add\",\"path\":\"/state/showCancel\",\"value\":false}"
+    },
+    {
+      "t": 4824,
+      "text": "{\"op\":\"add\",\"path\":\"/state/showPayment\",\"value\":false}"
+    },
+    {
+      "t": 4824,
+      "text": "{\"op\":\"add\",\"path\":\"/state/planStatus\",\"value\":\"active\"}"
+    },
+    {
+      "t": 4987,
+      "text": "{\"op\":\"add\",\"path\":\"/state/billingCycle\",\"value\":\"monthly\"}"
+    },
+    {
+      "t": 5243,
+      "text": "{\"op\":\"add\",\"path\":\"/state/cancelReason\",\"value\":\"\"}"
+    },
+    {
+      "t": 5243,
+      "text": "{\"op\":\"add\",\"path\":\"/state/cancelConfirm\",\"value\":false}"
+    },
+    {
+      "t": 5569,
+      "text": "{\"op\":\"add\",\"path\":\"/state/newCard\",\"value\":{\"name\":\"\",\"number\":\"\",\"expiry\":\"\",\"cvc\":\"\"}}"
+    },
+    {
+      "t": 5934,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"children\":[\"header\",\"status-alert\",\"plan-card\",\"payment-card\",\"invoice-card\",\"danger-card\",\"change-dialog\",\"cancel-dialog\",\"payment-dialog\"]}}"
+    },
+    {
+      "t": 6285,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"title\",\"subtitle\"]}}"
+    },
+    {
+      "t": 6413,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Billing Settings\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 6648,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtitle\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Manage your plan, payment method and invoices.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 7381,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/status-alert\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Your subscription will end on Nov 29, 2026\",\"message\":\"You've cancelled your plan. You'll keep access until the end of the billing period.\",\"type\":\"warning\"},\"visible\":{\"$state\":\"/planStatus\",\"eq\":\"cancelled\"},\"children\":[]}}"
+    },
+    {
+      "t": 7850,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/plan-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Current Plan\",\"description\":\"Your active subscription\",\"maxWidth\":\"full\"},\"children\":[\"plan-row\",\"plan-sep\",\"usage-stack\",\"plan-actions\"]}}"
+    },
+    {
+      "t": 8214,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/plan-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"plan-info\",\"plan-price\"]}}"
+    },
+    {
+      "t": 8518,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/plan-info\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"plan-name-row\",\"plan-renewal\"]}}"
+    },
+    {
+      "t": 8847,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/plan-name-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"align\":\"center\"},\"children\":[\"plan-name\",\"plan-badge\"]}}"
+    },
+    {
+      "t": 9184,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/plan-name\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$template\":\"${/selectedPlan} Plan\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 9778,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/plan-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$cond\":{\"$state\":\"/planStatus\",\"eq\":\"cancelled\"},\"$then\":\"Cancelling\",\"$else\":\"Active\"},\"variant\":{\"$cond\":{\"$state\":\"/planStatus\",\"eq\":\"cancelled\"},\"$then\":\"destructive\",\"$else\":\"default\"}},\"children\":[]}}"
+    },
+    {
+      "t": 10249,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/plan-renewal\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"Billed ${/billingCycle}. Next billing date: Nov 29, 2026\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 10847,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/plan-price\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$cond\":{\"$state\":\"/billingCycle\",\"eq\":\"yearly\"},\"$then\":\"$190 / year\",\"$else\":\"$19 / month\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 11046,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/plan-sep\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 11325,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/usage-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"usage-seats\",\"usage-storage\"]}}"
+    },
+    {
+      "t": 11742,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/usage-seats\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":60,\"max\":100,\"label\":\"Team seats: 6 of 10 used\"},\"children\":[]}}"
+    },
+    {
+      "t": 12104,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/usage-storage\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":42,\"max\":100,\"label\":\"Storage: 42 GB of 100 GB used\"},\"children\":[]}}"
+    },
+    {
+      "t": 12351,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/plan-actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\"},\"children\":[\"change-btn\"]}}"
+    },
+    {
+      "t": 12752,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/change-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Change Plan\",\"variant\":\"primary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/showChangePlan\",\"value\":true}}},\"children\":[]}}"
+    },
+    {
+      "t": 13196,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/payment-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Payment Method\",\"description\":\"The card used for your subscription\",\"maxWidth\":\"full\"},\"children\":[\"payment-row\"]}}"
+    },
+    {
+      "t": 13480,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/payment-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"payment-info\",\"payment-btn\"]}}"
+    },
+    {
+      "t": 13812,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/payment-info\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\"},\"children\":[\"card-badge\",\"card-details\"]}}"
+    },
+    {
+      "t": 14045,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/card-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"VISA\",\"variant\":\"outline\"},\"children\":[]}}"
+    },
+    {
+      "t": 14352,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/card-details\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"none\"},\"children\":[\"card-number\",\"card-expiry\"]}}"
+    },
+    {
+      "t": 14721,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/card-number\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Visa ending in 4242\",\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 14982,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/card-expiry\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Expires 08/2028\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 15414,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/payment-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Update Card\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/showPayment\",\"value\":true}}},\"children\":[]}}"
+    },
+    {
+      "t": 15852,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/invoice-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Invoice History\",\"description\":\"Download past invoices for your records\",\"maxWidth\":\"full\"},\"children\":[\"invoice-list\"]}}"
+    },
+    {
+      "t": 16195,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/invoice-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"repeat\":{\"statePath\":\"/invoices\",\"key\":\"id\"},\"children\":[\"invoice-row\"]}}"
+    },
+    {
+      "t": 16513,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/invoice-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"invoice-left\",\"invoice-right\"]}}"
+    },
+    {
+      "t": 16814,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/invoice-left\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"none\"},\"children\":[\"invoice-number\",\"invoice-date\"]}}"
+    },
+    {
+      "t": 17128,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/invoice-number\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"number\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 17320,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/invoice-date\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"date\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 17700,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/invoice-right\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\"},\"children\":[\"invoice-amount\",\"invoice-status\",\"invoice-link\"]}}"
+    },
+    {
+      "t": 17948,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/invoice-amount\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"amount\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 18226,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/invoice-status\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"status\"},\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 18477,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/invoice-link\",\"value\":{\"type\":\"Link\",\"props\":{\"label\":\"Download PDF\",\"href\":\"#\"},\"children\":[]}}"
+    },
+    {
+      "t": 18548,
+      "text": "{\"op\":\"add\",\"path\":\"/state/invoices\",\"value\":[]}"
+    },
+    {
+      "t": 18920,
+      "text": "{\"op\":\"add\",\"path\":\"/state/invoices/0\",\"value\":{\"id\":\"inv-1\",\"number\":\"INV-2026-010\",\"date\":\"Oct 29, 2026\",\"amount\":\"$19.00\",\"status\":\"Paid\"}}"
+    },
+    {
+      "t": 19213,
+      "text": "{\"op\":\"add\",\"path\":\"/state/invoices/1\",\"value\":{\"id\":\"inv-2\",\"number\":\"INV-2026-009\",\"date\":\"Sep 29, 2026\",\"amount\":\"$19.00\",\"status\":\"Paid\"}}"
+    },
+    {
+      "t": 19525,
+      "text": "{\"op\":\"add\",\"path\":\"/state/invoices/2\",\"value\":{\"id\":\"inv-3\",\"number\":\"INV-2026-008\",\"date\":\"Aug 29, 2026\",\"amount\":\"$19.00\",\"status\":\"Paid\"}}"
+    },
+    {
+      "t": 19844,
+      "text": "{\"op\":\"add\",\"path\":\"/state/invoices/3\",\"value\":{\"id\":\"inv-4\",\"number\":\"INV-2026-007\",\"date\":\"Jul 29, 2026\",\"amount\":\"$19.00\",\"status\":\"Paid\"}}"
+    },
+    {
+      "t": 20211,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/danger-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Cancel Subscription\",\"description\":\"You'll keep access until the end of your current billing period.\",\"maxWidth\":\"full\"},\"children\":[\"danger-actions\"]}}"
+    },
+    {
+      "t": 20596,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/danger-actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\"},\"children\":[\"cancel-btn\",\"resume-btn\"]}}"
+    },
+    {
+      "t": 21095,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cancel-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Cancel Plan\",\"variant\":\"danger\"},\"visible\":{\"$state\":\"/planStatus\",\"neq\":\"cancelled\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/showCancel\",\"value\":true}}},\"children\":[]}}"
+    },
+    {
+      "t": 21632,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/resume-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Resume Subscription\",\"variant\":\"primary\"},\"visible\":{\"$state\":\"/planStatus\",\"eq\":\"cancelled\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/planStatus\",\"value\":\"active\"}}},\"children\":[]}}"
+    },
+    {
+      "t": 22279,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/change-dialog\",\"value\":{\"type\":\"Dialog\",\"props\":{\"title\":\"Change Plan\",\"description\":\"Choose a plan and billing cycle. Changes apply immediately, prorated.\",\"openPath\":\"/showChangePlan\"},\"children\":[\"plan-radio\",\"cycle-group\",\"plan-summary\",\"change-actions\"]}}"
+    },
+    {
+      "t": 22815,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/plan-radio\",\"value\":{\"type\":\"Radio\",\"props\":{\"label\":\"Plan\",\"name\":\"plan\",\"options\":[\"Starter\",\"Pro\",\"Business\"],\"value\":{\"$bindState\":\"/selectedPlan\"},\"checks\":[{\"type\":\"required\",\"message\":\"Please select a plan\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 23348,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cycle-group\",\"value\":{\"type\":\"ButtonGroup\",\"props\":{\"buttons\":[{\"label\":\"Monthly\",\"value\":\"monthly\"},{\"label\":\"Yearly (save 17%)\",\"value\":\"yearly\"}],\"selected\":{\"$bindState\":\"/billingCycle\"}},\"children\":[]}}"
+    },
+    {
+      "t": 23721,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/plan-summary\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"Selected: ${/selectedPlan} plan, billed ${/billingCycle}.\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 24022,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/change-actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"justify\":\"end\"},\"children\":[\"change-cancel\",\"change-save\"]}}"
+    },
+    {
+      "t": 24420,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/change-cancel\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Close\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/showChangePlan\",\"value\":false}}},\"children\":[]}}"
+    },
+    {
+      "t": 24817,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/change-save\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Confirm Change\",\"variant\":\"primary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/showChangePlan\",\"value\":false}}},\"children\":[]}}"
+    },
+    {
+      "t": 25416,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cancel-dialog\",\"value\":{\"type\":\"Dialog\",\"props\":{\"title\":\"Cancel your subscription?\",\"description\":\"We're sorry to see you go. Your access continues until Nov 29, 2026.\",\"openPath\":\"/showCancel\"},\"children\":[\"cancel-reason\",\"cancel-check\",\"cancel-actions\"]}}"
+    },
+    {
+      "t": 26012,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cancel-reason\",\"value\":{\"type\":\"Select\",\"props\":{\"label\":\"Reason for cancelling\",\"name\":\"reason\",\"options\":[\"Too expensive\",\"Missing features\",\"Not using it enough\",\"Switching to another product\",\"Other\"],\"placeholder\":\"Select a reason\",\"value\":{\"$bindState\":\"/cancelReason\"}},\"children\":[]}}"
+    },
+    {
+      "t": 26510,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cancel-check\",\"value\":{\"type\":\"Checkbox\",\"props\":{\"label\":\"I understand I will lose access to paid features after Nov 29, 2026\",\"name\":\"confirm\",\"checked\":{\"$bindState\":\"/cancelConfirm\"}},\"children\":[]}}"
+    },
+    {
+      "t": 26882,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cancel-actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"justify\":\"end\"},\"children\":[\"keep-btn\",\"confirm-cancel-btn\"]}}"
+    },
+    {
+      "t": 27320,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/keep-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Keep Plan\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/showCancel\",\"value\":false}}},\"children\":[]}}"
+    },
+    {
+      "t": 28042,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/confirm-cancel-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Confirm Cancellation\",\"variant\":\"danger\",\"disabled\":{\"$state\":\"/cancelConfirm\",\"not\":true}},\"on\":{\"press\":[{\"action\":\"setState\",\"params\":{\"statePath\":\"/planStatus\",\"value\":\"cancelled\"}},{\"action\":\"setState\",\"params\":{\"statePath\":\"/showCancel\",\"value\":false}}]},\"children\":[]}}"
+    },
+    {
+      "t": 28452,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/payment-dialog\",\"value\":{\"type\":\"Dialog\",\"props\":{\"title\":\"Update Payment Method\",\"description\":\"Enter your new card details.\",\"openPath\":\"/showPayment\"},\"children\":[\"pay-name\",\"pay-number\",\"pay-row\",\"pay-actions\"]}}"
+    },
+    {
+      "t": 28945,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pay-name\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Name on card\",\"name\":\"cardName\",\"placeholder\":\"Jane Doe\",\"value\":{\"$bindState\":\"/newCard/name\"},\"checks\":[{\"type\":\"required\",\"message\":\"Name is required\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 29611,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pay-number\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Card number\",\"name\":\"cardNumber\",\"placeholder\":\"4242 4242 4242 4242\",\"value\":{\"$bindState\":\"/newCard/number\"},\"checks\":[{\"type\":\"required\",\"message\":\"Card number is required\"},{\"type\":\"minLength\",\"message\":\"Enter a valid card number\",\"args\":{\"min\":13}}]},\"children\":[]}}"
+    },
+    {
+      "t": 29904,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pay-row\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"md\"},\"children\":[\"pay-expiry\",\"pay-cvc\"]}}"
+    },
+    {
+      "t": 30387,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pay-expiry\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Expiry\",\"name\":\"expiry\",\"placeholder\":\"MM/YY\",\"value\":{\"$bindState\":\"/newCard/expiry\"},\"checks\":[{\"type\":\"required\",\"message\":\"Expiry is required\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 31040,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pay-cvc\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"CVC\",\"name\":\"cvc\",\"type\":\"password\",\"placeholder\":\"123\",\"value\":{\"$bindState\":\"/newCard/cvc\"},\"checks\":[{\"type\":\"required\",\"message\":\"CVC is required\"},{\"type\":\"minLength\",\"message\":\"Min 3 digits\",\"args\":{\"min\":3}}]},\"children\":[]}}"
+    },
+    {
+      "t": 31339,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pay-actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"justify\":\"end\"},\"children\":[\"pay-cancel\",\"pay-save\"]}}"
+    },
+    {
+      "t": 31753,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pay-cancel\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Cancel\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/showPayment\",\"value\":false}}},\"children\":[]}}"
+    },
+    {
+      "t": 34803,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/pay-save\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Save Card\",\"variant\":\"primary\"},\"on\":{\"press\":{\"action\":\"validateForm\",\"params\":{\"statePath\":\"/paymentValidation\"}}},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 921,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 6196,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 921,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 6196,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 921,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 921
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

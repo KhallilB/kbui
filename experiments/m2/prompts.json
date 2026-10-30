@@ -1,0 +1,152 @@
+[
+  {
+    "id": "c01",
+    "category": "commerce",
+    "text": "We are a small shoe company that sells well-known sneaker brands and our own model, The Schu. Build our product catalog page. We want to increase sales and promote The Schu."
+  },
+  {
+    "id": "c02",
+    "category": "commerce",
+    "text": "Build a checkout page for our online shoe shop that includes a newsletter sign-up. We want more people to sign up to our newsletter."
+  },
+  {
+    "id": "c03",
+    "category": "commerce",
+    "text": "Create a product page for The Schu, our own sneaker. We need to get more people to buy our product."
+  },
+  {
+    "id": "c04",
+    "category": "commerce",
+    "text": "Make a shopping cart page for a sneaker store, with a summary of the order and a way to continue to payment. We want fewer people to abandon their carts."
+  },
+  {
+    "id": "c05",
+    "category": "commerce",
+    "text": "Design a pricing page for a note-taking app with a free plan, a Pro plan and a Team plan. We want more people to choose the Pro plan."
+  },
+  {
+    "id": "c06",
+    "category": "commerce",
+    "text": "Build a subscription management page where a customer can see their current coffee subscription, change the delivery frequency, pause it or cancel it."
+  },
+  {
+    "id": "c07",
+    "category": "commerce",
+    "text": "Create an order history page for an online bookstore, showing past orders with their status and a way to reorder or return items."
+  },
+  {
+    "id": "c08",
+    "category": "commerce",
+    "text": "Build a landing page for a weekend flash sale on headphones at an electronics store."
+  },
+  {
+    "id": "c09",
+    "category": "commerce",
+    "text": "Create a hotel room booking page where a guest picks dates, a room type and extras, then confirms the booking."
+  },
+  {
+    "id": "c10",
+    "category": "commerce",
+    "text": "Make an account sign-up page for a meal-kit delivery service that also asks about dietary preferences."
+  },
+  {
+    "id": "s01",
+    "category": "settings",
+    "text": "Build an account settings page with profile details, email, password and a way to delete the account."
+  },
+  {
+    "id": "s02",
+    "category": "settings",
+    "text": "Create notification settings for a project management app, covering email, push and in-app notifications for different event types."
+  },
+  {
+    "id": "s03",
+    "category": "settings",
+    "text": "Make a privacy settings page for a social app: profile visibility, who can message me, data sharing with partners, and downloading my data."
+  },
+  {
+    "id": "s04",
+    "category": "settings",
+    "text": "Build a team members page for a SaaS admin console, listing members with roles and letting an admin invite, change roles and remove people."
+  },
+  {
+    "id": "s05",
+    "category": "settings",
+    "text": "Create a billing settings page showing the current plan, the payment method, invoices and a way to change or cancel the plan."
+  },
+  {
+    "id": "s06",
+    "category": "settings",
+    "text": "Make an API keys page for a developer platform where users can create, view, copy and revoke keys."
+  },
+  {
+    "id": "s07",
+    "category": "settings",
+    "text": "Build appearance settings for a code editor: theme, font size, line height, and a reset to defaults."
+  },
+  {
+    "id": "s08",
+    "category": "settings",
+    "text": "Create a security settings page with two-factor authentication, active sessions and recent login activity."
+  },
+  {
+    "id": "s09",
+    "category": "settings",
+    "text": "Build an integrations settings page for a CRM listing connected apps like Slack, Gmail and Zapier, with connect and disconnect actions."
+  },
+  {
+    "id": "s10",
+    "category": "settings",
+    "text": "Make workspace settings for a chat app: workspace name, logo, default channels, data retention, and archiving the workspace."
+  },
+  {
+    "id": "d01",
+    "category": "dashboard",
+    "text": "Build a sales dashboard for an online store showing revenue, orders, conversion rate and top products."
+  },
+  {
+    "id": "d02",
+    "category": "dashboard",
+    "text": "Create an operations dashboard for a support team: open tickets, average response time, tickets by priority and the agents' queue."
+  },
+  {
+    "id": "d03",
+    "category": "dashboard",
+    "text": "Make a personal finance dashboard with account balances, monthly spending by category and recent transactions."
+  },
+  {
+    "id": "d04",
+    "category": "dashboard",
+    "text": "Build a server monitoring dashboard showing CPU, memory, error rate, uptime and a list of recent incidents."
+  },
+  {
+    "id": "d05",
+    "category": "dashboard",
+    "text": "Create a marketing campaign dashboard with impressions, clicks, spend, cost per acquisition and a table of campaigns."
+  },
+  {
+    "id": "d06",
+    "category": "dashboard",
+    "text": "Make a fitness tracking dashboard showing steps, workouts this week, sleep and progress toward goals."
+  },
+  {
+    "id": "d07",
+    "category": "dashboard",
+    "text": "Build a project overview dashboard with milestones, task completion, team workload and upcoming deadlines."
+  },
+  {
+    "id": "d08",
+    "category": "dashboard",
+    "text": "Create an inventory dashboard for a warehouse: stock levels, items running low, incoming shipments and a full product list with 40 products."
+  },
+  {
+    "id": "d09",
+    "category": "dashboard",
+    "text": "Make a hiring pipeline dashboard showing candidates by stage, time to hire and a list of open roles."
+  },
+  {
+    "id": "d10",
+    "category": "dashboard",
+    "text": "Build a classroom dashboard for a teacher with attendance, assignment completion and a roster of all 32 students with their grades."
+  }
+]

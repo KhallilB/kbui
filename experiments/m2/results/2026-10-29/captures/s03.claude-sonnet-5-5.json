@@ -1,0 +1,210 @@
+{
+  "promptId": "s03",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:18:14.982Z",
+  "totalMs": 23419,
+  "lines": [
+    {
+      "t": 4209,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+    },
+    {
+      "t": 4957,
+      "text": "{\"op\":\"add\",\"path\":\"/state/privacy\",\"value\":{\"profileVisibility\":\"Friends only\",\"showOnlineStatus\":true,\"showActivity\":false,\"searchable\":true,\"whoCanMessage\":\"Friends\",\"messageRequests\":true,\"readReceipts\":true,\"shareAnalytics\":false,\"shareAds\":false,\"shareResearch\":true,\"shareLocation\":false}}"
+    },
+    {
+      "t": 4965,
+      "text": "{\"op\":\"add\",\"path\":\"/state/exportFormat\",\"value\":\"JSON\"}"
+    },
+    {
+      "t": 5372,
+      "text": "{\"op\":\"add\",\"path\":\"/state/exportRequested\",\"value\":false}"
+    },
+    {
+      "t": 5372,
+      "text": "{\"op\":\"add\",\"path\":\"/state/saved\",\"value\":false}"
+    },
+    {
+      "t": 5377,
+      "text": "{\"op\":\"add\",\"path\":\"/state/deleteDialogOpen\",\"value\":false}"
+    },
+    {
+      "t": 5827,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\",\"align\":\"stretch\"},\"children\":[\"header\",\"saved-alert\",\"profile-card\",\"message-card\",\"sharing-card\",\"data-card\",\"footer-actions\",\"delete-dialog\"]}}"
+    },
+    {
+      "t": 6132,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"title\",\"subtitle\"]}}"
+    },
+    {
+      "t": 6400,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Privacy Settings\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 6767,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtitle\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Control who can see your profile, contact you, and how your data is used.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 7147,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/saved-alert\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Settings saved\",\"message\":\"Your privacy preferences have been updated.\",\"type\":\"success\"},\"visible\":{\"$state\":\"/saved\"},\"children\":[]}}"
+    },
+    {
+      "t": 7517,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/profile-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Profile Visibility\",\"description\":\"Choose who can see your profile and activity.\",\"maxWidth\":\"full\"},\"children\":[\"profile-stack\"]}}"
+    },
+    {
+      "t": 7867,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/profile-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"profile-select\",\"online-switch\",\"activity-switch\",\"search-switch\"]}}"
+    },
+    {
+      "t": 8562,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/profile-select\",\"value\":{\"type\":\"Select\",\"props\":{\"label\":\"Who can see my profile\",\"name\":\"profileVisibility\",\"options\":[\"Public\",\"Friends only\",\"Only me\"],\"placeholder\":\"Select visibility\",\"value\":{\"$bindState\":\"/privacy/profileVisibility\"},\"checks\":[{\"type\":\"required\",\"message\":\"Please choose a visibility option\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 8967,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/online-switch\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Show my online status\",\"name\":\"showOnlineStatus\",\"checked\":{\"$bindState\":\"/privacy/showOnlineStatus\"}},\"children\":[]}}"
+    },
+    {
+      "t": 9333,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/activity-switch\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Show my activity feed to others\",\"name\":\"showActivity\",\"checked\":{\"$bindState\":\"/privacy/showActivity\"}},\"children\":[]}}"
+    },
+    {
+      "t": 9729,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/search-switch\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Allow my profile to appear in search engines\",\"name\":\"searchable\",\"checked\":{\"$bindState\":\"/privacy/searchable\"}},\"children\":[]}}"
+    },
+    {
+      "t": 10068,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/message-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Messaging\",\"description\":\"Decide who can reach you.\",\"maxWidth\":\"full\"},\"children\":[\"message-stack\"]}}"
+    },
+    {
+      "t": 10370,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/message-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"message-radio\",\"request-switch\",\"receipt-switch\"]}}"
+    },
+    {
+      "t": 10928,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/message-radio\",\"value\":{\"type\":\"Radio\",\"props\":{\"label\":\"Who can message me\",\"name\":\"whoCanMessage\",\"options\":[\"Everyone\",\"Friends\",\"Nobody\"],\"value\":{\"$bindState\":\"/privacy/whoCanMessage\"},\"checks\":[{\"type\":\"required\",\"message\":\"Please select an option\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 11530,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/request-switch\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Receive message requests from people I don't know\",\"name\":\"messageRequests\",\"checked\":{\"$bindState\":\"/privacy/messageRequests\"}},\"visible\":{\"$state\":\"/privacy/whoCanMessage\",\"neq\":\"Nobody\"},\"children\":[]}}"
+    },
+    {
+      "t": 11936,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/receipt-switch\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Send read receipts\",\"name\":\"readReceipts\",\"checked\":{\"$bindState\":\"/privacy/readReceipts\"}},\"children\":[]}}"
+    },
+    {
+      "t": 12362,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sharing-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Data Sharing with Partners\",\"description\":\"Manage how third parties can use your information.\",\"maxWidth\":\"full\"},\"children\":[\"sharing-stack\"]}}"
+    },
+    {
+      "t": 12764,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sharing-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"share-analytics\",\"share-ads\",\"share-research\",\"share-location\",\"sharing-note\"]}}"
+    },
+    {
+      "t": 13185,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/share-analytics\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Share usage analytics with analytics partners\",\"name\":\"shareAnalytics\",\"checked\":{\"$bindState\":\"/privacy/shareAnalytics\"}},\"children\":[]}}"
+    },
+    {
+      "t": 13879,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/share-ads\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Allow personalized ads from advertising partners\",\"name\":\"shareAds\",\"checked\":{\"$bindState\":\"/privacy/shareAds\"}},\"children\":[]}}"
+    },
+    {
+      "t": 14093,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/share-research\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Contribute anonymized data to research partners\",\"name\":\"shareResearch\",\"checked\":{\"$bindState\":\"/privacy/shareResearch\"}},\"children\":[]}}"
+    },
+    {
+      "t": 14365,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/share-location\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Share precise location with partners\",\"name\":\"shareLocation\",\"checked\":{\"$bindState\":\"/privacy/shareLocation\"}},\"children\":[]}}"
+    },
+    {
+      "t": 14797,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sharing-note\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Turning off sharing may reduce personalization but won't affect your core features.\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 15273,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/data-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Download Your Data\",\"description\":\"Get a copy of your posts, messages, photos, and account information.\",\"maxWidth\":\"full\"},\"children\":[\"data-stack\"]}}"
+    },
+    {
+      "t": 15575,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/data-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"export-format\",\"export-button\",\"export-alert\"]}}"
+    },
+    {
+      "t": 16098,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/export-format\",\"value\":{\"type\":\"ButtonGroup\",\"props\":{\"buttons\":[{\"label\":\"JSON\",\"value\":\"JSON\"},{\"label\":\"CSV\",\"value\":\"CSV\"},{\"label\":\"HTML\",\"value\":\"HTML\"}],\"selected\":{\"$bindState\":\"/exportFormat\"}},\"children\":[]}}"
+    },
+    {
+      "t": 16670,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/export-button\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Request data download\",\"variant\":\"secondary\",\"disabled\":{\"$state\":\"/exportRequested\"}},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/exportRequested\",\"value\":true}}},\"children\":[]}}"
+    },
+    {
+      "t": 17145,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/export-alert\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Export requested\",\"message\":\"We'll email you a download link within 48 hours once your archive is ready.\",\"type\":\"info\"},\"visible\":{\"$state\":\"/exportRequested\"},\"children\":[]}}"
+    },
+    {
+      "t": 17568,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/footer-actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"justify\":\"between\",\"align\":\"center\"},\"children\":[\"delete-button\",\"save-button\"]}}"
+    },
+    {
+      "t": 17931,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/delete-button\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Delete account\",\"variant\":\"danger\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/deleteDialogOpen\",\"value\":true}}},\"children\":[]}}"
+    },
+    {
+      "t": 18475,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/save-button\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Save changes\",\"variant\":\"primary\"},\"on\":{\"press\":[{\"action\":\"validateForm\",\"params\":{\"statePath\":\"/formValidation\"}},{\"action\":\"setState\",\"params\":{\"statePath\":\"/saved\",\"value\":true}}]},\"children\":[]}}"
+    },
+    {
+      "t": 18961,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/delete-dialog\",\"value\":{\"type\":\"Dialog\",\"props\":{\"title\":\"Delete your account?\",\"description\":\"This permanently removes your profile, posts, and messages. This cannot be undone.\",\"openPath\":\"/deleteDialogOpen\"},\"children\":[\"delete-actions\"]}}"
+    },
+    {
+      "t": 19299,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/delete-actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"justify\":\"end\"},\"children\":[\"cancel-delete\",\"confirm-delete\"]}}"
+    },
+    {
+      "t": 19736,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cancel-delete\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Cancel\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/deleteDialogOpen\",\"value\":false}}},\"children\":[]}}"
+    },
+    {
+      "t": 23419,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/confirm-delete\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Yes, delete my account\",\"variant\":\"danger\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/deleteDialogOpen\",\"value\":false}}},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 925,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 3493,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 925,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 3493,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 925,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 925
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

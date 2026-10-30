@@ -1,0 +1,727 @@
+{
+  "spec": {
+    "root": "page",
+    "elements": {
+      "page": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "xl",
+          "className": "mx-auto max-w-6xl px-6 py-10 bg-stone-50 text-stone-900"
+        },
+        "children": [
+          "navigation",
+          "header",
+          "reorder-confirmations",
+          "return-confirmations",
+          "orders",
+          "return-form",
+          "footer"
+        ]
+      },
+      "navigation": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center",
+          "gap": "md"
+        },
+        "children": [
+          "brand",
+          "account-link"
+        ]
+      },
+      "brand": {
+        "type": "Heading",
+        "props": {
+          "text": "Chapter & Co.",
+          "level": "h2"
+        },
+        "children": []
+      },
+      "account-link": {
+        "type": "Text",
+        "props": {
+          "text": "YOUR PERSONAL BOOKSHELF",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "eyebrow",
+          "title",
+          "subtitle"
+        ]
+      },
+      "eyebrow": {
+        "type": "Text",
+        "props": {
+          "text": "MY ACCOUNT / ORDERS",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Your reading journey",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Revisit past orders, find your next reread, or start a return.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "reorder-confirmations": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "repeat": {
+          "statePath": "/reorders",
+          "key": "id"
+        },
+        "children": [
+          "reorder-notice"
+        ]
+      },
+      "reorder-notice": {
+        "type": "Alert",
+        "props": {
+          "title": "Reorder saved",
+          "message": {
+            "$template": "Books from ${orderNumber} have been added to your reorder list. Availability and current prices will need to be confirmed."
+          },
+          "type": "success"
+        },
+        "children": []
+      },
+      "return-confirmations": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "repeat": {
+          "statePath": "/returns",
+          "key": "id"
+        },
+        "children": [
+          "return-notice"
+        ]
+      },
+      "return-notice": {
+        "type": "Alert",
+        "props": {
+          "title": "Return request saved",
+          "message": {
+            "$template": "Your request for ${orderNumber} is saved on this page. No shipping label has been issued."
+          },
+          "type": "info"
+        },
+        "children": []
+      },
+      "orders": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "repeat": {
+          "statePath": "/orders",
+          "key": "id"
+        },
+        "children": [
+          "order-card"
+        ]
+      },
+      "order-card": {
+        "type": "Card",
+        "props": {
+          "maxWidth": "full",
+          "className": "rounded-2xl border border-stone-200 bg-white p-6 shadow-sm"
+        },
+        "children": [
+          "order-header",
+          "order-separator",
+          "order-content",
+          "order-footer"
+        ]
+      },
+      "order-header": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center",
+          "gap": "md",
+          "className": "flex-wrap"
+        },
+        "children": [
+          "order-identity",
+          "order-status"
+        ]
+      },
+      "order-identity": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "order-number",
+          "order-date"
+        ]
+      },
+      "order-number": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$template": "Order ${orderNumber}"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "order-date": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "Placed ${placed}"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "order-status": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "status"
+          },
+          "variant": {
+            "$item": "statusVariant"
+          }
+        },
+        "children": []
+      },
+      "order-separator": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "order-content": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "xl",
+          "className": "grid-cols-1 md:grid-cols-[2fr_1fr] py-5"
+        },
+        "children": [
+          "book-list",
+          "order-summary"
+        ]
+      },
+      "book-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "repeat": {
+          "statePath": {
+            "$item": "items"
+          },
+          "key": "id"
+        },
+        "children": [
+          "book-row"
+        ]
+      },
+      "book-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "start"
+        },
+        "children": [
+          "book-cover",
+          "book-details",
+          "book-price"
+        ]
+      },
+      "book-cover": {
+        "type": "Image",
+        "props": {
+          "src": {
+            "$item": "cover"
+          },
+          "alt": {
+            "$template": "Cover of ${title}"
+          },
+          "width": 64,
+          "height": 96
+        },
+        "children": []
+      },
+      "book-details": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm",
+          "className": "flex-1"
+        },
+        "children": [
+          "book-title",
+          "book-author",
+          "book-format"
+        ]
+      },
+      "book-title": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "title"
+          },
+          "level": "h4"
+        },
+        "children": []
+      },
+      "book-author": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "author"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "book-format": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "format"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "book-price": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "price"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "order-summary": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md",
+          "className": "rounded-xl bg-stone-50 p-5"
+        },
+        "children": [
+          "delivery-label",
+          "delivery-date",
+          "total-row"
+        ]
+      },
+      "delivery-label": {
+        "type": "Text",
+        "props": {
+          "text": "DELIVERY",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "delivery-date": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "delivery"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "total-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "gap": "md"
+        },
+        "children": [
+          "total-label",
+          "total-value"
+        ]
+      },
+      "total-label": {
+        "type": "Text",
+        "props": {
+          "text": "Order total",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "total-value": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "total"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "order-footer": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "justify": "between",
+          "align": "center",
+          "gap": "md",
+          "className": "flex-wrap border-t border-stone-100 pt-5"
+        },
+        "children": [
+          "return-note",
+          "order-actions"
+        ]
+      },
+      "return-note": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "returnNote"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "order-actions": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm"
+        },
+        "children": [
+          "return-button",
+          "reorder-button"
+        ]
+      },
+      "return-button": {
+        "type": "Button",
+        "props": {
+          "label": "Start a return",
+          "variant": "secondary"
+        },
+        "visible": {
+          "$item": "returnEligible"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/returnOrder",
+              "value": {
+                "$item": "orderNumber"
+              }
+            }
+          }
+        },
+        "children": []
+      },
+      "reorder-button": {
+        "type": "Button",
+        "props": {
+          "label": "Reorder books",
+          "variant": "primary"
+        },
+        "on": {
+          "press": {
+            "action": "pushState",
+            "params": {
+              "statePath": "/reorders",
+              "value": {
+                "id": "$id",
+                "orderNumber": {
+                  "$item": "orderNumber"
+                },
+                "items": {
+                  "$item": "items"
+                }
+              }
+            }
+          }
+        },
+        "children": []
+      },
+      "return-form": {
+        "type": "Card",
+        "props": {
+          "title": "Start your return",
+          "description": "Save a return request for eligible books. This preview stores requests only on this page.",
+          "className": "rounded-2xl border border-stone-200 bg-white p-6"
+        },
+        "visible": {
+          "$state": "/returnOrder"
+        },
+        "children": [
+          "return-order-label",
+          "return-items",
+          "return-reason",
+          "return-help",
+          "return-form-actions"
+        ]
+      },
+      "return-order-label": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "Returning from order ${/returnOrder}"
+          },
+          "variant": "lead"
+        },
+        "children": []
+      },
+      "return-items": {
+        "type": "Textarea",
+        "props": {
+          "label": "Which books are you returning?",
+          "name": "returnItems",
+          "placeholder": "Enter book titles and quantities",
+          "rows": 2,
+          "value": {
+            "$bindState": "/returnItems"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter at least one book title and quantity."
+            }
+          ]
+        },
+        "children": []
+      },
+      "return-reason": {
+        "type": "Select",
+        "props": {
+          "label": "Reason for return",
+          "name": "returnReason",
+          "options": [
+            "Arrived damaged",
+            "Wrong book received",
+            "Changed my mind",
+            "Other"
+          ],
+          "placeholder": "Choose a reason",
+          "value": {
+            "$bindState": "/returnReason"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Choose a return reason."
+            }
+          ]
+        },
+        "children": []
+      },
+      "return-help": {
+        "type": "Text",
+        "props": {
+          "text": "Books must meet the store’s return conditions. Eligibility and shipping instructions are confirmed when the request is processed.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "return-form-actions": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm",
+          "justify": "end"
+        },
+        "children": [
+          "cancel-return",
+          "save-return"
+        ]
+      },
+      "cancel-return": {
+        "type": "Button",
+        "props": {
+          "label": "Cancel",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/returnOrder",
+              "value": ""
+            }
+          }
+        },
+        "children": []
+      },
+      "save-return": {
+        "type": "Button",
+        "props": {
+          "label": "Save return request",
+          "variant": "primary",
+          "disabled": {
+            "$cond": {
+              "$or": [
+                {
+                  "$state": "/returnItems",
+                  "eq": ""
+                },
+                {
+                  "$state": "/returnReason",
+                  "eq": ""
+                }
+              ]
+            },
+            "$then": true,
+            "$else": false
+          }
+        },
+        "on": {
+          "press": {
+            "action": "pushState",
+            "params": {
+              "statePath": "/returns",
+              "value": {
+                "id": "$id",
+                "orderNumber": {
+                  "$state": "/returnOrder"
+                },
+                "items": {
+                  "$state": "/returnItems"
+                },
+                "reason": {
+                  "$state": "/returnReason"
+                }
+              },
+              "clearStatePath": "/returnOrder"
+            }
+          }
+        },
+        "children": []
+      },
+      "footer": {
+        "type": "Text",
+        "props": {
+          "text": "A good book is always worth coming back to. · Order actions in this preview are saved for this session only.",
+          "variant": "caption"
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "reorders": [],
+      "returns": [],
+      "orders": [
+        {
+          "id": "ord-10482",
+          "orderNumber": "CH-10482",
+          "placed": "October 18, 2026",
+          "status": "Delivered",
+          "statusVariant": "secondary",
+          "delivery": "Delivered October 22",
+          "total": "$46.00",
+          "returnEligible": true,
+          "returnNote": "Eligible for return through November 21",
+          "items": [
+            {
+              "id": "book-1",
+              "title": "The Creative Act",
+              "author": "Rick Rubin",
+              "format": "Hardcover · Qty 1",
+              "price": "$28.00",
+              "cover": "https://covers.openlibrary.org/isbn/9780593652886-M.jpg"
+            },
+            {
+              "id": "book-2",
+              "title": "The Midnight Library",
+              "author": "Matt Haig",
+              "format": "Paperback · Qty 1",
+              "price": "$18.00",
+              "cover": "https://covers.openlibrary.org/isbn/9780525559498-M.jpg"
+            }
+          ]
+        },
+        {
+          "id": "ord-10391",
+          "orderNumber": "CH-10391",
+          "placed": "October 24, 2026",
+          "status": "In transit",
+          "statusVariant": "default",
+          "delivery": "Estimated delivery October 30",
+          "total": "$20.00",
+          "returnEligible": false,
+          "returnNote": "Returns available after delivery",
+          "items": [
+            {
+              "id": "book-3",
+              "title": "Braiding Sweetgrass",
+              "author": "Robin Wall Kimmerer",
+              "format": "Paperback · Qty 1",
+              "price": "$20.00",
+              "cover": "https://covers.openlibrary.org/isbn/9781571313560-M.jpg"
+            }
+          ]
+        },
+        {
+          "id": "ord-10164",
+          "orderNumber": "CH-10164",
+          "placed": "August 8, 2026",
+          "status": "Delivered",
+          "statusVariant": "secondary",
+          "delivery": "Delivered August 12",
+          "total": "$18.00",
+          "returnEligible": false,
+          "returnNote": "Return window closed September 11",
+          "items": [
+            {
+              "id": "book-4",
+              "title": "The Psychology of Money",
+              "author": "Morgan Housel",
+              "format": "Paperback · Qty 1",
+              "price": "$18.00",
+              "cover": "https://covers.openlibrary.org/isbn/9780857197689-M.jpg"
+            }
+          ]
+        }
+      ],
+      "returnOrder": "",
+      "returnItems": "",
+      "returnReason": ""
+    }
+  },
+  "patchLines": 59,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [],
+  "fixes": []
+}

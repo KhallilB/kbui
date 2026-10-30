@@ -1,0 +1,466 @@
+{
+  "spec": {
+    "root": "main",
+    "elements": {
+      "main": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg",
+          "className": "max-w-4xl mx-auto p-6"
+        },
+        "children": [
+          "header",
+          "filters",
+          "orders-list",
+          "return-dialog",
+          "pagination"
+        ]
+      },
+      "header": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "title",
+          "subtitle"
+        ]
+      },
+      "title": {
+        "type": "Heading",
+        "props": {
+          "text": "Order History",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "subtitle": {
+        "type": "Text",
+        "props": {
+          "text": "Review your past book orders, reorder favorites, or start a return.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "filters": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "filter-group",
+          "notice-alert"
+        ]
+      },
+      "filter-group": {
+        "type": "ButtonGroup",
+        "props": {
+          "buttons": [
+            {
+              "label": "All",
+              "value": "all"
+            },
+            {
+              "label": "Delivered",
+              "value": "Delivered"
+            },
+            {
+              "label": "Shipped",
+              "value": "Shipped"
+            },
+            {
+              "label": "Processing",
+              "value": "Processing"
+            },
+            {
+              "label": "Returned",
+              "value": "Returned"
+            }
+          ],
+          "selected": {
+            "$bindState": "/filter"
+          }
+        },
+        "children": []
+      },
+      "notice-alert": {
+        "type": "Alert",
+        "props": {
+          "title": {
+            "$state": "/notice"
+          },
+          "type": "success"
+        },
+        "visible": {
+          "$state": "/notice"
+        },
+        "children": []
+      },
+      "orders-list": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "repeat": {
+          "statePath": "/orders",
+          "key": "id"
+        },
+        "visible": {
+          "$or": [
+            {
+              "$state": "/filter",
+              "eq": "all"
+            },
+            {
+              "$item": "status",
+              "eq": {
+                "$state": "/filter"
+              }
+            }
+          ]
+        },
+        "children": [
+          "order-card"
+        ]
+      },
+      "order-card": {
+        "type": "Card",
+        "props": {
+          "title": {
+            "$template": "Order ${id}"
+          },
+          "description": {
+            "$template": "Placed ${date} · ${itemCount} item(s) · Total $${total}"
+          },
+          "maxWidth": "full"
+        },
+        "children": [
+          "order-top",
+          "order-sep",
+          "order-items",
+          "order-actions"
+        ]
+      },
+      "order-top": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "order-status",
+          "order-eta"
+        ]
+      },
+      "order-status": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "status"
+          },
+          "variant": {
+            "$cond": {
+              "$item": "status",
+              "eq": "Returned"
+            },
+            "$then": "destructive",
+            "$else": {
+              "$cond": {
+                "$item": "status",
+                "eq": "Delivered"
+              },
+              "$then": "default",
+              "$else": "secondary"
+            }
+          }
+        },
+        "children": []
+      },
+      "order-eta": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "statusNote"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "order-sep": {
+        "type": "Separator",
+        "props": {
+          "orientation": "horizontal"
+        },
+        "children": []
+      },
+      "order-items": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "itemsSummary"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "order-actions": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm",
+          "justify": "end"
+        },
+        "children": [
+          "reorder-btn",
+          "return-btn",
+          "track-link"
+        ]
+      },
+      "reorder-btn": {
+        "type": "Button",
+        "props": {
+          "label": "Reorder",
+          "variant": "primary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/notice",
+              "value": "Items from your order have been added to your cart."
+            }
+          }
+        },
+        "children": []
+      },
+      "return-btn": {
+        "type": "Button",
+        "props": {
+          "label": "Return Items",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/returnDialogOpen",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "track-link": {
+        "type": "Link",
+        "props": {
+          "label": "View details",
+          "href": "#"
+        },
+        "children": []
+      },
+      "return-dialog": {
+        "type": "Dialog",
+        "props": {
+          "title": "Return Items",
+          "description": "Tell us why you're returning these items. A prepaid label will be emailed to you.",
+          "openPath": "/returnDialogOpen"
+        },
+        "children": [
+          "return-form"
+        ]
+      },
+      "return-form": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "return-reason",
+          "return-note",
+          "return-actions"
+        ]
+      },
+      "return-reason": {
+        "type": "Select",
+        "props": {
+          "label": "Reason for return",
+          "name": "returnReason",
+          "options": [
+            "Damaged in shipping",
+            "Wrong item received",
+            "No longer needed",
+            "Ordered by mistake",
+            "Other"
+          ],
+          "placeholder": "Select a reason",
+          "value": {
+            "$bindState": "/returnReason"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Please select a reason"
+            }
+          ],
+          "validateOn": "change"
+        },
+        "children": []
+      },
+      "return-note": {
+        "type": "Textarea",
+        "props": {
+          "label": "Additional details (optional)",
+          "name": "returnNote",
+          "placeholder": "Anything else we should know?",
+          "rows": 3,
+          "value": {
+            "$bindState": "/returnNote"
+          }
+        },
+        "children": []
+      },
+      "return-actions": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm",
+          "justify": "end"
+        },
+        "children": [
+          "cancel-return",
+          "submit-return"
+        ]
+      },
+      "cancel-return": {
+        "type": "Button",
+        "props": {
+          "label": "Cancel",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/returnDialogOpen",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      },
+      "submit-return": {
+        "type": "Button",
+        "props": {
+          "label": "Submit Return",
+          "variant": "danger"
+        },
+        "on": {
+          "press": [
+            {
+              "action": "validateForm",
+              "params": {
+                "statePath": "/returnValidation"
+              }
+            },
+            {
+              "action": "setState",
+              "params": {
+                "statePath": "/notice",
+                "value": "Return request submitted. Check your email for the prepaid label."
+              }
+            },
+            {
+              "action": "setState",
+              "params": {
+                "statePath": "/returnDialogOpen",
+                "value": false
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "pagination": {
+        "type": "Pagination",
+        "props": {
+          "totalPages": 3,
+          "page": {
+            "$bindState": "/page"
+          }
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "filter": "all",
+      "page": 1,
+      "returnDialogOpen": false,
+      "returnReason": "",
+      "returnNote": "",
+      "selectedReturn": {
+        "orderId": "",
+        "title": ""
+      },
+      "notice": "",
+      "orders": [
+        {
+          "id": "BK-10482",
+          "date": "Oct 12, 2026",
+          "itemCount": 3,
+          "total": "64.47",
+          "status": "Delivered",
+          "statusNote": "Delivered Oct 16, 2026",
+          "itemsSummary": "The Midnight Library (Matt Haig) · Project Hail Mary (Andy Weir) · Atomic Habits (James Clear)"
+        },
+        {
+          "id": "BK-10451",
+          "date": "Oct 3, 2026",
+          "itemCount": 2,
+          "total": "38.98",
+          "status": "Shipped",
+          "statusNote": "Arriving Oct 31, 2026",
+          "itemsSummary": "Tomorrow, and Tomorrow, and Tomorrow (Gabrielle Zevin) · Braiding Sweetgrass (Robin Wall Kimmerer)"
+        },
+        {
+          "id": "BK-10437",
+          "date": "Oct 28, 2026",
+          "itemCount": 1,
+          "total": "27.99",
+          "status": "Processing",
+          "statusNote": "Preparing for shipment",
+          "itemsSummary": "Piranesi (Susanna Clarke)"
+        },
+        {
+          "id": "BK-10390",
+          "date": "Sep 14, 2026",
+          "itemCount": 2,
+          "total": "45.50",
+          "status": "Returned",
+          "statusNote": "Refund issued Sep 28, 2026",
+          "itemsSummary": "Dune (Frank Herbert) · The Name of the Wind (Patrick Rothfuss)"
+        },
+        {
+          "id": "BK-10312",
+          "date": "Aug 2, 2026",
+          "itemCount": 4,
+          "total": "89.96",
+          "status": "Delivered",
+          "statusNote": "Delivered Aug 6, 2026",
+          "itemsSummary": "Sapiens (Yuval Noah Harari) · Educated (Tara Westover) · Circe (Madeline Miller) · The Overstory (Richard Powers)"
+        }
+      ]
+    }
+  },
+  "patchLines": 40,
+  "skippedLines": 0,
+  "firstNodeMs": 3872,
+  "issues": [],
+  "fixes": []
+}

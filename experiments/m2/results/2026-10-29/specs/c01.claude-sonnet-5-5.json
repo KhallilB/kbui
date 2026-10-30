@@ -1,0 +1,679 @@
+{
+  "spec": {
+    "root": "page",
+    "elements": {
+      "page": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "xl"
+        },
+        "children": [
+          "hero",
+          "filters-card",
+          "tabs-section",
+          "promo-alert",
+          "footer-cta"
+        ]
+      },
+      "hero": {
+        "type": "Card",
+        "props": {
+          "maxWidth": "full",
+          "centered": true
+        },
+        "children": [
+          "hero-stack"
+        ]
+      },
+      "hero-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md",
+          "align": "center"
+        },
+        "children": [
+          "hero-badge",
+          "hero-title",
+          "hero-text",
+          "hero-actions"
+        ]
+      },
+      "hero-badge": {
+        "type": "Badge",
+        "props": {
+          "text": "New Season · Free shipping over $100",
+          "variant": "default"
+        },
+        "children": []
+      },
+      "hero-title": {
+        "type": "Heading",
+        "props": {
+          "text": "Meet The Schu. Your next favorite sneaker.",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "hero-text": {
+        "type": "Text",
+        "props": {
+          "text": "Designed in-house for all-day comfort and everyday style. Shop The Schu alongside the sneaker brands you already love.",
+          "variant": "lead"
+        },
+        "children": []
+      },
+      "hero-actions": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "justify": "center"
+        },
+        "children": [
+          "hero-btn-schu",
+          "hero-btn-all"
+        ]
+      },
+      "hero-btn-schu": {
+        "type": "Button",
+        "props": {
+          "label": "Shop The Schu",
+          "variant": "primary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/activeTab",
+              "value": "schu"
+            }
+          }
+        },
+        "children": []
+      },
+      "hero-btn-all": {
+        "type": "Button",
+        "props": {
+          "label": "Browse All Sneakers",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/activeTab",
+              "value": "all"
+            }
+          }
+        },
+        "children": []
+      },
+      "filters-card": {
+        "type": "Card",
+        "props": {
+          "title": "Find your pair",
+          "maxWidth": "full"
+        },
+        "children": [
+          "filters-grid"
+        ]
+      },
+      "filters-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 3,
+          "gap": "md"
+        },
+        "children": [
+          "filter-search",
+          "filter-brand",
+          "filter-sort"
+        ]
+      },
+      "filter-search": {
+        "type": "Input",
+        "props": {
+          "label": "Search",
+          "name": "search",
+          "type": "text",
+          "placeholder": "Search sneakers...",
+          "value": {
+            "$bindState": "/filters/search"
+          }
+        },
+        "children": []
+      },
+      "filter-brand": {
+        "type": "Select",
+        "props": {
+          "label": "Brand",
+          "name": "brand",
+          "options": [
+            "All",
+            "The Schu",
+            "Nike",
+            "Adidas",
+            "New Balance",
+            "Converse"
+          ],
+          "value": {
+            "$bindState": "/filters/brand"
+          }
+        },
+        "children": []
+      },
+      "filter-sort": {
+        "type": "Select",
+        "props": {
+          "label": "Sort by",
+          "name": "sort",
+          "options": [
+            "Featured",
+            "Price: Low to High",
+            "Price: High to Low",
+            "Newest"
+          ],
+          "value": {
+            "$bindState": "/filters/sort"
+          }
+        },
+        "children": []
+      },
+      "tabs-section": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "tabs",
+          "schu-feature",
+          "products-all-heading",
+          "products-grid"
+        ]
+      },
+      "tabs": {
+        "type": "ButtonGroup",
+        "props": {
+          "buttons": [
+            {
+              "label": "All Sneakers",
+              "value": "all"
+            },
+            {
+              "label": "The Schu",
+              "value": "schu"
+            },
+            {
+              "label": "Brands",
+              "value": "brands"
+            }
+          ],
+          "selected": {
+            "$bindState": "/activeTab"
+          }
+        },
+        "children": []
+      },
+      "schu-feature": {
+        "type": "Card",
+        "props": {
+          "title": "The Schu — Our Signature Sneaker",
+          "description": "Cloud-soft cushioning, recycled knit upper, and a clean silhouette that goes with everything.",
+          "maxWidth": "full"
+        },
+        "children": [
+          "schu-grid"
+        ]
+      },
+      "schu-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "lg"
+        },
+        "children": [
+          "schu-image",
+          "schu-details"
+        ]
+      },
+      "schu-image": {
+        "type": "Image",
+        "props": {
+          "alt": "The Schu sneaker",
+          "width": 480,
+          "height": 320
+        },
+        "children": []
+      },
+      "schu-details": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "schu-badges",
+          "schu-price",
+          "schu-points",
+          "schu-actions"
+        ]
+      },
+      "schu-badges": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm"
+        },
+        "children": [
+          "schu-b1",
+          "schu-b2",
+          "schu-b3"
+        ]
+      },
+      "schu-b1": {
+        "type": "Badge",
+        "props": {
+          "text": "Best Seller",
+          "variant": "default"
+        },
+        "children": []
+      },
+      "schu-b2": {
+        "type": "Badge",
+        "props": {
+          "text": "Exclusive",
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "schu-b3": {
+        "type": "Badge",
+        "props": {
+          "text": "4.9 ★ (1,284)",
+          "variant": "outline"
+        },
+        "children": []
+      },
+      "schu-price": {
+        "type": "Heading",
+        "props": {
+          "text": "$89 — less than most big brands",
+          "level": "h2"
+        },
+        "children": []
+      },
+      "schu-points": {
+        "type": "Text",
+        "props": {
+          "text": "• Recycled knit upper • 60-day comfort guarantee • Available in 6 colorways • Free returns",
+          "variant": "body"
+        },
+        "children": []
+      },
+      "schu-actions": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md"
+        },
+        "children": [
+          "schu-add",
+          "schu-learn"
+        ]
+      },
+      "schu-add": {
+        "type": "Button",
+        "props": {
+          "label": "Add to Cart — $89",
+          "variant": "primary"
+        },
+        "on": {
+          "press": {
+            "action": "pushState",
+            "params": {
+              "statePath": "/cart",
+              "value": {
+                "id": "$id",
+                "name": "The Schu",
+                "price": 89
+              }
+            }
+          }
+        },
+        "children": []
+      },
+      "schu-learn": {
+        "type": "Button",
+        "props": {
+          "label": "Learn More",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/activeTab",
+              "value": "schu"
+            }
+          }
+        },
+        "children": []
+      },
+      "products-all-heading": {
+        "type": "Heading",
+        "props": {
+          "text": "All Sneakers",
+          "level": "h2"
+        },
+        "children": []
+      },
+      "products-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 3,
+          "gap": "lg"
+        },
+        "repeat": {
+          "statePath": "/products",
+          "key": "id"
+        },
+        "children": [
+          "product-card"
+        ]
+      },
+      "product-card": {
+        "type": "Card",
+        "props": {
+          "maxWidth": "full"
+        },
+        "children": [
+          "product-stack"
+        ]
+      },
+      "product-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "product-image",
+          "product-meta",
+          "product-name",
+          "product-desc",
+          "product-price-row",
+          "product-add"
+        ]
+      },
+      "product-image": {
+        "type": "Image",
+        "props": {
+          "alt": {
+            "$item": "name"
+          },
+          "width": 320,
+          "height": 220
+        },
+        "children": []
+      },
+      "product-meta": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "sm",
+          "align": "center",
+          "justify": "between"
+        },
+        "children": [
+          "product-brand",
+          "product-tag"
+        ]
+      },
+      "product-brand": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "brand"
+          },
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "product-tag": {
+        "type": "Badge",
+        "props": {
+          "text": {
+            "$item": "tag"
+          },
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "product-name": {
+        "type": "Heading",
+        "props": {
+          "text": {
+            "$item": "name"
+          },
+          "level": "h3"
+        },
+        "children": []
+      },
+      "product-desc": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$item": "description"
+          },
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "product-price-row": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$template": "$${price}  ·  ${rating} ★"
+          },
+          "variant": "lead"
+        },
+        "children": []
+      },
+      "product-add": {
+        "type": "Button",
+        "props": {
+          "label": "Add to Cart",
+          "variant": "primary"
+        },
+        "on": {
+          "press": {
+            "action": "pushState",
+            "params": {
+              "statePath": "/cart",
+              "value": {
+                "id": "$id",
+                "name": {
+                  "$item": "name"
+                },
+                "price": {
+                  "$item": "price"
+                }
+              }
+            }
+          }
+        },
+        "children": []
+      },
+      "promo-alert": {
+        "type": "Alert",
+        "props": {
+          "title": "Try The Schu risk-free",
+          "message": "Wear it for 60 days. Don't love it? Return it for a full refund. Use code SCHU10 for 10% off your first pair.",
+          "type": "success"
+        },
+        "children": []
+      },
+      "footer-cta": {
+        "type": "Card",
+        "props": {
+          "title": "Get early access to new Schu drops",
+          "description": "Join our list for exclusive colorways and member-only deals.",
+          "maxWidth": "md",
+          "centered": true
+        },
+        "children": [
+          "signup-stack"
+        ]
+      },
+      "signup-stack": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "signup-email",
+          "signup-btn",
+          "signup-success"
+        ]
+      },
+      "signup-email": {
+        "type": "Input",
+        "props": {
+          "label": "Email",
+          "name": "signupEmail",
+          "type": "email",
+          "placeholder": "you@example.com",
+          "value": {
+            "$bindState": "/signup/email"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Email is required"
+            },
+            {
+              "type": "email",
+              "message": "Enter a valid email"
+            }
+          ],
+          "validateOn": "blur"
+        },
+        "children": []
+      },
+      "signup-btn": {
+        "type": "Button",
+        "props": {
+          "label": "Join the List",
+          "variant": "primary"
+        },
+        "on": {
+          "press": [
+            {
+              "action": "validateForm",
+              "params": {
+                "statePath": "/signup/validation"
+              }
+            },
+            {
+              "action": "setState",
+              "params": {
+                "statePath": "/signup/done",
+                "value": true
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "signup-success": {
+        "type": "Text",
+        "props": {
+          "text": "Thanks! Check your inbox for your SCHU10 code.",
+          "variant": "muted"
+        },
+        "visible": {
+          "$state": "/signup/done"
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "activeTab": "all",
+      "filters": {
+        "search": "",
+        "brand": "All",
+        "sort": "Featured"
+      },
+      "cart": [],
+      "products": [
+        {
+          "id": "1",
+          "name": "The Schu Classic",
+          "brand": "The Schu",
+          "tag": "Best Seller",
+          "description": "Recycled knit upper with cloud-soft cushioning.",
+          "price": 89,
+          "rating": 4.9
+        },
+        {
+          "id": "2",
+          "name": "The Schu Trail",
+          "brand": "The Schu",
+          "tag": "New",
+          "description": "Grippy outsole and water-resistant knit for any terrain.",
+          "price": 99,
+          "rating": 4.8
+        },
+        {
+          "id": "3",
+          "name": "Air Max 90",
+          "brand": "Nike",
+          "tag": "Popular",
+          "description": "Iconic visible Air cushioning and retro styling.",
+          "price": 130,
+          "rating": 4.7
+        },
+        {
+          "id": "4",
+          "name": "Ultraboost Light",
+          "brand": "Adidas",
+          "tag": "Running",
+          "description": "Responsive Boost midsole for energized miles.",
+          "price": 190,
+          "rating": 4.6
+        },
+        {
+          "id": "5",
+          "name": "574 Core",
+          "brand": "New Balance",
+          "tag": "Classic",
+          "description": "Heritage suede and mesh with all-day support.",
+          "price": 90,
+          "rating": 4.7
+        },
+        {
+          "id": "6",
+          "name": "Chuck 70 High",
+          "brand": "Converse",
+          "tag": "Streetwear",
+          "description": "Premium canvas with extra cushioning and vintage details.",
+          "price": 95,
+          "rating": 4.8
+        }
+      ],
+      "signup": {
+        "email": "",
+        "done": false
+      }
+    }
+  },
+  "patchLines": 59,
+  "skippedLines": 0,
+  "firstNodeMs": 4880,
+  "issues": [],
+  "fixes": []
+}

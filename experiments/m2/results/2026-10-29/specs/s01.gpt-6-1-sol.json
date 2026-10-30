@@ -1,0 +1,641 @@
+{
+  "spec": {
+    "root": "account-settings",
+    "elements": {
+      "account-settings": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "xl",
+          "className": "mx-auto max-w-5xl px-6 py-12"
+        },
+        "children": [
+          "page-header",
+          "settings-content",
+          "deleted-message",
+          "delete-dialog"
+        ]
+      },
+      "page-header": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "sm"
+        },
+        "children": [
+          "eyebrow",
+          "page-title",
+          "page-description"
+        ]
+      },
+      "eyebrow": {
+        "type": "Text",
+        "props": {
+          "text": "YOUR WORKSPACE / ACCOUNT",
+          "variant": "caption"
+        },
+        "children": []
+      },
+      "page-title": {
+        "type": "Heading",
+        "props": {
+          "text": "Account settings",
+          "level": "h1"
+        },
+        "children": []
+      },
+      "page-description": {
+        "type": "Text",
+        "props": {
+          "text": "Manage your personal details, sign-in information, and account.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "settings-content": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "visible": {
+          "$state": "/accountDeleted",
+          "not": true
+        },
+        "children": [
+          "profile-section",
+          "email-section",
+          "password-section",
+          "danger-section"
+        ]
+      },
+      "profile-section": {
+        "type": "Card",
+        "props": {
+          "title": "Profile details",
+          "description": "How you appear across your workspace."
+        },
+        "children": [
+          "profile-content"
+        ]
+      },
+      "profile-content": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "lg"
+        },
+        "children": [
+          "profile-identity",
+          "profile-fields",
+          "profile-actions",
+          "profile-feedback"
+        ]
+      },
+      "profile-identity": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center"
+        },
+        "children": [
+          "profile-avatar",
+          "profile-identity-copy"
+        ]
+      },
+      "profile-avatar": {
+        "type": "Avatar",
+        "props": {
+          "name": {
+            "$state": "/profile/name"
+          },
+          "size": "lg"
+        },
+        "children": []
+      },
+      "profile-identity-copy": {
+        "type": "Text",
+        "props": {
+          "text": "Your initials update automatically when you change your name.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "profile-fields": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "md",
+          "className": "grid-cols-1 md:grid-cols-2"
+        },
+        "children": [
+          "profile-name",
+          "profile-role"
+        ]
+      },
+      "profile-name": {
+        "type": "Input",
+        "props": {
+          "label": "Full name",
+          "name": "profileName",
+          "value": {
+            "$bindState": "/profile/name"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter your full name."
+            },
+            {
+              "type": "maxLength",
+              "message": "Use 80 characters or fewer.",
+              "args": {
+                "max": 80
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "profile-role": {
+        "type": "Input",
+        "props": {
+          "label": "Job title · optional",
+          "name": "profileRole",
+          "value": {
+            "$bindState": "/profile/role"
+          },
+          "checks": [
+            {
+              "type": "maxLength",
+              "message": "Use 100 characters or fewer.",
+              "args": {
+                "max": 100
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "profile-actions": {
+        "type": "Button",
+        "props": {
+          "label": "Save profile",
+          "variant": "primary",
+          "disabled": {
+            "$cond": {
+              "$state": "/profile/name",
+              "eq": ""
+            },
+            "$then": true,
+            "$else": false
+          }
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/profileSaved",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "profile-feedback": {
+        "type": "Alert",
+        "props": {
+          "title": "Profile saved in this preview",
+          "type": "success"
+        },
+        "visible": {
+          "$state": "/profileSaved"
+        },
+        "children": []
+      },
+      "email-section": {
+        "type": "Card",
+        "props": {
+          "title": "Email address",
+          "description": "Used for signing in and receiving account notifications."
+        },
+        "children": [
+          "email-content"
+        ]
+      },
+      "email-content": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "current-email-row",
+          "new-email",
+          "email-action",
+          "email-feedback"
+        ]
+      },
+      "current-email-row": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "align": "center"
+        },
+        "children": [
+          "current-email",
+          "email-status"
+        ]
+      },
+      "current-email": {
+        "type": "Text",
+        "props": {
+          "text": {
+            "$state": "/email/current"
+          },
+          "variant": "body"
+        },
+        "children": []
+      },
+      "email-status": {
+        "type": "Badge",
+        "props": {
+          "text": "Verified",
+          "variant": "secondary"
+        },
+        "children": []
+      },
+      "new-email": {
+        "type": "Input",
+        "props": {
+          "label": "New email address",
+          "name": "newEmail",
+          "type": "email",
+          "placeholder": "you@example.com",
+          "value": {
+            "$bindState": "/email/next"
+          },
+          "checks": [
+            {
+              "type": "email",
+              "message": "Enter a valid email address."
+            }
+          ]
+        },
+        "children": []
+      },
+      "email-action": {
+        "type": "Button",
+        "props": {
+          "label": "Preview email change",
+          "variant": "secondary",
+          "disabled": {
+            "$cond": {
+              "$state": "/email/next",
+              "eq": ""
+            },
+            "$then": true,
+            "$else": false
+          }
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/emailPreview",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "email-feedback": {
+        "type": "Alert",
+        "props": {
+          "title": "Email change preview",
+          "message": {
+            "$template": "A connected account service would send a verification link to ${/email/next}. Your current email remains active until verified."
+          },
+          "type": "info"
+        },
+        "visible": {
+          "$state": "/emailPreview"
+        },
+        "children": []
+      },
+      "password-section": {
+        "type": "Card",
+        "props": {
+          "title": "Password",
+          "description": "Choose a unique password with at least 12 characters."
+        },
+        "children": [
+          "password-content"
+        ]
+      },
+      "password-content": {
+        "type": "Stack",
+        "props": {
+          "direction": "vertical",
+          "gap": "md"
+        },
+        "children": [
+          "current-password",
+          "password-grid",
+          "password-action",
+          "password-feedback"
+        ]
+      },
+      "current-password": {
+        "type": "Input",
+        "props": {
+          "label": "Current password",
+          "name": "currentPassword",
+          "type": "password",
+          "value": {
+            "$bindState": "/password/current"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter your current password."
+            }
+          ]
+        },
+        "children": []
+      },
+      "password-grid": {
+        "type": "Grid",
+        "props": {
+          "columns": 2,
+          "gap": "md",
+          "className": "grid-cols-1 md:grid-cols-2"
+        },
+        "children": [
+          "new-password",
+          "confirm-password"
+        ]
+      },
+      "new-password": {
+        "type": "Input",
+        "props": {
+          "label": "New password",
+          "name": "newPassword",
+          "type": "password",
+          "value": {
+            "$bindState": "/password/next"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Enter a new password."
+            },
+            {
+              "type": "minLength",
+              "message": "Use at least 12 characters.",
+              "args": {
+                "min": 12
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "confirm-password": {
+        "type": "Input",
+        "props": {
+          "label": "Confirm new password",
+          "name": "confirmPassword",
+          "type": "password",
+          "value": {
+            "$bindState": "/password/confirm"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Confirm your new password."
+            },
+            {
+              "type": "matches",
+              "message": "Passwords must match.",
+              "args": {
+                "other": {
+                  "$state": "/password/next"
+                }
+              }
+            }
+          ]
+        },
+        "children": []
+      },
+      "password-action": {
+        "type": "Button",
+        "props": {
+          "label": "Check password change",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "validateForm",
+            "params": {
+              "statePath": "/passwordValidation"
+            }
+          }
+        },
+        "children": []
+      },
+      "password-feedback": {
+        "type": "Alert",
+        "props": {
+          "title": "Password details validated",
+          "message": "This preview checks the form. Updating your password requires a connected account service.",
+          "type": "info"
+        },
+        "visible": {
+          "$state": "/passwordValidation/valid"
+        },
+        "children": []
+      },
+      "danger-section": {
+        "type": "Card",
+        "props": {
+          "title": "Delete account",
+          "description": "Permanently remove your account and its associated personal data.",
+          "className": "border-red-200"
+        },
+        "children": [
+          "danger-content"
+        ]
+      },
+      "danger-content": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "lg",
+          "align": "center",
+          "justify": "between",
+          "className": "flex-wrap"
+        },
+        "children": [
+          "delete-explanation",
+          "delete-trigger"
+        ]
+      },
+      "delete-explanation": {
+        "type": "Text",
+        "props": {
+          "text": "Deletion is permanent. Save anything you want to keep before continuing.",
+          "variant": "muted"
+        },
+        "children": []
+      },
+      "delete-trigger": {
+        "type": "Button",
+        "props": {
+          "label": "Delete account",
+          "variant": "danger"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/deleteOpen",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "delete-dialog": {
+        "type": "Dialog",
+        "props": {
+          "title": "Delete your account?",
+          "description": "In a connected account, this permanently deletes your profile and personal data. This preview only simulates deletion.",
+          "openPath": "/deleteOpen"
+        },
+        "visible": {
+          "$state": "/accountDeleted",
+          "not": true
+        },
+        "children": [
+          "delete-confirmation",
+          "delete-dialog-actions"
+        ]
+      },
+      "delete-confirmation": {
+        "type": "Checkbox",
+        "props": {
+          "label": "I understand that account deletion is permanent.",
+          "name": "confirmDeletion",
+          "checked": {
+            "$bindState": "/deleteConfirmed"
+          },
+          "checks": [
+            {
+              "type": "required",
+              "message": "Confirm that you understand before continuing."
+            }
+          ]
+        },
+        "children": []
+      },
+      "delete-dialog-actions": {
+        "type": "Stack",
+        "props": {
+          "direction": "horizontal",
+          "gap": "md",
+          "justify": "end"
+        },
+        "children": [
+          "delete-cancel",
+          "delete-final"
+        ]
+      },
+      "delete-cancel": {
+        "type": "Button",
+        "props": {
+          "label": "Keep my account",
+          "variant": "secondary"
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/deleteOpen",
+              "value": false
+            }
+          }
+        },
+        "children": []
+      },
+      "delete-final": {
+        "type": "Button",
+        "props": {
+          "label": "Simulate permanent deletion",
+          "variant": "danger",
+          "disabled": {
+            "$cond": {
+              "$state": "/deleteConfirmed"
+            },
+            "$then": false,
+            "$else": true
+          }
+        },
+        "on": {
+          "press": {
+            "action": "setState",
+            "params": {
+              "statePath": "/accountDeleted",
+              "value": true
+            }
+          }
+        },
+        "children": []
+      },
+      "deleted-message": {
+        "type": "Alert",
+        "props": {
+          "title": "Account deletion preview complete",
+          "message": "Your account has been removed from this preview. No real account or data was deleted.",
+          "type": "info"
+        },
+        "visible": {
+          "$state": "/accountDeleted"
+        },
+        "children": []
+      }
+    },
+    "state": {
+      "accountDeleted": false,
+      "profile": {
+        "name": "Alex Morgan",
+        "role": "Product designer",
+        "bio": "Designing thoughtful tools for everyday work."
+      },
+      "profileSaved": false,
+      "email": {
+        "current": "alex.morgan@example.com",
+        "next": ""
+      },
+      "emailPreview": false,
+      "password": {
+        "current": "",
+        "next": "",
+        "confirm": ""
+      },
+      "passwordValidation": {
+        "valid": false,
+        "errors": {}
+      },
+      "deleteOpen": false,
+      "deleteConfirmed": false
+    }
+  },
+  "patchLines": 52,
+  "skippedLines": 0,
+  "firstNodeMs": null,
+  "issues": [],
+  "fixes": []
+}

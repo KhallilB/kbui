@@ -1,0 +1,290 @@
+{
+  "promptId": "c09",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:16:48.144Z",
+  "totalMs": 32002,
+  "lines": [
+    {
+      "t": 4555,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+    },
+    {
+      "t": 5385,
+      "text": "{\"op\":\"add\",\"path\":\"/state/booking\",\"value\":{\"checkIn\":\"2026-11-12\",\"checkOut\":\"2026-11-15\",\"guests\":\"2\",\"roomType\":\"Deluxe King\",\"breakfast\":true,\"parking\":false,\"airport\":false,\"lateCheckout\":false,\"requests\":\"\",\"name\":\"\",\"email\":\"\",\"phone\":\"\"}}"
+    },
+    {
+      "t": 5385,
+      "text": "{\"op\":\"add\",\"path\":\"/state/confirmOpen\",\"value\":false}"
+    },
+    {
+      "t": 5386,
+      "text": "{\"op\":\"add\",\"path\":\"/state/confirmed\",\"value\":false}"
+    },
+    {
+      "t": 5703,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\",\"className\":\"max-w-5xl mx-auto p-6\"},\"children\":[\"header\",\"layout\"]}}"
+    },
+    {
+      "t": 6101,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"title\",\"subtitle\"]}}"
+    },
+    {
+      "t": 6463,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Book Your Stay at The Harbor Grand\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 6903,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtitle\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Choose your dates, pick a room and add extras. Free cancellation up to 48 hours before check-in.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 7203,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/layout\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"lg\"},\"children\":[\"left-col\",\"right-col\"]}}"
+    },
+    {
+      "t": 7565,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/left-col\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"children\":[\"dates-card\",\"rooms-card\",\"extras-card\",\"guest-card\"]}}"
+    },
+    {
+      "t": 8023,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/dates-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"1. Dates & Guests\",\"description\":\"When are you visiting?\",\"maxWidth\":\"full\"},\"children\":[\"dates-grid\",\"guests-select\"]}}"
+    },
+    {
+      "t": 8302,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/dates-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"md\"},\"children\":[\"checkin\",\"checkout\"]}}"
+    },
+    {
+      "t": 9088,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/checkin\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Check-in\",\"name\":\"checkIn\",\"type\":\"text\",\"placeholder\":\"YYYY-MM-DD\",\"value\":{\"$bindState\":\"/booking/checkIn\"},\"checks\":[{\"type\":\"required\",\"message\":\"Check-in date is required\"},{\"type\":\"pattern\",\"message\":\"Use format YYYY-MM-DD\",\"args\":{\"pattern\":\"^\\\\d{4}-\\\\d{2}-\\\\d{2}$\"}}]},\"children\":[]}}"
+    },
+    {
+      "t": 9887,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/checkout\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Check-out\",\"name\":\"checkOut\",\"type\":\"text\",\"placeholder\":\"YYYY-MM-DD\",\"value\":{\"$bindState\":\"/booking/checkOut\"},\"checks\":[{\"type\":\"required\",\"message\":\"Check-out date is required\"},{\"type\":\"pattern\",\"message\":\"Use format YYYY-MM-DD\",\"args\":{\"pattern\":\"^\\\\d{4}-\\\\d{2}-\\\\d{2}$\"}}]},\"children\":[]}}"
+    },
+    {
+      "t": 10486,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/guests-select\",\"value\":{\"type\":\"Select\",\"props\":{\"label\":\"Guests\",\"name\":\"guests\",\"options\":[\"1\",\"2\",\"3\",\"4\"],\"placeholder\":\"Select guests\",\"value\":{\"$bindState\":\"/booking/guests\"},\"checks\":[{\"type\":\"required\",\"message\":\"Select number of guests\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 10856,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/rooms-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"2. Choose Your Room\",\"description\":\"Rates shown per night\",\"maxWidth\":\"full\"},\"children\":[\"room-list\",\"room-radio\"]}}"
+    },
+    {
+      "t": 11217,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/room-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/rooms\",\"key\":\"id\"},\"children\":[\"room-item\"]}}"
+    },
+    {
+      "t": 11586,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/room-item\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"room-info\",\"room-price\"]}}"
+    },
+    {
+      "t": 11860,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/room-info\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"none\"},\"children\":[\"room-name\",\"room-desc\"]}}"
+    },
+    {
+      "t": 12099,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/room-name\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$item\":\"name\"},\"level\":\"h4\"},\"children\":[]}}"
+    },
+    {
+      "t": 12412,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/room-desc\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"description\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 12689,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/room-price\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$template\":\"$${price} / night\"},\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 12785,
+      "text": "{\"op\":\"add\",\"path\":\"/state/rooms\",\"value\":[]}"
+    },
+    {
+      "t": 13186,
+      "text": "{\"op\":\"add\",\"path\":\"/state/rooms/0\",\"value\":{\"id\":\"r1\",\"name\":\"Standard Queen\",\"description\":\"28 m² · Queen bed · City view\",\"price\":149}}"
+    },
+    {
+      "t": 13484,
+      "text": "{\"op\":\"add\",\"path\":\"/state/rooms/1\",\"value\":{\"id\":\"r2\",\"name\":\"Deluxe King\",\"description\":\"36 m² · King bed · Harbor view\",\"price\":209}}"
+    },
+    {
+      "t": 13817,
+      "text": "{\"op\":\"add\",\"path\":\"/state/rooms/2\",\"value\":{\"id\":\"r3\",\"name\":\"Family Suite\",\"description\":\"52 m² · 2 bedrooms · Sleeps 4\",\"price\":289}}"
+    },
+    {
+      "t": 14149,
+      "text": "{\"op\":\"add\",\"path\":\"/state/rooms/3\",\"value\":{\"id\":\"r4\",\"name\":\"Presidential Suite\",\"description\":\"85 m² · Terrace · Private lounge\",\"price\":549}}"
+    },
+    {
+      "t": 14719,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/room-radio\",\"value\":{\"type\":\"Radio\",\"props\":{\"label\":\"Select room type\",\"name\":\"roomType\",\"options\":[\"Standard Queen\",\"Deluxe King\",\"Family Suite\",\"Presidential Suite\"],\"value\":{\"$bindState\":\"/booking/roomType\"},\"checks\":[{\"type\":\"required\",\"message\":\"Please choose a room\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 15234,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/extras-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"3. Add Extras\",\"description\":\"Make your stay even better\",\"maxWidth\":\"full\"},\"children\":[\"extra-breakfast\",\"extra-parking\",\"extra-airport\",\"extra-late\",\"requests\"]}}"
+    },
+    {
+      "t": 15716,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/extra-breakfast\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Breakfast buffet ($22 / person / night)\",\"name\":\"breakfast\",\"checked\":{\"$bindState\":\"/booking/breakfast\"}},\"children\":[]}}"
+    },
+    {
+      "t": 16054,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/extra-parking\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Valet parking ($35 / night)\",\"name\":\"parking\",\"checked\":{\"$bindState\":\"/booking/parking\"}},\"children\":[]}}"
+    },
+    {
+      "t": 16416,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/extra-airport\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Airport transfer ($60 one-way)\",\"name\":\"airport\",\"checked\":{\"$bindState\":\"/booking/airport\"}},\"children\":[]}}"
+    },
+    {
+      "t": 16917,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/extra-late\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Late checkout until 3 PM ($40)\",\"name\":\"lateCheckout\",\"checked\":{\"$bindState\":\"/booking/lateCheckout\"}},\"children\":[]}}"
+    },
+    {
+      "t": 17451,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/requests\",\"value\":{\"type\":\"Textarea\",\"props\":{\"label\":\"Special requests\",\"name\":\"requests\",\"placeholder\":\"Anniversary, quiet room, extra pillows...\",\"rows\":3,\"value\":{\"$bindState\":\"/booking/requests\"}},\"children\":[]}}"
+    },
+    {
+      "t": 17915,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/guest-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"4. Guest Details\",\"description\":\"Who is the booking for?\",\"maxWidth\":\"full\"},\"children\":[\"guest-name\",\"guest-email\",\"guest-phone\"]}}"
+    },
+    {
+      "t": 18468,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/guest-name\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Full name\",\"name\":\"name\",\"type\":\"text\",\"placeholder\":\"Jane Doe\",\"value\":{\"$bindState\":\"/booking/name\"},\"checks\":[{\"type\":\"required\",\"message\":\"Name is required\"},{\"type\":\"minLength\",\"message\":\"Name is too short\",\"args\":{\"min\":2}}]},\"children\":[]}}"
+    },
+    {
+      "t": 19026,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/guest-email\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Email\",\"name\":\"email\",\"type\":\"email\",\"placeholder\":\"jane@example.com\",\"value\":{\"$bindState\":\"/booking/email\"},\"checks\":[{\"type\":\"required\",\"message\":\"Email is required\"},{\"type\":\"email\",\"message\":\"Enter a valid email\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 19518,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/guest-phone\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Phone\",\"name\":\"phone\",\"type\":\"text\",\"placeholder\":\"+1 555 123 4567\",\"value\":{\"$bindState\":\"/booking/phone\"},\"checks\":[{\"type\":\"required\",\"message\":\"Phone is required\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 19787,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/right-col\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"children\":[\"summary-card\",\"policy\"]}}"
+    },
+    {
+      "t": 20618,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/summary-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Booking Summary\",\"description\":\"Review before confirming\",\"maxWidth\":\"full\"},\"children\":[\"sum-room\",\"sum-dates\",\"sum-guests\",\"sep1\",\"sum-extras-title\",\"sum-breakfast\",\"sum-parking\",\"sum-airport\",\"sum-late\",\"sep2\",\"sum-note\",\"confirm-btn\",\"validation-alert\"]}}"
+    },
+    {
+      "t": 20950,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-room\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"Room: ${/booking/roomType}\"},\"variant\":\"lead\"},\"children\":[]}}"
+    },
+    {
+      "t": 21320,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-dates\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"Stay: ${/booking/checkIn} → ${/booking/checkOut}\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 21620,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-guests\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"Guests: ${/booking/guests}\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 21819,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sep1\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 22086,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-extras-title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Selected extras\",\"level\":\"h4\"},\"children\":[]}}"
+    },
+    {
+      "t": 22456,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-breakfast\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Breakfast buffet\",\"variant\":\"outline\"},\"visible\":{\"$state\":\"/booking/breakfast\"},\"children\":[]}}"
+    },
+    {
+      "t": 22790,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-parking\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Valet parking\",\"variant\":\"outline\"},\"visible\":{\"$state\":\"/booking/parking\"},\"children\":[]}}"
+    },
+    {
+      "t": 23120,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-airport\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Airport transfer\",\"variant\":\"outline\"},\"visible\":{\"$state\":\"/booking/airport\"},\"children\":[]}}"
+    },
+    {
+      "t": 23449,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-late\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Late checkout\",\"variant\":\"outline\"},\"visible\":{\"$state\":\"/booking/lateCheckout\"},\"children\":[]}}"
+    },
+    {
+      "t": 23698,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sep2\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 24184,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sum-note\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Final total including taxes is shown on your confirmation email. Payment is collected at the hotel.\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 24731,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/confirm-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Confirm Booking\",\"variant\":\"primary\"},\"on\":{\"press\":[{\"action\":\"validateForm\",\"params\":{\"statePath\":\"/formValidation\"}},{\"action\":\"setState\",\"params\":{\"statePath\":\"/confirmOpen\",\"value\":true}}]},\"children\":[]}}"
+    },
+    {
+      "t": 25285,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/validation-alert\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Please complete the highlighted fields\",\"message\":\"Some required details are missing or invalid.\",\"type\":\"warning\"},\"visible\":{\"$state\":\"/formValidation/valid\",\"eq\":false},\"children\":[]}}"
+    },
+    {
+      "t": 26453,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/policy\",\"value\":{\"type\":\"Accordion\",\"props\":{\"type\":\"single\",\"items\":[{\"title\":\"Cancellation policy\",\"content\":\"Free cancellation up to 48 hours before check-in. After that, the first night is charged.\"},{\"title\":\"Check-in & check-out\",\"content\":\"Check-in from 3 PM. Check-out by 11 AM. Late checkout is subject to availability.\"},{\"title\":\"Children & pets\",\"content\":\"Children under 12 stay free in existing bedding. Small pets are welcome for a $30 nightly fee.\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 27088,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/confirm-dialog\",\"value\":{\"type\":\"Dialog\",\"props\":{\"title\":\"Booking confirmed 🎉\",\"description\":\"Your reservation at The Harbor Grand is being processed.\",\"openPath\":\"/confirmOpen\"},\"children\":[\"dialog-body\",\"dialog-close\"]}}"
+    },
+    {
+      "t": 27386,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/dialog-body\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"dialog-room\",\"dialog-dates\",\"dialog-email\"]}}"
+    },
+    {
+      "t": 27821,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/dialog-room\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${/booking/roomType} for ${/booking/guests} guest(s)\"},\"variant\":\"lead\"},\"children\":[]}}"
+    },
+    {
+      "t": 28138,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/dialog-dates\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${/booking/checkIn} to ${/booking/checkOut}\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 28488,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/dialog-email\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"A confirmation will be sent to ${/booking/email}.\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 28885,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/dialog-close\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Done\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/confirmOpen\",\"value\":false}}},\"children\":[]}}"
+    },
+    {
+      "t": 32002,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\",\"className\":\"max-w-5xl mx-auto p-6\"},\"children\":[\"header\",\"layout\",\"confirm-dialog\"]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 924,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 5277,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 924,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 5277,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 924,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 924
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

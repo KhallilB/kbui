@@ -1,0 +1,266 @@
+{
+  "promptId": "d06",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:21:37.988Z",
+  "totalMs": 22857,
+  "lines": [
+    {
+      "t": 2990,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+    },
+    {
+      "t": 3350,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"children\":[\"header\",\"stats-grid\",\"middle-grid\",\"goals-card\"]}}"
+    },
+    {
+      "t": 3428,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"header-text\",\"period-toggle\"]}}"
+    },
+    {
+      "t": 3763,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header-text\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"title\",\"subtitle\"]}}"
+    },
+    {
+      "t": 4095,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Fitness Dashboard\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 4447,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtitle\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Week of October 26 – November 1, 2026\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 4799,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/period-toggle\",\"value\":{\"type\":\"ButtonGroup\",\"props\":{\"buttons\":[{\"label\":\"Day\",\"value\":\"day\"},{\"label\":\"Week\",\"value\":\"week\"},{\"label\":\"Month\",\"value\":\"month\"}],\"selected\":{\"$bindState\":\"/period\"}},\"children\":[]}}"
+    },
+    {
+      "t": 4834,
+      "text": "{\"op\":\"add\",\"path\":\"/state/period\",\"value\":\"week\"}"
+    },
+    {
+      "t": 5270,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/stats-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":4,\"gap\":\"md\"},\"children\":[\"stat-steps\",\"stat-workouts\",\"stat-sleep\",\"stat-calories\"]}}"
+    },
+    {
+      "t": 5542,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/stat-steps\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Steps Today\"},\"children\":[\"steps-value\",\"steps-progress\",\"steps-note\"]}}"
+    },
+    {
+      "t": 5937,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/steps-value\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$template\":\"${/today/steps} steps\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 6292,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/steps-progress\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":82,\"max\":100,\"label\":\"Goal: 10,000\"},\"children\":[]}}"
+    },
+    {
+      "t": 6541,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/steps-note\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"+12% vs last week\",\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 6844,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/stat-workouts\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Workouts This Week\"},\"children\":[\"workouts-value\",\"workouts-progress\",\"workouts-note\"]}}"
+    },
+    {
+      "t": 7210,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/workouts-value\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$template\":\"${/today/workouts} of ${/today/workoutGoal}\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 7571,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/workouts-progress\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":80,\"max\":100,\"label\":\"4 / 5 sessions\"},\"children\":[]}}"
+    },
+    {
+      "t": 7805,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/workouts-note\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"1 to go\",\"variant\":\"outline\"},\"children\":[]}}"
+    },
+    {
+      "t": 8139,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/stat-sleep\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Sleep Last Night\"},\"children\":[\"sleep-value\",\"sleep-progress\",\"sleep-note\"]}}"
+    },
+    {
+      "t": 8453,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sleep-value\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$template\":\"${/today/sleep} hrs\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 8739,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sleep-progress\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":90,\"max\":100,\"label\":\"Goal: 8 hrs\"},\"children\":[]}}"
+    },
+    {
+      "t": 9010,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sleep-note\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Good quality\",\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 9344,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/stat-calories\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Active Calories\"},\"children\":[\"cal-value\",\"cal-progress\",\"cal-note\"]}}"
+    },
+    {
+      "t": 9637,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cal-value\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$template\":\"${/today/calories} kcal\"},\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 9944,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cal-progress\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":71,\"max\":100,\"label\":\"Goal: 600\"},\"children\":[]}}"
+    },
+    {
+      "t": 10167,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cal-note\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"On track\",\"variant\":\"default\"},\"children\":[]}}"
+    },
+    {
+      "t": 10433,
+      "text": "{\"op\":\"add\",\"path\":\"/state/today\",\"value\":{\"steps\":\"8,240\",\"workouts\":4,\"workoutGoal\":5,\"sleep\":\"7.2\",\"calories\":425}}"
+    },
+    {
+      "t": 10735,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/middle-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"md\"},\"children\":[\"workouts-card\",\"sleep-card\"]}}"
+    },
+    {
+      "t": 11102,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/workouts-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Workouts This Week\",\"description\":\"Your logged sessions\"},\"children\":[\"workouts-list\"]}}"
+    },
+    {
+      "t": 11467,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/workouts-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"repeat\":{\"statePath\":\"/workouts\",\"key\":\"id\"},\"children\":[\"workout-row\"]}}"
+    },
+    {
+      "t": 11833,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/workout-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"workout-info\",\"workout-badge\"]}}"
+    },
+    {
+      "t": 12133,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/workout-info\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"none\"},\"children\":[\"workout-name\",\"workout-meta\"]}}"
+    },
+    {
+      "t": 12436,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/workout-name\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"name\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 12781,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/workout-meta\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${day} · ${duration} min · ${calories} kcal\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 13036,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/workout-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"type\"},\"variant\":\"outline\"},\"children\":[]}}"
+    },
+    {
+      "t": 13181,
+      "text": "{\"op\":\"add\",\"path\":\"/state/workouts\",\"value\":[]}"
+    },
+    {
+      "t": 13435,
+      "text": "{\"op\":\"add\",\"path\":\"/state/workouts/0\",\"value\":{\"id\":\"1\",\"name\":\"Morning Run\",\"day\":\"Mon\",\"duration\":35,\"calories\":320,\"type\":\"Cardio\"}}"
+    },
+    {
+      "t": 13774,
+      "text": "{\"op\":\"add\",\"path\":\"/state/workouts/1\",\"value\":{\"id\":\"2\",\"name\":\"Upper Body Strength\",\"day\":\"Tue\",\"duration\":50,\"calories\":280,\"type\":\"Strength\"}}"
+    },
+    {
+      "t": 14077,
+      "text": "{\"op\":\"add\",\"path\":\"/state/workouts/2\",\"value\":{\"id\":\"3\",\"name\":\"Yoga Flow\",\"day\":\"Thu\",\"duration\":40,\"calories\":150,\"type\":\"Mobility\"}}"
+    },
+    {
+      "t": 14406,
+      "text": "{\"op\":\"add\",\"path\":\"/state/workouts/3\",\"value\":{\"id\":\"4\",\"name\":\"HIIT Circuit\",\"day\":\"Fri\",\"duration\":30,\"calories\":350,\"type\":\"Cardio\"}}"
+    },
+    {
+      "t": 14824,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sleep-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Sleep This Week\",\"description\":\"Hours per night\"},\"children\":[\"sleep-table\",\"sleep-avg\"]}}"
+    },
+    {
+      "t": 15537,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sleep-table\",\"value\":{\"type\":\"Table\",\"props\":{\"columns\":[\"Day\",\"Hours\",\"Quality\"],\"rows\":[[\"Mon\",\"7.5\",\"Good\"],[\"Tue\",\"6.8\",\"Fair\"],[\"Wed\",\"7.9\",\"Good\"],[\"Thu\",\"7.1\",\"Good\"],[\"Fri\",\"6.5\",\"Fair\"],[\"Sat\",\"8.4\",\"Excellent\"],[\"Sun\",\"7.2\",\"Good\"]]},\"children\":[]}}"
+    },
+    {
+      "t": 15974,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sleep-avg\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Weekly average: 7.3 hrs — 0.7 hrs below your goal\",\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 16438,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/goals-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Progress Toward Goals\",\"description\":\"How you're tracking against your targets\"},\"children\":[\"goals-list\"]}}"
+    },
+    {
+      "t": 16769,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/goals-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/goals\",\"key\":\"id\"},\"children\":[\"goal-row\"]}}"
+    },
+    {
+      "t": 17067,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/goal-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"goal-header\",\"goal-progress\"]}}"
+    },
+    {
+      "t": 17402,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/goal-header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"goal-name\",\"goal-status\"]}}"
+    },
+    {
+      "t": 17768,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/goal-name\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${name} (${current} / ${target} ${unit})\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 18066,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/goal-status\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"status\"},\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 18355,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/goal-progress\",\"value\":{\"type\":\"Progress\",\"props\":{\"value\":{\"$item\":\"percent\"},\"max\":100},\"children\":[]}}"
+    },
+    {
+      "t": 18442,
+      "text": "{\"op\":\"add\",\"path\":\"/state/goals\",\"value\":[]}"
+    },
+    {
+      "t": 18734,
+      "text": "{\"op\":\"add\",\"path\":\"/state/goals/0\",\"value\":{\"id\":\"1\",\"name\":\"Weekly Steps\",\"current\":\"52,300\",\"target\":\"70,000\",\"unit\":\"steps\",\"percent\":75,\"status\":\"On track\"}}"
+    },
+    {
+      "t": 19073,
+      "text": "{\"op\":\"add\",\"path\":\"/state/goals/1\",\"value\":{\"id\":\"2\",\"name\":\"Weekly Workouts\",\"current\":\"4\",\"target\":\"5\",\"unit\":\"sessions\",\"percent\":80,\"status\":\"Almost there\"}}"
+    },
+    {
+      "t": 19413,
+      "text": "{\"op\":\"add\",\"path\":\"/state/goals/2\",\"value\":{\"id\":\"3\",\"name\":\"Average Sleep\",\"current\":\"7.3\",\"target\":\"8\",\"unit\":\"hrs\",\"percent\":91,\"status\":\"Close\"}}"
+    },
+    {
+      "t": 19737,
+      "text": "{\"op\":\"add\",\"path\":\"/state/goals/3\",\"value\":{\"id\":\"4\",\"name\":\"Active Calories\",\"current\":\"2,850\",\"target\":\"4,200\",\"unit\":\"kcal\",\"percent\":68,\"status\":\"Behind\"}}"
+    },
+    {
+      "t": 22857,
+      "text": "{\"op\":\"add\",\"path\":\"/state/goals/4\",\"value\":{\"id\":\"5\",\"name\":\"Weight Target\",\"current\":\"178\",\"target\":\"172\",\"unit\":\"lbs\",\"percent\":60,\"status\":\"In progress\"}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 921,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 3803,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 921,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 3803,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 921,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 921
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

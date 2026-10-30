@@ -1,0 +1,246 @@
+{
+  "promptId": "s06",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:18:54.964Z",
+  "totalMs": 27933,
+  "lines": [
+    {
+      "t": 5664,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"page\"}"
+    },
+    {
+      "t": 6075,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/page\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\",\"className\":\"max-w-5xl mx-auto p-6\"},\"children\":[\"header\",\"alert-new\",\"create-card\",\"keys-card\",\"revoke-dialog\"]}}"
+    },
+    {
+      "t": 6457,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"justify\":\"between\",\"align\":\"center\"},\"children\":[\"header-text\",\"create-open-btn\"]}}"
+    },
+    {
+      "t": 6827,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header-text\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"title\",\"subtitle\"]}}"
+    },
+    {
+      "t": 6829,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"API Keys\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 7161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtitle\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Create and manage secret keys used to authenticate requests to the platform API.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 7597,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/create-open-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Create new key\",\"variant\":\"primary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/showCreate\",\"value\":true}}},\"children\":[]}}"
+    },
+    {
+      "t": 7942,
+      "text": "{\"op\":\"add\",\"path\":\"/state/showCreate\",\"value\":false}"
+    },
+    {
+      "t": 7943,
+      "text": "{\"op\":\"add\",\"path\":\"/state/copied\",\"value\":\"\"}"
+    },
+    {
+      "t": 7959,
+      "text": "{\"op\":\"add\",\"path\":\"/state/revokeOpen\",\"value\":false}"
+    },
+    {
+      "t": 8018,
+      "text": "{\"op\":\"add\",\"path\":\"/state/revokeIndex\",\"value\":0}"
+    },
+    {
+      "t": 8271,
+      "text": "{\"op\":\"add\",\"path\":\"/state/revokeName\",\"value\":\"\"}"
+    },
+    {
+      "t": 8760,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/alert-new\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Key copied to clipboard\",\"message\":\"Store your key somewhere safe. Treat it like a password and never commit it to source control.\",\"type\":\"success\"},\"visible\":{\"$state\":\"/copied\",\"not\":true,\"neq\":\"\"},\"children\":[]}}"
+    },
+    {
+      "t": 9263,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/create-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Create a new API key\",\"description\":\"Give your key a name and choose its permissions and environment.\",\"maxWidth\":\"full\"},\"visible\":{\"$state\":\"/showCreate\"},\"children\":[\"create-form\"]}}"
+    },
+    {
+      "t": 9707,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/create-form\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"new-name\",\"create-grid\",\"new-expiry\",\"create-actions\"]}}"
+    },
+    {
+      "t": 10352,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/new-name\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Key name\",\"name\":\"keyName\",\"type\":\"text\",\"placeholder\":\"e.g. Production backend\",\"value\":{\"$bindState\":\"/newKey/name\"},\"checks\":[{\"type\":\"required\",\"message\":\"Key name is required\"},{\"type\":\"minLength\",\"message\":\"Name must be at least 3 characters\",\"args\":{\"min\":3}}],\"validateOn\":\"blur\"},\"children\":[]}}"
+    },
+    {
+      "t": 10658,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/create-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":2,\"gap\":\"md\"},\"children\":[\"new-env\",\"new-scope\"]}}"
+    },
+    {
+      "t": 11253,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/new-env\",\"value\":{\"type\":\"Select\",\"props\":{\"label\":\"Environment\",\"name\":\"environment\",\"options\":[\"Production\",\"Staging\",\"Development\"],\"placeholder\":\"Select environment\",\"value\":{\"$bindState\":\"/newKey/environment\"},\"checks\":[{\"type\":\"required\",\"message\":\"Choose an environment\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 11857,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/new-scope\",\"value\":{\"type\":\"Select\",\"props\":{\"label\":\"Permissions\",\"name\":\"permissions\",\"options\":[\"Read only\",\"Read & write\",\"Admin\"],\"placeholder\":\"Select permissions\",\"value\":{\"$bindState\":\"/newKey/permissions\"},\"checks\":[{\"type\":\"required\",\"message\":\"Choose permissions\"}]},\"children\":[]}}"
+    },
+    {
+      "t": 12287,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/new-expiry\",\"value\":{\"type\":\"Radio\",\"props\":{\"label\":\"Expiration\",\"name\":\"expiry\",\"options\":[\"30 days\",\"90 days\",\"1 year\",\"Never\"],\"value\":{\"$bindState\":\"/newKey/expiry\"}},\"children\":[]}}"
+    },
+    {
+      "t": 12668,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/create-actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"justify\":\"end\"},\"children\":[\"cancel-btn\",\"create-btn\"]}}"
+    },
+    {
+      "t": 13060,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cancel-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Cancel\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/showCreate\",\"value\":false}}},\"children\":[]}}"
+    },
+    {
+      "t": 14342,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/create-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Generate key\",\"variant\":\"primary\"},\"on\":{\"press\":[{\"action\":\"validateForm\",\"params\":{\"statePath\":\"/formValidation\"}},{\"action\":\"pushState\",\"params\":{\"statePath\":\"/keys\",\"value\":{\"id\":\"$id\",\"name\":{\"$state\":\"/newKey/name\"},\"prefix\":\"sk_live_••••••••••••new1\",\"environment\":{\"$state\":\"/newKey/environment\"},\"permissions\":{\"$state\":\"/newKey/permissions\"},\"created\":\"Oct 29, 2026\",\"lastUsed\":\"Never\",\"status\":\"Active\"}}},{\"action\":\"setState\",\"params\":{\"statePath\":\"/showCreate\",\"value\":false}}]},\"children\":[]}}"
+    },
+    {
+      "t": 14524,
+      "text": "{\"op\":\"add\",\"path\":\"/state/newKey\",\"value\":{\"name\":\"\",\"environment\":\"Production\",\"permissions\":\"Read only\",\"expiry\":\"90 days\"}}"
+    },
+    {
+      "t": 14769,
+      "text": "{\"op\":\"add\",\"path\":\"/state/formValidation\",\"value\":{\"valid\":false,\"errors\":{}}}"
+    },
+    {
+      "t": 15441,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/keys-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Your keys\",\"description\":\"Keys are shown masked. Copy a key to use it, or revoke it if it is compromised.\",\"maxWidth\":\"full\"},\"children\":[\"keys-list\",\"empty-note\"]}}"
+    },
+    {
+      "t": 15781,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/keys-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/keys\",\"key\":\"id\"},\"children\":[\"key-row\"]}}"
+    },
+    {
+      "t": 16051,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/key-row\",\"value\":{\"type\":\"Card\",\"props\":{\"maxWidth\":\"full\"},\"children\":[\"key-row-inner\"]}}"
+    },
+    {
+      "t": 16416,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/key-row-inner\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"justify\":\"between\",\"align\":\"center\",\"gap\":\"md\"},\"children\":[\"key-info\",\"key-actions\"]}}"
+    },
+    {
+      "t": 16758,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/key-info\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"key-title-row\",\"key-secret\",\"key-meta\"]}}"
+    },
+    {
+      "t": 17107,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/key-title-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"align\":\"center\"},\"children\":[\"key-name\",\"key-env\",\"key-status\"]}}"
+    },
+    {
+      "t": 17356,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/key-name\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$item\":\"name\"},\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 17630,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/key-env\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"environment\"},\"variant\":\"outline\"},\"children\":[]}}"
+    },
+    {
+      "t": 17885,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/key-status\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"status\"},\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 18161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/key-secret\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"prefix\"},\"variant\":\"code\"},\"children\":[]}}"
+    },
+    {
+      "t": 18487,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/key-meta\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${permissions} · Created ${created} · Last used ${lastUsed}\"},\"variant\":\"caption\"},\"children\":[]}}"
+    },
+    {
+      "t": 18806,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/key-actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\"},\"children\":[\"copy-btn\",\"revoke-btn\"]}}"
+    },
+    {
+      "t": 19217,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/copy-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Copy\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/copied\",\"value\":{\"$item\":\"id\"}}}},\"children\":[]}}"
+    },
+    {
+      "t": 19917,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/revoke-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Revoke\",\"variant\":\"danger\"},\"on\":{\"press\":[{\"action\":\"setState\",\"params\":{\"statePath\":\"/revokeIndex\",\"value\":{\"$index\":true}}},{\"action\":\"setState\",\"params\":{\"statePath\":\"/revokeName\",\"value\":{\"$item\":\"name\"}}},{\"action\":\"setState\",\"params\":{\"statePath\":\"/revokeOpen\",\"value\":true}}]},\"children\":[]}}"
+    },
+    {
+      "t": 20390,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/empty-note\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Keys are only shown once at creation. If you lose a key, revoke it and create a new one.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 20497,
+      "text": "{\"op\":\"add\",\"path\":\"/state/keys\",\"value\":[]}"
+    },
+    {
+      "t": 21085,
+      "text": "{\"op\":\"add\",\"path\":\"/state/keys/0\",\"value\":{\"id\":\"key_1\",\"name\":\"Production backend\",\"prefix\":\"sk_live_••••••••••••a91f\",\"environment\":\"Production\",\"permissions\":\"Read & write\",\"created\":\"Aug 14, 2026\",\"lastUsed\":\"2 minutes ago\",\"status\":\"Active\"}}"
+    },
+    {
+      "t": 21652,
+      "text": "{\"op\":\"add\",\"path\":\"/state/keys/1\",\"value\":{\"id\":\"key_2\",\"name\":\"Staging CI pipeline\",\"prefix\":\"sk_test_••••••••••••c33d\",\"environment\":\"Staging\",\"permissions\":\"Read & write\",\"created\":\"Sep 02, 2026\",\"lastUsed\":\"Yesterday\",\"status\":\"Active\"}}"
+    },
+    {
+      "t": 22153,
+      "text": "{\"op\":\"add\",\"path\":\"/state/keys/2\",\"value\":{\"id\":\"key_3\",\"name\":\"Analytics dashboard\",\"prefix\":\"sk_live_••••••••••••77be\",\"environment\":\"Production\",\"permissions\":\"Read only\",\"created\":\"Sep 21, 2026\",\"lastUsed\":\"3 days ago\",\"status\":\"Active\"}}"
+    },
+    {
+      "t": 22682,
+      "text": "{\"op\":\"add\",\"path\":\"/state/keys/3\",\"value\":{\"id\":\"key_4\",\"name\":\"Local development\",\"prefix\":\"sk_test_••••••••••••02e8\",\"environment\":\"Development\",\"permissions\":\"Admin\",\"created\":\"Oct 10, 2026\",\"lastUsed\":\"Oct 27, 2026\",\"status\":\"Active\"}}"
+    },
+    {
+      "t": 23288,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/revoke-dialog\",\"value\":{\"type\":\"Dialog\",\"props\":{\"title\":\"Revoke API key?\",\"description\":\"Any application using this key will immediately lose access. This action cannot be undone.\",\"openPath\":\"/revokeOpen\"},\"children\":[\"revoke-name-text\",\"revoke-actions\"]}}"
+    },
+    {
+      "t": 23620,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/revoke-name-text\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"You are about to revoke: ${/revokeName}\"},\"variant\":\"lead\"},\"children\":[]}}"
+    },
+    {
+      "t": 23961,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/revoke-actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"justify\":\"end\"},\"children\":[\"revoke-cancel\",\"revoke-confirm\"]}}"
+    },
+    {
+      "t": 24387,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/revoke-cancel\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Cancel\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/revokeOpen\",\"value\":false}}},\"children\":[]}}"
+    },
+    {
+      "t": 27932,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/revoke-confirm\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Revoke key\",\"variant\":\"danger\"},\"on\":{\"press\":[{\"action\":\"removeState\",\"params\":{\"statePath\":\"/keys\",\"index\":{\"$state\":\"/revokeIndex\"}}},{\"action\":\"setState\",\"params\":{\"statePath\":\"/revokeOpen\",\"value\":false}}]},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 914,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 4204,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 914,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 4204,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 914,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 914
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

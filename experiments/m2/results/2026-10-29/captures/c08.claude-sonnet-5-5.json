@@ -1,0 +1,214 @@
+{
+  "promptId": "c08",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:16:26.225Z",
+  "totalMs": 21918,
+  "lines": [
+    {
+      "t": 2581,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+    },
+    {
+      "t": 2934,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"xl\",\"align\":\"stretch\"},\"children\":[\"hero\",\"deals-section\",\"features-section\",\"signup-section\"]}}"
+    },
+    {
+      "t": 3044,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/hero\",\"value\":{\"type\":\"Card\",\"props\":{\"maxWidth\":\"full\",\"centered\":true},\"children\":[\"hero-stack\"]}}"
+    },
+    {
+      "t": 3691,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/hero-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\",\"align\":\"center\"},\"children\":[\"hero-badge\",\"hero-title\",\"hero-sub\",\"hero-countdown\",\"hero-cta\"]}}"
+    },
+    {
+      "t": 3783,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/hero-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Weekend Flash Sale\",\"variant\":\"destructive\"},\"children\":[]}}"
+    },
+    {
+      "t": 4088,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/hero-title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Up to 50% Off Premium Headphones\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 4611,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/hero-sub\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Friday through Sunday only. Top brands, unbeatable prices, free shipping on every order.\",\"variant\":\"lead\"},\"children\":[]}}"
+    },
+    {
+      "t": 5245,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/hero-countdown\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Sale ends Sunday at 11:59 PM\",\"message\":\"Stock is limited. Once it's gone, it's gone!\",\"type\":\"warning\"},\"children\":[]}}"
+    },
+    {
+      "t": 5612,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/hero-cta\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"justify\":\"center\"},\"children\":[\"cta-shop\",\"cta-link\"]}}"
+    },
+    {
+      "t": 6079,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cta-shop\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Shop the Sale\",\"variant\":\"primary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/category\",\"value\":\"All\"}}},\"children\":[]}}"
+    },
+    {
+      "t": 6384,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/cta-link\",\"value\":{\"type\":\"Link\",\"props\":{\"label\":\"View sale terms\",\"href\":\"#terms\"},\"children\":[]}}"
+    },
+    {
+      "t": 6705,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/deals-section\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"deals-heading\",\"category-filter\",\"deals-grid\"]}}"
+    },
+    {
+      "t": 6948,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/deals-heading\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Featured Deals\",\"level\":\"h2\"},\"children\":[]}}"
+    },
+    {
+      "t": 7582,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/category-filter\",\"value\":{\"type\":\"ButtonGroup\",\"props\":{\"buttons\":[{\"label\":\"All\",\"value\":\"All\"},{\"label\":\"Over-Ear\",\"value\":\"Over-Ear\"},{\"label\":\"In-Ear\",\"value\":\"In-Ear\"},{\"label\":\"Gaming\",\"value\":\"Gaming\"}],\"selected\":{\"$bindState\":\"/category\"}},\"children\":[]}}"
+    },
+    {
+      "t": 7686,
+      "text": "{\"op\":\"add\",\"path\":\"/state/category\",\"value\":\"All\"}"
+    },
+    {
+      "t": 8011,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/deals-grid\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":3,\"gap\":\"lg\"},\"repeat\":{\"statePath\":\"/products\",\"key\":\"id\"},\"children\":[\"product-card\"]}}"
+    },
+    {
+      "t": 8547,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-card\",\"value\":{\"type\":\"Card\",\"props\":{\"maxWidth\":\"full\"},\"visible\":{\"$or\":[{\"$state\":\"/category\",\"eq\":\"All\"},{\"$item\":\"category\",\"eq\":\"Over-Ear\"},{\"$item\":\"category\",\"eq\":\"In-Ear\"}]},\"children\":[\"product-stack\"]}}"
+    },
+    {
+      "t": 8913,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"product-image\",\"product-badge\",\"product-name\",\"product-desc\",\"product-price-row\",\"product-buy\"]}}"
+    },
+    {
+      "t": 9213,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-image\",\"value\":{\"type\":\"Image\",\"props\":{\"alt\":{\"$item\":\"name\"},\"height\":160},\"children\":[]}}"
+    },
+    {
+      "t": 9515,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$item\":\"discount\"},\"variant\":\"destructive\"},\"children\":[]}}"
+    },
+    {
+      "t": 9779,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-name\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$item\":\"name\"},\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 10020,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-desc\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"description\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 10346,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-price-row\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${salePrice}  (was ${originalPrice})\"},\"variant\":\"body\"},\"children\":[]}}"
+    },
+    {
+      "t": 10949,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/product-buy\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Add to Cart\",\"variant\":\"primary\"},\"on\":{\"press\":{\"action\":\"pushState\",\"params\":{\"statePath\":\"/cart\",\"value\":{\"id\":\"$id\",\"name\":{\"$item\":\"name\"},\"price\":{\"$item\":\"salePrice\"}}}}},\"children\":[]}}"
+    },
+    {
+      "t": 11021,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products\",\"value\":[]}"
+    },
+    {
+      "t": 11713,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/0\",\"value\":{\"id\":\"1\",\"name\":\"AirTone Pro ANC\",\"category\":\"Over-Ear\",\"description\":\"Active noise cancelling, 40-hour battery, plush memory-foam cushions.\",\"salePrice\":\"$179\",\"originalPrice\":\"$349\",\"discount\":\"49% OFF\"}}"
+    },
+    {
+      "t": 12316,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/1\",\"value\":{\"id\":\"2\",\"name\":\"BassBuds Elite\",\"category\":\"In-Ear\",\"description\":\"True wireless earbuds with deep bass and IPX5 water resistance.\",\"salePrice\":\"$69\",\"originalPrice\":\"$129\",\"discount\":\"46% OFF\"}}"
+    },
+    {
+      "t": 12955,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/2\",\"value\":{\"id\":\"3\",\"name\":\"StudioMax Reference\",\"category\":\"Over-Ear\",\"description\":\"Studio-grade wired headphones with flat, accurate sound response.\",\"salePrice\":\"$129\",\"originalPrice\":\"$229\",\"discount\":\"44% OFF\"}}"
+    },
+    {
+      "t": 13557,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/3\",\"value\":{\"id\":\"4\",\"name\":\"VoltRush Gaming Headset\",\"category\":\"Gaming\",\"description\":\"7.1 surround sound, detachable boom mic, and RGB lighting.\",\"salePrice\":\"$79\",\"originalPrice\":\"$139\",\"discount\":\"43% OFF\"}}"
+    },
+    {
+      "t": 14214,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/4\",\"value\":{\"id\":\"5\",\"name\":\"PureSport Wireless\",\"category\":\"In-Ear\",\"description\":\"Secure-fit sport earbuds with 12-hour battery and quick charge.\",\"salePrice\":\"$49\",\"originalPrice\":\"$89\",\"discount\":\"45% OFF\"}}"
+    },
+    {
+      "t": 14918,
+      "text": "{\"op\":\"add\",\"path\":\"/state/products/5\",\"value\":{\"id\":\"6\",\"name\":\"SkyLounge Comfort\",\"category\":\"Over-Ear\",\"description\":\"Lightweight wireless headphones with multipoint Bluetooth 5.3.\",\"salePrice\":\"$99\",\"originalPrice\":\"$169\",\"discount\":\"41% OFF\"}}"
+    },
+    {
+      "t": 14978,
+      "text": "{\"op\":\"add\",\"path\":\"/state/cart\",\"value\":[]}"
+    },
+    {
+      "t": 15321,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/features-section\",\"value\":{\"type\":\"Grid\",\"props\":{\"columns\":3,\"gap\":\"md\"},\"children\":[\"feat-1\",\"feat-2\",\"feat-3\"]}}"
+    },
+    {
+      "t": 15646,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/feat-1\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Free Shipping\",\"description\":\"On every order during the sale weekend, no minimum.\"},\"children\":[]}}"
+    },
+    {
+      "t": 16097,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/feat-2\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"30-Day Returns\",\"description\":\"Not in love with the sound? Return them hassle-free.\"},\"children\":[]}}"
+    },
+    {
+      "t": 16482,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/feat-3\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"2-Year Warranty\",\"description\":\"Every pair is covered by our extended protection plan.\"},\"children\":[]}}"
+    },
+    {
+      "t": 17034,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/signup-section\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Get Early Access to Future Sales\",\"description\":\"Join our list and never miss a deal.\",\"maxWidth\":\"md\",\"centered\":true},\"children\":[\"signup-stack\"]}}"
+    },
+    {
+      "t": 17347,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/signup-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"signup-email\",\"signup-btn\",\"signup-success\"]}}"
+    },
+    {
+      "t": 17953,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/signup-email\",\"value\":{\"type\":\"Input\",\"props\":{\"label\":\"Email\",\"name\":\"email\",\"type\":\"email\",\"placeholder\":\"you@example.com\",\"value\":{\"$bindState\":\"/signup/email\"},\"checks\":[{\"type\":\"required\",\"message\":\"Email is required\"},{\"type\":\"email\",\"message\":\"Enter a valid email\"}],\"validateOn\":\"blur\"},\"children\":[]}}"
+    },
+    {
+      "t": 18081,
+      "text": "{\"op\":\"add\",\"path\":\"/state/signup\",\"value\":{\"email\":\"\",\"done\":false}}"
+    },
+    {
+      "t": 18646,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/signup-btn\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Notify Me\",\"variant\":\"primary\"},\"on\":{\"press\":[{\"action\":\"validateForm\",\"params\":{\"statePath\":\"/formValidation\"}},{\"action\":\"setState\",\"params\":{\"statePath\":\"/signup/done\",\"value\":true}}]},\"children\":[]}}"
+    },
+    {
+      "t": 21918,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/signup-success\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"You're on the list!\",\"message\":\"We'll email you before the next sale.\",\"type\":\"success\"},\"visible\":{\"$state\":\"/signup/done\"},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 911,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 3374,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 911,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 3374,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 911,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 911
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

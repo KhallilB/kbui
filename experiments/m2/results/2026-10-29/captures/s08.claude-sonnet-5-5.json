@@ -1,0 +1,242 @@
+{
+  "promptId": "s08",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:19:32.723Z",
+  "totalMs": 23916,
+  "lines": [
+    {
+      "t": 1764,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+    },
+    {
+      "t": 1816,
+      "text": "{\"op\":\"add\",\"path\":\"/state/twoFactor\",\"value\":{\"enabled\":true,\"method\":\"Authenticator app\",\"sms\":false,\"email\":true}}"
+    },
+    {
+      "t": 2104,
+      "text": "{\"op\":\"add\",\"path\":\"/state/showDisable\",\"value\":false}"
+    },
+    {
+      "t": 2187,
+      "text": "{\"op\":\"add\",\"path\":\"/state/alerts\",\"value\":{\"newLogin\":true,\"failed\":true}}"
+    },
+    {
+      "t": 2857,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\",\"className\":\"max-w-4xl mx-auto p-6\"},\"children\":[\"header\",\"alert-top\",\"tfa-card\",\"sessions-card\",\"activity-card\",\"dlg-disable\"]}}"
+    },
+    {
+      "t": 3190,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"h1\",\"sub\"]}}"
+    },
+    {
+      "t": 3291,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/h1\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Security Settings\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 3717,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sub\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Manage how you sign in and keep your account protected.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 4388,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/alert-top\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Your account is well protected\",\"message\":\"Two-factor authentication is on. Last security review: October 2026.\",\"type\":\"success\"},\"visible\":{\"$state\":\"/twoFactor/enabled\"},\"children\":[]}}"
+    },
+    {
+      "t": 4733,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/tfa-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Two-Factor Authentication\",\"description\":\"Add an extra layer of security to your account.\",\"maxWidth\":\"full\"},\"children\":[\"tfa-stack\"]}}"
+    },
+    {
+      "t": 5161,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/tfa-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"tfa-row\",\"sep1\",\"tfa-methods\",\"tfa-actions\"]}}"
+    },
+    {
+      "t": 5413,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/tfa-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"tfa-switch\",\"tfa-badge\"]}}"
+    },
+    {
+      "t": 5814,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/tfa-switch\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Enable two-factor authentication\",\"name\":\"tfaEnabled\",\"checked\":{\"$bindState\":\"/twoFactor/enabled\"}},\"children\":[]}}"
+    },
+    {
+      "t": 6411,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/tfa-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$cond\":{\"$state\":\"/twoFactor/enabled\"},\"$then\":\"Enabled\",\"$else\":\"Disabled\"},\"variant\":{\"$cond\":{\"$state\":\"/twoFactor/enabled\"},\"$then\":\"default\",\"$else\":\"destructive\"}},\"children\":[]}}"
+    },
+    {
+      "t": 6662,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sep1\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 7083,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/tfa-methods\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"visible\":{\"$state\":\"/twoFactor/enabled\"},\"children\":[\"method-radio\",\"sms-switch\",\"email-switch\"]}}"
+    },
+    {
+      "t": 7547,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/method-radio\",\"value\":{\"type\":\"Radio\",\"props\":{\"label\":\"Primary method\",\"name\":\"tfaMethod\",\"options\":[\"Authenticator app\",\"SMS\",\"Security key\"],\"value\":{\"$bindState\":\"/twoFactor/method\"}},\"children\":[]}}"
+    },
+    {
+      "t": 7948,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sms-switch\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Backup codes via SMS\",\"name\":\"tfaSms\",\"checked\":{\"$bindState\":\"/twoFactor/sms\"}},\"children\":[]}}"
+    },
+    {
+      "t": 8323,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/email-switch\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Backup codes via email\",\"name\":\"tfaEmail\",\"checked\":{\"$bindState\":\"/twoFactor/email\"}},\"children\":[]}}"
+    },
+    {
+      "t": 8619,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/tfa-actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\"},\"children\":[\"btn-codes\",\"btn-disable\"]}}"
+    },
+    {
+      "t": 8915,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/btn-codes\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"View backup codes\",\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 9454,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/btn-disable\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Disable 2FA\",\"variant\":\"danger\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/showDisable\",\"value\":true}}},\"visible\":{\"$state\":\"/twoFactor/enabled\"},\"children\":[]}}"
+    },
+    {
+      "t": 9985,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/dlg-disable\",\"value\":{\"type\":\"Dialog\",\"props\":{\"title\":\"Disable two-factor authentication?\",\"description\":\"Your account will be less secure without a second verification step.\",\"openPath\":\"/showDisable\"},\"children\":[\"dlg-actions\"]}}"
+    },
+    {
+      "t": 10365,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/dlg-actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"justify\":\"end\"},\"children\":[\"dlg-cancel\",\"dlg-confirm\"]}}"
+    },
+    {
+      "t": 10748,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/dlg-cancel\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Cancel\",\"variant\":\"secondary\"},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":\"/showDisable\",\"value\":false}}},\"children\":[]}}"
+    },
+    {
+      "t": 11314,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/dlg-confirm\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Yes, disable\",\"variant\":\"danger\"},\"on\":{\"press\":[{\"action\":\"setState\",\"params\":{\"statePath\":\"/twoFactor/enabled\",\"value\":false}},{\"action\":\"setState\",\"params\":{\"statePath\":\"/showDisable\",\"value\":false}}]},\"children\":[]}}"
+    },
+    {
+      "t": 11721,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sessions-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Active Sessions\",\"description\":\"Devices currently signed in to your account.\",\"maxWidth\":\"full\"},\"children\":[\"sessions-stack\"]}}"
+    },
+    {
+      "t": 12045,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sessions-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"sessions-list\",\"btn-signout-all\"]}}"
+    },
+    {
+      "t": 12434,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sessions-list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/sessions\",\"key\":\"id\"},\"children\":[\"session-row\"]}}"
+    },
+    {
+      "t": 12855,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/session-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\",\"className\":\"border rounded-lg p-3\"},\"children\":[\"session-info\",\"session-actions\"]}}"
+    },
+    {
+      "t": 13112,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/session-info\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"session-device\",\"session-meta\"]}}"
+    },
+    {
+      "t": 13420,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/session-device\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"device\"},\"variant\":\"lead\"},\"children\":[]}}"
+    },
+    {
+      "t": 13745,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/session-meta\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$template\":\"${location} • ${ip} • ${lastActive}\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 14049,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/session-actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"align\":\"center\"},\"children\":[\"session-badge\",\"btn-revoke\"]}}"
+    },
+    {
+      "t": 14624,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/session-badge\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":{\"$cond\":{\"$item\":\"current\"},\"$then\":\"This device\",\"$else\":\"Active\"},\"variant\":{\"$cond\":{\"$item\":\"current\"},\"$then\":\"default\",\"$else\":\"outline\"}},\"children\":[]}}"
+    },
+    {
+      "t": 15168,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/btn-revoke\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Revoke\",\"variant\":\"danger\"},\"on\":{\"press\":{\"action\":\"removeState\",\"params\":{\"statePath\":\"/sessions\",\"index\":{\"$index\":true}}}},\"visible\":{\"$item\":\"current\",\"not\":true},\"children\":[]}}"
+    },
+    {
+      "t": 15437,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/btn-signout-all\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Sign out of all other sessions\",\"variant\":\"secondary\"},\"children\":[]}}"
+    },
+    {
+      "t": 15516,
+      "text": "{\"op\":\"add\",\"path\":\"/state/sessions\",\"value\":[]}"
+    },
+    {
+      "t": 15950,
+      "text": "{\"op\":\"add\",\"path\":\"/state/sessions/0\",\"value\":{\"id\":\"s1\",\"device\":\"MacBook Pro • Chrome\",\"location\":\"San Francisco, US\",\"ip\":\"192.168.1.24\",\"lastActive\":\"Active now\",\"current\":true}}"
+    },
+    {
+      "t": 16412,
+      "text": "{\"op\":\"add\",\"path\":\"/state/sessions/1\",\"value\":{\"id\":\"s2\",\"device\":\"iPhone 16 • Safari\",\"location\":\"San Francisco, US\",\"ip\":\"172.20.10.3\",\"lastActive\":\"2 hours ago\",\"current\":false}}"
+    },
+    {
+      "t": 16814,
+      "text": "{\"op\":\"add\",\"path\":\"/state/sessions/2\",\"value\":{\"id\":\"s3\",\"device\":\"Windows PC • Edge\",\"location\":\"Austin, US\",\"ip\":\"203.0.113.58\",\"lastActive\":\"3 days ago\",\"current\":false}}"
+    },
+    {
+      "t": 17216,
+      "text": "{\"op\":\"add\",\"path\":\"/state/sessions/3\",\"value\":{\"id\":\"s4\",\"device\":\"iPad Air • Safari\",\"location\":\"Seattle, US\",\"ip\":\"198.51.100.17\",\"lastActive\":\"1 week ago\",\"current\":false}}"
+    },
+    {
+      "t": 17612,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/activity-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Recent Login Activity\",\"description\":\"Sign-in attempts over the last 30 days.\",\"maxWidth\":\"full\"},\"children\":[\"activity-stack\"]}}"
+    },
+    {
+      "t": 18057,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/activity-stack\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"children\":[\"activity-table\",\"sep2\",\"alert-prefs-title\",\"alert-new\",\"alert-failed\"]}}"
+    },
+    {
+      "t": 20045,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/activity-table\",\"value\":{\"type\":\"Table\",\"props\":{\"columns\":[\"Date\",\"Device\",\"Location\",\"IP Address\",\"Status\"],\"rows\":[[\"Oct 29, 2026 09:14\",\"MacBook Pro • Chrome\",\"San Francisco, US\",\"192.168.1.24\",\"Success\"],[\"Oct 29, 2026 07:02\",\"iPhone 16 • Safari\",\"San Francisco, US\",\"172.20.10.3\",\"Success\"],[\"Oct 26, 2026 22:41\",\"Windows PC • Edge\",\"Austin, US\",\"203.0.113.58\",\"Success\"],[\"Oct 24, 2026 03:19\",\"Unknown • Firefox\",\"Lagos, NG\",\"45.33.12.9\",\"Blocked\"],[\"Oct 22, 2026 18:55\",\"iPad Air • Safari\",\"Seattle, US\",\"198.51.100.17\",\"Success\"],[\"Oct 19, 2026 11:30\",\"Unknown • Chrome\",\"Moscow, RU\",\"91.200.4.77\",\"Failed\"]],\"caption\":\"Showing the 6 most recent sign-in attempts\"},\"children\":[]}}"
+    },
+    {
+      "t": 20255,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/sep2\",\"value\":{\"type\":\"Separator\",\"props\":{\"orientation\":\"horizontal\"},\"children\":[]}}"
+    },
+    {
+      "t": 20548,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/alert-prefs-title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Alert preferences\",\"level\":\"h3\"},\"children\":[]}}"
+    },
+    {
+      "t": 20981,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/alert-new\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Email me when a new device signs in\",\"name\":\"alertNewLogin\",\"checked\":{\"$bindState\":\"/alerts/newLogin\"}},\"children\":[]}}"
+    },
+    {
+      "t": 23916,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/alert-failed\",\"value\":{\"type\":\"Switch\",\"props\":{\"label\":\"Email me about failed or blocked login attempts\",\"name\":\"alertFailed\",\"checked\":{\"$bindState\":\"/alerts/failed\"}},\"children\":[]}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 914,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 4201,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 914,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 4201,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 914,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 914
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}

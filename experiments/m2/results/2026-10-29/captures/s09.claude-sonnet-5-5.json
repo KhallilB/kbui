@@ -1,0 +1,150 @@
+{
+  "promptId": "s09",
+  "model": "claude-sonnet-5-5",
+  "resolvedModel": "claude-sonnet-5-5",
+  "cli": "claude",
+  "systemPromptHash": "665e03d0f8ea563e",
+  "started": "2026-10-29T16:19:52.600Z",
+  "totalMs": 12018,
+  "lines": [
+    {
+      "t": 1660,
+      "text": "{\"op\":\"add\",\"path\":\"/root\",\"value\":\"main\"}"
+    },
+    {
+      "t": 1698,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/main\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"lg\"},\"children\":[\"header\",\"summary\",\"list-card\"]}}"
+    },
+    {
+      "t": 2097,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/header\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"sm\"},\"children\":[\"title\",\"subtitle\"]}}"
+    },
+    {
+      "t": 2455,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/title\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":\"Integrations\",\"level\":\"h1\"},\"children\":[]}}"
+    },
+    {
+      "t": 2854,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/subtitle\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":\"Connect your CRM with the tools your team already uses.\",\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 3233,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/summary\",\"value\":{\"type\":\"Alert\",\"props\":{\"title\":\"Connected apps\",\"message\":\"Manage which apps can sync contacts, deals and activity with your CRM.\",\"type\":\"info\"},\"children\":[]}}"
+    },
+    {
+      "t": 3602,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/list-card\",\"value\":{\"type\":\"Card\",\"props\":{\"title\":\"Available integrations\",\"description\":\"Connect or disconnect apps at any time.\",\"maxWidth\":\"full\"},\"children\":[\"list\"]}}"
+    },
+    {
+      "t": 3957,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/list\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"md\"},\"repeat\":{\"statePath\":\"/integrations\",\"key\":\"id\"},\"children\":[\"row\"]}}"
+    },
+    {
+      "t": 4262,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\",\"justify\":\"between\"},\"children\":[\"info\",\"actions\"]}}"
+    },
+    {
+      "t": 4620,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/info\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"md\",\"align\":\"center\"},\"children\":[\"avatar\",\"details\"]}}"
+    },
+    {
+      "t": 4849,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/avatar\",\"value\":{\"type\":\"Avatar\",\"props\":{\"name\":{\"$item\":\"name\"},\"size\":\"md\"},\"children\":[]}}"
+    },
+    {
+      "t": 5097,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/details\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"vertical\",\"gap\":\"none\"},\"children\":[\"name-row\",\"desc\"]}}"
+    },
+    {
+      "t": 5524,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/name-row\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"align\":\"center\"},\"children\":[\"app-name\",\"badge-connected\",\"badge-disconnected\"]}}"
+    },
+    {
+      "t": 5766,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/app-name\",\"value\":{\"type\":\"Heading\",\"props\":{\"text\":{\"$item\":\"name\"},\"level\":\"h4\"},\"children\":[]}}"
+    },
+    {
+      "t": 6034,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/badge-connected\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Connected\",\"variant\":\"default\"},\"visible\":{\"$item\":\"connected\",\"eq\":true},\"children\":[]}}"
+    },
+    {
+      "t": 6370,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/badge-disconnected\",\"value\":{\"type\":\"Badge\",\"props\":{\"text\":\"Not connected\",\"variant\":\"outline\"},\"visible\":{\"$item\":\"connected\",\"eq\":false},\"children\":[]}}"
+    },
+    {
+      "t": 6631,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/desc\",\"value\":{\"type\":\"Text\",\"props\":{\"text\":{\"$item\":\"description\"},\"variant\":\"muted\"},\"children\":[]}}"
+    },
+    {
+      "t": 6931,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/actions\",\"value\":{\"type\":\"Stack\",\"props\":{\"direction\":\"horizontal\",\"gap\":\"sm\",\"align\":\"center\"},\"children\":[\"btn-connect\",\"btn-disconnect\"]}}"
+    },
+    {
+      "t": 7431,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/btn-connect\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Connect\",\"variant\":\"primary\"},\"visible\":{\"$item\":\"connected\",\"eq\":false},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":{\"$item\":\"connected\"},\"value\":true}}},\"children\":[]}}"
+    },
+    {
+      "t": 7897,
+      "text": "{\"op\":\"add\",\"path\":\"/elements/btn-disconnect\",\"value\":{\"type\":\"Button\",\"props\":{\"label\":\"Disconnect\",\"variant\":\"danger\"},\"visible\":{\"$item\":\"connected\",\"eq\":true},\"on\":{\"press\":{\"action\":\"setState\",\"params\":{\"statePath\":{\"$item\":\"connected\"},\"value\":false}}},\"children\":[]}}"
+    },
+    {
+      "t": 7996,
+      "text": "{\"op\":\"add\",\"path\":\"/state/integrations\",\"value\":[]}"
+    },
+    {
+      "t": 8398,
+      "text": "{\"op\":\"add\",\"path\":\"/state/integrations/0\",\"value\":{\"id\":\"slack\",\"name\":\"Slack\",\"description\":\"Get deal alerts and notifications in your team channels.\",\"connected\":true}}"
+    },
+    {
+      "t": 8766,
+      "text": "{\"op\":\"add\",\"path\":\"/state/integrations/1\",\"value\":{\"id\":\"gmail\",\"name\":\"Gmail\",\"description\":\"Sync emails and log conversations to contact records.\",\"connected\":true}}"
+    },
+    {
+      "t": 9111,
+      "text": "{\"op\":\"add\",\"path\":\"/state/integrations/2\",\"value\":{\"id\":\"zapier\",\"name\":\"Zapier\",\"description\":\"Automate workflows between your CRM and 5,000+ apps.\",\"connected\":false}}"
+    },
+    {
+      "t": 9465,
+      "text": "{\"op\":\"add\",\"path\":\"/state/integrations/3\",\"value\":{\"id\":\"gcal\",\"name\":\"Google Calendar\",\"description\":\"Schedule meetings and sync events with contacts.\",\"connected\":false}}"
+    },
+    {
+      "t": 12018,
+      "text": "{\"op\":\"add\",\"path\":\"/state/integrations/4\",\"value\":{\"id\":\"stripe\",\"name\":\"Stripe\",\"description\":\"Track payments and subscriptions against customer accounts.\",\"connected\":true}}"
+    }
+  ],
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 935,
+    "cache_read_input_tokens": 8739,
+    "output_tokens": 1788,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 935,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1788,
+        "cache_read_input_tokens": 8739,
+        "cache_creation_input_tokens": 935,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 935
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "streamedLines": true
+}
