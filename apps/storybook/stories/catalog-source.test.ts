@@ -3,6 +3,7 @@ import * as publicApi from "@kb.ui/react";
 import { babelParse, loadCsf } from "storybook/internal/csf-tools";
 import { parseApiSection as parseApiSectionFromModule } from "../catalog/api-markdown";
 import { exampleCode } from "../catalog/code";
+import { loadCatalogSources as loadCatalogSourcesFromModule } from "../catalog/component-sources";
 import { definitions } from "../catalog/definitions";
 import { highlightCode } from "../catalog/highlight";
 import { loadSiteSamples } from "../catalog/site-samples";
@@ -11,6 +12,7 @@ import { browsableStories } from "../site/catalog-model";
 import { playgroundKey } from "../site/playground-model";
 
 test("catalog offers a curated set of useful examples while retaining internal stories", () => {
+  expect(loadCatalogSourcesFromModule).toBe(loadCatalogSources);
   const entries = loadCatalogSources();
   for (const entry of entries) {
     const choices = browsableStories(entry);
