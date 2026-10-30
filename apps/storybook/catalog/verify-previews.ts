@@ -236,6 +236,7 @@ try {
             card: ".kb-card",
             callout: ".kb-callout",
             emptystate: ".kb-emptystate",
+            pageheader: ".kb-pageheader",
             toast: ".kb-toast-viewport[data-placement=inline]",
             progress: ".kb-progress",
             scrollarea: ".kb-scrollarea",

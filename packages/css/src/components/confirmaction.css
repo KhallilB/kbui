@@ -1,0 +1,15 @@
+/* Anatomy: .kb-confirmaction [data-pending] > .kb-confirmaction-details, .kb-confirmaction-error */
+.kb-confirmaction[data-pending] {
+  cursor: progress;
+}
+.kb-confirmaction-details {
+  display: grid;
+  gap: var(--kb-space-2);
+  margin-block-end: var(--kb-space-4);
+  color: var(--kb-color-fg);
+  font-size: var(--kb-text-control-size);
+  line-height: 1.6;
+}
+.kb-confirmaction-details > * {
+  margin-block: 0;
+}

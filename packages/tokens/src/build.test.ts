@@ -692,3 +692,15 @@ describe("copyable content tokens", () => {
     }
   });
 });
+
+describe("page header tokens", () => {
+  test("aliases title sizes to the heading scale and the divider to the border role", () => {
+    const { css } = buildTokens(real as TokenTree);
+    expect(css).toContain("--kb-pageheader-title-size-sm: var(--kb-heading-size-lg);");
+    expect(css).toContain("--kb-pageheader-title-size-md: var(--kb-heading-size-xl);");
+    expect(css).toContain("--kb-pageheader-title-size-lg: var(--kb-heading-size-display);");
+    expect(css).toContain("--kb-pageheader-heading-min-width: 18rem;");
+    expect(css).toContain("--kb-pageheader-description-max-width: var(--kb-text-measure);");
+    expect(css).toContain("--kb-pageheader-divider: var(--kb-color-border);");
+  });
+});

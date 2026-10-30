@@ -33,6 +33,11 @@ export const accessibilityStandards = {
   "3.3.1": { title: "Error Identification", level: "A", anchor: "error-identification" },
   "3.3.2": { title: "Labels or Instructions", level: "A", anchor: "labels-or-instructions" },
   "3.3.3": { title: "Error Suggestion", level: "AA", anchor: "error-suggestion" },
+  "3.3.4": {
+    title: "Error Prevention (Legal, Financial, Data)",
+    level: "AA",
+    anchor: "error-prevention-legal-financial-data",
+  },
   "4.1.2": { title: "Name, Role, Value", level: "A", anchor: "name-role-value" },
   "4.1.3": { title: "Status Messages", level: "AA", anchor: "status-messages" },
 } as const;

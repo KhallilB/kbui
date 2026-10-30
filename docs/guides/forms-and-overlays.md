@@ -121,6 +121,8 @@ Popover keeps Base UI anchor tracking enabled for ancestor scrolling, resizing a
 
 ## Confirmation pattern
 
+Use [ConfirmAction](../../packages/react/docs/components/ConfirmAction.md) for a destructive action. It implements this pattern with a trigger, a consequence description and an `onConfirm` callback. Compose the pattern below from Dialog only when the confirmation needs fields or a different action layout.
+
 The application owns the operation, pending state, retry and successful close. Put the least destructive action first and focus it initially. Do not wrap an asynchronous commit action in Dialog.Close: close only after success, retain context on failure, and announce errors. Keep the pending action focusable with aria-disabled while its handler rejects repeated requests; this prevents focus loss when a focused native button becomes disabled. Prevent Escape, outside dismissal and duplicate submissions while an operation is pending. Once it settles, cancellation is available again.
 
 ```tsx

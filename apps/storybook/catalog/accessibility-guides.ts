@@ -527,6 +527,28 @@ export const accessibilityGuides = {
       href: "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/",
     },
   },
+  ConfirmAction: {
+    provides: [
+      "Builds on Dialog: modal semantics, focus containment and trigger focus return. title names the dialog and description describes it.",
+      "Cancel comes first and receives initial focus. Outside presses never dismiss. While onConfirm is pending, Escape is blocked, the popup is aria-busy, and Cancel and confirm stay focusable with aria-disabled, ignoring presses.",
+      "A thrown or rejected onConfirm keeps the dialog open and inserts a role=alert Callout; confirming again retries. The dialog closes only after success.",
+    ],
+    authoring: [
+      "Name the trigger with the action and its object; a short visible label in a row needs aria-label that starts with that visible text, such as Revoke Laptop.",
+      "Make onConfirm settle: reject on failure and own timeouts, authorization and idempotency. Write errorMessage so it says what failed and what to do next.",
+      "Announce success in the page. When success removes the trigger, pass finalFocus and remove it in onConfirmed. For urgent interruptions that need alertdialog semantics, use an alert-dialog primitive instead.",
+    ],
+    verify: [
+      "By keyboard, open the confirmation; focus lands on Cancel. Tab and Shift+Tab stay inside. Escape and Cancel close it without running the action and focus returns to the trigger.",
+      "Confirm, then press Escape and confirm again while pending; the dialog stays open and the action runs once. After success, focus returns to the trigger or finalFocus target.",
+      "Make the action fail; with a screen reader, confirm the alert is announced, the dialog keeps its name and description, and retry succeeds. This manual check remains unverified by automated stories.",
+    ],
+    standards: ["2.1.1", "2.1.2", "2.4.3", "3.3.1", "3.3.4", "4.1.2", "4.1.3"],
+    pattern: {
+      title: "Modal dialog pattern",
+      href: "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/",
+    },
+  },
   FileInput: {
     provides: [
       "A labeled picker button opens the native file input; selection and confirmed-removal feedback use announcement regions.",
@@ -941,6 +963,25 @@ export const accessibilityGuides = {
       "For search, clear via keyboard and confirm focus returns to the same input; confirm changing slot actions or result messages does not lose the draft.",
     ],
     standards: ["1.3.1", "1.3.5", "2.1.1", "2.5.3", "3.3.1", "3.3.2", "4.1.2"],
+  },
+  PageHeader: {
+    provides: [
+      "The title renders as a native heading, h1 by default, so the page outline starts at the screen's own name.",
+      "The root is a plain div rather than header, so it never adds a second banner landmark beside the site header.",
+      "Navigation, title, description, actions and body keep that DOM order; actions follow the heading in reading and focus order even when they are end-aligned or wrap below it.",
+      "Meta renders outside the heading element, so status badges do not change the heading's accessible name.",
+    ],
+    authoring: [
+      "Use one h1 per screen. Set headingLevel to 2 or 3 only when the header introduces a region below an existing h1.",
+      "Wrap breadcrumbs in nav with aria-label='Breadcrumb' and mark the current item with aria-current='page'; label back links with their destination.",
+      "Give every action a visible name and keep one primary action; status shown only by color in meta also needs text.",
+    ],
+    verify: [
+      "List headings with a screen reader or browser outline and confirm the title is the first h1 and its name excludes meta badges.",
+      "Tab from the top of the page and confirm focus reaches navigation links, then actions, then body controls, each with a visible focus indicator.",
+      "At 320 CSS pixels wide and at 400% zoom, confirm the title wraps, actions move below the heading and no content scrolls sideways.",
+    ],
+    standards: ["1.3.1", "1.3.2", "1.4.4", "1.4.10", "2.4.3", "2.4.6", "2.4.7"],
   },
   EmptyState: {
     provides: [
