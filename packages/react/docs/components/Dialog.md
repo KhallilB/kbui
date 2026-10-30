@@ -71,7 +71,7 @@ export function Example() {
 
 ## Related components
 
-Use [Menu](Menu.md) for a short action list and [Callout](Callout.md) for a message that belongs in the page.
+Use [ConfirmAction](ConfirmAction.md) for a destructive action behind a confirmation, [Menu](Menu.md) for a short action list and [Callout](Callout.md) for a message that belongs in the page.
 
 
 ## Drawer and confirmation patterns

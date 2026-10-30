@@ -64,6 +64,11 @@ export {
   type ComboboxSlot,
 } from "./components/Combobox/Combobox";
 export {
+  ConfirmAction,
+  type ConfirmActionProps,
+  type ConfirmActionSlot,
+} from "./components/ConfirmAction/ConfirmAction";
+export {
   Container,
   type ContainerElement,
   type ContainerProps,

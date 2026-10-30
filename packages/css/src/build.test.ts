@@ -67,6 +67,7 @@ describe("buildCss", () => {
         "pageheader.css",
         "copyabletext.css",
         "codeblock.css",
+        "confirmaction.css",
       ]),
     );
   });
@@ -309,6 +310,7 @@ describe("buildCss", () => {
       "fieldset.css",
       "formactions.css",
       "errorsummary.css",
+      "confirmaction.css",
     ]) {
       const css = await readFile(join(src, "components", file), "utf8");
       const refs = [...css.matchAll(/var\(\s*(--kb-[a-z0-9-]+)/g)]

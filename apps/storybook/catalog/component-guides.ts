@@ -323,6 +323,20 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.Dialog,
   },
+  ConfirmAction: {
+    use: "Delete, revoke, reset or otherwise destroy data through one route: a trigger that opens a confirmation, which runs the action only after an explicit second choice.",
+    example: {
+      title: "Delete a project from a danger zone",
+      description:
+        "Open the confirmation, read the consequence, then cancel or confirm. A pending deletion blocks dismissal; the failure example keeps the dialog open for retry. Your app performs the actual deletion.",
+    },
+    tips: [
+      "Pass the operation as onConfirm and let it throw or reject on failure; never also attach the action to the trigger.",
+      "Write the title as the question the action settles, the description as its consequence, and repeat the verb on the confirm button.",
+      "When success removes the trigger, set finalFocus and remove the row in onConfirmed, which runs after the dialog has closed.",
+    ],
+    accessibility: accessibilityGuides.ConfirmAction,
+  },
   FileInput: {
     use: "Choose files, keep the selected list visible, and let people remove individual items before uploading.",
     example: {
