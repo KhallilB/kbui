@@ -1,4 +1,5 @@
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+/// <reference types="vite/client" />
+import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, test } from "vitest";
 import { type Card, validateCard } from "./card";
@@ -108,13 +109,15 @@ describe("placement contracts", () => {
 
   // Each contract sits beside its component, names only classes its anatomy declares,
   // and has placement stories at all three size classes.
-  const contracts = readdirSync(components).filter((name) =>
-    existsSync(join(components, name, `${name}.placement.ts`)),
-  );
+  // Vite resolves only glob imports, not template-string paths.
+  const modules = import.meta.glob<{
+    placement: PlacementContract | readonly PlacementContract[];
+  }>("../components/*/*.placement.ts");
+  const contracts = Object.keys(modules).map((path) => path.split("/")[2] ?? path);
   test.each(contracts)("%s contract matches its anatomy and stories", async (name) => {
-    const { placement } = (await import(`../components/${name}/${name}.placement.ts`)) as {
-      placement: PlacementContract | readonly PlacementContract[];
-    };
+    const load = modules[`../components/${name}/${name}.placement.ts`];
+    if (!load) throw new Error(`${name}.placement.ts is not named after its folder`);
+    const { placement } = await load();
     const declared = anatomyClasses(name);
     const stories = readFileSync(join(components, name, `${name}.placement.stories.tsx`), "utf8");
     for (const { contract, ref } of contractsOf(placement)) {
