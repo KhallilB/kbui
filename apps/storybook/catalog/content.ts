@@ -102,6 +102,34 @@ export const recipeDefinitions: RecipeDefinition[] = [
     components: ["Heading", "Text", "Grid", "Input", "Panel", "Fieldset"],
     files: ["apps/storybook/recipes/FormSection.tsx", "apps/storybook/recipes/recipes.css"],
   },
+  {
+    id: "requestintake",
+    name: "RequestIntake",
+    description: "Describe a request, choose its owner and reviewers, then review a local summary.",
+    guide: "docs/guides/request-intake.md",
+    storyFile: "apps/storybook/recipes/RequestIntake.stories.tsx",
+    defaultStoryId: "recipes-requestintake--submit-request",
+    components: [
+      "Button",
+      "Callout",
+      "Combobox",
+      "DescriptionList",
+      "ErrorSummary",
+      "Fieldset",
+      "Form",
+      "FormActions",
+      "Heading",
+      "Input",
+      "MultiSelect",
+      "PageHeader",
+      "Textarea",
+    ],
+    files: [
+      "apps/storybook/recipes/RequestIntake.tsx",
+      "apps/storybook/recipes/request-intake-model.ts",
+      "apps/storybook/recipes/request-intake.css",
+    ],
+  },
 ];
 
 /** Retired recipe id → package component id; old recipe URLs redirect there. */

@@ -30,6 +30,8 @@ const frame = (purpose: string) =>
     "StructureAndThemeLinks",
     purpose,
   );
+const intake = (purpose: string, story = "SubmitRequest") =>
+  composed("recipes/RequestIntake.tsx", "recipes/RequestIntake.stories.tsx", story, purpose);
 
 // Authored relationships only; catalog owns family names, references and examples.
 export const adoptionRelationships: Record<string, AdoptionRelationship> = {
@@ -37,9 +39,7 @@ export const adoptionRelationships: Record<string, AdoptionRelationship> = {
   Avatar: pending("Correspondence identity and discoverable people composition"),
   Badge: pending("Recipe and workspace metadata with focused composition proof"),
   Button: planner("Planner actions and activity selection"),
-  Callout: pending(
-    "Connect existing SettingsScreen/OperationsScreen recovery feedback to focused proof",
-  ),
+  Callout: intake("Prepared-request feedback explicitly identifies the local-only outcome"),
   Card: planner("Planner task surface with stateful activity choices"),
   Checkbox: planner("Activity selection updates progress and summary"),
   Code: composed(
@@ -57,12 +57,17 @@ export const adoptionRelationships: Record<string, AdoptionRelationship> = {
   Collection: pending("Searchable request workspace with bulk-action recovery"),
   CollectionList: pending("Workspace results with empty and error states"),
   CollectionRow: pending("Request rows with independent selection and actions"),
-  Combobox: pending("Request intake owner selection"),
+  Combobox: intake(
+    "Searchable owner selection, no-match recovery and clear retain the request draft",
+    "AssignmentKeyboard",
+  ),
   ConfirmAction: pending("Destructive workspace action with cancel and error recovery"),
   Container: frame("Shared site header and footer boundaries with one gutter owner"),
   CopyableText: pending("Request identifiers and setup values with clipboard recovery"),
   Dashboard: pending("Discoverable sales and operations composition"),
-  DescriptionList: pending("Request facts and sender metadata"),
+  DescriptionList: intake(
+    "Prepared request exposes named title, description, owner and reviewer facts",
+  ),
   Dialog: planner("Planner note editing with save and dismissal", "NoteToYourself"),
   Disclosure: pending("Optional workspace details with keyboard and focus behavior"),
   EmptyState: pending("Request search with no-results and empty outcomes"),
@@ -79,7 +84,10 @@ export const adoptionRelationships: Record<string, AdoptionRelationship> = {
     "Copied recipe grouping retains ref/native props, merged descriptions and error-before-fields",
   ),
   FileInput: pending("Request intake supporting attachments"),
-  Form: pending("Request intake task with validation and submission recovery"),
+  Form: intake(
+    "Native request submission retains draft and focuses linked validation before correction",
+    "ValidationRecovery",
+  ),
   FormActions: composed(
     "site/SettingsScreen.tsx",
     "stories/SettingsScreen.stories.tsx",
@@ -100,7 +108,10 @@ export const adoptionRelationships: Record<string, AdoptionRelationship> = {
   Input: planner("Planner rename field with retained value", "Rename"),
   Link: frame("Native site links retain theme, query, hash and caller props"),
   Menu: pending("Contextual workspace actions"),
-  MultiSelect: pending("Request intake optional reviewers"),
+  MultiSelect: intake(
+    "Optional reviewers support keyboard selection, chip removal and clear without losing draft",
+    "AssignmentKeyboard",
+  ),
   NumberField: pending("Request intake quantity"),
   PageHeader: request("Packaged request title and state"),
   Panel: request("Request queue, detail and supporting regions"),

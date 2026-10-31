@@ -50,6 +50,10 @@
         {
           "type": "generic",
           "path": "apps/storybook/recipes/FormSection.tsx"
+        },
+        {
+          "type": "generic",
+          "path": "apps/storybook/recipes/RequestIntake.tsx"
         }
       ]
     }
