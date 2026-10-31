@@ -105,7 +105,8 @@ export const recipeDefinitions: RecipeDefinition[] = [
   {
     id: "requestintake",
     name: "RequestIntake",
-    description: "Describe a request, choose its owner and reviewers, then review a local summary.",
+    description:
+      "Describe a request, assign people, set quantity and retain supporting files for local review.",
     guide: "docs/guides/request-intake.md",
     storyFile: "apps/storybook/recipes/RequestIntake.stories.tsx",
     defaultStoryId: "recipes-requestintake--submit-request",
@@ -116,11 +117,13 @@ export const recipeDefinitions: RecipeDefinition[] = [
       "DescriptionList",
       "ErrorSummary",
       "Fieldset",
+      "FileInput",
       "Form",
       "FormActions",
       "Heading",
       "Input",
       "MultiSelect",
+      "NumberField",
       "PageHeader",
       "Textarea",
     ],

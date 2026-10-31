@@ -8,22 +8,26 @@ import {
   DescriptionList,
   ErrorSummary,
   Fieldset,
+  FileInput,
   Form,
   FormActions,
   Heading,
   Input,
   MultiSelect,
+  NumberField,
   PageHeader,
   Textarea,
 } from "@kb.ui/react";
 import { useEffect, useId, useRef, useState } from "react";
 import {
+  addAttachments,
   type PreparedRequest,
   prepareRequest,
   type RequestDraft,
   type RequestErrors,
   type RequestPerson,
   type RequestValidation,
+  requestIntakePolicy,
 } from "./request-intake-model";
 import "./request-intake.css";
 
@@ -37,6 +41,8 @@ const emptyDraft = (): RequestDraft => ({
   description: "",
   ownerId: null,
   reviewerIds: [],
+  quantity: 1,
+  attachments: [],
 });
 
 export interface RequestIntakeProps {
@@ -49,6 +55,7 @@ export function RequestIntake({ people = samplePeople, validate }: RequestIntake
   const [draft, setDraft] = useState(emptyDraft);
   const [errors, setErrors] = useState<RequestErrors>({});
   const [prepared, setPrepared] = useState<PreparedRequest | null>(null);
+  const [rejections, setRejections] = useState<{ id: string; message: string }[]>([]);
   const summary = useRef<HTMLDivElement>(null);
   const result = useRef<HTMLHeadingElement>(null);
   const title = useRef<HTMLInputElement>(null);
@@ -80,7 +87,8 @@ export function RequestIntake({ people = samplePeople, validate }: RequestIntake
             Request prepared
           </Heading>
           <Callout title="Ready for your review" tone="success">
-            Nothing was sent or saved to a server.
+            <p>Nothing was sent or saved to a server.</p>
+            <p>No file contents were read or uploaded.</p>
           </Callout>
           <DescriptionList aria-label="Prepared request">
             <DescriptionList.Item>
@@ -104,6 +112,24 @@ export function RequestIntake({ people = samplePeople, validate }: RequestIntake
                   "No reviewers selected."}
               </DescriptionList.Detail>
             </DescriptionList.Item>
+            <DescriptionList.Item>
+              <DescriptionList.Term>Quantity</DescriptionList.Term>
+              <DescriptionList.Detail>{prepared.quantity}</DescriptionList.Detail>
+            </DescriptionList.Item>
+            <DescriptionList.Item>
+              <DescriptionList.Term>Attachments</DescriptionList.Term>
+              <DescriptionList.Detail>
+                {prepared.attachments.length ? (
+                  <ul aria-label="Prepared attachments">
+                    {prepared.attachments.map(({ id, file }) => (
+                      <li key={id}>{file.name}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  "No attachments selected."
+                )}
+              </DescriptionList.Detail>
+            </DescriptionList.Item>
           </DescriptionList>
           <FormActions>
             <Button
@@ -122,6 +148,7 @@ export function RequestIntake({ people = samplePeople, validate }: RequestIntake
                 focus.current = "title";
                 setDraft(emptyDraft());
                 setErrors({});
+                setRejections([]);
                 setPrepared(null);
               }}
             >
@@ -181,6 +208,19 @@ export function RequestIntake({ people = samplePeople, validate }: RequestIntake
               error={errors.description}
               onChange={(event) => update("description", event.target.value)}
             />
+            <NumberField
+              id={`${id}-quantity`}
+              label="Quantity"
+              name="quantity"
+              required
+              value={draft.quantity}
+              onValueChange={(value) => update("quantity", value)}
+              min={requestIntakePolicy.minQuantity}
+              max={requestIntakePolicy.maxQuantity}
+              step={1}
+              description="Demo policy: whole quantities from 1 to 100."
+              {...(errors.quantity ? { error: errors.quantity } : {})}
+            />
           </Fieldset>
           <Fieldset legend="Assignment">
             <Combobox
@@ -206,6 +246,47 @@ export function RequestIntake({ people = samplePeople, validate }: RequestIntake
               error={errors.reviewerIds}
               description="Optional. Choose people to review this request."
             />
+          </Fieldset>
+          <Fieldset legend="Supporting material">
+            <FileInput
+              id={`${id}-attachments`}
+              label="Supporting attachments"
+              items={draft.attachments.map(({ id, file }) => ({
+                id,
+                name: file.name,
+                description: `${file.size.toLocaleString()} bytes`,
+              }))}
+              accept={requestIntakePolicy.attachmentTypes.join(",")}
+              description="Optional demo policy: PDF, PNG or JPEG; at most 3 files, 5 MiB each. Kept locally without upload."
+              {...(errors.attachments ? { error: errors.attachments } : {})}
+              onFiles={(files) => {
+                const next = addAttachments(draft.attachments, files, () => crypto.randomUUID());
+                update("attachments", next.attachments);
+                setRejections(
+                  next.rejections.map((message) => ({ id: crypto.randomUUID(), message })),
+                );
+              }}
+              onRemove={(id) => {
+                update(
+                  "attachments",
+                  draft.attachments.filter((item) => item.id !== id),
+                );
+                setRejections([]);
+              }}
+            />
+            {rejections.length ? (
+              <Callout title="Some files were not added" tone="warning" live>
+                <ul>
+                  {rejections.map(({ id, message }) => (
+                    <li key={id}>{message}</li>
+                  ))}
+                </ul>
+                <p>
+                  Accepted files and other fields are kept. Choose corrected files or continue with
+                  the accepted selection.
+                </p>
+              </Callout>
+            ) : null}
           </Fieldset>
         </Form>
       )}
