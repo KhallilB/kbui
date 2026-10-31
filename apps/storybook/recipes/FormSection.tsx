@@ -1,4 +1,4 @@
-import { Grid, Heading, type HeadingLevel, Text } from "@kb.ui/react";
+import { Fieldset, Grid, Heading, type HeadingLevel, Text } from "@kb.ui/react";
 import { type ComponentProps, type ReactNode, useId } from "react";
 import "./recipes.css";
 
@@ -32,17 +32,18 @@ export function FormSection({
       .filter(Boolean)
       .join(" ") || undefined;
   return (
-    <fieldset
+    <Fieldset
       {...props}
       className={["form-section", className].filter(Boolean).join(" ")}
       aria-describedby={descriptions}
       aria-invalid={error ? true : ariaInvalid}
-    >
-      <legend className="form-section-legend">
+      legend={
         <Heading level={level} size="md">
           {title}
         </Heading>
-      </legend>
+      }
+      classNames={{ legend: "form-section-legend" }}
+    >
       {description ? (
         <Text id={descriptionId} className="form-section-description" tone="muted">
           {description}
@@ -56,6 +57,6 @@ export function FormSection({
         ) : null}
         {children}
       </Grid>
-    </fieldset>
+    </Fieldset>
   );
 }

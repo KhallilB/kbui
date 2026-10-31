@@ -1,37 +1,31 @@
 # FormSection recipe
 
-Group related fields under a heading, with instructions and an optional error message. `FormSection` uses a native `<fieldset>` and `<legend>`, plus [`Heading`](../../packages/react/docs/components/Heading.md), [`Text`](../../packages/react/docs/components/Text.md) and [`Grid`](../../packages/react/docs/components/Grid.md).
+Group related fields under a heading, with instructions and an optional error message. `FormSection` uses [`Fieldset`](../../packages/react/docs/components/Fieldset.md) for native `<fieldset>`/`<legend>` grouping, plus [`Heading`](../../packages/react/docs/components/Heading.md), [`Text`](../../packages/react/docs/components/Text.md) and [`Grid`](../../packages/react/docs/components/Grid.md).
 
 This page covers a recipe you copy into your app. The package also exports [`FormSection`](../../packages/react/docs/components/FormSection.md) with its own API; use that component when it fits. The recipe below is a separate source module.
 
-## Start with native grouping
+## Start with shared grouping
 
 ```tsx
 import "@kb.ui/react/styles.css";
-import { Grid, Heading, Input, Text } from "@kb.ui/react";
-import { useId } from "react";
+import { Fieldset, Grid, Heading, Input } from "@kb.ui/react";
 
 export function ContactSection() {
-  const helpId = useId();
-
   return (
-    <fieldset aria-describedby={helpId} style={{ minInlineSize: 0 }}>
-      <legend>
-        <Heading level={2} size="md">Contact details</Heading>
-      </legend>
-      <Text id={helpId} tone="muted">
-        Used for delivery updates. Both fields are required.
-      </Text>
+    <Fieldset
+      legend={<Heading level={2} size="md">Contact details</Heading>}
+      description="Used for delivery updates. Both fields are required."
+    >
       <Grid layout="stack">
         <Input label="Contact name" name="contactName" required />
         <Input label="Contact email" name="contactEmail" type="email" required />
       </Grid>
-    </fieldset>
+    </Fieldset>
   );
 }
 ```
 
-For the recipe's props, error messages and spacing, copy [`FormSection.tsx`](../../apps/storybook/recipes/FormSection.tsx) and [`recipes.css`](../../apps/storybook/recipes/recipes.css) into the same folder. Import `@kb.ui/react/styles.css` once in your app. The [Storybook guide](https://kbui.kcb.pro/storybook/?path=/docs/recipes-formsection--docs) shows the source and examples. The recipe uses native grouping; it does not require the package’s `Fieldset` component.
+For the recipe's props, error messages and spacing, copy [`FormSection.tsx`](../../apps/storybook/recipes/FormSection.tsx) and [`recipes.css`](../../apps/storybook/recipes/recipes.css) into the same folder. Import `@kb.ui/react/styles.css` once in your app. The [Storybook guide](https://kbui.kcb.pro/storybook/?path=/docs/recipes-formsection--docs) shows the source and examples. The recipe composes Fieldset and retains its own Text/Grid content so group errors remain before the fields. Its description/error IDs and native/ref forwarding follow the contract below.
 
 ## Contract
 

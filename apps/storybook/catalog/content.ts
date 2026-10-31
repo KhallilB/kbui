@@ -29,7 +29,7 @@ export const recipeDefinitions: RecipeDefinition[] = [
     guide: "docs/guides/form-section.md",
     storyFile: "apps/storybook/recipes/FormSection.stories.tsx",
     defaultStoryId: "recipes-formsection--contact-details",
-    components: ["Heading", "Text", "Grid", "Input", "Panel"],
+    components: ["Fieldset", "Heading", "Text", "Grid", "Input", "Panel"],
     files: ["apps/storybook/recipes/FormSection.tsx", "apps/storybook/recipes/recipes.css"],
   },
   {
