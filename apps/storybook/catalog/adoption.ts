@@ -83,7 +83,10 @@ export const adoptionRelationships: Record<string, AdoptionRelationship> = {
     "NarrowWithError",
     "Copied recipe grouping retains ref/native props, merged descriptions and error-before-fields",
   ),
-  FileInput: pending("Request intake supporting attachments"),
+  FileInput: intake(
+    "Accepted original files survive mixed rejection, edit and reset; repeated names remove by stable ID with focus repair",
+    "AttachmentRecovery",
+  ),
   Form: intake(
     "Native request submission retains draft and focuses linked validation before correction",
     "ValidationRecovery",
@@ -112,7 +115,10 @@ export const adoptionRelationships: Record<string, AdoptionRelationship> = {
     "Optional reviewers support keyboard selection, chip removal and clear without losing draft",
     "AssignmentKeyboard",
   ),
-  NumberField: pending("Request intake quantity"),
+  NumberField: intake(
+    "Quantity bounds retain invalid drafts and linked error focus through correction and stepping",
+    "QuantityRecovery",
+  ),
   PageHeader: request("Packaged request title and state"),
   Panel: request("Request queue, detail and supporting regions"),
   Popover: pending("Supporting workspace context with focus return"),

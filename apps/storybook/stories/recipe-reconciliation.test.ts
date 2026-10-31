@@ -97,6 +97,10 @@ const preservedRecipes = [
       "recipes-requestintake--assignment-keyboard",
       "recipes-requestintake--empty-directory",
       "recipes-requestintake--app-validation",
+      "recipes-requestintake--quantity-recovery",
+      "recipes-requestintake--attachment-recovery",
+      "recipes-requestintake--repeated-selection-and-removal",
+      "recipes-requestintake--attachment-requirement",
     ],
     files: [
       "apps/storybook/recipes/RequestIntake.tsx",
