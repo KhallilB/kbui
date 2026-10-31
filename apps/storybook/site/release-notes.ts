@@ -1,6 +1,17 @@
 export type ReleaseCopy = { title: string; highlights: string[]; upgrade?: string[] };
 
 export const releaseNotes: Record<string, ReleaseCopy> = {
+  "0.12.0": {
+    title: "Recipes you can connect to your app",
+    highlights: [
+      "Four maintained recipes are released: ListDetail and Inbox, two flow recipes checked against one shared list-and-detail contract, and PageHeader and FormSection, two composition recipes.",
+      "Each flow recipe's guide follows one template and lists the contract guarantees its recipe meets.",
+      "Connect a flow recipe through four preview seams: router, commit, validate and copy. Preview names and shapes may still change before 1.0.",
+      "Records that change after a flow recipe loads are matched by id, so the open record, drafts and pending saves stay with the right record.",
+      "A failed save keeps the draft and shows a visible, announced message. Server validation errors behave like client ones.",
+      "Prop renames: Inbox's sendReply is now commit, ListDetail's initialRequests is now requests, and Inbox's initialThreads is now threads.",
+    ],
+  },
   "0.10.0": {
     title: "New package names and more reliable forms",
     highlights: [
