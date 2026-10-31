@@ -512,16 +512,23 @@ for (const width of [320, 1280]) {
                     .map((animation) => animation.finished.catch(() => {})),
                 );
               });
-              const fits = await popup.evaluate((element) => {
-                const bounds = element.getBoundingClientRect();
-                return (
-                  bounds.top >= 0 &&
-                  bounds.left >= 0 &&
-                  bounds.right <= innerWidth + 1 &&
-                  bounds.bottom <= innerHeight + 1
-                );
-              });
-              if (!fits) throw new Error("Overlay clipped by preview viewport");
+              await expect
+                .poll(
+                  () =>
+                    popup.evaluate((element) => {
+                      const bounds = element.getBoundingClientRect();
+                      return (
+                        bounds.width > 0 &&
+                        bounds.height > 0 &&
+                        bounds.top >= 0 &&
+                        bounds.left >= 0 &&
+                        bounds.right <= innerWidth + 1 &&
+                        bounds.bottom <= innerHeight + 1
+                      );
+                    }),
+                  { timeout: 5000, message: "Overlay clipped by preview viewport" },
+                )
+                .toBe(true);
               if (entry.id === "menu") {
                 const balance = await popup.evaluate((element) => {
                   const trigger = document.querySelector('[aria-haspopup="menu"]');
