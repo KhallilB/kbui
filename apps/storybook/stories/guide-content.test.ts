@@ -1,7 +1,9 @@
 /// <reference types="vite/client" />
 import { expect, test } from "bun:test";
+import { readFileSync } from "node:fs";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
+import { recipeDefinitions } from "../catalog/content";
 import { GuideContent } from "../site/GuideContent";
 
 test("shared guides render Markdown and let embedded docs navigate the top-level site", () => {
@@ -79,4 +81,38 @@ test("single and repeated fences keep stable distinct source names across render
   expect(render(fence)).not.toContain('aria-label="Code example 2"');
   expect(repeated).not.toContain('role="status"');
   expect(repeated).not.toContain("<button");
+});
+
+const recipeTemplate = [
+  "Use when",
+  "Use instead",
+  "Copy the files",
+  "What you supply",
+  "Business logic",
+  "Task policy you can change",
+  "Flow guarantees",
+  "Customising the look",
+  "Check your changes",
+  "Known limits",
+];
+
+test("flow recipe guides follow the template", () => {
+  // Composition recipes keep their own shorter guides.
+  for (const recipe of recipeDefinitions.filter((entry) => entry.flow)) {
+    const markdown = readFileSync(new URL(`../../../${recipe.guide}`, import.meta.url), "utf8");
+    // Fenced code can hold `##` lines that are not headings.
+    const prose = markdown.replace(/```[\s\S]*?```/g, "");
+    const sections = [...prose.matchAll(/^## (.+)$/gm)].map((match) => match[1]);
+    expect(sections, recipe.guide).toEqual(recipeTemplate);
+    expect(markdown, recipe.guide).toContain("This recipe is not released yet.");
+    for (const [block, heading] of [
+      ["files", "Copy the files"],
+      ["policy", "Task policy you can change"],
+      ["flow-guarantees", "Flow guarantees"],
+    ] as const) {
+      const at = prose.indexOf(`<!-- generated:${block} -->`);
+      const owner = [...prose.slice(0, at).matchAll(/^## (.+)$/gm)].at(-1)?.[1];
+      expect(owner, `${recipe.guide} ${block}`).toBe(heading);
+    }
+  }
 });

@@ -91,9 +91,19 @@ test.describe("navigation", () => {
     await page.getByRole("status").filter({ hasText: "That example is unavailable" }).waitFor();
     await page.goto(`${origin}/recipes/?recipe=missing`);
     await page.getByRole("heading", { name: "Recipe unavailable" }).waitFor();
-    for (const retired of ["pageheader", "formsection"]) {
-      await page.goto(`${origin}/recipes/?recipe=${retired}#usage`);
-      await page.waitForURL(`${origin}/components/?component=${retired}#usage`);
+    for (const id of ["pageheader", "formsection"]) {
+      await page.goto(`${origin}/recipes/?recipe=${id}#usage`);
+      await page
+        .getByRole("heading", {
+          level: 1,
+          name: id === "pageheader" ? "PageHeader" : "FormSection",
+          exact: true,
+        })
+        .waitFor();
+      assert.equal(new URL(page.url()).searchParams.get("recipe"), id);
+      assert.equal(new URL(page.url()).hash, "#usage");
+      await page.reload();
+      await page.getByRole("region", { name: "Recipe source files" }).waitFor();
     }
     for (const recipe of recipes) {
       await page.goto(`${origin}/storybook/?path=/docs/${recipe.docsId}`);

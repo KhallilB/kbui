@@ -72,6 +72,7 @@ export const recipeDefinitions: RecipeDefinition[] = [
       "Panel",
       "Split",
       "Text",
+      "Textarea",
     ],
     files: [
       "apps/storybook/recipes/Inbox.tsx",
@@ -81,12 +82,29 @@ export const recipeDefinitions: RecipeDefinition[] = [
     flow: "list-detail",
     policy: { collapseBelow: "42rem", context: "closed", commit: "append" },
   },
+  {
+    id: "pageheader",
+    name: "PageHeader",
+    description: "A page title with supporting text and actions.",
+    guide: "docs/guides/page-header.md",
+    storyFile: "apps/storybook/recipes/PageHeader.stories.tsx",
+    defaultStoryId: "recipes-pageheader--project-list",
+    components: ["Heading", "Text", "Inline", "Toolbar", "Button"],
+    files: ["apps/storybook/recipes/PageHeader.tsx", "apps/storybook/recipes/recipes.css"],
+  },
+  {
+    id: "formsection",
+    name: "FormSection",
+    description: "A heading, instructions and errors for related form fields.",
+    guide: "docs/guides/form-section.md",
+    storyFile: "apps/storybook/recipes/FormSection.stories.tsx",
+    defaultStoryId: "recipes-formsection--contact-details",
+    components: ["Heading", "Text", "Grid", "Input", "Panel", "Fieldset"],
+    files: ["apps/storybook/recipes/FormSection.tsx", "apps/storybook/recipes/recipes.css"],
+  },
 ];
 
 /** Retired recipe id → package component id; old recipe URLs redirect there. */
-export const retiredRecipes: Record<string, string> = {
-  pageheader: "pageheader",
-  formsection: "formsection",
-};
+export const retiredRecipes: Record<string, string> = {};
 
 export const systemGuide = "docs/guides/components-and-recipes.md";
