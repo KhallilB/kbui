@@ -30,12 +30,14 @@ const committedText = "Thanks, the contact sheet works.";
 const fixture: FlowFixture = {
   recipe: "Inbox",
   param: "message",
-  render: ({ initialId, commit, records, router }) => (
+  render: ({ initialId, commit, records, router, loading, embedded }) => (
     <Inbox
       initialThreadId={initialId ?? null}
       {...(commit ? { commit } : {})}
       {...(records ? { threads: records as InboxThread[] } : {})}
       {...(router ? { router } : {})}
+      {...(loading !== undefined ? { loading } : {})}
+      {...(embedded ? { landmark: false, header: false } : {})}
     />
   ),
   policy: recipePolicy("Inbox"),
@@ -45,6 +47,7 @@ const fixture: FlowFixture = {
   second: { id: "proof", row: /Jon Bell/, heading: "A small correction to the print proof" },
   query: "Jon",
   missingHeading: "Message unavailable",
+  emptyHeading: "No correspondence yet",
   names: { search: "Search correspondence", back: "Back to inbox", clear: "Clear search" },
   draft: {
     begin: /^Reply$/,
@@ -54,6 +57,7 @@ const fixture: FlowFixture = {
     pristine: "",
     invalid: "Write a reply before sending.",
     failed: "Reply could not be sent. Your draft is safe; try again.",
+    needsChanges: /needs changes/,
   },
   commitOnce: async (canvas, user) => {
     await user.click(canvas.getByRole("button", { name: /^Reply$/ }));
@@ -69,7 +73,9 @@ const fixture: FlowFixture = {
     add: (current) => [...current, thread("cover", "Priya Shah", "Revised cover caption")],
     echo: (current, id) =>
       (current as InboxThread[]).map((entry) =>
-        entry.id === id ? { ...entry, paragraphs: [...entry.paragraphs, committedText] } : entry,
+        entry.id === id
+          ? { ...entry, replies: [...(entry.replies ?? []), { id: "echo", body: committedText }] }
+          : entry,
       ),
     remove: (current, id) => (current as InboxThread[]).filter((entry) => entry.id !== id),
     commitChange: async (canvas, user) => {
@@ -108,5 +114,8 @@ export const ValidationSeparate = story("validation-separate");
 export const Unmount = story("unmount");
 export const LiveRecords = story("live-records");
 export const RoutingBoundary = story("routing-boundary");
+export const Loading = story("loading");
+export const FormError = story("form-error");
+export const Embedded = story("embedded");
 
 complete();

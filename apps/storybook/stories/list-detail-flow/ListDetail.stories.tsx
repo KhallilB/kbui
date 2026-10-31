@@ -30,12 +30,14 @@ const committedText = "Warehouse access for the inventory team";
 const fixture: FlowFixture = {
   recipe: "ListDetail",
   param: "request",
-  render: ({ initialId, commit, records, router }) => (
+  render: ({ initialId, commit, records, router, loading, embedded }) => (
     <ListDetail
       initialRequestId={initialId ?? null}
       {...(commit ? { commit } : {})}
       {...(records ? { requests: records as RequestRecord[] } : {})}
       {...(router ? { router } : {})}
+      {...(loading !== undefined ? { loading } : {})}
+      {...(embedded ? { landmark: false, header: false } : {})}
     />
   ),
   policy: recipePolicy("ListDetail"),
@@ -49,6 +51,7 @@ const fixture: FlowFixture = {
   },
   query: "scanner",
   missingHeading: "Request unavailable",
+  emptyHeading: "No requests yet",
   names: { search: "Search requests", back: "Back to requests", clear: "Clear filters" },
   draft: {
     begin: /^Edit request$/,
@@ -58,6 +61,7 @@ const fixture: FlowFixture = {
     pristine: "Warehouse access",
     invalid: "Enter a request title.",
     failed: "Changes could not be saved. Your draft is safe; try again.",
+    needsChanges: /needs changes/,
   },
   commitOnce: async (canvas, user) => {
     await user.click(canvas.getByRole("button", { name: "Edit request" }));
@@ -115,5 +119,8 @@ export const ValidationSeparate = story("validation-separate");
 export const Unmount = story("unmount");
 export const LiveRecords = story("live-records");
 export const RoutingBoundary = story("routing-boundary");
+export const Loading = story("loading");
+export const FormError = story("form-error");
+export const Embedded = story("embedded");
 
 complete();

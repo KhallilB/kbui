@@ -302,7 +302,7 @@ export const SuccessAfterLeavingKeepsFocus: Story = {
     leavingSuccess.settle(true);
     await waitFor(() =>
       expect(canvas.getByRole("status")).toHaveTextContent(
-        "Reply added to Notes from the coast for this session.",
+        /^Reply added to Notes from the coast\.$/,
       ),
     );
     await expect(heading).toHaveFocus();
@@ -433,5 +433,78 @@ export const CopyReplacesStrings: Story = {
     await expect(
       canvas.getByText("Add a response before answering.", { exact: true }),
     ).toBeVisible();
+  },
+};
+
+const answered: InboxThread[] = [
+  {
+    id: "coast",
+    sender: "Mara Ellis",
+    address: "mara@example.com",
+    subject: "Notes from the coast",
+    date: "30 October · 09:12",
+    excerpt: "Twelve photographs for the winter issue.",
+    paragraphs: ["I have twelve photographs for the winter issue."],
+    context: "Photographer · Winter issue.",
+    replies: [
+      { id: "r1", body: "Contact sheet first, please.", author: "Rowan Hale" },
+      { id: "r2", body: "Captions with it would help." },
+    ],
+  },
+];
+
+export const SavedReplies: Story = {
+  args: { threads: answered, initialThreadId: "coast", commit: async () => {} },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const team = canvas.getByRole("article", { name: "Reply 1 from Rowan Hale" });
+    await expect(within(team).getByRole("heading", { name: "Rowan Hale" })).toBeVisible();
+    await expect(team).toHaveTextContent("Contact sheet first, please.");
+    const own = canvas.getByRole("article", { name: "Your reply 2" });
+    await expect(within(own).getByRole("heading", { name: "You" })).toBeVisible();
+  },
+};
+
+export const FormErrorIsNotNeedsChanges: Story = {
+  args: {
+    commit: async (): Promise<Outcome> => ({ errors: { form: "Viewers can't edit this." } }),
+  },
+  play: async (context) => {
+    const canvas = within(context.canvasElement);
+    const field = await replyFirst(context);
+    expect(canvas.queryByText(/stay in this session/)).toBeNull();
+    await send(context);
+    await waitFor(() => expect(canvas.getByRole("button", { name: "Send reply" })).toHaveFocus());
+    await expect(canvas.getByText("Viewers can't edit this.")).toBeVisible();
+    await expect(field).toHaveValue("Please send the contact sheet.");
+    await expect(canvas.getByRole("status")).toHaveTextContent(
+      /^Reply to Mara Ellis was not sent\. Viewers can't edit this\.$/,
+    );
+  },
+};
+
+export const LoadingThreads: Story = {
+  args: { threads: [], loading: true, initialThreadId: "coast" },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getAllByText("Loading messages…")[0]).toBeVisible();
+    expect(canvas.queryByRole("heading", { name: "Message unavailable" })).toBeNull();
+    expect(canvas.queryByRole("heading", { name: "No correspondence yet" })).toBeNull();
+  },
+};
+
+export const InsideAppShell: Story = {
+  args: { landmark: false, header: false },
+  render: (args) => (
+    <main>
+      <h1>Support desk</h1>
+      <Inbox {...args} />
+    </main>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    expect(canvas.getAllByRole("main")).toHaveLength(1);
+    expect(canvas.getAllByRole("heading", { level: 1 })).toHaveLength(1);
+    await expect(canvas.getByRole("heading", { name: /^Inbox/ })).toBeVisible();
   },
 };

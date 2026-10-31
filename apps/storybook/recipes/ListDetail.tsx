@@ -32,18 +32,21 @@ export type RequestRecord = RequestDraft & {
   activity: string;
 };
 type Field = keyof RequestDraft & string;
-/** `errors` keeps the draft and focuses the first invalid field, like validation. */
-// biome-ignore lint/suspicious/noConfusingVoidType: lets `async () => {}` mean success.
-export type CommitResult<Field extends string> = void | { errors: Partial<Record<Field, string>> };
+/** `errors` keeps the draft and focuses the first invalid field; `form`, owned by no field, focuses submit. */
+export type CommitResult<Field extends string> =
+  // biome-ignore lint/suspicious/noConfusingVoidType: lets `async () => {}` mean success.
+  void | { errors: Partial<Record<Field | "form", string>> };
 // Keys outside the rendered fields can still arrive from a server.
 type Errors = Partial<Record<string, string>>;
+const fields: readonly Field[] = ["title", "owner", "status"];
 
 /** Every visible string and announcement; pass `copy` to replace any of them. */
 export const listDetailCopy = {
   eyebrow: "Operations desk",
   title: "Requests",
   description: "Review site requests and keep work moving.",
-  idle: "Local demo · Session only",
+  /** Status text before any outcome; empty shows none. */
+  idle: "",
   queue: "Request queue",
   search: "Search requests",
   searchPlaceholder: "Title, ID, owner or site",
@@ -72,8 +75,9 @@ export const listDetailCopy = {
     "This request is missing from the current queue. Return to requests to choose another.",
   choose: "Choose a request",
   chooseHint: "Inspect the details, check site context and make an update.",
+  loading: "Loading requests…",
   editor: "Edit request",
-  editorHint: "Title and owner are required. Changes stay in this browser session.",
+  editorHint: "Title and owner are required.",
   review: "Review the marked fields before saving.",
   titleLabel: "Request title",
   ownerLabel: "Owner",
@@ -85,14 +89,21 @@ export const listDetailCopy = {
   cancel: "Cancel editing",
   failed: "Changes could not be saved. Your draft is safe; try again.",
   savingNotice: (id: string) => `Saving ${id}.`,
-  savedNotice: (id: string) => `${id} saved for this session.`,
+  savedNotice: (id: string) => `${id} saved.`,
   failedNotice: (id: string) => `${id} could not be saved. Draft kept.`,
-  invalidNotice: (id: string) => `${id} needs changes before saving.`,
+  invalidNotice: (id: string, errors: Errors) =>
+    fields.some((field) => errors[field])
+      ? `${id} needs changes before saving.`
+      : `${id} was not saved.`,
   discardedNotice: (id: string) => `${id} draft discarded.`,
 };
 type Copy = typeof listDetailCopy;
-
-const fields: readonly Field[] = ["title", "owner", "status"];
+// Only true of the in-memory default `commit`.
+const sessionCopy: Partial<Copy> = {
+  idle: "Local demo · Session only",
+  editorHint: "Title and owner are required. Changes stay in this browser session.",
+  savedNotice: (id) => `${id} saved for this session.`,
+};
 const statusOptions = ["Open", "In progress", "Resolved"].map((value) => ({ value, label: value }));
 const statusTones: Record<RequestStatus, StatusTone> = {
   Open: "info",
@@ -262,19 +273,29 @@ function without<Value>(map: Record<string, Value | undefined>, id: string) {
 export function ListDetail({
   requests = sampleRequests,
   initialRequestId = null,
+  loading = false,
   router: routerProp,
-  commit = async () => {},
+  commit: commitProp,
   validate: validateProp,
   copy,
+  landmark = true,
+  header = true,
 }: {
   requests?: RequestRecord[] | undefined;
   initialRequestId?: string | null | undefined;
+  /** Records are still arriving: no unavailable or empty state yet. */
+  loading?: boolean | undefined;
   router?: FlowRouter | undefined;
   commit?: ((id: string, draft: RequestDraft) => Promise<CommitResult<Field>>) | undefined;
   validate?: ((draft: RequestDraft) => Partial<Record<Field, string>>) | undefined;
   copy?: Partial<Copy> | undefined;
+  /** False inside an app shell that already has a `<main>`. */
+  landmark?: boolean | undefined;
+  /** False inside an app shell that already has the page `<h1>`; status stays for screen readers. */
+  header?: boolean | undefined;
 }) {
-  const text = { ...listDetailCopy, ...copy };
+  const commit = commitProp ?? (async () => {});
+  const text = { ...listDetailCopy, ...(commitProp ? {} : sessionCopy), ...copy };
   const validate =
     validateProp ??
     ((draft: RequestDraft): Errors => ({
@@ -301,6 +322,11 @@ export function ListDetail({
   latest.current = requests;
   const mounted = useRef(false);
   const pending = useRef(new Set<string>());
+  // Read before commit: a removed element may never fire blur, so `focused` can be stale.
+  const activeBefore = useRef<Element | null>(null);
+  activeBefore.current = root.current?.contains(document.activeElement)
+    ? document.activeElement
+    : null;
   const search = useRef<HTMLInputElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const edit = useRef<HTMLButtonElement>(null);
@@ -351,6 +377,8 @@ export function ListDetail({
 
   useEffect(() => {
     currentId.current = selectedId;
+    // Hold focus for the deep-linked record until it arrives.
+    if (loading && selectedId && !selected) return;
     const target = focusTarget.current;
     focusTarget.current = null;
     if (target === "heading") heading.current?.focus();
@@ -370,7 +398,10 @@ export function ListDetail({
       setDrafts((current) => without(current, gone));
       setErrors((current) => without(current, gone));
       setFailures((current) => without(current, gone));
-      if (focused.current && !focused.current.isConnected) heading.current?.focus();
+      if (
+        [activeBefore.current, focused.current].some((element) => element && !element.isConnected)
+      )
+        heading.current?.focus();
     }
     shown.current = selected?.id ?? null;
   }, [selected, selectedId]);
@@ -416,7 +447,7 @@ export function ListDetail({
       .filter(([key]) => !fields.includes(key as Field))
       .map(([, message]) => message);
     if (server || unrendered.length)
-      announce([...(server ? [text.invalidNotice(recordId)] : []), ...unrendered].join(" "));
+      announce([...(server ? [text.invalidNotice(recordId, found)] : []), ...unrendered].join(" "));
     if (currentId.current === recordId)
       focusTarget.current = fields.find((field) => found[field]) ?? "submit";
     return true;
@@ -462,10 +493,17 @@ export function ListDetail({
     focusTarget.current = "edit";
   }
 
+  const notices = (
+    <Text role="status" size="sm" tone="muted" className="list-detail-notice">
+      <span key={notice.id}>{notice.text || text.idle}</span>
+    </Text>
+  );
+
   return (
     <Container
       ref={root}
-      as="main"
+      // Container types `as` per element; main and div share every prop used here.
+      as={(landmark ? "main" : "div") as "main"}
       size="full"
       gutter={false}
       className="list-detail"
@@ -477,18 +515,22 @@ export function ListDetail({
         if (event.target.getClientRects().length) focused.current = null;
       }}
     >
-      <PageHeader
-        title={text.title}
-        size="sm"
-        eyebrow={text.eyebrow}
-        description={text.description}
-        meta={
-          <Text role="status" size="sm" tone="muted" className="list-detail-notice">
-            <span key={notice.id}>{notice.text || text.idle}</span>
-          </Text>
-        }
-      />
-      <div className="list-detail-layout" data-selected={selectedId ? "true" : "false"}>
+      {header ? (
+        <PageHeader
+          title={text.title}
+          size="sm"
+          eyebrow={text.eyebrow}
+          description={text.description}
+          meta={notices}
+        />
+      ) : (
+        <div className="kb-sr-only">{notices}</div>
+      )}
+      <div
+        className="list-detail-layout"
+        data-selected={selectedId ? "true" : "false"}
+        aria-busy={loading || undefined}
+      >
         <Panel className="list-detail-list" aria-labelledby={`${id}-queue`}>
           <Panel.Header>
             <Heading level={2} size="sm" id={`${id}-queue`}>
@@ -512,9 +554,11 @@ export function ListDetail({
                 options={[{ value: "all", label: text.allStatuses }, ...statusOptions]}
               />
               <Text size="sm" tone="muted" aria-live="polite">
-                {text.count(filtered.length, records.length)}
+                {loading && !records.length
+                  ? text.loading
+                  : text.count(filtered.length, records.length)}
               </Text>
-              {filtered.length ? (
+              {loading && !records.length ? null : filtered.length ? (
                 <ul className="list-detail-items" aria-label={text.list}>
                   {filtered.map((record) => (
                     <li key={record.id}>
@@ -575,7 +619,13 @@ export function ListDetail({
           </Panel.Body>
         </Panel>
         <div className="list-detail-workspace">
-          {selectedId ? (
+          {selectedId && loading && !selected ? (
+            <Panel tone="sunken" className="list-detail-empty">
+              <Panel.Body>
+                <Text tone="muted">{text.loading}</Text>
+              </Panel.Body>
+            </Panel>
+          ) : selectedId ? (
             <Grid layout="stack">
               {selected ? (
                 <Panel className="list-detail-detail" aria-labelledby={`${id}-detail`}>
