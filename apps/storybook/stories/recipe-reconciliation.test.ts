@@ -34,9 +34,36 @@ const preservedRecipes = [
     ],
     files: ["apps/storybook/recipes/ListDetail.tsx", "apps/storybook/recipes/list-detail.css"],
   },
+  {
+    name: "PageHeader",
+    defaultStoryId: "recipes-pageheader--project-list",
+    docsId: "recipes-pageheader--docs",
+    stories: [
+      "recipes-pageheader--project-list",
+      "recipes-pageheader--record-detail",
+      "recipes-pageheader--title-only",
+      "recipes-pageheader--pending",
+      "recipes-pageheader--narrow-long-content",
+      "recipes-pageheader--embedded-and-rtl",
+    ],
+    files: ["apps/storybook/recipes/PageHeader.tsx", "apps/storybook/recipes/recipes.css"],
+  },
+  {
+    name: "FormSection",
+    defaultStoryId: "recipes-formsection--contact-details",
+    docsId: "recipes-formsection--docs",
+    stories: [
+      "recipes-formsection--contact-details",
+      "recipes-formsection--in-panel",
+      "recipes-formsection--minimal",
+      "recipes-formsection--disabled",
+      "recipes-formsection--narrow-with-error",
+    ],
+    files: ["apps/storybook/recipes/FormSection.tsx", "apps/storybook/recipes/recipes.css"],
+  },
 ];
 
-test("reconciliation retains every current recipe source set and public story ID", async () => {
+test("reconciliation retains all four recipe source sets and every public story ID", async () => {
   for (const recipe of preservedRecipes)
     for (const file of recipe.files)
       expect(existsSync(new URL(`../../../${file}`, import.meta.url)), file).toBe(true);

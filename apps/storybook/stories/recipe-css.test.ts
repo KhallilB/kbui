@@ -6,13 +6,8 @@ import { buildCss, paletteRefsIn, rawStyleValuesIn } from "../../../packages/css
 
 const recipes = new URL("../recipes/", import.meta.url).pathname;
 const cssSrc = new URL("../../../packages/css/src/", import.meta.url).pathname;
-// Shared by the retiring PageHeader and FormSection recipes; absent once retired.
-const unguarded = new Set(["recipes.css"]);
-
 // readdir order is platform-dependent.
-const files = (await readdir(recipes))
-  .filter((f) => f.endsWith(".css") && !unguarded.has(f))
-  .sort();
+const files = (await readdir(recipes)).filter((f) => f.endsWith(".css")).sort();
 
 // Recipe's own classes; `.kb-*` are package parts it restyles, not its anatomy.
 const ownClasses = (text: string) =>
@@ -37,7 +32,7 @@ afterAll(async () => {
 });
 
 test("every recipe stylesheet is guarded", () => {
-  expect(files).toEqual(["inbox.css", "list-detail.css"]);
+  expect(files).toEqual(["inbox.css", "list-detail.css", "recipes.css"]);
 });
 
 describe.each(files)("%s", (file) => {

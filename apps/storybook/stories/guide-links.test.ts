@@ -13,3 +13,13 @@ test("canonical guide links keep host prefixes and component or recipe anchors",
   expect(guideLink("https://www.w3.org/WAI/", guide, "../")).toBe("https://www.w3.org/WAI/");
   expect(guideLink("javascript:alert(1)", guide, "../")).toBe("#");
 });
+
+test("maintained composition guides resolve to their copyable recipe pages", () => {
+  for (const [file, id] of [
+    ["page-header", "pageheader"],
+    ["form-section", "formsection"],
+  ])
+    expect(guideLink(`${file}.md#usage`, "docs/guides/inbox.md", "/kbui/")).toBe(
+      `/kbui/recipes/?recipe=${id}#usage`,
+    );
+});

@@ -35,8 +35,9 @@ test("existing package composition and pending native-control replacements stay 
     destination: expect.stringContaining("reply"),
   });
   expect(rows.find((row) => row.family === "Toolbar")).toMatchObject({
-    status: "pending",
-    destination: expect.stringContaining("roving keyboard focus"),
+    status: "adopted",
+    source: "apps/storybook/recipes/PageHeader.stories.tsx",
+    proof: { id: "recipes-pageheader--record-detail" },
   });
   expect(rows.find((row) => row.family === "Switch")).toMatchObject({
     status: "adopted",
