@@ -292,10 +292,17 @@ for (const width of [320, 1280]) {
                     const parent = surface.parentElement;
                     if (!parent) return false;
                     const style = getComputedStyle(parent);
-                    const available =
+                    const parentWidth =
                       parent.clientWidth -
                       parseFloat(style.paddingLeft) -
                       parseFloat(style.paddingRight);
+                    const authoredWidth = surface.style.inlineSize || surface.style.width;
+                    const available = Math.min(
+                      parentWidth,
+                      /^\d+(?:\.\d+)?px$/.test(authoredWidth)
+                        ? parseFloat(authoredWidth)
+                        : Infinity,
+                    );
                     return bounds.width >= available - 1;
                   })
                 );
