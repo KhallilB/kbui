@@ -1,7 +1,7 @@
 import content from "virtual:kbui-system";
 import { Button, Container, Heading, Text } from "@kb.ui/react";
-import { useState } from "react";
-import { systemGuide } from "../catalog/content";
+import { useEffect, useState } from "react";
+import { retiredRecipes, systemGuide } from "../catalog/content";
 import type { RecipeReference } from "../catalog/types";
 import { StoryPreview } from "./CatalogPreview";
 import { CodePanel } from "./CodePanel";
@@ -130,18 +130,29 @@ function RecipeDetails({
   );
 }
 
+const replaceWindowLocation = (href: string) => window.location.replace(href);
+
 export function Recipes({
   siteRoot = "../",
   storybookRoot = "../storybook/",
   search = "",
+  hash = "",
+  replaceLocation = replaceWindowLocation,
 }: {
   siteRoot?: string;
   storybookRoot?: string;
   search?: string;
+  hash?: string;
+  replaceLocation?: (href: string) => void;
 }) {
   const params = new URLSearchParams(search);
   const requested = params.get("recipe");
   const recipe = content.recipes.find((entry) => entry.id === requested);
+  const retired = requested ? retiredRecipes[requested] : undefined;
+  const component = retired ? `${siteRoot}components/?component=${retired}${hash}` : undefined;
+  useEffect(() => {
+    if (component) replaceLocation(component);
+  }, [component, replaceLocation]);
   return (
     <SiteFrame
       current="recipes"
@@ -157,6 +168,12 @@ export function Recipes({
             siteRoot={siteRoot}
             storybookRoot={storybookRoot}
           />
+        ) : component ? (
+          <div className="page-heading">
+            <Heading level={1}>Recipe moved</Heading>
+            <Text>This recipe is now a package component.</Text>
+            <SiteLink href={component}>Open the component</SiteLink>
+          </div>
         ) : requested ? (
           <div className="page-heading">
             <Heading level={1}>Recipe unavailable</Heading>

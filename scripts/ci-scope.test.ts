@@ -23,8 +23,8 @@ test("private-doc cleanup and public prose need no browser", () => {
 test("source, executable stories and unknown files retain browser coverage", () => {
   for (const path of [
     "packages/react/docs/components/Button.md",
-    "docs/guides/page-header.md",
-    "docs/guides/form-section.md",
+    "docs/guides/list-detail.md",
+    "docs/guides/inbox.md",
     "docs/guides/components-and-recipes.md",
     "packages/react/src/components/Button/Button.tsx",
     "packages/tokens/tokens.json",

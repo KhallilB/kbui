@@ -17,12 +17,7 @@ const preservedRecipes = [
       "recipes-inbox--long-letter",
       "recipes-inbox--pending-delivery",
     ],
-    files: [
-      "apps/storybook/recipes/Inbox.tsx",
-      "apps/storybook/recipes/inbox.css",
-      "apps/storybook/recipes/PageHeader.tsx",
-      "apps/storybook/recipes/recipes.css",
-    ],
+    files: ["apps/storybook/recipes/Inbox.tsx", "apps/storybook/recipes/inbox.css"],
   },
   {
     name: "ListDetail",

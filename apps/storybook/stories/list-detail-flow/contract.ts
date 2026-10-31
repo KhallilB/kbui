@@ -1,7 +1,12 @@
 import type { StoryObj } from "@storybook/react-vite";
-import type { ReactElement } from "react";
+import { createElement, type ReactElement } from "react";
 import { expect, waitFor, within } from "storybook/test";
 import { page } from "vitest/browser";
+import { type RecipePolicy, recipeDefinitions } from "../../catalog/content";
+import { controls, Harness } from "./harness";
+import { type RuleId, type RuleMeta, ruleMeta } from "./rules";
+
+export type { RuleId };
 
 type Canvas = ReturnType<typeof within>;
 type User = {
@@ -15,11 +20,58 @@ export type Send = (id: string, body: string) => Promise<void>;
 /** One record the contract opens: its id, list row and detail heading. */
 type Entry = { id: string; row: RegExp; heading: string };
 
+/** Router a recipe receives in place of the URL; records every write. */
+export type MemoryRouter = {
+  read(): string | null;
+  write(id: string | null): void;
+  subscribe(onChange: () => void): () => void;
+  writes: (string | null)[];
+  /** Simulates an outside navigation. */
+  emit(id: string | null): void;
+};
+
+export function memoryRouter(): MemoryRouter {
+  let id: string | null = null;
+  const listeners = new Set<() => void>();
+  const writes: (string | null)[] = [];
+  return {
+    read: () => id,
+    write(next) {
+      writes.push(next);
+      id = next;
+    },
+    subscribe(onChange) {
+      listeners.add(onChange);
+      return () => listeners.delete(onChange);
+    },
+    writes,
+    emit(next) {
+      id = next;
+      for (const listener of listeners) listener();
+    },
+  };
+}
+
+/** The catalog policy for a flow recipe; throws if it declares none. */
+export function recipePolicy(recipe: string): RecipePolicy {
+  const policy = recipeDefinitions.find((entry) => entry.name === recipe)?.policy;
+  if (!policy) throw new Error(`${recipe} declares no policy`);
+  return policy;
+}
+
 /** What a list-and-detail recipe exposes to the shared flow contract. */
 export type FlowFixture = {
   recipe: string;
   param: string;
-  render: (options: { initialId?: string | undefined; send?: Send | undefined }) => ReactElement;
+  render: (options: {
+    initialId?: string | undefined;
+    send?: Send | undefined;
+    records?: readonly unknown[] | undefined;
+    router?: MemoryRouter | undefined;
+  }) => ReactElement;
+  policy: RecipePolicy;
+  /** Accessible name of the context aside. */
+  context: string;
   first: Entry;
   second: Entry;
   /** Matches `second` but not `first`. */
@@ -34,13 +86,27 @@ export type FlowFixture = {
     /** Field value when a draft starts. */
     pristine: string;
     invalid: string;
+    /** Visible text of a failed commit. */
+    failed: string;
   };
   /** One complete successful commit on the open record. */
-  commit: (canvas: Canvas, user: User) => Promise<void>;
+  commitOnce: (canvas: Canvas, user: User) => Promise<void>;
   /** The region that announces commit outcomes. */
   status: (root: HTMLElement) => HTMLElement;
   /** Present when commits are asynchronous. */
   async?: { pendingSubmit: string } | undefined;
+  /** Records rendered through `Harness`, and changes a server could deliver. */
+  live: {
+    records: readonly unknown[];
+    added: Entry;
+    add(records: readonly unknown[]): readonly unknown[];
+    /** Server copy of `id` that already includes the committed change. */
+    echo(records: readonly unknown[], id: string): readonly unknown[];
+    remove(records: readonly unknown[], id: string): readonly unknown[];
+    /** Commits `committedText` on the open record, from a closed draft. */
+    commitChange(canvas: Canvas, user: User): Promise<void>;
+    committedText: string;
+  };
   /** Rules the recipe breaks today, with why; each must still fail. */
   gaps: Partial<Record<RuleId, string>>;
 };
@@ -51,19 +117,21 @@ type Context = {
   canvas: Canvas;
   user: User;
   send: Deferred;
+  router: MemoryRouter;
 };
 
-export type Rule = {
-  /** What a recipe guarantees; shown when a gap closes. */
-  summary: string;
-  /** Fixture capability the rule needs; recipes without it skip the rule. */
-  requires?: "async";
+/** How a rule runs; its summary, group and requirement live in `rules.ts`. */
+export type Check = {
   /** Viewport width; omitted runs at the test default. */
   width?: number;
   initialId?: string;
   /** URL search set before render. */
   search?: (fixture: FlowFixture) => string;
   deferredSend?: boolean;
+  /** Render through `Harness` with `live.records`, so `controls` works. */
+  harness?: boolean;
+  /** Pass a fresh `MemoryRouter`, empty, as the recipe's router. */
+  router?: boolean;
   check: (context: Context) => Promise<void>;
 };
 
@@ -104,6 +172,36 @@ function selection(fixture: FlowFixture) {
   return new URL(window.location.href).searchParams.get(fixture.param);
 }
 
+/** Viewport width, in px, just below `collapseBelow`: one pane shows. */
+function collapsed(fixture: FlowFixture) {
+  const rem = Number.parseFloat(getComputedStyle(document.documentElement).fontSize);
+  return Math.floor(Number.parseFloat(fixture.policy.collapseBelow) * rem) - 1;
+}
+
+// Two frames let React commit and the browser lay out a state change.
+function frames() {
+  return new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+}
+
+const nonColourProperties = ["outline-style", "outline-width"].concat(
+  ["top", "right", "bottom", "left"].flatMap((side) => [
+    `border-${side}-style`,
+    `border-${side}-width`,
+  ]),
+);
+
+function nonColourCue(element: Element) {
+  const style = getComputedStyle(element);
+  return nonColourProperties.map((property) => style.getPropertyValue(property)).join(" ");
+}
+
+function accessibleDescription(element: Element) {
+  return (element.getAttribute("aria-describedby") ?? "")
+    .split(/\s+/)
+    .map((id) => (id ? (document.getElementById(id)?.textContent ?? "") : ""))
+    .join(" ");
+}
+
 function pending(fixture: FlowFixture) {
   if (!fixture.async) throw new Error(`${fixture.recipe} has no asynchronous commit`);
   return fixture.async.pendingSubmit;
@@ -111,7 +209,6 @@ function pending(fixture: FlowFixture) {
 
 const definitions = {
   "open-focus": {
-    summary: "Opening a record focuses its heading",
     check: async ({ fixture, canvas, user }) => {
       canvas.getByRole("button", { name: fixture.first.row }).focus();
       await user.keyboard("{Enter}");
@@ -119,7 +216,6 @@ const definitions = {
     },
   },
   "unavailable-focus": {
-    summary: "An unknown record id focuses the unavailable heading",
     initialId: "missing-record",
     check: async ({ fixture, canvas }) => {
       await waitFor(() =>
@@ -128,7 +224,6 @@ const definitions = {
     },
   },
   reselect: {
-    summary: "Reselecting the open record focuses its heading without a history entry",
     width: 1280,
     check: async ({ fixture, canvas, user }) => {
       await open(canvas, user, fixture.first);
@@ -141,7 +236,6 @@ const definitions = {
     },
   },
   "return-row": {
-    summary: "Back returns focus to the row that opened the record",
     check: async ({ fixture, canvas, user }) => {
       await open(canvas, user, fixture.first);
       await back(canvas, user, fixture);
@@ -149,7 +243,6 @@ const definitions = {
     },
   },
   "filtered-return": {
-    summary: "Back focuses search when the opening row is filtered out",
     width: 1280,
     check: async ({ fixture, canvas, user }) => {
       await open(canvas, user, fixture.first);
@@ -159,7 +252,6 @@ const definitions = {
     },
   },
   history: {
-    summary: "Browser Back and Forward restore the row and heading of the latest record",
     check: async ({ fixture, canvas, user }) => {
       await open(canvas, user, fixture.first);
       await back(canvas, user, fixture);
@@ -173,17 +265,15 @@ const definitions = {
     },
   },
   resize: {
-    summary: "Narrowing to one pane moves focus from the hidden list to the heading",
     width: 1440,
     check: async ({ fixture, canvas, user }) => {
       await open(canvas, user, fixture.first);
       canvas.getByRole("searchbox", { name: fixture.names.search }).focus();
-      await page.viewport(390, 844);
+      await page.viewport(collapsed(fixture), 844);
       await waitFor(() => expect(heading(canvas, fixture.first)).toHaveFocus());
     },
   },
   drafts: {
-    summary: "Drafts stay with their record across navigation; discard restores the original",
     check: async ({ fixture, canvas, user }) => {
       await open(canvas, user, fixture.first);
       await user.click(canvas.getByRole("button", { name: fixture.draft.begin }));
@@ -206,8 +296,6 @@ const definitions = {
     },
   },
   "async-completion": {
-    summary: "A commit settling after navigation sends once and leaves focus where the user is",
-    requires: "async",
     deferredSend: true,
     check: async ({ fixture, root, canvas, user, send }) => {
       const pendingSubmit = pending(fixture);
@@ -225,7 +313,6 @@ const definitions = {
     },
   },
   validation: {
-    summary: "An invalid commit keeps the value, focuses the field and describes the error",
     check: async ({ fixture, canvas, user }) => {
       await open(canvas, user, fixture.first);
       await user.click(canvas.getByRole("button", { name: fixture.draft.begin }));
@@ -239,7 +326,6 @@ const definitions = {
     },
   },
   "current-row": {
-    summary: "Only the open record's row carries aria-current",
     width: 1280,
     check: async ({ fixture, canvas, user }) => {
       await open(canvas, user, fixture.first);
@@ -252,7 +338,6 @@ const definitions = {
     },
   },
   routing: {
-    summary: "The selection parameter follows the open record and keeps other parameters",
     search: () => "?keep=1",
     check: async ({ fixture, canvas, user }) => {
       await open(canvas, user, fixture.first);
@@ -264,10 +349,9 @@ const definitions = {
     },
   },
   announcements: {
-    summary: "A repeated identical outcome is announced again",
     check: async ({ fixture, root, canvas, user }) => {
       await open(canvas, user, fixture.first);
-      await fixture.commit(canvas, user);
+      await fixture.commitOnce(canvas, user);
       const status = fixture.status(root);
       const before = status.textContent;
       let changes = 0;
@@ -276,7 +360,7 @@ const definitions = {
       });
       observer.observe(status, { subtree: true, childList: true, characterData: true });
       try {
-        await fixture.commit(canvas, user);
+        await fixture.commitOnce(canvas, user);
         await waitFor(() =>
           expect(changes, "identical outcome must be announced again").toBeGreaterThan(0),
         );
@@ -287,7 +371,6 @@ const definitions = {
     },
   },
   filters: {
-    summary: "Filters persist, keep the open record open, and Clear focuses search",
     width: 1280,
     check: async ({ fixture, canvas, user }) => {
       await open(canvas, user, fixture.first);
@@ -303,8 +386,6 @@ const definitions = {
     },
   },
   "pending-focus": {
-    summary: "Focus stays on an enabled control while a commit is pending",
-    requires: "async",
     deferredSend: true,
     check: async ({ fixture, canvas, user, send }) => {
       const pendingSubmit = pending(fixture);
@@ -323,20 +404,188 @@ const definitions = {
     },
   },
   "empty-selection": {
-    summary: "An empty selection parameter shows the list, not an unavailable record",
     search: (fixture) => `?${fixture.param}=`,
     check: async ({ fixture, canvas }) => {
       await expect(canvas.getByRole("searchbox", { name: fixture.names.search })).toBeVisible();
       expect(canvas.queryByRole("heading", { name: fixture.missingHeading })).toBeNull();
     },
   },
-} satisfies Record<string, Rule>;
+  "resize-keeps-draft": {
+    width: 1280,
+    check: async ({ fixture, canvas, user }) => {
+      await open(canvas, user, fixture.first);
+      await user.click(canvas.getByRole("button", { name: fixture.draft.begin }));
+      const field = canvas.getByRole("textbox", { name: fixture.draft.field });
+      await user.clear(field);
+      await user.type(field, "kept");
+      await page.viewport(collapsed(fixture), 844);
+      await frames();
+      await expect(field).toHaveFocus();
+      await expect(field).toHaveValue("kept");
+    },
+  },
+  "context-initial": {
+    width: 1280,
+    check: async ({ fixture, canvas, user }) => {
+      await open(canvas, user, fixture.first);
+      const aside = canvas.queryByRole("complementary", { name: fixture.context });
+      if (fixture.policy.context === "open") expect(aside).not.toBeNull();
+      else expect(aside).toBeNull();
+    },
+  },
+  "forced-colors-row": {
+    width: 1280,
+    check: async ({ fixture, canvas, user }) => {
+      await open(canvas, user, fixture.first);
+      const current = canvas.getByRole("button", { name: fixture.first.row });
+      const focused = canvas.getByRole("button", { name: fixture.second.row });
+      current.focus();
+      // Keyboard focus, so the focus ring is the one users see.
+      await user.keyboard("{Tab}");
+      await expect(focused).toHaveFocus();
+      expect(nonColourCue(current), "current row matches the focused row").not.toBe(
+        nonColourCue(focused),
+      );
+      if (!matchMedia("(forced-colors: active)").matches) return;
+      const idle = [...(current.closest("ul")?.querySelectorAll("button") ?? [])].find(
+        (row) => row !== current && row !== focused,
+      );
+      if (!idle) throw new Error(`${fixture.recipe} needs a third row`);
+      expect(nonColourCue(current), "current row matches an idle row").not.toBe(nonColourCue(idle));
+    },
+  },
+  "validation-separate": {
+    deferredSend: true,
+    check: async ({ fixture, canvas, user, send }) => {
+      await open(canvas, user, fixture.first);
+      await user.click(canvas.getByRole("button", { name: fixture.draft.begin }));
+      const field = canvas.getByRole("textbox", { name: fixture.draft.field });
+      await user.clear(field);
+      await user.click(canvas.getByRole("button", { name: fixture.draft.submit }));
+      await waitFor(() => expect(accessibleDescription(field)).toContain(fixture.draft.invalid));
+      expect(send.calls).toBe(0);
+      await user.type(field, "Updated text");
+      await user.click(canvas.getByRole("button", { name: fixture.draft.submit }));
+      send.settle(false);
+      await waitFor(() =>
+        expect(
+          canvas
+            .getAllByText(fixture.draft.failed)
+            .some((element: HTMLElement) => element.checkVisibility()),
+        ).toBe(true),
+      );
+      const description = accessibleDescription(field);
+      expect(description).not.toContain(fixture.draft.failed);
+      expect(description).not.toContain(fixture.draft.invalid);
+    },
+  },
+  unmount: {
+    deferredSend: true,
+    harness: true,
+    check: async ({ fixture, canvas, user, send }) => {
+      const pendingSubmit = pending(fixture);
+      const errors: unknown[] = [];
+      const original = console.error;
+      console.error = (...args: unknown[]) => {
+        errors.push(args);
+        original(...args);
+      };
+      const record = (event: ErrorEvent | PromiseRejectionEvent) =>
+        errors.push("reason" in event ? event.reason : event.error);
+      window.addEventListener("error", record);
+      window.addEventListener("unhandledrejection", record);
+      try {
+        await open(canvas, user, fixture.first);
+        await user.click(canvas.getByRole("button", { name: fixture.draft.begin }));
+        await user.type(canvas.getByRole("textbox", { name: fixture.draft.field }), "Updated text");
+        await user.click(canvas.getByRole("button", { name: fixture.draft.submit }));
+        await expect(canvas.getByRole("button", { name: pendingSubmit })).toBeDisabled();
+        controls.unmount();
+        await waitFor(() =>
+          expect(canvas.queryByRole("heading", { name: fixture.first.heading })).toBeNull(),
+        );
+        send.settle(true);
+        await frames();
+        controls.remount();
+        await waitFor(() => expect(heading(canvas, fixture.first)).toBeVisible());
+        expect(canvas.queryByText(pendingSubmit)).toBeNull();
+        expect(errors).toEqual([]);
+      } finally {
+        console.error = original;
+        window.removeEventListener("error", record);
+        window.removeEventListener("unhandledrejection", record);
+      }
+    },
+  },
+  "live-records": {
+    harness: true,
+    check: async ({ fixture, canvas, user }) => {
+      const { live } = fixture;
+      let records = live.records;
+      const deliver = async (next: readonly unknown[]) => {
+        records = next;
+        controls.setRecords(records);
+        await frames();
+      };
+      await open(canvas, user, fixture.first);
+      await deliver(live.add(records));
+      await expect(canvas.getByRole("button", { name: live.added.row })).toBeVisible();
+      await expect(heading(canvas, fixture.first)).toHaveFocus();
 
-export type RuleId = keyof typeof definitions;
-export const rules: Record<RuleId, Rule> = definitions;
+      await deliver(live.remove(records, live.added.id));
+      expect(canvas.queryByRole("button", { name: live.added.row })).toBeNull();
+      await expect(heading(canvas, fixture.first)).toHaveFocus();
 
-function applies(rule: Rule, fixture: FlowFixture) {
-  return rule.requires !== "async" || fixture.async !== undefined;
+      await user.click(canvas.getByRole("button", { name: fixture.draft.begin }));
+      const field = canvas.getByRole("textbox", { name: fixture.draft.field });
+      await user.clear(field);
+      await user.type(field, "Live draft");
+      await deliver(live.add(records));
+      await expect(canvas.getByRole("button", { name: live.added.row })).toBeVisible();
+      await expect(canvas.getByRole("textbox", { name: fixture.draft.field })).toHaveValue(
+        "Live draft",
+      );
+      await user.click(canvas.getByRole("button", { name: fixture.draft.discard }));
+
+      await live.commitChange(canvas, user);
+      const shown = canvas.getAllByText(live.committedText).length;
+      await deliver(live.echo(records, fixture.first.id));
+      expect(canvas.getAllByText(live.committedText), "server echo shown twice").toHaveLength(
+        shown,
+      );
+
+      await deliver(live.remove(records, fixture.first.id));
+      await expect(canvas.getByRole("heading", { name: fixture.missingHeading })).toBeVisible();
+    },
+  },
+  "routing-boundary": {
+    router: true,
+    width: 1280,
+    check: async ({ fixture, canvas, user, router }) => {
+      const search = window.location.search;
+      await open(canvas, user, fixture.first);
+      expect(router.writes).toEqual([fixture.first.id]);
+      await back(canvas, user, fixture);
+      expect(router.writes).toEqual([fixture.first.id, null]);
+      router.emit(fixture.second.id);
+      await waitFor(() => expect(heading(canvas, fixture.second)).toHaveFocus());
+      router.emit(fixture.second.id);
+      await frames();
+      expect(router.writes).toEqual([fixture.first.id, null]);
+      await expect(heading(canvas, fixture.second)).toHaveFocus();
+      await user.click(canvas.getByRole("button", { name: fixture.second.row }));
+      await expect(heading(canvas, fixture.second)).toHaveFocus();
+      expect(router.writes, "reselecting the open id writes").toEqual([fixture.first.id, null]);
+      expect(window.location.search).toBe(search);
+    },
+  },
+} satisfies Record<RuleId, Check>;
+
+export const rules: Record<RuleId, Check> = definitions;
+
+function applies(id: RuleId, fixture: FlowFixture) {
+  const meta: RuleMeta = ruleMeta[id];
+  return meta.requires !== "async" || fixture.async !== undefined;
 }
 
 /** Runs a rule; a listed gap must still fail, so closing it forces its removal. */
@@ -347,13 +596,15 @@ export async function verify(id: RuleId, run: () => Promise<void>, fixture: Flow
   } catch {
     return;
   }
-  throw new Error(`${fixture.recipe} now meets "${rules[id].summary}"; remove "${id}" from gaps`);
+  throw new Error(
+    `${fixture.recipe} now meets "${ruleMeta[id].summary}"; remove "${id}" from gaps`,
+  );
 }
 
 /** Builds one story per rule; `complete()` throws if an applicable rule has none. */
 export function flow(fixture: FlowFixture) {
   const ids = Object.keys(rules) as RuleId[];
-  const applicable = ids.filter((id) => applies(rules[id], fixture));
+  const applicable = ids.filter((id) => applies(id, fixture));
   for (const id of Object.keys(fixture.gaps) as RuleId[])
     if (!applicable.includes(id))
       throw new Error(`${fixture.recipe} lists inapplicable gap "${id}"`);
@@ -364,11 +615,24 @@ export function flow(fixture: FlowFixture) {
     if (!applicable.includes(id)) throw new Error(`"${id}" does not apply to ${fixture.recipe}`);
     if (covered.has(id)) throw new Error(`${fixture.recipe} has two "${id}" stories`);
     covered.add(id);
-    const send = deferred();
+    let send = deferred();
+    let router = memoryRouter();
     return {
-      render: () =>
-        fixture.render({ initialId: rule.initialId, send: rule.deferredSend ? send : undefined }),
+      render: () => {
+        const options = {
+          initialId: rule.initialId,
+          send: rule.deferredSend ? send : undefined,
+          router: rule.router ? router : undefined,
+        };
+        if (!rule.harness) return fixture.render(options);
+        return createElement(Harness, {
+          records: fixture.live.records,
+          render: (records) => fixture.render({ ...options, records }),
+        });
+      },
       beforeEach: () => {
+        send = deferred();
+        router = memoryRouter();
         const original = window.location.href;
         const url = new URL(original);
         for (const key of [fixture.param, "keep"]) url.searchParams.delete(key);
@@ -390,6 +654,7 @@ export function flow(fixture: FlowFixture) {
                 canvas: within(canvasElement),
                 user: userEvent,
                 send,
+                router,
               }),
             fixture,
           );
