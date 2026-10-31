@@ -1,5 +1,5 @@
 import content from "virtual:kbui-system";
-import { Button } from "@kb.ui/react";
+import { Button, Container, Heading, Text } from "@kb.ui/react";
 import { useState } from "react";
 import { systemGuide } from "../catalog/content";
 import type { RecipeReference } from "../catalog/types";
@@ -35,7 +35,7 @@ function RecipePreview({ src, title }: { src: string; title: string }) {
         onError={() => setStatus("failed")}
       />
       {(status === "slow" || status === "failed") && (
-        <p>
+        <Text>
           <Button
             variant="secondary"
             onClick={() => {
@@ -46,7 +46,7 @@ function RecipePreview({ src, title }: { src: string; title: string }) {
             Retry preview
           </Button>{" "}
           <a href={src}>Open example directly</a>
-        </p>
+        </Text>
       )}
     </section>
   );
@@ -70,14 +70,14 @@ function RecipeDetails({
   return (
     <>
       <div className="page-heading">
-        <p className="page-kicker">Recipe · Copy and adapt</p>
-        <h1>{recipe.name}</h1>
-        <p>{recipe.description}</p>
+        <Text className="page-kicker">Recipe · Copy and adapt</Text>
+        <Heading level={1}>{recipe.name}</Heading>
+        <Text>{recipe.description}</Text>
       </div>
-      <p className="recipe-ownership">
+      <Text className="recipe-ownership">
         Copy this recipe into your application. Your application owns its code and future changes;
         component references document the supported package APIs.
-      </p>
+      </Text>
       <nav className="recipe-links" aria-label="Recipe references">
         <SiteLink href={`${siteRoot}recipes/`}>Browse recipes</SiteLink>
         <a href={`${storybookRoot}?path=/docs/${recipe.docsId}`}>Open in Storybook</a>
@@ -90,7 +90,9 @@ function RecipeDetails({
           </SiteLink>
         ))}
       </nav>
-      <h2 id="recipe-example">Live example</h2>
+      <Heading level={2} id="recipe-example">
+        Live example
+      </Heading>
       <nav className="recipe-links" aria-label="Recipe examples">
         {recipe.stories.map((entry) => (
           <SiteLink
@@ -103,7 +105,7 @@ function RecipeDetails({
         ))}
       </nav>
       {state && state !== story.id && (
-        <p role="status">That example is unavailable. Showing {story.name}.</p>
+        <Text role="status">That example is unavailable. Showing {story.name}.</Text>
       )}
       <RecipePreview
         key={story.id}
@@ -112,14 +114,14 @@ function RecipeDetails({
       />
       <GuideContent markdown={recipe.markdown} path={recipe.guide} siteRoot={siteRoot} />
       <section id="recipe-source" aria-label="Recipe source files" className="recipe-sources">
-        <h2>Copy the source</h2>
-        <p>
+        <Heading level={2}>Copy the source</Heading>
+        <Text>
           Copy every file below and keep their local imports together. Import{" "}
           <code>@kb.ui/react/styles.css</code> once in your app.
-        </p>
+        </Text>
         {recipe.files.map((file) => (
           <section key={file.path} aria-label={file.name}>
-            <h3>{file.name}</h3>
+            <Heading level={3}>{file.name}</Heading>
             <CodePanel sample={file.sample} name={file.name} language={file.language} />
           </section>
         ))}
@@ -147,7 +149,7 @@ export function Recipes({
       siteRoot={siteRoot}
       storybookRoot={storybookRoot}
     >
-      <main id="main" className="inner-page">
+      <Container as="main" id="main" className="inner-page">
         {recipe ? (
           <RecipeDetails
             recipe={recipe}
@@ -157,37 +159,39 @@ export function Recipes({
           />
         ) : requested ? (
           <div className="page-heading">
-            <h1>Recipe unavailable</h1>
-            <p>This recipe is unavailable. Choose another from the list.</p>
+            <Heading level={1}>Recipe unavailable</Heading>
+            <Text>This recipe is unavailable. Choose another from the list.</Text>
             <SiteLink href={`${siteRoot}recipes/`}>Browse recipes</SiteLink>
           </div>
         ) : (
           <>
             <div className="page-heading">
-              <p className="page-kicker">Build with kbui</p>
-              <h1>Recipes</h1>
-              <p>Copy working UI patterns and adapt them to your app.</p>
+              <Text className="page-kicker">Build with kbui</Text>
+              <Heading level={1}>Recipes</Heading>
+              <Text>Copy working UI patterns and adapt them to your app.</Text>
             </div>
             <ul className="recipe-directory" aria-label="Available recipes">
               {content.recipes.map((entry) => (
                 <li key={entry.id}>
-                  <h2>
+                  <Heading level={2}>
                     <SiteLink href={`${siteRoot}recipes/?recipe=${entry.id}`}>
                       {entry.name}
                     </SiteLink>
-                  </h2>
-                  <p>{entry.description}</p>
+                  </Heading>
+                  <Text>{entry.description}</Text>
                   <span>Source and CSS included</span>
                 </li>
               ))}
             </ul>
             <section id="system-guide" aria-labelledby="system-guide-title">
-              <h2 id="system-guide-title">Components and recipes</h2>
+              <Heading level={2} id="system-guide-title">
+                Components and recipes
+              </Heading>
               <GuideContent markdown={content.guide} path={systemGuide} siteRoot={siteRoot} />
             </section>
           </>
         )}
-      </main>
+      </Container>
     </SiteFrame>
   );
 }

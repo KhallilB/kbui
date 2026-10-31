@@ -19,6 +19,24 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+export const ComponentLinkTheme: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const links = canvas
+      .getAllByRole("link")
+      .filter((link) => link.getAttribute("href")?.includes("components/?component="));
+    expect(links.length).toBeGreaterThan(0);
+    await userEvent.click(canvas.getByRole("switch", { name: "Dark mode" }));
+    for (const link of links) {
+      const url = new URL(link.getAttribute("href") ?? "", location.href);
+      expect(url.searchParams.get("theme")).toBe("dark");
+      expect(url.searchParams.get("component")).not.toBeNull();
+    }
+    for (const anchor of canvasElement.querySelectorAll(".release-navigation a"))
+      expect(anchor.getAttribute("href")).toMatch(/^#v/);
+  },
+};
+
 export const FutureRelease: Story = {
   render: () => (
     <ReleaseChanges

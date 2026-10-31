@@ -1,6 +1,5 @@
-import { Button } from "@kb.ui/react";
+import { Button, Container, Inline, Link, type LinkProps, Text } from "@kb.ui/react";
 import {
-  type ComponentProps,
   createContext,
   type ReactNode,
   useContext,
@@ -43,10 +42,16 @@ export function useSiteTheme() {
   return useContext(SiteThemeContext);
 }
 
-export function SiteLink({ href, ...props }: ComponentProps<"a"> & { href: string }) {
+export function SiteLink({ href, className = "", ...props }: LinkProps) {
   const theme = useContext(SiteThemeContext);
   const system = useContext(SystemThemeContext);
-  return <a {...props} href={system ? href : themedHref(href, theme)} />;
+  return (
+    <Link
+      {...props}
+      className={`site-link ${className}`}
+      href={system ? href : themedHref(href, theme)}
+    />
+  );
 }
 
 export function SiteFrame({
@@ -128,38 +133,37 @@ export function SiteFrame({
     setLocalTheme(next);
     onThemeChange?.(next);
   };
-  const themed = (href: string) => (system ? href : themedHref(href, activeTheme));
   return (
     <SiteThemeContext value={activeTheme}>
       <SystemThemeContext value={system}>
         <div className={`kbui-site ${className}`} id="top" data-theme={activeTheme}>
-          <a className="skip-link" href="#main">
+          <Link className="site-link skip-link" href="#main">
             Skip to content
-          </a>
-          <header ref={header} className="site-header">
-            <a className="wordmark" href={themed(siteRoot)} aria-label="kbui home">
+          </Link>
+          <Container as="header" ref={header} className="site-header">
+            <SiteLink className="wordmark" href={siteRoot} aria-label="kbui home">
               <Brand />
-            </a>
-            <nav aria-label="Main navigation">
+            </SiteLink>
+            <Inline as="nav" aria-label="Main navigation">
               {navigation.map(([page, label, path]) => (
-                <a
+                <SiteLink
                   key={page}
-                  href={themed(`${siteRoot}${path}`)}
+                  href={`${siteRoot}${path}`}
                   aria-current={current === page ? "page" : undefined}
                 >
                   {label}
-                </a>
+                </SiteLink>
               ))}
-            </nav>
+            </Inline>
             <ThemeToggle theme={activeTheme} onChange={changeTheme} />
-          </header>
+          </Container>
           {children}
-          <footer className="site-footer">
-            <a className="wordmark" href={themed(siteRoot)} aria-label="kbui home">
+          <Container as="footer" className="site-footer">
+            <SiteLink className="wordmark" href={siteRoot} aria-label="kbui home">
               <Brand />
-            </a>
-            <span>React + CSS + tokens. MIT licensed.</span>
-            <div>
+            </SiteLink>
+            <Text as="span">React + CSS + tokens. MIT licensed.</Text>
+            <Inline>
               <Button
                 variant="ghost"
                 size="sm"
@@ -169,20 +173,20 @@ export function SiteFrame({
               >
                 System theme
               </Button>
-              <a href={themed(`${siteRoot}${installation}`)}>
+              <SiteLink href={`${siteRoot}${installation}`}>
                 Get started <LinkArrow />
-              </a>
-              <a href={storybookRoot}>
+              </SiteLink>
+              <Link className="site-link" href={storybookRoot}>
                 Documentation <LinkArrow />
-              </a>
-              <a href={themed(`${siteRoot}changelog/`)}>
+              </Link>
+              <SiteLink href={`${siteRoot}changelog/`}>
                 What's new <LinkArrow />
-              </a>
-              <a href="https://github.com/KhallilB/kbui">
+              </SiteLink>
+              <Link className="site-link" href="https://github.com/KhallilB/kbui">
                 GitHub <LinkArrow />
-              </a>
-            </div>
-          </footer>
+              </Link>
+            </Inline>
+          </Container>
         </div>
       </SystemThemeContext>
     </SiteThemeContext>

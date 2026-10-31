@@ -1,5 +1,5 @@
 import releases from "virtual:kbui-changelog";
-import { Button } from "@kb.ui/react";
+import { Button, Container, Heading, Text } from "@kb.ui/react";
 import { useEffect, useRef } from "react";
 import { releaseHeadline } from "./changelog-model";
 import { LinkArrow } from "./LinkArrow";
@@ -111,7 +111,12 @@ export function Home({
       storybookRoot={storybookRoot}
     >
       <main id="main" ref={main}>
-        <section data-motion-phase="waiting" className="poster-hero" aria-labelledby="home-title">
+        <Container
+          as="section"
+          data-motion-phase="waiting"
+          className="poster-hero"
+          aria-labelledby="home-title"
+        >
           <div className="poster-copy">
             {latest ? (
               <SiteLink
@@ -124,16 +129,16 @@ export function Home({
                 <LinkArrow />
               </SiteLink>
             ) : (
-              <p className="intro-tag">A small React component library.</p>
+              <Text className="intro-tag">A small React component library.</Text>
             )}
-            <h1 id="home-title">
+            <Heading level={1} id="home-title">
               <span className="hero-line">Click around.</span>{" "}
               <span className="hero-line">Make something.</span>
-            </h1>
-            <p className="hero-description">
+            </Heading>
+            <Text className="hero-description">
               Buttons, forms, and the rest of your interface. Start with kbui, style it with CSS,
               and make it feel like your app.
-            </p>
+            </Text>
             <div className="hero-links">
               <Button
                 className="primary-link"
@@ -148,22 +153,27 @@ export function Home({
                 See the components
               </SiteLink>
             </div>
-            <p className="hero-footnote">Open source. Free to use.</p>
+            <Text className="hero-footnote">Open source. Free to use.</Text>
           </div>
           <div className="hero-example" id="examples" data-motion-phase="waiting">
             <PlanDemo />
           </div>
-        </section>
-        <section data-motion-phase="waiting" className="about-strip" aria-labelledby="about-title">
-          <h2 id="about-title">
+        </Container>
+        <Container
+          as="section"
+          data-motion-phase="waiting"
+          className="about-strip"
+          aria-labelledby="about-title"
+        >
+          <Heading level={2} id="about-title">
             The parts behind
             <br />
             <em>your day off.</em>
-          </h2>
-          <p>
+          </Heading>
+          <Text>
             The planner above is built with kbui. Use these parts together, or take the ones you
             need. They share the same styles, and you can change those to suit your app.
-          </p>
+          </Text>
           <ul className="part-tags" aria-label="Components behind the demo">
             {demoParts.map(([name, purpose, detail, path], index) => (
               <li key={name}>
@@ -192,32 +202,37 @@ export function Home({
               </li>
             ))}
           </ul>
-          <p className="parts-more">
+          <Text className="parts-more">
             More controls to build with:{" "}
             <SiteLink href={`${siteRoot}components/?component=checkbox`}>Checkbox</SiteLink>,{" "}
             <SiteLink href={`${siteRoot}components/?component=select`}>Select</SiteLink>,{" "}
             <SiteLink href={`${siteRoot}components/?component=radiogroup`}>RadioGroup</SiteLink>,
             and <SiteLink href={`${siteRoot}components/?component=switch`}>Switch</SiteLink>.
-          </p>
-          <p className="parts-more">
+          </Text>
+          <Text className="parts-more">
             Import <SiteLink href={`${siteRoot}components/`}>components</SiteLink> for package APIs.
             Copy <SiteLink href={`${siteRoot}recipes/`}>recipes</SiteLink> for application-owned
             compositions. See them together in the{" "}
             <SiteLink href={`${siteRoot}compare/`}>workspace demo</SiteLink>.
-          </p>
-        </section>
-        <section data-motion-phase="waiting" className="other-ways" aria-labelledby="ways-title">
+          </Text>
+        </Container>
+        <Container
+          as="section"
+          data-motion-phase="waiting"
+          className="other-ways"
+          aria-labelledby="ways-title"
+        >
           <div>
-            <p className="section-kicker">More ways to use kbui</p>
-            <h2 id="ways-title">
+            <Text className="section-kicker">More ways to use kbui</Text>
+            <Heading level={2} id="ways-title">
               Same components.
               <br />
               Real screens.
-            </h2>
-            <p>
+            </Heading>
+            <Text>
               A working app to explore, and recipes to copy into your own. These all start with the
               same kit.
-            </p>
+            </Text>
           </div>
           <div className="example-links">
             <SiteLink href={`${siteRoot}compare/`}>
@@ -236,17 +251,19 @@ export function Home({
               <span aria-hidden="true">↗</span>
             </SiteLink>
           </div>
-        </section>
+        </Container>
         <section data-motion-phase="waiting" className="take-it" aria-labelledby="take-title">
           <div>
-            <p className="section-kicker">Ready when you are</p>
-            <h2 id="take-title">What are you making?</h2>
-            <p>
+            <Text className="section-kicker">Ready when you are</Text>
+            <Heading level={2} id="take-title">
+              What are you making?
+            </Heading>
+            <Text>
               Add kbui to your project, then try a few ideas in the playground.{" "}
               <SiteLink className="plain-link setup-continue" href={`${siteRoot}playground/`}>
                 Open the playground ↗
               </SiteLink>
-            </p>
+            </Text>
           </div>
           <InstallBuilder siteRoot={siteRoot} compact />
         </section>

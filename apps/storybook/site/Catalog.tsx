@@ -1,5 +1,16 @@
 import entries from "virtual:kbui-catalog";
-import { Button, Card, Checkbox, Input, RadioGroup, Select, Tooltip } from "@kb.ui/react";
+import {
+  Button,
+  Card,
+  Checkbox,
+  Container,
+  Heading,
+  Input,
+  RadioGroup,
+  Select,
+  Text,
+  Tooltip,
+} from "@kb.ui/react";
 import {
   type CSSProperties,
   useCallback,
@@ -25,7 +36,7 @@ import {
 import { defaultCatalogSkin } from "./catalog-skin";
 import type { CodeResult } from "./component-code";
 import { LinkArrow } from "./LinkArrow";
-import { SiteFrame } from "./SiteFrame";
+import { SiteFrame, SiteLink } from "./SiteFrame";
 import { readSiteTheme } from "./site-theme";
 import { useCatalogPaneResize } from "./useCatalogPaneResize";
 
@@ -127,14 +138,14 @@ function CatalogIndex({
   return (
     <>
       <div className="page-heading catalog-index-heading">
-        <p className="page-kicker">Components</p>
-        <h1>
+        <Text className="page-kicker">Components</Text>
+        <Heading level={1}>
           Find what you <em>need.</em>
-        </h1>
-        <p>
+        </Heading>
+        <Text>
           Start with a component. Try a few variations, see how it behaves, and take the code into
           your app.
-        </p>
+        </Text>
       </div>
       <div className="catalog-filters">
         <Input
@@ -192,9 +203,9 @@ function CatalogIndex({
         </RadioGroup>
       </div>
       <div className="catalog-results">
-        <p role="status" aria-label="Catalog results">
+        <Text role="status" aria-label="Catalog results">
           {matches.length} of {entries.length} components
-        </p>
+        </Text>
         {(search || group !== "All") && (
           <Button
             type="button"
@@ -216,7 +227,7 @@ function CatalogIndex({
             const exampleCount = browsableStories(entry).length;
             return (
               <Card key={entry.id} className="catalog-card catalog-component-item">
-                <a
+                <SiteLink
                   href={`./?component=${entry.id}${appearanceQuery(appearance)}`}
                   aria-describedby={`${id}-${entry.id}-description ${id}-${entry.id}-count`}
                   onClick={(event) => {
@@ -233,7 +244,7 @@ function CatalogIndex({
                   }}
                 >
                   {entry.name}
-                </a>
+                </SiteLink>
                 <span
                   className="catalog-component-description"
                   id={`${id}-${entry.id}-description`}
@@ -252,9 +263,9 @@ function CatalogIndex({
         </nav>
       </div>
       {matches.length === 0 && (
-        <p className="catalog-empty" role="status">
+        <Text className="catalog-empty" role="status">
           No matches this time. Try another name or clear your filters.
-        </p>
+        </Text>
       )}
     </>
   );
@@ -407,7 +418,7 @@ function CatalogDetail({
   return (
     <>
       <div className="catalog-topline">
-        <a
+        <SiteLink
           href={appearanceQuery(appearance) ? `./?${appearanceQuery(appearance).slice(1)}` : "./"}
           className="plain-link"
           onClick={(event) => {
@@ -418,23 +429,25 @@ function CatalogDetail({
           }}
         >
           All components
-        </a>
+        </SiteLink>
         <a className="plain-link" href={`${storybookRoot}?path=/docs/${entry.docsId}`}>
           Full {entry.name} API
         </a>
       </div>
       <div className="page-heading catalog-detail-heading">
-        <p className="page-kicker">{entry.group}</p>
-        <h1 tabIndex={-1}>
+        <Text className="page-kicker">{entry.group}</Text>
+        <Heading level={1} tabIndex={-1}>
           {entry.name} <em>in use.</em>
-        </h1>
-        <p>{entry.description}</p>
+        </Heading>
+        <Text>{entry.description}</Text>
       </div>
       <section className="catalog-live" aria-labelledby={`${id}-live`}>
         <div className="catalog-section-heading">
           <div>
-            <p className="page-kicker">Interactive example</p>
-            <h2 id={`${id}-live`}>Get a feel for it.</h2>
+            <Text className="page-kicker">Interactive example</Text>
+            <Heading level={2} id={`${id}-live`}>
+              Get a feel for it.
+            </Heading>
           </div>
         </div>
         {focused && (
@@ -475,7 +488,7 @@ function CatalogDetail({
               </RadioGroup>
             )}
             {requested && !selectedChoice && (
-              <p className="catalog-source">Additional example: {selected.name}.</p>
+              <Text className="catalog-source">Additional example: {selected.name}.</Text>
             )}
             {entry.id === "radiogroup" && (
               <Select
@@ -494,7 +507,7 @@ function CatalogDetail({
               />
             )}
             {!requested && (
-              <p role="status">State not found. Choose one of the available examples.</p>
+              <Text role="status">State not found. Choose one of the available examples.</Text>
             )}
             <div className="catalog-toolbar-actions">
               <Checkbox
@@ -652,7 +665,7 @@ function CatalogDetail({
                 data-qa-theme={compare ? "light" : undefined}
                 aria-label={compare ? "Light preview" : `${entry.name} preview`}
               >
-                {compare && <h3>Light</h3>}
+                {compare && <Heading level={3}>Light</Heading>}
                 <StoryPreview
                   code={code}
                   onCodeResult={setCodeResult}
@@ -691,7 +704,7 @@ function CatalogDetail({
                   inert={!compare}
                   aria-label="Dark comparison"
                 >
-                  <h3>Dark</h3>
+                  <Heading level={3}>Dark</Heading>
                   <CatalogComparisonPreview
                     code={code}
                     active={active && compare}
@@ -739,8 +752,10 @@ function CatalogDetail({
       <section className="catalog-api" aria-labelledby={`${id}-api`}>
         <div className="catalog-section-heading">
           <div>
-            <p className="page-kicker">When you start building</p>
-            <h2 id={`${id}-api`}>The details you need.</h2>
+            <Text className="page-kicker">When you start building</Text>
+            <Heading level={2} id={`${id}-api`}>
+              The details you need.
+            </Heading>
           </div>
           <a
             className="plain-link"
@@ -867,7 +882,7 @@ export function Catalog({
       siteRoot={siteRoot}
       storybookRoot={storybookRoot}
     >
-      <main id="main" className="inner-page">
+      <Container as="main" id="main" className="inner-page">
         <div ref={indexRoot} hidden={selectedId !== null} inert={selectedId !== null}>
           <CatalogIndex appearance={appearance} onChoose={choose} />
           <details className="catalog-foundations">
@@ -880,19 +895,19 @@ export function Catalog({
             >
               <div className="type-specimen-copy">
                 <span className="type-eyebrow">A calmer reading rhythm</span>
-                <h2>Clear at every scale.</h2>
-                <p>
+                <Heading level={2}>Clear at every scale.</Heading>
+                <Text>
                   Good interfaces make room for the words that matter. Comfortable text, clear
                   labels and a steady rhythm help you move with confidence.
-                </p>
-                <p>
+                </Text>
+                <Text>
                   Keep <strong>important details</strong> distinct, and let supporting text stay
                   quiet without disappearing.
-                </p>
+                </Text>
                 <small>Helpful context stays easy to read.</small>
-                <p className="type-sample-meta">
+                <Text className="type-sample-meta">
                   Deployment <code>RUN-1048</code> · <strong>04:12</strong> elapsed
-                </p>
+                </Text>
               </div>
               <section className="type-surface-map" aria-label="Surface hierarchy">
                 <span>Canvas</span>
@@ -901,10 +916,10 @@ export function Catalog({
                 <span>Input well</span>
               </section>
             </section>
-            <p className="catalog-foundations-note">
+            <Text className="catalog-foundations-note">
               The page theme also applies to previews, menus, and dialogs. Examples start with the
               default KBUI design.
-            </p>
+            </Text>
           </details>
         </div>
         <div
@@ -915,18 +930,18 @@ export function Catalog({
         >
           {!entry && selectedId ? (
             <div className="page-heading">
-              <p className="page-kicker">Components</p>
-              <h1>Component not found.</h1>
-              <p>That component is not in this catalog.</p>
-              <a className="plain-link" href="./">
+              <Text className="page-kicker">Components</Text>
+              <Heading level={1}>Component not found.</Heading>
+              <Text>That component is not in this catalog.</Text>
+              <SiteLink className="plain-link" href="./">
                 All components
-              </a>
+              </SiteLink>
             </div>
           ) : (
             detail
           )}
         </div>
-      </main>
+      </Container>
     </SiteFrame>
   );
 }

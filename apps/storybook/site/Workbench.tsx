@@ -1,11 +1,11 @@
 import samples from "virtual:kbui-site-samples";
-import { Button, Card, Checkbox, Input, RadioGroup } from "@kb.ui/react";
+import { Button, Card, Checkbox, Container, Heading, Input, RadioGroup, Text } from "@kb.ui/react";
 import { useId, useRef, useState } from "react";
 import { CodePanel } from "./CodePanel";
 import { ControlSelect } from "./ControlSelect";
 import { LinkArrow } from "./LinkArrow";
 import { playgroundKey, sizes, variants } from "./playground-model";
-import { SiteFrame, useSiteTheme } from "./SiteFrame";
+import { SiteFrame, SiteLink, useSiteTheme } from "./SiteFrame";
 import "./workbench.css";
 
 const components = [
@@ -41,9 +41,11 @@ export function Playground({ storybookRoot }: { storybookRoot: string }) {
     >
       <div className="section-heading">
         <div>
-          <h2 id={`${id}-title`}>Button</h2>
+          <Heading level={2} id={`${id}-title`}>
+            Button
+          </Heading>
         </div>
-        <p>Your changes show up here and in the code below.</p>
+        <Text>Your changes show up here and in the code below.</Text>
       </div>
       <div className="playground-grid">
         <div
@@ -156,23 +158,23 @@ export function Workbench({
       siteRoot={siteRoot}
       storybookRoot={storybookRoot}
     >
-      <main id="main" className="inner-page">
+      <Container as="main" id="main" className="inner-page">
         <div className="page-heading">
-          <p className="page-kicker">Playground</p>
-          <h1>
+          <Text className="page-kicker">Playground</Text>
+          <Heading level={1}>
             A space to <em>try things.</em>
-          </h1>
-          <p>
+          </Heading>
+          <Text>
             Pick a style, change the size, and see how it feels. When it looks right, take the code
             with you.
-          </p>
+          </Text>
         </div>
         <Playground storybookRoot={storybookRoot} />
         <section className="section" aria-label="Featured components">
-          <h2>What else are you building?</h2>
-          <p className="discovery-intro">
+          <Heading level={2}>What else are you building?</Heading>
+          <Text className="discovery-intro">
             A few more parts to try in your app. Each has working examples and code you can use.
-          </p>
+          </Text>
           <Input
             className="component-search"
             ref={searchInput}
@@ -199,24 +201,24 @@ export function Workbench({
               ) : undefined
             }
           />
-          <p className="result-count" role="status" aria-label="Component results">
+          <Text className="result-count" role="status" aria-label="Component results">
             {matches.length} of {components.length} featured components
-          </p>
+          </Text>
           <div className="component-grid">
             {matches.map(([name, description]) => (
               <Card key={name} className="component-card">
-                <a href={`${siteRoot}components/?component=${name.toLowerCase()}`}>
+                <SiteLink href={`${siteRoot}components/?component=${name.toLowerCase()}`}>
                   <span className="component-name">{name}</span>
                   <span className="component-description">{description}</span>
-                </a>
+                </SiteLink>
               </Card>
             ))}
           </div>
           {matches.length === 0 && (
-            <p role="status">Nothing here yet. Try another name, or clear your search.</p>
+            <Text role="status">Nothing here yet. Try another name, or clear your search.</Text>
           )}
         </section>
-      </main>
+      </Container>
     </SiteFrame>
   );
 }

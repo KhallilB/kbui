@@ -58,6 +58,11 @@ export const TryTheDemo: Story = {
 export const Navigation: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    expect(canvas.getAllByRole("main")).toHaveLength(1);
+    expect(canvas.getAllByRole("heading", { level: 1 })).toHaveLength(1);
+    expect(
+      canvas.getByRole("heading", { level: 1, name: "Click around. Make something." }),
+    ).toBeVisible();
     const headerElement = canvas.getByRole("banner");
     const header = within(headerElement);
     const navigation = within(header.getByRole("navigation", { name: "Main navigation" }));
