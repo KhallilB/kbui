@@ -263,7 +263,7 @@ Run `bun run --cwd apps/storybook verify:recipes` against the combined static pr
 
 ### Preserved request and correspondence recipes
 
-PageHeader, FormSection, Inbox and ListDetail share the recipe registry, canonical guides, exact copyable files and existing public story IDs. The two established composition recipes remain maintained under the [composition preservation decision](../../../docs/guides/components-and-recipes.md#maintained-composition-recipes), alongside the two task flows. Their URLs render live previews and copyable source. Inbox retains its packaged PageHeader import and lists only its own source and CSS. Flow drafts, history, context, save/reply recovery and resize focus checks remain in their existing stories. Component and recipe names can overlap; their separate documentation IDs preserve import versus copy ownership. This restoration is implemented locally and pending publication.
+PageHeader, FormSection, Inbox and ListDetail share the recipe registry, canonical guides, exact copyable files and existing public story IDs. The two established composition recipes remain maintained under the [composition preservation decision](../../../docs/guides/components-and-recipes.md#maintained-composition-recipes), alongside the two task flows. Their URLs render live previews and copyable source. Inbox retains its packaged PageHeader import and lists its source, shared flow router and CSS. Flow drafts, history, context, save/reply recovery and resize focus checks remain in their existing stories. Component and recipe names can overlap; their separate documentation IDs preserve import versus copy ownership. This restoration is implemented locally and pending publication.
 
 ### Complete styling copies
 

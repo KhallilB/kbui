@@ -1,5 +1,9 @@
+// x-release-please-start-version
+// kbui recipe ListDetail · from kbui 0.11.0 · https://kbui.kcb.pro/recipes/?recipe=listdetail
+// x-release-please-end
 import {
   Button,
+  Callout,
   Container,
   FormSection,
   Grid,
@@ -14,11 +18,12 @@ import {
   type StatusTone,
   Text,
 } from "@kb.ui/react";
-import { useEffect, useId, useRef, useState } from "react";
+import { type RefObject, useEffect, useId, useMemo, useRef, useState } from "react";
+import { type FlowRouter, searchParamRouter } from "./flow-router";
 import "./list-detail.css";
 
 type RequestStatus = "Open" | "In progress" | "Resolved";
-type RequestDraft = { title: string; owner: string; status: RequestStatus };
+export type RequestDraft = { title: string; owner: string; status: RequestStatus };
 export type RequestRecord = RequestDraft & {
   id: string;
   summary: string;
@@ -26,14 +31,75 @@ export type RequestRecord = RequestDraft & {
   requester: string;
   activity: string;
 };
+type Field = keyof RequestDraft & string;
+/** `errors` keeps the draft and focuses the first invalid field, like validation. */
+// biome-ignore lint/suspicious/noConfusingVoidType: lets `async () => {}` mean success.
+export type CommitResult<Field extends string> = void | { errors: Partial<Record<Field, string>> };
+// Keys outside the rendered fields can still arrive from a server.
+type Errors = Partial<Record<string, string>>;
 
+/** Every visible string and announcement; pass `copy` to replace any of them. */
+export const listDetailCopy = {
+  eyebrow: "Operations desk",
+  title: "Requests",
+  description: "Review site requests and keep work moving.",
+  idle: "Local demo · Session only",
+  queue: "Request queue",
+  search: "Search requests",
+  searchPlaceholder: "Title, ID, owner or site",
+  filter: "Filter by status",
+  allStatuses: "All statuses",
+  count: (shown: number, total: number) => `${shown} of ${total} requests`,
+  list: "Requests",
+  unsaved: "Unsaved draft",
+  noMatches: "No matching requests",
+  noMatchesHint: "Try another title, owner or status.",
+  empty: "No requests yet",
+  emptyHint: "New site requests will appear here.",
+  clear: "Clear filters",
+  back: "Back to requests",
+  showContext: "Show context",
+  hideContext: "Hide context",
+  edit: "Edit request",
+  summary: "What needs to happen",
+  context: "Request context",
+  requestedBy: "Requested by",
+  site: "Site",
+  assignedTo: "Assigned to",
+  activity: "Latest activity",
+  unavailable: "Request unavailable",
+  unavailableHint:
+    "This request is missing from the current queue. Return to requests to choose another.",
+  choose: "Choose a request",
+  chooseHint: "Inspect the details, check site context and make an update.",
+  editor: "Edit request",
+  editorHint: "Title and owner are required. Changes stay in this browser session.",
+  review: "Review the marked fields before saving.",
+  titleLabel: "Request title",
+  ownerLabel: "Owner",
+  statusLabel: "Status",
+  titleRequired: "Enter a request title.",
+  ownerRequired: "Enter an owner.",
+  save: "Save changes",
+  saving: "Saving changes…",
+  cancel: "Cancel editing",
+  failed: "Changes could not be saved. Your draft is safe; try again.",
+  savingNotice: (id: string) => `Saving ${id}.`,
+  savedNotice: (id: string) => `${id} saved for this session.`,
+  failedNotice: (id: string) => `${id} could not be saved. Draft kept.`,
+  invalidNotice: (id: string) => `${id} needs changes before saving.`,
+  discardedNotice: (id: string) => `${id} draft discarded.`,
+};
+type Copy = typeof listDetailCopy;
+
+const fields: readonly Field[] = ["title", "owner", "status"];
 const statusOptions = ["Open", "In progress", "Resolved"].map((value) => ({ value, label: value }));
 const statusTones: Record<RequestStatus, StatusTone> = {
   Open: "info",
   "In progress": "running",
   Resolved: "success",
 };
-const requests: RequestRecord[] = [
+const sampleRequests: RequestRecord[] = [
   {
     id: "REQ-1042",
     title: "Warehouse access",
@@ -79,82 +145,104 @@ const requests: RequestRecord[] = [
   },
 ];
 
+type FieldRefs = {
+  title: RefObject<HTMLInputElement | null>;
+  owner: RefObject<HTMLInputElement | null>;
+  status: RefObject<HTMLDivElement | null>;
+  submit: RefObject<HTMLButtonElement | null>;
+};
+
 function RequestEditor({
+  text,
   draft,
+  errors,
+  failed,
+  saving,
+  refs,
   onChange,
   onSave,
   onCancel,
 }: {
+  text: Copy;
   draft: RequestDraft;
+  errors: Errors;
+  failed: boolean;
+  saving: boolean;
+  refs: FieldRefs;
   onChange: (draft: RequestDraft) => void;
-  onSave: (draft: RequestDraft) => void;
+  onSave: () => void;
   onCancel: () => void;
 }) {
-  const title = useRef<HTMLInputElement>(null);
-  const owner = useRef<HTMLInputElement>(null);
-  const [errors, setErrors] = useState({ title: "", owner: "" });
+  const unrendered = Object.entries(errors).filter(([key]) => !fields.includes(key as Field));
   useEffect(() => {
-    title.current?.focus();
-  }, []);
+    refs.title.current?.focus();
+  }, [refs]);
   return (
     <form
       className="request-flow-editor"
       noValidate
       onSubmit={(event) => {
         event.preventDefault();
-        const next = {
-          title: draft.title.trim() ? "" : "Enter a request title.",
-          owner: draft.owner.trim() ? "" : "Enter an owner.",
-        };
-        setErrors(next);
-        if (next.title || next.owner) {
-          (next.title ? title : owner).current?.focus();
-          return;
-        }
-        onSave({ ...draft, title: draft.title.trim(), owner: draft.owner.trim() });
+        onSave();
       }}
     >
       <Grid layout="stack">
         <FormSection
-          title="Edit request"
+          title={text.editor}
           headingLevel={3}
-          description="Title and owner are required. Changes stay in this browser session."
+          description={text.editorHint}
           error={
-            errors.title || errors.owner ? "Review the marked fields before saving." : undefined
+            unrendered.length
+              ? unrendered.map(([, message]) => message).join(" ")
+              : Object.keys(errors).length
+                ? text.review
+                : undefined
           }
         >
           <Input
-            ref={title}
-            label="Request title"
+            ref={refs.title}
+            label={text.titleLabel}
             name="title"
             required
+            disabled={saving}
             value={draft.title}
             onChange={(event) => onChange({ ...draft, title: event.target.value })}
             {...(errors.title ? { error: errors.title } : {})}
           />
           <Input
-            ref={owner}
-            label="Owner"
+            ref={refs.owner}
+            label={text.ownerLabel}
             name="owner"
             required
+            disabled={saving}
             value={draft.owner}
             onChange={(event) => onChange({ ...draft, owner: event.target.value })}
             {...(errors.owner ? { error: errors.owner } : {})}
           />
           <Select
-            label="Status"
+            ref={refs.status}
+            label={text.statusLabel}
             value={draft.status}
             options={statusOptions}
+            disabled={saving}
             onValueChange={(status) => {
               if (status === "Open" || status === "In progress" || status === "Resolved")
                 onChange({ ...draft, status });
             }}
+            {...(errors.status ? { error: errors.status } : {})}
           />
         </FormSection>
+        {failed ? (
+          <Callout tone="danger" className="request-flow-status">
+            {text.failed}
+          </Callout>
+        ) : null}
         <Inline gap="sm" className="request-flow-form-actions">
-          <Button type="submit">Save changes</Button>
-          <Button type="button" variant="secondary" onClick={onCancel}>
-            Cancel editing
+          <Button ref={refs.submit} type="submit" disabled={saving}>
+            {saving ? text.saving : text.save}
+          </Button>
+          <Button type="button" variant="secondary" disabled={saving} onClick={onCancel}>
+            {text.cancel}
           </Button>
         </Inline>
       </Grid>
@@ -162,34 +250,79 @@ function RequestEditor({
   );
 }
 
+type Overlay = { base: RequestRecord; value: RequestDraft };
+type Target = "heading" | "list" | "edit" | Field | "submit";
+
+function without<Value>(map: Record<string, Value | undefined>, id: string) {
+  const { [id]: _, ...rest } = map;
+  return rest;
+}
+
 /** Application-owned queue; copy with its local recipe dependencies. */
 export function ListDetail({
-  initialRequests = requests,
+  requests = sampleRequests,
   initialRequestId = null,
+  router: routerProp,
+  commit = async () => {},
+  validate: validateProp,
+  copy,
 }: {
-  initialRequests?: RequestRecord[];
-  initialRequestId?: string | null;
+  requests?: RequestRecord[] | undefined;
+  initialRequestId?: string | null | undefined;
+  router?: FlowRouter | undefined;
+  commit?: ((id: string, draft: RequestDraft) => Promise<CommitResult<Field>>) | undefined;
+  validate?: ((draft: RequestDraft) => Partial<Record<Field, string>>) | undefined;
+  copy?: Partial<Copy> | undefined;
 }) {
-  const [records, setRecords] = useState(initialRequests);
-  const [selectedId, setSelectedId] = useState(
-    () => new URL(window.location.href).searchParams.get("request") ?? initialRequestId,
-  );
+  const text = { ...listDetailCopy, ...copy };
+  const validate =
+    validateProp ??
+    ((draft: RequestDraft): Errors => ({
+      ...(draft.title ? {} : { title: text.titleRequired }),
+      ...(draft.owner ? {} : { owner: text.ownerRequired }),
+    }));
+  const [fallbackRouter] = useState(() => searchParamRouter("request"));
+  const router = routerProp ?? fallbackRouter;
+  const [selectedId, setSelectedId] = useState(() => router.read() ?? initialRequestId);
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<string | null>("all");
   const [drafts, setDrafts] = useState<Record<string, RequestDraft | undefined>>({});
+  const [errors, setErrors] = useState<Record<string, Errors | undefined>>({});
+  const [failures, setFailures] = useState<Record<string, true | undefined>>({});
+  const [saving, setSaving] = useState<Record<string, true | undefined>>({});
+  const [overlays, setOverlays] = useState<Record<string, Overlay | undefined>>({});
   const [showContext, setShowContext] = useState(true);
   // New id per outcome re-mounts the text, so a repeated outcome is announced again.
   const [notice, setNotice] = useState({ id: 0, text: "" });
   const root = useRef<HTMLElement>(null);
   const focused = useRef<HTMLElement | null>(null);
   const currentId = useRef(selectedId);
+  const latest = useRef(requests);
+  latest.current = requests;
+  const mounted = useRef(false);
+  const pending = useRef(new Set<string>());
   const search = useRef<HTMLInputElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const edit = useRef<HTMLButtonElement>(null);
+  const title = useRef<HTMLInputElement>(null);
+  const owner = useRef<HTMLInputElement>(null);
+  const status = useRef<HTMLDivElement>(null);
+  const submit = useRef<HTMLButtonElement>(null);
+  const refs = useMemo(() => ({ title, owner, status, submit }), []);
   const rows = useRef(new Map<string, HTMLButtonElement>());
   const lastSelected = useRef(selectedId);
-  const focusTarget = useRef<"heading" | "list" | "edit" | null>(selectedId ? "heading" : null);
+  const shown = useRef<string | null>(null);
+  const focusTarget = useRef<Target | null>(selectedId ? "heading" : null);
   const id = useId();
+  // An overlay holds a local save until the prop sends a new object for that id.
+  const records = useMemo(
+    () =>
+      requests.map((record) => {
+        const overlay = overlays[record.id];
+        return overlay?.base === record ? { ...record, ...overlay.value } : record;
+      }),
+    [requests, overlays],
+  );
   const selected = records.find((record) => record.id === selectedId);
   const draft = selected ? drafts[selected.id] : undefined;
   const filtered = records.filter(
@@ -201,24 +334,46 @@ export function ListDetail({
   );
 
   useEffect(() => {
-    const onPopState = () => {
-      const next = new URL(window.location.href).searchParams.get("request");
+    mounted.current = true;
+    const unsubscribe = router.subscribe(() => {
+      const next = router.read();
+      if (next === currentId.current) return;
       if (currentId.current) lastSelected.current = currentId.current;
       focusTarget.current = next ? "heading" : "list";
+      currentId.current = next;
       setSelectedId(next);
+    });
+    return () => {
+      mounted.current = false;
+      unsubscribe();
     };
-    window.addEventListener("popstate", onPopState);
-    return () => window.removeEventListener("popstate", onPopState);
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     currentId.current = selectedId;
-    if (focusTarget.current === "heading") heading.current?.focus();
-    if (focusTarget.current === "edit") edit.current?.focus();
-    if (focusTarget.current === "list")
-      (rows.current.get(lastSelected.current ?? "") ?? search.current)?.focus();
+    const target = focusTarget.current;
     focusTarget.current = null;
+    if (target === "heading") heading.current?.focus();
+    if (target === "edit") edit.current?.focus();
+    if (target === "title" || target === "owner" || target === "submit")
+      refs[target].current?.focus();
+    if (target === "status")
+      status.current?.querySelector<HTMLElement>("[role='combobox'], button")?.focus();
+    if (target === "list")
+      (rows.current.get(lastSelected.current ?? "") ?? search.current)?.focus();
   });
+
+  // The open record left the prop: drop its draft, and refocus only if focus went with it.
+  useEffect(() => {
+    if (shown.current !== null && shown.current === selectedId && !selected) {
+      const gone = shown.current;
+      setDrafts((current) => without(current, gone));
+      setErrors((current) => without(current, gone));
+      setFailures((current) => without(current, gone));
+      if (focused.current && !focused.current.isConnected) heading.current?.focus();
+    }
+    shown.current = selected?.id ?? null;
+  }, [selected, selectedId]);
 
   useEffect(() => {
     const observer = new ResizeObserver(() => {
@@ -242,21 +397,68 @@ export function ListDetail({
       return;
     }
     if (selectedId) lastSelected.current = selectedId;
-    const url = new URL(window.location.href);
-    if (next) url.searchParams.set("request", next);
-    else url.searchParams.delete("request");
-    window.history.pushState(window.history.state, "", url);
+    router.write(next);
     focusTarget.current = next ? "heading" : "list";
+    currentId.current = next;
     setSelectedId(next);
   }
 
-  function announce(text: string) {
-    setNotice((current) => ({ id: current.id + 1, text }));
+  function announce(message: string) {
+    setNotice((current) => ({ id: current.id + 1, text: message }));
   }
 
-  function closeEditor() {
-    if (!selected) return;
-    setDrafts((current) => ({ ...current, [selected.id]: undefined }));
+  /** Records field errors; false when there are none. Server errors are always announced. */
+  function reject(recordId: string, found: Errors, server = false) {
+    const entries = Object.entries(found).filter(([, message]) => message);
+    if (!entries.length) return false;
+    setErrors((current) => ({ ...current, [recordId]: Object.fromEntries(entries) }));
+    const unrendered = entries
+      .filter(([key]) => !fields.includes(key as Field))
+      .map(([, message]) => message);
+    if (server || unrendered.length)
+      announce([...(server ? [text.invalidNotice(recordId)] : []), ...unrendered].join(" "));
+    if (currentId.current === recordId)
+      focusTarget.current = fields.find((field) => found[field]) ?? "submit";
+    return true;
+  }
+
+  async function save(record: RequestRecord, current: RequestDraft) {
+    const recordId = record.id;
+    if (pending.current.has(recordId)) return;
+    const next = { ...current, title: current.title.trim(), owner: current.owner.trim() };
+    setFailures((map) => without(map, recordId));
+    if (reject(recordId, validate(next))) return;
+    setErrors((map) => without(map, recordId));
+    // An echo that lands while pending is a new object, so the prop wins over this save.
+    const base = latest.current.find((entry) => entry.id === recordId);
+    pending.current.add(recordId);
+    // Saving disables the focused submit; keep focus in the record.
+    focusTarget.current = "heading";
+    setSaving((map) => ({ ...map, [recordId]: true }));
+    announce(text.savingNotice(recordId));
+    try {
+      const result = await commit(recordId, next);
+      if (!mounted.current) return;
+      if (result && reject(recordId, result.errors, true)) return;
+      if (base) setOverlays((map) => ({ ...map, [recordId]: { base, value: next } }));
+      setDrafts((map) => without(map, recordId));
+      announce(text.savedNotice(recordId));
+      if (currentId.current === recordId) focusTarget.current = "edit";
+    } catch {
+      if (!mounted.current) return;
+      setFailures((map) => ({ ...map, [recordId]: true }));
+      announce(text.failedNotice(recordId));
+      if (currentId.current === recordId) focusTarget.current = "title";
+    } finally {
+      pending.current.delete(recordId);
+      if (mounted.current) setSaving((map) => without(map, recordId));
+    }
+  }
+
+  function closeEditor(recordId: string) {
+    setDrafts((current) => without(current, recordId));
+    setErrors((current) => without(current, recordId));
+    setFailures((current) => without(current, recordId));
     focusTarget.current = "edit";
   }
 
@@ -276,13 +478,13 @@ export function ListDetail({
       }}
     >
       <PageHeader
-        title="Requests"
+        title={text.title}
         size="sm"
-        eyebrow="Operations desk"
-        description="Review site requests and keep work moving."
+        eyebrow={text.eyebrow}
+        description={text.description}
         meta={
           <Text role="status" size="sm" tone="muted" className="request-flow-notice">
-            <span key={notice.id}>{notice.text || "Local demo · Session only"}</span>
+            <span key={notice.id}>{notice.text || text.idle}</span>
           </Text>
         }
       />
@@ -290,30 +492,30 @@ export function ListDetail({
         <Panel className="request-flow-list" aria-labelledby={`${id}-queue`}>
           <Panel.Header>
             <Heading level={2} size="sm" id={`${id}-queue`}>
-              Request queue
+              {text.queue}
             </Heading>
           </Panel.Header>
           <Panel.Body>
             <Grid layout="stack">
               <Input
                 ref={search}
-                label="Search requests"
+                label={text.search}
                 type="search"
                 value={query}
-                placeholder="Title, ID, owner or site"
+                placeholder={text.searchPlaceholder}
                 onChange={(event) => setQuery(event.target.value)}
               />
               <Select
-                label="Filter by status"
+                label={text.filter}
                 value={filter}
                 onValueChange={(value) => setFilter(value ?? "all")}
-                options={[{ value: "all", label: "All statuses" }, ...statusOptions]}
+                options={[{ value: "all", label: text.allStatuses }, ...statusOptions]}
               />
               <Text size="sm" tone="muted" aria-live="polite">
-                {filtered.length} of {records.length} requests
+                {text.count(filtered.length, records.length)}
               </Text>
               {filtered.length ? (
-                <ul className="request-flow-items" aria-label="Requests">
+                <ul className="request-flow-items" aria-label={text.list}>
                   {filtered.map((record) => (
                     <li key={record.id}>
                       <Button
@@ -342,7 +544,7 @@ export function ListDetail({
                         </span>
                         {drafts[record.id] && (
                           <Text as="span" size="sm" tone="muted">
-                            Unsaved draft
+                            {text.unsaved}
                           </Text>
                         )}
                       </Button>
@@ -352,13 +554,9 @@ export function ListDetail({
               ) : (
                 <div className="request-flow-empty">
                   <Heading level={3} size="md">
-                    {records.length ? "No matching requests" : "No requests yet"}
+                    {records.length ? text.noMatches : text.empty}
                   </Heading>
-                  <Text tone="muted">
-                    {records.length
-                      ? "Try another title, owner or status."
-                      : "New site requests will appear here."}
-                  </Text>
+                  <Text tone="muted">{records.length ? text.noMatchesHint : text.emptyHint}</Text>
                 </div>
               )}
               {(query || filter !== "all") && (
@@ -370,7 +568,7 @@ export function ListDetail({
                     search.current?.focus();
                   }}
                 >
-                  Clear filters
+                  {text.clear}
                 </Button>
               )}
             </Grid>
@@ -394,7 +592,7 @@ export function ListDetail({
                         </Inline>
                         <Inline gap="sm" className="request-flow-navigation">
                           <Button size="sm" variant="ghost" onClick={() => navigate(null)}>
-                            Back to requests
+                            {text.back}
                           </Button>
                           <Button
                             size="sm"
@@ -403,7 +601,7 @@ export function ListDetail({
                             aria-controls={`${id}-context`}
                             onClick={() => setShowContext((current) => !current)}
                           >
-                            {showContext ? "Hide context" : "Show context"}
+                            {showContext ? text.hideContext : text.showContext}
                           </Button>
                         </Inline>
                       </Inline>
@@ -432,7 +630,7 @@ export function ListDetail({
                               }))
                             }
                           >
-                            Edit request
+                            {text.edit}
                           </Button>
                         )}
                       </Inline>
@@ -450,28 +648,25 @@ export function ListDetail({
                         {draft ? (
                           <RequestEditor
                             key={selected.id}
+                            text={text}
                             draft={draft}
+                            errors={errors[selected.id] ?? {}}
+                            failed={Boolean(failures[selected.id])}
+                            saving={Boolean(saving[selected.id])}
+                            refs={refs}
                             onChange={(next) =>
                               setDrafts((current) => ({ ...current, [selected.id]: next }))
                             }
                             onCancel={() => {
-                              closeEditor();
-                              announce(`${selected.id} draft discarded.`);
+                              closeEditor(selected.id);
+                              announce(text.discardedNotice(selected.id));
                             }}
-                            onSave={(next) => {
-                              setRecords((current) =>
-                                current.map((record) =>
-                                  record.id === selected.id ? { ...record, ...next } : record,
-                                ),
-                              );
-                              closeEditor();
-                              announce(`${selected.id} saved for this session.`);
-                            }}
+                            onSave={() => void save(selected, draft)}
                           />
                         ) : (
                           <div className="request-flow-copy">
                             <Heading level={3} size="sm">
-                              What needs to happen
+                              {text.summary}
                             </Heading>
                             <Text className="request-flow-summary">{selected.summary}</Text>
                           </div>
@@ -483,30 +678,30 @@ export function ListDetail({
                           size="full"
                           gutter={false}
                           className="request-flow-context"
-                          aria-label="Request context"
+                          aria-label={text.context}
                           id={`${id}-context`}
                         >
                           <Heading level={3} size="sm" id={`${id}-context-title`}>
-                            Request context
+                            {text.context}
                           </Heading>
                           <Grid layout="stack" className="request-flow-section">
                             <dl className="request-flow-facts">
                               <div>
-                                <dt>Requested by</dt>
+                                <dt>{text.requestedBy}</dt>
                                 <dd>{selected.requester}</dd>
                               </div>
                               <div>
-                                <dt>Site</dt>
+                                <dt>{text.site}</dt>
                                 <dd>{selected.site}</dd>
                               </div>
                               <div>
-                                <dt>Assigned to</dt>
+                                <dt>{text.assignedTo}</dt>
                                 <dd>{selected.owner}</dd>
                               </div>
                             </dl>
                             <div className="request-flow-activity">
                               <Heading level={4} size="sm">
-                                Latest activity
+                                {text.activity}
                               </Heading>
                               <Text size="sm">{selected.activity}</Text>
                             </div>
@@ -520,15 +715,12 @@ export function ListDetail({
                 <Panel>
                   <Panel.Body>
                     <Button variant="ghost" onClick={() => navigate(null)}>
-                      Back to requests
+                      {text.back}
                     </Button>
                     <Heading ref={heading} tabIndex={-1} level={2}>
-                      Request unavailable
+                      {text.unavailable}
                     </Heading>
-                    <Text>
-                      This request is missing from the current queue. Return to requests to choose
-                      another.
-                    </Text>
+                    <Text>{text.unavailableHint}</Text>
                   </Panel.Body>
                 </Panel>
               )}
@@ -536,10 +728,8 @@ export function ListDetail({
           ) : (
             <Panel tone="sunken" className="request-flow-empty">
               <Panel.Body>
-                <Heading level={2}>Choose a request</Heading>
-                <Text tone="muted">
-                  Inspect the details, check site context and make an update.
-                </Text>
+                <Heading level={2}>{text.choose}</Heading>
+                <Text tone="muted">{text.chooseHint}</Text>
               </Panel.Body>
             </Panel>
           )}

@@ -4,7 +4,17 @@ Find a site request, inspect its details and context, then edit its title, owner
 
 ## Copy the complete flow
 
-Copy [ListDetail.tsx](../../apps/storybook/recipes/ListDetail.tsx) and [list-detail.css](../../apps/storybook/recipes/list-detail.css) into one directory. Import `@kb.ui/react/styles.css` once at your application entry and render ListDetail in a browser. The recipe reads the current URL and requires a browser environment; integrate your router before using server rendering.
+Put these files in one directory:
+
+<!-- generated:files -->
+
+- [`ListDetail.tsx`](../../apps/storybook/recipes/ListDetail.tsx)
+- [`flow-router.ts`](../../apps/storybook/recipes/flow-router.ts)
+- [`list-detail.css`](../../apps/storybook/recipes/list-detail.css)
+
+<!-- /generated -->
+
+Import `@kb.ui/react/styles.css` once at your application entry and render ListDetail in a browser. The recipe reads the current URL and requires a browser environment; integrate your router before using server rendering.
 
 The website recipe page and Storybook expose the exact source files and runnable interaction examples. Optional `initialRequests` replaces the fictional queue; an empty array shows the empty-queue state. Optional `initialRequestId` selects a record on mount when the URL has no request parameter. Each record needs a unique ID, title, owner, status, summary, site, requester and activity. Status is Open, In progress or Resolved. The demo permits any of these choices; it implements no business transition policy.
 
@@ -66,6 +76,69 @@ Edit request opens a prefilled form and focuses Request title. Title and owner r
 Drafts belong to record IDs. Switching records, returning to the list and changing themes retain unsaved values during the mounted session. The list marks records with an unsaved draft. Cancel editing discards only that record's draft, leaves saved data intact and restores Edit request focus. Context shows saved information while a draft is open.
 
 Records and drafts live in memory. Reload retains URL selection but restores initial records and discards unsaved changes. No backend, authentication, durable storage, async loading or simulated network failure is represented. Replace the local save with application-owned persistence, pending/error feedback and server-side validation before using it for real requests.
+
+## Task policy you can change
+
+These task choices are constants in the copied source, not props. Change them in your copy.
+
+<!-- generated:policy -->
+
+| Policy | Value |
+| --- | --- |
+| List and detail share the row from | `48rem` of recipe width |
+| Context on first open | Shown |
+| A commit | Edits the record |
+
+<!-- /generated -->
+
+## Flow guarantees
+
+The [flow contract stories](../../apps/storybook/stories/list-detail-flow/ListDetail.stories.tsx) check these rules in a browser against kbui's copy. After you change flow code in your copy, check them yourself.
+
+<!-- generated:flow-guarantees -->
+
+### Focus
+
+- Opening a record focuses its heading
+- An unknown record id focuses the unavailable heading
+- Reselecting the open record focuses its heading without a history entry
+- Back returns focus to the row that opened the record
+- Back focuses search when the opening row is filtered out
+
+### Navigation and history
+
+- Browser Back and Forward restore the row and heading of the latest record
+- Narrowing to one pane moves focus from the hidden list to the heading
+- The selection parameter follows the open record and keeps other parameters
+- An empty selection parameter shows the list, not an unavailable record
+- A resize that leaves the focused field visible keeps its focus and draft
+- The context aside shows on first open exactly when the policy says open
+- Navigation goes only through the router seam: one write per change, none for the open id, and the URL is untouched
+
+### Editing and commits
+
+- Drafts stay with their record across navigation; discard restores the original
+- An invalid commit keeps the value, focuses the field and describes the error
+- A repeated identical outcome is announced again
+- A validation error describes the field and makes no commit; a commit failure shows visibly and never in the field's description
+
+### Lists
+
+- Only the open record's row carries aria-current
+- Filters persist, keep the open record open, and Clear focuses search
+- The current-row cue stays distinct from focus in forced colors
+
+### Pending commits
+
+- A commit settling after navigation sends once and leaves focus where the user is
+- Focus stays on an enabled control while a commit is pending
+- Unmounting while a commit is pending causes no error, and a remount shows no stale pending state
+
+### Live data
+
+- Records that change after mount are matched by id: the open record and drafts survive, a server echo shows once, and removing the open record shows it unavailable
+
+<!-- /generated -->
 
 ## Verify the workflow
 
