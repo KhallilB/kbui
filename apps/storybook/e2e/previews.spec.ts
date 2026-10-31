@@ -131,7 +131,23 @@ for (const width of [320, 1280]) {
               await new Promise<void>((resolve) =>
                 requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
               );
+              await Promise.all(
+                root.ownerDocument
+                  .getAnimations()
+                  .filter(
+                    (animation) => animation.effect?.getComputedTiming().iterations !== Infinity,
+                  )
+                  .map((animation) => animation.finished.catch(() => {})),
+              );
             });
+            if (story.id === "components-toast--positioned") {
+              await frame
+                .getByRole("button", { name: "Show urgent notification", exact: true })
+                .click();
+              await frame
+                .getByRole("alertdialog", { name: "Connection lost", exact: true })
+                .waitFor();
+            }
             await page.waitForFunction(() => {
               const iframe = document.querySelector<HTMLIFrameElement>(
                 'iframe[data-current="true"]',
@@ -232,7 +248,7 @@ for (const width of [320, 1280]) {
             const fluidSelectors: Record<string, string> = {
               tabs: ".kb-tabs:not(.kb-tabs .kb-tabs)",
               codeblock: ".kb-codeblock",
-              collection: ".kb-collection",
+              collection: ".kb-collection, .kb-collection-pagination",
               accordion: ".kb-accordion",
               disclosure: ".kb-disclosure",
               input: ".kb-input",
@@ -241,7 +257,7 @@ for (const width of [320, 1280]) {
               formactions: ".kb-formactions",
               errorsummary: ".kb-errorsummary",
               select: ".kb-select",
-              combobox: ".kb-combobox",
+              combobox: ".kb-combobox, .kb-multiselect",
               multiselect: ".kb-multiselect",
               card: ".kb-card",
               callout: ".kb-callout",
@@ -251,10 +267,10 @@ for (const width of [320, 1280]) {
               supportingpane: ".kb-supportingpane",
               gallery: ".kb-gallery",
               statsrow: ".kb-statsrow",
-              toast: ".kb-toast-viewport[data-placement=inline]",
+              toast: ".kb-toast-viewport",
               progress: ".kb-progress",
               scrollarea: ".kb-scrollarea",
-              table: ".kb-table-scroll",
+              table: ".kb-table-scroll, .kb-table",
               descriptionlist: ".kb-descriptionlist",
               collectionlist: ".kb-collectionlist",
               collectionrow: ".kb-collectionlist",
@@ -262,14 +278,23 @@ for (const width of [320, 1280]) {
             const selector = fluidSelectors[entry.id];
             if (selector) {
               const fills = await frame.locator("#storybook-root").evaluate((root, target) => {
-                const content = root.querySelector(".component-preview-content") ?? root;
-                const available = content.getBoundingClientRect().width;
-                const surfaces = [...root.querySelectorAll(target)];
+                const scope = target === ".kb-toast-viewport" ? root.ownerDocument : root;
+                const surfaces = [...scope.querySelectorAll<HTMLElement>(target)];
                 return (
                   surfaces.length > 0 &&
-                  surfaces.every(
-                    (surface) => surface.getBoundingClientRect().width >= available - 1,
-                  )
+                  surfaces.every((surface) => {
+                    const bounds = surface.getBoundingClientRect();
+                    if (getComputedStyle(surface).position === "fixed")
+                      return bounds.left >= 0 && bounds.right <= innerWidth + 1;
+                    const parent = surface.parentElement;
+                    if (!parent) return false;
+                    const style = getComputedStyle(parent);
+                    const available =
+                      parent.clientWidth -
+                      parseFloat(style.paddingLeft) -
+                      parseFloat(style.paddingRight);
+                    return bounds.width >= available - 1;
+                  })
                 );
               }, selector);
               if (!fills) throw new Error("Fluid component leaves unused preview width");
@@ -286,16 +311,20 @@ for (const width of [320, 1280]) {
                     parent.clientWidth -
                     parseFloat(style.paddingLeft) -
                     parseFloat(style.paddingRight);
-                  const rows = new Map<number, DOMRect[]>();
-                  for (const panel of panels) {
-                    const bounds = panel.getBoundingClientRect();
+                  const rows = new Map<number, { bounds: DOMRect[]; hasPanel: boolean }>();
+                  for (const child of parent.children) {
+                    const bounds = child.getBoundingClientRect();
                     const key = Math.round(bounds.top);
-                    rows.set(key, [...(rows.get(key) ?? []), bounds]);
+                    const row = rows.get(key) ?? { bounds: [], hasPanel: false };
+                    row.bounds.push(bounds);
+                    row.hasPanel ||= child.classList.contains("kb-panel");
+                    rows.set(key, row);
                   }
                   for (const row of rows.values()) {
+                    if (!row.hasPanel) continue;
                     const used =
-                      Math.max(...row.map((box) => box.right)) -
-                      Math.min(...row.map((box) => box.left));
+                      Math.max(...row.bounds.map((box) => box.right)) -
+                      Math.min(...row.bounds.map((box) => box.left));
                     if (used < available - 2) return false;
                   }
                 }
@@ -458,6 +487,8 @@ for (const width of [320, 1280]) {
                 entry.id === "tooltip"
                   ? frame.getByText("Stop worker", { exact: true })
                   : frame.getByRole(entry.id === "dialog" ? "dialog" : "menu");
+              if (entry.id === "dialog" && !(await popup.isVisible()))
+                await frame.locator('button[aria-haspopup="dialog"]').click();
               await popup.waitFor({ state: "visible" });
               const fits = await popup.evaluate((element) => {
                 const bounds = element.getBoundingClientRect();

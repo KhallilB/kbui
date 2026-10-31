@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
-import { type Locator, test } from "playwright/test";
+import { expect, type Locator, test } from "playwright/test";
+import { chooseRadio, radioChoice } from "../catalog/native-controls.ts";
 import { siteURL as origin } from "./urls.ts";
 
 const material = (locator: Locator) =>
@@ -133,12 +134,14 @@ test("installed package and site palette parity", async ({ browser }) => {
 for (const reducedMotion of ["no-preference", "reduce"] as const) {
   test.describe(reducedMotion, () => {
     test.use({ viewport: { width: 390, height: 844 }, reducedMotion });
-    test("theme navigation, drafts and keyboard focus", async ({ page }) => {
+    test("theme navigation, drafts and keyboard focus", async ({ page, browserName }) => {
       test.setTimeout(180_000);
+      if (browserName === "chromium")
+        await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
       await page.goto(`${origin}/components/?component=input&skin=current&theme=light`);
       const toggle = page
-        .getByRole("navigation", { name: "Main navigation" })
-        .getByLabel("Dark mode", { exact: true });
+        .getByRole("banner")
+        .getByRole("switch", { name: "Dark mode", exact: true });
       if (new URL(page.url()).searchParams.has("skin")) throw new Error("Legacy skin URL remains");
       if (await page.getByRole("button", { name: "Site skin", exact: true }).count())
         throw new Error("Skin selector remains");
@@ -197,22 +200,12 @@ for (const reducedMotion of ["no-preference", "reduce"] as const) {
       if ((await primary.getAttribute("data-variant")) !== "danger")
         throw new Error("Dark navigation theme broke dropdown selection");
       for (const theme of ["light", "dark"]) {
-        await page.goto(`${origin}/components/?component=button&theme=${theme}`);
-        const preview = page.locator('.catalog-detail:visible iframe[data-current="true"]');
-        const previewRoot = page
-          .frameLocator('.catalog-detail:visible iframe[data-current="true"]')
-          .locator("html");
-        await previewRoot.locator("#storybook-root > *").first().waitFor();
-        await previewRoot.evaluate((root) => (root.dataset.instance = "reskin-retained"));
-        const href = page.url();
-        const siteAccent = await page
-          .locator(".kbui-catalog")
-          .evaluate((root) => getComputedStyle(root).getPropertyValue("--kb-color-accent").trim());
-        const picker = page.getByRole("combobox", { name: "Palette", exact: true });
+        await page.goto(`${origin}/playground/?theme=${theme}`);
+        const picker = page.getByRole("combobox", { name: "Variant", exact: true });
         await picker.click();
-        const list = page.getByRole("listbox", { name: "Palette", exact: true });
+        const list = page.getByRole("listbox", { name: "Variant", exact: true });
         await list.waitFor();
-        const material = await page.locator(".kb-select-popup").evaluate((element) => {
+        const dropdown = await page.locator(".kb-select-popup").evaluate((element) => {
           const style = getComputedStyle(element);
           const bounds = element.getBoundingClientRect();
           return {
@@ -224,39 +217,15 @@ for (const reducedMotion of ["no-preference", "reduce"] as const) {
           };
         });
         if (
-          material.theme !== theme ||
-          material.background === "rgba(0, 0, 0, 0)" ||
-          material.shadow === "none" ||
-          !material.fits
+          dropdown.theme !== theme ||
+          dropdown.background === "rgba(0, 0, 0, 0)" ||
+          dropdown.shadow === "none" ||
+          !dropdown.fits
         )
-          throw new Error(`Dropdown material/bounds mismatch: ${JSON.stringify(material)}`);
-        if (reducedMotion === "reduce" && material.transition !== "0s")
+          throw new Error(`Dropdown material/bounds mismatch: ${JSON.stringify(dropdown)}`);
+        if (reducedMotion === "reduce" && dropdown.transition !== "0s")
           throw new Error("Reduced motion animated dropdown");
-        await list.getByRole("option", { name: "Ocean", exact: true }).click();
-        await list.waitFor({ state: "hidden" });
-        const accent = theme === "light" ? "#21637a" : "#8cd5e8";
-        await page.waitForFunction((expected) => {
-          const frame = document.querySelector<HTMLIFrameElement>(
-            '.catalog-detail:not([hidden]) iframe[data-current="true"]',
-          );
-          const root = frame?.contentDocument?.documentElement;
-          return (
-            root && getComputedStyle(root).getPropertyValue("--kb-color-accent").trim() === expected
-          );
-        }, accent);
-        if (
-          page.url() !== href ||
-          (await previewRoot.getAttribute("data-instance")) !== "reskin-retained"
-        )
-          throw new Error("Local palette changed URL or replaced preview document");
-        if (
-          (await page
-            .locator(".kbui-catalog")
-            .evaluate((root) =>
-              getComputedStyle(root).getPropertyValue("--kb-color-accent").trim(),
-            )) !== siteAccent
-        )
-          throw new Error("Preview palette leaked into the site theme");
+        await list.getByRole("option", { name: "Danger", exact: true }).click();
         await picker.press("ArrowDown");
         await list.waitFor();
         await page.waitForFunction(
@@ -268,41 +237,95 @@ for (const reducedMotion of ["no-preference", "reduce"] as const) {
         await list.waitFor({ state: "hidden" });
         if (!(await picker.evaluate((element) => element === document.activeElement)))
           throw new Error("Dropdown did not restore trigger focus");
-        await page.getByRole("combobox", { name: "Corners", exact: true }).click();
-        await page.getByRole("option", { name: "Sharp", exact: true }).click();
-        await page.getByRole("listbox").waitFor({ state: "hidden" });
+
+        await page.goto(`${origin}/components/?component=button&theme=${theme}`);
+        const preview = page.locator('.catalog-detail:visible iframe[data-current="true"]');
+        const previewRoot = page
+          .frameLocator('.catalog-detail:visible iframe[data-current="true"]')
+          .locator("html");
+        const button = previewRoot.locator(".kb-button").first();
+        await button.waitFor();
+        await previewRoot.evaluate((root) => (root.dataset.instance = "reskin-retained"));
+        const originalBackground = await button.evaluate(
+          (element) => getComputedStyle(element).backgroundColor,
+        );
+        const href = page.url();
+        const siteAccent = await page
+          .locator(".kbui-catalog")
+          .evaluate((root) => getComputedStyle(root).getPropertyValue("--kb-color-accent").trim());
+
+        await chooseRadio(page, "Edit example", "CSS");
+        const cssMode = radioChoice(page, "Edit example", "CSS");
+        const styles = page.getByRole("textbox", { name: "Style this component", exact: true });
+        const accent = theme === "light" ? "#21637a" : "#8cd5e8";
+        const background = theme === "light" ? "rgb(33, 99, 122)" : "rgb(140, 213, 232)";
+        const source = `.brand {\n  background-color: ${accent};\n  border-radius: 0px;\n}\n`;
+        await styles.fill(source);
+        await expect(button).toHaveCSS("background-color", background);
+        await expect(button).toHaveCSS("border-radius", "0px");
         if (
-          !(await page.getByRole("textbox", { name: "Theme CSS overrides" }).inputValue()).includes(
-            "--kb-radius-md: 0px;",
+          page.url() !== href ||
+          (await previewRoot.getAttribute("data-instance")) !== "reskin-retained"
+        )
+          throw new Error("Local styles changed URL or replaced preview document");
+        if (
+          (await page
+            .locator(".kbui-catalog")
+            .evaluate((root) =>
+              getComputedStyle(root).getPropertyValue("--kb-color-accent").trim(),
+            )) !== siteAccent
+        )
+          throw new Error("Preview styles leaked into the site theme");
+
+        await cssMode.focus();
+        await cssMode.press("ArrowRight");
+        await expect(radioChoice(page, "Edit example", "Tailwind")).toBeChecked();
+        await expect(
+          page.getByRole("textbox", { name: "Tailwind classes", exact: true }),
+        ).toBeVisible();
+        await radioChoice(page, "Edit example", "Tailwind").press("ArrowLeft");
+        await expect(cssMode).toBeChecked();
+        await expect(cssMode).toBeFocused();
+        await expect(styles).toHaveValue(source);
+        await expect(button).toHaveCSS("background-color", background);
+        await expect(button).toHaveCSS("border-radius", "0px");
+        if (!(await styles.inputValue()).includes("border-radius: 0px;"))
+          throw new Error("CSS editor omitted authored corners");
+
+        const copy = page.getByRole("button", { name: "Copy styling", exact: true });
+        await expect(copy).toBeEnabled();
+        await copy.click();
+        await page
+          .getByRole("status", { name: "Editor notification" })
+          .filter({ hasText: "Copied styling" })
+          .waitFor();
+        if (browserName === "chromium") {
+          const copied = await page.evaluate(() => navigator.clipboard.readText());
+          if (
+            !copied.includes(source) ||
+            !copied.includes("@kb.ui/react") ||
+            !/className=(?:"brand"|\{["']brand["']\})/.test(copied)
           )
-        )
-          throw new Error("Generated CSS omitted selected corners");
-        if (
-          (await previewRoot.evaluate((root) =>
-            getComputedStyle(root).getPropertyValue("--kb-radius-md").trim(),
-          )) !== "0px"
-        )
-          throw new Error("Selected corners did not reach live preview");
+            throw new Error("Styling clipboard differs from usage and authored CSS");
+        }
         await page.getByRole("button", { name: "Reset styling", exact: true }).click();
-        if (
-          (await previewRoot.evaluate((root) =>
-            root.style.getPropertyValue("--kb-color-accent"),
-          )) !== ""
-        )
-          throw new Error("Reset styling retained inline palette overrides");
+        await expect(button).not.toHaveClass(/(?:^|\s)brand(?:\s|$)/);
+        await expect(button).toHaveCSS("background-color", originalBackground);
+        await expect(styles).not.toHaveValue(source);
         if (
           (await previewRoot.getAttribute("data-instance")) !== "reskin-retained" ||
           page.url() !== href
         )
           throw new Error("Reset styling replaced preview or changed URL");
-        await page
-          .getByRole("radiogroup", { name: "Example state" })
-          .getByRole("radio", { name: "Disabled", exact: true })
-          .locator("xpath=ancestor::label[1]")
-          .click();
+
+        await chooseRadio(page, "Edit example", "Component");
+        await expect(
+          page.getByRole("textbox", { name: "Component code", exact: true }),
+        ).toBeVisible();
+        await chooseRadio(page, "Example state", "Disabled");
         await page.getByTitle("Button — Disabled live example").waitFor();
         if ((await preview.getAttribute("title")) !== "Button — Disabled live example")
-          throw new Error("State selection stopped working after local reskinning");
+          throw new Error("State selection stopped working after local styling");
       }
       await page.evaluate(() => localStorage.clear());
       await page.goto(`${origin}/?theme=dark`);

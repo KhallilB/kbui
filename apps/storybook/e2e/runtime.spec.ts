@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { expect, test } from "playwright/test";
 import { chooseRadio, radioChoice } from "../catalog/native-controls.ts";
+import { loadCatalogSources } from "../catalog/source.ts";
 import { siteURL as origin } from "./urls.ts";
 
 test.use({ viewport: { width: 1280, height: 900 } });
@@ -97,13 +98,24 @@ test("cached documents, drafts, focus and comparison history", async ({ page }) 
     "History, theme and reload: selection, focus and unrelated drafts preserved; reload resets selected document.",
   );
   await page.goto(`${origin}/components/?component=button`);
-  const states = page
-    .getByRole("radiogroup", { name: "Example state", exact: true })
-    .getByRole("radio");
-  const count = await states.count();
+  await detail.locator('iframe[data-current="true"]').waitFor();
+  const button = loadCatalogSources().find((entry) => entry.id === "button");
+  assert.ok(button, "Missing Button fixture");
+  const states = button.stories.filter((story) => !/(?:^|\s)(?:Dark|Light)$/.test(story.name));
+  const count = states.length;
   assert.ok(count > 6, "Bounded-cache probe needs more states than capacity");
-  for (let index = 0; index < count; index++) {
-    await states.nth(index).locator("xpath=ancestor::label[1]").click();
+  for (const story of states) {
+    // Curated controls show five examples; history still accepts every retained story URL.
+    await page.evaluate((id) => {
+      const next = new URL(location.href);
+      next.searchParams.set("state", id);
+      history.pushState(null, "", next);
+      dispatchEvent(new PopStateEvent("popstate"));
+    }, story.id);
+    await expect(detail.locator('iframe[data-current="true"]')).toHaveAttribute(
+      "data-preview-src",
+      new RegExp(`id=${story.id}&`),
+    );
     await expect(detail.locator('iframe[data-current="true"]')).toHaveAttribute(
       "aria-busy",
       "false",

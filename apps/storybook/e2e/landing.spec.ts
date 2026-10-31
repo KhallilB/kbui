@@ -31,12 +31,19 @@ for (const theme of ["light", "dark"] as const) {
     assert(Math.abs(header.y) < 1, "Navigation left viewport after scrolling");
     assert(heading.y >= header.y + header.height, "Sticky navigation obscured anchor target");
     if (profile.width > 600) {
-      const paragraph = await about.locator(":scope > p").boundingBox();
+      const paragraph = await about.locator(":scope > p").first().boundingBox();
       const badges = await about.getByRole("list").boundingBox();
       assert(paragraph && badges);
-      assert(Math.abs(paragraph.x - badges.x) < 1, "About copy and badges lost alignment");
+      assert(
+        Math.abs(heading.x - badges.x) < 1 &&
+          paragraph.x > heading.x &&
+          paragraph.x + paragraph.width <= badges.x + badges.width + 1,
+        "About copy and badges lost alignment",
+      );
     }
-    const arrowLink = page.getByRole("link", { name: "Something to read", exact: true });
+    const arrowLink = page
+      .getByRole("contentinfo")
+      .getByRole("link", { name: "Documentation", exact: true });
     await arrowLink.hover();
     assert.equal(await arrowLink.locator("svg.link-arrow").count(), 1);
     assert.equal(await arrowLink.locator("svg").getAttribute("aria-hidden"), "true");
