@@ -2,6 +2,7 @@ import type { Meta } from "@storybook/react-vite";
 import { expect, waitFor } from "storybook/test";
 import { ListDetail, type RequestRecord } from "../../recipes/ListDetail";
 import { type FlowFixture, flow, recipePolicy } from "./contract";
+import { flowFacts } from "./facts";
 
 const meta = {
   title: "Validation/List-detail flow/ListDetail",
@@ -82,10 +83,7 @@ const fixture: FlowFixture = {
     },
     committedText,
   },
-  gaps: {
-    "live-records": "Copies requests into state at mount and ignores later prop changes",
-    "routing-boundary": "Reads and pushes the URL directly; takes no router",
-  },
+  gaps: flowFacts.ListDetail.gaps,
 };
 
 const { story, complete } = flow(fixture);
