@@ -1,12 +1,14 @@
 import { expect, test } from "bun:test";
-import { readFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { posix, resolve } from "node:path";
 
 type Workflow = {
+  concurrency?: { group: string; "cancel-in-progress": boolean | string };
   on: {
     push: { branches?: string[]; paths?: string[] };
     pull_request?: unknown;
-    workflow_dispatch?: {
+    workflow_dispatch?: null | {
       inputs: { tag: { description: string; required: boolean; type: string } };
     };
   };
@@ -22,7 +24,9 @@ type Workflow = {
       permissions?: Record<string, string>;
       outputs?: Record<string, string>;
       environment?: { name: string; url?: string };
+      concurrency?: { group: string; "cancel-in-progress": boolean };
       steps: {
+        id?: string;
         name?: string;
         if?: string;
         run?: string;
@@ -55,8 +59,6 @@ test("Linux browser jobs use the image matching the pinned client", () => {
   for (const [name, key] of [
     ["ci", "browser-tests"],
     ["ci", "browser-built"],
-    ["deploy-site", "build"],
-    ["deploy-site", "validation"],
     ["release", "assets"],
   ] as const) {
     expect(job(name, key).container?.image).toBe("mcr.microsoft.com/playwright:v1.64.1-noble");
@@ -64,7 +66,7 @@ test("Linux browser jobs use the image matching the pinned client", () => {
 });
 
 test("CI never downloads browsers or their system packages", () => {
-  for (const name of ["ci", "deploy-site", "release"]) {
+  for (const name of ["ci", "release"]) {
     expect(readFileSync(`${root}/.github/workflows/${name}.yml`, "utf8")).not.toMatch(
       /(?:bunx|npx) playwright install/,
     );
@@ -75,8 +77,6 @@ test("container installs trust only their checkout after tool setup", () => {
   for (const [name, key] of [
     ["ci", "browser-tests"],
     ["ci", "browser-built"],
-    ["deploy-site", "build"],
-    ["deploy-site", "validation"],
     ["release", "assets"],
   ] as const) {
     const steps = job(name, key).steps;
@@ -178,63 +178,138 @@ test("PR consumer validation uses the local check without npm publishing", () =>
   expect(workflow("release").on.pull_request).toBeUndefined();
 });
 
-test("deployment workflow runs only on main and excludes Markdown-only pushes", () => {
-  const site = workflow("deploy-site");
-  expect(site.on.pull_request).toBeUndefined();
-  expect(site.on.push.branches).toEqual(["main"]);
-  expect(site.on.push.paths).toContain("!**/*.md");
-  expect(job("deploy-site", "build").if).toBe("github.ref == 'refs/heads/main'");
+test("one CI workflow owns validation and production publishing", () => {
+  expect(existsSync(`${root}/.github/workflows/deploy-site.yml`)).toBe(false);
+  const ci = workflow("ci");
+  expect(ci.on.push.branches).toEqual(["main"]);
+  expect(ci.on).toHaveProperty("workflow_dispatch");
+  expect(ci.concurrency?.group).toBe(`ci-\${{ github.ref }}`);
+  const cancel = ci.concurrency?.["cancel-in-progress"];
+  if (typeof cancel !== "string") throw new Error("Missing conditional CI cancellation");
+  const cancels = new Function("github", `return (${cancel.replace(/\$\{\{|\}\}/g, "")});`);
+  expect(cancels({ ref: "refs/heads/main" })).toBe(false);
+  expect(cancels({ ref: "refs/pull/12/merge" })).toBe(true);
 });
 
-test("production browser stages run independently and all gate artifact deployment", () => {
-  const validation = job("deploy-site", "validation");
-  expect(validation.if).toBe("github.ref == 'refs/heads/main'");
-  expect(validation["runs-on"]).toBe("ubuntu-latest");
-  expect(validation.strategy?.["fail-fast"]).toBe(false);
-  expect(validation.strategy?.matrix.include).toEqual([
-    { suite: "stories", name: "Test: stories" },
-    { suite: "themes", name: "Test: themes" },
-    { suite: "responsive", name: "Test: layouts" },
-  ]);
-  expect(validation.steps.map((step) => step.run)).toContain("bun run build");
-  expect(validation.steps.map((step) => step.run)).toContain(
-    `bun run validate:site \${{ matrix.suite }}`,
-  );
-  expect(job("deploy-site", "build").steps.map((step) => step.run)).toContain(
-    "bun run validate:site built",
-  );
-  expect(job("deploy-site", "build").steps.map((step) => step.run)).not.toContain(
-    "bun run validate:site",
-  );
-  const deploy = job("deploy-site", "deploy");
-  expect(deploy.needs).toEqual(["build", "validation"]);
-  expect(deploy.if).toBe("github.ref == 'refs/heads/main' && github.event_name != 'pull_request'");
-  expect(JSON.stringify(validation.steps)).not.toContain("CLOUDFLARE_API_TOKEN");
-  expect(validation.steps.some((step) => step.uses?.includes("upload-artifact"))).toBe(false);
+test("main and manual runs validate fully while PR prose keeps scoped checks", () => {
+  const scope = job("ci", "check").steps.find((step) => step.id === "scope");
+  if (!scope?.run) throw new Error("Missing CI scope command");
+  const cases = [
+    ["push", "refs/heads/main", "HEAD", "HEAD", "true"],
+    ["workflow_dispatch", "refs/heads/main", "", "HEAD", "true"],
+    ["workflow_dispatch", "refs/heads/topic", "", "HEAD", "true"],
+    ["pull_request", "refs/pull/12/merge", "HEAD", "HEAD", "false"],
+    ["pull_request", "refs/pull/12/merge", "0".repeat(40), "HEAD", "true"],
+  ] as const;
+  const directory = mkdtempSync(resolve(tmpdir(), "kbui-ci-scope-"));
+  try {
+    for (const [index, [event, ref, base, head, expected]] of cases.entries()) {
+      const output = resolve(directory, String(index));
+      const result = Bun.spawnSync(["bash", "-e", "-c", scope.run], {
+        cwd: root,
+        env: {
+          ...process.env,
+          GITHUB_EVENT_NAME: event,
+          GITHUB_REF: ref,
+          GITHUB_OUTPUT: output,
+          BASE_SHA: base,
+          HEAD_SHA: head,
+        },
+      });
+      expect(result.exitCode, `${event}/${ref}: ${result.stderr}`).toBe(0);
+      expect(readFileSync(output, "utf8")).toBe(`browser=${expected}\n`);
+    }
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
 });
 
-test("deployment paths preserve generated API docs while excluding ordinary prose", () => {
-  const paths = workflow("deploy-site").on.push.paths ?? [];
-  const matches = (file: string) =>
-    paths.reduce((matched, pattern) => {
-      const negative = pattern.startsWith("!");
-      return new Bun.Glob(negative ? pattern.slice(1) : pattern).match(file) ? !negative : matched;
-    }, false);
-  expect(matches("packages/react/README.md")).toBe(false);
-  expect(matches("packages/react/docs/components/Button.md")).toBe(true);
-  expect(matches("docs/guides/list-detail.md")).toBe(true);
-  expect(matches("docs/guides/inbox.md")).toBe(true);
-  expect(matches("docs/guides/components-and-recipes.md")).toBe(true);
-  expect(matches("packages/css/README.md")).toBe(false);
-  expect(matches("apps/storybook/site/README.md")).toBe(false);
-  expect(matches("apps/storybook/docs/Introduction.mdx")).toBe(true);
-  expect(matches("packages/react/src/index.ts")).toBe(true);
+test("production rejects untrusted events and every unsuccessful prerequisite", () => {
+  const production = job("ci", "production");
+  expect(production.needs).toEqual(["check", "browser", "browser-built"]);
+  const permits = new Function("github", "needs", `return (${production.if});`);
+  const states = ["success", "failure", "skipped", "cancelled"];
+  for (const event of ["push", "workflow_dispatch", "pull_request", "pull_request_target"]) {
+    for (const ref of ["refs/heads/main", "refs/heads/topic", "refs/pull/12/merge"]) {
+      for (const check of states) {
+        for (const browser of states) {
+          for (const built of states) {
+            expect(
+              permits(
+                { event_name: event, ref },
+                {
+                  check: { result: check },
+                  browser: { result: browser },
+                  "browser-built": { result: built },
+                },
+              ),
+            ).toBe(
+              ["push", "workflow_dispatch"].includes(event) &&
+                ref === "refs/heads/main" &&
+                [check, browser, built].every((state) => state === "success"),
+            );
+          }
+        }
+      }
+    }
+  }
+  expect(production.environment).toEqual({ name: "kbui-production", url: "https://kbui.kcb.pro/" });
+  expect(production.concurrency).toEqual({
+    group: `kbui-site-\${{ github.ref }}`,
+    "cancel-in-progress": false,
+  });
+  const publish = production.steps.find((step) => step.name === "Deploy the tested artifact");
+  if (!publish?.run) throw new Error("Missing production publish command");
+  expect(publish.run).toContain(
+    `npm run deploy --prefix deployment/site -- --message "Site \${{ github.sha }}"`,
+  );
+  expect(production.steps.filter((step) => step.env?.CLOUDFLARE_API_TOKEN)).toEqual([publish]);
+  expect(production.steps.some((step) => step.run?.includes("bun run"))).toBe(false);
+  expect(production.steps.some((step) => step.run?.includes("https://kbui.kcb.pro/setup/"))).toBe(
+    true,
+  );
+});
+
+test("production consumes only the same-run validated immutable artifact", () => {
+  const built = job("ci", "browser-built");
+  const upload = built.steps.find((step) => step.id === "production_artifact");
+  if (!upload) throw new Error("Missing production artifact upload");
+  expect(upload?.uses).toBe("actions/upload-artifact@v4");
+  expect(upload?.if).toBe("github.ref == 'refs/heads/main'");
+  expect(upload?.with).toEqual({
+    name: `kbui-site-\${{ github.sha }}-\${{ github.run_attempt }}`,
+    path: "deployment/site/.cloudflare/output/",
+    "include-hidden-files": true,
+    "if-no-files-found": "error",
+    "retention-days": 14,
+  });
+  expect(built.steps.findIndex((step) => step.run === "bun run validate:site built")).toBeLessThan(
+    built.steps.indexOf(upload),
+  );
+  expect(built.outputs?.production_artifact_id).toBe(
+    `\${{ steps.production_artifact.outputs.artifact-id }}`,
+  );
+  const production = job("ci", "production");
+  const download = production.steps.find((step) => step.uses === "actions/download-artifact@v4");
+  expect(download?.with).toEqual({
+    "artifact-ids": `\${{ needs.browser-built.outputs.production_artifact_id }}`,
+    "merge-multiple": true,
+    path: "deployment/site/.cloudflare/output/",
+  });
+  const guard = production.steps.find((step) => step.name === "Require validated artifact");
+  if (!guard?.run) throw new Error("Missing artifact guard");
+  expect(guard.env?.ARTIFACT_ID).toBe(`\${{ needs.browser-built.outputs.production_artifact_id }}`);
+  for (const id of ["", "12345"]) {
+    const result = Bun.spawnSync(["bash", "-e", "-c", guard.run], {
+      env: { ...process.env, ARTIFACT_ID: id },
+    });
+    expect(result.exitCode === 0).toBe(id !== "");
+  }
 });
 
 test("PR browser validation retains staged WebKit journeys and deployment dry-run", () => {
   const steps = JSON.stringify(job("ci", "browser-built").steps);
   expect(steps).toContain("bun run validate:site built");
-  expect(JSON.stringify(job("deploy-site", "build").steps)).toContain("bun run validate:site");
   const validation = readFileSync(`${root}/scripts/validate-site.sh`, "utf8");
   for (const command of [
     "npm test --prefix deployment/site",
@@ -425,7 +500,7 @@ test("manual retries reuse uploaded bytes and never repack or replace release as
 
 test("PR previews reuse either existing CI Storybook build", () => {
   for (const key of ["check", "browser-built"]) {
-    const upload = job("ci", key).steps.find((step) => step.uses === "actions/upload-artifact@v4");
+    const upload = job("ci", key).steps.find((step) => step.name === "Save preview");
     expect(upload).toBeDefined();
     expect(upload?.with?.path).toBe("apps/storybook/dist/storybook/");
     expect(upload?.with?.name).toBe(`storybook-\${{ github.sha }}`);
