@@ -36,7 +36,7 @@ afterAll(async () => {
 });
 
 test("every recipe stylesheet is guarded", () => {
-  expect(files).toEqual(["inbox.css", "list-detail.css", "recipes.css"]);
+  expect(files).toEqual(["inbox.css", "list-detail.css", "recipes.css", "request-intake.css"]);
 });
 
 const anatomyOf = (css: string) => {

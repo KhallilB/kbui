@@ -26,7 +26,7 @@ export const Directory: Story = {
       "href",
       "../recipes/?recipe=inbox",
     );
-    for (const name of ["PageHeader", "FormSection"])
+    for (const name of ["PageHeader", "FormSection", "RequestIntake"])
       expect(canvas.getByRole("link", { name })).toHaveAttribute(
         "href",
         `../recipes/?recipe=${name.toLowerCase()}`,
