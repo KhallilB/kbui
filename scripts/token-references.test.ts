@@ -51,7 +51,7 @@ describe("token-references", () => {
     expect(report.filesChecked).toContain("packages/css/src/components/button.css");
     expect(report.filesChecked).toContain("apps/storybook/site/catalog.css");
     expect(report.filesChecked).toContain("apps/storybook/site/site.css");
-    expect(report.filesChecked).toContain("apps/storybook/recipes/recipes.css");
+    expect(report.filesChecked).toContain("apps/storybook/recipes/inbox.css");
     expect(report.filesChecked).toContain("apps/storybook/.storybook/docs.css");
     expect(report.violations).toEqual([]);
   });

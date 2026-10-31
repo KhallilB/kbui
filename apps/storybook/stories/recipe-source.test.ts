@@ -10,7 +10,7 @@ const root = resolve(import.meta.dir, "../../..");
 test("recipes expose exact copyable files and stable public previews, separately from components", () => {
   const recipes = loadRecipeSources();
   expect(recipes.map((recipe) => recipe.name)).toEqual(
-    expect.arrayContaining(["PageHeader", "FormSection"]),
+    expect.arrayContaining(["ListDetail", "Inbox"]),
   );
   for (const recipe of recipes) {
     expect(recipe.kind).toBe("recipe");
@@ -24,8 +24,8 @@ test("recipes expose exact copyable files and stable public previews, separately
       expect(file.sample.snippet).toBe(file.sample.code);
     }
   }
-  expect(recipes[0]?.defaultStoryId).toBe("recipes-pageheader--project-list");
-  expect(recipes[1]?.defaultStoryId).toBe("recipes-formsection--contact-details");
+  expect(recipes[0]?.defaultStoryId).toBe("recipes-listdetail--request-queue");
+  expect(recipes[1]?.defaultStoryId).toBe("recipes-inbox--correspondence");
 });
 
 test("recipe loading rejects unknown component dependencies and missing source targets", () => {
@@ -39,9 +39,9 @@ test("recipe loading rejects unknown component dependencies and missing source t
   ).toThrow();
   expect(() => loadRecipeSources(root, [{ ...definition, files: ["missing.tsx"] }])).toThrow();
   expect(() =>
-    loadRecipeSources(root, [{ ...definition, files: ["apps/storybook/recipes/PageHeader.tsx"] }]),
+    loadRecipeSources(root, [{ ...definition, files: ["apps/storybook/recipes/ListDetail.tsx"] }]),
   ).toThrow("Missing recipe source dependency");
   expect(() =>
-    loadRecipeSources(root, [{ ...definition, defaultStoryId: "recipes-pageheader--missing" }]),
+    loadRecipeSources(root, [{ ...definition, defaultStoryId: "recipes-listdetail--missing" }]),
   ).toThrow("Missing default recipe story");
 });

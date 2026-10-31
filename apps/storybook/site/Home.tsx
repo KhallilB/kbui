@@ -245,9 +245,9 @@ export function Home({
               <span>A queue with details</span>
               <span aria-hidden="true">↗</span>
             </SiteLink>
-            <SiteLink href={`${siteRoot}recipes/?recipe=formsection`}>
+            <SiteLink href={`${siteRoot}recipes/?recipe=inbox`}>
               <span className="example-shape shape-color" aria-hidden="true" />
-              <span>A form to adapt</span>
+              <span>An inbox with replies</span>
               <span aria-hidden="true">↗</span>
             </SiteLink>
           </div>

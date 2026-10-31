@@ -10,8 +10,6 @@ Put these files in the same folder:
 
 - [`Inbox.tsx`](../../apps/storybook/recipes/Inbox.tsx)
 - [`inbox.css`](../../apps/storybook/recipes/inbox.css)
-- [`PageHeader.tsx`](../../apps/storybook/recipes/PageHeader.tsx)
-- [`recipes.css`](../../apps/storybook/recipes/recipes.css)
 
 Import the package stylesheet once in your app:
 

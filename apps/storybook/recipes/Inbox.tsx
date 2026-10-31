@@ -1,6 +1,16 @@
-import { Button, Container, Grid, Heading, Inline, Input, Panel, Split, Text } from "@kb.ui/react";
+import {
+  Button,
+  Container,
+  Grid,
+  Heading,
+  Inline,
+  Input,
+  PageHeader,
+  Panel,
+  Split,
+  Text,
+} from "@kb.ui/react";
 import { useEffect, useId, useRef, useState } from "react";
-import { PageHeader } from "./PageHeader";
 import "./inbox.css";
 
 export type InboxThread = {
@@ -231,7 +241,7 @@ export function Inbox({
       <PageHeader
         title="Correspondence"
         description="Read and reply to contributor messages."
-        metadata={
+        meta={
           <Text size="sm" tone="muted">
             Fieldwork · Editorial desk · Demo
           </Text>
