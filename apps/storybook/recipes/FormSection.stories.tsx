@@ -1,7 +1,7 @@
 import { Button, Grid, Heading, Inline, Input, Panel, Text } from "@kb.ui/react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useRef, useState } from "react";
-import { expect, within } from "storybook/test";
+import { expect, fn, within } from "storybook/test";
 import { FormSection } from "./FormSection";
 
 function ContactForm() {
@@ -169,6 +169,7 @@ export const Minimal: Story = {
   ),
   play: async ({ canvasElement }) => {
     const section = within(canvasElement).getByRole("group", { name: "Display" });
+    expect(section).toHaveClass("kb-fieldset");
     await expect(section).not.toHaveAttribute("aria-describedby");
     await expect(section).not.toHaveAttribute("aria-invalid");
   },
@@ -201,26 +202,65 @@ export const Disabled: Story = {
 };
 
 export const NarrowWithError: Story = {
-  render: () => (
+  args: { ref: fn() },
+  render: (args) => (
     <main style={{ inlineSize: "20rem", maxInlineSize: "100%" }}>
-      <Heading level={1}>Delivery</Heading>
-      <FormSection
-        title="International delivery instructions and regional contact preferences"
-        description="Keep every field label and explanation readable when this section appears inside a narrow settings pane."
-        error="Delivery instructions could not be saved. Review the regional contact details and try again."
-      >
-        <Input
-          label="Regional delivery contact"
-          name="regionalContact"
-          description="Include the team or person responsible for delivery."
-          defaultValue="International operations team"
-        />
-      </FormSection>
+      <Heading level={1} id="delivery-context">
+        Delivery
+      </Heading>
+      <form id="delivery-form">
+        <FormSection
+          {...args}
+          title="International delivery instructions and regional contact preferences"
+          description="Keep every field label and explanation readable when this section appears inside a narrow settings pane."
+          error="Delivery instructions could not be saved. Review the regional contact details and try again."
+          aria-describedby="delivery-context"
+          aria-invalid="grammar"
+          id="delivery-section"
+          name="delivery"
+          form="delivery-form"
+          dir="ltr"
+          data-owner="consumer"
+          className="consumer-section"
+          style={{ maxInlineSize: "100%" }}
+        >
+          <Input
+            label="Regional delivery contact"
+            name="regionalContact"
+            description="Include the team or person responsible for delivery."
+            defaultValue="International operations team"
+          />
+        </FormSection>
+      </form>
     </main>
   ),
-  play: async ({ canvasElement }) => {
-    const main = within(canvasElement).getByRole("main");
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+    const main = canvas.getByRole("main");
     expect(main.scrollWidth).toBeLessThanOrEqual(main.clientWidth + 1);
-    await expect(within(canvasElement).getByRole("group")).toHaveAttribute("aria-invalid", "true");
+    const section = canvas.getByRole("group");
+    expect(section).toBeInstanceOf(HTMLFieldSetElement);
+    expect(args.ref).toHaveBeenCalledWith(section);
+    expect(section).toHaveAttribute("id", "delivery-section");
+    expect(section).toHaveAttribute("name", "delivery");
+    expect(section).toHaveAttribute("form", "delivery-form");
+    expect(section).toHaveAttribute("dir", "ltr");
+    expect(section).toHaveAttribute("data-owner", "consumer");
+    expect(section).toHaveClass("consumer-section");
+    expect(section.style.maxInlineSize).toBe("100%");
+    expect(canvas.getByRole("heading", { level: 2 }).closest("legend")).not.toBeNull();
+    expect(section).toHaveAccessibleDescription(
+      "Keep every field label and explanation readable when this section appears inside a narrow settings pane. Delivery instructions could not be saved. Review the regional contact details and try again. Delivery",
+    );
+    expect(section).toHaveAttribute("aria-invalid", "true");
+    const error = canvas.getByText(
+      "Delivery instructions could not be saved. Review the regional contact details and try again.",
+    );
+    const input = canvas.getByRole("textbox", { name: "Regional delivery contact" });
+    expect(error.compareDocumentPosition(input) & Node.DOCUMENT_POSITION_FOLLOWING).not.toBe(0);
+    expect(error.getBoundingClientRect().bottom).toBeLessThanOrEqual(
+      input.getBoundingClientRect().top,
+    );
+    expect(input).not.toHaveAttribute("aria-invalid", "true");
   },
 };

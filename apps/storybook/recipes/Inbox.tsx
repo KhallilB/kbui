@@ -13,6 +13,7 @@ import {
   Panel,
   Split,
   Text,
+  Textarea,
 } from "@kb.ui/react";
 import { useEffect, useId, useRef, useState } from "react";
 import { type FlowRouter, searchParamRouter } from "./flow-router";
@@ -486,19 +487,22 @@ export function Inbox({
                             }}
                           >
                             <Grid layout="stack">
-                              <label className="inbox-reply-label" htmlFor={`${id}-reply`}>
-                                {text.field}
-                              </label>
-                              <textarea
+                              <Textarea
                                 ref={replyInput}
                                 id={`${id}-reply`}
-                                className="inbox-reply"
+                                label={text.field}
+                                className="inbox-reply-field"
+                                classNames={{
+                                  label: "inbox-reply-label",
+                                  control: "inbox-reply",
+                                  error: "inbox-error",
+                                }}
                                 rows={5}
                                 required
                                 value={draft}
                                 disabled={sending}
+                                error={error}
                                 aria-invalid={Boolean(error)}
-                                aria-describedby={error ? `${id}-error` : undefined}
                                 onChange={(event) =>
                                   setDrafts((current) => ({
                                     ...current,
@@ -506,11 +510,6 @@ export function Inbox({
                                   }))
                                 }
                               />
-                              {error ? (
-                                <Text id={`${id}-error`} className="inbox-error">
-                                  {error}
-                                </Text>
-                              ) : null}
                               {failures[selected.id] || unrendered.length ? (
                                 <Callout tone="danger" className="inbox-status">
                                   {failures[selected.id] ? text.failed : unrendered.join(" ")}

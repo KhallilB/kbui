@@ -1,6 +1,6 @@
 # Inbox recipe
 
-Read a contributor's message, check sender details and write a reply. This recipe uses public `@kb.ui/react` components, a native `<textarea>` and local CSS.
+Read a contributor's message, check sender details and write a reply. This recipe uses public `@kb.ui/react` components, including [`Textarea`](../../packages/react/docs/components/Textarea.md), and local CSS.
 
 Copy it into your app; it is not a package export. This recipe is not released yet. Use a package build that includes its layout components.
 
@@ -176,7 +176,9 @@ The [flow contract stories](../../apps/storybook/stories/list-detail-flow/Inbox.
 
 ## Customising the look
 
-Restyle with tokens before changing rules. `inbox.css` reads spacing from `--kb-space-*`, rules from `--kb-color-border`, the selected row from `--kb-color-accent` and `--kb-panel-background-active`, the reply field from `--kb-input-radius`, `--kb-material-recessed-face` and `--kb-color-ring`, and errors from `--kb-color-danger`. Set a token on `.inbox-flow` to change it for this recipe only.
+Restyle with tokens before changing rules. `inbox.css` reads spacing from `--kb-space-*`, rules from `--kb-color-border`, the selected row from `--kb-color-accent` and `--kb-panel-background-active`, and errors from `--kb-color-danger`. Set a token on `.inbox-flow` to change it for this recipe only.
+
+The reply field is the package [`Textarea`](../../packages/react/docs/components/Textarea.md). `.inbox-reply-field` sets its `--kb-textarea-padding-block` and `--kb-textarea-padding-inline`; Textarea's own styles handle focus, invalid, disabled and forced-colour states. The `.inbox-reply-label`, `.inbox-reply` and `.inbox-error` classes still reach its label, control and error.
 
 Every list-and-detail recipe names the same five region parts, so a restyle written for one carries over to the other:
 
