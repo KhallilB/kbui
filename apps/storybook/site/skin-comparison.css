@@ -213,12 +213,11 @@
     font-size: var(--kb-text-small-size);
   }
   .settings-fields {
-    border: 0;
-    padding: 0;
-    margin: 0;
-    min-width: 0;
-    display: grid;
-    gap: 16px;
+    --kb-fieldset-gap: 0px;
+    --kb-fieldset-fields-gap: var(--kb-space-4);
+  }
+  .workspace-form .kb-errorsummary {
+    margin-block-end: var(--kb-space-4);
   }
   .settings-card {
     gap: 24px;
@@ -276,11 +275,7 @@
     flex: none;
   }
   .form-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
+    --kb-formactions-gap: var(--kb-space-4);
     padding-top: 20px;
   }
   .form-actions > span {

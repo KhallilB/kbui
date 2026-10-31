@@ -63,29 +63,32 @@ export const ReplyAndDrafts: Story = {
     await userEvent.click(canvas.getByRole("button", { name: /^Reply$/ }));
     const reply = canvas.getByRole("textbox", { name: "Your reply" });
     await expect(reply).toHaveFocus();
+    expect(reply).toHaveClass("kb-textarea-control");
+    expect(reply).toBeRequired();
+    expect(reply).toHaveAttribute("rows", "5");
+    expect(reply).toHaveAttribute("aria-invalid", "false");
     await userEvent.type(reply, "   ");
     await userEvent.click(canvas.getByRole("button", { name: "Send reply" }));
     await expect(reply).toHaveFocus();
     await expect(reply).toHaveAccessibleDescription("Write a reply before sending.");
     await userEvent.clear(reply);
-    await userEvent.type(reply, "Please send the contact sheet.");
+    const body = "Please send the contact sheet.\nKeep São Tomé in the caption.";
+    await userEvent.type(reply, body);
     await userEvent.click(canvas.getByRole("button", { name: "Back to inbox" }));
     await expect(canvas.getByRole("button", { name: /Mara Ellis.*Draft/ })).toBeVisible();
     await userEvent.click(canvas.getByRole("button", { name: /Jon Bell/ }));
     expect(canvas.queryByRole("textbox", { name: "Your reply" })).toBeNull();
     await userEvent.click(canvas.getByRole("button", { name: "Back to inbox" }));
     await userEvent.click(canvas.getByRole("button", { name: /Mara Ellis/ }));
-    await expect(canvas.getByRole("textbox", { name: "Your reply" })).toHaveValue(
-      "Please send the contact sheet.",
-    );
+    await expect(canvas.getByRole("textbox", { name: "Your reply" })).toHaveValue(body);
     await userEvent.click(canvas.getByRole("button", { name: "Send reply" }));
     await expect(canvas.getByRole("status")).toHaveTextContent(
       "Reply added to Notes from the coast for this session.",
     );
     await expect(canvas.getByRole("button", { name: /^Reply$/ })).toHaveFocus();
-    await expect(canvas.getByRole("article", { name: "Your reply 1" })).toHaveTextContent(
-      "Please send the contact sheet.",
-    );
+    expect(
+      canvas.getByRole("article", { name: "Your reply 1" }).querySelector("p")?.textContent,
+    ).toBe(body);
   },
 };
 
@@ -240,6 +243,7 @@ export const ServerErrorsActLikeValidation: Story = {
     await send(context);
     await waitFor(() => expect(field).toHaveFocus());
     await expect(field).toHaveAccessibleDescription("Server says no");
+    await expect(canvas.getByText("Server says no", { exact: true })).toBeVisible();
     await expect(canvas.getByRole("status")).toHaveTextContent(
       "Reply to Mara Ellis needs changes before sending.",
     );
@@ -407,11 +411,27 @@ export const UnrenderedFieldErrorFocusesSubmit: Story = {
 };
 
 export const CopyReplacesStrings: Story = {
-  args: { copy: { title: "Letters", reply: "Answer" } },
+  args: {
+    copy: {
+      title: "Letters",
+      reply: "Answer",
+      field: "Your response",
+      required: "Add a response before answering.",
+    },
+  },
   play: async ({ canvasElement, userEvent }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByRole("heading", { name: "Letters" })).toBeVisible();
     await userEvent.click(canvas.getByRole("button", { name: /Mara Ellis/ }));
-    await expect(canvas.getByRole("button", { name: "Answer" })).toBeVisible();
+    await userEvent.click(canvas.getByRole("button", { name: "Answer" }));
+    const field = canvas.getByRole("textbox", { name: "Your response" });
+    await expect(field).toHaveFocus();
+    await userEvent.type(field, "   ");
+    await userEvent.click(canvas.getByRole("button", { name: "Send reply" }));
+    await expect(field).toHaveFocus();
+    await expect(field).toHaveAccessibleDescription("Add a response before answering.");
+    await expect(
+      canvas.getByText("Add a response before answering.", { exact: true }),
+    ).toBeVisible();
   },
 };

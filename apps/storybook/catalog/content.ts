@@ -72,6 +72,7 @@ export const recipeDefinitions: RecipeDefinition[] = [
       "Panel",
       "Split",
       "Text",
+      "Textarea",
     ],
     files: [
       "apps/storybook/recipes/Inbox.tsx",
@@ -98,7 +99,7 @@ export const recipeDefinitions: RecipeDefinition[] = [
     guide: "docs/guides/form-section.md",
     storyFile: "apps/storybook/recipes/FormSection.stories.tsx",
     defaultStoryId: "recipes-formsection--contact-details",
-    components: ["Heading", "Text", "Grid", "Input", "Panel"],
+    components: ["Heading", "Text", "Grid", "Input", "Panel", "Fieldset"],
     files: ["apps/storybook/recipes/FormSection.tsx", "apps/storybook/recipes/recipes.css"],
   },
 ];

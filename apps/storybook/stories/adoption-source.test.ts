@@ -22,7 +22,7 @@ test("adoption map covers actual exports once and derives canonical examples", (
   );
 });
 
-test("existing package composition and pending native-control replacements stay distinct", () => {
+test("packaged and copied recipe compositions retain their own focused proof", () => {
   const rows = loadAdoptionCoverage();
   const section = rows.find((row) => row.family === "FormSection");
   expect(section).toMatchObject({
@@ -31,8 +31,9 @@ test("existing package composition and pending native-control replacements stay 
     proof: { id: "recipes-listdetail--edit-and-validate" },
   });
   expect(rows.find((row) => row.family === "Textarea")).toMatchObject({
-    status: "pending",
-    destination: expect.stringContaining("reply"),
+    status: "adopted",
+    source: "apps/storybook/recipes/Inbox.tsx",
+    proof: { id: "recipes-inbox--reply-and-drafts" },
   });
   expect(rows.find((row) => row.family === "Toolbar")).toMatchObject({
     status: "adopted",
