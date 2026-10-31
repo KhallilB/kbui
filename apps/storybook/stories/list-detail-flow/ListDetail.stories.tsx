@@ -2,6 +2,7 @@ import type { Meta } from "@storybook/react-vite";
 import { expect, waitFor } from "storybook/test";
 import { ListDetail, type RequestRecord } from "../../recipes/ListDetail";
 import { type FlowFixture, flow, recipePolicy } from "./contract";
+import { flowFacts } from "./facts";
 
 const meta = {
   title: "Validation/List-detail flow/ListDetail",
@@ -29,14 +30,17 @@ const committedText = "Warehouse access for the inventory team";
 const fixture: FlowFixture = {
   recipe: "ListDetail",
   param: "request",
-  render: ({ initialId, records }) => (
+  render: ({ initialId, commit, records, router }) => (
     <ListDetail
       initialRequestId={initialId ?? null}
-      {...(records ? { initialRequests: records as RequestRecord[] } : {})}
+      {...(commit ? { commit } : {})}
+      {...(records ? { requests: records as RequestRecord[] } : {})}
+      {...(router ? { router } : {})}
     />
   ),
   policy: recipePolicy("ListDetail"),
   context: "Request context",
+  showContext: "Show context",
   first: { id: "REQ-1042", row: /REQ-1042.*Warehouse access/, heading: "Warehouse access" },
   second: {
     id: "REQ-1043",
@@ -61,6 +65,7 @@ const fixture: FlowFixture = {
     await waitFor(() => expect(canvas.getByRole("button", { name: "Edit request" })).toHaveFocus());
   },
   status: (root) => root.querySelector<HTMLElement>(".request-flow-notice") ?? root,
+  async: flowFacts.ListDetail.async ? { pendingSubmit: "Saving changes…" } : undefined,
   live: {
     records,
     added: { id: "REQ-1050", row: /REQ-1050.*Freezer door seal/, heading: "Freezer door seal" },
@@ -82,10 +87,7 @@ const fixture: FlowFixture = {
     },
     committedText,
   },
-  gaps: {
-    "live-records": "Copies requests into state at mount and ignores later prop changes",
-    "routing-boundary": "Reads and pushes the URL directly; takes no router",
-  },
+  gaps: flowFacts.ListDetail.gaps,
 };
 
 const { story, complete } = flow(fixture);
@@ -98,15 +100,19 @@ export const FilteredReturn = story("filtered-return");
 export const History = story("history");
 export const Resize = story("resize");
 export const Drafts = story("drafts");
+export const AsyncCompletion = story("async-completion");
 export const Validation = story("validation");
 export const CurrentRow = story("current-row");
 export const Routing = story("routing");
 export const Announcements = story("announcements");
 export const Filters = story("filters");
+export const PendingFocus = story("pending-focus");
 export const EmptySelection = story("empty-selection");
 export const ResizeKeepsDraft = story("resize-keeps-draft");
 export const ContextInitial = story("context-initial");
 export const ForcedColorsRow = story("forced-colors-row");
+export const ValidationSeparate = story("validation-separate");
+export const Unmount = story("unmount");
 export const LiveRecords = story("live-records");
 export const RoutingBoundary = story("routing-boundary");
 
