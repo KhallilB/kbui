@@ -1,19 +1,15 @@
 import assert from "node:assert/strict";
-import { chromium } from "playwright";
-import { loadCatalogSources, loadComponentReferences } from "./source";
+import { test } from "playwright/test";
+import { loadCatalogSources, loadComponentReferences } from "../catalog/source";
+import { storybookURL as origin } from "./urls.ts";
 
-const origin = process.env.STORYBOOK_URL ?? "http://127.0.0.1:4174/storybook";
 const references = loadComponentReferences();
 const entries = loadCatalogSources().filter(
   (entry) => !process.env.COMPONENT_DOCS_ONLY || entry.name === process.env.COMPONENT_DOCS_ONLY,
 );
-const browser = await chromium.launch({ headless: true });
-try {
-  const page = await browser.newPage({
-    viewport: { width: 1440, height: 1000 },
-    reducedMotion: "reduce",
-  });
-  page.setDefaultTimeout(30_000);
+test.use({ viewport: { width: 1440, height: 1000 }, reducedMotion: "reduce" });
+test("all component documentation, controls and focus", async ({ page }) => {
+  test.setTimeout(900_000);
   const docs = page.frameLocator("#storybook-preview-iframe");
   page.on("pageerror", (error) => console.error(error.message));
   let checked = 0;
@@ -146,6 +142,4 @@ try {
   console.log(
     `Component docs verified: ${entries.length} components, ${checked} desktop/tablet/mobile theme cases, interactive controls and dialog focus.`,
   );
-} finally {
-  await browser.close();
-}
+});

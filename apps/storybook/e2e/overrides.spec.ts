@@ -1,5 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { chromium } from "playwright";
+import { test } from "playwright/test";
 
 // Consumer CSS loads after kbui; each must win in every theme context.
 const styles = await readFile(
@@ -162,28 +162,24 @@ const cases: Case[] = [
   },
 ];
 
-const browser = await chromium.launch({ headless: true });
-const failures: string[] = [];
-try {
-  for (const c of cases) {
-    const page = await browser.newPage({ colorScheme: c.scheme });
-    const [prop, value] = c.read.includes(":") ? c.read.split(/:\s*/) : [c.read, ""];
-    const probeRule = value ? `#probe { display: block; ${prop}: ${value}; }` : "";
-    await page.setContent(
-      `<!doctype html><html ${c.html ?? ""}><head><style>${c.prelude ?? ""}</style><style>${styles}</style><style>${c.consumer}</style><style>${probeRule}</style></head><body>${c.probe}</body></html>`,
-    );
-    const actual = await page.evaluate(
-      (p) =>
-        getComputedStyle(document.getElementById("probe") as Element)
-          .getPropertyValue(p)
-          .trim(),
-      prop as string,
-    );
-    if (actual !== c.expected) failures.push(`${c.name}: expected ${c.expected}, got ${actual}`);
-    await page.close();
-  }
-} finally {
-  await browser.close();
+for (const c of cases) {
+  test.describe(c.name, () => {
+    test.use({ colorScheme: c.scheme });
+    test("consumer cascade", async ({ page }) => {
+      const [prop, value] = c.read.includes(":") ? c.read.split(/:\s*/) : [c.read, ""];
+      const probeRule = value ? `#probe { display: block; ${prop}: ${value}; }` : "";
+      await page.setContent(
+        `<!doctype html><html ${c.html ?? ""}><head><style>${c.prelude ?? ""}</style><style>${styles}</style><style>${c.consumer}</style><style>${probeRule}</style></head><body>${c.probe}</body></html>`,
+      );
+      const actual = await page.evaluate(
+        (p) =>
+          getComputedStyle(document.getElementById("probe") as Element)
+            .getPropertyValue(p)
+            .trim(),
+        prop as string,
+      );
+      if (actual !== c.expected)
+        throw new Error(`${c.name}: expected ${c.expected}, got ${actual}`);
+    });
+  });
 }
-if (failures.length > 0) throw new Error(`Override cascade failed:\n${failures.join("\n")}`);
-console.log(`Override cascade verified: ${cases.length} cases.`);

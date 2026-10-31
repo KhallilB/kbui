@@ -31,6 +31,16 @@ Every story is rendered in headless Chromium and scanned for accessibility viola
 
 The fixture restyle in `stories/skin-fixture-values.ts` is checked by `bun test apps/storybook/stories`, which runs inside `bun run check`.
 
+Built-browser checks live in `e2e/` and run through Playwright Test. Build packages and the combined site first, then run all suites:
+
+```bash
+bun run build
+bun run --cwd apps/storybook build:site
+bun run --cwd apps/storybook test:e2e
+```
+
+Existing `verify:*` commands select individual suites. Public checks start a strict static server on port 4177; internal checks build QA fixtures and serve port 4178; override checks need no server. Set `CATALOG_PREVIEW_URL` or `STORYBOOK_URL` to use an existing public build, and `CONTROL_EDGES_URL` or `FOCUS_PREVIEW_URL` for an existing internal build. Existing recipe, story, theme, browser and profile filters remain supported. The runner owns isolated contexts, cleanup, failure screenshots and `.playwright/test-results/`; append `--trace on` to an individual command for traces. Retries remain disabled so failures stay visible.
+
 ## Pages
 
 | Page | Source |
