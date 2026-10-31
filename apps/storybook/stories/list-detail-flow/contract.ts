@@ -15,7 +15,10 @@ type User = {
   type: (element: Element, text: string) => Promise<void>;
   clear: (element: Element) => Promise<void>;
 };
-export type Send = (id: string, body: string) => Promise<void>;
+// biome-ignore lint/suspicious/noConfusingVoidType: matches the recipes' seam, where void is success.
+type CommitResult = void | { errors: Partial<Record<string, string>> };
+export type Commit = (id: string, draft: unknown) => Promise<CommitResult>;
+type Outcome = "ok" | "fail" | { errors: Record<string, string> };
 
 /** One record the contract opens: its id, list row and detail heading. */
 type Entry = { id: string; row: RegExp; heading: string };
@@ -65,13 +68,15 @@ export type FlowFixture = {
   param: string;
   render: (options: {
     initialId?: string | undefined;
-    send?: Send | undefined;
+    commit?: Commit | undefined;
     records?: readonly unknown[] | undefined;
     router?: MemoryRouter | undefined;
   }) => ReactElement;
   policy: RecipePolicy;
   /** Accessible name of the context aside. */
   context: string;
+  /** Button that shows the context aside while it is hidden. */
+  showContext: string;
   first: Entry;
   second: Entry;
   /** Matches `second` but not `first`. */
@@ -116,7 +121,7 @@ type Context = {
   root: HTMLElement;
   canvas: Canvas;
   user: User;
-  send: Deferred;
+  commit: Deferred;
   router: MemoryRouter;
 };
 
@@ -127,7 +132,7 @@ export type Check = {
   initialId?: string;
   /** URL search set before render. */
   search?: (fixture: FlowFixture) => string;
-  deferredSend?: boolean;
+  deferredCommit?: boolean;
   /** Render through `Harness` with `live.records`, so `controls` works. */
   harness?: boolean;
   /** Pass a fresh `MemoryRouter`, empty, as the recipe's router. */
@@ -135,21 +140,39 @@ export type Check = {
   check: (context: Context) => Promise<void>;
 };
 
-/** Send whose next call waits for `settle`. */
-export type Deferred = Send & { calls: number; settle: (ok: boolean) => void };
+/** Commit whose next call waits for `settle`; settling first applies to that call. */
+export type Deferred = Commit & { calls: number; settle: (outcome: Outcome) => void };
 
 export function deferred(): Deferred {
-  let finish: (ok: boolean) => void = () => {};
-  const send = Object.assign(
+  let finish: ((outcome: Outcome) => void) | undefined;
+  let queued: Outcome | undefined;
+  const commit = Object.assign(
     () => {
-      send.calls += 1;
-      return new Promise<void>((resolve, reject) => {
-        finish = (ok) => (ok ? resolve() : reject(new Error("offline")));
+      commit.calls += 1;
+      return new Promise<CommitResult>((resolve, reject) => {
+        const done = (outcome: Outcome) => {
+          if (outcome === "fail") reject(new Error("offline"));
+          else resolve(outcome === "ok" ? undefined : outcome);
+        };
+        if (queued === undefined) finish = done;
+        else {
+          done(queued);
+          queued = undefined;
+        }
       });
     },
-    { calls: 0, settle: (ok: boolean) => finish(ok) },
+    {
+      calls: 0,
+      settle(outcome: Outcome) {
+        if (!finish) queued = outcome;
+        else {
+          finish(outcome);
+          finish = undefined;
+        }
+      },
+    },
   );
-  return send;
+  return commit;
 }
 
 // Reselecting an open record must move focus without a visible lag.
@@ -296,20 +319,21 @@ const definitions = {
     },
   },
   "async-completion": {
-    deferredSend: true,
-    check: async ({ fixture, root, canvas, user, send }) => {
+    deferredCommit: true,
+    check: async ({ fixture, root, canvas, user, commit }) => {
       const pendingSubmit = pending(fixture);
       await open(canvas, user, fixture.first);
       await user.click(canvas.getByRole("button", { name: fixture.draft.begin }));
       await user.type(canvas.getByRole("textbox", { name: fixture.draft.field }), "Once");
       await user.click(canvas.getByRole("button", { name: fixture.draft.submit }));
       await expect(canvas.getByRole("button", { name: pendingSubmit })).toBeDisabled();
+      const announced = fixture.status(root).textContent;
       await back(canvas, user, fixture);
       await open(canvas, user, fixture.second);
-      send.settle(true);
-      await waitFor(() => expect(fixture.status(root).textContent).not.toMatch(/^Sending/));
+      commit.settle("ok");
+      await waitFor(() => expect(fixture.status(root).textContent).not.toBe(announced));
       await expect(heading(canvas, fixture.second)).toHaveFocus();
-      expect(send.calls).toBe(1);
+      expect(commit.calls).toBe(1);
     },
   },
   validation: {
@@ -386,8 +410,8 @@ const definitions = {
     },
   },
   "pending-focus": {
-    deferredSend: true,
-    check: async ({ fixture, canvas, user, send }) => {
+    deferredCommit: true,
+    check: async ({ fixture, canvas, user, commit }) => {
       const pendingSubmit = pending(fixture);
       await open(canvas, user, fixture.first);
       await user.click(canvas.getByRole("button", { name: fixture.draft.begin }));
@@ -399,7 +423,7 @@ const definitions = {
         expect(active, "focus left the flow").not.toBe(document.body);
         expect(active).not.toBeDisabled();
       } finally {
-        send.settle(true);
+        commit.settle("ok");
       }
     },
   },
@@ -428,9 +452,14 @@ const definitions = {
     width: 1280,
     check: async ({ fixture, canvas, user }) => {
       await open(canvas, user, fixture.first);
-      const aside = canvas.queryByRole("complementary", { name: fixture.context });
-      if (fixture.policy.context === "open") expect(aside).not.toBeNull();
-      else expect(aside).toBeNull();
+      const aside = () => canvas.queryByRole("complementary", { name: fixture.context });
+      if (fixture.policy.context === "open") expect(aside()).not.toBeNull();
+      else {
+        expect(aside()).toBeNull();
+        // Proves the name matches, so absence above is not a misnamed aside.
+        await user.click(canvas.getByRole("button", { name: fixture.showContext }));
+        await waitFor(() => expect(aside()).not.toBeNull());
+      }
     },
   },
   "forced-colors-row": {
@@ -455,18 +484,18 @@ const definitions = {
     },
   },
   "validation-separate": {
-    deferredSend: true,
-    check: async ({ fixture, canvas, user, send }) => {
+    deferredCommit: true,
+    check: async ({ fixture, canvas, user, commit }) => {
       await open(canvas, user, fixture.first);
       await user.click(canvas.getByRole("button", { name: fixture.draft.begin }));
       const field = canvas.getByRole("textbox", { name: fixture.draft.field });
       await user.clear(field);
       await user.click(canvas.getByRole("button", { name: fixture.draft.submit }));
       await waitFor(() => expect(accessibleDescription(field)).toContain(fixture.draft.invalid));
-      expect(send.calls).toBe(0);
+      expect(commit.calls).toBe(0);
       await user.type(field, "Updated text");
       await user.click(canvas.getByRole("button", { name: fixture.draft.submit }));
-      send.settle(false);
+      commit.settle("fail");
       await waitFor(() =>
         expect(
           canvas
@@ -480,9 +509,9 @@ const definitions = {
     },
   },
   unmount: {
-    deferredSend: true,
+    deferredCommit: true,
     harness: true,
-    check: async ({ fixture, canvas, user, send }) => {
+    check: async ({ fixture, canvas, user, commit }) => {
       const pendingSubmit = pending(fixture);
       const errors: unknown[] = [];
       const original = console.error;
@@ -504,7 +533,7 @@ const definitions = {
         await waitFor(() =>
           expect(canvas.queryByRole("heading", { name: fixture.first.heading })).toBeNull(),
         );
-        send.settle(true);
+        commit.settle("ok");
         await frames();
         controls.remount();
         await waitFor(() => expect(heading(canvas, fixture.first)).toBeVisible());
@@ -554,8 +583,16 @@ const definitions = {
         shown,
       );
 
+      await user.click(canvas.getByRole("button", { name: fixture.draft.begin }));
+      await user.type(canvas.getByRole("textbox", { name: fixture.draft.field }), " removed");
+      const restore = records;
       await deliver(live.remove(records, fixture.first.id));
-      await expect(canvas.getByRole("heading", { name: fixture.missingHeading })).toBeVisible();
+      await waitFor(() =>
+        expect(canvas.getByRole("heading", { name: fixture.missingHeading })).toHaveFocus(),
+      );
+      await deliver(restore);
+      await expect(canvas.getByRole("button", { name: fixture.draft.begin })).toBeVisible();
+      expect(canvas.queryByRole("textbox", { name: fixture.draft.field }), "draft kept").toBeNull();
     },
   },
   "routing-boundary": {
@@ -615,13 +652,13 @@ export function flow(fixture: FlowFixture) {
     if (!applicable.includes(id)) throw new Error(`"${id}" does not apply to ${fixture.recipe}`);
     if (covered.has(id)) throw new Error(`${fixture.recipe} has two "${id}" stories`);
     covered.add(id);
-    let send = deferred();
+    let commit = deferred();
     let router = memoryRouter();
     return {
       render: () => {
         const options = {
           initialId: rule.initialId,
-          send: rule.deferredSend ? send : undefined,
+          commit: rule.deferredCommit ? commit : undefined,
           router: rule.router ? router : undefined,
         };
         if (!rule.harness) return fixture.render(options);
@@ -631,7 +668,7 @@ export function flow(fixture: FlowFixture) {
         });
       },
       beforeEach: () => {
-        send = deferred();
+        commit = deferred();
         router = memoryRouter();
         const original = window.location.href;
         const url = new URL(original);
@@ -653,7 +690,7 @@ export function flow(fixture: FlowFixture) {
                 root: canvasElement,
                 canvas: within(canvasElement),
                 user: userEvent,
-                send,
+                commit,
                 router,
               }),
             fixture,

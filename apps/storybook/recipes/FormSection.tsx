@@ -1,3 +1,6 @@
+// x-release-please-start-version
+// kbui recipe FormSection · from kbui 0.11.0 · https://kbui.kcb.pro/recipes/?recipe=formsection
+// x-release-please-end
 import { Grid, Heading, type HeadingLevel, Text } from "@kb.ui/react";
 import { type ComponentProps, type ReactNode, useId } from "react";
 import "./recipes.css";

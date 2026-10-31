@@ -1,5 +1,9 @@
+// x-release-please-start-version
+// kbui recipe Inbox · from kbui 0.11.0 · https://kbui.kcb.pro/recipes/?recipe=inbox
+// x-release-please-end
 import {
   Button,
+  Callout,
   Container,
   Grid,
   Heading,
@@ -11,6 +15,7 @@ import {
   Text,
 } from "@kb.ui/react";
 import { useEffect, useId, useRef, useState } from "react";
+import { type FlowRouter, searchParamRouter } from "./flow-router";
 import "./inbox.css";
 
 export type InboxThread = {
@@ -23,8 +28,59 @@ export type InboxThread = {
   paragraphs: string[];
   context: string;
 };
+export type ReplyDraft = { body: string };
+/** `errors` keeps the draft and focuses the first invalid field, like validation. */
+// biome-ignore lint/suspicious/noConfusingVoidType: lets `async () => {}` mean success.
+export type CommitResult<Field extends string> = void | { errors: Partial<Record<Field, string>> };
+// Keys outside the rendered fields can still arrive from a server.
+type Errors = Partial<Record<string, string>>;
 
-const letters: InboxThread[] = [
+/** Every visible string and announcement; pass `copy` to replace any of them. */
+export const inboxCopy = {
+  title: "Correspondence",
+  description: "Read and reply to contributor messages.",
+  meta: "Fieldwork · Editorial desk · Demo",
+  inbox: "Inbox",
+  search: "Search correspondence",
+  count: (shown: number, total: number) => `${shown} of ${total} messages`,
+  list: "Messages",
+  draft: " · Draft",
+  noMatches: "No matching messages",
+  noMatchesHint: "Try a sender or a phrase from the subject.",
+  empty: "No correspondence yet",
+  emptyHint: "Incoming letters will appear here.",
+  clear: "Clear search",
+  back: "Back to inbox",
+  showSender: "Show sender details",
+  hideSender: "Hide sender details",
+  unavailable: "Message unavailable",
+  unavailableMeta: "This letter could not be found.",
+  unavailableHint: "Return to the inbox to choose another message.",
+  letter: (sender: string) => `Letter from ${sender}`,
+  sentReply: (position: number) => `Your reply ${position}`,
+  sentHeading: "You · Session reply",
+  reply: "Reply",
+  form: "Reply to sender",
+  field: "Your reply",
+  required: "Write a reply before sending.",
+  send: "Send reply",
+  sending: "Sending reply…",
+  discard: "Discard draft",
+  sessionNote: "Replies stay in this session. Reload clears drafts and replies.",
+  failed: "Reply could not be sent. Your draft is safe; try again.",
+  sender: "Sender details",
+  about: "About the sender",
+  choose: "Choose a message",
+  chooseHint: "Select a message from the inbox to read it or write a reply.",
+  sendingNotice: (sender: string) => `Sending reply to ${sender}.`,
+  sentNotice: (subject: string) => `Reply added to ${subject} for this session.`,
+  failedNotice: (sender: string) => `Reply to ${sender} failed. Draft retained.`,
+  invalidNotice: (sender: string) => `Reply to ${sender} needs changes before sending.`,
+  discardedNotice: "Draft discarded.",
+};
+type Copy = typeof inboxCopy;
+
+const sampleThreads: InboxThread[] = [
   {
     id: "coast",
     sender: "Mara Ellis",
@@ -72,81 +128,118 @@ const letters: InboxThread[] = [
   },
 ];
 
-type Delivery = { status: "pending" } | { status: "error"; error: string };
+type Reply = { id: string; body: string };
+// Replies hold a local send until the prop sends a new object for that thread.
+type Overlay = { base: InboxThread; replies: Reply[] };
+type Target = "heading" | "list" | "reply" | "input" | "submit";
 
-// An empty `?message=` is no selection.
-function messageParam() {
-  return new URL(window.location.href).searchParams.get("message") || null;
+function without<Value>(map: Record<string, Value | undefined>, id: string) {
+  const { [id]: _, ...rest } = map;
+  return rest;
 }
 
-/** Application-owned correspondence; routing and reply delivery stay local. */
+/** Application-owned correspondence; routing and reply delivery go through its seams. */
 export function Inbox({
-  initialThreads = letters,
+  threads = sampleThreads,
   initialThreadId = null,
-  sendReply,
+  router: routerProp,
+  commit = async () => {},
+  validate: validateProp,
+  copy,
 }: {
-  initialThreads?: InboxThread[] | undefined;
+  threads?: InboxThread[] | undefined;
   initialThreadId?: string | null | undefined;
-  sendReply?: ((id: string, body: string) => Promise<void>) | undefined;
+  router?: FlowRouter | undefined;
+  commit?: ((id: string, draft: ReplyDraft) => Promise<CommitResult<"body">>) | undefined;
+  validate?: ((draft: ReplyDraft) => Partial<Record<"body", string>>) | undefined;
+  copy?: Partial<Copy> | undefined;
 }) {
-  const [selectedId, setSelectedId] = useState(() => messageParam() ?? initialThreadId);
+  const text = { ...inboxCopy, ...copy };
+  const validate =
+    validateProp ?? ((draft: ReplyDraft): Errors => (draft.body ? {} : { body: text.required }));
+  const [fallbackRouter] = useState(() => searchParamRouter("message"));
+  const router = routerProp ?? fallbackRouter;
+  const [selectedId, setSelectedId] = useState(() => router.read() ?? initialThreadId);
   const [query, setQuery] = useState("");
   const [drafts, setDrafts] = useState<Record<string, string | undefined>>({});
-  const [replies, setReplies] = useState<
-    Record<string, { id: string; body: string }[] | undefined>
-  >({});
-  const [delivery, setDelivery] = useState<Record<string, Delivery | undefined>>({});
+  const [overlays, setOverlays] = useState<Record<string, Overlay | undefined>>({});
+  const [errors, setErrors] = useState<Record<string, Errors | undefined>>({});
+  const [failures, setFailures] = useState<Record<string, true | undefined>>({});
+  const [sendingIds, setSendingIds] = useState<Record<string, true | undefined>>({});
   const [showSender, setShowSender] = useState(false);
-  const [announcement, setAnnouncement] = useState("");
+  // New id per message re-mounts the text, so a repeated message is announced again.
+  const [notice, setNotice] = useState({ id: 0, text: "" });
   const root = useRef<HTMLElement>(null);
   const focused = useRef<HTMLElement | null>(null);
   const search = useRef<HTMLInputElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const replyButton = useRef<HTMLButtonElement>(null);
   const replyInput = useRef<HTMLTextAreaElement>(null);
+  const submit = useRef<HTMLButtonElement>(null);
   const rows = useRef(new Map<string, HTMLButtonElement>());
   const lastSelected = useRef(selectedId);
   const currentId = useRef(selectedId);
+  const latest = useRef(threads);
+  latest.current = threads;
+  const shown = useRef<string | null>(null);
   const mounted = useRef(false);
   const pending = useRef(new Set<string>());
-  const focusTarget = useRef<"heading" | "list" | "reply" | "input" | null>(
-    selectedId !== null ? "heading" : null,
-  );
+  const focusTarget = useRef<Target | null>(selectedId !== null ? "heading" : null);
   const id = useId();
-  const selected = initialThreads.find((thread) => thread.id === selectedId);
+  const selected = threads.find((thread) => thread.id === selectedId);
   const draft = selected ? drafts[selected.id] : undefined;
-  const sending = selected ? delivery[selected.id]?.status === "pending" : false;
-  const state = selected ? delivery[selected.id] : undefined;
-  const error = state?.status === "error" ? state.error : undefined;
+  const sending = selected ? Boolean(sendingIds[selected.id]) : false;
+  const fieldErrors = (selected && errors[selected.id]) || {};
+  const error = fieldErrors.body;
+  const unrendered = Object.entries(fieldErrors)
+    .filter(([key]) => key !== "body")
+    .map(([, message]) => message);
+  const overlay = selected ? overlays[selected.id] : undefined;
+  const replies = overlay && overlay.base === selected ? overlay.replies : [];
   const normalizedQuery = query.trim().toLowerCase();
-  const filtered = initialThreads.filter((thread) =>
+  const filtered = threads.filter((thread) =>
     `${thread.sender} ${thread.subject} ${thread.excerpt}`.toLowerCase().includes(normalizedQuery),
   );
 
   useEffect(() => {
     mounted.current = true;
-    const onPopState = () => {
-      const next = messageParam();
+    const unsubscribe = router.subscribe(() => {
+      const next = router.read();
+      if (next === currentId.current) return;
       if (currentId.current !== null) lastSelected.current = currentId.current;
       focusTarget.current = next !== null ? "heading" : "list";
+      currentId.current = next;
       setSelectedId(next);
-    };
-    window.addEventListener("popstate", onPopState);
+    });
     return () => {
       mounted.current = false;
-      window.removeEventListener("popstate", onPopState);
+      unsubscribe();
     };
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     currentId.current = selectedId;
-    if (focusTarget.current === "heading") heading.current?.focus();
-    if (focusTarget.current === "list")
-      (rows.current.get(lastSelected.current ?? "") ?? search.current)?.focus();
-    if (focusTarget.current === "reply") replyButton.current?.focus();
-    if (focusTarget.current === "input") replyInput.current?.focus();
+    const target = focusTarget.current;
     focusTarget.current = null;
+    if (target === "heading") heading.current?.focus();
+    if (target === "list")
+      (rows.current.get(lastSelected.current ?? "") ?? search.current)?.focus();
+    if (target === "reply") replyButton.current?.focus();
+    if (target === "input") replyInput.current?.focus();
+    if (target === "submit") submit.current?.focus();
   });
+
+  // The open thread left the prop: drop its draft, and refocus only if focus went with it.
+  useEffect(() => {
+    if (shown.current !== null && shown.current === selectedId && !selected) {
+      const gone = shown.current;
+      setDrafts((current) => without(current, gone));
+      setErrors((current) => without(current, gone));
+      setFailures((current) => without(current, gone));
+      if (focused.current && !focused.current.isConnected) heading.current?.focus();
+    }
+    shown.current = selected?.id ?? null;
+  }, [selected, selectedId]);
 
   useEffect(() => {
     const observer = new ResizeObserver(() => {
@@ -170,56 +263,66 @@ export function Inbox({
       return;
     }
     if (selectedId !== null) lastSelected.current = selectedId;
-    const url = new URL(window.location.href);
-    if (next) url.searchParams.set("message", next);
-    else url.searchParams.delete("message");
-    window.history.pushState(window.history.state, "", url);
+    router.write(next);
     focusTarget.current = next !== null ? "heading" : "list";
+    currentId.current = next;
     setSelectedId(next);
+  }
+
+  function announce(message: string) {
+    setNotice((current) => ({ id: current.id + 1, text: message }));
+  }
+
+  /** Records field errors; false when there are none. Server errors are always announced. */
+  function reject(thread: InboxThread, found: Errors, server = false) {
+    const threadId = thread.id;
+    const entries = Object.entries(found).filter(([, message]) => message);
+    if (!entries.length) return false;
+    setErrors((current) => ({ ...current, [threadId]: Object.fromEntries(entries) }));
+    const others = entries.filter(([key]) => key !== "body").map(([, message]) => message);
+    if (server || others.length)
+      announce([...(server ? [text.invalidNotice(thread.sender)] : []), ...others].join(" "));
+    if (currentId.current === threadId) focusTarget.current = found.body ? "input" : "submit";
+    return true;
   }
 
   async function submitReply() {
     if (!selected || pending.current.has(selected.id)) return;
     const thread = selected;
     const body = (drafts[thread.id] ?? "").trim();
-    if (!body) {
-      setDelivery((current) => ({
-        ...current,
-        [thread.id]: { status: "error", error: "Write a reply before sending." },
-      }));
-      replyInput.current?.focus();
-      return;
-    }
+    setFailures((current) => without(current, thread.id));
+    if (reject(thread, validate({ body }))) return;
+    setErrors((current) => without(current, thread.id));
+    // An echo that lands while pending is a new object, so the prop wins over this send.
+    const base = latest.current.find((entry) => entry.id === thread.id);
     pending.current.add(thread.id);
     // Sending disables the focused submit; keep focus in the letter.
     focusTarget.current = "heading";
-    setDelivery((current) => ({ ...current, [thread.id]: { status: "pending" } }));
-    setAnnouncement(`Sending reply to ${thread.sender}.`);
+    setSendingIds((current) => ({ ...current, [thread.id]: true }));
+    announce(text.sendingNotice(thread.sender));
     try {
-      await sendReply?.(thread.id, body);
+      const result = await commit(thread.id, { body });
       if (!mounted.current) return;
-      const reply = { id: crypto.randomUUID(), body };
-      setReplies((current) => ({
-        ...current,
-        [thread.id]: [...(current[thread.id] ?? []), reply],
-      }));
-      setDrafts((current) => ({ ...current, [thread.id]: undefined }));
-      setDelivery((current) => ({ ...current, [thread.id]: undefined }));
-      setAnnouncement(`Reply added to ${thread.subject} for this session.`);
+      if (result && reject(thread, result.errors, true)) return;
+      if (base) {
+        const reply = { id: crypto.randomUUID(), body };
+        setOverlays((current) => {
+          const previous = current[thread.id];
+          const kept = previous?.base === base ? previous.replies : [];
+          return { ...current, [thread.id]: { base, replies: [...kept, reply] } };
+        });
+      }
+      setDrafts((current) => without(current, thread.id));
+      announce(text.sentNotice(thread.subject));
       if (currentId.current === thread.id) focusTarget.current = "reply";
     } catch {
       if (!mounted.current) return;
-      setDelivery((current) => ({
-        ...current,
-        [thread.id]: {
-          status: "error",
-          error: "Reply could not be sent. Your draft is safe; try again.",
-        },
-      }));
-      setAnnouncement(`Reply to ${thread.sender} failed. Draft retained.`);
+      setFailures((current) => ({ ...current, [thread.id]: true }));
+      announce(text.failedNotice(thread.sender));
       if (currentId.current === thread.id) focusTarget.current = "input";
     } finally {
       pending.current.delete(thread.id);
+      if (mounted.current) setSendingIds((current) => without(current, thread.id));
     }
   }
 
@@ -239,11 +342,11 @@ export function Inbox({
       }}
     >
       <PageHeader
-        title="Correspondence"
-        description="Read and reply to contributor messages."
+        title={text.title}
+        description={text.description}
         meta={
           <Text size="sm" tone="muted">
-            Fieldwork · Editorial desk · Demo
+            {text.meta}
           </Text>
         }
       />
@@ -251,7 +354,7 @@ export function Inbox({
         <Panel className="inbox-index" tone="quiet" aria-labelledby={`${id}-inbox`}>
           <Panel.Header>
             <Heading id={`${id}-inbox`} level={2} size="md">
-              Inbox <span className="inbox-count">{initialThreads.length}</span>
+              {text.inbox} <span className="inbox-count">{threads.length}</span>
             </Heading>
           </Panel.Header>
           <Panel.Body>
@@ -259,15 +362,15 @@ export function Inbox({
               <Input
                 ref={search}
                 type="search"
-                label="Search correspondence"
+                label={text.search}
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
               />
               <Text size="sm" tone="muted" aria-live="polite">
-                {filtered.length} of {initialThreads.length} messages
+                {text.count(filtered.length, threads.length)}
               </Text>
               {filtered.length ? (
-                <ul className="inbox-rows" aria-label="Messages">
+                <ul className="inbox-rows" aria-label={text.list}>
                   {filtered.map((thread) => (
                     <li key={thread.id}>
                       <Button
@@ -285,7 +388,7 @@ export function Inbox({
                         <span className="inbox-excerpt">{thread.excerpt}</span>
                         <span className="inbox-date">
                           {thread.date}
-                          {drafts[thread.id] !== undefined ? " · Draft" : ""}
+                          {drafts[thread.id] !== undefined ? text.draft : ""}
                         </span>
                       </Button>
                     </li>
@@ -293,14 +396,8 @@ export function Inbox({
                 </ul>
               ) : (
                 <div>
-                  <Heading level={3}>
-                    {initialThreads.length ? "No matching messages" : "No correspondence yet"}
-                  </Heading>
-                  <Text tone="muted">
-                    {initialThreads.length
-                      ? "Try a sender or a phrase from the subject."
-                      : "Incoming letters will appear here."}
-                  </Text>
+                  <Heading level={3}>{threads.length ? text.noMatches : text.empty}</Heading>
+                  <Text tone="muted">{threads.length ? text.noMatchesHint : text.emptyHint}</Text>
                 </div>
               )}
               {query ? (
@@ -311,7 +408,7 @@ export function Inbox({
                     search.current?.focus();
                   }}
                 >
-                  Clear search
+                  {text.clear}
                 </Button>
               ) : null}
             </Grid>
@@ -322,7 +419,7 @@ export function Inbox({
             <Grid layout="stack">
               <Inline justify="between">
                 <Button variant="secondary" onClick={() => navigate(null)}>
-                  Back to inbox
+                  {text.back}
                 </Button>
                 {selected ? (
                   <Button
@@ -331,7 +428,7 @@ export function Inbox({
                     aria-controls={`${id}-sender`}
                     onClick={() => setShowSender((current) => !current)}
                   >
-                    {showSender ? "Hide sender details" : "Show sender details"}
+                    {showSender ? text.hideSender : text.showSender}
                   </Button>
                 ) : null}
               </Inline>
@@ -339,34 +436,29 @@ export function Inbox({
                 <Panel className="inbox-letter" aria-labelledby={`${id}-subject`}>
                   <Panel.Header>
                     <Text size="sm" tone="muted">
-                      {selected
-                        ? `${selected.sender} · ${selected.date}`
-                        : "This letter could not be found."}
+                      {selected ? `${selected.sender} · ${selected.date}` : text.unavailableMeta}
                     </Text>
                     <Heading ref={heading} tabIndex={-1} id={`${id}-subject`} level={2}>
-                      {selected?.subject ?? "Message unavailable"}
+                      {selected?.subject ?? text.unavailable}
                     </Heading>
                   </Panel.Header>
                   {selected ? (
                     <Panel.Body>
                       <Grid layout="stack">
-                        <article
-                          aria-label={`Letter from ${selected.sender}`}
-                          className="inbox-prose"
-                        >
+                        <article aria-label={text.letter(selected.sender)} className="inbox-prose">
                           {selected.paragraphs.map((paragraph, index) => (
                             // biome-ignore lint/suspicious/noArrayIndexKey: Paragraph order stays fixed within each letter.
                             <p key={`${selected.id}-${index}`}>{paragraph}</p>
                           ))}
                         </article>
-                        {(replies[selected.id] ?? []).map((reply, index) => (
+                        {replies.map((reply, index) => (
                           <article
                             key={reply.id}
-                            aria-label={`Your reply ${index + 1}`}
+                            aria-label={text.sentReply(index + 1)}
                             className="inbox-sent"
                           >
                             <Heading level={3} size="sm">
-                              You · Session reply
+                              {text.sentHeading}
                             </Heading>
                             <p>{reply.body}</p>
                           </article>
@@ -380,13 +472,13 @@ export function Inbox({
                                 focusTarget.current = "input";
                               }}
                             >
-                              Reply
+                              {text.reply}
                             </Button>
                           </div>
                         ) : (
                           <form
                             noValidate
-                            aria-label="Reply to sender"
+                            aria-label={text.form}
                             onSubmit={(event) => {
                               event.preventDefault();
                               void submitReply();
@@ -394,7 +486,7 @@ export function Inbox({
                           >
                             <Grid layout="stack">
                               <label className="inbox-reply-label" htmlFor={`${id}-reply`}>
-                                Your reply
+                                {text.field}
                               </label>
                               <textarea
                                 ref={replyInput}
@@ -418,32 +510,32 @@ export function Inbox({
                                   {error}
                                 </Text>
                               ) : null}
+                              {failures[selected.id] || unrendered.length ? (
+                                <Callout tone="danger" className="inbox-status">
+                                  {failures[selected.id] ? text.failed : unrendered.join(" ")}
+                                </Callout>
+                              ) : null}
                               <Inline>
-                                <Button type="submit" disabled={sending}>
-                                  {sending ? "Sending reply…" : "Send reply"}
+                                <Button ref={submit} type="submit" disabled={sending}>
+                                  {sending ? text.sending : text.send}
                                 </Button>
                                 <Button
                                   type="button"
                                   variant="secondary"
                                   disabled={sending}
                                   onClick={() => {
-                                    setDrafts((current) => ({
-                                      ...current,
-                                      [selected.id]: undefined,
-                                    }));
-                                    setDelivery((current) => ({
-                                      ...current,
-                                      [selected.id]: undefined,
-                                    }));
-                                    setAnnouncement("Draft discarded.");
+                                    setDrafts((current) => without(current, selected.id));
+                                    setErrors((current) => without(current, selected.id));
+                                    setFailures((current) => without(current, selected.id));
+                                    announce(text.discardedNotice);
                                     focusTarget.current = "reply";
                                   }}
                                 >
-                                  Discard draft
+                                  {text.discard}
                                 </Button>
                               </Inline>
                               <Text size="sm" tone="muted">
-                                Replies stay in this session. Reload clears drafts and replies.
+                                {text.sessionNote}
                               </Text>
                             </Grid>
                           </form>
@@ -452,16 +544,16 @@ export function Inbox({
                     </Panel.Body>
                   ) : (
                     <Panel.Body>
-                      <Text>Return to the inbox to choose another message.</Text>
+                      <Text>{text.unavailableHint}</Text>
                     </Panel.Body>
                   )}
                 </Panel>
                 {selected && showSender ? (
-                  <aside id={`${id}-sender`} aria-label="Sender details">
+                  <aside id={`${id}-sender`} aria-label={text.sender}>
                     <Panel tone="quiet">
                       <Panel.Header>
                         <Heading level={2} size="md">
-                          About the sender
+                          {text.about}
                         </Heading>
                       </Panel.Header>
                       <Panel.Body>
@@ -479,17 +571,15 @@ export function Inbox({
           ) : (
             <Panel className="inbox-placeholder" tone="quiet">
               <Panel.Body>
-                <Heading level={2}>Choose a message</Heading>
-                <Text tone="muted">
-                  Select a message from the inbox to read it or write a reply.
-                </Text>
+                <Heading level={2}>{text.choose}</Heading>
+                <Text tone="muted">{text.chooseHint}</Text>
               </Panel.Body>
             </Panel>
           )}
         </div>
       </div>
       <div role="status" className="kb-sr-only">
-        {announcement}
+        <span key={notice.id}>{notice.text}</span>
       </div>
     </Container>
   );
