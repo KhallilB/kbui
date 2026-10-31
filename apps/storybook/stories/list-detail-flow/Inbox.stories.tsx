@@ -2,6 +2,7 @@ import type { Meta } from "@storybook/react-vite";
 import { expect, waitFor } from "storybook/test";
 import { Inbox, type InboxThread } from "../../recipes/Inbox";
 import { type FlowFixture, flow, recipePolicy } from "./contract";
+import { flowFacts } from "./facts";
 
 const meta = {
   title: "Validation/List-detail flow/Inbox",
@@ -59,7 +60,7 @@ const fixture: FlowFixture = {
     await waitFor(() => expect(canvas.getByRole("button", { name: /^Reply$/ })).toHaveFocus());
   },
   status: (root) => root.querySelector<HTMLElement>('[role="status"].kb-sr-only') ?? root,
-  async: { pendingSubmit: "Sending reply…" },
+  async: flowFacts.Inbox.async ? { pendingSubmit: "Sending reply…" } : undefined,
   live: {
     records: threads,
     added: { id: "cover", row: /Priya Shah/, heading: "Revised cover caption" },
@@ -77,11 +78,7 @@ const fixture: FlowFixture = {
     },
     committedText,
   },
-  gaps: {
-    "validation-separate": "Shows a failed send as the reply field's error description",
-    "live-records": "Keeps sent replies beside the thread, so a server echo shows them twice",
-    "routing-boundary": "Reads and pushes the URL directly; takes no router",
-  },
+  gaps: flowFacts.Inbox.gaps,
 };
 
 const { story, complete } = flow(fixture);

@@ -24,6 +24,7 @@
     "lint:fix": "biome check --write .",
     "check": "bun run build && bun run lint && bun run typecheck && bun run --filter @kb.ui/storybook verify:code && bun run test && bun run test:pack && bun run test:consumer",
     "storybook": "bun run build && bun run --filter @kb.ui/storybook dev",
+    "docs:recipes": "bun scripts/recipe-docs.ts",
     "docs:up": "docker compose -f docker/compose.yml up -d --build docs",
     "docs:down": "docker compose -f docker/compose.yml stop docs",
     "new": "bun scripts/new-component.ts",
