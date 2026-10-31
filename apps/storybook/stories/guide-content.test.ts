@@ -19,3 +19,36 @@ test("shared guides render Markdown and let embedded docs navigate the top-level
   expect(html).not.toContain("<script>");
   expect(html).not.toContain("<h1>");
 });
+
+test("attributed fences retain their native code attributes and exact escaped text", () => {
+  const html = renderToStaticMarkup(
+    createElement(GuideContent, {
+      markdown: '```tsx id="attributed-source"\nconst value = "<&>";\n\n```',
+      path: "docs/guides/page-header.md",
+      siteRoot: "../",
+    }),
+  );
+  expect(html).toContain('<pre tabindex="0">');
+  expect(html).toContain('id="attributed-source"');
+  expect(html).toContain("const value = &quot;&lt;&amp;&gt;&quot;;\n</code>");
+  expect(html).not.toContain("data-block");
+});
+
+test("single and repeated fences keep stable distinct source names across renders", () => {
+  const render = (markdown: string) =>
+    renderToStaticMarkup(
+      createElement(GuideContent, {
+        markdown,
+        path: "docs/guides/page-header.md",
+        siteRoot: "../",
+      }),
+    );
+  const fence = '```tsx\nconst value = "<&>";\n```';
+  const repeated = render(`${fence}\n\n${fence}`);
+  expect(repeated).toContain('aria-label="Code example 1"');
+  expect(repeated).toContain('aria-label="Code example 2"');
+  expect(render(`${fence}\n\n${fence}`)).toBe(repeated);
+  expect(render(fence)).not.toContain('aria-label="Code example 2"');
+  expect(repeated).not.toContain('role="status"');
+  expect(repeated).not.toContain("<button");
+});

@@ -1,5 +1,5 @@
-import { Button, Code } from "@kb.ui/react";
-import { useEffect, useId, useRef, useState } from "react";
+import { Button, Code, CodeBlock } from "@kb.ui/react";
+import { type CSSProperties, useEffect, useId, useRef, useState } from "react";
 import type { CodeSample, CodeToken } from "../catalog/types";
 import "./code-panel.css";
 
@@ -23,6 +23,10 @@ export function HighlightedCode({ code, tokens }: { code: string; tokens: CodeTo
   );
 }
 
+function codeViewport(root: HTMLDivElement | null) {
+  return root?.querySelector<HTMLElement>(".example-code-content");
+}
+
 export function CodePanel({
   sample,
   name,
@@ -43,11 +47,10 @@ export function CodePanel({
   const id = useId();
   const [open, setOpen] = useState(defaultOpen);
   const [copied, setCopied] = useState<{ code: string; result: "copied" | "failed" } | null>(null);
-  const content = useRef<HTMLElement>(null);
-  const pre = useRef<HTMLPreElement>(null);
+  const content = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState<number>();
   useEffect(() => {
-    const element = pre.current;
+    const element = content.current?.querySelector<HTMLElement>(".example-code-pre");
     if (!element) return;
     const measure = () => {
       const next = Math.ceil(element.getBoundingClientRect().height);
@@ -62,13 +65,13 @@ export function CodePanel({
   const previousCode = useRef(code);
   useEffect(() => {
     if (previousCode.current !== code) {
-      content.current?.scrollTo({ top: 0, left: 0, behavior: "instant" });
+      codeViewport(content.current)?.scrollTo({ top: 0, left: 0, behavior: "instant" });
       previousCode.current = code;
     }
   }, [code]);
   useEffect(() => {
     if (copied && copied.code !== code) setCopied(null);
-    else if (copied?.result === "failed") content.current?.focus();
+    else if (copied?.result === "failed") codeViewport(content.current)?.focus();
     else if (copied?.result === "copied") {
       const timer = window.setTimeout(() => setCopied(null), 2000);
       return () => window.clearTimeout(timer);
@@ -162,23 +165,31 @@ export function CodePanel({
           </svg>
         </Button>
       </div>
-      <section
-        id={id}
-        hidden={!open}
-        ref={content}
-        aria-label={regionLabel}
-        // biome-ignore lint/a11y/noNoninteractiveTabindex: Code scrolls horizontally and supports manual copy.
-        tabIndex={0}
-        className="example-code-content"
-        data-testid={testId}
-        style={{
-          height: height === undefined ? undefined : `min(${height}px, var(--code-max-height))`,
-        }}
-      >
-        <pre ref={pre}>
-          <HighlightedCode key={code} code={code} tokens={tokens} />
-        </pre>
-      </section>
+      <div id={id} hidden={!open} className="example-code-body">
+        <CodeBlock
+          ref={content}
+          title={regionLabel}
+          copyable={false}
+          tokens={tokens}
+          className="example-code-renderer"
+          classNames={{
+            header: "example-code-inner-caption",
+            viewport: "example-code-content",
+            pre: "example-code-pre",
+            content: "example-code-text",
+            line: "example-code-line",
+            lineText: "example-code-line-text",
+          }}
+          data-testid={testId}
+          style={
+            height === undefined
+              ? undefined
+              : ({ "--example-code-height": `${height}px` } as CSSProperties)
+          }
+        >
+          {code}
+        </CodeBlock>
+      </div>
       <p className="example-copy-status" role="status" aria-atomic="true">
         {result === "copied"
           ? `${name} code copied to clipboard.`
