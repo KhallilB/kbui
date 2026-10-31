@@ -1,5 +1,7 @@
 # FormSection recipe
 
+Maintained composition recipe, unreleased. For an imported API, use the same-name package component. See the [preservation decision](components-and-recipes.md#maintained-composition-recipes) for ownership and scope.
+
 Group related fields under a heading, with instructions and an optional error message. `FormSection` uses [`Fieldset`](../../packages/react/docs/components/Fieldset.md) for native `<fieldset>`/`<legend>` grouping, plus [`Heading`](../../packages/react/docs/components/Heading.md), [`Text`](../../packages/react/docs/components/Text.md) and [`Grid`](../../packages/react/docs/components/Grid.md).
 
 This page covers a recipe you copy into your app. The package also exports [`FormSection`](../../packages/react/docs/components/FormSection.md) with its own API; use that component when it fits. The recipe below is a separate source module.

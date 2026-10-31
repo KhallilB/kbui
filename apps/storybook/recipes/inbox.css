@@ -1,3 +1,4 @@
+/* Anatomy: .inbox-flow > .inbox-layout [data-selected=true|false] > .inbox-index > .inbox-count; .inbox-rows > .inbox-row [aria-current=true] > .inbox-sender, .inbox-subject, .inbox-excerpt, .inbox-date; .inbox-workspace > .inbox-letter > .inbox-prose, .inbox-sent; .inbox-reply-label, .inbox-reply-field, .inbox-error; .inbox-placeholder */
 .inbox-flow {
   container-type: inline-size;
   display: grid;

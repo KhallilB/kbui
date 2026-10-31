@@ -2,7 +2,7 @@
 
 Read a contributor's message, check sender details and write a reply. This recipe uses public `@kb.ui/react` components, including [`Textarea`](../../packages/react/docs/components/Textarea.md), and local CSS.
 
-Copy it into your app; it is not a package export.
+Copy it into your app; it is not a package export. This recipe is not released yet. Use a package build that includes its layout components.
 
 ## Copy the complete flow
 
@@ -10,8 +10,6 @@ Put these files in the same folder:
 
 - [`Inbox.tsx`](../../apps/storybook/recipes/Inbox.tsx)
 - [`inbox.css`](../../apps/storybook/recipes/inbox.css)
-- [`PageHeader.tsx`](../../apps/storybook/recipes/PageHeader.tsx)
-- [`recipes.css`](../../apps/storybook/recipes/recipes.css)
 
 Import the package stylesheet once in your app:
 

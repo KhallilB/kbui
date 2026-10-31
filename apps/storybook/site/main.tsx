@@ -25,7 +25,7 @@ createRoot(root).render(
     ) : root.dataset.page === "playground" ? (
       <Workbench />
     ) : root.dataset.page === "recipes" ? (
-      <Recipes search={window.location.search} />
+      <Recipes search={window.location.search} hash={window.location.hash} />
     ) : root.dataset.page === "changelog" ? (
       <Changelog />
     ) : (

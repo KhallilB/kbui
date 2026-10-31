@@ -102,7 +102,7 @@ export const adoptionRelationships: Record<string, AdoptionRelationship> = {
   Menu: pending("Contextual workspace actions"),
   MultiSelect: pending("Request intake optional reviewers"),
   NumberField: pending("Request intake quantity"),
-  PageHeader: request("Packaged request title and state, separate from copied recipe"),
+  PageHeader: request("Packaged request title and state"),
   Panel: request("Request queue, detail and supporting regions"),
   Popover: pending("Supporting workspace context with focus return"),
   Progress: planner("Activity completion progress"),
