@@ -23,6 +23,8 @@
   position: absolute;
   inset: 0;
   overflow: hidden;
+  /* Textarea owns scrolling; highlighting must not anchor overlay. */
+  overflow-anchor: none;
   pointer-events: none;
 }
 .kbui-site .catalog-skin-code .code-editor code {
