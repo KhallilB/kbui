@@ -1,6 +1,6 @@
 import { Code, CodeBlock, type CodeLanguage } from "@kb.ui/react";
 import { compiler, RuleType } from "markdown-to-jsx/react";
-import type { ComponentProps } from "react";
+import type { ComponentProps, ReactNode } from "react";
 import { guideLink } from "./guide-links";
 import "./guide-content.css";
 
@@ -22,6 +22,9 @@ const languages = [
   "text",
 ] as const satisfies readonly CodeLanguage[];
 
+// Raw HTML is disabled, so `docs:recipes` markers would render as text.
+const generatedMarker = /^<!-- (?:generated:[a-z-]+|\/generated) -->\r?\n?/gm;
+
 function GuideInlineCode({ onCopy, ...props }: ComponentProps<"code">) {
   // Native copy events differ from Code's clipboard callback.
   return onCopy ? <code {...props} onCopy={onCopy} /> : <Code {...props} block={false} />;
@@ -34,11 +37,11 @@ function GuideCode(props: ComponentProps<"pre">) {
   );
 }
 
-function GuideTable(props: ComponentProps<"table">) {
+function GuideTable({ label, children }: { label: string; children: ReactNode }) {
   return (
     // biome-ignore lint/a11y/noNoninteractiveTabindex: Wide tables need keyboard scrolling.
-    <section className="guide-table-scroll" aria-label="Reference table" tabIndex={0}>
-      <table {...props} />
+    <section className="guide-table-scroll" aria-label={label} tabIndex={0}>
+      {children}
     </section>
   );
 }
@@ -55,12 +58,23 @@ export function GuideContent({
   linkTarget?: "_top";
 }) {
   let codeNumber = 0;
+  // Numbered so each scroll region is a distinct landmark.
+  let tableNumber = 0;
+  const body = markdown.replace(/^# .+\r?\n+/, "").replace(generatedMarker, "");
   return (
     <div className="system-guide">
-      {compiler(markdown.replace(/^# .+\r?\n+/, ""), {
+      {compiler(body, {
         wrapper: null,
         disableParsingRawHTML: true,
         renderRule: (next, node, _renderChildren, state) => {
+          if (node.type === RuleType.table) {
+            tableNumber += 1;
+            return (
+              <GuideTable key={state.key} label={`Reference table ${tableNumber}`}>
+                {next()}
+              </GuideTable>
+            );
+          }
           if (node.type !== RuleType.codeBlock || (node.attrs && Object.keys(node.attrs).length))
             return next();
           const language = languages.find((value) => value === node.lang?.toLowerCase()) ?? "plain";
@@ -91,7 +105,6 @@ export function GuideContent({
           },
           code: GuideInlineCode,
           pre: GuideCode,
-          table: GuideTable,
         },
       })}
     </div>

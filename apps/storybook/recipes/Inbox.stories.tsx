@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, fn, waitFor, within } from "storybook/test";
-import { Inbox } from "./Inbox";
+import { controls, Harness } from "../stories/list-detail-flow/harness";
+import { type CommitResult, Inbox, type InboxThread } from "./Inbox";
 
 const meta = {
   title: "Recipes/Inbox",
@@ -21,6 +22,9 @@ const meta = {
 } satisfies Meta<typeof Inbox>;
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+const failed = "Reply could not be sent. Your draft is safe; try again.";
+const offline = () => Promise.reject(new Error("offline"));
 
 export const Correspondence: Story = {
   play: async ({ canvasElement, userEvent }) => {
@@ -90,7 +94,7 @@ export const ReplyAndDrafts: Story = {
 
 export const DeliveryRecovery: Story = {
   args: {
-    sendReply: async () => {
+    commit: async () => {
       throw new Error("offline");
     },
   },
@@ -100,9 +104,7 @@ export const DeliveryRecovery: Story = {
     await userEvent.click(canvas.getByRole("button", { name: /^Reply$/ }));
     await userEvent.type(canvas.getByRole("textbox", { name: "Your reply" }), "Keep this draft.");
     await userEvent.click(canvas.getByRole("button", { name: "Send reply" }));
-    await expect(canvas.getByRole("textbox", { name: "Your reply" })).toHaveAccessibleDescription(
-      "Reply could not be sent. Your draft is safe; try again.",
-    );
+    await waitFor(() => expect(canvas.getByText(failed)).toBeVisible());
     await expect(canvas.getByRole("textbox", { name: "Your reply" })).toHaveValue(
       "Keep this draft.",
     );
@@ -147,7 +149,7 @@ export const MissingMessage: Story = {
 };
 
 export const EmptyInbox: Story = {
-  args: { initialThreads: [] },
+  args: { threads: [] },
   play: async ({ canvasElement }) => {
     await expect(
       within(canvasElement).getByRole("heading", { name: "No correspondence yet" }),
@@ -166,27 +168,138 @@ export const LongLetter: Story = {
   },
 };
 
-const deferredSend = fn(async (_id: string, _body: string) => {});
+type Outcome = CommitResult<"body">;
+
+/** Commit whose next call waits until the story settles it. */
+function held() {
+  const commit = fn(async (_id: string, _draft: { body: string }): Promise<Outcome> => {});
+  let settle: (ok: boolean) => void = () => {};
+  const next = () =>
+    commit.mockReturnValueOnce(
+      new Promise<Outcome>((resolve, reject) => {
+        settle = (ok) => (ok ? resolve() : reject(new Error("offline")));
+      }),
+    );
+  return { commit, next, settle: (ok: boolean) => settle(ok) };
+}
+
+type Context = Parameters<NonNullable<Story["play"]>>[0];
+
+/** Opens Mara's letter, starts a reply and returns its field. */
+async function replyFirst(
+  { canvasElement, userEvent }: Context,
+  text = "Please send the contact sheet.",
+) {
+  const canvas = within(canvasElement);
+  await userEvent.click(canvas.getByRole("button", { name: /Mara Ellis/ }));
+  await userEvent.click(canvas.getByRole("button", { name: /^Reply$/ }));
+  const field = canvas.getByRole("textbox", { name: "Your reply" });
+  await userEvent.type(field, text);
+  return field;
+}
+
+function send({ canvasElement, userEvent }: Context) {
+  return userEvent.click(within(canvasElement).getByRole("button", { name: "Send reply" }));
+}
+
+const pendingDelivery = held();
 export const PendingDelivery: Story = {
-  args: { sendReply: deferredSend },
-  play: async ({ canvasElement, userEvent }) => {
-    let complete = () => {};
-    const delivered = new Promise<void>((resolve) => {
-      complete = resolve;
-    });
-    deferredSend.mockReturnValueOnce(delivered);
-    const canvas = within(canvasElement);
-    await userEvent.click(canvas.getByRole("button", { name: /Mara Ellis/ }));
-    await userEvent.click(canvas.getByRole("button", { name: /^Reply$/ }));
-    await userEvent.type(canvas.getByRole("textbox", { name: "Your reply" }), "Sending once.");
-    await userEvent.click(canvas.getByRole("button", { name: "Send reply" }));
+  args: { commit: pendingDelivery.commit },
+  play: async (context) => {
+    const canvas = within(context.canvasElement);
+    pendingDelivery.next();
+    await replyFirst(context, "Sending once.");
+    await send(context);
     await expect(canvas.getByRole("button", { name: "Sending reply…" })).toBeDisabled();
     await expect(canvas.getByRole("textbox", { name: "Your reply" })).toBeDisabled();
     await expect(canvas.getByRole("button", { name: "Discard draft" })).toBeDisabled();
+    pendingDelivery.settle(true);
+    await waitFor(() => expect(canvas.getByRole("button", { name: /^Reply$/ })).toHaveFocus());
+    await expect(canvas.getAllByRole("article", { name: /Your reply/ })).toHaveLength(1);
+    expect(pendingDelivery.commit).toHaveBeenCalledTimes(1);
+  },
+};
+
+export const ClientValidationBlocksCommit: Story = {
+  args: {
+    commit: fn(async () => {}),
+    validate: ({ body }) => (body.includes("tomorrow") ? { body: "Give a date, not a day." } : {}),
+  },
+  play: async (context) => {
+    const field = await replyFirst(context, "I will send it tomorrow.");
+    await send(context);
+    await expect(field).toHaveFocus();
+    await expect(field).toHaveAccessibleDescription("Give a date, not a day.");
+    await expect(field).toHaveValue("I will send it tomorrow.");
+    expect(context.args.commit).not.toHaveBeenCalled();
+  },
+};
+
+export const ServerErrorsActLikeValidation: Story = {
+  args: { commit: fn(async () => ({ errors: { body: "Server says no" } })) },
+  play: async (context) => {
+    const canvas = within(context.canvasElement);
+    const field = await replyFirst(context);
+    await send(context);
+    await waitFor(() => expect(field).toHaveFocus());
+    await expect(field).toHaveAccessibleDescription("Server says no");
+    await expect(canvas.getByText("Server says no", { exact: true })).toBeVisible();
+    await expect(canvas.getByRole("status")).toHaveTextContent(
+      "Reply to Mara Ellis needs changes before sending.",
+    );
+    await expect(field).toHaveValue("Please send the contact sheet.");
+    expect(canvas.queryByRole("article", { name: "Your reply 1" })).toBeNull();
+    expect(canvas.queryByText(failed)).toBeNull();
+  },
+};
+
+export const CommitRejectionShowsVisibleError: Story = {
+  args: { commit: fn(offline) },
+  play: async (context) => {
+    const canvas = within(context.canvasElement);
+    const field = await replyFirst(context);
+    await send(context);
+    await waitFor(() => expect(canvas.getByText(failed)).toBeVisible());
+    await expect(canvas.getByRole("status")).toHaveTextContent(
+      "Reply to Mara Ellis failed. Draft retained.",
+    );
+    await expect(field).toHaveFocus();
+    await expect(field).toHaveValue("Please send the contact sheet.");
+    await expect(field).not.toHaveAccessibleDescription(/could not be sent/);
+  },
+};
+
+export const CommitSuccessAppliesAndClears: Story = {
+  args: { commit: fn(async () => {}) },
+  play: async (context) => {
+    const canvas = within(context.canvasElement);
+    await replyFirst(context);
+    await send(context);
+    await waitFor(() => expect(canvas.getByRole("button", { name: /^Reply$/ })).toHaveFocus());
+    expect(context.args.commit).toHaveBeenCalledWith("coast", {
+      body: "Please send the contact sheet.",
+    });
+    await expect(canvas.getByRole("article", { name: "Your reply 1" })).toHaveTextContent(
+      "Please send the contact sheet.",
+    );
+    expect(canvas.queryByRole("textbox", { name: "Your reply" })).toBeNull();
+  },
+};
+
+const leavingSuccess = held();
+export const SuccessAfterLeavingKeepsFocus: Story = {
+  args: { commit: leavingSuccess.commit },
+  play: async (context) => {
+    const { userEvent } = context;
+    const canvas = within(context.canvasElement);
+    leavingSuccess.next();
+    await replyFirst(context);
+    await send(context);
     await userEvent.click(canvas.getByRole("button", { name: "Back to inbox" }));
     await userEvent.click(canvas.getByRole("button", { name: /Jon Bell/ }));
     const heading = canvas.getByRole("heading", { name: "A small correction to the print proof" });
-    complete();
+    await waitFor(() => expect(heading).toHaveFocus());
+    leavingSuccess.settle(true);
     await waitFor(() =>
       expect(canvas.getByRole("status")).toHaveTextContent(
         "Reply added to Notes from the coast for this session.",
@@ -196,44 +309,129 @@ export const PendingDelivery: Story = {
     await userEvent.click(canvas.getByRole("button", { name: "Back to inbox" }));
     await userEvent.click(canvas.getByRole("button", { name: /Mara Ellis/ }));
     await expect(canvas.getAllByRole("article", { name: /Your reply/ })).toHaveLength(1);
-    await expect(canvas.getByRole("article", { name: "Your reply 1" })).toHaveTextContent(
-      "Sending once.",
-    );
-    expect(deferredSend).toHaveBeenCalledTimes(1);
-    let fail = () => {};
-    deferredSend.mockReturnValueOnce(
-      new Promise<void>((_resolve, reject) => {
-        fail = () => reject(new Error("offline"));
-      }),
-    );
-    await userEvent.click(canvas.getByRole("button", { name: /^Reply$/ }));
-    await userEvent.type(
-      canvas.getByRole("textbox", { name: "Your reply" }),
-      "Retain after late failure.",
-    );
-    await userEvent.click(canvas.getByRole("button", { name: "Send reply" }));
+  },
+};
+
+const leavingFailure = held();
+export const FailureAfterLeavingKeepsDraftAndError: Story = {
+  args: { commit: leavingFailure.commit },
+  play: async (context) => {
+    const { userEvent } = context;
+    const canvas = within(context.canvasElement);
+    leavingFailure.next();
+    await replyFirst(context, "Retain after late failure.");
+    await send(context);
     await userEvent.click(canvas.getByRole("button", { name: "Back to inbox" }));
     await userEvent.click(canvas.getByRole("button", { name: /Jon Bell/ }));
-    fail();
+    const heading = canvas.getByRole("heading", { name: "A small correction to the print proof" });
+    await waitFor(() => expect(heading).toHaveFocus());
+    leavingFailure.settle(false);
+    const status = canvas.getByRole("status");
     await waitFor(() =>
-      expect(canvas.getByRole("status")).toHaveTextContent(
-        "Reply to Mara Ellis failed. Draft retained.",
-      ),
+      expect(status).toHaveTextContent("Reply to Mara Ellis failed. Draft retained."),
     );
-    await expect(
-      canvas.getByRole("heading", { name: "A small correction to the print proof" }),
-    ).toHaveFocus();
-    await userEvent.click(canvas.getByRole("button", { name: "Back to inbox" }));
+    await expect(heading).toHaveFocus();
+    let announced = 0;
+    const observer = new MutationObserver((records) => {
+      announced += records.length;
+    });
+    observer.observe(status, { subtree: true, childList: true, characterData: true });
+    try {
+      await userEvent.click(canvas.getByRole("button", { name: "Back to inbox" }));
+      await userEvent.click(canvas.getByRole("button", { name: /Mara Ellis/ }));
+      await expect(canvas.getByRole("textbox", { name: "Your reply" })).toHaveValue(
+        "Retain after late failure.",
+      );
+      await expect(canvas.getByText(failed)).toBeVisible();
+      expect(announced, "failure announced again on reopen").toBe(0);
+    } finally {
+      observer.disconnect();
+    }
+  },
+};
+
+const echoed: InboxThread[] = [
+  {
+    id: "coast",
+    sender: "Mara Ellis",
+    address: "mara@example.com",
+    subject: "Notes from the coast",
+    date: "30 October · 09:12",
+    excerpt: "The last ferry left before the rain.",
+    paragraphs: ["Hi Rowan, the last ferry left before the rain."],
+    context: "Photographer · Winter issue.",
+  },
+];
+export const EchoAfterFailedCommitKeepsDraft: Story = {
+  args: { commit: fn(offline) },
+  render: (args) => (
+    <Harness
+      records={echoed}
+      render={(records) => <Inbox {...args} threads={records as InboxThread[]} />}
+    />
+  ),
+  play: async (context) => {
+    const canvas = within(context.canvasElement);
+    const field = await replyFirst(context);
+    await send(context);
+    await waitFor(() => expect(canvas.getByText(failed)).toBeVisible());
+    controls.setRecords(echoed.map((thread) => ({ ...thread })));
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    await expect(field).toHaveValue("Please send the contact sheet.");
+    await expect(canvas.getByText(failed)).toBeVisible();
+    expect(canvas.queryByRole("article", { name: /Your reply/ })).toBeNull();
+  },
+};
+
+export const UnrenderedFieldErrorFocusesSubmit: Story = {
+  args: {
+    commit: fn(async () => {}),
+    validate: () => ({ attachment: "Attach the contact sheet." }) as Record<string, string>,
+  },
+  play: async (context) => {
+    const canvas = within(context.canvasElement);
+    await replyFirst(context);
+    await send(context);
+    await expect(canvas.getByRole("button", { name: "Send reply" })).toHaveFocus();
+    const status = canvas.getByRole("status");
+    await expect(status).toHaveTextContent("Attach the contact sheet.");
+    let announced = 0;
+    const observer = new MutationObserver((records) => {
+      announced += records.length;
+    });
+    observer.observe(status, { subtree: true, childList: true, characterData: true });
+    try {
+      await send(context);
+      await waitFor(() => expect(announced, "identical error announced again").toBeGreaterThan(0));
+    } finally {
+      observer.disconnect();
+    }
+    expect(context.args.commit).not.toHaveBeenCalled();
+  },
+};
+
+export const CopyReplacesStrings: Story = {
+  args: {
+    copy: {
+      title: "Letters",
+      reply: "Answer",
+      field: "Your response",
+      required: "Add a response before answering.",
+    },
+  },
+  play: async ({ canvasElement, userEvent }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByRole("heading", { name: "Letters" })).toBeVisible();
     await userEvent.click(canvas.getByRole("button", { name: /Mara Ellis/ }));
-    await expect(canvas.getByRole("textbox", { name: "Your reply" })).toHaveValue(
-      "Retain after late failure.",
-    );
-    await expect(canvas.getByRole("textbox", { name: "Your reply" })).toHaveAccessibleDescription(
-      "Reply could not be sent. Your draft is safe; try again.",
-    );
+    await userEvent.click(canvas.getByRole("button", { name: "Answer" }));
+    const field = canvas.getByRole("textbox", { name: "Your response" });
+    await expect(field).toHaveFocus();
+    await userEvent.type(field, "   ");
     await userEvent.click(canvas.getByRole("button", { name: "Send reply" }));
-    await waitFor(() => expect(canvas.getByRole("button", { name: /^Reply$/ })).toHaveFocus());
-    expect(canvas.getAllByRole("article", { name: /Your reply/ })).toHaveLength(2);
-    expect(deferredSend).toHaveBeenCalledTimes(3);
+    await expect(field).toHaveFocus();
+    await expect(field).toHaveAccessibleDescription("Add a response before answering.");
+    await expect(
+      canvas.getByText("Add a response before answering.", { exact: true }),
+    ).toBeVisible();
   },
 };
