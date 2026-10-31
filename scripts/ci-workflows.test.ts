@@ -222,8 +222,8 @@ test("deployment paths preserve generated API docs while excluding ordinary pros
     }, false);
   expect(matches("packages/react/README.md")).toBe(false);
   expect(matches("packages/react/docs/components/Button.md")).toBe(true);
-  expect(matches("docs/guides/page-header.md")).toBe(true);
-  expect(matches("docs/guides/form-section.md")).toBe(true);
+  expect(matches("docs/guides/list-detail.md")).toBe(true);
+  expect(matches("docs/guides/inbox.md")).toBe(true);
   expect(matches("docs/guides/components-and-recipes.md")).toBe(true);
   expect(matches("packages/css/README.md")).toBe(false);
   expect(matches("apps/storybook/site/README.md")).toBe(false);

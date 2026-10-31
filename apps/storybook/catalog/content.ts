@@ -13,26 +13,6 @@ export type RecipeDefinition = {
 
 export const recipeDefinitions: RecipeDefinition[] = [
   {
-    id: "pageheader",
-    name: "PageHeader",
-    description: "A page title with supporting text and actions.",
-    guide: "docs/guides/page-header.md",
-    storyFile: "apps/storybook/recipes/PageHeader.stories.tsx",
-    defaultStoryId: "recipes-pageheader--project-list",
-    components: ["Heading", "Text", "Inline", "Toolbar", "Button"],
-    files: ["apps/storybook/recipes/PageHeader.tsx", "apps/storybook/recipes/recipes.css"],
-  },
-  {
-    id: "formsection",
-    name: "FormSection",
-    description: "A heading, instructions and errors for related form fields.",
-    guide: "docs/guides/form-section.md",
-    storyFile: "apps/storybook/recipes/FormSection.stories.tsx",
-    defaultStoryId: "recipes-formsection--contact-details",
-    components: ["Heading", "Text", "Grid", "Input", "Panel"],
-    files: ["apps/storybook/recipes/FormSection.tsx", "apps/storybook/recipes/recipes.css"],
-  },
-  {
     id: "listdetail",
     name: "ListDetail",
     description:
@@ -72,18 +52,20 @@ export const recipeDefinitions: RecipeDefinition[] = [
       "Heading",
       "Inline",
       "Input",
+      "PageHeader",
       "Panel",
       "Split",
       "Text",
     ],
-    files: [
-      "apps/storybook/recipes/Inbox.tsx",
-      "apps/storybook/recipes/inbox.css",
-      "apps/storybook/recipes/PageHeader.tsx",
-      "apps/storybook/recipes/recipes.css",
-    ],
+    files: ["apps/storybook/recipes/Inbox.tsx", "apps/storybook/recipes/inbox.css"],
     flow: "list-detail",
   },
 ];
+
+/** Retired recipe id → package component id; old recipe URLs redirect there. */
+export const retiredRecipes: Record<string, string> = {
+  pageheader: "pageheader",
+  formsection: "formsection",
+};
 
 export const systemGuide = "docs/guides/components-and-recipes.md";

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { type ComponentProps, useCallback, useState } from "react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 import { Recipes } from "../site/Recipes";
 
@@ -18,14 +19,16 @@ export const Directory: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     expect(canvas.getByRole("heading", { level: 1, name: "Recipes" })).toBeVisible();
-    expect(canvas.getByRole("link", { name: "PageHeader" })).toHaveAttribute(
+    expect(canvas.getByRole("link", { name: "ListDetail" })).toHaveAttribute(
       "href",
-      "../recipes/?recipe=pageheader",
+      "../recipes/?recipe=listdetail",
     );
-    expect(canvas.getByRole("link", { name: "FormSection" })).toHaveAttribute(
+    expect(canvas.getByRole("link", { name: "Inbox" })).toHaveAttribute(
       "href",
-      "../recipes/?recipe=formsection",
+      "../recipes/?recipe=inbox",
     );
+    expect(canvas.queryByRole("link", { name: "PageHeader" })).toBeNull();
+    expect(canvas.queryByRole("link", { name: "FormSection" })).toBeNull();
     const navigation = within(canvas.getByRole("navigation", { name: "Main navigation" }));
     expect(navigation.getByRole("link", { name: "Recipes" })).toHaveAttribute(
       "aria-current",
@@ -35,25 +38,30 @@ export const Directory: Story = {
   },
 };
 
-export const FormSection: Story = {
-  args: { search: "?recipe=formsection" },
+export const ListDetail: Story = {
+  args: { search: "?recipe=listdetail" },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    expect(canvas.getByRole("heading", { level: 1, name: "FormSection" })).toBeVisible();
+    expect(canvas.getByRole("heading", { level: 1, name: "ListDetail" })).toBeVisible();
     expect(canvas.getByRole("link", { name: "Open in Storybook" })).toHaveAttribute(
       "href",
-      "./?path=/docs/recipes-formsection--docs",
+      "./?path=/docs/recipes-listdetail--docs",
     );
-    expect(canvas.getByRole("link", { name: "Input" })).toHaveAttribute(
+    const used = within(canvas.getByRole("navigation", { name: "Components used" }));
+    expect(used.getByRole("link", { name: "Input" })).toHaveAttribute(
       "href",
       "../components/?component=input",
     );
-    expect(canvas.getByRole("link", { name: "In Panel" })).toHaveAttribute(
+    expect(used.getByRole("link", { name: "PageHeader" })).toHaveAttribute(
       "href",
-      "../recipes/?recipe=formsection&state=recipes-formsection--in-panel",
+      "../components/?component=pageheader",
+    );
+    expect(canvas.getByRole("link", { name: "Long Content" })).toHaveAttribute(
+      "href",
+      "../recipes/?recipe=listdetail&state=recipes-listdetail--long-content",
     );
     const sources = within(canvas.getByRole("region", { name: "Recipe source files" }));
-    expect(sources.getByRole("heading", { name: "FormSection.tsx" })).toBeVisible();
+    expect(sources.getByRole("heading", { name: "ListDetail.tsx" })).toBeVisible();
     const copy = sources.getAllByRole("button", { name: "Copy code" })[0];
     if (!copy) throw new Error("Missing recipe source copy action");
     await userEvent.click(copy);
@@ -61,6 +69,37 @@ export const FormSection: Story = {
       expect(sources.getAllByRole("status")[0]).toHaveTextContent(
         /copied to clipboard|Copy unavailable/,
       ),
+    );
+  },
+};
+
+const retiredIds = ["pageheader", "formsection"];
+const retiredRedirects: string[] = [];
+
+// One frame at a time; each redirect mounts the next retired id.
+function RetiredRedirects(args: ComponentProps<typeof Recipes>) {
+  const [index, setIndex] = useState(0);
+  const record = useCallback((href: string) => {
+    retiredRedirects.push(href);
+    setIndex((current) => current + 1);
+  }, []);
+  const id = retiredIds[index];
+  return id ? (
+    <Recipes key={id} {...args} search={`?recipe=${id}`} hash="#usage" replaceLocation={record} />
+  ) : null;
+}
+
+export const RetiredRecipeRedirects: Story = {
+  render: (args) => <RetiredRedirects {...args} />,
+  beforeEach: () => {
+    retiredRedirects.length = 0;
+  },
+  play: async () => {
+    await waitFor(() =>
+      expect(retiredRedirects).toEqual([
+        "../components/?component=pageheader#usage",
+        "../components/?component=formsection#usage",
+      ]),
     );
   },
 };
