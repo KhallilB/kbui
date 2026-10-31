@@ -3,13 +3,14 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   check:
@@ -26,7 +27,12 @@ jobs:
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
           HEAD_SHA: ${{ github.sha }}
-        run: bun scripts/ci-scope.ts "$BASE_SHA" "$HEAD_SHA"
+        run: |
+          if [[ "$GITHUB_REF" == refs/heads/main || "$GITHUB_EVENT_NAME" == workflow_dispatch ]]; then
+            echo 'browser=true' >> "$GITHUB_OUTPUT"
+          else
+            bun scripts/ci-scope.ts "$BASE_SHA" "$HEAD_SHA"
+          fi
       - name: Build packages
         run: bun run build
       - name: Lint
@@ -97,6 +103,8 @@ jobs:
     if: needs.check.outputs.browser == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    outputs:
+      production_artifact_id: ${{ steps.production_artifact.outputs.artifact-id }}
     container:
       image: mcr.microsoft.com/playwright:v1.64.1-noble
       options: --ipc=host
@@ -118,6 +126,16 @@ jobs:
         run: bun run build
       - name: Check site
         run: bun run validate:site built
+      - name: Save production artifact
+        id: production_artifact
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: kbui-site-${{ github.sha }}-${{ github.run_attempt }}
+          path: deployment/site/.cloudflare/output/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14
       - name: Save preview
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         uses: actions/upload-artifact@v4
@@ -140,6 +158,51 @@ jobs:
         run: |
           test "$SUITES_RESULT" = success
           test "$BUILT_RESULT" = success
+
+  production:
+    name: "Deploy: production"
+    needs: [check, browser, browser-built]
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch') &&
+      needs.check.result == 'success' &&
+      needs.browser.result == 'success' &&
+      needs['browser-built'].result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: kbui-site-${{ github.ref }}
+      cancel-in-progress: false
+    environment:
+      name: kbui-production
+      url: https://kbui.kcb.pro/
+    env:
+      CF_SEND_TELEMETRY: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.23.0'
+      - run: npm ci --prefix deployment/site
+      - name: Require validated artifact
+        run: ': "${ARTIFACT_ID:?Validated production artifact ID is required}"'
+        env:
+          ARTIFACT_ID: ${{ needs.browser-built.outputs.production_artifact_id }}
+      - uses: actions/download-artifact@v4
+        with:
+          artifact-ids: ${{ needs.browser-built.outputs.production_artifact_id }}
+          merge-multiple: true
+          path: deployment/site/.cloudflare/output/
+      - name: Deploy the tested artifact
+        run: |
+          : "${CLOUDFLARE_API_TOKEN:?Set CLOUDFLARE_API_TOKEN in the kbui-production environment}"
+          : "${CLOUDFLARE_ACCOUNT_ID:?Set CLOUDFLARE_ACCOUNT_ID in the kbui-production environment}"
+          npm run deploy --prefix deployment/site -- --message "Site ${{ github.sha }}"
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      - name: Check production setup page
+        run: curl --fail --retry 5 --retry-all-errors --silent --show-error https://kbui.kcb.pro/setup/ | grep -Fq '<title>Get started — kbui</title>'
 
   preview:
     name: "Deploy: preview"
