@@ -58,7 +58,7 @@ The contract checks kbui's copy, not yours. After you change flow code in your c
 
 ### Contract-checked recipes
 
-Flow recipes cover a complete task with tests for each of its states. A contract-checked recipe also passes its family's shared rules, so it behaves like the others in that family, and what you learn from one carries over. ListDetail and Inbox are both contract-checked.
+Flow recipes cover a complete task with tests for each of its states. A contract-checked recipe also passes its family's shared rules, so it behaves like the others in that family, and what you learn from one carries over. ListDetail and Inbox are both contract-checked; the [ListDetail guide](list-detail.md) and [Inbox guide](inbox.md) list the guarantees each meets.
 
 ### Preview seams
 
