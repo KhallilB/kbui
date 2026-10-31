@@ -39,7 +39,7 @@ The recipe's files become part of your app. Change its records, fields, wording 
 
 ### What you supply
 
-A recipe runs on its own with sample records and local defaults, so you can try it before connecting anything. To use it for real, pass your records and replace the defaults through a few documented props, its seams: how the open record maps to your router, how a change is saved, how a draft is validated, and the text it shows and announces. The recipe's guide lists each one.
+A flow recipe runs on its own with sample records and local defaults, so you can try it before connecting anything. To use it for real, pass your records and replace the defaults through a few documented props, its seams: how the open record maps to your router, how a change is saved, how a draft is validated, and the text it shows and announces. Its guide lists each one.
 
 Flow recipes handle a save the same way:
 
@@ -72,7 +72,7 @@ When a package component covers a recipe's whole job, review whether to retire t
 
 ### Maintained composition recipes
 
-As of 2026-10-30, PageHeader and FormSection remain maintained, copyable composition recipes alongside ListDetail and Inbox. This narrowly supersedes their retirement in [#173](https://github.com/KhallilB/kbui/pull/173) and the automatic retirement rule in [#175](https://github.com/KhallilB/kbui/pull/175). Their existing recipe URLs, public story IDs, native semantics and copyable source remain supported.
+As of 2026-10-31, PageHeader and FormSection remain maintained, copyable composition recipes alongside ListDetail and Inbox. This narrowly supersedes their retirement in [#173](https://github.com/KhallilB/kbui/pull/173) and the automatic retirement rule in [#175](https://github.com/KhallilB/kbui/pull/175). Their existing recipe URLs, public story IDs, native semantics and copyable source remain supported.
 
 These two established compositions are exceptions to the new-recipe flow requirement. Use the same-name package components for a maintained import API; use these recipes when you need source to adapt. The recipe guides explain that ownership difference. Keeping both means maintaining two documented surfaces and checking their stories and styles. It does not create a package compatibility promise for copies in other apps.
 
