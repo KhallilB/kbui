@@ -131,22 +131,25 @@ for (const width of [320, 1280]) {
               await new Promise<void>((resolve) =>
                 requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
               );
-              await Promise.all(
-                root.ownerDocument
-                  .getAnimations()
-                  .filter(
-                    (animation) => animation.effect?.getComputedTiming().iterations !== Infinity,
-                  )
-                  .map((animation) => animation.finished.catch(() => {})),
-              );
             });
+            if (entry.id === "toast")
+              await frame.locator("body").evaluate(async (body) => {
+                await Promise.all(
+                  body
+                    .getAnimations({ subtree: true })
+                    .filter(
+                      (animation) =>
+                        animation.playState === "running" &&
+                        animation.effect?.getComputedTiming().iterations !== Infinity,
+                    )
+                    .map((animation) => animation.finished.catch(() => {})),
+                );
+              });
             if (story.id === "components-toast--positioned") {
               await frame
                 .getByRole("button", { name: "Show urgent notification", exact: true })
                 .click();
-              await frame
-                .getByRole("alertdialog", { name: "Connection lost", exact: true })
-                .waitFor();
+              await frame.locator(".kb-toast").filter({ hasText: "Connection lost" }).waitFor();
             }
             await page.waitForFunction(() => {
               const iframe = document.querySelector<HTMLIFrameElement>(
@@ -490,6 +493,18 @@ for (const width of [320, 1280]) {
               if (entry.id === "dialog" && !(await popup.isVisible()))
                 await frame.locator('button[aria-haspopup="dialog"]').click();
               await popup.waitFor({ state: "visible" });
+              await popup.evaluate(async (element) => {
+                await Promise.all(
+                  element
+                    .getAnimations({ subtree: true })
+                    .filter(
+                      (animation) =>
+                        animation.playState === "running" &&
+                        animation.effect?.getComputedTiming().iterations !== Infinity,
+                    )
+                    .map((animation) => animation.finished.catch(() => {})),
+                );
+              });
               const fits = await popup.evaluate((element) => {
                 const bounds = element.getBoundingClientRect();
                 return (
