@@ -130,7 +130,12 @@ export const adoptionRelationships: Record<string, AdoptionRelationship> = {
   ),
   Thumbnail: pending("Discoverable product and collection media"),
   Toast: pending("Local action outcome with persistent error recovery"),
-  Toolbar: pending("Coordinated page actions with roving keyboard focus"),
+  Toolbar: composed(
+    "recipes/PageHeader.stories.tsx",
+    "recipes/PageHeader.stories.tsx",
+    "RecordDetail",
+    "Audit actions in the copied PageHeader recipe with roving keyboard focus",
+  ),
   Tooltip: composed(
     "site/Catalog.tsx",
     "stories/CatalogDetails.stories.tsx",

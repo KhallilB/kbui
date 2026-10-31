@@ -96,7 +96,9 @@ Run `bun run --filter @kb.ui/storybook dev:internal` to inspect those fixtures a
 
 Use [Components and recipes](docs/guides/components-and-recipes.md) for the delivery and ownership distinction. Layout remains a component category. Component work follows [Adding a component](docs/guides/adding-a-component.md); a recipe adds no package export or component inventory entry.
 
-A recipe is copied source for a whole task over time: selection, drafts, validation, pending and failed saves, and focus after every step. Recipes in a flow family are checked against that family's shared flow contract. List and detail is the only family today. Examples remain larger demonstrations with links to their reusable parts. Contributor and agent instructions link to these rules rather than keeping another delivery checklist.
+New recipes provide copied source for a whole task over time: selection, drafts, validation, pending and failed saves, and focus after every step. Recipes in a flow family are checked against that family's shared flow contract. List and detail is the only family today. Examples remain larger demonstrations with links to their reusable parts. Contributor and agent instructions link to these rules rather than keeping another delivery checklist.
+
+The established PageHeader and FormSection composition recipes remain maintained exceptions. Preserve their recipe URLs, public story IDs and exact source sets. The [maintained composition decision](docs/guides/components-and-recipes.md#maintained-composition-recipes) supersedes their retirement while retaining the contribution rules below.
 
 #### Add a recipe
 
@@ -122,7 +124,7 @@ Move code into a shared support file only when two recipes need it unchanged.
 
 #### Retire a recipe
 
-Retire a recipe when a package component or pattern covers its whole job, or when it no longer meets the bar for adding one. Remove its entry from `recipeDefinitions`, and delete its source, stories, docs wrapper and guide, plus any CSS nothing else uses. Switch anything that imported or named it to the replacement. Keep `/recipes/?recipe=<id>` resolving, hash included, to the replacement's page. Its story IDs are removed with it unless an example page keeps them. Record the retirement in `docs/features.md`, and say in the release notes what to use instead. Copies already in apps are theirs and keep working.
+Propose an explicit retirement decision when a package component or pattern covers a recipe's whole job, or when it no longer meets the bar for adding one. PageHeader and FormSection remain maintained under the composition exception above; package overlap alone does not retire them. Once a retirement is accepted, follow these steps. Remove its entry from `recipeDefinitions`, and delete its source, stories, docs wrapper and guide, plus any CSS nothing else uses. Switch anything that imported or named it to the replacement. Keep `/recipes/?recipe=<id>` resolving, hash included, to the replacement's page. Its story IDs are removed with it unless an example page keeps them. Record the retirement in `docs/features.md`, and say in the release notes what to use instead. Copies already in apps are theirs and keep working.
 
 
 ## Component conventions

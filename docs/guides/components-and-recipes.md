@@ -31,7 +31,7 @@ Keep routing, permissions, data loading, validation, saving and error recovery i
 
 ## How recipes work
 
-A recipe is a whole task over time, not a layout. In a list-and-detail recipe, that means choosing a record, editing it or replying, saving, recovering when a save fails, and knowing where focus lands after each step.
+New recipes cover a whole task over time. In a list-and-detail recipe, that means choosing a record, editing it or replying, saving, recovering when a save fails, and knowing where focus lands after each step.
 
 ### You own the copy
 
@@ -41,7 +41,7 @@ The recipe's files become part of your app. Change its records, fields, wording 
 
 A recipe runs on its own with sample records and local defaults, so you can try it before connecting anything. To use it for real, pass your records and replace the defaults through a few documented props, its seams: how the open record maps to your router, how a change is saved, how a draft is validated, and the text it shows and announces. The recipe's guide lists each one.
 
-Every recipe handles a save the same way:
+Flow recipes handle a save the same way:
 
 - When validation fails, in the browser or on your server, the draft stays, focus moves to the first field to fix, and nothing is saved.
 - When a save fails, the draft stays, and a visible message beside the submit control says what happened. Screen readers hear it too.
@@ -58,7 +58,7 @@ The contract checks kbui's copy, not yours. After you change flow code in your c
 
 ### Contract-checked recipes
 
-Every recipe is a complete task with tests for each of its states. A contract-checked recipe also passes its family's shared rules, so it behaves like the others in that family, and what you learn from one carries over. ListDetail and Inbox are both contract-checked.
+Flow recipes cover a complete task with tests for each of its states. A contract-checked recipe also passes its family's shared rules, so it behaves like the others in that family, and what you learn from one carries over. ListDetail and Inbox are both contract-checked.
 
 ### Preview seams
 
@@ -68,7 +68,15 @@ A guide marks some seams as preview. A preview seam works and is documented, but
 
 Consider a package component when several real apps need the same behavior or layout, and existing components do not express it clearly. Repeated code alone is not enough: some layouts are easier to keep in each app. Recipe behavior moves into the package only after an app outside kbui uses the recipe and the behavior is the same across recipes. Until then, a different flow is a different recipe, not an option on one component.
 
-When a package component covers a recipe's whole job, the recipe retires. Its page sends you to the component, and copies already in apps keep working.
+When a package component covers a recipe's whole job, review whether to retire the copied recipe. A retirement needs an explicit migration decision; keep established URLs, stories and copy contracts until that decision is accepted.
+
+### Maintained composition recipes
+
+As of 2026-10-30, PageHeader and FormSection remain maintained, copyable composition recipes alongside ListDetail and Inbox. This narrowly supersedes their retirement in [#173](https://github.com/KhallilB/kbui/pull/173) and the automatic retirement rule in [#175](https://github.com/KhallilB/kbui/pull/175). Their existing recipe URLs, public story IDs, native semantics and copyable source remain supported.
+
+These two established compositions are exceptions to the new-recipe flow requirement. Use the same-name package components for a maintained import API; use these recipes when you need source to adapt. The recipe guides explain that ownership difference. Keeping both means maintaining two documented surfaces and checking their stories and styles. It does not create a package compatibility promise for copies in other apps.
+
+New recipes still follow the complete-task and shared-flow rules. Recipes import package exports rather than one another; Inbox uses the packaged PageHeader. All recipe stylesheets follow the anatomy and token guards. Shared `recipes.css` uses its registered PageHeader/FormSection owner prefixes. Flow stylesheets retain their filename prefix and five shared region parts. Any future retirement of these compositions must explicitly reconcile their URLs, public stories and copyable source with the preservation decision.
 
 ## Try the workspace demo
 

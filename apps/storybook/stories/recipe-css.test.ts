@@ -2,7 +2,9 @@ import { afterAll, beforeAll, describe, expect, test } from "bun:test";
 import { mkdtemp, readdir, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { babelParseFile } from "storybook/internal/csf-tools";
 import { buildCss, paletteRefsIn, rawStyleValuesIn } from "../../../packages/css/src/build";
+import { recipeDefinitions } from "../catalog/content";
 
 const recipes = new URL("../recipes/", import.meta.url).pathname;
 const cssSrc = new URL("../../../packages/css/src/", import.meta.url).pathname;
@@ -34,7 +36,7 @@ afterAll(async () => {
 });
 
 test("every recipe stylesheet is guarded", () => {
-  expect(files).toEqual(["inbox.css", "list-detail.css"]);
+  expect(files).toEqual(["inbox.css", "list-detail.css", "recipes.css"]);
 });
 
 const anatomyOf = (css: string) => {
@@ -48,20 +50,45 @@ const anatomyOf = (css: string) => {
   };
 };
 
-// list-detail.css belongs to ListDetail.tsx.
+const ownersOf = (file: string) =>
+  recipeDefinitions.filter((recipe) => recipe.files.includes(`apps/storybook/recipes/${file}`));
+const prefixesOf = (file: string) => {
+  const owners = ownersOf(file);
+  if (owners.length > 1 && owners.every((recipe) => !recipe.flow))
+    return owners.map((recipe) => recipe.name.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase());
+  return owners.map(() => file.replace(/\.css$/, ""));
+};
+
+// Read static class strings from rendered root and public-slot props.
 const sourceClasses = async (file: string) => {
-  const name = file
-    .replace(/\.css$/, "")
-    .replace(/(^|-)([a-z])/g, (_, __, c: string) => c.toUpperCase());
-  const tsx = await readFile(join(recipes, `${name}.tsx`), "utf8");
-  return new Set(
-    [...tsx.matchAll(/className="([^"]+)"/g)].flatMap((m) => (m[1] as string).split(/\s+/)),
+  const classes = new Set<string>();
+  const paths = new Set(
+    ownersOf(file).flatMap((recipe) => recipe.files.filter((p) => p.endsWith(".tsx"))),
   );
+  for (const path of paths) {
+    const code = await readFile(new URL(`../../../${path}`, import.meta.url), "utf8");
+    babelParseFile({ code }).path.traverse({
+      JSXAttribute(path) {
+        const name = path.node.name;
+        if (
+          name.type !== "JSXIdentifier" ||
+          (name.name !== "className" && name.name !== "classNames")
+        )
+          return;
+        path.traverse({
+          StringLiteral({ node }) {
+            for (const part of node.value.split(/\s+/).filter(Boolean)) classes.add(part);
+          },
+        });
+      },
+    });
+  }
+  return classes;
 };
 
 describe.each(files)("%s", (file) => {
   const read = () => readFile(join(recipes, file), "utf8");
-  const prefix = file.replace(/\.css$/, "");
+  const prefixes = prefixesOf(file);
 
   test("recipe css starts with an anatomy comment listing every class", async () => {
     const { anatomy, classes, body } = anatomyOf(await read());
@@ -73,18 +100,23 @@ describe.each(files)("%s", (file) => {
     for (const c of classes) expect(rendered.has(c), `${file}: .${c} not rendered`).toBe(true);
   });
 
-  test("recipe classes use the stylesheet prefix", async () => {
+  test("recipe classes use their registered owner prefixes", async () => {
+    expect(prefixes.length, `${file}: no registered owner`).toBeGreaterThan(0);
     const { classes, body } = anatomyOf(await read());
     for (const c of [...classes, ...ownClasses(body)])
-      expect(c === prefix || c.startsWith(`${prefix}-`), `${file}: .${c}`).toBe(true);
+      expect(
+        prefixes.some((prefix) => c === prefix || c.startsWith(`${prefix}-`)),
+        `${file}: .${c}`,
+      ).toBe(true);
   });
 
   test("recipe regions use shared part names", async () => {
     const { classes, regions } = anatomyOf(await read());
     const part = (c: string) => regionParts.find((p) => c.endsWith(`-${p}`));
-    expect([...regions].map(part).sort()).toEqual([...regionParts].sort());
+    const expected = ownersOf(file).some((recipe) => recipe.flow) ? regionParts : [];
+    expect([...regions].map(part).sort()).toEqual([...expected].sort());
     for (const c of classes)
-      if (!regions.has(c) && c !== prefix)
+      if (!regions.has(c) && !prefixes.includes(c))
         expect(part(c), `${file}: .${c} reads as a region but is not one`).toBeUndefined();
   });
 
