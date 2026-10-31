@@ -19,6 +19,8 @@ import { useEffect, useId, useRef, useState } from "react";
 import { type FlowRouter, searchParamRouter } from "./flow-router";
 import "./inbox.css";
 
+/** A reply saved on the server; `author` defaults to the signed-in user. */
+export type InboxReply = { id: string; body: string; author?: string | undefined };
 export type InboxThread = {
   id: string;
   sender: string;
@@ -28,11 +30,13 @@ export type InboxThread = {
   excerpt: string;
   paragraphs: string[];
   context: string;
+  replies?: InboxReply[] | undefined;
 };
 export type ReplyDraft = { body: string };
-/** `errors` keeps the draft and focuses the first invalid field, like validation. */
-// biome-ignore lint/suspicious/noConfusingVoidType: lets `async () => {}` mean success.
-export type CommitResult<Field extends string> = void | { errors: Partial<Record<Field, string>> };
+/** `errors` keeps the draft and focuses the first invalid field; `form`, owned by no field, focuses submit. */
+export type CommitResult<Field extends string> =
+  // biome-ignore lint/suspicious/noConfusingVoidType: lets `async () => {}` mean success.
+  void | { errors: Partial<Record<Field | "form", string>> };
 // Keys outside the rendered fields can still arrive from a server.
 type Errors = Partial<Record<string, string>>;
 
@@ -58,8 +62,9 @@ export const inboxCopy = {
   unavailableMeta: "This letter could not be found.",
   unavailableHint: "Return to the inbox to choose another message.",
   letter: (sender: string) => `Letter from ${sender}`,
-  sentReply: (position: number) => `Your reply ${position}`,
-  sentHeading: "You · Session reply",
+  sentReply: (position: number, author?: string) =>
+    author ? `Reply ${position} from ${author}` : `Your reply ${position}`,
+  sentHeading: "You",
   reply: "Reply",
   form: "Reply to sender",
   field: "Your reply",
@@ -67,19 +72,30 @@ export const inboxCopy = {
   send: "Send reply",
   sending: "Sending reply…",
   discard: "Discard draft",
-  sessionNote: "Replies stay in this session. Reload clears drafts and replies.",
+  /** Empty hides the note. */
+  sessionNote: "",
   failed: "Reply could not be sent. Your draft is safe; try again.",
   sender: "Sender details",
   about: "About the sender",
   choose: "Choose a message",
   chooseHint: "Select a message from the inbox to read it or write a reply.",
+  loading: "Loading messages…",
   sendingNotice: (sender: string) => `Sending reply to ${sender}.`,
-  sentNotice: (subject: string) => `Reply added to ${subject} for this session.`,
+  sentNotice: (subject: string) => `Reply added to ${subject}.`,
   failedNotice: (sender: string) => `Reply to ${sender} failed. Draft retained.`,
-  invalidNotice: (sender: string) => `Reply to ${sender} needs changes before sending.`,
+  invalidNotice: (sender: string, errors: Errors) =>
+    errors.body
+      ? `Reply to ${sender} needs changes before sending.`
+      : `Reply to ${sender} was not sent.`,
   discardedNotice: "Draft discarded.",
 };
 type Copy = typeof inboxCopy;
+// Only true of the in-memory default `commit`.
+const sessionCopy: Partial<Copy> = {
+  sessionNote: "Replies stay in this session. Reload clears drafts and replies.",
+  sentNotice: (subject) => `Reply added to ${subject} for this session.`,
+  sentHeading: "You · Session reply",
+};
 
 const sampleThreads: InboxThread[] = [
   {
@@ -129,9 +145,8 @@ const sampleThreads: InboxThread[] = [
   },
 ];
 
-type Reply = { id: string; body: string };
 // Replies hold a local send until the prop sends a new object for that thread.
-type Overlay = { base: InboxThread; replies: Reply[] };
+type Overlay = { base: InboxThread; replies: InboxReply[] };
 type Target = "heading" | "list" | "reply" | "input" | "submit";
 
 function without<Value>(map: Record<string, Value | undefined>, id: string) {
@@ -143,19 +158,29 @@ function without<Value>(map: Record<string, Value | undefined>, id: string) {
 export function Inbox({
   threads = sampleThreads,
   initialThreadId = null,
+  loading = false,
   router: routerProp,
-  commit = async () => {},
+  commit: commitProp,
   validate: validateProp,
   copy,
+  landmark = true,
+  header = true,
 }: {
   threads?: InboxThread[] | undefined;
   initialThreadId?: string | null | undefined;
+  /** Records are still arriving: no unavailable or empty state yet. */
+  loading?: boolean | undefined;
   router?: FlowRouter | undefined;
   commit?: ((id: string, draft: ReplyDraft) => Promise<CommitResult<"body">>) | undefined;
   validate?: ((draft: ReplyDraft) => Partial<Record<"body", string>>) | undefined;
   copy?: Partial<Copy> | undefined;
+  /** False inside an app shell that already has a `<main>`. */
+  landmark?: boolean | undefined;
+  /** False inside an app shell that already has the page `<h1>`. */
+  header?: boolean | undefined;
 }) {
-  const text = { ...inboxCopy, ...copy };
+  const commit = commitProp ?? (async () => {});
+  const text = { ...inboxCopy, ...(commitProp ? {} : sessionCopy), ...copy };
   const validate =
     validateProp ?? ((draft: ReplyDraft): Errors => (draft.body ? {} : { body: text.required }));
   const [fallbackRouter] = useState(() => searchParamRouter("message"));
@@ -185,6 +210,11 @@ export function Inbox({
   const shown = useRef<string | null>(null);
   const mounted = useRef(false);
   const pending = useRef(new Set<string>());
+  // Read before commit: a removed element may never fire blur, so `focused` can be stale.
+  const activeBefore = useRef<Element | null>(null);
+  activeBefore.current = root.current?.contains(document.activeElement)
+    ? document.activeElement
+    : null;
   const focusTarget = useRef<Target | null>(selectedId !== null ? "heading" : null);
   const id = useId();
   const selected = threads.find((thread) => thread.id === selectedId);
@@ -196,7 +226,10 @@ export function Inbox({
     .filter(([key]) => key !== "body")
     .map(([, message]) => message);
   const overlay = selected ? overlays[selected.id] : undefined;
-  const replies = overlay && overlay.base === selected ? overlay.replies : [];
+  const replies = [
+    ...(selected?.replies ?? []),
+    ...(overlay && overlay.base === selected ? overlay.replies : []),
+  ];
   const normalizedQuery = query.trim().toLowerCase();
   const filtered = threads.filter((thread) =>
     `${thread.sender} ${thread.subject} ${thread.excerpt}`.toLowerCase().includes(normalizedQuery),
@@ -220,6 +253,8 @@ export function Inbox({
 
   useEffect(() => {
     currentId.current = selectedId;
+    // Hold focus for the deep-linked thread until it arrives.
+    if (loading && selectedId !== null && !selected) return;
     const target = focusTarget.current;
     focusTarget.current = null;
     if (target === "heading") heading.current?.focus();
@@ -237,7 +272,10 @@ export function Inbox({
       setDrafts((current) => without(current, gone));
       setErrors((current) => without(current, gone));
       setFailures((current) => without(current, gone));
-      if (focused.current && !focused.current.isConnected) heading.current?.focus();
+      if (
+        [activeBefore.current, focused.current].some((element) => element && !element.isConnected)
+      )
+        heading.current?.focus();
     }
     shown.current = selected?.id ?? null;
   }, [selected, selectedId]);
@@ -282,7 +320,9 @@ export function Inbox({
     setErrors((current) => ({ ...current, [threadId]: Object.fromEntries(entries) }));
     const others = entries.filter(([key]) => key !== "body").map(([, message]) => message);
     if (server || others.length)
-      announce([...(server ? [text.invalidNotice(thread.sender)] : []), ...others].join(" "));
+      announce(
+        [...(server ? [text.invalidNotice(thread.sender, found)] : []), ...others].join(" "),
+      );
     if (currentId.current === threadId) focusTarget.current = found.body ? "input" : "submit";
     return true;
   }
@@ -330,7 +370,8 @@ export function Inbox({
   return (
     <Container
       ref={root}
-      as="main"
+      // Container types `as` per element; main and div share every prop used here.
+      as={(landmark ? "main" : "div") as "main"}
       size="full"
       gutter={false}
       className="inbox-flow"
@@ -342,16 +383,22 @@ export function Inbox({
         if (event.target.getClientRects().length) focused.current = null;
       }}
     >
-      <PageHeader
-        title={text.title}
-        description={text.description}
-        meta={
-          <Text size="sm" tone="muted">
-            {text.meta}
-          </Text>
-        }
-      />
-      <div className="inbox-layout" data-selected={selectedId !== null}>
+      {header ? (
+        <PageHeader
+          title={text.title}
+          description={text.description}
+          meta={
+            <Text size="sm" tone="muted">
+              {text.meta}
+            </Text>
+          }
+        />
+      ) : null}
+      <div
+        className="inbox-layout"
+        data-selected={selectedId !== null}
+        aria-busy={loading || undefined}
+      >
         <Panel className="inbox-list" tone="quiet" aria-labelledby={`${id}-inbox`}>
           <Panel.Header>
             <Heading id={`${id}-inbox`} level={2} size="md">
@@ -368,9 +415,11 @@ export function Inbox({
                 onChange={(event) => setQuery(event.target.value)}
               />
               <Text size="sm" tone="muted" aria-live="polite">
-                {text.count(filtered.length, threads.length)}
+                {loading && !threads.length
+                  ? text.loading
+                  : text.count(filtered.length, threads.length)}
               </Text>
-              {filtered.length ? (
+              {loading && !threads.length ? null : filtered.length ? (
                 <ul className="inbox-rows" aria-label={text.list}>
                   {filtered.map((thread) => (
                     <li key={thread.id}>
@@ -416,7 +465,13 @@ export function Inbox({
           </Panel.Body>
         </Panel>
         <div className="inbox-workspace">
-          {selectedId !== null ? (
+          {selectedId !== null && loading && !selected ? (
+            <Panel className="inbox-placeholder" tone="quiet">
+              <Panel.Body>
+                <Text tone="muted">{text.loading}</Text>
+              </Panel.Body>
+            </Panel>
+          ) : selectedId !== null ? (
             <Grid layout="stack">
               <Inline justify="between">
                 <Button variant="secondary" onClick={() => navigate(null)}>
@@ -455,11 +510,11 @@ export function Inbox({
                         {replies.map((reply, index) => (
                           <article
                             key={reply.id}
-                            aria-label={text.sentReply(index + 1)}
+                            aria-label={text.sentReply(index + 1, reply.author)}
                             className="inbox-sent"
                           >
                             <Heading level={3} size="sm">
-                              {text.sentHeading}
+                              {reply.author ?? text.sentHeading}
                             </Heading>
                             <p>{reply.body}</p>
                           </article>
@@ -534,9 +589,11 @@ export function Inbox({
                                   {text.discard}
                                 </Button>
                               </Inline>
-                              <Text size="sm" tone="muted">
-                                {text.sessionNote}
-                              </Text>
+                              {text.sessionNote ? (
+                                <Text size="sm" tone="muted">
+                                  {text.sessionNote}
+                                </Text>
+                              ) : null}
                             </Grid>
                           </form>
                         )}

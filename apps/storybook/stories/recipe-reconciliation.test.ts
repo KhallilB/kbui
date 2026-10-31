@@ -25,6 +25,10 @@ const preservedRecipes = [
       "recipes-inbox--echo-after-failed-commit-keeps-draft",
       "recipes-inbox--unrendered-field-error-focuses-submit",
       "recipes-inbox--copy-replaces-strings",
+      "recipes-inbox--saved-replies",
+      "recipes-inbox--form-error-is-not-needs-changes",
+      "recipes-inbox--loading-threads",
+      "recipes-inbox--inside-app-shell",
     ],
     files: [
       "apps/storybook/recipes/Inbox.tsx",
@@ -53,6 +57,9 @@ const preservedRecipes = [
       "recipes-listdetail--echo-after-failed-commit-keeps-draft",
       "recipes-listdetail--unrendered-field-error-focuses-submit",
       "recipes-listdetail--copy-replaces-strings",
+      "recipes-listdetail--form-error-is-not-needs-changes",
+      "recipes-listdetail--loading-requests",
+      "recipes-listdetail--inside-app-shell",
     ],
     files: [
       "apps/storybook/recipes/ListDetail.tsx",

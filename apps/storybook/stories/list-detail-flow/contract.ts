@@ -71,6 +71,9 @@ export type FlowFixture = {
     commit?: Commit | undefined;
     records?: readonly unknown[] | undefined;
     router?: MemoryRouter | undefined;
+    loading?: boolean | undefined;
+    /** Inside an app shell: no main landmark or page heading. */
+    embedded?: boolean | undefined;
   }) => ReactElement;
   policy: RecipePolicy;
   /** Accessible name of the context aside. */
@@ -82,6 +85,8 @@ export type FlowFixture = {
   /** Matches `second` but not `first`. */
   query: string;
   missingHeading: string;
+  /** Heading of the list when there are no records. */
+  emptyHeading: string;
   names: { search: string; back: string; clear: string };
   draft: {
     begin: RegExp;
@@ -93,6 +98,8 @@ export type FlowFixture = {
     invalid: string;
     /** Visible text of a failed commit. */
     failed: string;
+    /** Matches the announcement that a field needs changes. */
+    needsChanges: RegExp;
   };
   /** One complete successful commit on the open record. */
   commitOnce: (canvas: Canvas, user: User) => Promise<void>;
@@ -137,6 +144,9 @@ export type Check = {
   harness?: boolean;
   /** Pass a fresh `MemoryRouter`, empty, as the recipe's router. */
   router?: boolean;
+  /** Start the harness loading; implies `harness`. */
+  loading?: boolean;
+  embedded?: boolean;
   check: (context: Context) => Promise<void>;
 };
 
@@ -419,9 +429,7 @@ const definitions = {
       await user.click(canvas.getByRole("button", { name: fixture.draft.submit }));
       await expect(canvas.getByRole("button", { name: pendingSubmit })).toBeDisabled();
       try {
-        const active = document.activeElement;
-        expect(active, "focus left the flow").not.toBe(document.body);
-        expect(active).not.toBeDisabled();
+        await expect(heading(canvas, fixture.first)).toHaveFocus();
       } finally {
         commit.settle("ok");
       }
@@ -585,6 +593,17 @@ const definitions = {
 
       await user.click(canvas.getByRole("button", { name: fixture.draft.begin }));
       await user.type(canvas.getByRole("textbox", { name: fixture.draft.field }), " removed");
+      // A window without system focus fires no focus events; refocus must not need them.
+      canvas.getByRole("searchbox", { name: fixture.names.search }).focus();
+      const silence = (event: Event) => event.stopImmediatePropagation();
+      for (const type of ["focusin", "focusout", "focus", "blur"])
+        window.addEventListener(type, silence, true);
+      try {
+        canvas.getByRole("textbox", { name: fixture.draft.field }).focus();
+      } finally {
+        for (const type of ["focusin", "focusout", "focus", "blur"])
+          window.removeEventListener(type, silence, true);
+      }
       const restore = records;
       await deliver(live.remove(records, fixture.first.id));
       await waitFor(() =>
@@ -614,6 +633,51 @@ const definitions = {
       await expect(heading(canvas, fixture.second)).toHaveFocus();
       expect(router.writes, "reselecting the open id writes").toEqual([fixture.first.id, null]);
       expect(window.location.search).toBe(search);
+    },
+  },
+  loading: {
+    loading: true,
+    search: (fixture) => `?${fixture.param}=${fixture.first.id}`,
+    check: async ({ fixture, canvas }) => {
+      await frames();
+      expect(canvas.queryByRole("heading", { name: fixture.missingHeading })).toBeNull();
+      expect(canvas.queryByRole("heading", { name: fixture.emptyHeading })).toBeNull();
+      controls.setRecords(fixture.live.records);
+      controls.setLoading(false);
+      await waitFor(() => expect(heading(canvas, fixture.first)).toHaveFocus());
+    },
+  },
+  "form-error": {
+    deferredCommit: true,
+    check: async ({ fixture, root, canvas, user, commit }) => {
+      const refusal = "Viewers can't edit this.";
+      await open(canvas, user, fixture.first);
+      await user.click(canvas.getByRole("button", { name: fixture.draft.begin }));
+      const field = canvas.getByRole("textbox", { name: fixture.draft.field });
+      await user.clear(field);
+      await user.type(field, "Refused");
+      await user.click(canvas.getByRole("button", { name: fixture.draft.submit }));
+      commit.settle({ errors: { form: refusal } });
+      await waitFor(() =>
+        expect(canvas.getByRole("button", { name: fixture.draft.submit })).toHaveFocus(),
+      );
+      expect(
+        canvas.getAllByText(refusal).some((element: HTMLElement) => element.checkVisibility()),
+      ).toBe(true);
+      await expect(canvas.getByRole("textbox", { name: fixture.draft.field })).toHaveValue(
+        "Refused",
+      );
+      const status = fixture.status(root).textContent ?? "";
+      expect(status).toContain(refusal);
+      expect(status).not.toMatch(fixture.draft.needsChanges);
+    },
+  },
+  embedded: {
+    embedded: true,
+    check: async ({ fixture, root, canvas, user }) => {
+      expect(root.querySelector("main"), "nested main landmark").toBeNull();
+      expect(canvas.queryByRole("heading", { level: 1 }), "second page heading").toBeNull();
+      await open(canvas, user, fixture.first);
     },
   },
 } satisfies Record<RuleId, Check>;
@@ -660,11 +724,14 @@ export function flow(fixture: FlowFixture) {
           initialId: rule.initialId,
           commit: rule.deferredCommit ? commit : undefined,
           router: rule.router ? router : undefined,
+          embedded: rule.embedded,
         };
-        if (!rule.harness) return fixture.render(options);
+        if (!rule.harness && !rule.loading) return fixture.render(options);
         return createElement(Harness, {
-          records: fixture.live.records,
-          render: (records) => fixture.render({ ...options, records }),
+          // A loading recipe has not received its records yet.
+          records: rule.loading ? [] : fixture.live.records,
+          loading: rule.loading ?? false,
+          render: (records, loading) => fixture.render({ ...options, records, loading }),
         });
       },
       beforeEach: () => {

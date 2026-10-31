@@ -146,15 +146,17 @@ The [flow contract stories](../../apps/storybook/stories/list-detail-flow/ListDe
 - The selection parameter follows the open record and keeps other parameters
 - An empty selection parameter shows the list, not an unavailable record
 - A resize that leaves the focused field visible keeps its focus and draft
-- The context aside shows on first open exactly when the policy says open
+- The context aside shows on the session's first open exactly when the policy says open; its toggle then holds for the session
 - Navigation goes only through the router seam: one write per change, none for the open id, and the URL is untouched
+- Embedded in an app shell, the recipe adds no main landmark or page heading
 
 ### Editing and commits
 
 - Drafts stay with their record across navigation; discard restores the original
-- An invalid commit keeps the value, focuses the field and describes the error
+- An invalid commit keeps the value; an error on a rendered field focuses and describes that field
 - A repeated identical outcome is announced again
 - A validation error describes the field and makes no commit; a commit failure shows visibly and never in the field's description
+- A commit error no field owns keeps the draft, shows beside the submit control and focuses it, and is not announced as needing changes
 
 ### Lists
 
@@ -165,12 +167,13 @@ The [flow contract stories](../../apps/storybook/stories/list-detail-flow/ListDe
 ### Pending commits
 
 - A commit settling after navigation sends once and leaves focus where the user is
-- Focus stays on an enabled control while a commit is pending
+- While a commit is pending, focus moves to the record heading and never rests on a disabled control
 - Unmounting while a commit is pending causes no error, and a remount shows no stale pending state
 
 ### Live data
 
 - Records that change after mount are matched by id: the open record and drafts survive, a server echo shows once, and removing the open record shows it unavailable
+- While records load, a deep link shows neither an unavailable record nor an empty list, then focuses the record once it arrives
 
 <!-- /generated -->
 
