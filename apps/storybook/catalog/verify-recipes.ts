@@ -151,7 +151,7 @@ try {
   }
   await page.close();
   console.log(
-    `Recipes verified: ${checks} theme/viewport and Storybook contexts; refresh, history, unknown and retired URLs and draft-preserving theme changes.`,
+    `Recipes verified: ${checks} theme/viewport and Storybook contexts; refresh, history, unknown URLs, maintained composition URLs and draft-preserving theme changes.`,
   );
 } catch (error) {
   if (currentPage && !currentPage.isClosed()) {
