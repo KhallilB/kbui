@@ -36,10 +36,7 @@ const fixture: FlowFixture = {
   },
   status: (root) => root.querySelector<HTMLElement>('[role="status"].kb-sr-only') ?? root,
   async: { pendingSubmit: "Sending reply…" },
-  gaps: {
-    "pending-focus": "Disabling the focused submit drops focus to the body",
-    "empty-selection": "`?message=` reads as a selection",
-  },
+  gaps: {},
 };
 
 const { story, complete } = flow(fixture);
