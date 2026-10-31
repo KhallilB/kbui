@@ -44,7 +44,7 @@ CI runs **Check: code** on every PR, with separate named steps for package build
 
 The **Gate: validation** check waits for all four jobs and fails if any job fails, is cancelled, or is unexpectedly skipped. Preview publishing still waits for that gate. Each job builds its own packages on a standard `ubuntu-latest` runner; the split adds no artifact uploads or shared browser caches. Linux browser jobs reuse the image's installed browsers and system dependencies. Keep the exact Playwright package version and all workflow image tags aligned.
 
-Run one stage locally with `bun run validate:site stories`, `themes`, `responsive`, or `built`, after `bun run build`. Run `bun run validate:site` for the complete sequence used by production validation. Built validation prints named log groups and cleans its temporary servers and QA output on success or failure.
+Run one stage locally with `bun run validate:site stories`, `themes`, `responsive`, or `built`, after `bun run build`. Run `bun run validate:site` for the complete sequence locally. Production validation runs these four stages in parallel: the artifact job runs static checks and the built stage, while the browser matrix runs stories, themes and layouts. Deployment waits for every stage to pass. Built validation prints named log groups and cleans its temporary servers and QA output on success or failure.
 
 Container jobs use the image's Node/npm runtime to install the Bun version pinned in `packageManager`; no archive utilities are needed. Before dependency installation, they trust the exact checkout path so Git and Lefthook accept the mounted runner-owned workspace.
 
