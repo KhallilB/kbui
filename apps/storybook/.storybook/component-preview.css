@@ -52,7 +52,7 @@
 
 .component-preview[data-component="menu"] > .component-preview-content {
   /* Center trigger plus popup footprint; keep room below anchor. */
-  padding-block-end: 160px;
+  padding-block-end: var(--component-preview-menu-space, 160px);
 }
 
 .component-preview[data-layout="layout"] {

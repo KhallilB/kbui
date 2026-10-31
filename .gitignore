@@ -15,3 +15,7 @@ coverage/
 [Cc][Ll][Aa][Uu][Dd][Ee].[Mm][Dd]
 CLAUDE.local.md
 /.internal/
+
+# Playwright Test outputs.
+.playwright/
+playwright-report/

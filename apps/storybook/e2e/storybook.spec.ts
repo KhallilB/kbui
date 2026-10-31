@@ -1,11 +1,10 @@
 import assert from "node:assert/strict";
-import { chromium } from "playwright";
+import { test } from "playwright/test";
+import { storybookURL as origin } from "./urls.ts";
 
-const origin = process.env.STORYBOOK_URL ?? "http://127.0.0.1:4174/storybook";
-const browser = await chromium.launch({ headless: true });
-try {
-  const page = await browser.newPage({ colorScheme: "dark", reducedMotion: "reduce" });
-  page.setDefaultTimeout(30_000);
+test.use({ colorScheme: "dark", reducedMotion: "reduce" });
+test("curated navigation and synchronized themes", async ({ page }) => {
+  test.setTimeout(120_000);
   const docs = page.frameLocator("#storybook-preview-iframe");
   const checkTheme = async (theme: "light" | "dark") => {
     console.log(`Checking ${theme}: ${page.url()}`);
@@ -71,6 +70,4 @@ try {
   console.log(
     "Storybook verified: curated navigation, live QA links, matching docs/chrome, explicit and system theme changes.",
   );
-} finally {
-  await browser.close();
-}
+});

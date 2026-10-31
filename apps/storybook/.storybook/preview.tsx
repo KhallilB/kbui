@@ -1,7 +1,7 @@
 import type { Preview } from "@storybook/react-vite";
 import "../site/layers.css";
 import "@kb.ui/css/styles.css";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { previewKind } from "../site/catalog-model";
 import { readThemePreference, type ThemePreference } from "../site/site-theme";
 import { ReferenceDocs, ReferencePage, useReferenceTheme } from "./docs";
@@ -64,7 +64,7 @@ const preview: Preview = {
   },
   initialGlobals: { theme: readThemePreference(), previewTheme: "story" },
   decorators: [
-    (Story, { globals, title, viewMode }) => {
+    (Story, { globals, parameters, title, viewMode }) => {
       // Root scope includes portaled menus, hints and dialogs.
       const theme =
         globals.previewTheme === "light" || globals.previewTheme === "dark"
@@ -86,7 +86,16 @@ const preview: Preview = {
               data-layout={layout}
               data-viewport={viewMode === "story" || undefined}
             >
-              <div className="component-preview-content">
+              <div
+                className="component-preview-content"
+                style={
+                  typeof parameters.kbuiPreview?.menuSpace === "number"
+                    ? ({
+                        "--component-preview-menu-space": `${parameters.kbuiPreview.menuSpace}px`,
+                      } as CSSProperties)
+                    : undefined
+                }
+              >
                 <ComponentCodePreview>
                   <Story />
                 </ComponentCodePreview>
