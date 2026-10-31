@@ -263,7 +263,7 @@ Run `bun run --cwd apps/storybook verify:recipes` against the combined static pr
 
 ### Preserved request and correspondence recipes
 
-Inbox and ListDetail share the recipe registry, canonical guide, exact copyable files and existing public story IDs with PageHeader and FormSection. Their drafts, history, context, save/reply recovery and resize focus checks remain in their existing stories. Component and recipe names can overlap; their separate documentation IDs preserve import versus copy ownership. These additions are implemented locally and pending publication.
+Inbox and ListDetail share the recipe registry, canonical guides, exact copyable files and existing public story IDs. The PageHeader and FormSection recipes are retired in favour of their package components: `/recipes/?recipe=pageheader` and `?recipe=formsection` redirect to those component pages and keep the hash. Their drafts, history, context, save/reply recovery and resize focus checks remain in their existing stories. Component and recipe names can overlap; their separate documentation IDs preserve import versus copy ownership. These additions are implemented locally and pending publication.
 
 ### Complete styling copies
 
@@ -291,6 +291,6 @@ Run `bun run --cwd apps/storybook verify:adoption` for the full adoption table, 
 
 An adopted row requires a real public JSX binding in the named source and a resolving story with a play check, either in that module or directly importing it. Aliases count; type-only imports, unused imports, comments, source strings and shadowed bindings do not. These source contracts cannot prove that every runtime branch renders, that every assertion covers the named component, or that a complete page is accessible. Inspect the authored purpose and run the mapped browser stories when changing a composition. Site QA stories require `dev:internal` or the test runner; their proof IDs are not links into the public Storybook build.
 
-Pending rows are work still to do, even when a component already has rich standalone stories. Inbox's native textarea does not count as package Textarea adoption; replacing it belongs to later composition work and must preserve all four recipe workflows. PageHeader's RecordDetail recipe story does compose package Toolbar with explicit keyboard assertions, so it counts. Callout/Stat modules without connected proof stories remain pending. Existing component demonstrations alone do not close those gaps.
+Pending rows are work still to do, even when a component already has rich standalone stories. Inbox's native textarea does not count as package Textarea adoption; replacing it belongs to later composition work and must preserve all four recipe workflows. Toolbar is pending again because its only composition was the retired PageHeader recipe. Callout/Stat modules without connected proof stories remain pending. Existing component demonstrations alone do not close those gaps.
 
 `stories/adoption-source.test.ts` runs in `bun run check` and rejects missing/obsolete coverage, stale source/story references, unrelated proof modules, removed play checks and import-only evidence. Keep this map current as compositions change; the report is generated from it, with no second hand-maintained inventory.
