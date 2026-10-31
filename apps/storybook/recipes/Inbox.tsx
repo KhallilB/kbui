@@ -1,5 +1,5 @@
 // x-release-please-start-version
-// kbui recipe Inbox · from kbui 0.11.0 · https://kbui.kcb.pro/recipes/?recipe=inbox
+// kbui recipe Inbox · from kbui 0.12.0 · https://kbui.kcb.pro/recipes/?recipe=inbox
 // x-release-please-end
 import {
   Button,
