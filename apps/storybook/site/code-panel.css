@@ -1,13 +1,13 @@
 .kbui-site {
   .example-code {
-    --syntax-keyword: light-dark(#7c3c9b, #c9a1ed);
-    --syntax-string: light-dark(#286344, #a7d7b4);
-    --syntax-comment: light-dark(#657181, #929eaf);
-    --syntax-number: light-dark(#925018, #e9bc85);
-    --syntax-tag: light-dark(#215d8b, #8cc8f0);
-    --syntax-attribute: light-dark(#79502b, #dfbc90);
-    --syntax-type: light-dark(#81528c, #d4b0e3);
-    --syntax-function: light-dark(#136a70, #89d0cd);
+    --kb-code-syntax-keyword: light-dark(#7c3c9b, #c9a1ed);
+    --kb-code-syntax-string: light-dark(#286344, #a7d7b4);
+    --kb-code-syntax-comment: light-dark(#657181, #929eaf);
+    --kb-code-syntax-number: light-dark(#925018, #e9bc85);
+    --kb-code-syntax-tag: light-dark(#215d8b, #8cc8f0);
+    --kb-code-syntax-attribute: light-dark(#79502b, #dfbc90);
+    --kb-code-syntax-type: light-dark(#81528c, #d4b0e3);
+    --kb-code-syntax-function: light-dark(#136a70, #89d0cd);
     min-width: 0;
     margin-top: 16px;
     border: 1px solid var(--kb-color-border);
@@ -47,11 +47,37 @@
   }
   .example-code-content {
     --code-max-height: min(440px, 60svh);
+    height: var(--example-code-height, auto);
     max-height: var(--code-max-height);
     overflow: auto;
     overscroll-behavior: contain;
+    scrollbar-gutter: auto;
+    box-shadow: none;
+    transition: none;
   }
-  .example-code-content:not([hidden]) {
+  .example-code-renderer {
+    --kb-code-block-font-size: 13px;
+    --kb-code-block-leading: 1.75;
+    --kb-code-line-padding-inline: 0px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  /* Outer bar owns captions/actions; block title names the source viewport. */
+  .example-code-inner-caption {
+    display: none;
+  }
+  .example-code-pre {
+    inline-size: auto;
+    min-inline-size: 0;
+  }
+  .example-code-line-text {
+    min-inline-size: 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  .example-code-body:not([hidden]) .example-code-content {
     animation: kbui-code-reveal 160ms ease-out both;
   }
   .example-code-content:focus-visible {
@@ -97,43 +123,8 @@
       padding: 14px;
     }
   }
-  .example-code code {
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    background: transparent;
-    color: inherit;
-    font: 13px / 1.75 var(--kb-font-mono);
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-    box-decoration-break: slice;
-  }
-  .example-code [data-syntax="keyword"] {
-    color: var(--syntax-keyword);
-  }
-  .example-code [data-syntax="string"] {
-    color: var(--syntax-string);
-  }
-  .example-code [data-syntax="comment"] {
-    color: var(--syntax-comment);
-  }
-  .example-code [data-syntax="number"] {
-    color: var(--syntax-number);
-  }
-  .example-code [data-syntax="tag"] {
-    color: var(--syntax-tag);
-  }
-  .example-code [data-syntax="attribute"] {
-    color: var(--syntax-attribute);
-  }
-  .example-code [data-syntax="type"] {
-    color: var(--syntax-type);
-  }
-  .example-code [data-syntax="function"] {
-    color: var(--syntax-function);
-  }
   @media (prefers-reduced-motion: reduce) {
-    .example-code-content:not([hidden]) {
+    .example-code-body:not([hidden]) .example-code-content {
       animation: none;
     }
     .example-code-chevron {
