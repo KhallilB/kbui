@@ -1,6 +1,6 @@
 # Components and recipes
 
-Import a component when you want a package API. Copy a recipe when you want code to adapt to your app. Examples show those pieces working together.
+Import a component when you want a package API. Copy a recipe when you want code to adapt to your app. The workspace demo shows those pieces working together.
 
 ## What each part provides
 
@@ -9,7 +9,7 @@ Import a component when you want a package API. Copy a recipe when you want code
 | Tokens, themes, styling or setup | Foundations and guides |
 | A supported API to import from `@kb.ui/react` | Components |
 | Source code you can copy and change | Recipes |
-| A working demo to explore | Examples |
+| A working demo to explore | The workspace demo |
 
 Layout is a component category. A component can use other components; size alone does not make it a recipe. What matters is whether you import a maintained package API or copy code into your app.
 
@@ -70,9 +70,9 @@ Consider a package component when several real apps need the same behavior or la
 
 When a package component covers a recipe's whole job, the recipe retires. Its page sends you to the component, and copies already in apps keep working.
 
-## Explore an example
+## Try the workspace demo
 
-Try the demo and inspect its source. Follow links to the components and recipes it uses. Sample content, artwork and demo actions belong to the example; they do not add package features.
+The workspace demo runs settings and a job queue in one app built from kbui components. Try it to see how the pieces behave together. Its sample content and demo actions belong to the demo; they do not add package features.
 
 ## Contribute without duplicating content
 
