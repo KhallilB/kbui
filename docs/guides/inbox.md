@@ -11,6 +11,7 @@ Put these files in the same folder:
 <!-- generated:files -->
 
 - [`Inbox.tsx`](../../apps/storybook/recipes/Inbox.tsx)
+- [`flow-router.ts`](../../apps/storybook/recipes/flow-router.ts)
 - [`inbox.css`](../../apps/storybook/recipes/inbox.css)
 
 <!-- /generated -->
@@ -141,12 +142,14 @@ The [flow contract stories](../../apps/storybook/stories/list-detail-flow/Inbox.
 - An empty selection parameter shows the list, not an unavailable record
 - A resize that leaves the focused field visible keeps its focus and draft
 - The context aside shows on first open exactly when the policy says open
+- Navigation goes only through the router seam: one write per change, none for the open id, and the URL is untouched
 
 ### Editing and commits
 
 - Drafts stay with their record across navigation; discard restores the original
 - An invalid commit keeps the value, focuses the field and describes the error
 - A repeated identical outcome is announced again
+- A validation error describes the field and makes no commit; a commit failure shows visibly and never in the field's description
 
 ### Lists
 
@@ -160,11 +163,9 @@ The [flow contract stories](../../apps/storybook/stories/list-detail-flow/Inbox.
 - Focus stays on an enabled control while a commit is pending
 - Unmounting while a commit is pending causes no error, and a remount shows no stale pending state
 
-### Not met yet
+### Live data
 
-- **A validation error describes the field and makes no commit; a commit failure shows visibly and never in the field's description.** Shows a failed send as the reply field's error description.
-- **Records that change after mount are matched by id: the open record and drafts survive, a server echo shows once, and removing the open record shows it unavailable.** Keeps sent replies beside the thread, so a server echo shows them twice.
-- **Navigation goes only through the router seam: one write per change, none for the open id, and the URL is untouched.** Reads and pushes the URL directly; takes no router.
+- Records that change after mount are matched by id: the open record and drafts survive, a server echo shows once, and removing the open record shows it unavailable
 
 <!-- /generated -->
 

@@ -158,6 +158,8 @@ test("keeps installation entry points registered with the release updater", asyn
   expect(paths.sort()).toEqual([
     "README.md",
     "apps/storybook/docs/Introduction.mdx",
+    "apps/storybook/recipes/Inbox.tsx",
+    "apps/storybook/recipes/ListDetail.tsx",
     "docs/guides/using-kbui.md",
   ]);
 });
