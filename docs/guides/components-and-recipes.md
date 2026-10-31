@@ -76,7 +76,7 @@ As of 2026-10-30, PageHeader and FormSection remain maintained, copyable composi
 
 These two established compositions are exceptions to the new-recipe flow requirement. Use the same-name package components for a maintained import API; use these recipes when you need source to adapt. The recipe guides explain that ownership difference. Keeping both means maintaining two documented surfaces and checking their stories and styles. It does not create a package compatibility promise for copies in other apps.
 
-New recipes still follow the complete-task and shared-flow rules. Recipes import package exports rather than one another; Inbox uses the packaged PageHeader. All recipe stylesheets follow the anatomy and token guards. Any future retirement of these compositions must explicitly reconcile their URLs, public stories and copyable source with the preservation decision.
+New recipes still follow the complete-task and shared-flow rules. Recipes import package exports rather than one another; Inbox uses the packaged PageHeader. All recipe stylesheets follow the anatomy and token guards. Shared `recipes.css` uses its registered PageHeader/FormSection owner prefixes. Flow stylesheets retain their filename prefix and five shared region parts. Any future retirement of these compositions must explicitly reconcile their URLs, public stories and copyable source with the preservation decision.
 
 ## Try the workspace demo
 
