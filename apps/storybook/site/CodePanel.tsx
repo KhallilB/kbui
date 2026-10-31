@@ -176,6 +176,8 @@ export function CodePanel({
             header: "example-code-inner-caption",
             viewport: "example-code-content",
             pre: "example-code-pre",
+            content: "example-code-text",
+            line: "example-code-line",
             lineText: "example-code-line-text",
           }}
           data-testid={testId}

@@ -152,6 +152,7 @@ export const LanguagesAndClipboard: Story = {
           const source = view.getByRole("region", { name: `${fixture.name} source` });
           expect(source.closest(".kb-codeblock[data-block]")).not.toBeNull();
           expect(source.querySelector("code")?.textContent).toBe(fixture.source);
+          expect(source.querySelector("code")?.innerText).toBe(fixture.source);
           const comments = [...source.querySelectorAll('[data-syntax="comment"]')]
             .map((node) => node.textContent)
             .join("")

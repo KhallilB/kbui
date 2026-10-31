@@ -73,9 +73,18 @@
     min-inline-size: 0;
   }
   .example-code-line-text {
+    display: inline;
     min-inline-size: 0;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
+  }
+  /* Keep literal newlines in rendered selection text. */
+  .example-code-text {
+    display: block;
+    white-space: pre-wrap;
+  }
+  .example-code-line {
+    display: inline;
   }
   .example-code-body:not([hidden]) .example-code-content {
     animation: kbui-code-reveal 160ms ease-out both;
