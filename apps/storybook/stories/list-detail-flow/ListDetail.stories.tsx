@@ -64,7 +64,7 @@ const fixture: FlowFixture = {
     await user.click(canvas.getByRole("button", { name: "Save changes" }));
     await waitFor(() => expect(canvas.getByRole("button", { name: "Edit request" })).toHaveFocus());
   },
-  status: (root) => root.querySelector<HTMLElement>(".request-flow-notice") ?? root,
+  status: (root) => root.querySelector<HTMLElement>(".list-detail-notice") ?? root,
   async: flowFacts.ListDetail.async ? { pendingSubmit: "Saving changes…" } : undefined,
   live: {
     records,

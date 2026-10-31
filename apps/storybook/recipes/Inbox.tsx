@@ -351,7 +351,7 @@ export function Inbox({
         }
       />
       <div className="inbox-layout" data-selected={selectedId !== null}>
-        <Panel className="inbox-index" tone="quiet" aria-labelledby={`${id}-inbox`}>
+        <Panel className="inbox-list" tone="quiet" aria-labelledby={`${id}-inbox`}>
           <Panel.Header>
             <Heading id={`${id}-inbox`} level={2} size="md">
               {text.inbox} <span className="inbox-count">{threads.length}</span>
@@ -433,7 +433,7 @@ export function Inbox({
                 ) : null}
               </Inline>
               <Split ratio="wide-start" collapse="md" align="start">
-                <Panel className="inbox-letter" aria-labelledby={`${id}-subject`}>
+                <Panel className="inbox-detail" aria-labelledby={`${id}-subject`}>
                   <Panel.Header>
                     <Text size="sm" tone="muted">
                       {selected ? `${selected.sender} · ${selected.date}` : text.unavailableMeta}
@@ -477,6 +477,7 @@ export function Inbox({
                           </div>
                         ) : (
                           <form
+                            className="inbox-composer"
                             noValidate
                             aria-label={text.form}
                             onSubmit={(event) => {
@@ -549,7 +550,7 @@ export function Inbox({
                   )}
                 </Panel>
                 {selected && showSender ? (
-                  <aside id={`${id}-sender`} aria-label={text.sender}>
+                  <aside className="inbox-context" id={`${id}-sender`} aria-label={text.sender}>
                     <Panel tone="quiet">
                       <Panel.Header>
                         <Heading level={2} size="md">
