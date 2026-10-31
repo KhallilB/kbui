@@ -32,7 +32,7 @@ export function Harness({
   const [mounted, setMounted] = useState(true);
   const [generation, setGeneration] = useState(0);
   useEffect(() => {
-    bound = {
+    const mine: HarnessControls = {
       setRecords: setLive,
       unmount: () => setMounted(false),
       remount: () => {
@@ -40,8 +40,10 @@ export function Harness({
         setGeneration((value) => value + 1);
       },
     };
+    bound = mine;
     return () => {
-      bound = null;
+      // An overlapping harness may have bound since; keep its controls.
+      if (bound === mine) bound = null;
     };
   }, []);
   return <Fragment key={generation}>{mounted ? render(live) : null}</Fragment>;

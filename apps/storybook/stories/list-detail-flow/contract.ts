@@ -468,7 +468,11 @@ const definitions = {
       await user.click(canvas.getByRole("button", { name: fixture.draft.submit }));
       send.settle(false);
       await waitFor(() =>
-        expect(canvas.getByText(fixture.draft.failed).checkVisibility()).toBe(true),
+        expect(
+          canvas
+            .getAllByText(fixture.draft.failed)
+            .some((element: HTMLElement) => element.checkVisibility()),
+        ).toBe(true),
       );
       const description = accessibleDescription(field);
       expect(description).not.toContain(fixture.draft.failed);
@@ -480,12 +484,16 @@ const definitions = {
     harness: true,
     check: async ({ fixture, canvas, user, send }) => {
       const pendingSubmit = pending(fixture);
-      const errors: unknown[][] = [];
+      const errors: unknown[] = [];
       const original = console.error;
       console.error = (...args: unknown[]) => {
         errors.push(args);
         original(...args);
       };
+      const record = (event: ErrorEvent | PromiseRejectionEvent) =>
+        errors.push("reason" in event ? event.reason : event.error);
+      window.addEventListener("error", record);
+      window.addEventListener("unhandledrejection", record);
       try {
         await open(canvas, user, fixture.first);
         await user.click(canvas.getByRole("button", { name: fixture.draft.begin }));
@@ -504,6 +512,8 @@ const definitions = {
         expect(errors).toEqual([]);
       } finally {
         console.error = original;
+        window.removeEventListener("error", record);
+        window.removeEventListener("unhandledrejection", record);
       }
     },
   },
@@ -550,6 +560,7 @@ const definitions = {
   },
   "routing-boundary": {
     router: true,
+    width: 1280,
     check: async ({ fixture, canvas, user, router }) => {
       const search = window.location.search;
       await open(canvas, user, fixture.first);
@@ -562,6 +573,9 @@ const definitions = {
       await frames();
       expect(router.writes).toEqual([fixture.first.id, null]);
       await expect(heading(canvas, fixture.second)).toHaveFocus();
+      await user.click(canvas.getByRole("button", { name: fixture.second.row }));
+      await expect(heading(canvas, fixture.second)).toHaveFocus();
+      expect(router.writes, "reselecting the open id writes").toEqual([fixture.first.id, null]);
       expect(window.location.search).toBe(search);
     },
   },
@@ -601,7 +615,7 @@ export function flow(fixture: FlowFixture) {
     if (!applicable.includes(id)) throw new Error(`"${id}" does not apply to ${fixture.recipe}`);
     if (covered.has(id)) throw new Error(`${fixture.recipe} has two "${id}" stories`);
     covered.add(id);
-    const send = deferred();
+    let send = deferred();
     let router = memoryRouter();
     return {
       render: () => {
@@ -617,6 +631,7 @@ export function flow(fixture: FlowFixture) {
         });
       },
       beforeEach: () => {
+        send = deferred();
         router = memoryRouter();
         const original = window.location.href;
         const url = new URL(original);
