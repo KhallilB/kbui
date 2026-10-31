@@ -31,14 +31,19 @@ export async function anatomyRoots(src: string): Promise<string[]> {
 }
 
 // Denylist: palette primitives and raw color literals; other token groups pass.
+export function paletteRefsIn(css: string, file: string): string[] {
+  const hits: string[] = [];
+  for (const m of css.matchAll(VAR)) {
+    if (PALETTE.test(m[1] as string)) hits.push(`${file}: ${m[0]}`);
+  }
+  for (const m of css.matchAll(RAW_COLOR)) hits.push(`${file}: ${m[0]}`);
+  return hits;
+}
+
 export async function paletteRefs(src: string): Promise<string[]> {
   const hits: string[] = [];
   for (const file of [join(src, "reset.css"), ...(await componentFiles(src))]) {
-    const css = await readFile(file, "utf8");
-    for (const m of css.matchAll(VAR)) {
-      if (PALETTE.test(m[1] as string)) hits.push(`${file}: ${m[0]}`);
-    }
-    for (const m of css.matchAll(RAW_COLOR)) hits.push(`${file}: ${m[0]}`);
+    hits.push(...paletteRefsIn(await readFile(file, "utf8"), file));
   }
   return hits;
 }
@@ -53,22 +58,27 @@ const EASING =
   /(?<![\w-])(?:ease(?:-in|-out|-in-out)?|linear|step-start|step-end)(?![\w-])|cubic-bezier\(|steps\(/g;
 const WEIGHT = /^(?:\d{3}|bold|bolder|lighter|normal)$/;
 
+export function rawStyleValuesIn(css: string, file: string): string[] {
+  const hits: string[] = [];
+  for (const [, prop = "", raw = ""] of css.replace(/\/\*[\s\S]*?\*\//g, "").matchAll(DECL)) {
+    if (!SKIN_PROP.test(prop)) continue;
+    const value = raw.replace(/var\([^)]*\)/g, "").trim();
+    const found: string[] = [];
+    for (const [lit, n, unit] of value.matchAll(LENGTH)) {
+      if (Number(n) !== 0 && (unit === "rem" || Number(n) > 2)) found.push(lit);
+    }
+    for (const [lit, n] of value.matchAll(TIME)) if (Number(n) !== 0) found.push(lit);
+    for (const [lit] of value.matchAll(EASING)) found.push(lit.replace("(", ""));
+    if (prop === "font-weight" && WEIGHT.test(value)) found.push(value);
+    for (const lit of found) hits.push(`${file}: ${prop}: ${lit}`);
+  }
+  return hits;
+}
+
 export async function rawStyleValues(src: string): Promise<string[]> {
   const hits: string[] = [];
   for (const file of [join(src, "reset.css"), ...(await componentFiles(src))]) {
-    const css = (await readFile(file, "utf8")).replace(/\/\*[\s\S]*?\*\//g, "");
-    for (const [, prop = "", raw = ""] of css.matchAll(DECL)) {
-      if (!SKIN_PROP.test(prop)) continue;
-      const value = raw.replace(/var\([^)]*\)/g, "").trim();
-      const found: string[] = [];
-      for (const [lit, n, unit] of value.matchAll(LENGTH)) {
-        if (Number(n) !== 0 && (unit === "rem" || Number(n) > 2)) found.push(lit);
-      }
-      for (const [lit, n] of value.matchAll(TIME)) if (Number(n) !== 0) found.push(lit);
-      for (const [lit] of value.matchAll(EASING)) found.push(lit.replace("(", ""));
-      if (prop === "font-weight" && WEIGHT.test(value)) found.push(value);
-      for (const lit of found) hits.push(`${file}: ${prop}: ${lit}`);
-    }
+    hits.push(...rawStyleValuesIn(await readFile(file, "utf8"), file));
   }
   return hits;
 }
