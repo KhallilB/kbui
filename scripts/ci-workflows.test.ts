@@ -56,6 +56,7 @@ test("Linux browser jobs use the image matching the pinned client", () => {
     ["ci", "browser-tests"],
     ["ci", "browser-built"],
     ["deploy-site", "build"],
+    ["deploy-site", "validation"],
     ["release", "assets"],
   ] as const) {
     expect(job(name, key).container?.image).toBe("mcr.microsoft.com/playwright:v1.64.1-noble");
@@ -75,6 +76,7 @@ test("container installs trust only their checkout after tool setup", () => {
     ["ci", "browser-tests"],
     ["ci", "browser-built"],
     ["deploy-site", "build"],
+    ["deploy-site", "validation"],
     ["release", "assets"],
   ] as const) {
     const steps = job(name, key).steps;
@@ -182,6 +184,33 @@ test("deployment workflow runs only on main and excludes Markdown-only pushes", 
   expect(site.on.push.branches).toEqual(["main"]);
   expect(site.on.push.paths).toContain("!**/*.md");
   expect(job("deploy-site", "build").if).toBe("github.ref == 'refs/heads/main'");
+});
+
+test("production browser stages run independently and all gate artifact deployment", () => {
+  const validation = job("deploy-site", "validation");
+  expect(validation.if).toBe("github.ref == 'refs/heads/main'");
+  expect(validation["runs-on"]).toBe("ubuntu-latest");
+  expect(validation.strategy?.["fail-fast"]).toBe(false);
+  expect(validation.strategy?.matrix.include).toEqual([
+    { suite: "stories", name: "Test: stories" },
+    { suite: "themes", name: "Test: themes" },
+    { suite: "responsive", name: "Test: layouts" },
+  ]);
+  expect(validation.steps.map((step) => step.run)).toContain("bun run build");
+  expect(validation.steps.map((step) => step.run)).toContain(
+    `bun run validate:site \${{ matrix.suite }}`,
+  );
+  expect(job("deploy-site", "build").steps.map((step) => step.run)).toContain(
+    "bun run validate:site built",
+  );
+  expect(job("deploy-site", "build").steps.map((step) => step.run)).not.toContain(
+    "bun run validate:site",
+  );
+  const deploy = job("deploy-site", "deploy");
+  expect(deploy.needs).toEqual(["build", "validation"]);
+  expect(deploy.if).toBe("github.ref == 'refs/heads/main' && github.event_name != 'pull_request'");
+  expect(JSON.stringify(validation.steps)).not.toContain("CLOUDFLARE_API_TOKEN");
+  expect(validation.steps.some((step) => step.uses?.includes("upload-artifact"))).toBe(false);
 });
 
 test("deployment paths preserve generated API docs while excluding ordinary prose", () => {

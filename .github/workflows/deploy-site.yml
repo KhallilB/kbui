@@ -51,7 +51,7 @@ jobs:
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - run: bun install --frozen-lockfile
       - run: bun run check
-      - run: bun run validate:site
+      - run: bun run validate:site built
       - uses: actions/upload-artifact@v4
         with:
           name: kbui-site-${{ github.sha }}
@@ -59,10 +59,43 @@ jobs:
           include-hidden-files: true
           retention-days: 14
 
+  validation:
+    name: ${{ matrix.name }}
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - suite: stories
+            name: "Test: stories"
+          - suite: themes
+            name: "Test: themes"
+          - suite: responsive
+            name: "Test: layouts"
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --ipc=host
+    defaults:
+      run:
+        shell: bash
+    env:
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned Bun
+        run: npm install --global "$(node -p "require('./package.json').packageManager")"
+      - name: Trust checkout in container
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - run: bun install --frozen-lockfile
+      - run: bun run build
+      - run: bun run validate:site ${{ matrix.suite }}
+
   deploy:
     name: Deploy production artifact
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    needs: build
+    needs: [build, validation]
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment:
