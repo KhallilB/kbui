@@ -1,4 +1,14 @@
-import { Button, Callout, Card, Checkbox, Input, Status } from "@kb.ui/react";
+import {
+  Button,
+  Callout,
+  Card,
+  Checkbox,
+  ErrorSummary,
+  Fieldset,
+  FormActions,
+  Input,
+  Status,
+} from "@kb.ui/react";
 import { useEffect, useId, useRef, useState } from "react";
 import { ControlSelect } from "./ControlSelect";
 
@@ -58,10 +68,7 @@ export function useSettings(failNext: boolean, consumeFailure: () => void) {
           : {}),
       };
       setErrors(next);
-      if (next.name || next.email) {
-        (form.elements.namedItem(next.name ? "name" : "email") as HTMLElement).focus();
-        return;
-      }
+      if (next.name || next.email) return;
       pending.current = { draft: { ...draft, name: draft.name.trim() }, fail: failNext };
       consumeFailure();
       setPhase("saving");
@@ -78,12 +85,24 @@ export function SettingsScreen({
 }) {
   const id = useId();
   const { draft, update, errors, phase } = model;
+  const summary = useRef<HTMLDivElement>(null);
+  const focusSummary = useRef(false);
+  useEffect(() => {
+    // Only submit requests focus; edits and remounts keep current focus.
+    if (focusSummary.current && (errors.name || errors.email)) summary.current?.focus();
+    focusSummary.current = false;
+  }, [errors]);
+  const errorItems = [
+    ...(errors.name ? [{ href: `#${id}-name`, label: errors.name }] : []),
+    ...(errors.email ? [{ href: `#${id}-email`, label: errors.email }] : []),
+  ];
   return (
     <form
       noValidate
       className="workspace-form"
       onSubmit={(event) => {
         event.preventDefault();
+        focusSummary.current = true;
         model.save(event.currentTarget);
       }}
       aria-label={`${previewName} workspace settings`}
@@ -98,8 +117,18 @@ export function SettingsScreen({
           Active workspace
         </Status>
       </div>
-      <fieldset disabled={phase === "saving"} className="settings-fields">
-        <legend className="kb-sr-only">Workspace preferences</legend>
+      <ErrorSummary
+        ref={summary}
+        title="Review workspace settings"
+        headingLevel={3}
+        items={errorItems}
+      />
+      <Fieldset
+        legend="Workspace preferences"
+        visuallyHidden
+        disabled={phase === "saving"}
+        className="settings-fields"
+      >
         <Card className="settings-card">
           <div className="section-intro">
             <span className="section-number">01</span>
@@ -110,6 +139,7 @@ export function SettingsScreen({
           </div>
           <div className="settings-grid">
             <Input
+              id={`${id}-name`}
               label="Workspace name"
               name="name"
               value={draft.name}
@@ -118,6 +148,7 @@ export function SettingsScreen({
               {...(errors.name ? { error: errors.name } : {})}
             />
             <Input
+              id={`${id}-email`}
               label="Contact email"
               name="email"
               type="email"
@@ -184,7 +215,7 @@ export function SettingsScreen({
           </div>
           <Status tone="neutral">Private</Status>
         </Card>
-      </fieldset>
+      </Fieldset>
       <div aria-live="polite" aria-atomic="true">
         {phase === "saved" && (
           <Callout tone="success" title="All set.">
@@ -197,7 +228,7 @@ export function SettingsScreen({
           </Callout>
         )}
       </div>
-      <div className="form-actions">
+      <FormActions align="between" className="form-actions">
         <span>
           {phase === "saving"
             ? "Saving your preferences…"
@@ -207,6 +238,7 @@ export function SettingsScreen({
         </span>
         <div>
           <Button
+            type="button"
             variant="secondary"
             disabled={!model.dirty || phase === "saving"}
             onClick={model.discard}
@@ -217,7 +249,7 @@ export function SettingsScreen({
             {phase === "saving" ? "Saving…" : "Save changes"}
           </Button>
         </div>
-      </div>
+      </FormActions>
     </form>
   );
 }
