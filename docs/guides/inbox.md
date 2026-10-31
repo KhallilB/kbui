@@ -28,11 +28,16 @@ Render `<Inbox />` in a browser. It reads the current URL; connect it to your ro
 
 | Prop | Use |
 | --- | --- |
-| `initialThreads` | Replace the sample messages. Pass `[]` for an empty inbox. |
-| `initialThreadId` | Open a message on mount when the URL has no `message` parameter or an empty one. |
-| `sendReply` | Optional async function that sends a reply; see below. |
+| `threads` | Current message records; defaults to the sample collection. Pass `[]` for an empty inbox. |
+| `initialThreadId` | Open a message on mount when the router reads `null`. |
+| `router` | Preview application-owned `FlowRouter`; defaults to the `message` URL parameter. |
+| `commit` | Async delivery function receiving the thread ID and a `ReplyDraft`. |
+| `validate` | Validate the trimmed draft and return field errors before delivery. |
+| `copy` | Override visible text and announcements from `inboxCopy`, including the reply-field label. |
 
-Each thread needs a unique `id` and values for `sender`, `address`, `subject`, `date`, `excerpt`, `paragraphs` and `context`. Use `date` for display text and `paragraphs` for an array of message paragraphs. Pass initial data when mounting; remount to replace the collection. Search matches sender, subject and excerpt, ignoring case. Clear search resets it and focuses the search field.
+Each thread needs a unique `id` and values for `sender`, `address`, `subject`, `date`, `excerpt`, `paragraphs` and `context`. Use `date` for display text and `paragraphs` for an array of message paragraphs. Pass updated records through `threads`; matching IDs retain selection and drafts. A new record object replaces that record's local reply overlay, so supply confirmed server data when acknowledging an update. Search matches sender, subject and excerpt, ignoring case. Clear search resets it and focuses the search field.
+
+A custom router implements `read`, `write` and `subscribe` from [`flow-router.ts`](../../apps/storybook/recipes/flow-router.ts). Return `null` for an empty selection and return an unsubscribe function from `subscribe`. Keep the router object stable. This router seam may change before 1.0. With a supplied router, selection uses its methods rather than writing the URL directly.
 
 ## Arrange the panes
 
@@ -76,7 +81,7 @@ Sender details start closed. Show sender details opens a named `<aside>` built w
 
 Each row is a `Button` reached with Tab. Use Tab rather than listbox arrow keys. The current row has `aria-current` and a selection rail; focus has its own ring.
 
-Opening a message adds `message=<id>` to the URL, keeps other parameters and focuses the detail heading. Back to inbox removes the parameter and restores focus to the original row. If that row is missing or filtered out, focus goes to search. Browser Back and Forward use the same rules. Unknown IDs show Message unavailable with a way back; an empty `message=` shows the inbox.
+With the default router, opening a message adds `message=<id>` to the URL, keeps other parameters and focuses the detail heading. Back to inbox removes the parameter and restores focus to the original row. If that row is missing or filtered out, focus goes to search. Browser Back and Forward use the same rules. Unknown IDs show Message unavailable with a way back; with no `initialThreadId`, an empty `message=` shows the inbox.
 
 If resizing hides the focused control, focus moves to the visible heading or search. Visible controls keep focus. Reload restores URL selection and clears local drafts and replies. Inside an embedded preview, selection changes the iframe URL; use the direct Storybook canvas URL to share a selected message.
 
@@ -86,25 +91,29 @@ Reply opens a labelled Textarea below the message and focuses its native `<texta
 
 A blank or whitespace-only reply shows an error and focuses the `<textarea>` without clearing it. Drafts are stored by thread ID. Switching messages, using history, filtering or changing themes keeps them while the page is open. Discard draft clears only the current draft and error, announces the discard and returns focus to Reply.
 
-Without `sendReply`, sending adds a reply for this session. It makes no network request. Reload clears drafts and replies. The demo does not connect to a mail service, sync incoming mail, archive messages or paginate results.
+The default `commit` adds a reply for this session. It makes no network request. Reload clears drafts and replies. The demo does not connect to a mail service, sync incoming mail, archive messages or paginate results.
 
 ## Connect sending
 
-Provide a function with this signature:
+Pass `commit` with this signature. `ReplyDraft` and `CommitResult` are exported from the copied source:
 
 ```ts
-type SendReply = (id: string, body: string) => Promise<void>;
+import type { CommitResult, ReplyDraft } from "./Inbox";
+
+type CommitReply = (id: string, draft: ReplyDraft) => Promise<CommitResult<"body">>;
 ```
 
-The recipe trims the reply, blocks duplicate submissions and disables the composer while sending. Focus moves to the message heading so it does not fall to the page when Send is disabled.
+The recipe trims `draft.body`, runs `validate`, blocks duplicate submissions and disables the composer while sending. The default validator rejects an empty body; a custom validator returns `{ body: message }` for invalid input or `{}` for valid input. Focus moves to the message heading while Send is disabled.
 
 | Result | What happens |
 | --- | --- |
-| `Promise` resolves | Add a local reply, clear its draft and return focus to Reply. |
-| `Promise` rejects | Keep the draft, show and announce the error, and focus the `<textarea>`. |
-| User has opened another message | Update the original thread without moving focus. |
+| Resolve without errors | Add a local reply, clear its draft and return focus to Reply. |
+| Resolve with `{ errors: { body: message } }` | Keep the draft, describe the validation error once and focus the field. |
+| Return errors for unrendered fields | Keep the draft, show a separate Callout and focus Send reply. |
+| Reject the promise | Keep the draft, show and announce delivery failure separately from field validation, and focus the field. |
+| Settle after navigation | Update the original thread without moving focus; retain failed drafts and errors for return. |
 
-Your function handles delivery, sign-in, storage and server validation. A rejected promise means the recipe treats delivery as failed. If a network error leaves delivery uncertain, check whether the message was sent before retrying; your delivery code must prevent duplicates.
+Your function owns delivery, sign-in, storage and server validation. Update `threads` with confirmed records when data changes. If a network error leaves delivery uncertain, check whether the message was sent before retrying; delivery code must prevent duplicates. Use `copy` to replace the visible labels and announcements, including `field`, `required` and `failed`.
 
 ## Task policy you can change
 

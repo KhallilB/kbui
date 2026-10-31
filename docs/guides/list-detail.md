@@ -16,7 +16,20 @@ Put these files in one directory:
 
 Import `@kb.ui/react/styles.css` once at your application entry and render ListDetail in a browser. The recipe reads the current URL and requires a browser environment; integrate your router before using server rendering.
 
-The website recipe page and Storybook expose the exact source files and runnable interaction examples. Optional `initialRequests` replaces the fictional queue; an empty array shows the empty-queue state. Optional `initialRequestId` selects a record on mount when the URL has no request parameter. Each record needs a unique ID, title, owner, status, summary, site, requester and activity. Status is Open, In progress or Resolved. The demo permits any of these choices; it implements no business transition policy.
+The website recipe page and Storybook expose the exact source files and runnable interaction examples. The live `requests` prop replaces the fictional queue; an empty array shows the empty-queue state. Optional `initialRequestId` selects a record on mount when the URL has no request parameter. Each record needs a unique ID, title, owner, status, summary, site, requester and activity. Status is Open, In progress or Resolved. The demo permits any of these choices; it implements no business transition policy.
+
+| Prop | Use |
+| --- | --- |
+| `requests` | Current request records; defaults to the sample collection. |
+| `initialRequestId` | Open a record on mount when the router reads `null`. |
+| `router` | Preview application-owned `FlowRouter`; defaults to the `request` URL parameter. |
+| `commit` | Async saving function receiving the record ID and trimmed `RequestDraft`. |
+| `validate` | Return field errors before saving; defaults to required title and owner. |
+| `copy` | Override visible text and announcements from `listDetailCopy`. |
+
+Pass updated records through `requests`; matching IDs retain selection and drafts. A new record object replaces that record's local saved overlay, so supply confirmed server data when acknowledging an update. A removed selected record shows the unavailable state.
+
+A custom router implements `read`, `write` and `subscribe` from [`flow-router.ts`](../../apps/storybook/recipes/flow-router.ts). Return `null` for an empty selection and return an unsubscribe function from `subscribe`. Keep the router object stable. This router seam may change before 1.0. With a supplied router, selection uses its methods rather than writing the URL directly.
 
 ## Composition and ownership
 
@@ -75,7 +88,23 @@ Edit request opens a prefilled form and focuses Request title. Title and owner r
 
 Drafts belong to record IDs. Switching records, returning to the list and changing themes retain unsaved values during the mounted session. The list marks records with an unsaved draft. Cancel editing discards only that record's draft, leaves saved data intact and restores Edit request focus. Context shows saved information while a draft is open.
 
-Records and drafts live in memory. Reload retains URL selection but restores initial records and discards unsaved changes. No backend, authentication, durable storage, async loading or simulated network failure is represented. Replace the local save with application-owned persistence, pending/error feedback and server-side validation before using it for real requests.
+Records and drafts live in memory. Reload retains default URL selection but restores supplied records and discards unsaved changes. The default `commit` settles locally. Your application owns persistence, authentication, data loading and durable storage.
+
+### Connect saving
+
+Pass `commit` with this signature. `RequestDraft` and `CommitResult` are exported from the copied source:
+
+```ts
+import type { CommitResult, RequestDraft } from "./ListDetail";
+
+type CommitRequest = (id: string, draft: RequestDraft) => Promise<CommitResult<keyof RequestDraft>>;
+```
+
+The recipe trims title and owner before calling `validate`. A custom validator returns errors keyed by `title`, `owner` or `status`, or `{}` for valid input. Invalid input keeps the draft, describes each rendered field and focuses the first invalid field without committing.
+
+While `commit` is pending, duplicate submission is blocked and focus moves to the detail heading as controls lock. Resolve without errors to apply the local edit, clear its draft and focus Edit request. Resolve with `{ errors: { title: message } }` to retain the draft and use the same validation recovery as client errors. Errors for unrendered fields appear separately and focus Save changes. Reject to retain the draft, show and announce a failure Callout separately from field descriptions, and focus Request title.
+
+If a commit settles after navigation, it updates its original record without moving focus. Failed drafts and errors remain available when you return. Pass confirmed data through `requests`; a new record object replaces the local saved overlay. Use `copy` to replace the recipe's labels and announcements.
 
 ## Task policy you can change
 

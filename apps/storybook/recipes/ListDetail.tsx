@@ -179,7 +179,7 @@ function RequestEditor({
   }, [refs]);
   return (
     <form
-      className="request-flow-editor"
+      className="list-detail-composer"
       noValidate
       onSubmit={(event) => {
         event.preventDefault();
@@ -233,11 +233,11 @@ function RequestEditor({
           />
         </FormSection>
         {failed ? (
-          <Callout tone="danger" className="request-flow-status">
+          <Callout tone="danger" className="list-detail-status">
             {text.failed}
           </Callout>
         ) : null}
-        <Inline gap="sm" className="request-flow-form-actions">
+        <Inline gap="sm" className="list-detail-form-actions">
           <Button ref={refs.submit} type="submit" disabled={saving}>
             {saving ? text.saving : text.save}
           </Button>
@@ -468,7 +468,7 @@ export function ListDetail({
       as="main"
       size="full"
       gutter={false}
-      className="request-flow"
+      className="list-detail"
       onFocusCapture={(event) => {
         focused.current = event.target;
       }}
@@ -483,13 +483,13 @@ export function ListDetail({
         eyebrow={text.eyebrow}
         description={text.description}
         meta={
-          <Text role="status" size="sm" tone="muted" className="request-flow-notice">
+          <Text role="status" size="sm" tone="muted" className="list-detail-notice">
             <span key={notice.id}>{notice.text || text.idle}</span>
           </Text>
         }
       />
-      <div className="request-flow-layout" data-selected={selectedId ? "true" : "false"}>
-        <Panel className="request-flow-list" aria-labelledby={`${id}-queue`}>
+      <div className="list-detail-layout" data-selected={selectedId ? "true" : "false"}>
+        <Panel className="list-detail-list" aria-labelledby={`${id}-queue`}>
           <Panel.Header>
             <Heading level={2} size="sm" id={`${id}-queue`}>
               {text.queue}
@@ -515,12 +515,12 @@ export function ListDetail({
                 {text.count(filtered.length, records.length)}
               </Text>
               {filtered.length ? (
-                <ul className="request-flow-items" aria-label={text.list}>
+                <ul className="list-detail-items" aria-label={text.list}>
                   {filtered.map((record) => (
                     <li key={record.id}>
                       <Button
                         variant="ghost"
-                        className="request-flow-row"
+                        className="list-detail-row"
                         aria-current={selectedId === record.id ? "true" : undefined}
                         ref={(element) => {
                           if (element) rows.current.set(record.id, element);
@@ -528,13 +528,13 @@ export function ListDetail({
                         }}
                         onClick={() => navigate(record.id)}
                       >
-                        <Text as="span" size="sm" tone="muted" className="request-flow-id">
+                        <Text as="span" size="sm" tone="muted" className="list-detail-id">
                           {record.id}
                         </Text>
-                        <Text as="span" className="request-flow-row-title">
+                        <Text as="span" className="list-detail-row-title">
                           {record.title}
                         </Text>
-                        <span className="request-flow-row-meta">
+                        <span className="list-detail-row-meta">
                           <Status tone={statusTones[record.status]} compact>
                             {record.status}
                           </Status>
@@ -552,7 +552,7 @@ export function ListDetail({
                   ))}
                 </ul>
               ) : (
-                <div className="request-flow-empty">
+                <div className="list-detail-empty">
                   <Heading level={3} size="md">
                     {records.length ? text.noMatches : text.empty}
                   </Heading>
@@ -574,23 +574,23 @@ export function ListDetail({
             </Grid>
           </Panel.Body>
         </Panel>
-        <div className="request-flow-workspace">
+        <div className="list-detail-workspace">
           {selectedId ? (
             <Grid layout="stack">
               {selected ? (
-                <Panel className="request-flow-detail" aria-labelledby={`${id}-detail`}>
+                <Panel className="list-detail-detail" aria-labelledby={`${id}-detail`}>
                   <Panel.Header>
-                    <Grid layout="stack" className="request-flow-detail-heading">
+                    <Grid layout="stack" className="list-detail-detail-heading">
                       <Inline justify="between">
                         <Inline gap="sm">
-                          <Text size="sm" tone="muted" className="request-flow-id">
+                          <Text size="sm" tone="muted" className="list-detail-id">
                             {selected.id}
                           </Text>
                           <Status tone={statusTones[selected.status]} appearance="chip">
                             {selected.status}
                           </Status>
                         </Inline>
-                        <Inline gap="sm" className="request-flow-navigation">
+                        <Inline gap="sm" className="list-detail-navigation">
                           <Button size="sm" variant="ghost" onClick={() => navigate(null)}>
                             {text.back}
                           </Button>
@@ -607,7 +607,7 @@ export function ListDetail({
                       </Inline>
                       <Inline justify="between" align="start" gap="sm">
                         <Heading
-                          className="request-flow-title"
+                          className="list-detail-title"
                           ref={heading}
                           tabIndex={-1}
                           level={2}
@@ -642,9 +642,9 @@ export function ListDetail({
                       collapse="sm"
                       align="start"
                       gap="lg"
-                      className="request-flow-content"
+                      className="list-detail-content"
                     >
-                      <div className="request-flow-primary">
+                      <div className="list-detail-primary">
                         {draft ? (
                           <RequestEditor
                             key={selected.id}
@@ -664,11 +664,11 @@ export function ListDetail({
                             onSave={() => void save(selected, draft)}
                           />
                         ) : (
-                          <div className="request-flow-copy">
+                          <div className="list-detail-copy">
                             <Heading level={3} size="sm">
                               {text.summary}
                             </Heading>
-                            <Text className="request-flow-summary">{selected.summary}</Text>
+                            <Text className="list-detail-summary">{selected.summary}</Text>
                           </div>
                         )}
                       </div>
@@ -677,15 +677,15 @@ export function ListDetail({
                           as="aside"
                           size="full"
                           gutter={false}
-                          className="request-flow-context"
+                          className="list-detail-context"
                           aria-label={text.context}
                           id={`${id}-context`}
                         >
                           <Heading level={3} size="sm" id={`${id}-context-title`}>
                             {text.context}
                           </Heading>
-                          <Grid layout="stack" className="request-flow-section">
-                            <dl className="request-flow-facts">
+                          <Grid layout="stack" className="list-detail-section">
+                            <dl className="list-detail-facts">
                               <div>
                                 <dt>{text.requestedBy}</dt>
                                 <dd>{selected.requester}</dd>
@@ -699,7 +699,7 @@ export function ListDetail({
                                 <dd>{selected.owner}</dd>
                               </div>
                             </dl>
-                            <div className="request-flow-activity">
+                            <div className="list-detail-activity">
                               <Heading level={4} size="sm">
                                 {text.activity}
                               </Heading>
@@ -726,7 +726,7 @@ export function ListDetail({
               )}
             </Grid>
           ) : (
-            <Panel tone="sunken" className="request-flow-empty">
+            <Panel tone="sunken" className="list-detail-empty">
               <Panel.Body>
                 <Heading level={2}>{text.choose}</Heading>
                 <Text tone="muted">{text.chooseHint}</Text>
