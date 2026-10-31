@@ -59,29 +59,32 @@ export const ReplyAndDrafts: Story = {
     await userEvent.click(canvas.getByRole("button", { name: /^Reply$/ }));
     const reply = canvas.getByRole("textbox", { name: "Your reply" });
     await expect(reply).toHaveFocus();
+    expect(reply).toHaveClass("kb-textarea-control");
+    expect(reply).toBeRequired();
+    expect(reply).toHaveAttribute("rows", "5");
+    expect(reply).toHaveAttribute("aria-invalid", "false");
     await userEvent.type(reply, "   ");
     await userEvent.click(canvas.getByRole("button", { name: "Send reply" }));
     await expect(reply).toHaveFocus();
     await expect(reply).toHaveAccessibleDescription("Write a reply before sending.");
     await userEvent.clear(reply);
-    await userEvent.type(reply, "Please send the contact sheet.");
+    const body = "Please send the contact sheet.\nKeep São Tomé in the caption.";
+    await userEvent.type(reply, body);
     await userEvent.click(canvas.getByRole("button", { name: "Back to inbox" }));
     await expect(canvas.getByRole("button", { name: /Mara Ellis.*Draft/ })).toBeVisible();
     await userEvent.click(canvas.getByRole("button", { name: /Jon Bell/ }));
     expect(canvas.queryByRole("textbox", { name: "Your reply" })).toBeNull();
     await userEvent.click(canvas.getByRole("button", { name: "Back to inbox" }));
     await userEvent.click(canvas.getByRole("button", { name: /Mara Ellis/ }));
-    await expect(canvas.getByRole("textbox", { name: "Your reply" })).toHaveValue(
-      "Please send the contact sheet.",
-    );
+    await expect(canvas.getByRole("textbox", { name: "Your reply" })).toHaveValue(body);
     await userEvent.click(canvas.getByRole("button", { name: "Send reply" }));
     await expect(canvas.getByRole("status")).toHaveTextContent(
       "Reply added to Notes from the coast for this session.",
     );
     await expect(canvas.getByRole("button", { name: /^Reply$/ })).toHaveFocus();
-    await expect(canvas.getByRole("article", { name: "Your reply 1" })).toHaveTextContent(
-      "Please send the contact sheet.",
-    );
+    expect(
+      canvas.getByRole("article", { name: "Your reply 1" }).querySelector("p")?.textContent,
+    ).toBe(body);
   },
 };
 

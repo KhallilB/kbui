@@ -1,8 +1,8 @@
 # Inbox recipe
 
-Read a contributor's message, check sender details and write a reply. This recipe uses public `@kb.ui/react` components, a native `<textarea>` and local CSS.
+Read a contributor's message, check sender details and write a reply. This recipe uses public `@kb.ui/react` components, including [`Textarea`](../../packages/react/docs/components/Textarea.md), and local CSS.
 
-Copy it into your app; it is not a package export. This recipe is not released yet. Use a package build that includes its layout components.
+Copy it into your app; it is not a package export.
 
 ## Copy the complete flow
 
@@ -79,7 +79,7 @@ If resizing hides the focused control, focus moves to the visible heading or sea
 
 ## Write a reply
 
-Reply opens a labelled native `<textarea>` below the message and focuses it. There is no kbui textarea component in this version.
+Reply opens a labelled Textarea below the message and focuses its native `<textarea>`. Textarea owns label/error association and control states; the recipe owns drafts, validation, delivery and focus. The composer retains five rows and vertical resize. Scoped padding tokens retain its inset; public styles handle focus, invalid, disabled and forced-color states. Existing label/control/error classes remain available for local styling.
 
 A blank or whitespace-only reply shows an error and focuses the `<textarea>` without clearing it. Drafts are stored by thread ID. Switching messages, using history, filtering or changing themes keeps them while the page is open. Discard draft clears only the current draft and error, announces the discard and returns focus to Reply.
 

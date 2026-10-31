@@ -1,4 +1,15 @@
-import { Button, Container, Grid, Heading, Inline, Input, Panel, Split, Text } from "@kb.ui/react";
+import {
+  Button,
+  Container,
+  Grid,
+  Heading,
+  Inline,
+  Input,
+  Panel,
+  Split,
+  Text,
+  Textarea,
+} from "@kb.ui/react";
 import { useEffect, useId, useRef, useState } from "react";
 import { PageHeader } from "./PageHeader";
 import "./inbox.css";
@@ -383,19 +394,22 @@ export function Inbox({
                             }}
                           >
                             <Grid layout="stack">
-                              <label className="inbox-reply-label" htmlFor={`${id}-reply`}>
-                                Your reply
-                              </label>
-                              <textarea
+                              <Textarea
                                 ref={replyInput}
                                 id={`${id}-reply`}
-                                className="inbox-reply"
+                                label="Your reply"
+                                className="inbox-reply-field"
+                                classNames={{
+                                  label: "inbox-reply-label",
+                                  control: "inbox-reply",
+                                  error: "inbox-error",
+                                }}
                                 rows={5}
                                 required
                                 value={draft}
                                 disabled={sending}
+                                error={error}
                                 aria-invalid={Boolean(error)}
-                                aria-describedby={error ? `${id}-error` : undefined}
                                 onChange={(event) =>
                                   setDrafts((current) => ({
                                     ...current,
@@ -403,11 +417,6 @@ export function Inbox({
                                   }))
                                 }
                               />
-                              {error ? (
-                                <Text id={`${id}-error`} className="inbox-error">
-                                  {error}
-                                </Text>
-                              ) : null}
                               <Inline>
                                 <Button type="submit" disabled={sending}>
                                   {sending ? "Sending reply…" : "Send reply"}

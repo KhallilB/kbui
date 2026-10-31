@@ -75,6 +75,7 @@ export const recipeDefinitions: RecipeDefinition[] = [
       "Panel",
       "Split",
       "Text",
+      "Textarea",
     ],
     files: [
       "apps/storybook/recipes/Inbox.tsx",
