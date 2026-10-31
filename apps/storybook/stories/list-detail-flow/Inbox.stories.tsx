@@ -1,7 +1,7 @@
 import type { Meta } from "@storybook/react-vite";
 import { expect, waitFor } from "storybook/test";
-import { Inbox } from "../../recipes/Inbox";
-import { type FlowFixture, flow } from "./contract";
+import { Inbox, type InboxThread } from "../../recipes/Inbox";
+import { type FlowFixture, flow, recipePolicy } from "./contract";
 
 const meta = {
   title: "Validation/List-detail flow/Inbox",
@@ -9,12 +9,35 @@ const meta = {
 } satisfies Meta;
 export default meta;
 
+const thread = (id: string, sender: string, subject: string): InboxThread => ({
+  id,
+  sender,
+  address: `${id}@example.com`,
+  subject,
+  date: "30 October · 09:12",
+  excerpt: `About ${subject.toLowerCase()}.`,
+  paragraphs: [`Notes on ${subject.toLowerCase()}.`],
+  context: `${sender} · Winter issue.`,
+});
+const threads = [
+  thread("coast", "Mara Ellis", "Notes from the coast"),
+  thread("proof", "Jon Bell", "A small correction to the print proof"),
+  thread("translation", "Amina Okafor", "Translation notes"),
+];
+const committedText = "Thanks, the contact sheet works.";
+
 const fixture: FlowFixture = {
   recipe: "Inbox",
   param: "message",
-  render: ({ initialId, send }) => (
-    <Inbox initialThreadId={initialId ?? null} {...(send ? { sendReply: send } : {})} />
+  render: ({ initialId, send, records }) => (
+    <Inbox
+      initialThreadId={initialId ?? null}
+      {...(send ? { sendReply: send } : {})}
+      {...(records ? { initialThreads: records as InboxThread[] } : {})}
+    />
   ),
+  policy: recipePolicy("Inbox"),
+  context: "Sender details",
   first: { id: "coast", row: /Mara Ellis/, heading: "Notes from the coast" },
   second: { id: "proof", row: /Jon Bell/, heading: "A small correction to the print proof" },
   query: "Jon",
@@ -27,8 +50,9 @@ const fixture: FlowFixture = {
     submit: "Send reply",
     pristine: "",
     invalid: "Write a reply before sending.",
+    failed: "Reply could not be sent. Your draft is safe; try again.",
   },
-  commit: async (canvas, user) => {
+  commitOnce: async (canvas, user) => {
     await user.click(canvas.getByRole("button", { name: /^Reply$/ }));
     await user.type(canvas.getByRole("textbox", { name: "Your reply" }), "Thanks.");
     await user.click(canvas.getByRole("button", { name: "Send reply" }));
@@ -36,7 +60,28 @@ const fixture: FlowFixture = {
   },
   status: (root) => root.querySelector<HTMLElement>('[role="status"].kb-sr-only') ?? root,
   async: { pendingSubmit: "Sending reply…" },
-  gaps: {},
+  live: {
+    records: threads,
+    added: { id: "cover", row: /Priya Shah/, heading: "Revised cover caption" },
+    add: (current) => [...current, thread("cover", "Priya Shah", "Revised cover caption")],
+    echo: (current, id) =>
+      (current as InboxThread[]).map((entry) =>
+        entry.id === id ? { ...entry, paragraphs: [...entry.paragraphs, committedText] } : entry,
+      ),
+    remove: (current, id) => (current as InboxThread[]).filter((entry) => entry.id !== id),
+    commitChange: async (canvas, user) => {
+      await user.click(canvas.getByRole("button", { name: /^Reply$/ }));
+      await user.type(canvas.getByRole("textbox", { name: "Your reply" }), committedText);
+      await user.click(canvas.getByRole("button", { name: "Send reply" }));
+      await waitFor(() => expect(canvas.getByRole("button", { name: /^Reply$/ })).toHaveFocus());
+    },
+    committedText,
+  },
+  gaps: {
+    "validation-separate": "Shows a failed send as the reply field's error description",
+    "live-records": "Keeps sent replies beside the thread, so a server echo shows them twice",
+    "routing-boundary": "Reads and pushes the URL directly; takes no router",
+  },
 };
 
 const { story, complete } = flow(fixture);
@@ -57,5 +102,12 @@ export const Announcements = story("announcements");
 export const Filters = story("filters");
 export const PendingFocus = story("pending-focus");
 export const EmptySelection = story("empty-selection");
+export const ResizeKeepsDraft = story("resize-keeps-draft");
+export const ContextInitial = story("context-initial");
+export const ForcedColorsRow = story("forced-colors-row");
+export const ValidationSeparate = story("validation-separate");
+export const Unmount = story("unmount");
+export const LiveRecords = story("live-records");
+export const RoutingBoundary = story("routing-boundary");
 
 complete();
