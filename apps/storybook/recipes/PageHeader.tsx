@@ -1,5 +1,5 @@
 // x-release-please-start-version
-// kbui recipe PageHeader · from kbui 0.11.0 · https://kbui.kcb.pro/recipes/?recipe=pageheader
+// kbui recipe PageHeader · from kbui 0.12.0 · https://kbui.kcb.pro/recipes/?recipe=pageheader
 // x-release-please-end
 import { Heading, type HeadingLevel, Inline, Text } from "@kb.ui/react";
 import type { ComponentProps, ReactNode } from "react";
