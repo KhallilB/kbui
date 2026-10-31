@@ -62,14 +62,14 @@ try {
   currentPage = page;
   page.on("pageerror", (error) => console.error(`Recipe page error: ${error.message}`));
   await page.goto(`${origin}/recipes/`);
-  await page.getByRole("link", { name: "FormSection", exact: true }).click();
-  await page.getByRole("heading", { name: "FormSection", level: 1 }).waitFor();
-  await page.getByRole("link", { name: "In Panel", exact: true }).click();
-  assert.equal(new URL(page.url()).searchParams.get("state"), "recipes-formsection--in-panel");
+  await page.getByRole("link", { name: "ListDetail", exact: true }).click();
+  await page.getByRole("heading", { name: "ListDetail", level: 1 }).waitFor();
+  await page.getByRole("link", { name: "Empty Queue", exact: true }).click();
+  assert.equal(new URL(page.url()).searchParams.get("state"), "recipes-listdetail--empty-queue");
   await page.reload();
   await page
     .frameLocator("iframe[data-current='true']")
-    .getByRole("heading", { name: "Organization profile" })
+    .getByRole("heading", { name: "No requests yet" })
     .waitFor()
     .catch(async (error: unknown) => {
       const frames = await Promise.all(
@@ -88,28 +88,42 @@ try {
   await page.goBack();
   assert.equal(new URL(page.url()).searchParams.get("state"), null);
   await page.goForward();
-  assert.equal(new URL(page.url()).searchParams.get("state"), "recipes-formsection--in-panel");
-  await page.goto(`${origin}/recipes/?recipe=formsection&state=missing`);
+  assert.equal(new URL(page.url()).searchParams.get("state"), "recipes-listdetail--empty-queue");
+  await page.goto(`${origin}/recipes/?recipe=listdetail&state=missing`);
   await page.getByRole("status").filter({ hasText: "That example is unavailable" }).waitFor();
   await page.goto(`${origin}/recipes/?recipe=missing`);
   await page.getByRole("heading", { name: "Recipe unavailable" }).waitFor();
+  for (const id of ["pageheader", "formsection"]) {
+    await page.goto(`${origin}/recipes/?recipe=${id}#usage`);
+    await page
+      .getByRole("heading", {
+        level: 1,
+        name: id === "pageheader" ? "PageHeader" : "FormSection",
+        exact: true,
+      })
+      .waitFor();
+    assert.equal(new URL(page.url()).searchParams.get("recipe"), id);
+    assert.equal(new URL(page.url()).hash, "#usage");
+    await page.reload();
+    await page.getByRole("region", { name: "Recipe source files" }).waitFor();
+  }
   for (const recipe of recipes) {
     await page.goto(`${origin}/storybook/?path=/docs/${recipe.docsId}`);
     const docs = page.frameLocator("#storybook-preview-iframe");
     await docs.getByRole("heading", { level: 1, name: `${recipe.name} recipe` }).waitFor();
     await docs.getByRole("heading", { name: "Runnable examples", exact: true }).waitFor();
     await docs.getByRole("heading", { name: "Copy the source", exact: true }).waitFor();
-    if (recipe.name === "PageHeader") {
-      const headingLink = docs.getByRole("link", { name: "Heading", exact: true }).first();
-      assert.equal(await headingLink.getAttribute("target"), "_top");
-      await headingLink.click();
-      await page.waitForURL(`${origin}/components/?component=heading`);
+    if (recipe.name === "ListDetail") {
+      const componentLink = docs.getByRole("link", { name: "PageHeader", exact: true }).first();
+      assert.equal(await componentLink.getAttribute("target"), "_top");
+      await componentLink.click();
+      await page.waitForURL(`${origin}/components/?component=pageheader`);
     }
     checks++;
   }
-  await page.goto(`${origin}/recipes/?recipe=formsection&theme=light`);
+  await page.goto(`${origin}/recipes/?recipe=listdetail&theme=light`);
   const preview = page.frameLocator("iframe[data-current='true']");
-  const name = preview.getByRole("textbox", { name: "Contact name" });
+  const name = preview.getByRole("searchbox", { name: "Search requests" });
   await name.fill("Retained draft");
   await page.getByRole("switch", { name: "Dark mode" }).check();
   await preview.locator("html[data-theme='dark']").waitFor();
@@ -137,7 +151,7 @@ try {
   }
   await page.close();
   console.log(
-    `Recipes verified: ${checks} theme/viewport and Storybook contexts; refresh, history, unknown URLs and draft-preserving theme changes.`,
+    `Recipes verified: ${checks} theme/viewport and Storybook contexts; refresh, history, unknown and retired URLs and draft-preserving theme changes.`,
   );
 } catch (error) {
   if (currentPage && !currentPage.isClosed()) {

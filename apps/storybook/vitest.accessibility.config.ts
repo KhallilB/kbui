@@ -6,7 +6,7 @@ export default defineConfig({
   test: {
     setupFiles: ["./vitest.accessibility.setup.ts"],
     testNamePattern:
-      /^(?:Forced Colors|Forced Color Buttons|Read Only Mixed|Caller Description|Nested Select Modal)$/,
+      /^(?:Forced Colors|Forced Colors Row|Forced Color Buttons|Read Only Mixed|Caller Description|Nested Select Modal)$/,
     browser: {
       enabled: true,
       headless: true,

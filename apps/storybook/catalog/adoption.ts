@@ -71,7 +71,7 @@ export const adoptionRelationships: Record<string, AdoptionRelationship> = {
   FileInput: pending("Request intake supporting attachments"),
   Form: pending("Request intake task with validation and submission recovery"),
   FormActions: pending("Settings and request intake submit and cancel actions"),
-  FormSection: request("Packaged edit form groups, separate from copied recipe", "EditAndValidate"),
+  FormSection: request("Packaged edit form groups", "EditAndValidate"),
   Gallery: pending("Discoverable product catalog composition"),
   Grid: request("Request fields and record layout"),
   Heading: composed(
@@ -87,7 +87,7 @@ export const adoptionRelationships: Record<string, AdoptionRelationship> = {
   Menu: pending("Contextual workspace actions"),
   MultiSelect: pending("Request intake optional reviewers"),
   NumberField: pending("Request intake quantity"),
-  PageHeader: request("Packaged request title and state, separate from copied recipe"),
+  PageHeader: request("Packaged request title and state"),
   Panel: request("Request queue, detail and supporting regions"),
   Popover: pending("Supporting workspace context with focus return"),
   Progress: planner("Activity completion progress"),
