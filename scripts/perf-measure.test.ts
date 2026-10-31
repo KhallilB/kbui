@@ -55,5 +55,5 @@ describe("perf-measure", () => {
     } finally {
       await rm(outPath, { force: true });
     }
-  });
+  }, 30_000); // Full catalog and four consumer builds need CI integration-test time.
 });
