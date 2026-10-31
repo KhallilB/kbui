@@ -96,6 +96,25 @@ test("0.10.0 documents the package rename and synchronized upgrade", () => {
   expect(copy?.upgrade?.join(" ")).toContain("same version");
 });
 
+test("0.12.0 summarises recipe foundations and keeps the generated recipe migration", () => {
+  const copy = releaseNotes["0.12.0"];
+  const text = copy?.highlights.join(" ") ?? "";
+  for (const term of ["contract", "preview", "router, commit, validate and copy", "matched by id"])
+    expect(text).toContain(term);
+  expect(text).toMatch(/ListDetail and Inbox.*PageHeader and FormSection/);
+  expect(text).not.toMatch(/retire/i);
+  expect(text).toMatch(/sendReply.*commit/);
+  expect(text).toMatch(/initialRequests.*requests.*initialThreads.*threads/);
+  expect(text).not.toContain("`");
+  // Absent upgrade keeps the BREAKING CHANGE footer as the migration.
+  expect(copy?.upgrade).toBeUndefined();
+  const breaking = ["The Inbox recipe renames initialThreads to threads."];
+  expect(
+    releaseCopy({ version: "0.12.0", components: [], improvements: [], fixes: [], breaking })
+      .upgrade,
+  ).toEqual(breaking);
+});
+
 test("release navigation uses editorial titles instead of commit subjects or change counts", () => {
   const palette = releases.find((release) => release.version === "0.8.0");
   if (!palette) throw new Error("Missing palette release fixture");

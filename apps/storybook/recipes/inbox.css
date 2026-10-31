@@ -1,4 +1,4 @@
-/* Anatomy: .inbox-flow > .inbox-layout [data-selected=true|false] > .inbox-list > .inbox-count; .inbox-rows > .inbox-row [aria-current=true] > .inbox-sender, .inbox-subject, .inbox-excerpt, .inbox-date; .inbox-workspace > .inbox-detail > .inbox-prose, .inbox-sent; .inbox-composer > .inbox-reply-label, .inbox-reply [aria-invalid=true], .inbox-error, .inbox-status; .inbox-context; .inbox-placeholder; region: .inbox-list .inbox-detail .inbox-context .inbox-status .inbox-composer */
+/* Anatomy: .inbox-flow > .inbox-layout [data-selected=true|false] > .inbox-list > .inbox-count; .inbox-rows > .inbox-row [aria-current=true] > .inbox-sender, .inbox-subject, .inbox-excerpt, .inbox-date; .inbox-workspace > .inbox-detail > .inbox-prose, .inbox-sent; .inbox-composer > .inbox-reply-field, .inbox-reply-label, .inbox-reply [aria-invalid=true], .inbox-error, .inbox-status; .inbox-context; .inbox-placeholder; region: .inbox-list .inbox-detail .inbox-context .inbox-status .inbox-composer */
 .inbox-flow {
   container-type: inline-size;
   display: grid;
@@ -93,25 +93,9 @@
   border-block-start: 1px solid var(--kb-color-border);
 }
 
-.inbox-reply {
-  inline-size: 100%;
-  min-inline-size: 0;
-  resize: vertical;
-  padding: var(--kb-space-3);
-  border: 1px solid var(--kb-color-border);
-  border-radius: var(--kb-input-radius);
-  background: var(--kb-material-recessed-face);
-  color: var(--kb-color-fg);
-  font: inherit;
-}
-
-.inbox-reply[aria-invalid="true"] {
-  border-color: var(--kb-color-danger);
-}
-
-.inbox-reply:focus-visible {
-  outline: 2px solid var(--kb-color-ring);
-  outline-offset: 2px;
+.inbox-reply-field {
+  --kb-textarea-padding-block: var(--kb-space-3);
+  --kb-textarea-padding-inline: var(--kb-space-3);
 }
 
 .inbox-error {
@@ -136,10 +120,6 @@
 @media (forced-colors: active) {
   .inbox-row[aria-current="true"] {
     border: 2px solid Highlight;
-  }
-
-  .inbox-reply:focus-visible {
-    outline-color: Highlight;
   }
 
   .inbox-error {

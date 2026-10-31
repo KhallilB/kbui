@@ -26,8 +26,8 @@ export const Settings: Story = {
     const name = page.getByRole("textbox", { name: "Workspace name" });
     await userEvent.clear(name);
     await userEvent.click(page.getByRole("button", { name: "Save changes" }));
-    expect(page.getByText("Enter a workspace name.")).toBeVisible();
-    expect(name).toHaveFocus();
+    expect(name).toHaveAccessibleDescription("Enter a workspace name.");
+    expect(page.getByRole("alert", { name: "Review workspace settings" })).toHaveFocus();
     await userEvent.type(name, "Northstar Studio ");
     await userEvent.click(page.getByLabelText("Dark mode"));
     expect(page.getByRole("textbox", { name: "Workspace name" })).toBe(name);
@@ -70,8 +70,13 @@ export const Recovery: Story = {
     await userEvent.clear(email);
     await userEvent.type(email, "invalid");
     await userEvent.click(page.getByRole("button", { name: "Save changes" }));
-    expect(page.getByText("Enter a valid email address.")).toBeVisible();
-    expect(email).toHaveFocus();
+    expect(email).toHaveAccessibleDescription("Enter a valid email address.");
+    expect(page.getByRole("alert", { name: "Review workspace settings" })).toHaveFocus();
+    await userEvent.click(page.getByRole("button", { name: "Operations" }));
+    const settings = page.getByRole("button", { name: "Settings" });
+    await userEvent.click(settings);
+    expect(settings).toHaveFocus();
+    expect(page.getByRole("alert", { name: "Review workspace settings" })).toBeVisible();
   },
 };
 
