@@ -1,7 +1,7 @@
 import type { Meta } from "@storybook/react-vite";
 import { expect, waitFor } from "storybook/test";
-import { ListDetail } from "../../recipes/ListDetail";
-import { type FlowFixture, flow } from "./contract";
+import { ListDetail, type RequestRecord } from "../../recipes/ListDetail";
+import { type FlowFixture, flow, recipePolicy } from "./contract";
 
 const meta = {
   title: "Validation/List-detail flow/ListDetail",
@@ -9,10 +9,34 @@ const meta = {
 } satisfies Meta;
 export default meta;
 
+const record = (id: string, title: string, owner: string): RequestRecord => ({
+  id,
+  title,
+  owner,
+  status: "Open",
+  summary: `Summary for ${title}.`,
+  site: "North depot",
+  requester: "Alex Morgan",
+  activity: `${owner} reviewed this request.`,
+});
+const records = [
+  record("REQ-1042", "Warehouse access", "Maya Chen"),
+  record("REQ-1043", "Replace loading dock scanner", "Sam Rivera"),
+  record("REQ-1044", "Delivery window update", "Casey Park"),
+];
+const committedText = "Warehouse access for the inventory team";
+
 const fixture: FlowFixture = {
   recipe: "ListDetail",
   param: "request",
-  render: ({ initialId }) => <ListDetail initialRequestId={initialId ?? null} />,
+  render: ({ initialId, records }) => (
+    <ListDetail
+      initialRequestId={initialId ?? null}
+      {...(records ? { initialRequests: records as RequestRecord[] } : {})}
+    />
+  ),
+  policy: recipePolicy("ListDetail"),
+  context: "Request context",
   first: { id: "REQ-1042", row: /REQ-1042.*Warehouse access/, heading: "Warehouse access" },
   second: {
     id: "REQ-1043",
@@ -29,14 +53,39 @@ const fixture: FlowFixture = {
     submit: "Save changes",
     pristine: "Warehouse access",
     invalid: "Enter a request title.",
+    failed: "Changes could not be saved. Your draft is safe; try again.",
   },
-  commit: async (canvas, user) => {
+  commitOnce: async (canvas, user) => {
     await user.click(canvas.getByRole("button", { name: "Edit request" }));
     await user.click(canvas.getByRole("button", { name: "Save changes" }));
     await waitFor(() => expect(canvas.getByRole("button", { name: "Edit request" })).toHaveFocus());
   },
   status: (root) => root.querySelector<HTMLElement>(".request-flow-notice") ?? root,
-  gaps: {},
+  live: {
+    records,
+    added: { id: "REQ-1050", row: /REQ-1050.*Freezer door seal/, heading: "Freezer door seal" },
+    add: (current) => [...current, record("REQ-1050", "Freezer door seal", "Jordan Lee")],
+    echo: (current, id) =>
+      (current as RequestRecord[]).map((entry) =>
+        entry.id === id ? { ...entry, title: committedText } : entry,
+      ),
+    remove: (current, id) => (current as RequestRecord[]).filter((entry) => entry.id !== id),
+    commitChange: async (canvas, user) => {
+      await user.click(canvas.getByRole("button", { name: "Edit request" }));
+      const title = canvas.getByRole("textbox", { name: "Request title" });
+      await user.clear(title);
+      await user.type(title, committedText);
+      await user.click(canvas.getByRole("button", { name: "Save changes" }));
+      await waitFor(() =>
+        expect(canvas.getByRole("button", { name: "Edit request" })).toHaveFocus(),
+      );
+    },
+    committedText,
+  },
+  gaps: {
+    "live-records": "Copies requests into state at mount and ignores later prop changes",
+    "routing-boundary": "Reads and pushes the URL directly; takes no router",
+  },
 };
 
 const { story, complete } = flow(fixture);
@@ -55,5 +104,10 @@ export const Routing = story("routing");
 export const Announcements = story("announcements");
 export const Filters = story("filters");
 export const EmptySelection = story("empty-selection");
+export const ResizeKeepsDraft = story("resize-keeps-draft");
+export const ContextInitial = story("context-initial");
+export const ForcedColorsRow = story("forced-colors-row");
+export const LiveRecords = story("live-records");
+export const RoutingBoundary = story("routing-boundary");
 
 complete();
