@@ -42,7 +42,12 @@ export const adoptionRelationships: Record<string, AdoptionRelationship> = {
   ),
   Card: planner("Planner task surface with stateful activity choices"),
   Checkbox: planner("Activity selection updates progress and summary"),
-  Code: pending("Literal identifiers in recipe instructions with focused composition proof"),
+  Code: composed(
+    "site/GuideContent.tsx",
+    "stories/GuideContent.stories.tsx",
+    "InlineAndFences",
+    "Guide literals use inline Code while fenced source retains text, links and keyboard access",
+  ),
   CodeBlock: composed(
     "site/CodePanel.tsx",
     "stories/CodePanel.stories.tsx",

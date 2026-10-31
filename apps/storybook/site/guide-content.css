@@ -1,4 +1,11 @@
 .system-guide.system-guide {
+  --kb-code-size: 0.85em;
+  --kb-code-border: var(--kb-color-border);
+  --kb-code-radius: var(--kb-radius-sm);
+  --kb-code-background: var(--kb-color-surface);
+  --kb-code-block-font-size: calc(var(--kb-text-body-size) * 0.85);
+  --kb-code-block-leading: 1.7;
+  --kb-code-block-radius: var(--kb-radius-md);
   min-inline-size: 0;
   overflow-wrap: anywhere;
   color: var(--ink, inherit);
@@ -19,7 +26,7 @@
     text-decoration: underline;
     text-underline-offset: 3px;
   }
-  pre {
+  pre:where(:not(.guide-code-pre)) {
     max-inline-size: 100%;
     overflow: auto;
     padding: var(--kb-space-4);
@@ -27,16 +34,21 @@
     border-radius: var(--kb-radius-md);
     background: var(--kb-color-surface);
   }
-  code {
+  pre:where(:not(.guide-code-pre)) > code {
     font-family: var(--kb-font-mono);
     font-size: 0.85em;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    white-space: pre;
   }
-  :not(pre) > code {
-    padding-inline: var(--kb-space-1);
-    border: 1px solid var(--kb-color-border);
-    border-radius: var(--kb-radius-sm);
-    background: var(--kb-color-surface);
-    box-decoration-break: clone;
+  .guide-code-content {
+    display: block;
+    white-space: pre;
+  }
+  .guide-code-line,
+  .guide-code-line-text {
+    display: inline;
   }
   ul,
   ol {
@@ -62,7 +74,7 @@
   td code {
     white-space: nowrap;
   }
-  :focus-visible {
+  :focus-visible:where(:not(.guide-code-viewport)) {
     outline: 2px solid var(--kb-color-accent);
     outline-offset: 3px;
   }
