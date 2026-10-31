@@ -30,15 +30,17 @@ const committedText = "Thanks, the contact sheet works.";
 const fixture: FlowFixture = {
   recipe: "Inbox",
   param: "message",
-  render: ({ initialId, send, records }) => (
+  render: ({ initialId, commit, records, router }) => (
     <Inbox
       initialThreadId={initialId ?? null}
-      {...(send ? { sendReply: send } : {})}
-      {...(records ? { initialThreads: records as InboxThread[] } : {})}
+      {...(commit ? { commit } : {})}
+      {...(records ? { threads: records as InboxThread[] } : {})}
+      {...(router ? { router } : {})}
     />
   ),
   policy: recipePolicy("Inbox"),
   context: "Sender details",
+  showContext: "Show sender details",
   first: { id: "coast", row: /Mara Ellis/, heading: "Notes from the coast" },
   second: { id: "proof", row: /Jon Bell/, heading: "A small correction to the print proof" },
   query: "Jon",

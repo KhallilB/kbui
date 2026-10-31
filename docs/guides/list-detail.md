@@ -9,6 +9,7 @@ Put these files in one directory:
 <!-- generated:files -->
 
 - [`ListDetail.tsx`](../../apps/storybook/recipes/ListDetail.tsx)
+- [`flow-router.ts`](../../apps/storybook/recipes/flow-router.ts)
 - [`list-detail.css`](../../apps/storybook/recipes/list-detail.css)
 
 <!-- /generated -->
@@ -112,12 +113,14 @@ The [flow contract stories](../../apps/storybook/stories/list-detail-flow/ListDe
 - An empty selection parameter shows the list, not an unavailable record
 - A resize that leaves the focused field visible keeps its focus and draft
 - The context aside shows on first open exactly when the policy says open
+- Navigation goes only through the router seam: one write per change, none for the open id, and the URL is untouched
 
 ### Editing and commits
 
 - Drafts stay with their record across navigation; discard restores the original
 - An invalid commit keeps the value, focuses the field and describes the error
 - A repeated identical outcome is announced again
+- A validation error describes the field and makes no commit; a commit failure shows visibly and never in the field's description
 
 ### Lists
 
@@ -125,10 +128,15 @@ The [flow contract stories](../../apps/storybook/stories/list-detail-flow/ListDe
 - Filters persist, keep the open record open, and Clear focuses search
 - The current-row cue stays distinct from focus in forced colors
 
-### Not met yet
+### Pending commits
 
-- **Records that change after mount are matched by id: the open record and drafts survive, a server echo shows once, and removing the open record shows it unavailable.** Copies requests into state at mount and ignores later prop changes.
-- **Navigation goes only through the router seam: one write per change, none for the open id, and the URL is untouched.** Reads and pushes the URL directly; takes no router.
+- A commit settling after navigation sends once and leaves focus where the user is
+- Focus stays on an enabled control while a commit is pending
+- Unmounting while a commit is pending causes no error, and a remount shows no stale pending state
+
+### Live data
+
+- Records that change after mount are matched by id: the open record and drafts survive, a server echo shows once, and removing the open record shows it unavailable
 
 <!-- /generated -->
 

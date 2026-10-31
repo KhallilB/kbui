@@ -9,21 +9,8 @@ export type FlowFacts = {
 };
 
 export const flowFacts = {
-  ListDetail: {
-    async: false,
-    gaps: {
-      "live-records": "Copies requests into state at mount and ignores later prop changes",
-      "routing-boundary": "Reads and pushes the URL directly; takes no router",
-    },
-  },
-  Inbox: {
-    async: true,
-    gaps: {
-      "validation-separate": "Shows a failed send as the reply field's error description",
-      "live-records": "Keeps sent replies beside the thread, so a server echo shows them twice",
-      "routing-boundary": "Reads and pushes the URL directly; takes no router",
-    },
-  },
+  ListDetail: { async: true, gaps: {} },
+  Inbox: { async: true, gaps: {} },
 } satisfies Record<string, FlowFacts>;
 
 /** Facts for a flow recipe by name; throws if it has none. */

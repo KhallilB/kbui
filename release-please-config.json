@@ -34,6 +34,14 @@
         {
           "type": "generic",
           "path": "apps/storybook/docs/Introduction.mdx"
+        },
+        {
+          "type": "generic",
+          "path": "apps/storybook/recipes/ListDetail.tsx"
+        },
+        {
+          "type": "generic",
+          "path": "apps/storybook/recipes/Inbox.tsx"
         }
       ]
     }
