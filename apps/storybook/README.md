@@ -41,6 +41,8 @@ bun run --cwd apps/storybook test:e2e
 
 Existing `verify:*` commands select individual suites. Public checks start a strict static server on port 4177; internal checks build QA fixtures and serve port 4178; override checks need no server. Set `CATALOG_PREVIEW_URL` or `STORYBOOK_URL` to use an existing public build, and `CONTROL_EDGES_URL` or `FOCUS_PREVIEW_URL` for an existing internal build. Existing recipe, story, theme, browser and profile filters remain supported. The runner owns isolated contexts, cleanup, failure screenshots and `.playwright/test-results/`; append `--trace on` to an individual command for traces. Retries remain disabled so failures stay visible.
 
+`RECIPE_SITE_URL` and `LANDING_PREVIEW_URL` take precedence for their own suites when several server URLs are set.
+
 ## Pages
 
 | Page | Source |

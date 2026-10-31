@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
 import { test } from "playwright/test";
 import type { landingProfiles } from "./profiles.ts";
-import { siteURL as origin } from "./urls.ts";
+import { siteURL } from "./urls.ts";
+
+const origin = process.env.LANDING_PREVIEW_URL ?? siteURL;
 
 for (const theme of ["light", "dark"] as const) {
   test(`landing interactions and layout in ${theme}`, async ({ page }, testInfo) => {

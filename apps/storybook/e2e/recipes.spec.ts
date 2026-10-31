@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
 import { test } from "playwright/test";
 import { loadRecipeSources } from "../catalog/recipes.ts";
-import { siteURL as origin } from "./urls.ts";
+import { siteURL } from "./urls.ts";
+
+const origin = process.env.RECIPE_SITE_URL ?? siteURL;
 
 const recipes = loadRecipeSources();
 for (const width of [320, 768, 1280]) {
