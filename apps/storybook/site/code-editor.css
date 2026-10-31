@@ -26,8 +26,13 @@
   pointer-events: none;
 }
 .kbui-site .catalog-skin-code .code-editor code {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   font: inherit;
   white-space: inherit;
+  box-decoration-break: slice;
 }
 .kbui-site .catalog-skin-code .code-editor textarea {
   position: relative;
