@@ -93,7 +93,7 @@ function RequestQueue({ requests, router }: { requests: RequestRecord[]; router:
 }
 ```
 
-To use your app's router, pass a `FlowRouter` that maps the open id to your route, and keep the same router object across renders. `subscribe` returns an unsubscribe function. The recipe writes once per change and never writes the id that is already open. When your app has no URL routing, such as a desktop shell or an embedded pane, keep the open id in memory or app state:
+To use your app's router, pass a `FlowRouter` that maps the open id to your route, and keep the same router object across renders. `subscribe` returns an unsubscribe function. The recipe writes once per change and never writes the id that is already open. `subscribe` must call `onChange` for changes from outside the recipe, such as Back and Forward. Calling it for the recipe's own `write` is optional: the recipe reads the id on every call and ignores the one already open, so both behave the same. `searchParamRouter` does not notify for its own writes; `stateRouter` below does. When your app has no URL routing, such as a desktop shell or an embedded pane, keep the open id in memory or app state:
 
 ```ts
 import type { FlowRouter } from "./flow-router";
