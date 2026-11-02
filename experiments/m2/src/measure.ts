@@ -6,6 +6,7 @@ import axe from "axe-core";
 import { chromium } from "playwright";
 import { compile } from "./compile";
 import type { Measured } from "./load";
+import { probe } from "./probe";
 import { type Capture, root, studyDir, WIDTHS } from "./study";
 
 const { values } = parseArgs({ options: { study: { type: "string" }, only: { type: "string" } } });
@@ -56,64 +57,6 @@ const origin = `http://localhost:${server.port}`;
 const tile = Buffer.from(
   '<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect width="8" height="8" fill="#d4d4d4"/></svg>',
 );
-
-const probe = () => {
-  const keyOf = (el: Element | null) =>
-    el?.closest("[data-jr-key]")?.getAttribute("data-jr-key") ?? null;
-  const visible = (r: DOMRect) => r.width > 0 && r.height > 0;
-  const leaves = [...document.querySelectorAll("#root *")].filter((el) => {
-    if (el.closest("[aria-hidden='true']")) return false;
-    const interactive = el.matches(
-      "button, a, input, select, textarea, [role='switch'], [role='checkbox'], [role='radio'], [role='slider'], [role='tab']",
-    );
-    const ownText = [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent?.trim());
-    return (interactive || ownText) && visible(el.getBoundingClientRect());
-  });
-  const overlaps: { a: string | null; b: string | null; area: number }[] = [];
-  for (let i = 0; i < leaves.length; i++) {
-    for (let j = i + 1; j < leaves.length; j++) {
-      const a = leaves[i] as Element;
-      const b = leaves[j] as Element;
-      if (a.contains(b) || b.contains(a)) continue;
-      const ra = a.getBoundingClientRect();
-      const rb = b.getBoundingClientRect();
-      const w = Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left);
-      const h = Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top);
-      const area = Math.round(Math.max(0, w) * Math.max(0, h));
-      const smaller = Math.min(ra.width * ra.height, rb.width * rb.height);
-      if (area > 24 && area > smaller * 0.1) overlaps.push({ a: keyOf(a), b: keyOf(b), area });
-    }
-  }
-  const clipped = leaves
-    .filter((el) => {
-      const s = getComputedStyle(el);
-      const hides = s.overflowX !== "visible" || s.textOverflow === "ellipsis";
-      return hides && el.scrollWidth > el.clientWidth + 1 && el.textContent?.trim();
-    })
-    .map((el) => ({ key: keyOf(el), text: el.textContent?.trim() ?? "" }));
-  const boxes: Record<string, number[]> = {};
-  for (const tag of document.querySelectorAll("[data-jr-key]")) {
-    const key = tag.getAttribute("data-jr-key") as string;
-    if (boxes[key]) continue;
-    const rects = [...tag.children].map((c) => c.getBoundingClientRect()).filter(visible);
-    if (!rects.length) continue;
-    const x = Math.min(...rects.map((r) => r.left)) + scrollX;
-    const y = Math.min(...rects.map((r) => r.top)) + scrollY;
-    boxes[key] = [
-      x,
-      y,
-      Math.max(...rects.map((r) => r.right)) + scrollX - x,
-      Math.max(...rects.map((r) => r.bottom)) + scrollY - y,
-    ].map(Math.round);
-  }
-  return {
-    overflowX: document.documentElement.scrollWidth > innerWidth + 1,
-    clipped,
-    overlaps,
-    boxes,
-    height: document.documentElement.scrollHeight,
-  };
-};
 
 const browser = await chromium.launch();
 const context = await browser.newContext({ deviceScaleFactor: 1 });
