@@ -1,3 +1,6 @@
+// x-release-please-start-version
+// kbui recipe RequestIntake · from kbui 0.11.0 · https://kbui.kcb.pro/recipes/?recipe=requestintake
+// x-release-please-end
 export type RequestPerson = { id: string; name: string };
 export type RequestAttachment = { id: string; file: File };
 export type RequestDraft = {

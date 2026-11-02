@@ -33,7 +33,7 @@ Put these files in one folder. Inbox uses the same `flow-router.ts`; copy it onc
 
 Import `@kb.ui/react/styles.css` once at your app entry and render `<ListDetail />` in a browser. With no props it shows sample requests, keeps the open request in the `request` URL parameter and saves to memory for the session.
 
-Each source file starts with a comment naming the recipe, the kbui version it came from and this guide. Keep it, so you can compare your copy with a later version.
+Each source file starts with a comment naming the recipe, the kbui release it belongs to and this guide. Keep it, so you can compare your copy with a later version: diff it against the same file at the named release's Git tag, such as `v0.12.0`, then at the tag you are moving to. The site shows the source on `main`, and a release candidate already names its coming release, so a copy taken between releases can include changes its named release lacks. For an exact base, copy the files from the release tag on GitHub.
 
 ## What you supply
 
@@ -53,7 +53,7 @@ Every prop is optional. A seam marked preview works and is documented, but its n
 
 Each record needs a unique `id`, a `title`, `owner`, `status` (`Open`, `In progress` or `Resolved`), `summary`, `site`, `requester` and `activity`. The recipe permits any status change; it has no transition policy. Search matches ID, title, owner and site, ignoring case, and combines with the status filter.
 
-The seams share one shape across list-and-detail recipes. `ListDetail.tsx` exports `RequestRecord`, `RequestDraft`, `CommitResult` and `listDetailCopy`; `flow-router.ts` exports `FlowRouter` and `searchParamRouter`.
+The seams share one shape across list-and-detail recipes. `ListDetail.tsx` exports `RequestRecord`, `RequestDraft`, `CommitResult` and `listDetailCopy`; `flow-router.ts` exports `FlowRouter` and `searchParamRouter`, plus the commit, announcement and focus helpers both flow recipes share.
 
 ```ts
 type RequestDraft = { title: string; owner: string; status: RequestStatus };

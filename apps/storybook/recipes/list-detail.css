@@ -1,3 +1,6 @@
+/* x-release-please-start-version */
+/* kbui recipe ListDetail · from kbui 0.11.0 · https://kbui.kcb.pro/recipes/?recipe=listdetail */
+/* x-release-please-end */
 /* Anatomy: .list-detail > .list-detail-notice; .list-detail-layout [data-selected=true|false] > .list-detail-list > .list-detail-items > .list-detail-row [aria-current=true] > .list-detail-id, .list-detail-row-title, .list-detail-row-meta; .list-detail-workspace > .list-detail-detail > .list-detail-detail-heading > .list-detail-id, .list-detail-navigation > .list-detail-title; .list-detail-content > .list-detail-primary > .list-detail-composer > .list-detail-status, .list-detail-form-actions | .list-detail-copy > .list-detail-summary; .list-detail-context > .list-detail-section > .list-detail-facts, .list-detail-activity; .list-detail-empty; region: .list-detail-list .list-detail-detail .list-detail-context .list-detail-status .list-detail-composer */
 .list-detail {
   display: grid;

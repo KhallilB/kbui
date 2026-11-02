@@ -1,3 +1,6 @@
+/* x-release-please-start-version */
+/* kbui recipe Inbox · from kbui 0.11.0 · https://kbui.kcb.pro/recipes/?recipe=inbox */
+/* x-release-please-end */
 /* Anatomy: .inbox-flow > .inbox-layout [data-selected=true|false] > .inbox-list > .inbox-count; .inbox-rows > .inbox-row [aria-current=true] > .inbox-sender, .inbox-subject, .inbox-excerpt, .inbox-date; .inbox-workspace > .inbox-detail > .inbox-prose, .inbox-sent; .inbox-composer > .inbox-reply-field, .inbox-reply-label, .inbox-reply [aria-invalid=true], .inbox-error, .inbox-status; .inbox-context; .inbox-placeholder; region: .inbox-list .inbox-detail .inbox-context .inbox-status .inbox-composer */
 .inbox-flow {
   container-type: inline-size;

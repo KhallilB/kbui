@@ -33,7 +33,7 @@ Put these files in one folder. ListDetail uses the same `flow-router.ts`; copy i
 
 Import `@kb.ui/react/styles.css` once at your app entry and render `<Inbox />` in a browser. With no props it shows sample messages, keeps the open message in the `message` URL parameter and adds replies to memory for the session.
 
-Each source file starts with a comment naming the recipe, the kbui version it came from and this guide. Keep it, so you can compare your copy with a later version.
+Each source file starts with a comment naming the recipe, the kbui release it belongs to and this guide. Keep it, so you can compare your copy with a later version: diff it against the same file at the named release's Git tag, such as `v0.12.0`, then at the tag you are moving to. The site shows the source on `main`, and a release candidate already names its coming release, so a copy taken between releases can include changes its named release lacks. For an exact base, copy the files from the release tag on GitHub.
 
 ## What you supply
 
@@ -55,7 +55,7 @@ Each thread needs a unique `id` and values for `sender`, `address`, `subject`, `
 
 `replies` is optional: the replies your server has saved for that message, in the order to show them after it. Each reply needs its own `id` and a `body`. `author` labels it; a reply without one is labelled with `copy.sentHeading`, which reads "You" once you pass `commit`.
 
-The seams share one shape across list-and-detail recipes. `Inbox.tsx` exports `InboxThread`, `InboxReply`, `ReplyDraft`, `CommitResult` and `inboxCopy`; `flow-router.ts` exports `FlowRouter` and `searchParamRouter`.
+The seams share one shape across list-and-detail recipes. `Inbox.tsx` exports `InboxThread`, `InboxReply`, `ReplyDraft`, `CommitResult` and `inboxCopy`; `flow-router.ts` exports `FlowRouter` and `searchParamRouter`, plus the commit, announcement and focus helpers both flow recipes share.
 
 ```ts
 type InboxReply = { id: string; body: string; author?: string };

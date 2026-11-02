@@ -1,3 +1,7 @@
+// x-release-please-start-version
+// kbui recipe ListDetail, Inbox · from kbui 0.11.0 · https://kbui.kcb.pro/recipes/
+// x-release-please-end
+// Shared by the flow recipes: the router seam, `CommitResult`, announcements and focus helpers.
 import { useState } from "react";
 
 /** `errors` keeps the draft and focuses the first invalid field; `form`, owned by no field, focuses submit. */

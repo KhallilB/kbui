@@ -12,16 +12,26 @@ const versioned = new Set(
     .map((file: { path: string }) => file.path),
 );
 
-test("each recipe starts with a provenance header", () => {
-  for (const recipe of recipeDefinitions)
-    for (const file of recipe.files.filter((path) => path.endsWith(".tsx"))) {
-      const header = readFileSync(resolve(root, file), "utf8").split("\n").slice(0, 3);
-      // The block lets release-please bump the version with the release.
-      expect(header, file).toEqual([
-        "// x-release-please-start-version",
-        `// kbui recipe ${recipe.name} · from kbui ${version} · https://kbui.kcb.pro/recipes/?recipe=${recipe.id}`,
-        "// x-release-please-end",
-      ]);
-      expect(versioned.has(file), `${file} is not in release-please extra-files`).toBe(true);
-    }
+test("each recipe source file starts with a provenance header", () => {
+  const files = [...new Set(recipeDefinitions.flatMap((recipe) => recipe.files))];
+  for (const file of files) {
+    const owners = recipeDefinitions.filter((recipe) => recipe.files.includes(file));
+    // A shared file links the recipe index rather than one owner's guide.
+    const guide =
+      owners.length === 1
+        ? `https://kbui.kcb.pro/recipes/?recipe=${owners[0]?.id}`
+        : "https://kbui.kcb.pro/recipes/";
+    const lines = [
+      "x-release-please-start-version",
+      `kbui recipe ${owners.map((recipe) => recipe.name).join(", ")} · from kbui ${version} · ${guide}`,
+      "x-release-please-end",
+    ];
+    const comment = file.endsWith(".css")
+      ? (line: string) => `/* ${line} */`
+      : (line: string) => `// ${line}`;
+    const header = readFileSync(resolve(root, file), "utf8").split("\n").slice(0, 3);
+    // The block lets release-please bump the version with the release.
+    expect(header, file).toEqual(lines.map(comment));
+    expect(versioned.has(file), `${file} is not in release-please extra-files`).toBe(true);
+  }
 });

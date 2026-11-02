@@ -54,6 +54,30 @@
         {
           "type": "generic",
           "path": "apps/storybook/recipes/RequestIntake.tsx"
+        },
+        {
+          "type": "generic",
+          "path": "apps/storybook/recipes/flow-router.ts"
+        },
+        {
+          "type": "generic",
+          "path": "apps/storybook/recipes/list-detail.css"
+        },
+        {
+          "type": "generic",
+          "path": "apps/storybook/recipes/inbox.css"
+        },
+        {
+          "type": "generic",
+          "path": "apps/storybook/recipes/recipes.css"
+        },
+        {
+          "type": "generic",
+          "path": "apps/storybook/recipes/request-intake-model.ts"
+        },
+        {
+          "type": "generic",
+          "path": "apps/storybook/recipes/request-intake.css"
         }
       ]
     }

@@ -35,8 +35,9 @@ test("every recipe stylesheet is guarded", () => {
   expect(files).toEqual(["inbox.css", "list-detail.css", "recipes.css", "request-intake.css"]);
 });
 
+// The three-line provenance block comes first; recipe-provenance.test.ts owns it.
 const anatomyOf = (css: string) => {
-  const [first = "", ...rest] = css.split("\n");
+  const [first = "", ...rest] = css.split("\n").slice(3);
   const anatomy = first.match(/^\/\* Anatomy: (.+) \*\/$/)?.[1] ?? "";
   return {
     anatomy,
@@ -88,7 +89,7 @@ describe.each(files)("%s", (file) => {
 
   test("recipe css starts with an anatomy comment listing every class", async () => {
     const { anatomy, classes, body } = anatomyOf(await read());
-    expect(anatomy, "line 1 must be /* Anatomy: … */").not.toBe("");
+    expect(anatomy, "line 4 must be /* Anatomy: … */").not.toBe("");
     for (const c of ownClasses(body))
       expect(classes.has(c), `${file}: .${c} not in anatomy`).toBe(true);
     // Anatomy may name unstyled parts, but only ones the recipe renders.

@@ -22,6 +22,8 @@ Copy these files into the same folder, keeping their relative imports:
 
 <!-- /generated -->
 
+Each source file starts with a comment naming the recipe, the kbui release it belongs to and this guide. Keep it, so you can compare your copy with a later version: diff it against the same file at the named release's Git tag, such as `v0.12.0`, then at the tag you are moving to. The site shows the source on `main`, and a release candidate already names its coming release, so a copy taken between releases can include changes its named release lacks. For an exact base, copy the files from the release tag on GitHub.
+
 Import the package stylesheet once. This repository example imports the registered source; after copying, adjust the recipe import to your folder.
 
 ```tsx
