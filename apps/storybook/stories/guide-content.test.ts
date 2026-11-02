@@ -142,8 +142,25 @@ test("flow recipe guides list every prop the recipe takes", () => {
     );
     const props = [...(params?.[1] ?? "").matchAll(/^\s+(\w+)/gm)].map((match) => match[1]);
     expect(props.length, recipe.name).toBeGreaterThan(5);
-    const table = read(recipe.guide).split("## What you supply")[1]?.split("\n\n")[2] ?? "";
+    const supply = read(recipe.guide).split("## What you supply")[1]?.split("\n## ")[0] ?? "";
+    const table = supply.split("\n\n")[2] ?? "";
     for (const prop of props) expect(table, `${recipe.guide} ${prop}`).toContain(`| \`${prop}\``);
+    if (props.includes("router")) {
+      const blocks = [...supply.matchAll(/```(?:ts|tsx)\n([\s\S]*?)```/g)].map(
+        (match) => match[1] ?? "",
+      );
+      expect(
+        blocks.some(
+          (code) =>
+            /\bfunction\b[\s\S]*?:\s*FlowRouter\b/.test(code) &&
+            /\bread\s*(?:\(|:)/.test(code) &&
+            /\bwrite\s*(?:\(|:)/.test(code) &&
+            /\bsubscribe\s*(?:\(|:)/.test(code) &&
+            !/\b(?:window|location|history)\b/.test(code),
+        ),
+        `${recipe.guide} must include a non-URL FlowRouter example in What you supply`,
+      ).toBe(true);
+    }
   }
 });
 

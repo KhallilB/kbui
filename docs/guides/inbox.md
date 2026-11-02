@@ -33,7 +33,7 @@ Put these files in one folder. ListDetail uses the same `flow-router.ts`; copy i
 
 Import `@kb.ui/react/styles.css` once at your app entry and render `<Inbox />` in a browser. With no props it shows sample messages, keeps the open message in the `message` URL parameter and adds replies to memory for the session.
 
-Each source file starts with a comment naming the recipe, the kbui version it came from and this guide. Keep it, so you can compare your copy with a later version.
+Each recipe starts with a comment naming the recipe, the minimum kbui version it needs and this guide. Keep it, so you can compare your copy with a later version.
 
 ## What you supply
 
@@ -96,7 +96,31 @@ function Correspondence({ threads, router }: { threads: InboxThread[]; router: F
 }
 ```
 
-To use your app's router, pass a `FlowRouter` that maps the open id to your route, and keep the same router object across renders. `subscribe` returns an unsubscribe function. The recipe writes once per change and never writes the id that is already open. `copy` is merged over `inboxCopy`, so pass only the strings you change; functions such as `failedNotice(sender)` build announcements.
+To use your app's router, pass a `FlowRouter` that maps the open id to your route, and keep the same router object across renders. `subscribe` returns an unsubscribe function. The recipe writes once per change and never writes the id that is already open. When your app has no URL routing, such as a desktop shell or an embedded pane, keep the open id in memory or app state:
+
+```ts
+import type { FlowRouter } from "./flow-router";
+
+function stateRouter(initial: string | null = null): FlowRouter {
+  let current = initial;
+  const listeners = new Set<() => void>();
+  return {
+    read: () => current || null,
+    write(id) {
+      current = id || null;
+      for (const listener of listeners) listener();
+    },
+    subscribe(onChange) {
+      listeners.add(onChange);
+      return () => {
+        listeners.delete(onChange);
+      };
+    },
+  };
+}
+```
+
+`copy` is merged over `inboxCopy`, so pass only the strings you change; functions such as `failedNotice(sender)` build announcements.
 
 Without `commit`, the defaults describe the in-memory demo: a note that replies stay in this session, "for this session" in the sent announcement and a "Session reply" label. Once you pass `commit` they are neutral, and `sessionNote` is empty, which hides it. `invalidNotice(sender, errors)` receives the errors: by default it says the reply needs changes when `body` has an error, and that it was not sent otherwise. `loading` labels the list and a waiting message.
 
