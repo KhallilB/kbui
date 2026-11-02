@@ -23,6 +23,7 @@ It is not part of any published package. Nothing here depends on kbui.
 
    ARR-4 first used only axe `target-size`, whose spacing exception passes small targets the question counts, so it never fired. It was rewritten after labelling to read each control's measured box at every width, without that exception. The 24 px threshold and the four control types were fixed before scoring and not tuned to the labels.
 6. **Labels.** 50 screens are drawn reproducibly, stratified by category and model. One person labels them on a page that hides the model and all rule output. Precision and recall per rule come from those labels. Then a recheck: wherever a blind answer contradicts a rule whose question the spec answers outright (INT-1, INT-3, INT-4, DES-2, ARR-1), the labeller sees the rule's evidence and answers again. The report gives both sets of numbers.
+7. **Model labeller.** Codex labels the same 50 blind screens: the same three screenshots, outline, questions and hints, read-only in an empty directory, with no rule output, model names or human labels, answering through a fixed schema. Its labels sit beside the human ones and never replace them. `agreement.md` gives per-rule agreement and Cohen's kappa against the blind and rechecked human labels, and the problems each labeller marked by generating model, since Codex shares a family with one generator.
 
 ## Run it
 
@@ -38,6 +39,8 @@ bun run generate -- --study <id> --scratch <empty dir> --codex-home <dir>   # ca
 bun run measure                                                              # needs `bunx playwright install chromium`
 bun run label                                                                # serves the labelling page at http://127.0.0.1:4319/
 bun run recheck                                                              # same page, only the contradicted answers
+bun run model-label -- --codex-home <dir> --scratch <empty dir>              # blind Codex labels; resumes
+bun run agreement                                                            # writes agreement.md
 bun test src
 ```
 
@@ -59,6 +62,9 @@ bun test src
 | `labelling.html` | the blind labelling page; `bun run label` also links its screenshots into `blind/` under token names |
 | `labels.json` | the human labels keyed by blind token, saved by `bun run label` |
 | `adjudicated.json` | the rechecked answers, saved by `bun run recheck`; the report lays them over `labels.json` |
+| `labels.codex-<model>.json` | a model labeller's answers, in the same shape as `labels.json` |
+| `labels.codex-<model>.calls.jsonl` | one line per labelling call: time and token use |
+| `agreement.md` | human and model labels compared per rule and by generating model |
 | `report.md`, `gallery.html` | the rebuilt report, and every screen with findings outlined beside its labels |
 
 ## Limitations
