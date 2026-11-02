@@ -1087,14 +1087,16 @@ export const accessibilityGuides = {
   Skeleton: {
     provides: [
       "Placeholder geometry sets `aria-hidden=true` while loading so assistive technology does not read meaningless decorative bars.",
-      "Shimmer animation stops automatically under prefers-reduced-motion, and forced-colors mode draws an explicit `GrayText` border.",
+      "`variant='auto'` sets `aria-busy=true`, renders its content `inert` and `aria-hidden`, and announces one `role=status` label ('Loading' by default) until `loading` is false.",
+      "Animation stops automatically under prefers-reduced-motion, and forced-colors mode draws `GrayText` placeholders.",
     ],
     authoring: [
-      "Mark the owning region with `aria-busy=true` (and an accessible label or `Status`/`Spinner` announcement) while `Skeleton` placeholders are displayed.",
+      "For `text`, `rect`, `circle` and `pill`, mark the owning region with `aria-busy=true` (and an accessible label or `Status`/`Spinner` announcement) while placeholders are displayed. For `auto`, pass a specific `label` when several regions load at once.",
       "Match placeholder shapes and heights to incoming content so transitioning `loading` to `false` does not shift focus or layout.",
     ],
     verify: [
       "Navigate the loading region with a screen reader to confirm decorative bars are skipped while the owning container communicates its busy state.",
+      "With `variant='auto'`, press Tab through the loading region and confirm focus skips its placeholder controls, then confirm they become focusable once `loading` is false.",
       "Enable prefers-reduced-motion and forced-colors mode to verify static, high-contrast placeholder boundaries.",
     ],
     standards: ["1.3.1", "1.4.3", "1.4.10", "4.1.2", "4.1.3"],
