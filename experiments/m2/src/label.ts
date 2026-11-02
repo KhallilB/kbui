@@ -2,25 +2,30 @@
 import { existsSync, linkSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { parseArgs } from "node:util";
-import { HINTS, outlineRows, short } from "./blind";
+import { hintsFor, outlineRows, short } from "./blind";
 import { type Labels, type Recheck, rechecks } from "./labels";
 import { loadScreens, type Screen } from "./load";
-import { domFindings, RULES, treeFindings } from "./rules";
-import { studyDir } from "./study";
+import { domFindings, RULES, rulesFor, treeFindings } from "./rules";
+import { questionVersion, studyDir } from "./study";
 
 const SAMPLE_SIZE = 50;
 
 const { values } = parseArgs({
   options: {
     study: { type: "string" },
+    questions: { type: "string" },
     serve: { type: "boolean", default: false },
     recheck: { type: "boolean", default: false },
     port: { type: "string", default: process.env.PORT ?? "4319" },
   },
 });
-if (!values.study) throw new Error("usage: label --study <id> [--serve [--recheck]]");
+if (!values.study)
+  throw new Error("usage: label --study <id> [--questions v1|v2] [--serve [--recheck]]");
 if (values.recheck && !values.serve) throw new Error("--recheck needs --serve");
 const study = values.study;
+const version = questionVersion(study, values.questions);
+const activeRules = rulesFor(version);
+const activeHints = hintsFor(version);
 const dir = studyDir(study);
 const screens = loadScreens(study);
 
@@ -122,7 +127,12 @@ function page(server: boolean): string {
     server,
     file,
     recheck: values.recheck,
-    rules: RULES.map(({ id, family, question }) => ({ id, family, question, hint: HINTS[id] })),
+    rules: activeRules.map(({ id, family, question }) => ({
+      id,
+      family,
+      question,
+      hint: activeHints[id],
+    })),
     screens: shown.map(({ id, s }) => {
       const own = disputed.filter((r) => r.token === id);
       return {

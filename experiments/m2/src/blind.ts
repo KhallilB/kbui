@@ -1,6 +1,5 @@
-// What a blind labeller sees besides screenshots, shared by the human page and model labellers.
 import type { Spec } from "@json-render/core";
-import { literals, type RuleId, walk } from "./rules";
+import { literals, type QuestionVersion, type RuleId, walk } from "./rules";
 
 export const short = (v: unknown) => {
   const s = typeof v === "string" ? v : JSON.stringify(v);
@@ -83,3 +82,34 @@ export const HINTS: Record<RuleId, string> = {
   "DATA-1": "Outline: rows and repeat counts, and any Pagination.",
   "DATA-2": "Outline: a repeat, and an element visible when that list is empty.",
 };
+
+// v2 hints direct integrity/data to the spec outline and design/arrangement to visible renders.
+export const HINTS_V2: Record<RuleId, string> = {
+  "INT-1": "Outline: Input and Textarea labels, types and placeholders, including closed dialogs.",
+  "INT-2":
+    "Outline: every destructive Button or Link's on press, confirm, or Dialog/Drawer target.",
+  "INT-3": "Outline and seeded state text: props, badges, fine print and state values.",
+  "INT-4":
+    "Outline: Checkbox and Switch rows state 'starts on' or 'starts off' from initial state.",
+  "INT-5": "Outline: secondary buttons, decline links and dialog actions.",
+  "DES-1":
+    "Screenshots at 390, 768 and 1440 px: visible filled primary buttons per card or page; ignore closed dialogs.",
+  "DES-2":
+    "Outline and screenshots: Heading levels (h1, h2, h3) in order for elements visible on screen.",
+  "ARR-1":
+    "Outline and screenshots: grey depth number after each visible element's type; ignore closed dialogs.",
+  "ARR-2":
+    "Screenshots at 390, 768 and 1440 px (390 px especially): sideways scroll, clipped text or placeholders, and card overflow.",
+  "ARR-3":
+    "Screenshots at 390, 768 and 1440 px (390 px especially): visible text or controls colliding on screen.",
+  "ARR-4":
+    "Screenshots at 390, 768 and 1440 px: visible buttons, links, checkboxes and switches under 24 by 24 px.",
+  "DATA-1":
+    "Outline: Table row counts and repeat item counts in state, and whether any Pagination exists in the spec.",
+  "DATA-2":
+    "Outline: every repeat path, and whether another element has 'visible when' referencing that path.",
+};
+
+export function hintsFor(version: QuestionVersion = "v1"): Record<RuleId, string> {
+  return version === "v2" ? HINTS_V2 : HINTS;
+}

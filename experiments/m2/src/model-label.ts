@@ -2,17 +2,20 @@
 import { appendFileSync, existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { parseArgs } from "node:util";
-import { HINTS, outlineRows, outlineText } from "./blind";
+import { hintsFor, outlineRows, outlineText } from "./blind";
 import { loadScreens } from "./load";
-import { RULES, type RuleId } from "./rules";
-import { studyDir } from "./study";
+import { type QuestionVersion, RULES, type RuleId, rulesFor } from "./rules";
+import { questionVersion, studyDir } from "./study";
 
 export type Answer = "yes" | "no" | "unsure";
 const ANSWERS: Answer[] = ["yes", "no", "unsure"];
 const CODEX = "/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex";
 
-export function labelPrompt(outline: string): string {
-  const questions = RULES.map((r) => `${r.id}: ${r.question} (Where to look: ${HINTS[r.id]})`);
+export function labelPrompt(outline: string, version: QuestionVersion = "v1"): string {
+  const hints = hintsFor(version);
+  const questions = rulesFor(version).map(
+    (r) => `${r.id}: ${r.question} (Where to look: ${hints[r.id]})`,
+  );
   return [
     "You are labelling one generated web screen for a study. Judge only what the screenshots and outline show.",
     "The three images are the same screen rendered 390, 768 and 1440 px wide, in that order.",
@@ -49,6 +52,7 @@ if (import.meta.main) {
   const { values } = parseArgs({
     options: {
       study: { type: "string" },
+      questions: { type: "string" },
       model: { type: "string", default: "gpt-6.1-sol" },
       effort: { type: "string", default: "medium" },
       "codex-home": { type: "string" },
@@ -59,8 +63,9 @@ if (import.meta.main) {
   const codexHome = values["codex-home"];
   if (!study || !codexHome || !scratch)
     throw new Error(
-      "usage: model-label --study <id> --codex-home <dir with auth.json only> --scratch <empty dir> [--model m] [--effort e]",
+      "usage: model-label --study <id> --codex-home <dir with auth.json only> --scratch <empty dir> [--questions v1|v2] [--model m] [--effort e]",
     );
+  const version = questionVersion(study, values.questions);
   // Codex runs read-only in an empty directory, so it cannot read labels or rule output.
   if (readdirSync(scratch).length) throw new Error(`${scratch} is not empty`);
   const dir = studyDir(study);
@@ -109,7 +114,7 @@ if (import.meta.main) {
         "-",
       ],
       {
-        stdin: new Blob([labelPrompt(outlineText(outlineRows(s.compiled.spec)))]),
+        stdin: new Blob([labelPrompt(outlineText(outlineRows(s.compiled.spec)), version)]),
         stdout: "pipe",
         stderr: "pipe",
         env: { ...process.env, CODEX_HOME: codexHome },
