@@ -112,6 +112,15 @@ export const ruleMeta = {
     group: "data",
     requires: "async",
   },
+  "refetch-row": {
+    summary:
+      "A refetch that removes the focused row while loading moves focus to search, where it stays when the rows return",
+    group: "data",
+  },
+  "refetch-count": {
+    summary: "A refetch announces the record count once, after loading ends",
+    group: "data",
+  },
   "form-error": {
     summary:
       "A commit error no field owns keeps the draft, shows beside the submit control and focuses it, and is not announced as needing changes",

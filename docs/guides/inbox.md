@@ -33,7 +33,7 @@ Put these files in one folder. ListDetail uses the same `flow-router.ts`; copy i
 
 Import `@kb.ui/react/styles.css` once at your app entry and render `<Inbox />` in a browser. With no props it shows sample messages, keeps the open message in the `message` URL parameter and adds replies to memory for the session.
 
-Each source file starts with a comment naming the recipe, the minimum kbui version it needs and this guide. Keep it. The version is the oldest release that has every package export the recipe uses, so it tells you which `@kb.ui/react` to install, not when you copied the file: copies taken at different times can name the same version. To compare your copy with upstream, diff it against the same file at a release's Git tag, such as `v0.12.0`, or on `main`.
+Each source file starts with a comment naming the recipe, the oldest `@kb.ui/react` it works with and this guide; `needs @kb.ui/react ≥ 0.12.0` means install 0.12.0 or later. Keep it. The version is the oldest npm release that has every package export the recipe uses. It is a requirement, not a record of when you copied the file: copies taken at different times can name the same version. To compare your copy with upstream, diff it against the same file at a release's Git tag, such as `v0.12.0`, or on `main`.
 
 ## What you supply
 
@@ -96,7 +96,7 @@ function Correspondence({ threads, router }: { threads: InboxThread[]; router: F
 }
 ```
 
-To use your app's router, pass a `FlowRouter` that maps the open id to your route, and keep the same router object across renders. `subscribe` returns an unsubscribe function. The recipe writes once per change and never writes the id that is already open. When your app has no URL routing, such as a desktop shell or an embedded pane, keep the open id in memory or app state:
+To use your app's router, pass a `FlowRouter` that maps the open id to your route, and keep the same router object across renders. `subscribe` returns an unsubscribe function. The recipe writes once per change and never writes the id that is already open. `subscribe` must call `onChange` for changes from outside the recipe, such as Back and Forward. Calling it for the recipe's own `write` is optional: the recipe reads the id on every call and ignores the one already open, so both behave the same. `searchParamRouter` does not notify for its own writes; `stateRouter` below does. When your app has no URL routing, such as a desktop shell or an embedded pane, keep the open id in memory or app state:
 
 ```ts
 import type { FlowRouter } from "./flow-router";
@@ -214,6 +214,8 @@ The [flow contract stories](https://github.com/KhallilB/kbui/blob/main/apps/stor
 - Records that change after mount are matched by id: the open record and drafts survive, a server echo shows once, and removing the open record shows it unavailable
 - While records load, a deep link shows neither an unavailable record nor an empty list, then focuses the record once it arrives
 - A refetch that omits the open record while loading keeps its draft, errors and focus; still missing once loading ends, it shows unavailable
+- A refetch that removes the focused row while loading moves focus to search, where it stays when the rows return
+- A refetch announces the record count once, after loading ends
 
 <!-- /generated -->
 

@@ -58,7 +58,8 @@ const releaseTags = execFileSync("git", ["tag", "-l", "v*"], { cwd: root, encodi
   .trim()
   .split("\n")
   .map((tag) => tag.replace(/^v/, ""))
-  .filter((ver) => compareSemver(ver, "0.10.0") >= 0)
+  // 0.10.0 is tarball-only; a minimum must be installable from npm.
+  .filter((ver) => compareSemver(ver, "0.10.1") >= 0)
   .sort(compareSemver);
 
 const tagExports = new Map(
@@ -101,7 +102,7 @@ function recipeMinimum(recipe: (typeof recipeDefinitions)[number]): string {
   return minimumKbuiVersion(readFileSync(resolve(root, component), "utf8"));
 }
 
-test("each recipe source file starts with a provenance header naming its minimum kbui version", () => {
+test("each recipe source file starts with a provenance header naming the oldest npm `@kb.ui/react` it needs", () => {
   for (const file of new Set(recipeDefinitions.flatMap((recipe) => recipe.files))) {
     const owners = recipeDefinitions.filter((recipe) => recipe.files.includes(file));
     // A shared file needs what its most demanding owner needs, and links the recipe index.
@@ -110,7 +111,7 @@ test("each recipe source file starts with a provenance header naming its minimum
       owners.length === 1
         ? `https://kbui.kcb.pro/recipes/?recipe=${owners[0]?.id}`
         : "https://kbui.kcb.pro/recipes/";
-    const header = `kbui recipe ${owners.map((recipe) => recipe.name).join(", ")} · from kbui ${minVersion} · ${guide}`;
+    const header = `kbui recipe ${owners.map((recipe) => recipe.name).join(", ")} · needs @kb.ui/react ≥ ${minVersion} · ${guide}`;
     const source = readFileSync(resolve(root, file), "utf8");
     const [firstLine] = source.split("\n");
     expect(firstLine, file).toBe(file.endsWith(".css") ? `/* ${header} */` : `// ${header}`);

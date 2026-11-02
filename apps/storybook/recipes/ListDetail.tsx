@@ -1,4 +1,4 @@
-// kbui recipe ListDetail · from kbui 0.12.0 · https://kbui.kcb.pro/recipes/?recipe=listdetail
+// kbui recipe ListDetail · needs @kb.ui/react ≥ 0.12.0 · https://kbui.kcb.pro/recipes/?recipe=listdetail
 import {
   Button,
   Callout,
@@ -336,6 +336,10 @@ export function ListDetail({
   const submit = useRef<HTMLButtonElement>(null);
   const refs = useMemo(() => ({ title, owner, status, submit }), []);
   const rows = useRef(new Map<string, HTMLButtonElement>());
+  // A refetch can remove the focused row before it blurs.
+  const rowBefore = useRef<HTMLButtonElement | null>(null);
+  rowBefore.current =
+    Array.from(rows.current.values()).find((row) => row === activeBefore.current) ?? null;
   const lastSelected = useRef(selectedId);
   const shown = useRef<string | null>(null);
   const focusTarget = useRef<Target | null>(selectedId ? "heading" : null);
@@ -392,6 +396,12 @@ export function ListDetail({
       status.current?.querySelector<HTMLElement>("[role='combobox'], button")?.focus();
     if (target === "list")
       (rows.current.get(lastSelected.current ?? "") ?? search.current)?.focus();
+  });
+
+  // The focused row left the list: search keeps focus in it, as Back does for a filtered row.
+  useEffect(() => {
+    if (isFocusDisconnected(rowBefore.current) && !root.current?.contains(document.activeElement))
+      search.current?.focus();
   });
 
   // The open record left the prop: drop its draft, and refocus only if focus went with it.
@@ -535,9 +545,8 @@ export function ListDetail({
                 options={[{ value: "all", label: text.allStatuses }, ...statusOptions]}
               />
               <Text size="sm" tone="muted" aria-live="polite">
-                {loading && !records.length
-                  ? text.loading
-                  : text.count(filtered.length, records.length)}
+                {/* Counts that change while loading would each be announced. */}
+                {loading ? text.loading : text.count(filtered.length, records.length)}
               </Text>
               {loading && !records.length ? null : filtered.length ? (
                 <ul className="list-detail-items" aria-label={text.list}>

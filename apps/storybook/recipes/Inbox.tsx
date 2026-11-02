@@ -1,4 +1,4 @@
-// kbui recipe Inbox · from kbui 0.12.0 · https://kbui.kcb.pro/recipes/?recipe=inbox
+// kbui recipe Inbox · needs @kb.ui/react ≥ 0.12.0 · https://kbui.kcb.pro/recipes/?recipe=inbox
 import {
   Button,
   Callout,
@@ -216,6 +216,10 @@ export function Inbox({
   activeBefore.current = root.current?.contains(document.activeElement)
     ? document.activeElement
     : null;
+  // A refetch can remove the focused row before it blurs.
+  const rowBefore = useRef<HTMLButtonElement | null>(null);
+  rowBefore.current =
+    Array.from(rows.current.values()).find((row) => row === activeBefore.current) ?? null;
   const focusTarget = useRef<Target | null>(selectedId !== null ? "heading" : null);
   const id = useId();
   // A refetch may omit the open thread while loading; it is removed only once loading ends.
@@ -270,6 +274,12 @@ export function Inbox({
     if (target === "reply") replyButton.current?.focus();
     if (target === "input") replyInput.current?.focus();
     if (target === "submit") submit.current?.focus();
+  });
+
+  // The focused row left the list: search keeps focus in it, as Back does for a filtered row.
+  useEffect(() => {
+    if (isFocusDisconnected(rowBefore.current) && !root.current?.contains(document.activeElement))
+      search.current?.focus();
   });
 
   // The open thread left the prop: drop its draft, and refocus only if focus went with it.
@@ -402,9 +412,8 @@ export function Inbox({
                 onChange={(event) => setQuery(event.target.value)}
               />
               <Text size="sm" tone="muted" aria-live="polite">
-                {loading && !threads.length
-                  ? text.loading
-                  : text.count(filtered.length, threads.length)}
+                {/* Counts that change while loading would each be announced. */}
+                {loading ? text.loading : text.count(filtered.length, threads.length)}
               </Text>
               {loading && !threads.length ? null : filtered.length ? (
                 <ul className="inbox-rows" aria-label={text.list}>
