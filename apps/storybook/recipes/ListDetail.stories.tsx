@@ -280,7 +280,7 @@ export const CommitSuccessAppliesAndClears: Story = {
     });
     await expect(canvas.getByRole("heading", { name: "Warehouse access approved" })).toBeVisible();
     expect(canvas.queryByRole("textbox", { name: "Request title" })).toBeNull();
-    await expect(canvas.getByRole("status")).toHaveTextContent("REQ-1042 saved for this session.");
+    await expect(canvas.getByRole("status")).toHaveTextContent(/^REQ-1042 saved\.$/);
   },
 };
 
@@ -299,9 +299,7 @@ export const SuccessAfterLeavingKeepsFocus: Story = {
     const heading = canvas.getByRole("heading", { name: "Replace loading dock scanner" });
     await waitFor(() => expect(heading).toHaveFocus());
     leavingSuccess.settle(true);
-    await waitFor(() =>
-      expect(canvas.getByRole("status")).toHaveTextContent("REQ-1042 saved for this session."),
-    );
+    await waitFor(() => expect(canvas.getByRole("status")).toHaveTextContent(/^REQ-1042 saved\.$/));
     await expect(heading).toHaveFocus();
     await userEvent.click(canvas.getByRole("button", { name: "Back to requests" }));
     await expect(
@@ -405,5 +403,53 @@ export const CopyReplacesStrings: Story = {
     await expect(canvas.getByRole("heading", { name: "Site requests" })).toBeVisible();
     await userEvent.click(canvas.getByRole("button", { name: /REQ-1042/ }));
     await expect(canvas.getByRole("button", { name: "Change request" })).toBeVisible();
+  },
+};
+
+export const FormErrorIsNotNeedsChanges: Story = {
+  args: {
+    commit: async (): Promise<Outcome> => ({ errors: { form: "Viewers can't edit this." } }),
+  },
+  play: async (context) => {
+    const canvas = within(context.canvasElement);
+    const title = await editFirst(context);
+    expect(canvas.queryByText(/browser session/)).toBeNull();
+    await save(context);
+    await waitFor(() => expect(canvas.getByRole("button", { name: "Save changes" })).toHaveFocus());
+    await expect(canvas.getByText("Viewers can't edit this.")).toBeVisible();
+    await expect(title).toHaveValue("Warehouse access approved");
+    await expect(canvas.getByRole("status")).toHaveTextContent(
+      /^REQ-1042 was not saved\. Viewers can't edit this\.$/,
+    );
+  },
+};
+
+export const LoadingRequests: Story = {
+  args: { requests: [], loading: true, initialRequestId: "REQ-1042" },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getAllByText("Loading requests…")[0]).toBeVisible();
+    expect(canvas.queryByRole("heading", { name: "Request unavailable" })).toBeNull();
+    expect(canvas.queryByRole("heading", { name: "No requests yet" })).toBeNull();
+  },
+};
+
+export const InsideAppShell: Story = {
+  args: { landmark: false, header: false },
+  render: (args) => (
+    <main>
+      <h1>Operations</h1>
+      <ListDetail {...args} />
+    </main>
+  ),
+  play: async (context) => {
+    const canvas = within(context.canvasElement);
+    expect(canvas.getAllByRole("main")).toHaveLength(1);
+    expect(canvas.getAllByRole("heading", { level: 1 })).toHaveLength(1);
+    await editFirst(context);
+    await save(context);
+    await waitFor(() =>
+      expect(canvas.getByRole("status")).toHaveTextContent("REQ-1042 saved for this session."),
+    );
   },
 };

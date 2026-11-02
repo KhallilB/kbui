@@ -42,7 +42,8 @@ export const ruleMeta = {
     requires: "async",
   },
   validation: {
-    summary: "An invalid commit keeps the value, focuses the field and describes the error",
+    summary:
+      "An invalid commit keeps the value; an error on a rendered field focuses and describes that field",
     group: "editing",
   },
   "current-row": { summary: "Only the open record's row carries aria-current", group: "lists" },
@@ -56,7 +57,8 @@ export const ruleMeta = {
     group: "lists",
   },
   "pending-focus": {
-    summary: "Focus stays on an enabled control while a commit is pending",
+    summary:
+      "While a commit is pending, focus moves to the record heading and never rests on a disabled control",
     group: "async",
     requires: "async",
   },
@@ -69,7 +71,8 @@ export const ruleMeta = {
     group: "navigation",
   },
   "context-initial": {
-    summary: "The context aside shows on first open exactly when the policy says open",
+    summary:
+      "The context aside shows on the session's first open exactly when the policy says open; its toggle then holds for the session",
     group: "navigation",
   },
   "forced-colors-row": {
@@ -96,6 +99,20 @@ export const ruleMeta = {
   "routing-boundary": {
     summary:
       "Navigation goes only through the router seam: one write per change, none for the open id, and the URL is untouched",
+    group: "navigation",
+  },
+  loading: {
+    summary:
+      "While records load, a deep link shows neither an unavailable record nor an empty list, then focuses the record once it arrives",
+    group: "data",
+  },
+  "form-error": {
+    summary:
+      "A commit error no field owns keeps the draft, shows beside the submit control and focuses it, and is not announced as needing changes",
+    group: "editing",
+  },
+  embedded: {
+    summary: "Embedded in an app shell, the recipe adds no main landmark or page heading",
     group: "navigation",
   },
 } as const satisfies Record<string, RuleMeta>;
