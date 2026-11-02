@@ -32,7 +32,7 @@ export function Example() {
 
 ## Shapes
 
-`AvatarShape` accepts `circle`, `square`, `rounded`, `hexagon` and `diamond`. These shapes are implemented locally and unreleased. `square` has zero corner radius; `rounded` uses softly rounded corners.
+`AvatarShape` accepts `circle`, `square`, `rounded`, `hexagon` and `diamond`. `square` has zero corner radius; `rounded` uses softly rounded corners.
 
 Shape changes only the silhouette. Photos and initials remain upright, and the accessible identity, size and image request state stay unchanged. Hexagon and diamond clip the media frame to their polygon; they do not rotate the content.
 

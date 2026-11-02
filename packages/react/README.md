@@ -65,7 +65,7 @@ Choose by task. Each page contains a complete usage example, canonical API detai
 | <a id="image"></a>[`Image`](docs/components/Image.md) | Stable image sizing, crops, containment and failure states. |
 | <a id="thumbnail"></a>[`Thumbnail`](docs/components/Thumbnail.md) | Captioned products, attachments and gallery previews. |
 
-See [Media and identity](../../docs/guides/media-and-identity.md) for responsive sources and retry, and [`Gallery`](docs/components/Gallery.md) for catalog pages. These components are implemented locally and unreleased.
+See [Media and identity](../../docs/guides/media-and-identity.md) for responsive sources and retry, and [`Gallery`](docs/components/Gallery.md) for catalog pages.
 ### Collections
 
 | Component | Use for |
