@@ -98,3 +98,21 @@ test("repository changelog parses every release against the catalog", () => {
   for (const release of releases)
     for (const name of release.components) expect(Object.keys(definitions)).toContain(name);
 });
+
+test("an added component may carry a component or intent suffix", () => {
+  const [release] = parseChangelog(
+    `## 0.3.0 (2026-11-01)
+
+### Features
+
+* **react:** add Stack layout component${sha("7777777")}
+* **react:** add Form and Settings layout intents and FormSection${sha("8888888")}
+* **react:** add Grid adornments${sha("9999999")}
+`,
+    ["Stack", "Form", "Settings", "FormSection", "Grid"],
+  );
+  expect(release).toMatchObject({
+    components: ["Stack", "Form", "Settings", "FormSection"],
+    improvements: ["Add Grid adornments"],
+  });
+});

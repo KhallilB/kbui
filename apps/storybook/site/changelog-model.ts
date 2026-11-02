@@ -24,7 +24,11 @@ const sectionKind: Record<string, "breaking" | "feature" | "fixes"> = {
 // "add [adjectives] A, B and C [with …]" only; any unknown name keeps the line as plain text.
 function addedComponents(text: string, known: ReadonlySet<string>): string[] {
   const match = /^add (?:[a-z]+ )*?([A-Z][\w, ]*?)(?: with .*)?$/.exec(text);
-  const names = match?.[1]?.split(/, | and /) ?? [];
+  // "Stack layout component" and "Settings layout intents" name Stack and Settings.
+  const names =
+    match?.[1]
+      ?.split(/, | and /)
+      .map((name) => name.replace(/(?: layout)? (?:component|intent)s?$/, "")) ?? [];
   return names.length && names.every((name) => known.has(name)) ? names : [];
 }
 
