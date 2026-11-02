@@ -39,16 +39,17 @@ The recipe's files become part of your app. Change its records, fields, wording 
 
 ### What you supply
 
-A flow recipe runs on its own with sample records and local defaults, so you can try it before connecting anything. To use it for real, pass your records and replace the defaults through a few documented props, its seams: how the open record maps to your router, how a change is saved, how a draft is validated, and the text it shows and announces. Its guide lists each one.
+A flow recipe runs on its own with sample records and local defaults, so you can try it before connecting anything. To use it for real, pass your records and replace the defaults through a few documented props, its seams: how the open record maps to your router, how a change is saved, how a draft is validated, and the text it shows and announces. Further props show a loading state while records arrive and fit the recipe inside an app shell that already has its own `<main>` and page heading. Its guide lists each one.
 
 Flow recipes handle a save the same way:
 
 - When validation fails, in the browser or on your server, the draft stays, focus moves to the first field to fix, and nothing is saved.
+- When your server refuses a save for a reason no field owns, such as a missing permission, the draft stays, the reason shows with the form and focus moves to the submit control.
 - When a save fails, the draft stays, and a visible message beside the submit control says what happened. Screen readers hear it too.
 - When a save succeeds, the change appears and the draft clears.
 - If someone opens another record before a save finishes, focus stays where they are. A failure keeps that record's draft and shows the error when they return.
 
-Your records can change after the recipe loads. The recipe matches them by id, so the open record, drafts and pending saves stay with the right record.
+Your records can change after the recipe loads. The recipe matches them by id, so the open record, drafts and pending saves stay with the right record. Keep a record that has not changed as the same object between updates; each guide explains why.
 
 ### The flow contract
 
@@ -58,7 +59,7 @@ The contract checks kbui's copy, not yours. After you change flow code in your c
 
 ### Contract-checked recipes
 
-Flow recipes cover a complete task with tests for each of its states. A contract-checked recipe also passes its family's shared rules, so it behaves like the others in that family, and what you learn from one carries over. ListDetail and Inbox are both contract-checked; the [ListDetail guide](list-detail.md) and [Inbox guide](inbox.md) list the guarantees each meets.
+Flow recipes cover a complete task with tests for each of its states. A contract-checked recipe also passes its family's shared rules, so it behaves like the others in that family, and what you learn from one carries over. ListDetail and Inbox are both contract-checked; the [ListDetail guide](https://kbui.kcb.pro/recipes/?recipe=listdetail) and [Inbox guide](https://kbui.kcb.pro/recipes/?recipe=inbox) list the guarantees each meets.
 
 ### Preview seams
 
@@ -86,4 +87,4 @@ The workspace demo runs settings and a job queue in one app built from kbui comp
 
 Keep API details in the component reference, recipe instructions in its guide, and running examples in source and stories. The content index connects those files to the website and Storybook; keep the guide in one place.
 
-Follow the [recipe contribution steps](../../CONTRIBUTING.md#components-and-recipes) for registration and checks. Mark local work as unreleased until its source and documentation are published.
+Follow the [recipe contribution steps](https://github.com/KhallilB/kbui/blob/main/CONTRIBUTING.md#components-and-recipes) for registration and checks. Mark local work as unreleased until its source and documentation are published.

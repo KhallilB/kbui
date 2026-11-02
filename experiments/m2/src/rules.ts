@@ -18,6 +18,7 @@ export type RuleId =
   | "DATA-2";
 
 export type Rule = { id: RuleId; family: Family; title: string; question: string };
+export type QuestionVersion = "v1" | "v2";
 
 // `question` is what the human labeller answers, without seeing rule output.
 export const RULES: Rule[] = [
@@ -109,6 +110,41 @@ export const RULES: Rule[] = [
   },
 ];
 
+// v2 questions split reading by family: spec for integrity/data, rendered screen for design/arrangement.
+export const QUESTIONS_V2: Record<RuleId, string> = {
+  "INT-1":
+    "In the spec (outline), does any field ask for a password, one-time code, card number, CVC, PIN or similar secret, whether or not it is currently shown?",
+  "INT-2":
+    "In the spec (outline), does any delete, remove, revoke, cancel-plan, reset or similar destructive action run without a confirm prompt or confirmation dialog, even if nothing triggers it in the screenshot?",
+  "INT-3":
+    "In the spec (outline or seeded state), is there any urgency, scarcity or popularity claim (only N left, limited time, ends soon, N people viewing), whether or not it is visible in the screenshot?",
+  "INT-4":
+    "In the spec (outline), does any newsletter, marketing or data-sharing Checkbox or Switch start switched on in initial state, whether or not the user notices it?",
+  "INT-5":
+    "In the spec (outline), does any decline or opt-out option shame the user (such as 'No thanks, I don't like saving money'), whether or not its dialog or branch is shown?",
+  "DES-1":
+    "On the rendered screen at 390, 768 or 1440 px, does any visible card or the page outside cards show more than one filled primary button (ignoring closed dialogs and hidden elements)?",
+  "DES-2":
+    "Among headings visible on the rendered screen at 390, 768 or 1440 px, is there more than one h1, or do visible headings skip a level (such as h1 straight to h3, ignoring closed dialogs and hidden elements)?",
+  "ARR-1":
+    "On the rendered screen, is any visible element nested more than seven levels deep in the outline (depth > 7, ignoring closed dialogs and hidden elements)?",
+  "ARR-2":
+    "On the rendered screen at 390, 768 or 1440 px, does the page scroll sideways, or is any visible text or control cut off or spilling out of its container?",
+  "ARR-3":
+    "On the rendered screen at 390, 768 or 1440 px, does any visible text or control collide with or overlap another on screen?",
+  "ARR-4":
+    "On the rendered screen at 390, 768 or 1440 px, is any visible button, link, checkbox or switch smaller than 24 by 24 pixels?",
+  "DATA-1":
+    "In the spec (outline), does any Table or repeated list have more than ten rows or items in state with no Pagination element in the spec?",
+  "DATA-2":
+    "In the spec (outline), does any data-bound repeated list lack an empty-state element conditional on that list path, even if the list is currently full?",
+};
+
+export function rulesFor(version: QuestionVersion = "v1"): Rule[] {
+  if (version === "v1") return RULES;
+  return RULES.map((r) => ({ ...r, question: QUESTIONS_V2[r.id] }));
+}
+
 export type Finding = { rule: RuleId; elementKey: string | null; detail: string; width?: number };
 
 export type Element = {
@@ -128,18 +164,25 @@ export type Dom = {
   clipped: { key: string | null; text: string }[];
   overlaps: { a: string | null; b: string | null; area: number }[];
   axe: { id: string; impact: string | null; keys: (string | null)[] }[];
+  /** First rendered box per element key: x, y, width, height. */
+  boxes: Record<string, number[]>;
 };
 
 const CREDENTIAL =
   /pass(word|code|phrase)|card ?number|credit card|debit card|\bcvc\b|\bcvv\b|security code|expir(y|ation)|\bssn\b|social security|one[- ]time code|verification code|\b2fa code\b|\bpin\b|routing number|account number|\biban\b/i;
 const DESTRUCTIVE =
   /\b(delete|remove|revoke|deactivate|erase|wipe|discard|disconnect|archive|reset)\b|\bcancel (my |your |the )?(subscription|plan|membership|order|account|booking)\b|\bclose (my |your )?account\b|\b(sign|log) out of all\b/i;
-const URGENCY =
+export const URGENCY =
   /\bonly \d+ (left|remaining|in stock)\b|\blimited[- ]time\b|\bends (in|soon|tonight|today|at midnight)\b|\bhurry\b|\bselling fast\b|\balmost gone\b|\blast chance\b|\b\d[\d,]* (people|others|shoppers|customers) (are )?(viewing|watching|looking|bought|purchased|have bought)\b|\bwhile (supplies|stocks?) last\b|\btoday only\b|\bdon'?t miss\b|\bin high demand\b|\b\d{1,2}:\d{2}:\d{2}\b/i;
 const CONSENT =
   /newsletter|marketing|promo(tion)?s?\b|offers|subscribe|sign me up|updates by email|share (my )?(data|information)|partners|third[- ]part/i;
 const SHAMING =
   /\bno,? thanks?,? i\b|\bi (don'?t|do not) (want|like|need|care)\b|\bi'?(ll| will) pay full price\b|\bi prefer (not|to miss)\b|\bno,? i('?m| am) (fine|good|not)\b/i;
+
+// WCAG 2.5.8 minimum, without axe's spacing exception, which ARR-4's question does not grant.
+const MIN_TARGET = 24;
+// Single-target controls; group boxes (Radio, ToggleGroup) span many targets.
+const TARGETS = new Set(["Button", "Link", "Checkbox", "Switch"]);
 
 const MAX_DEPTH = 7;
 const MAX_ROWS = 10;
@@ -159,7 +202,7 @@ export function literals(value: unknown): string[] {
   return [];
 }
 
-function pointer(state: unknown, path: unknown): unknown {
+export function pointer(state: unknown, path: unknown): unknown {
   if (typeof path !== "string") return undefined;
   return path
     .split("/")
@@ -206,7 +249,7 @@ export function walk(spec: Spec): Visit[] {
   return out;
 }
 
-function referencesPath(value: unknown, path: string): boolean {
+export function referencesPath(value: unknown, path: string): boolean {
   if (typeof value === "string") return value === path || value.startsWith(`${path}/`);
   if (Array.isArray(value)) return value.some((v) => referencesPath(v, path));
   if (value && typeof value === "object")
@@ -348,7 +391,7 @@ export function treeFindings(spec: Spec): Finding[] {
   return findings;
 }
 
-export function domFindings(doms: Dom[]): Finding[] {
+export function domFindings(doms: Dom[], spec: Spec): Finding[] {
   const findings: Finding[] = [];
   for (const d of doms) {
     if (d.overflowX)
@@ -381,6 +424,16 @@ export function domFindings(doms: Dom[]): Finding[] {
         detail: `${v.keys.length} small targets`,
         width: d.width,
       });
+    }
+    for (const [key, [, , w = 0, h = 0]] of Object.entries(d.boxes)) {
+      const type = (spec.elements as Record<string, Element> | undefined)?.[key]?.type ?? "";
+      if (TARGETS.has(type) && (w < MIN_TARGET || h < MIN_TARGET))
+        findings.push({
+          rule: "ARR-4",
+          elementKey: key,
+          detail: `${type} ${w}x${h}`,
+          width: d.width,
+        });
     }
   }
   return findings;

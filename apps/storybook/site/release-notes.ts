@@ -6,10 +6,12 @@ export const releaseNotes: Record<string, ReleaseCopy> = {
     highlights: [
       "Four maintained recipes are released: ListDetail and Inbox, two flow recipes checked against one shared list-and-detail contract, and PageHeader and FormSection, two composition recipes.",
       "Each flow recipe's guide follows one template and lists the contract guarantees its recipe meets.",
-      "Connect a flow recipe through four preview seams: router, commit, validate and copy. Preview names and shapes may still change before 1.0.",
+      "Connect a flow recipe through preview seams: router, commit, validate, copy, loading, landmark and header. Preview names and shapes may still change before 1.0.",
+      "Flow recipes show a loading state while records arrive and fit inside an app shell that already has its own main landmark and page heading. Inbox shows replies saved on your server, and a commit error no field owns keeps the draft and moves focus to the save or send control.",
       "Records that change after a flow recipe loads are matched by id, so the open record, drafts and pending saves stay with the right record.",
       "A failed save keeps the draft and shows a visible, announced message. Server validation errors behave like client ones.",
       "Prop renames: Inbox's sendReply is now commit, ListDetail's initialRequests is now requests, and Inbox's initialThreads is now threads.",
+      "Class renames for restyled copies: ListDetail's request-flow classes now start with list-detail, and its editor is list-detail-composer. Inbox's inbox-index and inbox-letter are now inbox-list and inbox-detail.",
     ],
   },
   "0.10.0": {

@@ -109,4 +109,59 @@ describe("Skeleton", () => {
     );
     expect(container.querySelector(".kb-skeleton-content")).toHaveClass("slot-content");
   });
+
+  describe('variant="auto"', () => {
+    test("renders children inert behind one loading status while loading", () => {
+      const { container } = render(
+        <Skeleton variant="auto">
+          <button type="button">Follow</button>
+        </Skeleton>,
+      );
+      const root = container.querySelector(".kb-skeleton");
+      const content = container.querySelector(".kb-skeleton-content");
+      expect(root).toHaveAttribute("data-variant", "auto");
+      expect(root).toHaveAttribute("aria-busy", "true");
+      expect(root).not.toHaveAttribute("aria-hidden");
+      expect(content).toHaveAttribute("inert");
+      expect(content).toHaveAttribute("aria-hidden", "true");
+      expect(content).toContainElement(screen.getByText("Follow"));
+      expect(screen.getByRole("status")).toHaveTextContent("Loading");
+      expect(container.querySelector(".kb-skeleton-line")).toBeNull();
+    });
+
+    test("uses the label prop for the loading status", () => {
+      render(
+        <Skeleton variant="auto" label="Loading profile">
+          <p>Ada</p>
+        </Skeleton>,
+      );
+      expect(screen.getByRole("status")).toHaveTextContent("Loading profile");
+    });
+
+    test("keeps the same content node when loading finishes", () => {
+      const { container, rerender } = render(
+        <Skeleton variant="auto">
+          <p>Ada</p>
+        </Skeleton>,
+      );
+      const content = container.querySelector(".kb-skeleton-content");
+      rerender(
+        <Skeleton variant="auto" loading={false}>
+          <p>Ada</p>
+        </Skeleton>,
+      );
+      const root = container.querySelector(".kb-skeleton");
+      expect(container.querySelector(".kb-skeleton-content")).toBe(content);
+      expect(content).not.toHaveAttribute("inert");
+      expect(content).not.toHaveAttribute("aria-hidden");
+      expect(root).not.toHaveAttribute("aria-busy");
+      expect(screen.queryByRole("status")).toBeNull();
+    });
+
+    test("falls back to text lines without children", () => {
+      const { container } = render(<Skeleton variant="auto" lines={2} />);
+      expect(container.querySelectorAll(".kb-skeleton-line")).toHaveLength(2);
+      expect(container.querySelector(".kb-skeleton")).toHaveAttribute("aria-hidden", "true");
+    });
+  });
 });

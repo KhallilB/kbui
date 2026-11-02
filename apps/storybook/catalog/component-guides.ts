@@ -806,9 +806,9 @@ export const componentGuides: Record<string, ComponentGuide> = {
         "Match text lines, avatars, and media blocks to the loaded layout so resolving data does not shift the page.",
     },
     tips: [
-      "Wrap loading sections in a container with `aria-busy='true'` and toggle `loading={false}` to reveal children in place.",
-      "Use `variant='text'` with lines for paragraphs, 'circle' for avatars, 'pill' for status chips, and 'rect' for panels or charts.",
-      "Choose `animation='wave'` for multi-line cascades, 'pulse' for quiet background refreshes, and `tone='accent'` for synthesis placeholders.",
+      "Wrap real kbui content in `variant='auto'` and leave data-driven fields empty while loading; avatars, buttons, badges, fields, headings and text become placeholders in their own size.",
+      "Use `variant='text'` with lines for paragraphs, 'circle' for avatars, 'pill' for status chips, and 'rect' for panels or charts when no content markup exists yet.",
+      "Use `animation='pulse'` or 'wave' for quieter background refreshes, and `tone='accent'` to tie placeholders to an accented surface.",
     ],
     accessibility: accessibilityGuides.Skeleton,
   },

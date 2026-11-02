@@ -1,6 +1,8 @@
 import { describe, expect, test } from "bun:test";
 import type { Spec } from "@json-render/core";
-import { type Dom, domFindings, type RuleId, treeFindings } from "./rules";
+import { HINTS, HINTS_V2, hintsFor } from "./blind";
+import { type Dom, domFindings, RULES, type RuleId, rulesFor, treeFindings } from "./rules";
+import { questionVersion } from "./study";
 
 type El = Record<string, unknown>;
 
@@ -199,14 +201,71 @@ test("domFindings maps measurements to rules per width", () => {
     overflowX: true,
     clipped: [],
     overlaps: [{ a: "x", b: "y", area: 120 }],
+    boxes: {},
     axe: [
       { id: "target-size", impact: "serious", keys: ["btn"] },
       { id: "color-contrast", impact: "serious", keys: ["t"] },
     ],
   };
-  expect(domFindings([dom]).map((f) => `${f.rule}@${f.width}`)).toEqual([
+  expect(domFindings([dom], page()).map((f) => `${f.rule}@${f.width}`)).toEqual([
     "ARR-2@390",
     "ARR-3@390",
     "ARR-4@390",
   ]);
+});
+
+test("ARR-4 flags a control box under 24 px on either side, without axe's spacing exception", () => {
+  const s = page(
+    ["small", { type: "Button", props: { label: "Edit" } }],
+    ["thin", { type: "Switch", props: { label: "Email" } }],
+    ["ok", { type: "Button", props: { label: "Save" } }],
+    ["note", { type: "Text", props: { text: "x" } }],
+  );
+  const dom: Dom = {
+    width: 768,
+    overflowX: false,
+    clipped: [],
+    overlaps: [],
+    axe: [],
+    boxes: {
+      small: [0, 0, 20, 32],
+      thin: [0, 40, 300, 18],
+      ok: [0, 80, 80, 32],
+      note: [0, 120, 8, 8],
+    },
+  };
+  expect(domFindings([dom], s).map((f) => `${f.rule}:${f.elementKey}`)).toEqual([
+    "ARR-4:small",
+    "ARR-4:thin",
+  ]);
+});
+
+describe("questions by family (v1 and v2)", () => {
+  test("v1 preserves original questions and hints", () => {
+    expect(rulesFor("v1")).toEqual(RULES);
+    expect(hintsFor("v1")).toEqual(HINTS);
+  });
+
+  test("v2 states spec reading for integrity/data and rendered screen for design/arrangement", () => {
+    const v2 = rulesFor("v2");
+    expect(v2.map((r) => r.id)).toEqual(RULES.map((r) => r.id));
+    for (const r of v2) {
+      expect(r.question).not.toBe(RULES.find((x) => x.id === r.id)?.question);
+      expect(HINTS_V2[r.id]).toBeTruthy();
+      expect(hintsFor("v2")[r.id]).toBe(HINTS_V2[r.id]);
+      if (r.family === "integrity" || r.family === "data") {
+        expect(r.question).toMatch(/^In the spec \(outline/);
+      } else {
+        expect(r.question).toMatch(/rendered screen/);
+      }
+    }
+  });
+
+  test("questionVersion defaults 2026-10-29 to v1, new studies to v2, and validates overrides", () => {
+    expect(questionVersion("2026-10-29")).toBe("v1");
+    expect(questionVersion("2026-11-02")).toBe("v2");
+    expect(questionVersion("2026-10-29", "v2")).toBe("v2");
+    expect(questionVersion("2026-11-02", "v1")).toBe("v1");
+    expect(() => questionVersion("2026-10-29", "v3")).toThrow("v3");
+  });
 });

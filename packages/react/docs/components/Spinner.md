@@ -17,10 +17,15 @@ export function Example() {
 
 ## More examples
 
-- [Fancy variants and status pills](https://kbui.kcb.pro/storybook/?path=/story/components-spinner--fancy-variants): Compare `ring`, `orbit`, `dots`, and `bars` indicators alongside elevated `pill` status framing.
-- [Visible status label](https://kbui.kcb.pro/storybook/?path=/story/components-spinner--with-visible-label): Pair the animated arc with explicit text describing what is loading.
-- [Busy button submission](https://kbui.kcb.pro/storybook/?path=/story/components-spinner--busy-button): Render a decorative spinner inside a disabled button during asynchronous submission.
+- [Variants](https://kbui.kcb.pro/storybook/?path=/story/components-spinner--variants): Compare the `ring`, `orbit`, `dots`, and `bars` indicators.
+- [Pill](https://kbui.kcb.pro/storybook/?path=/story/components-spinner--pill): Frame a spinner and its visible label as a compact status chip.
+- [With label](https://kbui.kcb.pro/storybook/?path=/story/components-spinner--with-label): Show the label next to the indicator so sighted users know what is loading.
+- [Busy button](https://kbui.kcb.pro/storybook/?path=/story/components-spinner--busy-button): Render a decorative spinner inside a disabled button during asynchronous submission.
 - [Sizes and tones](https://kbui.kcb.pro/storybook/?path=/story/components-spinner--sizes-and-tones): Match compact controls, inline status rows, or section-level waits.
+
+## Motion
+
+The ring expands and contracts through a continuous sweep. Orbit combines two opposing sweeps around a breathing core; dots lift in sequence and bars run a staggered wave. Motion uses the existing `--kb-spinner-*` duration, easing, and stagger tokens. Reduced-motion preferences leave a static indicator and retain the status label.
 
 ## Reference
 
