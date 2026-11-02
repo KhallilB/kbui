@@ -218,6 +218,8 @@ test("ARR-4 flags a control box under 24 px on either side, without axe's spacin
   const s = page(
     ["small", { type: "Button", props: { label: "Edit" } }],
     ["thin", { type: "Switch", props: { label: "Email" } }],
+    ["radio", { type: "Radio", props: { label: "Size" } }],
+    ["slider", { type: "Slider", props: { label: "Zoom" } }],
     ["ok", { type: "Button", props: { label: "Save" } }],
     ["note", { type: "Text", props: { text: "x" } }],
   );
@@ -230,6 +232,8 @@ test("ARR-4 flags a control box under 24 px on either side, without axe's spacin
     boxes: {
       small: [0, 0, 20, 32],
       thin: [0, 40, 300, 18],
+      radio: [0, 60, 16, 16],
+      slider: [0, 70, 16, 16],
       ok: [0, 80, 80, 32],
       note: [0, 120, 8, 8],
     },
@@ -237,6 +241,44 @@ test("ARR-4 flags a control box under 24 px on either side, without axe's spacin
   expect(domFindings([dom], s).map((f) => `${f.rule}:${f.elementKey}`)).toEqual([
     "ARR-4:small",
     "ARR-4:thin",
+    "ARR-4:radio",
+    "ARR-4:slider",
+  ]);
+});
+
+test("treeFindings with doms ignores unrendered DES-1/DES-2/ARR-1 nodes and counts repeated primary buttons inside a Card", () => {
+  const s = spec(
+    {
+      root: { type: "Stack", children: ["h1", "hiddenBagH3", "visBtn", "hiddenBtn", "card"] },
+      h1: { type: "Heading", props: { text: "Shop", level: "h1" } },
+      hiddenBagH3: { type: "Heading", props: { text: "Bag item", level: "h3" } },
+      visBtn: { type: "Button", props: { label: "Add", variant: "primary" } },
+      hiddenBtn: { type: "Button", props: { label: "View bag", variant: "primary" } },
+      card: { type: "Card", children: ["list"] },
+      list: { type: "Stack", repeat: { statePath: "/integrations" }, children: ["connectBtn"] },
+      connectBtn: { type: "Button", props: { label: "Connect", variant: "primary" } },
+    },
+    { integrations: [{ id: "a" }, { id: "b" }, { id: "c" }] },
+  );
+  const dom: Dom = {
+    width: 390,
+    overflowX: false,
+    clipped: [],
+    overlaps: [],
+    axe: [],
+    boxes: {
+      root: [0, 0, 390, 600],
+      h1: [0, 0, 200, 32],
+      visBtn: [0, 40, 120, 36],
+      card: [0, 100, 342, 200],
+      list: [0, 110, 320, 180],
+      connectBtn: [0, 120, 100, 36],
+    },
+  };
+  const visible = treeFindings(s, [dom]);
+  expect(visible.filter((f) => f.rule === "DES-2")).toEqual([]);
+  expect(visible.filter((f) => f.rule === "DES-1")).toEqual([
+    expect.objectContaining({ rule: "DES-1", elementKey: "card" }),
   ]);
 });
 

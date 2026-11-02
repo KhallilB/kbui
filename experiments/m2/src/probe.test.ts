@@ -89,4 +89,25 @@ describe("probe", () => {
     const res = await page.evaluate(probe);
     expect(res.overlaps).toEqual([expect.objectContaining({ a: "col-att", b: "col-asn" })]);
   });
+
+  test("records smallest [role='radio'] and [role='slider'] sub-target box for Radio and Slider keys", async () => {
+    await page.setContent(`
+      <div id="root">
+        <span data-jr-key="sizes" data-jr-type="Radio" style="display: contents">
+          <div style="width: 240px; height: 80px;">
+            <button role="radio" style="width: 16px; height: 16px; padding: 0; border: 1px solid #000;"></button>
+            <button role="radio" style="width: 16px; height: 16px; padding: 0; border: 1px solid #000;"></button>
+          </div>
+        </span>
+        <span data-jr-key="font-slider" data-jr-type="Slider" style="display: contents">
+          <div style="width: 200px; height: 40px;">
+            <span role="slider" style="display: inline-block; width: 16px; height: 16px;"></span>
+          </div>
+        </span>
+      </div>
+    `);
+    const res = await page.evaluate(probe);
+    expect(res.boxes.sizes?.slice(2)).toEqual([16, 16]);
+    expect(res.boxes["font-slider"]?.slice(2)).toEqual([16, 16]);
+  });
 });
