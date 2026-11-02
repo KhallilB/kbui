@@ -100,6 +100,7 @@ const flowRecipeTemplate = [
 const recipeTemplates: Record<FlowFamily, string[]> = {
   "list-detail": flowRecipeTemplate,
   resolve: flowRecipeTemplate,
+  intake: flowRecipeTemplate,
 };
 
 test("flow recipe guides follow the template", () => {
@@ -137,11 +138,14 @@ test("flow recipe guides list every prop the recipe takes", () => {
     const read = (path: string) =>
       readFileSync(new URL(`../../../${path}`, import.meta.url), "utf8");
     const source = read(recipe.files[0] ?? "");
-    const params = new RegExp(`export function ${recipe.name}\\(\\{([\\s\\S]*?)\\}: \\{`).exec(
+    const inline = new RegExp(`export function ${recipe.name}\\(\\{([\\s\\S]*?)\\}: \\{`).exec(
       source,
-    );
-    const props = [...(params?.[1] ?? "").matchAll(/^\s+(\w+)/gm)].map((match) => match[1]);
-    expect(props.length, recipe.name).toBeGreaterThan(5);
+    )?.[1];
+    const named = new RegExp(`export interface ${recipe.name}Props \\{([\\s\\S]*?)\\n\\}`).exec(
+      source,
+    )?.[1];
+    const props = [...(inline ?? named ?? "").matchAll(/^\s+(\w+)/gm)].map((match) => match[1]);
+    expect(props.length, recipe.name).toBeGreaterThan(recipe.flow === "intake" ? 1 : 5);
     const supply = read(recipe.guide).split("## What you supply")[1]?.split("\n## ")[0] ?? "";
     const table = supply.split("\n\n")[2] ?? "";
     for (const prop of props) expect(table, `${recipe.guide} ${prop}`).toContain(`| \`${prop}\``);

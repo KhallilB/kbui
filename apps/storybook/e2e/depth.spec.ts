@@ -1,6 +1,6 @@
-import { chromium } from "playwright";
+import { test } from "playwright/test";
+import { siteURL as origin } from "./urls.ts";
 
-const origin = process.env.CATALOG_PREVIEW_URL ?? "http://127.0.0.1:4174";
 const cases = [
   ["components-badge--default", ".kb-badge", "inlay"],
   ["components-button--secondary", ".kb-button", "raised"],
@@ -21,14 +21,10 @@ const cases = [
   ["components-toolbar--default", ".kb-toolbar", "recessed"],
   ["components-tooltip--on-hover", ".kb-tooltip", "surface"],
 ] as const;
-const browser = await chromium.launch({ headless: true });
-let checked = 0;
-try {
-  const page = await browser.newPage({
-    viewport: { width: 640, height: 800 },
-    reducedMotion: "reduce",
-  });
-  for (const theme of ["light", "dark"]) {
+test.use({ viewport: { width: 640, height: 800 }, reducedMotion: "reduce" });
+for (const theme of ["light", "dark"]) {
+  test(`material depth in ${theme}`, async ({ page }) => {
+    let checked = 0;
     for (const [id, selector, role] of cases) {
       if (process.env.DEPTH_STORY && process.env.DEPTH_STORY !== id) continue;
       await page.goto(
@@ -80,11 +76,6 @@ try {
       }
       checked++;
     }
-  }
-  await page.close();
-} finally {
-  await browser.close();
+    console.log(`Depth contracts verified: ${checked} ${theme} cases.`);
+  });
 }
-console.log(
-  `Depth contracts verified: ${checked} theme/state cases ${process.env.DEPTH_STORY ? "for selected story" : "across 15 component families"}.`,
-);

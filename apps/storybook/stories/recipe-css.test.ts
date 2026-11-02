@@ -13,13 +13,9 @@ const regionParts = ["list", "detail", "context", "status", "composer"];
 // readdir order is platform-dependent.
 const files = (await readdir(recipes)).filter((f) => f.endsWith(".css")).sort();
 
-// Recipe's own classes; `.kb-*` are package parts it restyles, not its anatomy.
+// Package `.kb-*` selectors are forbidden by boundaryViolationsIn.
 const ownClasses = (text: string) =>
-  new Set(
-    [...text.matchAll(/\.([a-z][a-z0-9-]*)/g)]
-      .map((m) => m[1] as string)
-      .filter((c) => !c.startsWith("kb-")),
-  );
+  new Set([...text.matchAll(/\.([a-z][a-z0-9-]*)/g)].map((m) => m[1] as string));
 
 let defined: Set<string>;
 let dist: string;
@@ -36,7 +32,7 @@ afterAll(async () => {
 });
 
 test("every recipe stylesheet is guarded", () => {
-  expect(files).toEqual(["inbox.css", "list-detail.css", "recipes.css"]);
+  expect(files).toEqual(["inbox.css", "list-detail.css", "recipes.css", "request-intake.css"]);
 });
 
 const anatomyOf = (css: string) => {
@@ -113,7 +109,9 @@ describe.each(files)("%s", (file) => {
   test("recipe regions use shared part names", async () => {
     const { classes, regions } = anatomyOf(await read());
     const part = (c: string) => regionParts.find((p) => c.endsWith(`-${p}`));
-    const expected = ownersOf(file).some((recipe) => recipe.flow) ? regionParts : [];
+    const expected = ownersOf(file).some((recipe) => recipe.flow === "list-detail")
+      ? regionParts
+      : [];
     expect([...regions].map(part).sort()).toEqual([...expected].sort());
     for (const c of classes)
       if (!regions.has(c) && !prefixes.includes(c))
@@ -134,9 +132,27 @@ describe.each(files)("%s", (file) => {
     for (const ref of refs) expect(defined.has(ref as string), `${file}: ${ref}`).toBe(true);
   });
 
-  test("seeded hex and spacing literals fail", async () => {
-    const css = `${await read()}\n.x { color: #fff; padding: 12px; }\n`;
+  test("recipe css never selects package parts or overrides package tokens", async () => {
+    const { body } = anatomyOf(await read());
+    const violations = [
+      ...[...body.matchAll(/(?:>\s*)?\.kb-[a-z0-9-]+/g)].map((m) => `${file}: ${m[0]}`),
+      ...[...body.matchAll(/(--kb-[a-z0-9-]+)\s*:/g)].map((m) => `${file}: ${m[1]}`),
+    ];
+    expect(violations).toEqual([]);
+  });
+
+  test("seeded hex, spacing and package boundary violations fail", async () => {
+    const css = `${await read()}\n.x > .kb-panel-header { --kb-textarea-padding-block: var(--kb-space-3); color: #fff; padding: 12px; }\n`;
+    const { body } = anatomyOf(css);
+    const violations = [
+      ...[...body.matchAll(/(?:>\s*)?\.kb-[a-z0-9-]+/g)].map((m) => `${file}: ${m[0]}`),
+      ...[...body.matchAll(/(--kb-[a-z0-9-]+)\s*:/g)].map((m) => `${file}: ${m[1]}`),
+    ];
     expect(paletteRefsIn(css, file)).toEqual([`${file}: #fff`]);
     expect(rawStyleValuesIn(css, file)).toEqual([`${file}: padding: 12px`]);
+    expect(violations).toEqual([
+      `${file}: > .kb-panel-header`,
+      `${file}: --kb-textarea-padding-block`,
+    ]);
   });
 });

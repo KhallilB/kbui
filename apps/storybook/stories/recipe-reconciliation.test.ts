@@ -94,9 +94,30 @@ const preservedRecipes = [
     ],
     files: ["apps/storybook/recipes/FormSection.tsx", "apps/storybook/recipes/recipes.css"],
   },
+  {
+    name: "RequestIntake",
+    defaultStoryId: "recipes-requestintake--submit-request",
+    docsId: "recipes-requestintake--docs",
+    stories: [
+      "recipes-requestintake--submit-request",
+      "recipes-requestintake--validation-recovery",
+      "recipes-requestintake--assignment-keyboard",
+      "recipes-requestintake--empty-directory",
+      "recipes-requestintake--app-validation",
+      "recipes-requestintake--quantity-recovery",
+      "recipes-requestintake--attachment-recovery",
+      "recipes-requestintake--repeated-selection-and-removal",
+      "recipes-requestintake--attachment-requirement",
+    ],
+    files: [
+      "apps/storybook/recipes/RequestIntake.tsx",
+      "apps/storybook/recipes/request-intake-model.ts",
+      "apps/storybook/recipes/request-intake.css",
+    ],
+  },
 ];
 
-test("reconciliation retains all four recipe source sets and every public story ID", async () => {
+test("reconciliation retains four recipes and registers RequestIntake with stable source and story IDs", async () => {
   for (const recipe of preservedRecipes)
     for (const file of recipe.files)
       expect(existsSync(new URL(`../../../${file}`, import.meta.url)), file).toBe(true);

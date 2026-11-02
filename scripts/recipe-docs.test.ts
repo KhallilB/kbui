@@ -97,7 +97,9 @@ test("fixtures take async and gaps from flow facts", () => {
   for (const recipe of flows) {
     const { factsFor } = flowContractFor(recipe);
     const source = guide(`apps/storybook/stories/${recipe.flow}-flow/${recipe.name}.stories.tsx`);
-    expect(source, recipe.name).toContain(`gaps: flowFacts.${recipe.name}.gaps,`);
+    expect(source, recipe.name).toMatch(
+      new RegExp(`gaps:\\s*flowFacts\\.${recipe.name}\\.gaps\\b`),
+    );
     expect(source.includes(`flowFacts.${recipe.name}.async ?`), recipe.name).toBe(
       factsFor(recipe.name).async,
     );

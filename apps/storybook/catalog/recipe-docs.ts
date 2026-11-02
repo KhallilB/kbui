@@ -1,5 +1,10 @@
 import { posix } from "node:path";
 import { siteOrigin } from "../site/guide-links";
+import {
+  flowFactsFor as intakeFactsFor,
+  policyRows as intakePolicyRows,
+} from "../stories/intake-flow/facts";
+import { ruleMeta as intakeRules } from "../stories/intake-flow/rules";
 import { flowFactsFor } from "../stories/list-detail-flow/facts";
 import { type RuleGroup, type RuleMeta, ruleMeta } from "../stories/list-detail-flow/rules";
 import type { FlowFamily, RecipeDefinition, RecipePolicy } from "./content";
@@ -9,9 +14,11 @@ export type GeneratedBlock = "files" | "policy" | "flow-guarantees";
 export type FlowFamilyContract = {
   rules: Record<string, RuleMeta>;
   factsFor: (name: string) => { async: boolean; gaps: Partial<Record<string, string>> };
+  policyRows?: readonly (readonly [string, string])[];
 };
 
 const flowFamilies: Partial<Record<FlowFamily, FlowFamilyContract>> = {
+  intake: { rules: intakeRules, factsFor: intakeFactsFor, policyRows: intakePolicyRows },
   "list-detail": {
     rules: ruleMeta,
     factsFor: flowFactsFor,
@@ -50,13 +57,16 @@ function files(recipe: RecipeDefinition) {
 }
 
 function policy(recipe: RecipeDefinition) {
-  const value = recipe.policy;
-  if (!value) throw new Error(`${recipe.name} declares no policy`);
-  const rows = [
-    policyRows.collapseBelow(value.collapseBelow),
-    policyRows.context(value.context),
-    policyRows.commit(value.commit),
-  ];
+  let rows = flowContractFor(recipe).policyRows;
+  if (!rows) {
+    const value = recipe.policy;
+    if (!value) throw new Error(`${recipe.name} declares no policy`);
+    rows = [
+      policyRows.collapseBelow(value.collapseBelow),
+      policyRows.context(value.context),
+      policyRows.commit(value.commit),
+    ];
+  }
   return ["| Policy | Value |", "| --- | --- |", ...rows.map(([a, b]) => `| ${a} | ${b} |`)].join(
     "\n",
   );

@@ -1,4 +1,4 @@
-export type FlowFamily = "list-detail" | "resolve";
+export type FlowFamily = "list-detail" | "resolve" | "intake";
 
 /** Task policy; a documented constant in the copied source, not a prop. */
 export type RecipePolicy = {
@@ -121,6 +121,38 @@ export const recipeDefinitions: RecipeDefinition[] = [
     components: ["Heading", "Text", "Grid", "Input", "Panel", "Fieldset"],
     files: ["apps/storybook/recipes/FormSection.tsx", "apps/storybook/recipes/recipes.css"],
     composition: true,
+  },
+  {
+    id: "requestintake",
+    name: "RequestIntake",
+    flow: "intake",
+    description:
+      "Describe a request, assign people, set quantity and retain supporting files for local review.",
+    guide: "docs/guides/request-intake.md",
+    storyFile: "apps/storybook/recipes/RequestIntake.stories.tsx",
+    defaultStoryId: "recipes-requestintake--submit-request",
+    components: [
+      "Button",
+      "Callout",
+      "Combobox",
+      "DescriptionList",
+      "ErrorSummary",
+      "Fieldset",
+      "FileInput",
+      "Form",
+      "FormActions",
+      "Heading",
+      "Input",
+      "MultiSelect",
+      "NumberField",
+      "PageHeader",
+      "Textarea",
+    ],
+    files: [
+      "apps/storybook/recipes/RequestIntake.tsx",
+      "apps/storybook/recipes/request-intake-model.ts",
+      "apps/storybook/recipes/request-intake.css",
+    ],
   },
 ];
 

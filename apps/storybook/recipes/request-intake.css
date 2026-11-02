@@ -1,0 +1,15 @@
+/* Anatomy: .request-intake .request-intake-result .request-intake-description */
+.request-intake {
+  min-inline-size: 0;
+  inline-size: 100%;
+}
+
+.request-intake-result {
+  display: grid;
+  gap: var(--kb-space-6);
+}
+
+.request-intake-description {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
