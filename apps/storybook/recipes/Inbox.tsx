@@ -491,12 +491,14 @@ export function Inbox({
               <Split ratio="wide-start" collapse="md" align="start">
                 <Panel className="inbox-detail" aria-labelledby={`${id}-subject`}>
                   <Panel.Header>
-                    <Text size="sm" tone="muted">
-                      {selected ? `${selected.sender} · ${selected.date}` : text.unavailableMeta}
-                    </Text>
-                    <Heading ref={heading} tabIndex={-1} id={`${id}-subject`} level={2}>
-                      {selected?.subject ?? text.unavailable}
-                    </Heading>
+                    <Grid layout="stack" gap="sm">
+                      <Text size="sm" tone="muted">
+                        {selected ? `${selected.sender} · ${selected.date}` : text.unavailableMeta}
+                      </Text>
+                      <Heading ref={heading} tabIndex={-1} id={`${id}-subject`} level={2}>
+                        {selected?.subject ?? text.unavailable}
+                      </Heading>
+                    </Grid>
                   </Panel.Header>
                   {selected ? (
                     <Panel.Body>

@@ -13,17 +13,7 @@
   flex: 0 1 auto;
 }
 
-.page-header-actions .kb-button {
-  min-block-size: var(--kb-button-height-md);
-  block-size: auto;
-  padding-block: var(--kb-space-2);
-  overflow-wrap: anywhere;
-}
-
 .form-section {
-  /* Recipe owns description/error spacing. */
-  --kb-fieldset-gap: 0px;
-  --kb-fieldset-fields-gap: 0px;
   min-inline-size: 0;
   inline-size: 100%;
   margin: 0;
@@ -40,7 +30,7 @@
 }
 
 .form-section-description {
-  margin-block-end: var(--kb-space-4);
+  margin: 0;
 }
 
 .form-section-error {
