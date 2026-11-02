@@ -1,4 +1,4 @@
-/* Anatomy: .kb-skeleton [data-variant=text|rect|circle|pill] [data-size=sm|md|lg] [data-animation=shimmer|pulse|wave] [data-tone=default|subtle|accent] [data-animated] [data-loaded] > .kb-skeleton-line, .kb-skeleton-content */
+/* Anatomy: .kb-skeleton [data-variant=text|rect|circle|pill|auto] [data-size=sm|md|lg] [data-animation=shimmer|pulse|wave] [data-tone=default|subtle|accent] [data-animated] [data-loaded] [aria-busy] > .kb-skeleton-line, .kb-skeleton-content [inert]; auto bones are kbui children */
 @keyframes kb-skeleton-shimmer {
   0%,
   10% {
@@ -157,7 +157,230 @@
   min-inline-size: 0;
 }
 
+/* Auto: kbui children stand in for the placeholder in their own geometry. */
+@property --_skeleton-sweep {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 100%;
+}
+
+@property --_skeleton-fade {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+@keyframes kb-skeleton-sweep {
+  0%,
+  10% {
+    --_skeleton-sweep: 100%;
+  }
+  85%,
+  100% {
+    --_skeleton-sweep: 0%;
+  }
+}
+
+@keyframes kb-skeleton-fade {
+  0%,
+  100% {
+    --_skeleton-fade: 1;
+  }
+  50% {
+    --_skeleton-fade: 0.76;
+  }
+}
+
+.kb-skeleton[data-variant="auto"] {
+  display: contents;
+}
+
+/* One animation on the wrapper drives every bone in step. */
+.kb-skeleton[data-variant="auto"][data-animated]:not([data-loaded]) > .kb-skeleton-content {
+  animation: kb-skeleton-sweep var(--kb-skeleton-duration) var(--kb-skeleton-easing) infinite;
+}
+
+.kb-skeleton[data-variant="auto"][data-animation="pulse"][data-animated]:not([data-loaded])
+  > .kb-skeleton-content,
+.kb-skeleton[data-variant="auto"][data-animation="wave"][data-animated]:not([data-loaded])
+  > .kb-skeleton-content {
+  animation: kb-skeleton-fade var(--kb-skeleton-pulse-duration) var(--kb-skeleton-easing) infinite;
+}
+
+.kb-skeleton[data-variant="auto"]:not([data-loaded])
+  .kb-skeleton-content
+  :is(
+    .kb-avatar,
+    .kb-button,
+    .kb-badge,
+    .kb-status,
+    .kb-image,
+    .kb-thumbnail-media,
+    .kb-input-shell,
+    .kb-textarea-control,
+    .kb-select-control,
+    .kb-checkbox-mark,
+    .kb-heading,
+    .kb-text,
+    .kb-stat-label,
+    .kb-stat-value,
+    .kb-thumbnail-title,
+    .kb-thumbnail-description,
+    .kb-input-label,
+    .kb-textarea-label,
+    .kb-select-label,
+    .kb-checkbox-label
+  ),
+.kb-skeleton[data-variant="auto"]:not([data-loaded])
+  .kb-skeleton-content
+  :is(h1, h2, h3, h4, h5, h6, p, li, dt, dd, label, figcaption):not([class*="kb-"]) {
+  color: transparent;
+  background-color: var(--_skeleton-base);
+  background-image: linear-gradient(
+    105deg,
+    transparent 40%,
+    var(--_skeleton-highlight) 50%,
+    transparent 60%
+  );
+  background-position: var(--_skeleton-sweep) 0;
+  background-repeat: no-repeat;
+  background-size: 250% 100%;
+  border-color: var(--_skeleton-border);
+  box-shadow: none;
+  text-shadow: none;
+  opacity: var(--_skeleton-fade);
+}
+
+/* Empty fields still get one line box. */
+.kb-skeleton[data-variant="auto"]:not([data-loaded])
+  .kb-skeleton-content
+  :is(
+    .kb-avatar,
+    .kb-button,
+    .kb-badge,
+    .kb-status,
+    .kb-image,
+    .kb-thumbnail-media,
+    .kb-input-shell,
+    .kb-textarea-control,
+    .kb-select-control,
+    .kb-checkbox-mark,
+    .kb-heading,
+    .kb-text,
+    .kb-stat-label,
+    .kb-stat-value,
+    .kb-thumbnail-title,
+    .kb-thumbnail-description,
+    .kb-input-label,
+    .kb-textarea-label,
+    .kb-select-label,
+    .kb-checkbox-label
+  ):empty::before,
+.kb-skeleton[data-variant="auto"]:not([data-loaded])
+  .kb-skeleton-content
+  :is(h1, h2, h3, h4, h5, h6, p, li, dt, dd, label, figcaption):not([class*="kb-"]):empty::before {
+  content: "\a0";
+}
+
+.kb-skeleton[data-variant="auto"]:not([data-loaded])
+  .kb-skeleton-content
+  :is(
+    .kb-avatar,
+    .kb-button,
+    .kb-badge,
+    .kb-status,
+    .kb-image,
+    .kb-thumbnail-media,
+    .kb-input-shell,
+    .kb-textarea-control,
+    .kb-select-control,
+    .kb-checkbox-mark
+  )
+  > * {
+  visibility: hidden;
+}
+
+.kb-skeleton[data-variant="auto"]:not([data-loaded])
+  .kb-skeleton-content
+  :is(
+    .kb-avatar,
+    .kb-button,
+    .kb-badge,
+    .kb-status,
+    .kb-image,
+    .kb-thumbnail-media,
+    .kb-input-shell,
+    .kb-textarea-control,
+    .kb-select-control,
+    .kb-checkbox-mark
+  ):empty {
+  min-inline-size: var(--kb-skeleton-pill-width);
+}
+
+/* Text becomes one bar per line. */
+.kb-skeleton[data-variant="auto"]:not([data-loaded])
+  .kb-skeleton-content
+  :is(
+    .kb-heading,
+    .kb-text,
+    .kb-stat-label,
+    .kb-stat-value,
+    .kb-thumbnail-title,
+    .kb-thumbnail-description,
+    .kb-input-label,
+    .kb-textarea-label,
+    .kb-select-label,
+    .kb-checkbox-label
+  ),
+.kb-skeleton[data-variant="auto"]:not([data-loaded])
+  .kb-skeleton-content
+  :is(h1, h2, h3, h4, h5, h6, p, li, dt, dd, label, figcaption):not([class*="kb-"]) {
+  border-radius: var(--_skeleton-radius);
+  mask-image: repeating-linear-gradient(
+    transparent 0 0.15lh,
+    black 0.15lh 0.85lh,
+    transparent 0.85lh 1lh
+  );
+}
+
+.kb-skeleton[data-variant="auto"]:not([data-loaded])
+  .kb-skeleton-content
+  :is(
+    .kb-heading,
+    .kb-text,
+    .kb-stat-label,
+    .kb-stat-value,
+    .kb-thumbnail-title,
+    .kb-thumbnail-description,
+    .kb-input-label,
+    .kb-textarea-label,
+    .kb-select-label,
+    .kb-checkbox-label
+  )
+  *,
+.kb-skeleton[data-variant="auto"]:not([data-loaded])
+  .kb-skeleton-content
+  :is(h1, h2, h3, h4, h5, h6, p, li, dt, dd, label, figcaption):not([class*="kb-"])
+  * {
+  color: transparent;
+  background: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.kb-skeleton[data-variant="auto"]:not([data-loaded])
+  .kb-skeleton-content
+  :is(.kb-heading, h1, h2, h3, h4, h5, h6):empty {
+  inline-size: 55%;
+}
+
+.kb-skeleton[data-variant="auto"]:not([data-loaded]) .kb-skeleton-content :is(.kb-text, p):empty {
+  inline-size: 85%;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .kb-skeleton[data-variant="auto"][data-animation][data-animated]:not([data-loaded])
+    > .kb-skeleton-content,
   .kb-skeleton[data-animated] .kb-skeleton-line,
   .kb-skeleton[data-animation="pulse"][data-animated] .kb-skeleton-line,
   .kb-skeleton[data-animation="wave"][data-animated] .kb-skeleton-line {
@@ -172,6 +395,43 @@
 }
 
 @media (forced-colors: active) {
+  .kb-skeleton[data-variant="auto"][data-animation][data-animated]:not([data-loaded])
+    > .kb-skeleton-content {
+    animation: none;
+  }
+
+  .kb-skeleton[data-variant="auto"]:not([data-loaded])
+    .kb-skeleton-content
+    :is(
+      .kb-avatar,
+      .kb-button,
+      .kb-badge,
+      .kb-status,
+      .kb-image,
+      .kb-thumbnail-media,
+      .kb-input-shell,
+      .kb-textarea-control,
+      .kb-select-control,
+      .kb-checkbox-mark,
+      .kb-heading,
+      .kb-text,
+      .kb-stat-label,
+      .kb-stat-value,
+      .kb-thumbnail-title,
+      .kb-thumbnail-description,
+      .kb-input-label,
+      .kb-textarea-label,
+      .kb-select-label,
+      .kb-checkbox-label
+    ),
+  .kb-skeleton[data-variant="auto"]:not([data-loaded])
+    .kb-skeleton-content
+    :is(h1, h2, h3, h4, h5, h6, p, li, dt, dd, label, figcaption):not([class*="kb-"]) {
+    forced-color-adjust: none;
+    background: GrayText;
+    color: transparent;
+  }
+
   .kb-skeleton-line {
     background: Canvas;
     border: 1px solid GrayText;
