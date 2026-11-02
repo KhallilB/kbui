@@ -3,6 +3,7 @@ import { createElement, type ReactElement } from "react";
 import { expect, waitFor, within } from "storybook/test";
 import { page } from "vitest/browser";
 import { type RecipePolicy, recipeDefinitions } from "../../catalog/content";
+import type { CommitResult } from "../../recipes/flow-router";
 import { controls, Harness } from "./harness";
 import { type RuleId, type RuleMeta, ruleMeta } from "./rules";
 
@@ -15,9 +16,7 @@ type User = {
   type: (element: Element, text: string) => Promise<void>;
   clear: (element: Element) => Promise<void>;
 };
-// biome-ignore lint/suspicious/noConfusingVoidType: matches the recipes' seam, where void is success.
-type CommitResult = void | { errors: Partial<Record<string, string>> };
-export type Commit = (id: string, draft: unknown) => Promise<CommitResult>;
+export type Commit = (id: string, draft: unknown) => Promise<CommitResult<string>>;
 type Outcome = "ok" | "fail" | { errors: Record<string, string> };
 
 /** One record the contract opens: its id, list row and detail heading. */
