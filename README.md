@@ -49,11 +49,11 @@ bun run check            # build, lint, types, examples, unit and package checks
 
 | Document | Covers |
 |---|---|
-| [`PageHeader`](packages/react/docs/components/PageHeader.md) | Screen title, context, status and wrapping page actions (unreleased) |
-| [`StatsRow`](packages/react/docs/components/StatsRow.md) | Comparable metrics with trends and links that wrap without sideways scrolling (unreleased) |
-| [`Tabs`](packages/react/docs/components/Tabs.md) | Peer panel switching, keyboard navigation and retained drafts (unreleased) |
-| [Media and identity](docs/guides/media-and-identity.md) | `Avatar`, stable image framing, thumbnails and gallery recipes (unreleased) |
-| [`Gallery`](packages/react/docs/components/Gallery.md) | Product catalogs and media pages: header, filters and one to four columns of image-led items (unreleased) |
+| [`PageHeader`](packages/react/docs/components/PageHeader.md) | Screen title, context, status and wrapping page actions |
+| [`StatsRow`](packages/react/docs/components/StatsRow.md) | Comparable metrics with trends and links that wrap without sideways scrolling |
+| [`Tabs`](packages/react/docs/components/Tabs.md) | Peer panel switching, keyboard navigation and retained drafts |
+| [Media and identity](docs/guides/media-and-identity.md) | `Avatar`, stable image framing, thumbnails and gallery recipes |
+| [`Gallery`](packages/react/docs/components/Gallery.md) | Product catalogs and media pages: header, filters and one to four columns of image-led items |
 | [`Collection` workflows](packages/react/docs/components/Collection.md) | Sorting, filtering, page selection, pagination, bulk actions and server ownership |
 | [React component guide](packages/react/README.md) | Choose components by task, read APIs, and find focused examples |
 | [Maintained features](docs/features.md) | Implementation, canonical docs, examples and current limits |

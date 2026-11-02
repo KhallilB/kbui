@@ -1,6 +1,6 @@
 # RequestIntake
 
-Prepare a request with a title, optional description, one owner, optional reviewers, quantity and optional supporting files. Review the selected values, edit the retained draft or start another request. This application-owned recipe composes public kbui components; it adds no package export. Implemented locally, unreleased.
+Prepare a request with a title, optional description, one owner, optional reviewers, quantity and optional supporting files. Review the selected values, edit the retained draft or start another request. This application-owned recipe composes public kbui components; it adds no package export.
 
 ## Use when
 
