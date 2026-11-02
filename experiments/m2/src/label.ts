@@ -14,14 +14,19 @@ const { values } = parseArgs({
   options: {
     study: { type: "string" },
     questions: { type: "string" },
+    labeller: { type: "string" },
     serve: { type: "boolean", default: false },
     recheck: { type: "boolean", default: false },
     port: { type: "string", default: process.env.PORT ?? "4319" },
   },
 });
 if (!values.study)
-  throw new Error("usage: label --study <id> [--questions v1|v2] [--serve [--recheck]]");
+  throw new Error(
+    "usage: label --study <id> [--questions v1|v2] [--labeller <slug>] [--serve [--recheck]]",
+  );
 if (values.recheck && !values.serve) throw new Error("--recheck needs --serve");
+if (values.labeller && !/^[a-zA-Z0-9_-]+$/.test(values.labeller))
+  throw new Error("invalid --labeller slug");
 const study = values.study;
 const version = questionVersion(study, values.questions);
 const activeRules = rulesFor(version);
@@ -101,11 +106,16 @@ const items = sample.map((id, i) => {
 });
 
 // Recheck mode asks only the questions where the blind answer contradicts a literal rule.
-const file = values.recheck ? "adjudicated.json" : "labels.json";
+const baseFile = values.labeller ? `labels.${values.labeller}.json` : "labels.json";
+const file = values.recheck
+  ? values.labeller
+    ? `adjudicated.${values.labeller}.json`
+    : "adjudicated.json"
+  : baseFile;
 let disputed: Recheck[] = [];
 if (values.recheck) {
-  const labelsPath = join(dir, "labels.json");
-  if (!existsSync(labelsPath)) throw new Error("no labels.json yet; label the sample first");
+  const labelsPath = join(dir, baseFile);
+  if (!existsSync(labelsPath)) throw new Error(`no ${baseFile} yet; label the sample first`);
   const blind: Labels = JSON.parse(readFileSync(labelsPath, "utf8"));
   disputed = rechecks(
     items.map(({ id, s }) => ({
