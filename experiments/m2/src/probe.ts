@@ -98,6 +98,25 @@ export const probe = () => {
   for (const tag of document.querySelectorAll("[data-jr-key]")) {
     const key = tag.getAttribute("data-jr-key") as string;
     if (boxes[key]) continue;
+    const type = tag.getAttribute("data-jr-type");
+    const sub =
+      type === "Radio" || type === "Slider"
+        ? [...tag.querySelectorAll("[role='radio'], [role='slider']")]
+            .map((c) => c.getBoundingClientRect())
+            .filter(visible)
+        : [];
+    if (sub.length) {
+      const smallest = sub.reduce((a, b) =>
+        Math.min(b.width, b.height) < Math.min(a.width, a.height) ? b : a,
+      );
+      boxes[key] = [
+        smallest.left + scrollX,
+        smallest.top + scrollY,
+        smallest.width,
+        smallest.height,
+      ].map(Math.round);
+      continue;
+    }
     const rects = [...tag.children].map((c) => c.getBoundingClientRect()).filter(visible);
     if (!rects.length) continue;
     const x = Math.min(...rects.map((r) => r.left)) + scrollX;
