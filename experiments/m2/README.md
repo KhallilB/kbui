@@ -24,6 +24,7 @@ It is not part of any published package. Nothing here depends on kbui.
    ARR-4 first used only axe `target-size`, whose spacing exception passes small targets the question counts, so it never fired. It was rewritten after labelling to read each control's measured box at every width, without that exception. The 24 px threshold and the four control types were fixed before scoring and not tuned to the labels.
 6. **Labels.** 50 screens are drawn reproducibly, stratified by category and model. One person labels them on a page that hides the model and all rule output. Precision and recall per rule come from those labels. Then a recheck: wherever a blind answer contradicts a rule whose question the spec answers outright (INT-1, INT-3, INT-4, DES-2, ARR-1), the labeller sees the rule's evidence and answers again. The report gives both sets of numbers.
 7. **Model labeller.** Codex labels the same 50 blind screens: the same three screenshots, outline, questions and hints, read-only in an empty directory, with no rule output, model names or human labels, answering through a fixed schema. Its labels sit beside the human ones and never replace them. `agreement.md` gives per-rule agreement and Cohen's kappa against the blind and rechecked human labels, and the problems each labeller marked by generating model, since Codex shares a family with one generator.
+8. **Rules v2.** [`src/rules-v2.ts`](src/rules-v2.ts) rewrites INT-2, INT-3, DES-1 and DATA-2, fitted to the human labels after recheck; v1 stays the M2 record and `report.md` still uses it. `rules-v2.md` scores both versions against the human labels, which is in-sample, and the Codex labels, which v2 was not fitted to. The rewrite did not help: against the human labels only INT-3 improved, and against Codex v2 lost most of v1's recall on INT-2 and DATA-2, where v1 already scored 0.90 and 0.98 precision. Most of v1's low human precision is a different reading of the questions, not a broken detector.
 
 ## Run it
 
@@ -41,6 +42,7 @@ bun run label                                                                # s
 bun run recheck                                                              # same page, only the contradicted answers
 bun run model-label -- --codex-home <dir> --scratch <empty dir>              # blind Codex labels; resumes
 bun run agreement                                                            # writes agreement.md
+bun run compare-rules                                                        # writes rules-v2.md
 bun test src
 ```
 
@@ -65,6 +67,7 @@ bun test src
 | `labels.codex-<model>.json` | a model labeller's answers, in the same shape as `labels.json` |
 | `labels.codex-<model>.calls.jsonl` | one line per labelling call: time and token use |
 | `agreement.md` | human and model labels compared per rule and by generating model |
+| `rules-v2.md` | v1 and v2 rule firings, precision and recall against every labeller |
 | `report.md`, `gallery.html` | the rebuilt report, and every screen with findings outlined beside its labels |
 
 ## Limitations

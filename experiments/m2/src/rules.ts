@@ -136,7 +136,7 @@ const CREDENTIAL =
   /pass(word|code|phrase)|card ?number|credit card|debit card|\bcvc\b|\bcvv\b|security code|expir(y|ation)|\bssn\b|social security|one[- ]time code|verification code|\b2fa code\b|\bpin\b|routing number|account number|\biban\b/i;
 const DESTRUCTIVE =
   /\b(delete|remove|revoke|deactivate|erase|wipe|discard|disconnect|archive|reset)\b|\bcancel (my |your |the )?(subscription|plan|membership|order|account|booking)\b|\bclose (my |your )?account\b|\b(sign|log) out of all\b/i;
-const URGENCY =
+export const URGENCY =
   /\bonly \d+ (left|remaining|in stock)\b|\blimited[- ]time\b|\bends (in|soon|tonight|today|at midnight)\b|\bhurry\b|\bselling fast\b|\balmost gone\b|\blast chance\b|\b\d[\d,]* (people|others|shoppers|customers) (are )?(viewing|watching|looking|bought|purchased|have bought)\b|\bwhile (supplies|stocks?) last\b|\btoday only\b|\bdon'?t miss\b|\bin high demand\b|\b\d{1,2}:\d{2}:\d{2}\b/i;
 const CONSENT =
   /newsletter|marketing|promo(tion)?s?\b|offers|subscribe|sign me up|updates by email|share (my )?(data|information)|partners|third[- ]part/i;
@@ -166,7 +166,7 @@ export function literals(value: unknown): string[] {
   return [];
 }
 
-function pointer(state: unknown, path: unknown): unknown {
+export function pointer(state: unknown, path: unknown): unknown {
   if (typeof path !== "string") return undefined;
   return path
     .split("/")
@@ -213,7 +213,7 @@ export function walk(spec: Spec): Visit[] {
   return out;
 }
 
-function referencesPath(value: unknown, path: string): boolean {
+export function referencesPath(value: unknown, path: string): boolean {
   if (typeof value === "string") return value === path || value.startsWith(`${path}/`);
   if (Array.isArray(value)) return value.some((v) => referencesPath(v, path));
   if (value && typeof value === "object")
