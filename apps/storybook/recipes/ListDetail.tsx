@@ -351,7 +351,12 @@ export function ListDetail({
       }),
     [requests, overlays],
   );
-  const selected = records.find((record) => record.id === selectedId);
+  // A refetch may omit the open record while loading; it is removed only once loading ends.
+  const held = useRef<RequestRecord | undefined>(undefined);
+  const selected =
+    records.find((record) => record.id === selectedId) ??
+    (loading && held.current?.id === selectedId ? held.current : undefined);
+  held.current = selected;
   const draft = selected ? drafts[selected.id] : undefined;
   const filtered = records.filter(
     (record) =>

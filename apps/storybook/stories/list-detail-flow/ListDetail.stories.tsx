@@ -120,6 +120,7 @@ export const Unmount = story("unmount");
 export const LiveRecords = story("live-records");
 export const RoutingBoundary = story("routing-boundary");
 export const Loading = story("loading");
+export const Refetch = story("refetch");
 export const FormError = story("form-error");
 export const Embedded = story("embedded");
 

@@ -646,6 +646,60 @@ const definitions = {
       await waitFor(() => expect(heading(canvas, fixture.first)).toHaveFocus());
     },
   },
+  refetch: {
+    deferredCommit: true,
+    harness: true,
+    check: async ({ fixture, canvas, user, commit }) => {
+      const { live } = fixture;
+      const field = () => canvas.getByRole("textbox", { name: fixture.draft.field });
+      const failed = () =>
+        canvas
+          .queryAllByText(fixture.draft.failed)
+          .some((element: HTMLElement) => element.checkVisibility());
+      // Loading, the open record leaves the records, then every record does.
+      const refetch = async (value: string) => {
+        const kept = document.activeElement;
+        controls.setLoading(true);
+        controls.setRecords(live.remove(live.records, fixture.first.id));
+        await frames();
+        controls.setRecords([]);
+        await frames();
+        expect(document.activeElement, "focus moved while loading").toBe(kept);
+        expect(field()).toHaveValue(value);
+        controls.setRecords(live.records);
+        controls.setLoading(false);
+        await frames();
+        expect(document.activeElement, "focus moved once loaded").toBe(kept);
+      };
+      await open(canvas, user, fixture.first);
+      await user.click(canvas.getByRole("button", { name: fixture.draft.begin }));
+      await user.clear(field());
+      await user.click(canvas.getByRole("button", { name: fixture.draft.submit }));
+      await waitFor(() => expect(accessibleDescription(field())).toContain(fixture.draft.invalid));
+      await waitFor(() => expect(field()).toHaveFocus());
+      await refetch("");
+      expect(accessibleDescription(field()), "field error kept").toContain(fixture.draft.invalid);
+
+      await user.type(field(), "Refetched draft");
+      await user.click(canvas.getByRole("button", { name: fixture.draft.submit }));
+      commit.settle("fail");
+      await waitFor(() => expect(failed()).toBe(true));
+      await frames();
+      await refetch("Refetched draft");
+      expect(failed(), "commit failure kept").toBe(true);
+
+      controls.setLoading(true);
+      controls.setRecords(live.remove(live.records, fixture.first.id));
+      await frames();
+      controls.setLoading(false);
+      await waitFor(() =>
+        expect(canvas.getByRole("heading", { name: fixture.missingHeading })).toHaveFocus(),
+      );
+      controls.setRecords(live.records);
+      await frames();
+      await expect(canvas.getByRole("button", { name: fixture.draft.begin })).toBeVisible();
+    },
+  },
   "form-error": {
     deferredCommit: true,
     check: async ({ fixture, root, canvas, user, commit }) => {

@@ -189,6 +189,7 @@ The [flow contract stories](https://github.com/KhallilB/kbui/blob/main/apps/stor
 
 - Records that change after mount are matched by id: the open record and drafts survive, a server echo shows once, and removing the open record shows it unavailable
 - While records load, a deep link shows neither an unavailable record nor an empty list, then focuses the record once it arrives
+- A refetch that omits the open record while loading keeps its draft, errors and focus; still missing once loading ends, it shows unavailable
 
 <!-- /generated -->
 
