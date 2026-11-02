@@ -2,7 +2,12 @@ import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { babelParseFile, loadCsf } from "storybook/internal/csf-tools";
-import { type RecipeDefinition, recipeDefinitions, systemGuide } from "./content.ts";
+import {
+  checkRecipeKind,
+  type RecipeDefinition,
+  recipeDefinitions,
+  systemGuide,
+} from "./content.ts";
 import { definitions } from "./definitions.ts";
 import { highlightSample } from "./highlight.ts";
 import type { RecipeReference } from "./types";
@@ -14,6 +19,7 @@ export function loadRecipeSources(
   registry: RecipeDefinition[] = recipeDefinitions,
 ): RecipeReference[] {
   return registry.map((definition) => {
+    checkRecipeKind(definition);
     for (const component of definition.components)
       if (!definitions[component]) throw new Error(`Unknown recipe component: ${component}`);
     const path = resolve(directory, definition.storyFile);

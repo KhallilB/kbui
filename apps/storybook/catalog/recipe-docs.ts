@@ -1,15 +1,30 @@
 import { posix } from "node:path";
 import { siteOrigin } from "../site/guide-links";
 import { flowFactsFor } from "../stories/list-detail-flow/facts";
-import {
-  type RuleGroup,
-  type RuleId,
-  type RuleMeta,
-  ruleMeta,
-} from "../stories/list-detail-flow/rules";
-import type { RecipeDefinition, RecipePolicy } from "./content";
+import { type RuleGroup, type RuleMeta, ruleMeta } from "../stories/list-detail-flow/rules";
+import type { FlowFamily, RecipeDefinition, RecipePolicy } from "./content";
 
 export type GeneratedBlock = "files" | "policy" | "flow-guarantees";
+
+export type FlowFamilyContract = {
+  rules: Record<string, RuleMeta>;
+  factsFor: (name: string) => { async: boolean; gaps: Partial<Record<string, string>> };
+};
+
+const flowFamilies: Partial<Record<FlowFamily, FlowFamilyContract>> = {
+  "list-detail": {
+    rules: ruleMeta,
+    factsFor: flowFactsFor,
+  },
+};
+
+/** Resolves the rule metadata and recipe facts for a flow recipe's family. */
+export function flowContractFor(recipe: RecipeDefinition): FlowFamilyContract {
+  const contract = recipe.flow ? flowFamilies[recipe.flow] : undefined;
+  if (!contract)
+    throw new Error(`${recipe.name} has no flow contract for ${recipe.flow ?? "none"}`);
+  return contract;
+}
 
 const generatedBlocks: readonly GeneratedBlock[] = ["files", "policy", "flow-guarantees"];
 
@@ -48,8 +63,9 @@ function policy(recipe: RecipeDefinition) {
 }
 
 function guarantees(recipe: RecipeDefinition) {
-  const facts = flowFactsFor(recipe.name);
-  const applicable = (Object.entries(ruleMeta) as [RuleId, RuleMeta][]).filter(
+  const { rules, factsFor } = flowContractFor(recipe);
+  const facts = factsFor(recipe.name);
+  const applicable = Object.entries(rules).filter(
     ([, meta]) => meta.requires !== "async" || facts.async,
   );
   const sections: string[] = [];
