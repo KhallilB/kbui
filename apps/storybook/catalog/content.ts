@@ -1,3 +1,5 @@
+export type FlowFamily = "list-detail" | "resolve";
+
 /** Task policy; a documented constant in the copied source, not a prop. */
 export type RecipePolicy = {
   /** Container width below which list and detail stop sharing the row. */
@@ -18,9 +20,25 @@ export type RecipeDefinition = {
   components: string[];
   files: string[];
   /** Shared flow contract the recipe must pass, in `stories/<flow>-flow/`. */
-  flow?: "list-detail" | undefined;
+  flow?: FlowFamily | undefined;
+  /** Pre-package reference recipe for a graduated composition component. */
+  composition?: true | undefined;
   policy?: RecipePolicy | undefined;
 };
+
+const compositionRecipes = new Set(["PageHeader", "FormSection"]);
+
+/** Rejects recipes registered without a flow family or allowed composition flag. */
+export function checkRecipeKind(recipe: RecipeDefinition): void {
+  if (recipe.flow && recipe.composition)
+    throw new Error(`${recipe.name} cannot set both flow and composition: true`);
+  if (recipe.composition) {
+    if (!compositionRecipes.has(recipe.name))
+      throw new Error("Only PageHeader and FormSection may set composition: true");
+    return;
+  }
+  if (!recipe.flow) throw new Error(`${recipe.name} must declare flow or composition: true`);
+}
 
 export const recipeDefinitions: RecipeDefinition[] = [
   {
@@ -91,6 +109,7 @@ export const recipeDefinitions: RecipeDefinition[] = [
     defaultStoryId: "recipes-pageheader--project-list",
     components: ["Heading", "Text", "Inline", "Toolbar", "Button"],
     files: ["apps/storybook/recipes/PageHeader.tsx", "apps/storybook/recipes/recipes.css"],
+    composition: true,
   },
   {
     id: "formsection",
@@ -101,6 +120,7 @@ export const recipeDefinitions: RecipeDefinition[] = [
     defaultStoryId: "recipes-formsection--contact-details",
     components: ["Heading", "Text", "Grid", "Input", "Panel", "Fieldset"],
     files: ["apps/storybook/recipes/FormSection.tsx", "apps/storybook/recipes/recipes.css"],
+    composition: true,
   },
 ];
 
