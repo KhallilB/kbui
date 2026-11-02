@@ -68,14 +68,14 @@ test("gaps are listed as not met, never as guarantees", () => {
   }
 });
 
-test("policy is a two-column table and files link relative to the guide", () => {
+test("policy is a two-column table and files link to the published recipe source", () => {
   const recipe = byName("ListDetail");
   const policy = renderBlock(recipe, "policy");
   expect(policy).toContain("| Policy | Value |");
   expect(policy).toContain("`48rem`");
   for (const row of policy.split("\n")) expect(row.split("|").length).toBe(4);
   expect(renderBlock(recipe, "files")).toContain(
-    "- [`ListDetail.tsx`](../../apps/storybook/recipes/ListDetail.tsx)",
+    "- [`ListDetail.tsx`](https://kbui.kcb.pro/recipes/?recipe=listdetail#recipe-source)",
   );
 });
 

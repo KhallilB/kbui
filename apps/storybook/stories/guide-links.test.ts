@@ -23,3 +23,16 @@ test("maintained composition guides resolve to their copyable recipe pages", () 
       `/kbui/recipes/?recipe=${id}#usage`,
     );
 });
+
+test("published site links stay on the host that renders the guide", () => {
+  const guide = "docs/guides/inbox.md";
+  expect(guideLink("https://kbui.kcb.pro/components/?component=textarea", guide, "/kbui/")).toBe(
+    "/kbui/components/?component=textarea",
+  );
+  expect(
+    guideLink("https://kbui.kcb.pro/storybook/?path=/docs/recipes-inbox--docs", guide, "../"),
+  ).toBe("../storybook/?path=/docs/recipes-inbox--docs");
+  expect(guideLink("https://kbui.kcb.pro.evil.test/", guide, "../")).toBe(
+    "https://kbui.kcb.pro.evil.test/",
+  );
+});
