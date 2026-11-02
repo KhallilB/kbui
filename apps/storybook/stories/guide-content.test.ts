@@ -5,6 +5,7 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { recipeDefinitions } from "../catalog/content";
 import { GuideContent } from "../site/GuideContent";
+import { releaseNotes } from "../site/release-notes";
 
 test("shared guides render Markdown and let embedded docs navigate the top-level site", () => {
   const html = renderToStaticMarkup(
@@ -104,7 +105,9 @@ test("flow recipe guides follow the template", () => {
     const prose = markdown.replace(/```[\s\S]*?```/g, "");
     const sections = [...prose.matchAll(/^## (.+)$/gm)].map((match) => match[1]);
     expect(sections, recipe.guide).toEqual(recipeTemplate);
-    expect(markdown, recipe.guide).toContain("This recipe is not released yet.");
+    // A copied guide is read outside the repo, where relative links lead nowhere.
+    for (const [, href] of prose.matchAll(/\]\(([^)]+)\)/g))
+      expect(href, recipe.guide).toMatch(/^(https:\/\/|#)/);
     for (const [block, heading] of [
       ["files", "Copy the files"],
       ["policy", "Task policy you can change"],
@@ -114,5 +117,34 @@ test("flow recipe guides follow the template", () => {
       const owner = [...prose.slice(0, at).matchAll(/^## (.+)$/gm)].at(-1)?.[1];
       expect(owner, `${recipe.guide} ${block}`).toBe(heading);
     }
+  }
+});
+
+test("flow recipe guides list every prop the recipe takes", () => {
+  for (const recipe of recipeDefinitions.filter((entry) => entry.flow)) {
+    const read = (path: string) =>
+      readFileSync(new URL(`../../../${path}`, import.meta.url), "utf8");
+    const source = read(recipe.files[0] ?? "");
+    const params = new RegExp(`export function ${recipe.name}\\(\\{([\\s\\S]*?)\\}: \\{`).exec(
+      source,
+    );
+    const props = [...(params?.[1] ?? "").matchAll(/^\s+(\w+)/gm)].map((match) => match[1]);
+    expect(props.length, recipe.name).toBeGreaterThan(5);
+    const table = read(recipe.guide).split("## What you supply")[1]?.split("\n\n")[2] ?? "";
+    for (const prop of props) expect(table, `${recipe.guide} ${prop}`).toContain(`| \`${prop}\``);
+  }
+});
+
+test("a recipe the release notes name carries no unreleased marker", () => {
+  const released = Object.values(releaseNotes)
+    .flatMap((entry) => entry.highlights)
+    .join(" ");
+  const named = recipeDefinitions.filter((recipe) =>
+    new RegExp(`\\b${recipe.name}\\b`).test(released),
+  );
+  expect(named.length).toBeGreaterThan(0);
+  for (const recipe of named) {
+    const markdown = readFileSync(new URL(`../../../${recipe.guide}`, import.meta.url), "utf8");
+    expect(markdown, recipe.guide).not.toMatch(/\bunreleased\b|not released yet/i);
   }
 });

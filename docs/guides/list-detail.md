@@ -2,7 +2,7 @@
 
 Find a site request, inspect its details and context, then edit its title, owner or status. This recipe composes public `@kb.ui/react` exports with native HTML and local CSS.
 
-Copy it into your app; it is not a package export. This recipe is not released yet. Use a package build that includes its component dependencies.
+Copy it into your app; it is not a package export.
 
 ## Use when
 
@@ -14,10 +14,10 @@ Copy it into your app; it is not a package export. This recipe is not released y
 
 | Need | Use | What separates it |
 | --- | --- | --- |
-| Add a reply or note to a record rather than change its fields | [Inbox](inbox.md) | Inbox appends to the open record; ListDetail replaces its fields. |
-| Compare, sort, filter or bulk-edit many records | [`Collection`](../../packages/react/docs/components/Collection.md) | The work happens across rows, not inside one open record. |
-| One main task with context beside it, and no list to choose from | [`SupportingPane`](../../packages/react/docs/components/SupportingPane.md) | No selection, routing or per-record drafts. |
-| Preferences or account settings in sections | [`Settings`](../../packages/react/docs/components/Settings.md) | Each section saves on its own; there is no record list. |
+| Add a reply or note to a record rather than change its fields | [Inbox](https://kbui.kcb.pro/recipes/?recipe=inbox) | Inbox appends to the open record; ListDetail replaces its fields. |
+| Compare, sort, filter or bulk-edit many records | [`Collection`](https://kbui.kcb.pro/components/?component=collection) | The work happens across rows, not inside one open record. |
+| One main task with context beside it, and no list to choose from | [`SupportingPane`](https://kbui.kcb.pro/components/?component=supportingpane) | No selection, routing or per-record drafts. |
+| Preferences or account settings in sections | [`Settings`](https://kbui.kcb.pro/components/?component=settings) | Each section saves on its own; there is no record list. |
 
 ## Copy the files
 
@@ -25,9 +25,9 @@ Put these files in one folder. Inbox uses the same `flow-router.ts`; copy it onc
 
 <!-- generated:files -->
 
-- [`ListDetail.tsx`](../../apps/storybook/recipes/ListDetail.tsx)
-- [`flow-router.ts`](../../apps/storybook/recipes/flow-router.ts)
-- [`list-detail.css`](../../apps/storybook/recipes/list-detail.css)
+- [`ListDetail.tsx`](https://kbui.kcb.pro/recipes/?recipe=listdetail#recipe-source)
+- [`flow-router.ts`](https://kbui.kcb.pro/recipes/?recipe=listdetail#recipe-source)
+- [`list-detail.css`](https://kbui.kcb.pro/recipes/?recipe=listdetail#recipe-source)
 
 <!-- /generated -->
 
@@ -42,11 +42,14 @@ Every prop is optional. A seam marked preview works and is documented, but its n
 | Prop | Default | Use |
 | --- | --- | --- |
 | `requests` | Sample requests | Your records. Pass `[]` for the empty queue. Changes after mount are matched by `id`. |
+| `loading` (preview) | `false` | Pass `true` while records are still arriving. |
 | `initialRequestId` | `null` | Opens a record on mount when the router has none. |
 | `router` (preview) | `searchParamRouter("request")` | Reads, writes and watches the open record id. |
-| `commit` (preview) | Resolves at once | Saves a draft for one record. |
+| `commit` (preview) | Saves the draft in memory | Saves a draft for one record. |
 | `validate` (preview) | Title and owner are required | Checks a draft before `commit`. |
 | `copy` (preview) | `listDetailCopy` | Replaces any visible string or announcement. |
+| `landmark` (preview) | `true` | Pass `false` when your app shell already renders `<main>`. |
+| `header` (preview) | `true` | Pass `false` when your app shell already renders the page `<h1>`. Save announcements stay available to screen readers. |
 
 Each record needs a unique `id`, a `title`, `owner`, `status` (`Open`, `In progress` or `Resolved`), `summary`, `site`, `requester` and `activity`. The recipe permits any status change; it has no transition policy. Search matches ID, title, owner and site, ignoring case, and combines with the status filter.
 
@@ -54,7 +57,8 @@ The seams share one shape across list-and-detail recipes. `ListDetail.tsx` expor
 
 ```ts
 type RequestDraft = { title: string; owner: string; status: RequestStatus };
-type CommitResult<Field extends string> = void | { errors: Partial<Record<Field, string>> };
+// `form` carries an error no field owns, such as a refused permission.
+type CommitResult<Field extends string> = void | { errors: Partial<Record<Field | "form", string>> };
 
 type FlowRouter = {
   read(): string | null; // an empty value reads as null
@@ -63,7 +67,7 @@ type FlowRouter = {
 };
 ```
 
-Connect your API through `commit`. Resolve with nothing on success, resolve with `{ errors }` when your server rejects fields, and reject when the save fails:
+Connect your API through `commit`. Resolve with nothing on success, resolve with `{ errors }` when your server rejects fields, and reject when the save fails. Put an error that no field owns under `form`:
 
 ```tsx
 import { ListDetail, type RequestRecord } from "./ListDetail";
@@ -79,6 +83,7 @@ function RequestQueue({ requests, router }: { requests: RequestRecord[]; router:
           method: "PATCH",
           body: JSON.stringify(draft),
         });
+        if (response.status === 403) return { errors: { form: "You can't edit this request." } };
         if (response.status === 422) return { errors: await response.json() };
         if (!response.ok) throw new Error(`Save failed: ${response.status}`);
       }}
@@ -90,6 +95,8 @@ function RequestQueue({ requests, router }: { requests: RequestRecord[]; router:
 
 To use your app's router, pass a `FlowRouter` that maps the open id to your route, and keep the same router object across renders. `subscribe` returns an unsubscribe function. The recipe writes once per change and never writes the id that is already open. `copy` is merged over `listDetailCopy`, so pass only the strings you change; functions such as `savedNotice(id)` build announcements.
 
+Without `commit`, the defaults describe the in-memory demo: a "Local demo · Session only" status, a form hint that changes stay in this browser session and "for this session" in the saved announcement. Once you pass `commit` they are neutral, and `idle` is empty, so no status shows before the first outcome. `invalidNotice(id, errors)` receives the errors: by default it says the request needs changes when a field has an error, and that it was not saved otherwise. `loading` labels the list and a waiting record.
+
 ## Business logic
 
 Title and owner are trimmed before `validate` and `commit` see them.
@@ -97,7 +104,8 @@ Title and owner are trimmed before `validate` and `commit` see them.
 | Outcome | Meaning | What the recipe does |
 | --- | --- | --- |
 | `validate` returns errors | Client validation failed | Keeps the draft, describes each invalid field and focuses the first one. `commit` is not called. |
-| `commit` resolves `{ errors }` | Server validation failed | Same as client validation, and announces that the request needs changes. An error for a field the form does not render shows as the edit section's error, is announced, and focus moves to Save changes. |
+| `commit` resolves field errors | Server validation failed | Same as client validation, and announces that the request needs changes. |
+| `commit` resolves `{ errors: { form } }` | Refused for a reason no field owns, such as permissions | Keeps the draft, shows the error as the edit section's error, announces that the request was not saved with the error, and focuses Save changes. Any other key the form does not render is handled the same way. |
 | `commit` rejects | Transport or server failure | Keeps the draft, shows a danger callout above Save changes, announces the failure with the request ID and focuses Request title. |
 | `commit` resolves | Success | Applies the draft, clears it, announces the save and focuses Edit request if the record is still open. |
 | Success after the user left the record | — | Updates that record without moving focus. |
@@ -105,7 +113,11 @@ Title and owner are trimmed before `validate` and `commit` see them.
 
 A field's description holds validation errors only; a failed save never appears there. While a save is pending, Save changes and Cancel are disabled, a second save of the same record is ignored and focus moves to the request heading. Cancel discards only that record's draft and error.
 
+Pass `loading` while the first fetch, or a refetch, is in flight. While it is true and no records have arrived, the list shows `copy.loading` instead of a count or an empty state. A deep-linked record that has not arrived shows a loading placeholder instead of Request unavailable, and focus moves to its heading when it arrives.
+
 Records can change after the recipe mounts. The recipe matches them by `id`: the open record stays open, drafts and pending saves stay with their record, and the list follows your order. A successful save is held locally until `requests` delivers a new object for that id; then your data wins, so a server echo never shows twice. If the open record is removed, the detail shows Request unavailable, its draft is discarded, and focus moves to that heading only if it was inside the removed content.
+
+Keep a record that has not changed as the same object between updates. The recipe reads a new object for an id as your confirmed data and drops the save it holds for that record. If you rebuild every record on each update, for example with a plain `.map()` over server records, a save just made shows its old values when an unrelated record changes, until your data includes it. Reuse the previous object for an unchanged record, for example by caching mapped records per server record.
 
 Your `commit` owns persistence, sign-in, permissions and conflicts. If a failure leaves the outcome unknown, check whether the change was saved before retrying.
 
@@ -123,11 +135,11 @@ These task choices are constants in the copied source, not props. The width is t
 
 <!-- /generated -->
 
-List-and-detail recipes share their flow guarantees and differ only in policy. Choose the width at which your list and record stop sharing the row, whether context helps people act on first open, and whether a commit edits the record or appends to it. [Inbox](inbox.md) makes the other choices for a reading task.
+List-and-detail recipes share their flow guarantees and differ only in policy. Choose the width at which your list and record stop sharing the row, whether context helps people act on first open, and whether a commit edits the record or appends to it. [Inbox](https://kbui.kcb.pro/recipes/?recipe=inbox) makes the other choices for a reading task.
 
 ## Flow guarantees
 
-The [flow contract stories](../../apps/storybook/stories/list-detail-flow/ListDetail.stories.tsx) check these rules in a browser against kbui's copy. After you change flow code in your copy, check them yourself.
+The [flow contract stories](https://github.com/KhallilB/kbui/blob/main/apps/storybook/stories/list-detail-flow/ListDetail.stories.tsx) check these rules in a browser against kbui's copy. After you change flow code in your copy, check them yourself with the list under Check your changes.
 
 <!-- generated:flow-guarantees -->
 
@@ -179,7 +191,7 @@ The [flow contract stories](../../apps/storybook/stories/list-detail-flow/ListDe
 
 ## Customising the look
 
-The recipe composes package components: [PageHeader](../../packages/react/docs/components/PageHeader.md) for the page introduction, `Panel`, `Split` and `Grid` for the regions, and [FormSection](../../packages/react/docs/components/FormSection.md) with `Input` and `Select` for the edit form. Their own tokens and props restyle them.
+The recipe composes package components: [PageHeader](https://kbui.kcb.pro/components/?component=pageheader) for the page introduction, `Panel`, `Split`, `Grid` and [`Inline`](https://kbui.kcb.pro/components/?component=inline) for the regions, and [FormSection](https://kbui.kcb.pro/components/?component=formsection) with `Input` and `Select` for the edit form. `Inline` takes `as`, `gap`, `align` and `justify`; it always wraps, so it has no `wrap` prop. Their own tokens and props restyle them.
 
 Restyle with tokens before changing rules. `list-detail.css` reads spacing from `--kb-space-*`, rules from `--kb-color-border`, secondary text from `--kb-color-muted` and `--kb-text-small-size`, the selected row from `--kb-color-accent` and `--kb-panel-background-active`, and the request ID from `--kb-font-mono`. Set a token on `.list-detail` to change it for this recipe only.
 
@@ -223,20 +235,36 @@ export function RequestRegions() {
 
 ## Check your changes
 
-Run the recipe checks from the repository root:
+In your app, check these by hand after you change flow code, with keyboard alone:
+
+- Open a record from the list. Focus lands on its heading, and only its row is marked current.
+- Choose the open record again. Focus returns to its heading, and no history entry is added.
+- Go Back. Focus returns to the row you opened, or to search if a filter hides that row.
+- Open the URL of a record that does not exist. Request unavailable shows and has focus.
+- With `loading` true, open the URL of a record that has not arrived. A loading placeholder shows, then the record heading takes focus when it arrives.
+- Clear Request title and save. The error shows on the field, the field has focus and `commit` is not called.
+- Make `commit` return a field error, return a `form` error and reject. Each matches its Business logic row.
+- While a save is pending, focus is on the request heading and Save changes is disabled. Open another record before it settles: focus stays where you are.
+- Narrow the page below the policy width with search focused. Focus moves to the request heading.
+- In forced colors, the current row stays distinct from focus.
+- Inside your app shell with `landmark={false}` and `header={false}`, the page has one `<main>` and one `<h1>`.
+
+In the kbui repository, the [recipe stories](https://kbui.kcb.pro/storybook/?path=/docs/recipes-listdetail--docs) cover selection, editing, drafts, search and recovery, unavailable records, empty data, long content, each business-logic outcome above and replaced copy. The [flow contract stories](https://github.com/KhallilB/kbui/blob/main/apps/storybook/stories/list-detail-flow/ListDetail.stories.tsx) check the rules above. The [source check](https://github.com/KhallilB/kbui/blob/main/apps/storybook/stories/list-detail-source.test.ts) checks the copyable files, and the [responsive focus stories](https://github.com/KhallilB/kbui/blob/main/apps/storybook/stories/RequestLayout.stories.tsx) cover focus and drafts across widths. From the repository root:
 
 ```sh
 bun run --cwd apps/storybook test recipes/ListDetail.stories.tsx stories/list-detail-flow/ListDetail.stories.tsx
 bun run --cwd apps/storybook verify:code
 ```
 
-The [recipe stories](../../apps/storybook/recipes/ListDetail.stories.tsx) cover selection, editing, drafts, search and recovery, unavailable records, empty data, long content, each business-logic outcome above and replaced copy. The [flow contract stories](../../apps/storybook/stories/list-detail-flow/ListDetail.stories.tsx) check the rules above. The [source check](../../apps/storybook/stories/list-detail-source.test.ts) checks the copyable files, and the [responsive focus stories](../../apps/storybook/stories/RequestLayout.stories.tsx) cover focus and drafts across widths. `verify:code` compiles the source and the complete example above.
+`verify:code` compiles the source and the complete example above.
 
 Check 320, 768 and 1280 CSS pixels in light and dark. Open the long international-shipment record and confirm content wraps without horizontal scrolling. With keyboard alone, select, edit, clear a required field, save, correct it and save again; check focus after every step. Check history and reload through a direct canvas URL. In forced colors, the current row keeps a visible border and controls keep their focus indicators.
 
 ## Known limits
 
 - By default, records and drafts live in memory. Reload keeps the selected request but restores the sample data and discards drafts and saves.
+- The locally held save depends on unchanged records keeping the same object; see Business logic.
+- When the browser throttles a background window, focus can take about a second to reach the request heading after the layout narrows, because the move runs from a `ResizeObserver` callback.
 - The default router reads `window.location`, so it needs a browser. Pass a `router` before rendering on a server.
 - In an embedded preview, selection belongs to the iframe URL; use the direct Storybook canvas URL to share a selected request.
 - Automated stories include accessibility scans. Screen-reader speech, physical devices and browser zoom remain unverified, and a scan does not establish whole-page conformance. With a screen reader, check queue names, the current row, heading focus, the context region, field errors and save announcements.
