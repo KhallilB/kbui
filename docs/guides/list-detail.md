@@ -33,7 +33,7 @@ Put these files in one folder. Inbox uses the same `flow-router.ts`; copy it onc
 
 Import `@kb.ui/react/styles.css` once at your app entry and render `<ListDetail />` in a browser. With no props it shows sample requests, keeps the open request in the `request` URL parameter and saves to memory for the session.
 
-Each source file starts with a comment naming the recipe, the minimum kbui version it needs and this guide. Keep it. The version is the oldest release that has every package export the recipe uses, so it tells you which `@kb.ui/react` to install, not when you copied the file: copies taken at different times can name the same version. To compare your copy with upstream, diff it against the same file at a release's Git tag, such as `v0.12.0`, or on `main`.
+Each source file starts with a comment naming the recipe, the oldest `@kb.ui/react` it works with and this guide; `needs @kb.ui/react ≥ 0.12.0` means install 0.12.0 or later. Keep it. The version is the oldest npm release that has every package export the recipe uses. It is a requirement, not a record of when you copied the file: copies taken at different times can name the same version. To compare your copy with upstream, diff it against the same file at a release's Git tag, such as `v0.12.0`, or on `main`.
 
 ## What you supply
 

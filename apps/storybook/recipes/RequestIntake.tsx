@@ -1,4 +1,4 @@
-// kbui recipe RequestIntake · from kbui 0.12.0 · https://kbui.kcb.pro/recipes/?recipe=requestintake
+// kbui recipe RequestIntake · needs @kb.ui/react ≥ 0.12.0 · https://kbui.kcb.pro/recipes/?recipe=requestintake
 import {
   Button,
   Callout,

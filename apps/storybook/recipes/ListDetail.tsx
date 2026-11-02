@@ -1,4 +1,4 @@
-// kbui recipe ListDetail · from kbui 0.12.0 · https://kbui.kcb.pro/recipes/?recipe=listdetail
+// kbui recipe ListDetail · needs @kb.ui/react ≥ 0.12.0 · https://kbui.kcb.pro/recipes/?recipe=listdetail
 import {
   Button,
   Callout,

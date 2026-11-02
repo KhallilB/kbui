@@ -1,4 +1,4 @@
-// kbui recipe PageHeader · from kbui 0.10.0 · https://kbui.kcb.pro/recipes/?recipe=pageheader
+// kbui recipe PageHeader · needs @kb.ui/react ≥ 0.10.1 · https://kbui.kcb.pro/recipes/?recipe=pageheader
 import { Heading, type HeadingLevel, Inline, Text } from "@kb.ui/react";
 import type { ComponentProps, ReactNode } from "react";
 import "./recipes.css";

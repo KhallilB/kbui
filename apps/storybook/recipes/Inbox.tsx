@@ -1,4 +1,4 @@
-// kbui recipe Inbox · from kbui 0.12.0 · https://kbui.kcb.pro/recipes/?recipe=inbox
+// kbui recipe Inbox · needs @kb.ui/react ≥ 0.12.0 · https://kbui.kcb.pro/recipes/?recipe=inbox
 import {
   Button,
   Callout,

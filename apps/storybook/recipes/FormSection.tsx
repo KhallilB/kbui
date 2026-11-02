@@ -1,4 +1,4 @@
-// kbui recipe FormSection · from kbui 0.10.0 · https://kbui.kcb.pro/recipes/?recipe=formsection
+// kbui recipe FormSection · needs @kb.ui/react ≥ 0.10.1 · https://kbui.kcb.pro/recipes/?recipe=formsection
 import { Fieldset, Grid, Heading, type HeadingLevel, Text } from "@kb.ui/react";
 import { type ComponentProps, type ReactNode, useId } from "react";
 import "./recipes.css";
