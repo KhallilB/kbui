@@ -19,8 +19,20 @@ import {
   Text,
 } from "@kb.ui/react";
 import { type RefObject, useEffect, useId, useMemo, useRef, useState } from "react";
-import { type FlowRouter, searchParamRouter } from "./flow-router";
+import {
+  type CommitResult,
+  errorFocusTarget,
+  type FlowRouter,
+  isFocusDisconnected,
+  observeHiddenFocus,
+  searchParamRouter,
+  takeFocusTarget,
+  useAnnounce,
+  without,
+} from "./flow-router";
 import "./list-detail.css";
+
+export type { CommitResult } from "./flow-router";
 
 type RequestStatus = "Open" | "In progress" | "Resolved";
 export type RequestDraft = { title: string; owner: string; status: RequestStatus };
@@ -32,10 +44,6 @@ export type RequestRecord = RequestDraft & {
   activity: string;
 };
 type Field = keyof RequestDraft & string;
-/** `errors` keeps the draft and focuses the first invalid field; `form`, owned by no field, focuses submit. */
-export type CommitResult<Field extends string> =
-  // biome-ignore lint/suspicious/noConfusingVoidType: lets `async () => {}` mean success.
-  void | { errors: Partial<Record<Field | "form", string>> };
 // Keys outside the rendered fields can still arrive from a server.
 type Errors = Partial<Record<string, string>>;
 const fields: readonly Field[] = ["title", "owner", "status"];
@@ -264,11 +272,6 @@ function RequestEditor({
 type Overlay = { base: RequestRecord; value: RequestDraft };
 type Target = "heading" | "list" | "edit" | Field | "submit";
 
-function without<Value>(map: Record<string, Value | undefined>, id: string) {
-  const { [id]: _, ...rest } = map;
-  return rest;
-}
-
 /** Application-owned queue; copy with its local recipe dependencies. */
 export function ListDetail({
   requests = sampleRequests,
@@ -313,8 +316,7 @@ export function ListDetail({
   const [saving, setSaving] = useState<Record<string, true | undefined>>({});
   const [overlays, setOverlays] = useState<Record<string, Overlay | undefined>>({});
   const [showContext, setShowContext] = useState(true);
-  // New id per outcome re-mounts the text, so a repeated outcome is announced again.
-  const [notice, setNotice] = useState({ id: 0, text: "" });
+  const [notice, announce] = useAnnounce();
   const root = useRef<HTMLElement>(null);
   const focused = useRef<HTMLElement | null>(null);
   const currentId = useRef(selectedId);
@@ -377,10 +379,8 @@ export function ListDetail({
 
   useEffect(() => {
     currentId.current = selectedId;
-    // Hold focus for the deep-linked record until it arrives.
-    if (loading && selectedId && !selected) return;
-    const target = focusTarget.current;
-    focusTarget.current = null;
+    const target = takeFocusTarget(focusTarget, Boolean(loading && selectedId && !selected));
+    if (!target) return;
     if (target === "heading") heading.current?.focus();
     if (target === "edit") edit.current?.focus();
     if (target === "title" || target === "owner" || target === "submit")
@@ -398,29 +398,12 @@ export function ListDetail({
       setDrafts((current) => without(current, gone));
       setErrors((current) => without(current, gone));
       setFailures((current) => without(current, gone));
-      if (
-        [activeBefore.current, focused.current].some((element) => element && !element.isConnected)
-      )
-        heading.current?.focus();
+      if (isFocusDisconnected(activeBefore.current, focused.current)) heading.current?.focus();
     }
     shown.current = selected?.id ?? null;
   }, [selected, selectedId]);
 
-  useEffect(() => {
-    const observer = new ResizeObserver(() => {
-      const active = document.activeElement;
-      const candidate = active === document.body ? focused.current : active;
-      if (
-        candidate instanceof HTMLElement &&
-        root.current?.contains(candidate) &&
-        candidate.getClientRects().length === 0
-      ) {
-        (currentId.current !== null ? heading.current : search.current)?.focus();
-      }
-    });
-    if (root.current) observer.observe(root.current);
-    return () => observer.disconnect();
-  }, []);
+  useEffect(() => observeHiddenFocus(root.current, focused, currentId, heading, search), []);
 
   function navigate(next: string | null) {
     if (next === selectedId) {
@@ -434,10 +417,6 @@ export function ListDetail({
     setSelectedId(next);
   }
 
-  function announce(message: string) {
-    setNotice((current) => ({ id: current.id + 1, text: message }));
-  }
-
   /** Records field errors; false when there are none. Server errors are always announced. */
   function reject(recordId: string, found: Errors, server = false) {
     const entries = Object.entries(found).filter(([, message]) => message);
@@ -448,8 +427,7 @@ export function ListDetail({
       .map(([, message]) => message);
     if (server || unrendered.length)
       announce([...(server ? [text.invalidNotice(recordId, found)] : []), ...unrendered].join(" "));
-    if (currentId.current === recordId)
-      focusTarget.current = fields.find((field) => found[field]) ?? "submit";
+    if (currentId.current === recordId) focusTarget.current = errorFocusTarget(found, fields);
     return true;
   }
 

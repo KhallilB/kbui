@@ -20,4 +20,11 @@ test("Inbox provides complete public-component source and reply recovery example
       "LongLetter",
     ]),
   );
+  const source = recipe?.files.find((file) => file.name === "Inbox.tsx")?.sample.code ?? "";
+  expect(source).not.toContain("export type CommitResult<");
+  expect(source).not.toContain("function without<");
+  expect(source).toContain("useAnnounce");
+  expect(source).toContain("errorFocusTarget");
+  expect(source).toContain("takeFocusTarget");
+  expect(source).toContain("observeHiddenFocus");
 });

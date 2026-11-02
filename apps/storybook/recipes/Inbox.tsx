@@ -16,8 +16,20 @@ import {
   Textarea,
 } from "@kb.ui/react";
 import { useEffect, useId, useRef, useState } from "react";
-import { type FlowRouter, searchParamRouter } from "./flow-router";
+import {
+  type CommitResult,
+  errorFocusTarget,
+  type FlowRouter,
+  isFocusDisconnected,
+  observeHiddenFocus,
+  searchParamRouter,
+  takeFocusTarget,
+  useAnnounce,
+  without,
+} from "./flow-router";
 import "./inbox.css";
+
+export type { CommitResult } from "./flow-router";
 
 /** A reply saved on the server; `author` defaults to the signed-in user. */
 export type InboxReply = { id: string; body: string; author?: string | undefined };
@@ -33,10 +45,6 @@ export type InboxThread = {
   replies?: InboxReply[] | undefined;
 };
 export type ReplyDraft = { body: string };
-/** `errors` keeps the draft and focuses the first invalid field; `form`, owned by no field, focuses submit. */
-export type CommitResult<Field extends string> =
-  // biome-ignore lint/suspicious/noConfusingVoidType: lets `async () => {}` mean success.
-  void | { errors: Partial<Record<Field | "form", string>> };
 // Keys outside the rendered fields can still arrive from a server.
 type Errors = Partial<Record<string, string>>;
 
@@ -148,11 +156,7 @@ const sampleThreads: InboxThread[] = [
 // Replies hold a local send until the prop sends a new object for that thread.
 type Overlay = { base: InboxThread; replies: InboxReply[] };
 type Target = "heading" | "list" | "reply" | "input" | "submit";
-
-function without<Value>(map: Record<string, Value | undefined>, id: string) {
-  const { [id]: _, ...rest } = map;
-  return rest;
-}
+const fields = ["body"] as const;
 
 /** Application-owned correspondence; routing and reply delivery go through its seams. */
 export function Inbox({
@@ -193,8 +197,7 @@ export function Inbox({
   const [failures, setFailures] = useState<Record<string, true | undefined>>({});
   const [sendingIds, setSendingIds] = useState<Record<string, true | undefined>>({});
   const [showSender, setShowSender] = useState(false);
-  // New id per message re-mounts the text, so a repeated message is announced again.
-  const [notice, setNotice] = useState({ id: 0, text: "" });
+  const [notice, announce] = useAnnounce();
   const root = useRef<HTMLElement>(null);
   const focused = useRef<HTMLElement | null>(null);
   const search = useRef<HTMLInputElement>(null);
@@ -253,10 +256,11 @@ export function Inbox({
 
   useEffect(() => {
     currentId.current = selectedId;
-    // Hold focus for the deep-linked thread until it arrives.
-    if (loading && selectedId !== null && !selected) return;
-    const target = focusTarget.current;
-    focusTarget.current = null;
+    const target = takeFocusTarget(
+      focusTarget,
+      Boolean(loading && selectedId !== null && !selected),
+    );
+    if (!target) return;
     if (target === "heading") heading.current?.focus();
     if (target === "list")
       (rows.current.get(lastSelected.current ?? "") ?? search.current)?.focus();
@@ -272,29 +276,12 @@ export function Inbox({
       setDrafts((current) => without(current, gone));
       setErrors((current) => without(current, gone));
       setFailures((current) => without(current, gone));
-      if (
-        [activeBefore.current, focused.current].some((element) => element && !element.isConnected)
-      )
-        heading.current?.focus();
+      if (isFocusDisconnected(activeBefore.current, focused.current)) heading.current?.focus();
     }
     shown.current = selected?.id ?? null;
   }, [selected, selectedId]);
 
-  useEffect(() => {
-    const observer = new ResizeObserver(() => {
-      const active = document.activeElement;
-      const candidate = active === document.body ? focused.current : active;
-      if (
-        candidate instanceof HTMLElement &&
-        root.current?.contains(candidate) &&
-        candidate.getClientRects().length === 0
-      ) {
-        (currentId.current !== null ? heading.current : search.current)?.focus();
-      }
-    });
-    if (root.current) observer.observe(root.current);
-    return () => observer.disconnect();
-  }, []);
+  useEffect(() => observeHiddenFocus(root.current, focused, currentId, heading, search), []);
 
   function navigate(next: string | null) {
     if (next === selectedId) {
@@ -308,10 +295,6 @@ export function Inbox({
     setSelectedId(next);
   }
 
-  function announce(message: string) {
-    setNotice((current) => ({ id: current.id + 1, text: message }));
-  }
-
   /** Records field errors; false when there are none. Server errors are always announced. */
   function reject(thread: InboxThread, found: Errors, server = false) {
     const threadId = thread.id;
@@ -323,7 +306,8 @@ export function Inbox({
       announce(
         [...(server ? [text.invalidNotice(thread.sender, found)] : []), ...others].join(" "),
       );
-    if (currentId.current === threadId) focusTarget.current = found.body ? "input" : "submit";
+    if (currentId.current === threadId)
+      focusTarget.current = errorFocusTarget(found, fields) === "body" ? "input" : "submit";
     return true;
   }
 
@@ -491,12 +475,14 @@ export function Inbox({
               <Split ratio="wide-start" collapse="md" align="start">
                 <Panel className="inbox-detail" aria-labelledby={`${id}-subject`}>
                   <Panel.Header>
-                    <Text size="sm" tone="muted">
-                      {selected ? `${selected.sender} · ${selected.date}` : text.unavailableMeta}
-                    </Text>
-                    <Heading ref={heading} tabIndex={-1} id={`${id}-subject`} level={2}>
-                      {selected?.subject ?? text.unavailable}
-                    </Heading>
+                    <Grid layout="stack" gap="sm">
+                      <Text size="sm" tone="muted">
+                        {selected ? `${selected.sender} · ${selected.date}` : text.unavailableMeta}
+                      </Text>
+                      <Heading ref={heading} tabIndex={-1} id={`${id}-subject`} level={2}>
+                        {selected?.subject ?? text.unavailable}
+                      </Heading>
+                    </Grid>
                   </Panel.Header>
                   {selected ? (
                     <Panel.Body>

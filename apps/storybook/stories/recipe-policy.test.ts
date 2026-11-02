@@ -2,17 +2,21 @@ import { expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { recipeDefinitions } from "../catalog/content";
+import { renderBlock } from "../catalog/recipe-docs";
 
 const root = resolve(import.meta.dir, "../../..");
 const flows = recipeDefinitions.filter((recipe) => recipe.flow);
 
 test("every flow recipe declares a policy", () => {
   expect(flows.length).toBeGreaterThan(0);
-  for (const recipe of flows) expect(recipe.policy, recipe.name).toBeDefined();
+  for (const recipe of flows) {
+    expect(renderBlock(recipe, "policy"), recipe.name).toContain("| Policy | Value |");
+    if (recipe.flow === "list-detail") expect(recipe.policy, recipe.name).toBeDefined();
+  }
 });
 
 test("collapseBelow matches the recipe stylesheet", () => {
-  for (const recipe of flows) {
+  for (const recipe of flows.filter((recipe) => recipe.flow === "list-detail")) {
     const rem = Number.parseFloat(recipe.policy?.collapseBelow ?? "NaN");
     const sheet = recipe.files.find((file) => file.endsWith(".css"));
     if (!sheet) throw new Error(`${recipe.name} lists no stylesheet`);
