@@ -1,6 +1,6 @@
 # PageHeader recipe
 
-Maintained composition recipe, unreleased. For an imported API, use the same-name package component. See the [preservation decision](components-and-recipes.md#maintained-composition-recipes) for ownership and scope.
+Maintained composition recipe. For an imported API, use the same-name package component. See the [preservation decision](components-and-recipes.md#maintained-composition-recipes) for ownership and scope.
 
 Add a title, supporting text and actions to a page. `PageHeader` combines [`Heading`](../../packages/react/docs/components/Heading.md), [`Text`](../../packages/react/docs/components/Text.md) and [`Inline`](../../packages/react/docs/components/Inline.md).
 
