@@ -206,6 +206,9 @@ jobs:
 
   preview:
     name: "Deploy: preview"
+    concurrency:
+      group: kbui-preview-${{ github.event.number }}
+      cancel-in-progress: false
     needs: [check, browser]
     if: >-
       always() && github.event_name == 'pull_request' &&
@@ -234,11 +237,23 @@ jobs:
         with:
           name: storybook-${{ github.sha }}
           path: deployment/site/public
+      - name: Check PR state
+        id: preview-state
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: pr } = await github.rest.pulls.get({
+              ...context.repo, pull_number: context.payload.number,
+            });
+            core.setOutput('open', pr.state === 'open');
       - name: Package preview
+        if: steps.preview-state.outputs.open == 'true'
         run: npm run build:preview --prefix deployment/site
       - name: Check upload
+        if: steps.preview-state.outputs.open == 'true'
         run: npm run upload:preview --prefix deployment/site -- --preview-alias "pr-${PR_NUMBER}" --dry-run
       - name: Deploy preview
+        if: steps.preview-state.outputs.open == 'true'
         run: |
           : "${CLOUDFLARE_API_TOKEN:?Set CLOUDFLARE_API_TOKEN in the kbui-preview environment}"
           : "${CLOUDFLARE_ACCOUNT_ID:?Set CLOUDFLARE_ACCOUNT_ID in the kbui-preview environment}"
@@ -248,6 +263,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       - name: Post preview link
+        if: steps.preview-state.outputs.open == 'true'
         uses: actions/github-script@v7
         with:
           script: |
@@ -290,3 +306,13 @@ jobs:
             } else {
               await github.rest.issues.createComment({ ...context.repo, issue_number, body });
             }
+      - name: Reconcile closed preview
+        if: always() && steps.preview-state.outcome == 'success'
+        uses: actions/github-script@v7
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        with:
+          script: |
+            const { cleanupPreview } = await import(`${process.env.GITHUB_WORKSPACE}/deployment/site/cleanup-preview.mjs`);
+            await cleanupPreview({ github, context });
