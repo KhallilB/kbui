@@ -26,6 +26,10 @@ export function Example() {
 - [Shapes and sizes](https://kbui.kcb.pro/storybook/?path=/story/components-skeleton--shapes-and-sizes): Compare `text`, `rect`, `circle`, and `pill` geometry across the size scale.
 - [Loading-to-content transition](https://kbui.kcb.pro/storybook/?path=/story/components-skeleton--content-transition): Toggle `loading` to swap placeholder bars for resolved children without layout shift.
 
+## Motion
+
+Shimmer moves a soft light band across the placeholder, with a short rest between passes. Pulse and wave use a restrained brightness change so the reserved shape stays visible. Existing `--kb-skeleton-*` motion tokens control timing; reduced-motion preferences and forced-colors mode use static placeholders.
+
 ## Reference
 
 | Prop         | Type                                  | Default     | Notes                                                                                     |

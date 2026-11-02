@@ -22,6 +22,10 @@ export function Example() {
 - [Busy button submission](https://kbui.kcb.pro/storybook/?path=/story/components-spinner--busy-button): Render a decorative spinner inside a disabled button during asynchronous submission.
 - [Sizes and tones](https://kbui.kcb.pro/storybook/?path=/story/components-spinner--sizes-and-tones): Match compact controls, inline status rows, or section-level waits.
 
+## Motion
+
+The ring expands and contracts through a continuous sweep. Orbit combines two opposing sweeps around a breathing core; dots lift in sequence and bars run a staggered wave. Motion uses the existing `--kb-spinner-*` duration, easing, and stagger tokens. Reduced-motion preferences leave a static indicator and retain the status label.
+
 ## Reference
 
 | Prop         | Type                                                                         | Default     | Notes                                                                                |

@@ -82,6 +82,10 @@ export const WaveAndPulse: Story = {
     expect(canvasElement.querySelector('[data-animation="wave"]')).not.toBeNull();
     expect(canvasElement.querySelector('[data-animation="pulse"]')).not.toBeNull();
     expect(canvasElement.querySelector('[data-tone="accent"]')).not.toBeNull();
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    for (const skeleton of canvasElement.querySelectorAll(".kb-skeleton")) {
+      expect(skeleton.getAnimations({ subtree: true }).length > 0).toBe(!reducedMotion);
+    }
   },
 };
 

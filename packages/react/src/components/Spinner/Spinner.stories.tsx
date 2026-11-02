@@ -53,10 +53,10 @@ export const FancyVariants: Story = {
   render: () => (
     <div style={{ display: "grid", gap: "1rem" }}>
       <Inline gap="md" align="center">
-        <Spinner variant="ring" tone="accent" label="Ring" showLabel />
-        <Spinner variant="orbit" tone="info" label="Dual orbit" showLabel />
-        <Spinner variant="dots" tone="success" label="Wave dots" showLabel />
-        <Spinner variant="bars" tone="warning" label="Telemetry bars" showLabel />
+        <Spinner variant="ring" size="lg" tone="accent" label="Ring" showLabel />
+        <Spinner variant="orbit" size="lg" tone="info" label="Dual orbit" showLabel />
+        <Spinner variant="dots" size="lg" tone="success" label="Wave dots" showLabel />
+        <Spinner variant="bars" size="lg" tone="warning" label="Telemetry bars" showLabel />
       </Inline>
       <Inline gap="sm" align="center">
         <Spinner
@@ -76,6 +76,10 @@ export const FancyVariants: Story = {
     expect(canvasElement.querySelector('[data-variant="dots"]')).not.toBeNull();
     expect(canvasElement.querySelector('[data-variant="bars"]')).not.toBeNull();
     expect(canvasElement.querySelector('[data-appearance="pill"]')).not.toBeNull();
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    for (const spinner of canvasElement.querySelectorAll(".kb-spinner")) {
+      expect(spinner.getAnimations({ subtree: true }).length > 0).toBe(!reducedMotion);
+    }
   },
 };
 

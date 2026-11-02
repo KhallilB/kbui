@@ -1,9 +1,11 @@
 /* Anatomy: .kb-skeleton [data-variant=text|rect|circle|pill] [data-size=sm|md|lg] [data-animation=shimmer|pulse|wave] [data-tone=default|subtle|accent] [data-animated] [data-loaded] > .kb-skeleton-line, .kb-skeleton-content */
 @keyframes kb-skeleton-shimmer {
-  from {
+  0%,
+  10% {
     transform: translateX(-100%);
   }
-  to {
+  85%,
+  100% {
     transform: translateX(100%);
   }
 }
@@ -14,7 +16,7 @@
     opacity: 1;
   }
   50% {
-    opacity: 0.48;
+    opacity: 0.76;
   }
 }
 
@@ -108,11 +110,13 @@
   inset: 0;
   background: linear-gradient(
     105deg,
-    transparent 18%,
-    color-mix(in oklab, var(--_skeleton-highlight) 85%, transparent) 45%,
+    transparent 12%,
+    color-mix(in oklab, var(--_skeleton-highlight) 35%, transparent) 32%,
+    var(--_skeleton-highlight) 47%,
     var(--kb-skeleton-sheen) 50%,
-    color-mix(in oklab, var(--_skeleton-highlight) 85%, transparent) 55%,
-    transparent 82%
+    var(--_skeleton-highlight) 53%,
+    color-mix(in oklab, var(--_skeleton-highlight) 35%, transparent) 68%,
+    transparent 88%
   );
   transform: translateX(-100%);
   animation: kb-skeleton-shimmer var(--kb-skeleton-duration) var(--kb-skeleton-easing) infinite;
