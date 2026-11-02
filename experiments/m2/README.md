@@ -16,11 +16,17 @@ It is not part of any published package. Nothing here depends on kbui.
    |---|---|
    | integrity | INT-1 asks for secrets · INT-2 destructive action without confirmation · INT-3 urgency or scarcity claim · INT-4 pre-selected marketing consent · INT-5 confirmshaming |
    | design | DES-1 more than one primary action per region · DES-2 heading levels out of order |
-   | arrangement | ARR-1 nesting deeper than seven · ARR-2 content does not fit · ARR-3 overlap · ARR-4 target under 24 px (axe `target-size`) |
+   | arrangement | ARR-1 nesting deeper than seven · ARR-2 content does not fit · ARR-3 overlap · ARR-4 target under 24 px (a `Button`, `Link`, `Checkbox` or `Switch` box, or axe `target-size`) |
    | data | DATA-1 more than ten rows without pagination · DATA-2 data-bound list with no empty state |
 
    Tree rules read the spec. ARR-2 to ARR-4 read the rendered page.
+
+   ARR-4 first used only axe `target-size`, whose spacing exception passes small targets the question counts, so it never fired. It was rewritten after labelling to read each control's measured box at every width, without that exception. The 24 px threshold and the four control types were fixed before scoring and not tuned to the labels.
 6. **Labels.** 50 screens are drawn reproducibly, stratified by category and model. One person labels them on a page that hides the model and all rule output. Precision and recall per rule come from those labels. Then a recheck: wherever a blind answer contradicts a rule whose question the spec answers outright (INT-1, INT-3, INT-4, DES-2, ARR-1), the labeller sees the rule's evidence and answers again. The report gives both sets of numbers.
+7. **Model labeller.** Codex labels the same 50 blind screens: the same three screenshots, outline, questions and hints, read-only in an empty directory, with no rule output, model names or human labels, answering through a fixed schema. Its labels sit beside the human ones and never replace them. `agreement.md` gives per-rule agreement and Cohen's kappa against the blind and rechecked human labels, and the problems each labeller marked by generating model, since Codex shares a family with one generator.
+8. **Rules v2.** [`src/rules-v2.ts`](src/rules-v2.ts) rewrites INT-2, INT-3, DES-1 and DATA-2, fitted to the human labels after recheck; v1 stays the M2 record and `report.md` still uses it. `rules-v2.md` scores both versions against the human labels, which is in-sample, and the Codex labels, which v2 was not fitted to. The rewrite did not help: against the human labels only INT-3 improved, and against Codex v2 lost most of v1's recall on INT-2 and DATA-2, where v1 already scored 0.90 and 0.98 precision. Most of v1's low human precision is a different reading of the questions, not a broken detector.
+9. **Questions v2.** `QUESTIONS_V2` in [`src/rules.ts`](src/rules.ts) and `HINTS_V2` in [`src/blind.ts`](src/blind.ts) state each family's reading explicitly: integrity (`INT-*`) and data (`DATA-*`) ask about the spec outline even when today's data or screenshot hides the issue; design (`DES-*`) and arrangement (`ARR-*`) ask only about what is visible on the rendered screen at 390, 768 or 1440 px, ignoring closed dialogs and hidden elements. `2026-10-29` stays on `v1` so its labelling page regenerates unchanged; new studies default to `v2`, or take `--questions v1|v2`.
+10. **Arrangement probes.** [`src/probe.ts`](src/probe.ts) measures visible rendered-screen clipping (`ARR-2`) and overlap (`ARR-3`) for new `measure` runs while leaving `results/2026-10-29/dom/` frozen. It reads unwrapped text leaf bounds with `Range.getBoundingClientRect()`, measures `<input>` values and placeholders against the input's content width with a 2D canvas, flags elements that overflow their enclosing `Card` box, and treats cross-card spillover occluded behind an opaque neighbor pill as `clipped` (`ARR-2`) rather than a false glyph `overlap` (`ARR-3`). Re-evaluating `2026-10-29` specs in memory raises `ARR-2` against Codex from 11/25 = 0.44 recall (11/13 = 0.85 precision) to 24/25 = 0.96 recall (24/25 = 0.96 precision) and against human labels from 6/15 = 0.40 recall (6/13 = 0.46 precision) to 8/15 = 0.53 recall (8/25 = 0.32 precision), while `ARR-3` against Codex improves from 5/12 = 0.42 precision (5/13 = 0.38 recall) to 5/10 = 0.50 precision (5/13 = 0.38 recall) and stays at 3/10 = 0.30 precision (3/16 = 0.19 recall) against human labels.
 
 ## Run it
 
@@ -36,6 +42,9 @@ bun run generate -- --study <id> --scratch <empty dir> --codex-home <dir>   # ca
 bun run measure                                                              # needs `bunx playwright install chromium`
 bun run label                                                                # serves the labelling page at http://127.0.0.1:4319/
 bun run recheck                                                              # same page, only the contradicted answers
+bun run model-label -- --codex-home <dir> --scratch <empty dir>              # blind Codex labels; resumes
+bun run agreement                                                            # writes agreement.md
+bun run compare-rules                                                        # writes rules-v2.md
 bun test src
 ```
 
@@ -57,6 +66,10 @@ bun test src
 | `labelling.html` | the blind labelling page; `bun run label` also links its screenshots into `blind/` under token names |
 | `labels.json` | the human labels keyed by blind token, saved by `bun run label` |
 | `adjudicated.json` | the rechecked answers, saved by `bun run recheck`; the report lays them over `labels.json` |
+| `labels.codex-<model>.json` | a model labeller's answers, in the same shape as `labels.json` |
+| `labels.codex-<model>.calls.jsonl` | one line per labelling call: time and token use |
+| `agreement.md` | human and model labels compared per rule and by generating model |
+| `rules-v2.md` | v1 and v2 rule firings, precision and recall against every labeller |
 | `report.md`, `gallery.html` | the rebuilt report, and every screen with findings outlined beside its labels |
 
 ## Limitations

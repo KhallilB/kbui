@@ -56,6 +56,7 @@ export const MotionTokens: Story = {
 
 export const NestedTheme: Story = {
   tags: ["!dev", "!autodocs"],
+  parameters: { kbuiPreview: { menuSpace: 96 } },
   render: function NestedTheme() {
     const host = useRef<HTMLDivElement>(null);
     return (

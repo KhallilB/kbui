@@ -99,8 +99,18 @@ test("0.10.0 documents the package rename and synchronized upgrade", () => {
 test("0.12.0 summarises recipe foundations and keeps the generated recipe migration", () => {
   const copy = releaseNotes["0.12.0"];
   const text = copy?.highlights.join(" ") ?? "";
-  for (const term of ["contract", "preview", "router, commit, validate and copy", "matched by id"])
+  for (const term of [
+    "contract",
+    "preview",
+    "router, commit, validate, copy, loading, landmark and header",
+    "matched by id",
+    "saved on your server",
+    "no field owns",
+  ])
     expect(text).toContain(term);
+  expect(text).toMatch(
+    /request-flow.*list-detail.*inbox-index.*inbox-letter.*inbox-list.*inbox-detail/,
+  );
   expect(text).toMatch(/ListDetail and Inbox.*PageHeader and FormSection/);
   expect(text).not.toMatch(/retire/i);
   expect(text).toMatch(/sendReply.*commit/);

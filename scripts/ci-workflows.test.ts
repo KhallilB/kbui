@@ -540,7 +540,7 @@ test("preview credentials stay behind successful same-repository PR validation",
   expect(JSON.stringify(workflow("ci").on)).not.toContain("pull_request_target");
   const deploy = preview.steps.find((step) => step.name === "Deploy preview");
   expect(deploy?.env?.CLOUDFLARE_API_TOKEN).toBe(`\${{ secrets.CLOUDFLARE_API_TOKEN }}`);
-  expect(preview.steps.filter((step) => step.env?.CLOUDFLARE_API_TOKEN)).toHaveLength(1);
+  expect(preview.steps.filter((step) => step.env?.CLOUDFLARE_API_TOKEN)).toHaveLength(2);
   expect(deploy?.run).toContain("npm run configure:preview");
   expect(deploy?.run).toContain("npm run upload:preview");
   expect(deploy?.run).toContain(`--preview-alias "pr-\${PR_NUMBER}"`);
@@ -583,7 +583,7 @@ async function runPreviewComment(
   expect(steps.indexOf(step)).toBeGreaterThan(
     steps.findIndex((step) => step.name === "Deploy preview"),
   );
-  expect(step?.if).toBeUndefined();
+  expect(step?.if).toBe("steps.preview-state.outputs.open == 'true'");
   const writes: { kind: string; parameters: Record<string, unknown> }[] = [];
   const listComments = () => {};
   const listFiles = () => {};

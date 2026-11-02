@@ -13,7 +13,13 @@ import {
 
 const sizes: SpinnerSize[] = ["sm", "md", "lg"];
 const tones: SpinnerTone[] = ["accent", "neutral", "info", "success", "warning", "danger"];
-const variants: SpinnerVariant[] = ["ring", "orbit", "dots", "bars"];
+const variantLabels: Record<SpinnerVariant, string> = {
+  ring: "Ring",
+  orbit: "Orbit",
+  dots: "Dots",
+  bars: "Bars",
+};
+const variants = Object.keys(variantLabels) as SpinnerVariant[];
 const appearances: SpinnerAppearance[] = ["plain", "pill"];
 
 const meta = {
@@ -49,43 +55,53 @@ export const Default: Story = {
   },
 };
 
-export const FancyVariants: Story = {
+const expectMotion = (canvasElement: HTMLElement) => {
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  for (const spinner of canvasElement.querySelectorAll(".kb-spinner")) {
+    expect(spinner.getAnimations({ subtree: true }).length > 0).toBe(!reducedMotion);
+  }
+};
+
+export const Variants: Story = {
   render: () => (
-    <div style={{ display: "grid", gap: "1rem" }}>
-      <Inline gap="md" align="center">
-        <Spinner variant="ring" tone="accent" label="Ring" showLabel />
-        <Spinner variant="orbit" tone="info" label="Dual orbit" showLabel />
-        <Spinner variant="dots" tone="success" label="Wave dots" showLabel />
-        <Spinner variant="bars" tone="warning" label="Telemetry bars" showLabel />
-      </Inline>
-      <Inline gap="sm" align="center">
+    <Inline gap="lg" align="center">
+      {variants.map((variant) => (
         <Spinner
-          variant="orbit"
-          appearance="pill"
-          tone="accent"
-          label="Synthesizing index…"
+          key={variant}
+          variant={variant}
+          size="lg"
+          label={variantLabels[variant]}
           showLabel
         />
-        <Spinner variant="dots" appearance="pill" tone="info" label="Streaming events…" showLabel />
-        <Spinner variant="bars" appearance="pill" tone="success" label="Replaying log…" showLabel />
-      </Inline>
-    </div>
+      ))}
+    </Inline>
   ),
   play: async ({ canvasElement }) => {
-    expect(canvasElement.querySelector('[data-variant="orbit"]')).not.toBeNull();
-    expect(canvasElement.querySelector('[data-variant="dots"]')).not.toBeNull();
-    expect(canvasElement.querySelector('[data-variant="bars"]')).not.toBeNull();
-    expect(canvasElement.querySelector('[data-appearance="pill"]')).not.toBeNull();
+    for (const variant of variants) {
+      expect(canvasElement.querySelector(`[data-variant="${variant}"]`)).not.toBeNull();
+    }
+    expectMotion(canvasElement);
   },
 };
 
-export const WithVisibleLabel: Story = {
+export const Pill: Story = {
+  render: () => (
+    <Inline gap="sm" align="center">
+      <Spinner variant="orbit" appearance="pill" label="Saving changes…" showLabel />
+      <Spinner variant="dots" appearance="pill" tone="info" label="Uploading files…" showLabel />
+      <Spinner variant="bars" appearance="pill" tone="success" label="Syncing data…" showLabel />
+    </Inline>
+  ),
+  play: async ({ canvasElement }) => {
+    expect(canvasElement.querySelectorAll('[data-appearance="pill"]')).toHaveLength(3);
+    expectMotion(canvasElement);
+  },
+};
+
+export const WithLabel: Story = {
   args: {
-    label: "Reindexing search catalog…",
+    label: "Updating search index…",
     showLabel: true,
-    tone: "info",
-    variant: "orbit",
-    appearance: "pill",
   },
 };
 
@@ -96,10 +112,10 @@ export const BusyButton: Story = {
       <Inline gap="sm" align="center">
         <Button disabled={saving} onClick={() => setSaving(true)}>
           {saving ? <Spinner decorative size="sm" tone="current" variant="orbit" /> : null}
-          {saving ? "Deploying release…" : "Deploy release"}
+          {saving ? "Publishing…" : "Publish"}
         </Button>
         <Button variant="secondary" size="sm" onClick={() => setSaving((prev) => !prev)}>
-          {saving ? "Mark complete" : "Simulate busy"}
+          {saving ? "Finish" : "Start"}
         </Button>
       </Inline>
     );
@@ -116,7 +132,7 @@ export const SizesAndTones: Story = {
     <div style={{ display: "grid", gap: "1rem" }}>
       <Inline gap="md" align="center">
         {sizes.map((size) => (
-          <Spinner key={size} size={size} label={`Size ${size}`} showLabel />
+          <Spinner key={size} size={size} label={size} showLabel />
         ))}
       </Inline>
       <Inline gap="md" align="center">

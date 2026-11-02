@@ -320,7 +320,7 @@ export const DenseSticky: Story = {
 export const NestedTableIsolation: Story = {
   tags: ["!dev", "!autodocs"],
   render: () => (
-    <div style={{ width: "100%" }}>
+    <Table.ScrollContainer label="Nested table isolation">
       <SingleCellTable label="Comfortable reference">Reference content</SingleCellTable>
       <Table density="dense">
         <Table.Caption>Dense parent</Table.Caption>
@@ -348,7 +348,7 @@ export const NestedTableIsolation: Story = {
           </Table.Row>
         </Table.Foot>
       </Table>
-    </div>
+    </Table.ScrollContainer>
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -391,7 +391,10 @@ function SingleCellTable({ label, children }: { label: string; children: TablePr
 export const StickyFocusVisibility: Story = {
   tags: ["!dev", "!autodocs"],
   render: () => (
-    <div style={{ width: "100%", display: "grid", gap: "1rem" }}>
+    <Table.ScrollContainer
+      label="Sticky focus scenarios"
+      style={{ width: "100%", display: "grid", gap: "1rem" }}
+    >
       {(["ltr", "rtl"] as const).flatMap((dir) =>
         (["start", "end"] as const).map((edge) => (
           <div key={`${dir}-${edge}`} style={{ width: 320, maxWidth: "100%" }}>
@@ -469,7 +472,7 @@ export const StickyFocusVisibility: Story = {
           </div>
         )),
       )}
-    </div>
+    </Table.ScrollContainer>
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

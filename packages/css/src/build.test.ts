@@ -570,7 +570,7 @@ describe("buildCss", () => {
 
     const skeletonCss = await read("skeleton.css");
     expect(skeletonCss.split("\n")[0]).toContain(".kb-skeleton");
-    expect(skeletonCss.split("\n")[0]).toContain("[data-variant=text|rect|circle|pill]");
+    expect(skeletonCss.split("\n")[0]).toContain("[data-variant=text|rect|circle|pill|auto]");
     expect(skeletonCss.split("\n")[0]).toContain("[data-animation=shimmer|pulse|wave]");
     expect(skeletonCss.split("\n")[0]).toContain("[data-tone=default|subtle|accent]");
     expect(skeletonCss).toContain("var(--kb-skeleton-base)");

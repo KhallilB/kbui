@@ -27,7 +27,7 @@ For fast home edits, use `bun run --filter @kb.ui/storybook dev:site`. Live cata
 | `PlanDemo.tsx` | Day-off composition, rendered directly by the home | `stories/PlanDemo.stories.tsx` |
 | `Workbench.tsx` | Prop playground, copied JSX, and six searchable component entries | `stories/Workbench.stories.tsx` |
 | `Catalog.tsx` | Searchable catalog, shareable component pages, canonical API summaries and live Storybook previews | `stories/Catalog.stories.tsx`, `stories/catalog-source.test.ts` |
-| `CatalogComparison.tsx` | Optional pinned dark preview alongside the light example | `stories/CatalogDetails.stories.tsx`, `catalog/verify-runtime.ts` |
+| `CatalogComparison.tsx` | Optional pinned dark preview alongside the light example | `stories/CatalogDetails.stories.tsx`, `e2e/runtime.spec.ts` |
 | `CatalogSkinControls.tsx`, `catalog-skin.ts`, `CodeEditor.tsx`, `component-style-preview.ts`, `style-compiler.ts` | Component styling workbench: highlighted CSS editing, real Tailwind utilities, copied usage and isolated live preview | `stories/CatalogSkinControls.stories.tsx`, `stories/catalog-skin.test.ts`, `stories/style-compiler.test.ts` |
 | `CodePanel.tsx` | Read-only CodeBlock presentation, build-time highlighting, disclosure and clipboard recovery | CodePanel, Setup, Workbench and Recipes stories |
 | `catalog/site-samples.ts` | Generated playground combinations | Source coverage and `verify:code` |
@@ -190,10 +190,10 @@ Playground/setup preferences, catalog actions and workspace controls reuse `Inpu
 
 Site chrome reuses semantic KBUI typography, accent and focus roles. `--site-radius-surface` owns repeated app frames; copied composition CSS has a 24px fallback so it works independently. Editorial sizes/leading, illustration palettes and nested theme boundaries stay intentional.
 
-`stories/ControlEdges.stories.tsx` and `catalog/verify-control-edges.ts` cover native required validation, successful `FormData` and caller-owned reset across five composed controls. `Select`'s error/reset policy stays with the form. Long labels, options and helper/error text wrap inside bounded containers. The native matrix includes 640×450 CSS-pixel reflow, equivalent to a 1280×900 viewport at 200% zoom; it does not automate browser chrome zoom. Run against built Storybook:
+`stories/ControlEdges.stories.tsx` and `e2e/controls.spec.ts` cover native required validation, successful `FormData` and caller-owned reset across five composed controls. `Select`'s error/reset policy stays with the form. Long labels, options and helper/error text wrap inside bounded containers. The native matrix includes 640×450 CSS-pixel reflow, equivalent to a 1280×900 viewport at 200% zoom; it does not automate browser chrome zoom. Run against built Storybook:
 
 ```bash
-CONTROL_EDGES_URL=http://127.0.0.1:4174/storybook node --experimental-strip-types apps/storybook/catalog/verify-control-edges.ts
+CONTROL_EDGES_URL=http://127.0.0.1:4174/storybook bun run --cwd apps/storybook verify:controls
 ```
 
 
@@ -250,7 +250,7 @@ The install builder offers CSS tokens as part of the normal React install. Optio
 
 Production Storybook contains public MDX guides and canonical component stories only. Site screens, legacy restyle showcases and validation fixtures are maintained in `apps/storybook/stories` for opt-in local development and CI. `KBUI_STORYBOOK_INTERNAL=1` enables that scope; `dev:internal` provides the command. Default public builds exclude those modules, and `verify:catalog` rejects internal index entries while requiring all component docs and examples. Validation coverage remains active in the browser test scripts.
 
-Component Accessibility sections read `catalog/accessibility-guides.ts`: implemented support, author responsibilities, verification procedures, and linked WCAG/APG sources. `catalog/AccessibilityReference.tsx` renders the contract; `catalog/verify-component-docs.ts` verifies the built sections. Shared requirements and test-record guidance live in `docs/guides/accessibility.md`.
+Component Accessibility sections read `catalog/accessibility-guides.ts`: implemented support, author responsibilities, verification procedures, and linked WCAG/APG sources. `catalog/AccessibilityReference.tsx` renders the contract; `e2e/component-docs.spec.ts` verifies the built sections. Shared requirements and test-record guidance live in `docs/guides/accessibility.md`.
 
 `Popover` previews use surface alignment, a 480px minimum and reserved popup footprint. Their normal preview pane stays in page flow instead of using editor pane height caps; paired examples remain reachable through page scrolling. Centering a trigger alone in a small iframe can collapse its fields even when the surrounding page is large. The built preview gate opens Default and Controlled in their actual iframes, checks all fields/actions through clipping ancestors, exercises paired themes, and verifies immediate preferences plus keyboard Save/discard behavior.
 

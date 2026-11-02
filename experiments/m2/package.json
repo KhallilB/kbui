@@ -8,6 +8,9 @@
     "label": "bun src/label.ts --study 2026-10-29 --serve",
     "recheck": "bun src/label.ts --study 2026-10-29 --serve --recheck",
     "report": "bun src/report.ts --study 2026-10-29",
+    "model-label": "bun src/model-label.ts --study 2026-10-29",
+    "agreement": "bun src/agreement.ts --study 2026-10-29",
+    "compare-rules": "bun src/compare-rules.ts --study 2026-10-29",
     "test": "bun test src",
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
