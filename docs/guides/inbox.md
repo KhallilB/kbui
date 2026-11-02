@@ -33,7 +33,7 @@ Put these files in one folder. ListDetail uses the same `flow-router.ts`; copy i
 
 Import `@kb.ui/react/styles.css` once at your app entry and render `<Inbox />` in a browser. With no props it shows sample messages, keeps the open message in the `message` URL parameter and adds replies to memory for the session.
 
-Each recipe starts with a comment naming the recipe, the minimum kbui version it needs and this guide. Keep it, so you can compare your copy with a later version.
+Each source file starts with a comment naming the recipe, the minimum kbui version it needs and this guide. Keep it. The version is the oldest release that has every package export the recipe uses, so it tells you which `@kb.ui/react` to install, not when you copied the file: copies taken at different times can name the same version. To compare your copy with upstream, diff it against the same file at a release's Git tag, such as `v0.12.0`, or on `main`.
 
 ## What you supply
 
@@ -55,7 +55,7 @@ Each thread needs a unique `id` and values for `sender`, `address`, `subject`, `
 
 `replies` is optional: the replies your server has saved for that message, in the order to show them after it. Each reply needs its own `id` and a `body`. `author` labels it; a reply without one is labelled with `copy.sentHeading`, which reads "You" once you pass `commit`.
 
-The seams share one shape across list-and-detail recipes. `Inbox.tsx` exports `InboxThread`, `InboxReply`, `ReplyDraft`, `CommitResult` and `inboxCopy`; `flow-router.ts` exports `FlowRouter` and `searchParamRouter`.
+The seams share one shape across list-and-detail recipes. `Inbox.tsx` exports `InboxThread`, `InboxReply`, `ReplyDraft`, `CommitResult` and `inboxCopy`; `flow-router.ts` exports `FlowRouter` and `searchParamRouter`, plus the commit, announcement and focus helpers both flow recipes share.
 
 ```ts
 type InboxReply = { id: string; body: string; author?: string };
@@ -213,6 +213,7 @@ The [flow contract stories](https://github.com/KhallilB/kbui/blob/main/apps/stor
 
 - Records that change after mount are matched by id: the open record and drafts survive, a server echo shows once, and removing the open record shows it unavailable
 - While records load, a deep link shows neither an unavailable record nor an empty list, then focuses the record once it arrives
+- A refetch that omits the open record while loading keeps its draft, errors and focus; still missing once loading ends, it shows unavailable
 
 <!-- /generated -->
 
@@ -222,7 +223,7 @@ Restyle with tokens before changing rules. `inbox.css` reads spacing from `--kb-
 
 The recipe composes package components: [`PageHeader`](https://kbui.kcb.pro/components/?component=pageheader) for the page introduction, `Panel`, `Split`, `Grid` and [`Inline`](https://kbui.kcb.pro/components/?component=inline) for the regions, and `Callout` for a failed send. `Inline` takes `as`, `gap`, `align` and `justify`; it always wraps, so it has no `wrap` prop. Their own tokens and props restyle them.
 
-The reply field is the package [`Textarea`](https://kbui.kcb.pro/components/?component=textarea). `.inbox-reply-field` sets its `--kb-textarea-padding-block` and `--kb-textarea-padding-inline`; Textarea's own styles handle focus, invalid, disabled and forced-colour states. The `.inbox-reply-label`, `.inbox-reply` and `.inbox-error` classes still reach its label, control and error.
+The reply field is the package [`Textarea`](https://kbui.kcb.pro/components/?component=textarea). The recipe sets none of its tokens, so Textarea's own padding and its focus, invalid, disabled and forced-colour states apply. To change the padding, set `--kb-textarea-padding-block` and `--kb-textarea-padding-inline` on `.inbox-reply-field`, its root. The `.inbox-reply-label`, `.inbox-reply` and `.inbox-error` classes still reach its label, control and error.
 
 Every list-and-detail recipe names the same five region parts, so a restyle written for one carries over to the other:
 

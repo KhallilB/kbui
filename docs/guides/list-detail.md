@@ -33,7 +33,7 @@ Put these files in one folder. Inbox uses the same `flow-router.ts`; copy it onc
 
 Import `@kb.ui/react/styles.css` once at your app entry and render `<ListDetail />` in a browser. With no props it shows sample requests, keeps the open request in the `request` URL parameter and saves to memory for the session.
 
-Each recipe starts with a comment naming the recipe, the minimum kbui version it needs and this guide. Keep it, so you can compare your copy with a later version.
+Each source file starts with a comment naming the recipe, the minimum kbui version it needs and this guide. Keep it. The version is the oldest release that has every package export the recipe uses, so it tells you which `@kb.ui/react` to install, not when you copied the file: copies taken at different times can name the same version. To compare your copy with upstream, diff it against the same file at a release's Git tag, such as `v0.12.0`, or on `main`.
 
 ## What you supply
 
@@ -53,7 +53,7 @@ Every prop is optional. A seam marked preview works and is documented, but its n
 
 Each record needs a unique `id`, a `title`, `owner`, `status` (`Open`, `In progress` or `Resolved`), `summary`, `site`, `requester` and `activity`. The recipe permits any status change; it has no transition policy. Search matches ID, title, owner and site, ignoring case, and combines with the status filter.
 
-The seams share one shape across list-and-detail recipes. `ListDetail.tsx` exports `RequestRecord`, `RequestDraft`, `CommitResult` and `listDetailCopy`; `flow-router.ts` exports `FlowRouter` and `searchParamRouter`.
+The seams share one shape across list-and-detail recipes. `ListDetail.tsx` exports `RequestRecord`, `RequestDraft`, `CommitResult` and `listDetailCopy`; `flow-router.ts` exports `FlowRouter` and `searchParamRouter`, plus the commit, announcement and focus helpers both flow recipes share.
 
 ```ts
 type RequestDraft = { title: string; owner: string; status: RequestStatus };
@@ -210,6 +210,7 @@ The [flow contract stories](https://github.com/KhallilB/kbui/blob/main/apps/stor
 
 - Records that change after mount are matched by id: the open record and drafts survive, a server echo shows once, and removing the open record shows it unavailable
 - While records load, a deep link shows neither an unavailable record nor an empty list, then focuses the record once it arrives
+- A refetch that omits the open record while loading keeps its draft, errors and focus; still missing once loading ends, it shows unavailable
 
 <!-- /generated -->
 

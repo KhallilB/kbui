@@ -19,6 +19,13 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// Backticks in a breaking note render as code, not literal marks.
+const upgradeItem = (canvas: ReturnType<typeof within>, text: string) =>
+  canvas.getByText(
+    (_: string, element: Element | null) =>
+      element?.tagName === "LI" && element.textContent === text.replaceAll("`", ""),
+  );
+
 export const ComponentLinkTheme: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -48,7 +55,7 @@ export const FutureRelease: Story = {
         components: ["Card"],
         improvements: ["Support nested layouts"],
         fixes: ["Preserve keyboard focus"],
-        breaking: ["Replace the old layout prop with columns."],
+        breaking: ["Rename `layout` to `columns`."],
         compareUrl: "https://github.com/KhallilB/kbui/compare/v8.0.0...v9.0.0",
       }}
     />
@@ -59,7 +66,9 @@ export const FutureRelease: Story = {
     expect(canvas.getByText("Support nested layouts")).toBeVisible();
     expect(canvas.getByText("Preserve keyboard focus")).toBeVisible();
     expect(canvas.getByRole("heading", { name: "Before you upgrade" })).toBeVisible();
-    expect(canvas.getByText("Replace the old layout prop with columns.")).toBeVisible();
+    const upgrade = upgradeItem(canvas, "Rename `layout` to `columns`.");
+    expect(upgrade).toBeVisible();
+    expect(within(upgrade).getByText("layout").tagName).toBe("CODE");
     expect(canvas.getByRole("link", { name: "Card" })).toHaveAttribute(
       "href",
       "../components/?component=card",
@@ -93,7 +102,8 @@ export const Browse: Story = {
     expect(release.getByRole("heading", { name: releaseHeadline(latest) })).toBeVisible();
     for (const text of releaseCopy(latest).highlights)
       expect(release.getByText(text)).toBeVisible();
-    for (const text of releaseCopy(latest).upgrade) expect(release.getByText(text)).toBeVisible();
+    for (const text of releaseCopy(latest).upgrade)
+      expect(upgradeItem(release, text)).toBeVisible();
     expect(canvas.queryByText(/Install Bun/)).toBeNull();
     if (latest.compareUrl)
       expect(release.getByRole("link", { name: /Full history on GitHub/ })).toHaveAttribute(

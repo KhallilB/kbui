@@ -218,7 +218,12 @@ export function Inbox({
     : null;
   const focusTarget = useRef<Target | null>(selectedId !== null ? "heading" : null);
   const id = useId();
-  const selected = threads.find((thread) => thread.id === selectedId);
+  // A refetch may omit the open thread while loading; it is removed only once loading ends.
+  const held = useRef<InboxThread | undefined>(undefined);
+  const selected =
+    threads.find((thread) => thread.id === selectedId) ??
+    (loading && held.current?.id === selectedId ? held.current : undefined);
+  held.current = selected;
   const draft = selected ? drafts[selected.id] : undefined;
   const sending = selected ? Boolean(sendingIds[selected.id]) : false;
   const fieldErrors = (selected && errors[selected.id]) || {};

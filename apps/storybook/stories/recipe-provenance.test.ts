@@ -94,16 +94,27 @@ function minimumKbuiVersion(source: string): string {
   return nextReleaseVersion;
 }
 
-test("each recipe starts with a provenance header naming its minimum kbui version", () => {
-  for (const recipe of recipeDefinitions)
-    for (const file of recipe.files.filter((path) => path.endsWith(".tsx"))) {
-      const source = readFileSync(resolve(root, file), "utf8");
-      const minVersion = minimumKbuiVersion(source);
-      const [firstLine] = source.split("\n");
-      expect(firstLine, file).toBe(
-        `// kbui recipe ${recipe.name} · from kbui ${minVersion} · https://kbui.kcb.pro/recipes/?recipe=${recipe.id}`,
-      );
-      expect(source, file).not.toContain("x-release-please");
-      expect(versioned.has(file), `${file} must not be in release-please extra-files`).toBe(false);
-    }
+/** A recipe needs every `@kb.ui/react` export its component imports. */
+function recipeMinimum(recipe: (typeof recipeDefinitions)[number]): string {
+  const [component] = recipe.files.filter((path) => path.endsWith(".tsx"));
+  if (!component) throw new Error(`${recipe.name} lists no component`);
+  return minimumKbuiVersion(readFileSync(resolve(root, component), "utf8"));
+}
+
+test("each recipe source file starts with a provenance header naming its minimum kbui version", () => {
+  for (const file of new Set(recipeDefinitions.flatMap((recipe) => recipe.files))) {
+    const owners = recipeDefinitions.filter((recipe) => recipe.files.includes(file));
+    // A shared file needs what its most demanding owner needs, and links the recipe index.
+    const minVersion = owners.map(recipeMinimum).sort(compareSemver).at(-1);
+    const guide =
+      owners.length === 1
+        ? `https://kbui.kcb.pro/recipes/?recipe=${owners[0]?.id}`
+        : "https://kbui.kcb.pro/recipes/";
+    const header = `kbui recipe ${owners.map((recipe) => recipe.name).join(", ")} · from kbui ${minVersion} · ${guide}`;
+    const source = readFileSync(resolve(root, file), "utf8");
+    const [firstLine] = source.split("\n");
+    expect(firstLine, file).toBe(file.endsWith(".css") ? `/* ${header} */` : `// ${header}`);
+    expect(source, file).not.toContain("x-release-please");
+    expect(versioned.has(file), `${file} must not be in release-please extra-files`).toBe(false);
+  }
 });

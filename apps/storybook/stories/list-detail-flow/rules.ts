@@ -106,6 +106,12 @@ export const ruleMeta = {
       "While records load, a deep link shows neither an unavailable record nor an empty list, then focuses the record once it arrives",
     group: "data",
   },
+  refetch: {
+    summary:
+      "A refetch that omits the open record while loading keeps its draft, errors and focus; still missing once loading ends, it shows unavailable",
+    group: "data",
+    requires: "async",
+  },
   "form-error": {
     summary:
       "A commit error no field owns keeps the draft, shows beside the submit control and focuses it, and is not announced as needing changes",

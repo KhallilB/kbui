@@ -16,6 +16,13 @@ const formatDate = (date: string) =>
     timeZone: "UTC",
   });
 
+// Breaking notes keep the CHANGELOG's backticks; odd parts are code.
+const withCode = (text: string) =>
+  text.split(/`([^`]+)`/).map((part, index) =>
+    // biome-ignore lint/suspicious/noArrayIndexKey: Parts of one fixed string keep their order.
+    index % 2 ? <code key={index}>{part}</code> : part,
+  );
+
 function ChangeList({ title, items, tone }: { title: string; items: string[]; tone?: string }) {
   if (!items.length) return null;
   return (
@@ -23,7 +30,7 @@ function ChangeList({ title, items, tone }: { title: string; items: string[]; to
       <Heading level={3}>{title}</Heading>
       <ul className="change-list">
         {items.map((item) => (
-          <li key={item}>{item}</li>
+          <li key={item}>{withCode(item)}</li>
         ))}
       </ul>
     </div>
