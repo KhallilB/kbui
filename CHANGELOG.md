@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.12.1](https://github.com/KhallilB/kbui/compare/v0.12.0...v0.12.1) (2026-11-02)
+
+
+### Bug Fixes
+
+* **recipes:** keep focus and the record count steady through a refetch ([e462eeb](https://github.com/KhallilB/kbui/commit/e462eebf4fbcddfcc01e4977f78320d0db425484))
+* **recipes:** refetch focus, single count announcement and minimum-version headers ([56d5c09](https://github.com/KhallilB/kbui/commit/56d5c09d73bf24fb901336ca7c9cdc32d20661bb))
+* **recipes:** state the minimum `[@kb](https://github.com/kb).ui/react` in recipe headers ([6067b55](https://github.com/KhallilB/kbui/commit/6067b557fee12294e844b5acce40cc8018dd7a9a))
+* **storybook:** list components added with a layout or intent suffix ([01bc6ac](https://github.com/KhallilB/kbui/commit/01bc6acca9dc925d3a7ef302f64ae840a805e8fc))
+
+
+### Documentation
+
+* **recipes:** state whether a FlowRouter notifies for its own write ([bf4d93b](https://github.com/KhallilB/kbui/commit/bf4d93b662c44885dd8ccf2e120e8c6c712be794))
+
 ## [0.12.0](https://github.com/KhallilB/kbui/compare/v0.11.0...v0.12.0) (2026-11-02)
 
 
