@@ -113,7 +113,9 @@ describe.each(files)("%s", (file) => {
   test("recipe regions use shared part names", async () => {
     const { classes, regions } = anatomyOf(await read());
     const part = (c: string) => regionParts.find((p) => c.endsWith(`-${p}`));
-    const expected = ownersOf(file).some((recipe) => recipe.flow) ? regionParts : [];
+    const expected = ownersOf(file).some((recipe) => recipe.flow === "list-detail")
+      ? regionParts
+      : [];
     expect([...regions].map(part).sort()).toEqual([...expected].sort());
     for (const c of classes)
       if (!regions.has(c) && !prefixes.includes(c))

@@ -3,7 +3,7 @@ import { expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { recipeDefinitions } from "../catalog/content";
+import { type FlowFamily, recipeDefinitions } from "../catalog/content";
 import { GuideContent } from "../site/GuideContent";
 import { releaseNotes } from "../site/release-notes";
 
@@ -84,7 +84,7 @@ test("single and repeated fences keep stable distinct source names across render
   expect(repeated).not.toContain("<button");
 });
 
-const recipeTemplate = [
+const flowRecipeTemplate = [
   "Use when",
   "Use instead",
   "Copy the files",
@@ -97,14 +97,27 @@ const recipeTemplate = [
   "Known limits",
 ];
 
+const recipeTemplates: Record<FlowFamily, string[]> = {
+  "list-detail": flowRecipeTemplate,
+  resolve: flowRecipeTemplate,
+  intake: flowRecipeTemplate,
+};
+
 test("flow recipe guides follow the template", () => {
   // Composition recipes keep their own shorter guides.
-  for (const recipe of recipeDefinitions.filter((entry) => entry.flow)) {
+  for (const recipe of recipeDefinitions) {
+    if (!recipe.flow) {
+      expect(recipe.composition, recipe.name).toBe(true);
+      continue;
+    }
     const markdown = readFileSync(new URL(`../../../${recipe.guide}`, import.meta.url), "utf8");
     // Fenced code can hold `##` lines that are not headings.
     const prose = markdown.replace(/```[\s\S]*?```/g, "");
     const sections = [...prose.matchAll(/^## (.+)$/gm)].map((match) => match[1]);
-    expect(sections, recipe.guide).toEqual(recipeTemplate);
+    expect(sections, recipe.guide).toEqual(recipeTemplates[recipe.flow]);
+    expect(markdown, recipe.guide).toContain(
+      `stories/${recipe.flow}-flow/${recipe.name}.stories.tsx`,
+    );
     // A copied guide is read outside the repo, where relative links lead nowhere.
     for (const [, href] of prose.matchAll(/\]\(([^)]+)\)/g))
       expect(href, recipe.guide).toMatch(/^(https:\/\/|#)/);
@@ -125,11 +138,14 @@ test("flow recipe guides list every prop the recipe takes", () => {
     const read = (path: string) =>
       readFileSync(new URL(`../../../${path}`, import.meta.url), "utf8");
     const source = read(recipe.files[0] ?? "");
-    const params = new RegExp(`export function ${recipe.name}\\(\\{([\\s\\S]*?)\\}: \\{`).exec(
+    const inline = new RegExp(`export function ${recipe.name}\\(\\{([\\s\\S]*?)\\}: \\{`).exec(
       source,
-    );
-    const props = [...(params?.[1] ?? "").matchAll(/^\s+(\w+)/gm)].map((match) => match[1]);
-    expect(props.length, recipe.name).toBeGreaterThan(5);
+    )?.[1];
+    const named = new RegExp(`export interface ${recipe.name}Props \\{([\\s\\S]*?)\\n\\}`).exec(
+      source,
+    )?.[1];
+    const props = [...(inline ?? named ?? "").matchAll(/^\s+(\w+)/gm)].map((match) => match[1]);
+    expect(props.length, recipe.name).toBeGreaterThan(recipe.flow === "intake" ? 1 : 5);
     const table = read(recipe.guide).split("## What you supply")[1]?.split("\n\n")[2] ?? "";
     for (const prop of props) expect(table, `${recipe.guide} ${prop}`).toContain(`| \`${prop}\``);
   }

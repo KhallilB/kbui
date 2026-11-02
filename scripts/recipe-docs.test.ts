@@ -4,10 +4,10 @@ import { resolve } from "node:path";
 import { recipeDefinitions } from "../apps/storybook/catalog/content";
 import {
   applyBlocks,
+  flowContractFor,
   type GeneratedBlock,
   renderBlock,
 } from "../apps/storybook/catalog/recipe-docs";
-import { flowFactsFor } from "../apps/storybook/stories/list-detail-flow/facts";
 import { type RuleMeta, ruleMeta } from "../apps/storybook/stories/list-detail-flow/rules";
 
 const root = resolve(import.meta.dir, "..");
@@ -45,11 +45,12 @@ test("stale block fails", () => {
 });
 
 test("async rules only for async recipes", () => {
-  const asyncRules = (Object.values(ruleMeta) as RuleMeta[]).filter(
-    (meta) => meta.requires === "async",
-  );
   for (const recipe of flows) {
-    const facts = flowFactsFor(recipe.name);
+    const { rules, factsFor } = flowContractFor(recipe);
+    const asyncRules = (Object.values(rules) as RuleMeta[]).filter(
+      (meta) => meta.requires === "async",
+    );
+    const facts = factsFor(recipe.name);
     const rendered = renderBlock(recipe, "flow-guarantees");
     for (const meta of asyncRules)
       expect(rendered.includes(meta.summary), `${recipe.name}: ${meta.summary}`).toBe(facts.async);
@@ -58,12 +59,14 @@ test("async rules only for async recipes", () => {
 
 test("gaps are listed as not met, never as guarantees", () => {
   for (const recipe of flows) {
+    const { rules, factsFor } = flowContractFor(recipe);
     const rendered = renderBlock(recipe, "flow-guarantees");
     const [met = "", notMet = ""] = rendered.split("### Not met yet");
-    for (const [id, reason] of Object.entries(flowFactsFor(recipe.name).gaps)) {
-      const { summary } = ruleMeta[id as keyof typeof ruleMeta];
-      expect(met, `${recipe.name} ${id}`).not.toContain(summary);
-      expect(notMet, `${recipe.name} ${id}`).toContain(`- **${summary}.** ${reason}.`);
+    for (const [id, reason] of Object.entries(factsFor(recipe.name).gaps)) {
+      const rule = rules[id];
+      if (!rule) throw new Error(`Unknown rule ${id}`);
+      expect(met, `${recipe.name} ${id}`).not.toContain(rule.summary);
+      expect(notMet, `${recipe.name} ${id}`).toContain(`- **${rule.summary}.** ${reason}.`);
     }
   }
 });
@@ -79,20 +82,26 @@ test("policy is a two-column table and files link to the published recipe source
   );
 });
 
-test("malformed or unknown markers are rejected", () => {
+test("malformed or unknown markers and uncontracted families are rejected", () => {
   const recipe = byName("Inbox");
   expect(() => applyBlocks("<!-- generated:files -->\n", recipe)).toThrow("no end marker");
   expect(() => applyBlocks("<!-- generated:other -->\n<!-- /generated -->\n", recipe)).toThrow(
     'Unknown generated block "other"',
   );
+  expect(() =>
+    renderBlock({ ...recipe, name: "Triage", flow: "resolve" }, "flow-guarantees"),
+  ).toThrow("Triage has no flow contract for resolve");
 });
 
 test("fixtures take async and gaps from flow facts", () => {
   for (const recipe of flows) {
-    const source = guide(`apps/storybook/stories/list-detail-flow/${recipe.name}.stories.tsx`);
-    expect(source, recipe.name).toContain(`gaps: flowFacts.${recipe.name}.gaps,`);
+    const { factsFor } = flowContractFor(recipe);
+    const source = guide(`apps/storybook/stories/${recipe.flow}-flow/${recipe.name}.stories.tsx`);
+    expect(source, recipe.name).toMatch(
+      new RegExp(`gaps:\\s*flowFacts\\.${recipe.name}\\.gaps\\b`),
+    );
     expect(source.includes(`flowFacts.${recipe.name}.async ?`), recipe.name).toBe(
-      flowFactsFor(recipe.name).async,
+      factsFor(recipe.name).async,
     );
   }
 });

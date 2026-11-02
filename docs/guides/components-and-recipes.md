@@ -59,7 +59,7 @@ The contract checks kbui's copy, not yours. After you change flow code in your c
 
 ### Contract-checked recipes
 
-Flow recipes cover a complete task with tests for each of its states. A contract-checked recipe also passes its family's shared rules, so it behaves like the others in that family, and what you learn from one carries over. ListDetail and Inbox are both contract-checked; the [ListDetail guide](https://kbui.kcb.pro/recipes/?recipe=listdetail) and [Inbox guide](https://kbui.kcb.pro/recipes/?recipe=inbox) list the guarantees each meets.
+Flow recipes cover a complete task with tests for each of its states. A contract-checked recipe also passes its family's shared rules, so it behaves like the others in that family, and what you learn from one carries over. ListDetail and Inbox share the list-and-detail family. RequestIntake uses the intake family for linked validation, directory assignment, local preparation, retained editing and reset. The [ListDetail guide](https://kbui.kcb.pro/recipes/?recipe=listdetail), [Inbox guide](https://kbui.kcb.pro/recipes/?recipe=inbox) and [RequestIntake guide](https://kbui.kcb.pro/recipes/?recipe=requestintake) generate guarantees from their own family facts; intake does not claim record-navigation or browser-history behavior.
 
 ### Preview seams
 
