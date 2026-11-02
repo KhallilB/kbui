@@ -18,6 +18,7 @@ export type RuleId =
   | "DATA-2";
 
 export type Rule = { id: RuleId; family: Family; title: string; question: string };
+export type QuestionVersion = "v1" | "v2";
 
 // `question` is what the human labeller answers, without seeing rule output.
 export const RULES: Rule[] = [
@@ -108,6 +109,41 @@ export const RULES: Rule[] = [
     question: "Does a list driven by data have no message for when it is empty?",
   },
 ];
+
+// v2 questions split reading by family: spec for integrity/data, rendered screen for design/arrangement.
+export const QUESTIONS_V2: Record<RuleId, string> = {
+  "INT-1":
+    "In the spec (outline), does any field ask for a password, one-time code, card number, CVC, PIN or similar secret, whether or not it is currently shown?",
+  "INT-2":
+    "In the spec (outline), does any delete, remove, revoke, cancel-plan, reset or similar destructive action run without a confirm prompt or confirmation dialog, even if nothing triggers it in the screenshot?",
+  "INT-3":
+    "In the spec (outline or seeded state), is there any urgency, scarcity or popularity claim (only N left, limited time, ends soon, N people viewing), whether or not it is visible in the screenshot?",
+  "INT-4":
+    "In the spec (outline), does any newsletter, marketing or data-sharing Checkbox or Switch start switched on in initial state, whether or not the user notices it?",
+  "INT-5":
+    "In the spec (outline), does any decline or opt-out option shame the user (such as 'No thanks, I don't like saving money'), whether or not its dialog or branch is shown?",
+  "DES-1":
+    "On the rendered screen at 390, 768 or 1440 px, does any visible card or the page outside cards show more than one filled primary button (ignoring closed dialogs and hidden elements)?",
+  "DES-2":
+    "Among headings visible on the rendered screen at 390, 768 or 1440 px, is there more than one h1, or do visible headings skip a level (such as h1 straight to h3, ignoring closed dialogs and hidden elements)?",
+  "ARR-1":
+    "On the rendered screen, is any visible element nested more than seven levels deep in the outline (depth > 7, ignoring closed dialogs and hidden elements)?",
+  "ARR-2":
+    "On the rendered screen at 390, 768 or 1440 px, does the page scroll sideways, or is any visible text or control cut off or spilling out of its container?",
+  "ARR-3":
+    "On the rendered screen at 390, 768 or 1440 px, does any visible text or control collide with or overlap another on screen?",
+  "ARR-4":
+    "On the rendered screen at 390, 768 or 1440 px, is any visible button, link, checkbox or switch smaller than 24 by 24 pixels?",
+  "DATA-1":
+    "In the spec (outline), does any Table or repeated list have more than ten rows or items in state with no Pagination element in the spec?",
+  "DATA-2":
+    "In the spec (outline), does any data-bound repeated list lack an empty-state element conditional on that list path, even if the list is currently full?",
+};
+
+export function rulesFor(version: QuestionVersion = "v1"): Rule[] {
+  if (version === "v1") return RULES;
+  return RULES.map((r) => ({ ...r, question: QUESTIONS_V2[r.id] }));
+}
 
 export type Finding = { rule: RuleId; elementKey: string | null; detail: string; width?: number };
 
