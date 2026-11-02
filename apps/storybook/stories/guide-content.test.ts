@@ -3,7 +3,7 @@ import { expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { recipeDefinitions } from "../catalog/content";
+import { type FlowFamily, recipeDefinitions } from "../catalog/content";
 import { GuideContent } from "../site/GuideContent";
 import { releaseNotes } from "../site/release-notes";
 
@@ -84,7 +84,7 @@ test("single and repeated fences keep stable distinct source names across render
   expect(repeated).not.toContain("<button");
 });
 
-const recipeTemplate = [
+const flowRecipeTemplate = [
   "Use when",
   "Use instead",
   "Copy the files",
@@ -97,14 +97,26 @@ const recipeTemplate = [
   "Known limits",
 ];
 
+const recipeTemplates: Record<FlowFamily, string[]> = {
+  "list-detail": flowRecipeTemplate,
+  resolve: flowRecipeTemplate,
+};
+
 test("flow recipe guides follow the template", () => {
   // Composition recipes keep their own shorter guides.
-  for (const recipe of recipeDefinitions.filter((entry) => entry.flow)) {
+  for (const recipe of recipeDefinitions) {
+    if (!recipe.flow) {
+      expect(recipe.composition, recipe.name).toBe(true);
+      continue;
+    }
     const markdown = readFileSync(new URL(`../../../${recipe.guide}`, import.meta.url), "utf8");
     // Fenced code can hold `##` lines that are not headings.
     const prose = markdown.replace(/```[\s\S]*?```/g, "");
     const sections = [...prose.matchAll(/^## (.+)$/gm)].map((match) => match[1]);
-    expect(sections, recipe.guide).toEqual(recipeTemplate);
+    expect(sections, recipe.guide).toEqual(recipeTemplates[recipe.flow]);
+    expect(markdown, recipe.guide).toContain(
+      `stories/${recipe.flow}-flow/${recipe.name}.stories.tsx`,
+    );
     // A copied guide is read outside the repo, where relative links lead nowhere.
     for (const [, href] of prose.matchAll(/\]\(([^)]+)\)/g))
       expect(href, recipe.guide).toMatch(/^(https:\/\/|#)/);
