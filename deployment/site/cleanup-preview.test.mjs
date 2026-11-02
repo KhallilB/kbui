@@ -12,6 +12,7 @@ function fixture({
   fork = false,
   pages = [[version(ids[0])]],
   active = [],
+  pageCount = true,
 } = {}) {
   const calls = [];
   const deleted = [];
@@ -56,7 +57,7 @@ function fixture({
     return Response.json({
       success: true,
       result: pages[page - 1].filter((item) => !deleted.includes(item.id)),
-      result_info: { page, total_pages: pages.length },
+      ...(pageCount && { result_info: { page, total_pages: pages.length } }),
     });
   };
   return {
@@ -82,6 +83,15 @@ test("closing or merging removes every matching PR version across pages, leaving
       .filter((call) => call.startsWith("DELETE"))
       .every((call) => call.includes("/workers/workers/kbui-site-preview/versions/")),
   );
+});
+
+test("listing without a page count reads pages until a short page", async () => {
+  const others = Array.from({ length: 99 }, (_, n) =>
+    version(`10000000-0000-4000-8000-${String(n).padStart(12, "0")}`, 590),
+  );
+  const f = fixture({ pages: [[version(ids[0]), ...others], [version(ids[2])]], pageCount: false });
+  assert.equal(await cleanupPreview(f.options), true);
+  assert.deepEqual(f.deleted, [ids[0], ids[2]]);
 });
 
 test("reopened and fork PRs never contact Cloudflare", async () => {
