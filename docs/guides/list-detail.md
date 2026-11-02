@@ -33,7 +33,7 @@ Put these files in one folder. Inbox uses the same `flow-router.ts`; copy it onc
 
 Import `@kb.ui/react/styles.css` once at your app entry and render `<ListDetail />` in a browser. With no props it shows sample requests, keeps the open request in the `request` URL parameter and saves to memory for the session.
 
-Each source file starts with a comment naming the recipe, the kbui version it came from and this guide. Keep it, so you can compare your copy with a later version.
+Each recipe starts with a comment naming the recipe, the minimum kbui version it needs and this guide. Keep it, so you can compare your copy with a later version.
 
 ## What you supply
 
@@ -93,7 +93,31 @@ function RequestQueue({ requests, router }: { requests: RequestRecord[]; router:
 }
 ```
 
-To use your app's router, pass a `FlowRouter` that maps the open id to your route, and keep the same router object across renders. `subscribe` returns an unsubscribe function. The recipe writes once per change and never writes the id that is already open. `copy` is merged over `listDetailCopy`, so pass only the strings you change; functions such as `savedNotice(id)` build announcements.
+To use your app's router, pass a `FlowRouter` that maps the open id to your route, and keep the same router object across renders. `subscribe` returns an unsubscribe function. The recipe writes once per change and never writes the id that is already open. When your app has no URL routing, such as a desktop shell or an embedded pane, keep the open id in memory or app state:
+
+```ts
+import type { FlowRouter } from "./flow-router";
+
+function stateRouter(initial: string | null = null): FlowRouter {
+  let current = initial;
+  const listeners = new Set<() => void>();
+  return {
+    read: () => current || null,
+    write(id) {
+      current = id || null;
+      for (const listener of listeners) listener();
+    },
+    subscribe(onChange) {
+      listeners.add(onChange);
+      return () => {
+        listeners.delete(onChange);
+      };
+    },
+  };
+}
+```
+
+`copy` is merged over `listDetailCopy`, so pass only the strings you change; functions such as `savedNotice(id)` build announcements.
 
 Without `commit`, the defaults describe the in-memory demo: a "Local demo · Session only" status, a form hint that changes stay in this browser session and "for this session" in the saved announcement. Once you pass `commit` they are neutral, and `idle` is empty, so no status shows before the first outcome. `invalidNotice(id, errors)` receives the errors: by default it says the request needs changes when a field has an error, and that it was not saved otherwise. `loading` labels the list and a waiting record.
 
