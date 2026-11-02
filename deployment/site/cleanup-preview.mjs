@@ -41,17 +41,20 @@ export async function cleanupPreview({
 
   async function listMatchingVersions() {
     const matches = [];
+    const perPage = 100;
     for (let page = 1; ; page++) {
-      const body = await request(`${versionsPath}?page=${page}&per_page=100`);
-      if (!Array.isArray(body.result) || !Number.isSafeInteger(body.result_info?.total_pages)) {
-        throw new Error("Invalid Cloudflare version listing");
-      }
+      const body = await request(`${versionsPath}?page=${page}&per_page=${perPage}`);
+      if (!Array.isArray(body.result)) throw new Error("Invalid Cloudflare version listing");
       for (const version of body.result) {
         if (!message.test(version.annotations?.["workers/message"] ?? "")) continue;
         if (!uuid.test(version.id)) throw new Error("Invalid Cloudflare version ID");
         matches.push(version.id);
       }
-      if (page >= body.result_info.total_pages) return matches;
+      // Cloudflare may omit total_pages; a short page is then the last.
+      const total = body.result_info?.total_pages;
+      if (Number.isSafeInteger(total) ? page >= total : body.result.length < perPage) {
+        return matches;
+      }
     }
   }
 
