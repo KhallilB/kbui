@@ -181,8 +181,8 @@ const SHAMING =
 
 // WCAG 2.5.8 minimum, without axe's spacing exception, which ARR-4's question does not grant.
 const MIN_TARGET = 24;
-// Single-target controls; group boxes (Radio, ToggleGroup) span many targets.
-const TARGETS = new Set(["Button", "Link", "Checkbox", "Switch"]);
+// Interactive controls; probe.ts records sub-target boxes for Radio and Slider.
+const TARGETS = new Set(["Button", "Link", "Checkbox", "Switch", "Radio", "Slider"]);
 
 const MAX_DEPTH = 7;
 const MAX_ROWS = 10;
@@ -257,13 +257,14 @@ export function referencesPath(value: unknown, path: string): boolean {
   return false;
 }
 
-export function treeFindings(spec: Spec): Finding[] {
+export function treeFindings(spec: Spec, doms?: Dom[]): Finding[] {
   const state = (spec as { state?: unknown }).state ?? {};
   const nodes = walk(spec);
   const byKey = new Map(nodes.map((n) => [n.key, n]));
   const findings: Finding[] = [];
   const add = (rule: RuleId, elementKey: string | null, detail: string) =>
     findings.push({ rule, elementKey, detail });
+  const rendered = (key: string) => !doms || doms.some((d) => Boolean(d.boxes[key]));
 
   const dialogPaths = new Set(
     nodes
@@ -319,7 +320,7 @@ export function treeFindings(spec: Spec): Finding[] {
       add("INT-4", key, text.slice(0, 80));
     }
 
-    if (n.depth > MAX_DEPTH && !findings.some((f) => f.rule === "ARR-1")) {
+    if (n.depth > MAX_DEPTH && rendered(key) && !findings.some((f) => f.rule === "ARR-1")) {
       add("ARR-1", key, `depth ${n.depth}`);
     }
 
@@ -361,12 +362,27 @@ export function treeFindings(spec: Spec): Finding[] {
   const regions = new Map<string, string[]>();
   for (const n of nodes) {
     const v = n.el.props?.variant;
-    if (n.el.type !== "Button" || (v !== "primary" && v != null)) continue;
-    const region =
-      [...n.ancestors]
-        .reverse()
-        .find((a) => ["Card", "Dialog", "Drawer"].includes(byKey.get(a)?.el.type ?? "")) ?? "page";
-    regions.set(region, [...(regions.get(region) ?? []), n.key]);
+    if (n.el.type !== "Button" || (v !== "primary" && v != null) || !rendered(n.key)) continue;
+    const revAnc = [...n.ancestors].reverse();
+    const regionIdx = revAnc.findIndex((a) =>
+      ["Card", "Dialog", "Drawer"].includes(byKey.get(a)?.el.type ?? ""),
+    );
+    const region = regionIdx >= 0 ? (revAnc[regionIdx] as string) : "page";
+    let copies = 1;
+    if (doms) {
+      const innerAnc = regionIdx >= 0 ? revAnc.slice(0, regionIdx) : revAnc;
+      for (const a of innerAnc) {
+        const rep = byKey.get(a)?.el.repeat;
+        if (rep && typeof rep.statePath === "string") {
+          const items = pointer(state, rep.statePath);
+          if (Array.isArray(items) && items.length > 1) copies *= items.length;
+        }
+      }
+    }
+    regions.set(region, [
+      ...(regions.get(region) ?? []),
+      ...Array.from({ length: copies }, () => n.key),
+    ]);
   }
   for (const [region, keys] of regions) {
     if (keys.length > 1)
@@ -380,7 +396,7 @@ export function treeFindings(spec: Spec): Finding[] {
   let previous = 0;
   let h1s = 0;
   for (const n of nodes) {
-    if (n.el.type !== "Heading") continue;
+    if (n.el.type !== "Heading" || !rendered(n.key)) continue;
     const level = Number(String(n.el.props?.level ?? "h2").slice(1));
     if (level === 1) h1s++;
     if (h1s > 1 && level === 1) add("DES-2", n.key, "second h1");
