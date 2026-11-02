@@ -1,6 +1,6 @@
 # Media and identity
 
-Use `Avatar` for recognizable people and organizations, `Image` for stable media framing, and `Thumbnail` for captioned product and attachment previews. Compose pages of media with [`Gallery`](../../packages/react/docs/components/Gallery.md) and focused inspection with `Dialog`. These components are implemented locally and unreleased.
+Use `Avatar` for recognizable people and organizations, `Image` for stable media framing, and `Thumbnail` for captioned product and attachment previews. Compose pages of media with [`Gallery`](../../packages/react/docs/components/Gallery.md) and focused inspection with `Dialog`.
 
 [`Avatar` API](../../packages/react/docs/components/Avatar.md) · [`Image` API](../../packages/react/docs/components/Image.md) · [`Thumbnail` API](../../packages/react/docs/components/Thumbnail.md)
 

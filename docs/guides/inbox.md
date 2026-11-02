@@ -199,7 +199,7 @@ Restyle with tokens before changing rules. `inbox.css` reads spacing from `--kb-
 
 The recipe composes package components: [`PageHeader`](https://kbui.kcb.pro/components/?component=pageheader) for the page introduction, `Panel`, `Split`, `Grid` and [`Inline`](https://kbui.kcb.pro/components/?component=inline) for the regions, and `Callout` for a failed send. `Inline` takes `as`, `gap`, `align` and `justify`; it always wraps, so it has no `wrap` prop. Their own tokens and props restyle them.
 
-The reply field is the package [`Textarea`](https://kbui.kcb.pro/components/?component=textarea). `.inbox-reply-field` sets its `--kb-textarea-padding-block` and `--kb-textarea-padding-inline`; Textarea's own styles handle focus, invalid, disabled and forced-colour states. The `.inbox-reply-label`, `.inbox-reply` and `.inbox-error` classes still reach its label, control and error.
+The reply field is the package [`Textarea`](https://kbui.kcb.pro/components/?component=textarea). The recipe sets none of its tokens, so Textarea's own padding and its focus, invalid, disabled and forced-colour states apply. To change the padding, set `--kb-textarea-padding-block` and `--kb-textarea-padding-inline` on `.inbox-reply-field`, its root. The `.inbox-reply-label`, `.inbox-reply` and `.inbox-error` classes still reach its label, control and error.
 
 Every list-and-detail recipe names the same five region parts, so a restyle written for one carries over to the other:
 

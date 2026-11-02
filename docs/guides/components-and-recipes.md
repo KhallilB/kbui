@@ -87,4 +87,4 @@ The workspace demo runs settings and a job queue in one app built from kbui comp
 
 Keep API details in the component reference, recipe instructions in its guide, and running examples in source and stories. The content index connects those files to the website and Storybook; keep the guide in one place.
 
-Follow the [recipe contribution steps](https://github.com/KhallilB/kbui/blob/main/CONTRIBUTING.md#components-and-recipes) for registration and checks. Mark local work as unreleased until its source and documentation are published.
+Follow the [recipe contribution steps](https://github.com/KhallilB/kbui/blob/main/CONTRIBUTING.md#components-and-recipes) for registration and checks. A registered recipe ships with the next release, so its guide must not call it unreleased; register a recipe only once it is ready to ship.
