@@ -27,7 +27,7 @@ For fast home edits, use `bun run --filter @kb.ui/storybook dev:site`. Live cata
 | `PlanDemo.tsx` | Day-off composition, rendered directly by the home | `stories/PlanDemo.stories.tsx` |
 | `Workbench.tsx` | Prop playground, copied JSX, and six searchable component entries | `stories/Workbench.stories.tsx` |
 | `Catalog.tsx` | Searchable catalog, shareable component pages, canonical API summaries and live Storybook previews | `stories/Catalog.stories.tsx`, `stories/catalog-source.test.ts` |
-| `CatalogComparison.tsx` | Optional pinned dark preview alongside the light example | `stories/CatalogDetails.stories.tsx`, `catalog/verify-runtime.ts` |
+| `CatalogComparison.tsx` | Optional pinned dark preview alongside the light example | `stories/CatalogDetails.stories.tsx`, `e2e/runtime.spec.ts` |
 | `CatalogSkinControls.tsx`, `catalog-skin.ts`, `CodeEditor.tsx`, `component-style-preview.ts`, `style-compiler.ts` | Component styling workbench: highlighted CSS editing, real Tailwind utilities, copied usage and isolated live preview | `stories/CatalogSkinControls.stories.tsx`, `stories/catalog-skin.test.ts`, `stories/style-compiler.test.ts` |
 | `CodePanel.tsx` | Read-only CodeBlock presentation, build-time highlighting, disclosure and clipboard recovery | CodePanel, Setup, Workbench and Recipes stories |
 | `catalog/site-samples.ts` | Generated playground combinations | Source coverage and `verify:code` |
@@ -190,10 +190,10 @@ Playground/setup preferences, catalog actions and workspace controls reuse `Inpu
 
 Site chrome reuses semantic KBUI typography, accent and focus roles. `--site-radius-surface` owns repeated app frames; copied composition CSS has a 24px fallback so it works independently. Editorial sizes/leading, illustration palettes and nested theme boundaries stay intentional.
 
-`stories/ControlEdges.stories.tsx` and `catalog/verify-control-edges.ts` cover native required validation, successful `FormData` and caller-owned reset across five composed controls. `Select`'s error/reset policy stays with the form. Long labels, options and helper/error text wrap inside bounded containers. The native matrix includes 640×450 CSS-pixel reflow, equivalent to a 1280×900 viewport at 200% zoom; it does not automate browser chrome zoom. Run against built Storybook:
+`stories/ControlEdges.stories.tsx` and `e2e/controls.spec.ts` cover native required validation, successful `FormData` and caller-owned reset across five composed controls. `Select`'s error/reset policy stays with the form. Long labels, options and helper/error text wrap inside bounded containers. The native matrix includes 640×450 CSS-pixel reflow, equivalent to a 1280×900 viewport at 200% zoom; it does not automate browser chrome zoom. Run against built Storybook:
 
 ```bash
-CONTROL_EDGES_URL=http://127.0.0.1:4174/storybook node --experimental-strip-types apps/storybook/catalog/verify-control-edges.ts
+CONTROL_EDGES_URL=http://127.0.0.1:4174/storybook bun run --cwd apps/storybook verify:controls
 ```
 
 
@@ -250,7 +250,7 @@ The install builder offers CSS tokens as part of the normal React install. Optio
 
 Production Storybook contains public MDX guides and canonical component stories only. Site screens, legacy restyle showcases and validation fixtures are maintained in `apps/storybook/stories` for opt-in local development and CI. `KBUI_STORYBOOK_INTERNAL=1` enables that scope; `dev:internal` provides the command. Default public builds exclude those modules, and `verify:catalog` rejects internal index entries while requiring all component docs and examples. Validation coverage remains active in the browser test scripts.
 
-Component Accessibility sections read `catalog/accessibility-guides.ts`: implemented support, author responsibilities, verification procedures, and linked WCAG/APG sources. `catalog/AccessibilityReference.tsx` renders the contract; `catalog/verify-component-docs.ts` verifies the built sections. Shared requirements and test-record guidance live in `docs/guides/accessibility.md`.
+Component Accessibility sections read `catalog/accessibility-guides.ts`: implemented support, author responsibilities, verification procedures, and linked WCAG/APG sources. `catalog/AccessibilityReference.tsx` renders the contract; `e2e/component-docs.spec.ts` verifies the built sections. Shared requirements and test-record guidance live in `docs/guides/accessibility.md`.
 
 `Popover` previews use surface alignment, a 480px minimum and reserved popup footprint. Their normal preview pane stays in page flow instead of using editor pane height caps; paired examples remain reachable through page scrolling. Centering a trigger alone in a small iframe can collapse its fields even when the surrounding page is large. The built preview gate opens Default and Controlled in their actual iframes, checks all fields/actions through clipping ancestors, exercises paired themes, and verifies immediate preferences plus keyboard Save/discard behavior.
 
@@ -264,6 +264,10 @@ Run `bun run --cwd apps/storybook verify:recipes` against the combined static pr
 ### Preserved request and correspondence recipes
 
 PageHeader, FormSection, Inbox and ListDetail share the recipe registry, canonical guides, exact copyable files and existing public story IDs. The two established composition recipes remain maintained under the [composition preservation decision](../../../docs/guides/components-and-recipes.md#maintained-composition-recipes), alongside the two task flows. Their URLs render live previews and copyable source. Inbox retains its packaged PageHeader import and lists its source, shared flow router and CSS. Flow drafts, history, context, save/reply recovery and resize focus checks remain in their existing stories. Component and recipe names can overlap; their separate documentation IDs preserve import versus copy ownership. This restoration is implemented locally and pending publication.
+
+### Request intake
+
+RequestIntake adds a fifth independent recipe at `/recipes/?recipe=requestintake`, with public default story `recipes-requestintake--submit-request`. Its canonical [guide](../../../docs/guides/request-intake.md), registered model/CSS and thin MDX wrapper share exact source between website and Storybook. Searchable owner and optional reviewer selection retain the text draft; linked validation focuses ErrorSummary only on submission. Successful preparation displays native DescriptionList facts and explicit local-only Callout feedback, with edit and new-request actions. NumberField retains invalid quantities for linked correction under the demo 1–100 integer policy. FileInput retains original files by stable ID, allows repeated names and reports MIME/5 MiB/3-file rejections without losing accepted data; removal restores focus. These are application policies, with no upload or server record. Four established recipes stay intact. Implemented locally, unreleased.
 
 ### Complete styling copies
 
@@ -293,6 +297,6 @@ Run `bun run --cwd apps/storybook verify:adoption` for the full adoption table, 
 
 An adopted row requires a real public JSX binding in the named source and a resolving story with a play check, either in that module or directly importing it. Aliases count; type-only imports, unused imports, comments, source strings and shadowed bindings do not. These source contracts cannot prove that every runtime branch renders, that every assertion covers the named component, or that a complete page is accessible. Inspect the authored purpose and run the mapped browser stories when changing a composition. Site QA stories require `dev:internal` or the test runner; their proof IDs are not links into the public Storybook build.
 
-Pending rows are work still to do, even when a component already has rich standalone stories. Inbox Textarea adoption is backed by its reply-and-draft proof; its local policy remains application-owned. Toolbar adoption is backed by the maintained PageHeader recipe and its keyboard proof. Callout/Stat modules without connected proof stories remain pending. Existing component demonstrations alone do not close those gaps.
+Pending rows are work still to do, even when a component already has rich standalone stories. Inbox Textarea adoption is backed by its reply-and-draft proof; its local policy remains application-owned. Toolbar adoption is backed by the maintained PageHeader recipe and its keyboard proof. RequestIntake now supplies focused Callout, DescriptionList, Combobox, MultiSelect, Form, NumberField and FileInput adoption proof. Its intake-family contract runs seven task rules from `stories/intake-flow/`; guide files, policy and guarantees are generated from the same catalog and facts. Stat remains pending without a connected proof story. Existing component demonstrations alone do not close those gaps.
 
 `stories/adoption-source.test.ts` runs in `bun run check` and rejects missing/obsolete coverage, stale source/story references, unrelated proof modules, removed play checks and import-only evidence. Keep this map current as compositions change; the report is generated from it, with no second hand-maintained inventory.

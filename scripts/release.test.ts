@@ -162,6 +162,7 @@ test("keeps installation entry points registered with the release updater", asyn
     "apps/storybook/recipes/Inbox.tsx",
     "apps/storybook/recipes/ListDetail.tsx",
     "apps/storybook/recipes/PageHeader.tsx",
+    "apps/storybook/recipes/RequestIntake.tsx",
     "docs/guides/using-kbui.md",
   ]);
 });

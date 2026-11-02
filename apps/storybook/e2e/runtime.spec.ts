@@ -1,11 +1,12 @@
 import assert from "node:assert/strict";
-import { chromium, expect, webkit } from "playwright/test";
-import { chooseRadio, radioChoice } from "./native-controls.ts";
+import { expect, test } from "playwright/test";
+import { chooseRadio, radioChoice } from "../catalog/native-controls.ts";
+import { loadCatalogSources } from "../catalog/source.ts";
+import { siteURL as origin } from "./urls.ts";
 
-const origin = process.env.CATALOG_PREVIEW_URL ?? "http://127.0.0.1:4202";
-const browser = await chromium.launch();
-try {
-  const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+test.use({ viewport: { width: 1280, height: 900 } });
+test("cached documents, drafts, focus and comparison history", async ({ page }) => {
+  test.setTimeout(180_000);
   let documents = 0;
   page.on("request", (request) => {
     if (request.isNavigationRequest() && request.url().includes("/storybook/iframe.html"))
@@ -97,13 +98,24 @@ try {
     "History, theme and reload: selection, focus and unrelated drafts preserved; reload resets selected document.",
   );
   await page.goto(`${origin}/components/?component=button`);
-  const states = page
-    .getByRole("radiogroup", { name: "Example state", exact: true })
-    .getByRole("radio");
-  const count = await states.count();
+  await detail.locator('iframe[data-current="true"]').waitFor();
+  const button = loadCatalogSources().find((entry) => entry.id === "button");
+  assert.ok(button, "Missing Button fixture");
+  const states = button.stories.filter((story) => !/(?:^|\s)(?:Dark|Light)$/.test(story.name));
+  const count = states.length;
   assert.ok(count > 6, "Bounded-cache probe needs more states than capacity");
-  for (let index = 0; index < count; index++) {
-    await states.nth(index).locator("xpath=ancestor::label[1]").click();
+  for (const story of states) {
+    // Curated controls show five examples; history still accepts every retained story URL.
+    await page.evaluate((id) => {
+      const next = new URL(location.href);
+      next.searchParams.set("state", id);
+      history.pushState(null, "", next);
+      dispatchEvent(new PopStateEvent("popstate"));
+    }, story.id);
+    await expect(detail.locator('iframe[data-current="true"]')).toHaveAttribute(
+      "data-preview-src",
+      new RegExp(`id=${story.id}&`),
+    );
     await expect(detail.locator('iframe[data-current="true"]')).toHaveAttribute(
       "aria-busy",
       "false",
@@ -365,58 +377,4 @@ try {
   console.log(
     "Legacy views stay public; QA aliases replace to browse/details; public comparison pins both themes/documents and uses replace-only URL state.",
   );
-  await page.close();
-} finally {
-  await browser.close();
-}
-for (const engine of [chromium, webkit]) {
-  const recipeBrowser = await engine.launch();
-  try {
-    const page = await recipeBrowser.newPage({ viewport: { width: 567, height: 900 } });
-    await page.goto(
-      `${origin}/components/?component=input&state=components-input--with-adornments`,
-    );
-    await expect(page.getByRole("radio", { name: "Icons and actions", exact: true })).toBeChecked();
-    await expect(page.locator('iframe[data-current="true"]')).toHaveAttribute(
-      "data-preview-src",
-      /id=components-input--with-icons-and-actions&/,
-    );
-    await expect(page.getByText(/no longer exists/)).toHaveCount(0);
-    assert.equal(
-      new URL(page.url()).searchParams.get("state"),
-      "components-input--with-adornments",
-      "Legacy recipe navigation rewrote its shareable URL",
-    );
-    console.log(
-      `${engine.name()}: legacy Input recipe URL selects canonical icons/actions without recovery.`,
-    );
-    await page.goto(
-      `${origin}/components/?component=input&state=components-input--with-icons-and-actions`,
-    );
-    await page.waitForFunction(() => {
-      const frame = document.querySelector<HTMLIFrameElement>('iframe[data-current="true"]');
-      const doc = frame?.contentDocument;
-      return (
-        frame &&
-        doc?.fonts.status === "loaded" &&
-        frame.getAttribute("aria-busy") === "false" &&
-        doc.documentElement.scrollHeight <= frame.clientHeight + 1
-      );
-    });
-    const dimensions = await page
-      .locator('iframe[data-current="true"]')
-      .evaluate((frame: HTMLIFrameElement) => ({
-        height: frame.clientHeight,
-        content: frame.contentDocument?.documentElement.scrollHeight ?? Infinity,
-      }));
-    assert.ok(
-      dimensions.content <= dimensions.height + 1,
-      `${engine.name()} recipe retained vertical scrollbar`,
-    );
-    console.log(
-      `${engine.name()}567px: Input icons/actions recipe fits settled document height without vertical scrollbar.`,
-    );
-  } finally {
-    await recipeBrowser.close();
-  }
-}
+});
