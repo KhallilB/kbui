@@ -15,7 +15,7 @@ const dir = studyDir(study);
 const familyOf = Object.fromEntries(RULES.map((r) => [r.id, r.family])) as Record<RuleId, Family>;
 const screens = loadScreens(study).map((s) => ({
   ...s,
-  findings: [...treeFindings(s.compiled.spec), ...domFindings(s.doms)],
+  findings: [...treeFindings(s.compiled.spec), ...domFindings(s.doms, s.compiled.spec)],
 }));
 type Scored = Screen & { findings: Finding[] };
 

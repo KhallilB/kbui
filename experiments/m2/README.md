@@ -16,10 +16,12 @@ It is not part of any published package. Nothing here depends on kbui.
    |---|---|
    | integrity | INT-1 asks for secrets · INT-2 destructive action without confirmation · INT-3 urgency or scarcity claim · INT-4 pre-selected marketing consent · INT-5 confirmshaming |
    | design | DES-1 more than one primary action per region · DES-2 heading levels out of order |
-   | arrangement | ARR-1 nesting deeper than seven · ARR-2 content does not fit · ARR-3 overlap · ARR-4 target under 24 px (axe `target-size`) |
+   | arrangement | ARR-1 nesting deeper than seven · ARR-2 content does not fit · ARR-3 overlap · ARR-4 target under 24 px (a `Button`, `Link`, `Checkbox` or `Switch` box, or axe `target-size`) |
    | data | DATA-1 more than ten rows without pagination · DATA-2 data-bound list with no empty state |
 
    Tree rules read the spec. ARR-2 to ARR-4 read the rendered page.
+
+   ARR-4 first used only axe `target-size`, whose spacing exception passes small targets the question counts, so it never fired. It was rewritten after labelling to read each control's measured box at every width, without that exception. The 24 px threshold and the four control types were fixed before scoring and not tuned to the labels.
 6. **Labels.** 50 screens are drawn reproducibly, stratified by category and model. One person labels them on a page that hides the model and all rule output. Precision and recall per rule come from those labels. Then a recheck: wherever a blind answer contradicts a rule whose question the spec answers outright (INT-1, INT-3, INT-4, DES-2, ARR-1), the labeller sees the rule's evidence and answers again. The report gives both sets of numbers.
 
 ## Run it

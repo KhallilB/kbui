@@ -170,7 +170,7 @@ if (values.recheck) {
   disputed = rechecks(
     items.map(({ id, s }) => ({
       token: id,
-      findings: [...treeFindings(s.compiled.spec), ...domFindings(s.doms)],
+      findings: [...treeFindings(s.compiled.spec), ...domFindings(s.doms, s.compiled.spec)],
     })),
     blind.labels,
   );
