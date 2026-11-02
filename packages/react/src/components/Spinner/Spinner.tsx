@@ -80,7 +80,8 @@ export const Spinner = forwardRef<HTMLSpanElement, SpinnerProps>(function Spinne
               className={clsx("kb-spinner-track", classNames?.track)}
             />
             <path
-              d="M12 2.5a9.5 9.5 0 0 1 9.5 9.5"
+              d="M12 2.5a9.5 9.5 0 1 1 0 19a9.5 9.5 0 1 1 0 -19"
+              pathLength={100}
               className={clsx("kb-spinner-arc", classNames?.arc)}
             />
           </>
@@ -100,11 +101,13 @@ export const Spinner = forwardRef<HTMLSpanElement, SpinnerProps>(function Spinne
               className={clsx("kb-spinner-track", classNames?.track)}
             />
             <path
-              d="M12 2.5a9.5 9.5 0 0 1 9.5 9.5"
+              d="M12 2.5a9.5 9.5 0 1 1 0 19a9.5 9.5 0 1 1 0 -19"
+              pathLength={100}
               className={clsx("kb-spinner-arc", classNames?.arc)}
             />
             <path
-              d="M12 17.5a5.5 5.5 0 0 1 -5.5 -5.5"
+              d="M12 17.5a5.5 5.5 0 1 1 0 -11a5.5 5.5 0 1 1 0 11"
+              pathLength={100}
               className={clsx("kb-spinner-arc", classNames?.arc)}
             />
             <circle
