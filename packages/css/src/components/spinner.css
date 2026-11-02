@@ -11,11 +11,39 @@
   }
 }
 
+@keyframes kb-spinner-sweep {
+  0% {
+    stroke-dasharray: 12 88;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 68 32;
+    stroke-dashoffset: -24;
+  }
+  100% {
+    stroke-dasharray: 12 88;
+    stroke-dashoffset: -100;
+  }
+}
+
+@keyframes kb-spinner-dot-wave {
+  0%,
+  60%,
+  100% {
+    opacity: 0.5;
+    transform: translateY(15%) scale(0.8);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+}
+
 @keyframes kb-spinner-pulse {
   0%,
   100% {
-    opacity: 0.35;
-    transform: scale(0.75);
+    opacity: 0.6;
+    transform: scale(0.85);
   }
   50% {
     opacity: 1;
@@ -26,8 +54,8 @@
 @keyframes kb-spinner-bar-wave {
   0%,
   100% {
-    opacity: 0.4;
-    transform: scaleY(0.45);
+    opacity: 0.55;
+    transform: scaleY(0.3);
   }
   50% {
     opacity: 1;
@@ -93,9 +121,9 @@
 
 .kb-spinner[data-appearance="pill"] {
   padding: var(--kb-spinner-pill-padding-block) var(--kb-spinner-pill-padding-inline);
-  border: 1px solid color-mix(in oklab, var(--_spinner-ink) 40%, var(--kb-color-border));
+  border: 1px solid color-mix(in oklab, var(--_spinner-ink) 28%, var(--kb-color-border));
   border-radius: var(--kb-spinner-pill-radius);
-  background: color-mix(in oklab, var(--_spinner-ink) 10%, var(--kb-material-surface-bg));
+  background: color-mix(in oklab, var(--_spinner-ink) 8%, var(--kb-material-surface-bg));
   background-image: linear-gradient(180deg, var(--kb-material-soft-sheen), transparent);
   box-shadow: var(--kb-material-inlay-shadow);
   color: color-mix(in oklab, var(--_spinner-ink) 70%, var(--kb-color-fg));
@@ -136,16 +164,23 @@
   stroke: currentColor;
   stroke-width: var(--kb-spinner-stroke-width);
   stroke-linecap: round;
+  stroke-dasharray: 25 75;
   transform-origin: center;
+  animation: kb-spinner-sweep calc(var(--kb-spinner-duration) * 3) var(--kb-spinner-pulse-easing)
+    infinite;
 }
 
 .kb-spinner[data-variant="orbit"] .kb-spinner-arc:first-of-type {
-  animation: kb-spinner-rotate var(--kb-spinner-duration) var(--kb-spinner-easing) infinite;
+  animation:
+    kb-spinner-rotate var(--kb-spinner-duration) var(--kb-spinner-easing) infinite,
+    kb-spinner-sweep calc(var(--kb-spinner-duration) * 3) var(--kb-spinner-pulse-easing) infinite;
 }
 
 .kb-spinner[data-variant="orbit"] .kb-spinner-arc:last-of-type {
-  animation: kb-spinner-counter-rotate var(--kb-spinner-orbit-duration) var(--kb-spinner-easing)
-    infinite;
+  animation:
+    kb-spinner-counter-rotate var(--kb-spinner-orbit-duration) var(--kb-spinner-easing) infinite,
+    kb-spinner-sweep calc(var(--kb-spinner-duration) * 3) var(--kb-spinner-pulse-easing) infinite
+    reverse;
 }
 
 .kb-spinner-core {
@@ -159,16 +194,17 @@
   fill: currentColor;
   transform-origin: center;
   transform-box: fill-box;
-  animation: kb-spinner-pulse var(--kb-spinner-pulse-duration) var(--kb-spinner-pulse-easing)
+  animation: kb-spinner-dot-wave var(--kb-spinner-pulse-duration) var(--kb-spinner-pulse-easing)
     infinite;
+  animation-delay: calc(var(--kb-spinner-stagger) * -3);
 }
 
 .kb-spinner-dot:nth-of-type(2) {
-  animation-delay: var(--kb-spinner-stagger);
+  animation-delay: calc(var(--kb-spinner-stagger) * -2);
 }
 
 .kb-spinner-dot:nth-of-type(3) {
-  animation-delay: calc(var(--kb-spinner-stagger) * 2);
+  animation-delay: calc(var(--kb-spinner-stagger) * -1);
 }
 
 .kb-spinner-bar {
@@ -177,18 +213,19 @@
   transform-box: fill-box;
   animation: kb-spinner-bar-wave var(--kb-spinner-pulse-duration) var(--kb-spinner-pulse-easing)
     infinite;
+  animation-delay: calc(var(--kb-spinner-stagger) * -3);
 }
 
 .kb-spinner-bar:nth-of-type(2) {
-  animation-delay: var(--kb-spinner-stagger);
+  animation-delay: calc(var(--kb-spinner-stagger) * -2);
 }
 
 .kb-spinner-bar:nth-of-type(3) {
-  animation-delay: calc(var(--kb-spinner-stagger) * 2);
+  animation-delay: calc(var(--kb-spinner-stagger) * -1);
 }
 
 .kb-spinner-bar:nth-of-type(4) {
-  animation-delay: calc(var(--kb-spinner-stagger) * 3);
+  animation-delay: 0s;
 }
 
 .kb-spinner-label {
@@ -207,6 +244,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .kb-spinner-icon,
+  .kb-spinner-arc,
   .kb-spinner[data-variant="orbit"] .kb-spinner-arc:first-of-type,
   .kb-spinner[data-variant="orbit"] .kb-spinner-arc:last-of-type,
   .kb-spinner-core,
