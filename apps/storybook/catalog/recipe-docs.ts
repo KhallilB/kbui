@@ -1,4 +1,5 @@
 import { posix } from "node:path";
+import { siteOrigin } from "../site/guide-links";
 import { flowFactsFor } from "../stories/list-detail-flow/facts";
 import {
   type RuleGroup,
@@ -29,10 +30,8 @@ const policyRows = {
 } satisfies { [Key in keyof RecipePolicy]: (value: RecipePolicy[Key]) => [string, string] };
 
 function files(recipe: RecipeDefinition) {
-  const from = posix.dirname(recipe.guide);
-  return recipe.files
-    .map((file) => `- [\`${posix.basename(file)}\`](${posix.relative(from, file)})`)
-    .join("\n");
+  const source = `${siteOrigin}/recipes/?recipe=${recipe.id}#recipe-source`;
+  return recipe.files.map((file) => `- [\`${posix.basename(file)}\`](${source})`).join("\n");
 }
 
 function policy(recipe: RecipeDefinition) {

@@ -1,14 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
-import { expect } from "storybook/test";
+import { expect, userEvent, waitFor, within } from "storybook/test";
+import { Avatar } from "../Avatar/Avatar";
+import { Badge } from "../Badge/Badge";
 import { Button } from "../Button/Button";
 import { Card } from "../Card/Card";
 import { Heading } from "../Heading/Heading";
 import { Inline } from "../Inline/Inline";
-import { Spinner } from "../Spinner/Spinner";
+import { Stack } from "../Stack/Stack";
 import { Status } from "../Status/Status";
 import { Text } from "../Text/Text";
-import { Skeleton } from "./Skeleton";
+import { Skeleton, type SkeletonAnimation, type SkeletonTone } from "./Skeleton";
 
 const meta = {
   title: "Components/Skeleton",
@@ -24,7 +26,7 @@ const meta = {
     loading: true,
   },
   argTypes: {
-    variant: { control: "select", options: ["text", "rect", "circle", "pill"] },
+    variant: { control: "select", options: ["text", "rect", "circle", "pill", "auto"] },
     size: { control: "select", options: ["sm", "md", "lg"] },
     animation: { control: "select", options: ["shimmer", "pulse", "wave", "none"] },
     tone: { control: "select", options: ["default", "subtle", "accent"] },
@@ -38,6 +40,24 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const box = { width: "100%" } as const;
+
+const animationLabels: Record<Exclude<SkeletonAnimation, "none">, string> = {
+  shimmer: "Shimmer",
+  pulse: "Pulse",
+  wave: "Wave",
+};
+const toneLabels: Record<SkeletonTone, string> = {
+  default: "Default",
+  subtle: "Subtle",
+  accent: "Accent",
+};
+
+const expectMotion = (canvasElement: HTMLElement) => {
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  for (const skeleton of canvasElement.querySelectorAll(".kb-skeleton")) {
+    expect(skeleton.getAnimations({ subtree: true }).length > 0).toBe(!reducedMotion);
+  }
+};
 
 export const Default: Story = {
   render: (args) => (
@@ -53,54 +73,58 @@ export const Default: Story = {
   },
 };
 
-export const WaveAndPulse: Story = {
+export const Animations: Story = {
   render: () => (
-    <div style={{ ...box, display: "grid", gap: "1rem" }}>
-      <Card aria-busy="true" aria-label="Synthesizing deployment report">
-        <div style={{ display: "grid", gap: "0.875rem" }}>
-          <Inline justify="between" align="center">
-            <Spinner
-              variant="orbit"
-              appearance="pill"
-              tone="accent"
-              size="sm"
-              label="Synthesizing release brief…"
-              showLabel
-            />
-            <Skeleton variant="pill" size="sm" tone="accent" animation="pulse" />
-          </Inline>
-          <Skeleton variant="text" lines={3} animation="wave" tone="accent" />
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem" }}>
-            <Skeleton variant="rect" height="3.75rem" animation="shimmer" tone="subtle" />
-            <Skeleton variant="rect" height="3.75rem" animation="pulse" tone="subtle" />
-          </div>
-        </div>
-      </Card>
-    </div>
+    <Stack gap="md" style={box}>
+      {Object.entries(animationLabels).map(([animation, label]) => (
+        <Stack key={animation} gap="sm">
+          <Text size="sm" tone="muted">
+            {label}
+          </Text>
+          <Skeleton lines={3} animation={animation as SkeletonAnimation} />
+        </Stack>
+      ))}
+    </Stack>
   ),
   play: async ({ canvasElement }) => {
-    expect(canvasElement.querySelector('[data-animation="wave"]')).not.toBeNull();
-    expect(canvasElement.querySelector('[data-animation="pulse"]')).not.toBeNull();
-    expect(canvasElement.querySelector('[data-tone="accent"]')).not.toBeNull();
+    for (const animation of Object.keys(animationLabels)) {
+      expect(canvasElement.querySelector(`[data-animation="${animation}"]`)).not.toBeNull();
+    }
+    expectMotion(canvasElement);
   },
 };
 
-export const CardPlaceholder: Story = {
+export const Tones: Story = {
+  render: () => (
+    <Stack gap="md" style={box}>
+      {Object.entries(toneLabels).map(([tone, label]) => (
+        <Stack key={tone} gap="sm">
+          <Text size="sm" tone="muted">
+            {label}
+          </Text>
+          <Skeleton lines={2} tone={tone as SkeletonTone} />
+        </Stack>
+      ))}
+    </Stack>
+  ),
+};
+
+export const ProfileCard: Story = {
   render: () => (
     <div style={box}>
-      <Card aria-busy="true" aria-label="Loading release summary">
-        <div style={{ display: "grid", gap: "1rem" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+      <Card aria-busy="true" aria-label="Loading profile">
+        <Stack gap="md">
+          <Inline gap="md" align="center">
             <Skeleton variant="circle" size="md" />
-            <div style={{ flex: 1, minWidth: 0, display: "grid", gap: "0.375rem" }}>
+            <Stack gap="sm" style={{ flex: 1, minWidth: 0 }}>
               <Skeleton variant="text" size="md" width="55%" />
               <Skeleton variant="text" size="sm" width="35%" />
-            </div>
+            </Stack>
             <Skeleton variant="pill" size="sm" />
-          </div>
+          </Inline>
           <Skeleton variant="rect" height="4.5rem" />
-          <Skeleton variant="text" lines={2} size="sm" animation="wave" />
-        </div>
+          <Skeleton variant="text" lines={2} size="sm" />
+        </Stack>
       </Card>
     </div>
   ),
@@ -129,10 +153,10 @@ export const ContentTransition: Story = {
       <div style={{ ...box, display: "grid", gap: "0.75rem" }}>
         <Inline justify="between" align="center">
           <Status tone={loading ? "running" : "success"} appearance="chip" live>
-            {loading ? "Fetching metrics…" : "Metrics ready"}
+            {loading ? "Loading metrics…" : "Metrics loaded"}
           </Status>
           <Button variant="secondary" size="sm" onClick={() => setLoading((prev) => !prev)}>
-            {loading ? "Reveal content" : "Show skeleton"}
+            {loading ? "Finish loading" : "Load again"}
           </Button>
         </Inline>
         <Card aria-busy={loading}>
@@ -149,6 +173,84 @@ export const ContentTransition: Story = {
           </Skeleton>
         </Card>
       </div>
+    );
+  },
+};
+
+const ada = {
+  name: "Ada Lovelace",
+  role: "Staff engineer",
+  team: "Platform",
+  bio: "Leads the build and release tooling used by every product team.",
+};
+
+function PersonCard({ person }: { person?: typeof ada | undefined }) {
+  return (
+    <Card>
+      <Stack gap="md">
+        <Inline gap="md" align="center">
+          <Avatar size="lg" name={person?.name ?? ""} decorative />
+          <Stack gap="sm" style={{ flex: 1, minWidth: 0 }}>
+            <Heading level={3} size="sm">
+              {person?.name}
+            </Heading>
+            <Text size="sm" tone="muted">
+              {person?.role}
+            </Text>
+          </Stack>
+          <Badge>{person?.team}</Badge>
+        </Inline>
+        <Text>{person?.bio}</Text>
+        <Inline gap="sm">
+          <Button size="sm">Follow</Button>
+          <Button size="sm" variant="secondary">
+            Message
+          </Button>
+        </Inline>
+      </Stack>
+    </Card>
+  );
+}
+
+export const Auto: Story = {
+  render: () => {
+    const [loading, setLoading] = useState(true);
+    return (
+      <Stack gap="sm" style={box}>
+        <Inline justify="end">
+          <Button variant="secondary" size="sm" onClick={() => setLoading((prev) => !prev)}>
+            {loading ? "Finish loading" : "Load again"}
+          </Button>
+        </Inline>
+        <Skeleton variant="auto" loading={loading} label="Loading profile">
+          <PersonCard person={loading ? undefined : ada} />
+        </Skeleton>
+      </Stack>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const content = canvasElement.querySelector<HTMLElement>(".kb-skeleton-content");
+    expect(content?.inert).toBe(true);
+    expect(canvas.getByRole("status")).toHaveTextContent("Loading profile");
+
+    // Empty fields still reserve a visible placeholder.
+    for (const selector of [".kb-heading", ".kb-text", ".kb-badge", ".kb-avatar"]) {
+      const rect = content?.querySelector(selector)?.getBoundingClientRect();
+      expect(rect?.width).toBeGreaterThan(0);
+      expect(rect?.height).toBeGreaterThan(0);
+    }
+    const follow = content?.querySelector<HTMLElement>(".kb-button");
+    expect(follow && getComputedStyle(follow).color).toBe("rgba(0, 0, 0, 0)");
+    expectMotion(canvasElement);
+
+    await userEvent.click(canvas.getByRole("button", { name: "Finish loading" }));
+    expect(content?.inert).toBe(false);
+    expect(canvas.queryByRole("status")).toBeNull();
+    expect(canvas.getByRole("heading", { name: "Ada Lovelace" })).toBeVisible();
+    // Controls ease their color back in.
+    await waitFor(() =>
+      expect(follow && getComputedStyle(follow).color).not.toBe("rgba(0, 0, 0, 0)"),
     );
   },
 };
