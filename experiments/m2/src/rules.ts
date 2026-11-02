@@ -128,6 +128,8 @@ export type Dom = {
   clipped: { key: string | null; text: string }[];
   overlaps: { a: string | null; b: string | null; area: number }[];
   axe: { id: string; impact: string | null; keys: (string | null)[] }[];
+  /** First rendered box per element key: x, y, width, height. */
+  boxes: Record<string, number[]>;
 };
 
 const CREDENTIAL =
@@ -140,6 +142,11 @@ const CONSENT =
   /newsletter|marketing|promo(tion)?s?\b|offers|subscribe|sign me up|updates by email|share (my )?(data|information)|partners|third[- ]part/i;
 const SHAMING =
   /\bno,? thanks?,? i\b|\bi (don'?t|do not) (want|like|need|care)\b|\bi'?(ll| will) pay full price\b|\bi prefer (not|to miss)\b|\bno,? i('?m| am) (fine|good|not)\b/i;
+
+// WCAG 2.5.8 minimum, without axe's spacing exception, which ARR-4's question does not grant.
+const MIN_TARGET = 24;
+// Single-target controls; group boxes (Radio, ToggleGroup) span many targets.
+const TARGETS = new Set(["Button", "Link", "Checkbox", "Switch"]);
 
 const MAX_DEPTH = 7;
 const MAX_ROWS = 10;
@@ -348,7 +355,7 @@ export function treeFindings(spec: Spec): Finding[] {
   return findings;
 }
 
-export function domFindings(doms: Dom[]): Finding[] {
+export function domFindings(doms: Dom[], spec: Spec): Finding[] {
   const findings: Finding[] = [];
   for (const d of doms) {
     if (d.overflowX)
@@ -381,6 +388,16 @@ export function domFindings(doms: Dom[]): Finding[] {
         detail: `${v.keys.length} small targets`,
         width: d.width,
       });
+    }
+    for (const [key, [, , w = 0, h = 0]] of Object.entries(d.boxes)) {
+      const type = (spec.elements as Record<string, Element> | undefined)?.[key]?.type ?? "";
+      if (TARGETS.has(type) && (w < MIN_TARGET || h < MIN_TARGET))
+        findings.push({
+          rule: "ARR-4",
+          elementKey: key,
+          detail: `${type} ${w}x${h}`,
+          width: d.width,
+        });
     }
   }
   return findings;
