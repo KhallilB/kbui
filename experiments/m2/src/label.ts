@@ -2,9 +2,10 @@
 import { existsSync, linkSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { parseArgs } from "node:util";
+import { HINTS, outlineRows, short } from "./blind";
 import { type Labels, type Recheck, rechecks } from "./labels";
 import { loadScreens, type Screen } from "./load";
-import { domFindings, literals, RULES, type RuleId, treeFindings, walk } from "./rules";
+import { domFindings, RULES, treeFindings } from "./rules";
 import { studyDir } from "./study";
 
 const SAMPLE_SIZE = 50;
@@ -69,60 +70,12 @@ if (existsSync(samplePath)) {
 
 const esc = (s: string) =>
   s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c] ?? c);
-const short = (v: unknown) => {
-  const s = typeof v === "string" ? v : JSON.stringify(v);
-  return s.length > 90 ? `${s.slice(0, 87)}...` : s;
-};
-
-function pointer(state: unknown, path: unknown): unknown {
-  if (typeof path !== "string") return undefined;
-  return path
-    .split("/")
-    .filter(Boolean)
-    .reduce<unknown>(
-      (n, k) => (n && typeof n === "object" ? (n as Record<string, unknown>)[k] : undefined),
-      state,
-    );
-}
-
-/** Raw spec facts a reviewer would find by reading the JSON or clicking around. */
 function outline(s: Screen): string {
-  const spec = s.compiled.spec;
-  const state = (spec as { state?: unknown }).state ?? {};
-  return walk(spec)
-    .map(({ el, depth }) => {
-      const p = (el.props ?? {}) as Record<string, unknown>;
-      const text = literals([p.title, p.label, p.text, p.description, p.placeholder]).join(" · ");
-      const facts: string[] = [];
-      if (p.level) facts.push(short(p.level));
-      if ("variant" in p) facts.push(`variant ${short(p.variant ?? "default")}`);
-      if (p.type) facts.push(`type ${short(p.type)}`);
-      if ("checked" in p) {
-        const c = p.checked as Record<string, unknown> | boolean;
-        const start = c && typeof c === "object" ? pointer(state, c.$bindState ?? c.$state) : c;
-        facts.push(`starts ${start === true ? "on" : "off"}`);
-      }
-      if (Array.isArray(p.rows)) facts.push(`${p.rows.length} rows`);
-      if (el.repeat) {
-        const items = pointer(state, el.repeat.statePath);
-        facts.push(
-          `repeats ${short(el.repeat.statePath)}${Array.isArray(items) ? ` (${items.length} items)` : ""}`,
-        );
-      }
-      if (el.visible !== undefined) facts.push(`visible when ${short(el.visible)}`);
-      for (const [event, binding] of Object.entries(el.on ?? {})) {
-        for (const b of (Array.isArray(binding) ? binding : [binding]) as Record<
-          string,
-          unknown
-        >[]) {
-          const params = b.params ? ` ${short(b.params)}` : "";
-          const confirm = b.confirm ? ` with confirm ${short(b.confirm)}` : "";
-          facts.push(`on ${event}: ${b.action}${params}${confirm}`);
-        }
-      }
-      if (p.openPath) facts.push(`open when ${short(p.openPath)}`);
-      return `<div style="padding-left:${(depth - 1) * 14}px"><b>${esc(el.type)}</b> <span class="d">${depth}</span> ${text ? `“${esc(short(text))}”` : ""} <span class="f">${esc(facts.join("; "))}</span></div>`;
-    })
+  return outlineRows(s.compiled.spec)
+    .map(
+      ({ type, depth, text, facts }) =>
+        `<div style="padding-left:${(depth - 1) * 14}px"><b>${esc(type)}</b> <span class="d">${depth}</span> ${text ? `“${esc(short(text))}”` : ""} <span class="f">${esc(facts.join("; "))}</span></div>`,
+    )
     .join("");
 }
 
@@ -141,24 +94,6 @@ const items = sample.map((id, i) => {
     );
   return { id: token, blind: `screen ${token}`, s };
 });
-
-// Where to look for each answer; the questions themselves live with the rules.
-const HINTS: Record<RuleId, string> = {
-  "INT-1": "Screenshot: form fields.",
-  "INT-2":
-    "Outline: a destructive button's on press, and whether it opens a dialog or has a confirm.",
-  "INT-3": "Screenshot and outline text, including badges and fine print.",
-  "INT-4": "Outline: switches and checkboxes say whether they start on.",
-  "INT-5": "Screenshot: decline links and secondary buttons.",
-  "DES-1": "Screenshot: filled dark buttons within one card or the page.",
-  "DES-2": "Outline: heading levels (h1, h2, h3) in order.",
-  "ARR-1": "Outline: the grey number after each type is its depth.",
-  "ARR-2": "Check every width, 390px especially.",
-  "ARR-3": "Check every width, 390px especially.",
-  "ARR-4": "Check every width: icon buttons, links in dense rows.",
-  "DATA-1": "Outline: rows and repeat counts, and any Pagination.",
-  "DATA-2": "Outline: a repeat, and an element visible when that list is empty.",
-};
 
 // Recheck mode asks only the questions where the blind answer contradicts a literal rule.
 const file = values.recheck ? "adjudicated.json" : "labels.json";
