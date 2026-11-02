@@ -1,6 +1,4 @@
-// x-release-please-start-version
-// kbui recipe ListDetail, Inbox · from kbui 0.11.0 · https://kbui.kcb.pro/recipes/
-// x-release-please-end
+// kbui recipe ListDetail, Inbox · from kbui 0.12.0 · https://kbui.kcb.pro/recipes/
 // Shared by the flow recipes: the router seam, `CommitResult`, announcements and focus helpers.
 import { useState } from "react";
 

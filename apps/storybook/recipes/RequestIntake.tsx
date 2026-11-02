@@ -1,6 +1,4 @@
-// x-release-please-start-version
-// kbui recipe RequestIntake · from kbui 0.11.0 · https://kbui.kcb.pro/recipes/?recipe=requestintake
-// x-release-please-end
+// kbui recipe RequestIntake · from kbui 0.12.0 · https://kbui.kcb.pro/recipes/?recipe=requestintake
 import {
   Button,
   Callout,

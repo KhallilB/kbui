@@ -154,9 +154,7 @@ test("keeps installation entry points registered with the release updater", asyn
   const config = await Bun.file(new URL("../release-please-config.json", import.meta.url)).json();
   const paths = config.packages["."]["extra-files"]
     .filter((file: { type: string }) => file.type === "generic")
-    .map((file: { path: string }) => file.path)
-    // recipe-provenance.test.ts registers every recipe source file.
-    .filter((path: string) => !path.startsWith("apps/storybook/recipes/"));
+    .map((file: { path: string }) => file.path);
   expect(paths.sort()).toEqual([
     "README.md",
     "apps/storybook/docs/Introduction.mdx",
