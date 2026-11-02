@@ -67,7 +67,9 @@ Describe the behavior in `Notice.test.tsx` and run it to see it fail:
 bun run --cwd packages/react test -- Notice
 ```
 
-Build on a Base UI primitive when one fits; otherwise render a plain element. Follow the [component conventions](../../CONTRIBUTING.md#component-conventions): spread props first and `kb()` last, test that the `ref` is forwarded, and give each prop a one-line JSDoc comment. Then make the test pass.
+Build on a Base UI primitive when one fits; otherwise render a plain element. Follow the [component conventions](../../CONTRIBUTING.md#component-conventions) and [testing patterns](../../CONTRIBUTING.md#writing-effective-tests): spread props first and `kb()` last, test that the `ref` is forwarded, register `classNames` slots in `packages/react/src/classNames.test.tsx`, and give each prop a one-line JSDoc comment. Then make the test pass.
+
+Universal checks in `packages/css/src/build.test.ts` and `apps/storybook/stories/` automatically verify the new stylesheet's `Anatomy:` root, token references, sorted `@import`, and catalog registration once exported. Update the token CSS snapshot (`bun test packages/tokens/src/build.test.ts -u`) when adding tokens in `tokens.json`; do not add per-component token or CSS declaration echoes. Add the stylesheet to the control/motion list in `packages/css/src/build.test.ts` only when the component introduces interactive state specificity or animation (`@media (forced-colors: active)` and `@media (prefers-reduced-motion: reduce)`).
 
 ### Integrating app libraries
 

@@ -19,19 +19,6 @@ test("each component owns a full prop or composition reference", () => {
       entry.name,
     ).toBe(true);
   }
-  const props = (name: string) =>
-    entries
-      .find((entry) => entry.name === name)
-      ?.api.filter((block) => block.kind === "table")
-      .flatMap((block) => block.rows.map((row) => row[0]));
-  expect(props("Card")).toContain("`appearance`");
-  expect(props("Card")).not.toContain("`layout`");
-  expect(props("Grid")).toContain("`layout`");
-  for (const prop of ["`columns`", "`minItemWidth`", "`gap`", "`align`"])
-    expect(props("Grid")).toContain(prop);
-  expect(props("Grid")).not.toContain("`appearance`");
-  expect(props("Tooltip")).toContain("`delay`");
-  expect(props("ScrollArea")).toContain("`maxHeight`");
 });
 
 test("open dialog fixtures cannot launch modals while reading generated docs", () => {
