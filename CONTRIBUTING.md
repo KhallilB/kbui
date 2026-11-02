@@ -78,6 +78,24 @@ bun run check && bun run test:stories && bun run test:overlays
 
 Behavior changes are test-first: write the test, see it fail, then write the code that makes it pass.
 
+### Writing effective tests
+
+Test executable behavior, compilers, parsers and universal structural invariants across the repository. Avoid change-detector assertions that repeat static source declarations, hardcoded counts or English prose.
+
+| Layer | What to test | What to avoid |
+|---|---|---|
+| `packages/tokens` | `buildTokens` compiler rules, schema validation (`validate.test.ts`), token diffing (`diff.test.ts`), WCAG contrast math across light and dark grounds, `forced-colors` system-color mappings, and the shipped CSS snapshot (`toMatchSnapshot()`). | `expect(css).toContain("--kb-...")` assertions that repeat `tokens.json` declarations line by line. |
+| `packages/css` | `buildCss` bundling and `@layer` order, universal directory scans (`anatomyRoots`, `paletteRefs`, `rawStyleValues`, defined-token references, sorted `@import`s), non-inferable browser layout quirks (`<fieldset>` legend spacing, `panel.css` filter and clipping isolation), and `:focus-visible` specificity, `forced-colors` and `prefers-reduced-motion` rules on interactive or animated surfaces. | Per-component tests that grep for CSS declarations, token variable names or `Anatomy:` strings already checked by the universal directory scans. |
+| `packages/react` | Rendered DOM roles and `Anatomy:` classes/`data-*` attributes, `ref` and `classNames` slot forwarding (`packages/react/src/classNames.test.tsx`), controlled and uncontrolled state transitions, keyboard and pointer interactions, focus restoration, and `disabled`, `readOnly` and `invalid` states. | Asserting internal React implementation details or snapshotting static component source strings. |
+| `apps/storybook` and `scripts` | Markdown, CSF and changelog parsers (`parseApiSection`, `exampleCode`, `highlightCode`, `parseChangelog`, `releaseCopy`, `completeStylingUsage`), universal loops over `publicApi`, `loadCatalogSources()` and `recipeDefinitions` (1-to-1 coverage, compilable examples via `verify:code`, link and anchor resolution), and shared recipe flow contracts (`contract.ts`). | Hardcoded inventory counts (`toHaveLength(63)`), spot-checking one component's prop rows or snippet string when a universal loop already checks all exports, grepping English sentences in guides or release notes, or keeping one-off task-completion checks in the suite. |
+| Browser suites (`test:stories`, `test:overlays`, `validate:site`) | Rendered accessibility scans, computed light, dark and nested theme values, keyboard focus rings, overlay and disclosure dismissal across Chromium, Firefox and WebKit, and responsive layout geometry. | Fixed sleep timers instead of retrying Playwright assertions, or weakening scanner rules to make a failing story pass. |
+
+Follow three patterns when adding or updating tests:
+
+1. **Prefer universal loops over spot-checks.** When an invariant applies to every public component, recipe or stylesheet, iterate over `Object.keys(publicApi)`, `loadCatalogSources()`, `recipeDefinitions` or `packages/css/src/components/*.css`. New components and recipes then enter coverage automatically without new per-item test blocks.
+2. **Pair universal checks with synthetic negative controls.** Prove that parsers and validators (`parseApiSection`, `paletteRefs`, `rawStyleValues`, `loadAdoptionCoverage`, `loadRecipeSources`) reject malformed inputs and name the offending item, using small inline fixtures rather than mutating production files.
+3. **Match the test to the change.** Behavior, compiler and parser changes start with a failing test. Documentation-only and CSS-appearance-only changes run static, compilation (`verify:code`), snapshot and browser/theme checks without manufacturing artificial unit tests.
+
 ## Public docs and internal stories
 
 Follow [Adding a component](docs/guides/adding-a-component.md), including its [theme, selection-state and rendered-contrast requirements](docs/guides/adding-a-component.md#theme-and-state-support), when introducing or changing shared controls. Verify the actual light/dark theme roots and visible control states in the rendered previews.

@@ -11,39 +11,15 @@ const families = Object.keys(publicApi).filter((name) => /^[A-Z]/.test(name));
 
 test("adoption map covers actual exports once and derives canonical examples", () => {
   const rows = loadAdoptionCoverage();
-  expect(rows).toHaveLength(63);
   expect(rows.map((row) => row.family).sort()).toEqual(families.sort());
   expect(rows.every((row) => row.kind === "component")).toBe(true);
-  const section = rows.find((row) => row.family === "FormSection");
-  expect(section?.reference).toBe("packages/react/docs/components/FormSection.md");
-  expect(section?.defaultStoryId).toBe("components-formsection--default");
-  expect(section?.examples.map((example) => example.id)).toContain(
-    "components-formsection--split-layout",
-  );
-});
-
-test("packaged and copied recipe compositions retain their own focused proof", () => {
-  const rows = loadAdoptionCoverage();
-  const section = rows.find((row) => row.family === "FormSection");
-  expect(section).toMatchObject({
-    status: "adopted",
-    source: "apps/storybook/recipes/ListDetail.tsx",
-    proof: { id: "recipes-listdetail--edit-and-validate" },
-  });
-  expect(rows.find((row) => row.family === "Textarea")).toMatchObject({
-    status: "adopted",
-    source: "apps/storybook/recipes/Inbox.tsx",
-    proof: { id: "recipes-inbox--reply-and-drafts" },
-  });
-  expect(rows.find((row) => row.family === "Toolbar")).toMatchObject({
-    status: "adopted",
-    source: "apps/storybook/recipes/PageHeader.stories.tsx",
-    proof: { id: "recipes-pageheader--record-detail" },
-  });
-  expect(rows.find((row) => row.family === "Switch")).toMatchObject({
-    status: "adopted",
-    proof: { id: "site-themetoggle--default" },
-  });
+  for (const row of rows) {
+    expect(row.reference).toBe(`packages/react/docs/components/${row.family}.md`);
+    expect(row.defaultStoryId).toMatch(
+      new RegExp(`^(?:components|layout)-${row.family.toLowerCase()}--`),
+    );
+    expect(row.examples.length, row.family).toBeGreaterThan(0);
+  }
 });
 
 test("new exports, missing coverage and obsolete families fail by name", () => {

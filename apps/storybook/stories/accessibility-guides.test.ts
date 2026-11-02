@@ -35,7 +35,7 @@ test("every accessibility guide separates support, author decisions, checks and 
   }
 });
 
-test("MultiSelect guidance renders author tasks, manual checks and actual standard links", () => {
+test("AccessibilityReference renders sections, inline code, standard links, and source references", () => {
   const guide = componentGuides.MultiSelect;
   if (!guide) throw new Error("Missing MultiSelect guide");
   const html = renderToStaticMarkup(
@@ -49,20 +49,10 @@ test("MultiSelect guidance renders author tasks, manual checks and actual standa
     "Coverage and limits",
   ])
     expect(html).toContain(`>${heading}</h3>`);
-  expect(html).toContain("Backspace");
-  expect(html).toContain("<code>removeLabel</code>");
-  expect(html).not.toContain("`removeLabel`");
-  expect(html).toContain('href="https://www.w3.org/TR/WCAG22/#name-role-value"');
+  expect(html).toContain("<code>");
+  expect(html).not.toContain("`");
+  expect(html).toContain('href="https://www.w3.org/TR/WCAG22/#');
   expect(html).toContain("MultiSelect.test.tsx");
-  expect(html).toContain("screen reader");
-});
-
-test("splitter guidance distinguishes keyboard support from a non-drag pointer alternative", () => {
-  const guide = componentGuides.Panel?.accessibility;
-  expect(guide?.standards).toContain("2.5.7");
-  expect(guide?.authoring.join(" ")).toContain("onSizeChange");
-  expect(guide?.authoring.join(" ")).toContain("click");
-  expect(guide?.verify.join(" ")).toContain("without dragging");
 });
 
 test("guide sources and criterion identifiers remain valid for every public component", () => {

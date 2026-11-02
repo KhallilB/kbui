@@ -88,43 +88,6 @@ test("release-scoped breaking changes retain required consumer migration steps",
   expect(releaseCopy(release).highlights).not.toContain("Update publishing credentials");
 });
 
-test("0.10.0 documents the package rename and synchronized upgrade", () => {
-  const copy = releaseNotes["0.10.0"];
-  expect(copy?.highlights.length).toBeGreaterThan(0);
-  expect(copy?.upgrade?.join(" ")).toContain("@kbui/");
-  expect(copy?.upgrade?.join(" ")).toContain("@kb.ui/");
-  expect(copy?.upgrade?.join(" ")).toContain("same version");
-});
-
-test("0.12.0 summarises recipe foundations and keeps the generated recipe migration", () => {
-  const copy = releaseNotes["0.12.0"];
-  const text = copy?.highlights.join(" ") ?? "";
-  for (const term of [
-    "contract",
-    "preview",
-    "router, commit, validate, copy, loading, landmark and header",
-    "matched by id",
-    "saved on your server",
-    "no field owns",
-  ])
-    expect(text).toContain(term);
-  expect(text).toMatch(
-    /request-flow.*list-detail.*inbox-index.*inbox-letter.*inbox-list.*inbox-detail/,
-  );
-  expect(text).toMatch(/ListDetail and Inbox.*PageHeader and FormSection/);
-  expect(text).not.toMatch(/retire/i);
-  expect(text).toMatch(/sendReply.*commit/);
-  expect(text).toMatch(/initialRequests.*requests.*initialThreads.*threads/);
-  expect(text).not.toContain("`");
-  // Absent upgrade keeps the BREAKING CHANGE footer as the migration.
-  expect(copy?.upgrade).toBeUndefined();
-  const breaking = ["The Inbox recipe renames initialThreads to threads."];
-  expect(
-    releaseCopy({ version: "0.12.0", components: [], improvements: [], fixes: [], breaking })
-      .upgrade,
-  ).toEqual(breaking);
-});
-
 test("release navigation uses editorial titles instead of commit subjects or change counts", () => {
   const palette = releases.find((release) => release.version === "0.8.0");
   if (!palette) throw new Error("Missing palette release fixture");
@@ -132,6 +95,4 @@ test("release navigation uses editorial titles instead of commit subjects or cha
   expect(
     releaseHeadline({ components: [], breaking: [], improvements: ["A", "B"], fixes: ["C"] }),
   ).toBe("Release notes");
-  expect(releaseNotes["0.2.0"]?.upgrade?.join(" ")).toMatch(/Facet.*Panel/);
-  expect(releaseNotes["0.2.0"]?.upgrade?.join(" ")).toContain("cut");
 });

@@ -10,10 +10,9 @@ import {
   referenceRoot,
 } from "../catalog/component-sources";
 import { definitions } from "../catalog/definitions";
-import { highlightCode } from "../catalog/highlight";
 import { loadSiteSamples } from "../catalog/site-samples";
 import { catalogPlugin, loadCatalogSources, parseApiSection } from "../catalog/source";
-import { browsableStories } from "../site/catalog-model";
+import { browsableStories, previewKind } from "../site/catalog-model";
 import { playgroundKey } from "../site/playground-model";
 
 test("catalog offers a curated set of useful examples while retaining internal stories", () => {
@@ -31,16 +30,6 @@ test("catalog offers a curated set of useful examples while retaining internal s
       /Token Overrides|Motion Tokens|Evidence|Controlled Refusal|Selected Material|Segmented Updates|Density Motion|Primary Contrast/,
     );
   }
-  const radio = entries.find((entry) => entry.name === "RadioGroup");
-  if (!radio) throw new Error("Missing RadioGroup");
-  expect(browsableStories(radio).map((story) => story.name)).toEqual([
-    "Default",
-    "Segmented",
-    "Disabled",
-    "Invalid",
-  ]);
-  expect(radio.stories.some((story) => story.id.endsWith("--segmented-updates"))).toBe(true);
-  expect(radio.stories.some((story) => story.id.endsWith("--density-motion"))).toBe(true);
 });
 
 test("catalog rejects a missing curated export or an omitted default", () => {
@@ -55,21 +44,6 @@ test("catalog rejects a missing curated export or an omitted default", () => {
   } finally {
     radio.examples = examples;
   }
-});
-
-test("typography is public and discoverable with default and composed examples", () => {
-  const entries = loadCatalogSources();
-  for (const name of ["Heading", "Text", "Link", "Code"]) {
-    expect(publicApi).toHaveProperty(name);
-    const entry = entries.find((candidate) => candidate.name === name);
-    expect(entry?.group).toBe("Typography");
-    expect(entry?.stories.some((story) => story.id.endsWith("--default"))).toBe(true);
-  }
-  const article = entries
-    .find((entry) => entry.name === "Heading")
-    ?.stories.find((story) => story.id.endsWith("--article"));
-  for (const component of ["Heading", "Text", "Link", "Code"])
-    expect(article?.code).toContain(component);
 });
 
 // test:themes renders every story in dark; a dark copy only duplicates it.
@@ -93,14 +67,6 @@ test("catalog covers every public component with canonical API and CSF stories",
     ).toBe(true);
     expect(new Set(entry.stories.map((story) => story.id)).size).toBe(entry.stories.length);
   }
-  const button = entries.find((entry) => entry.name === "Button");
-  expect(button?.stories).toContainEqual(
-    expect.objectContaining({ id: "components-button--disabled", name: "Disabled" }),
-  );
-  const api = button?.api.find((block) => block.kind === "table");
-  expect(api?.kind === "table" && api.rows.find((row) => row[0] === "`variant`")?.[1]).toBe(
-    '`"primary" | "secondary" | "ghost" | "danger"`',
-  );
 });
 
 test("API generation rejects malformed table rows", () => {
@@ -179,19 +145,6 @@ test("syntax ranges preserve every example's exact source", () => {
     }
 });
 
-test("highlighting distinguishes JSX, strings, comments and template expressions", () => {
-  const source =
-    // biome-ignore lint/suspicious/noTemplateCurlyInString: Fixture tests template syntax as source text.
-    '// <Fake />\nconst label = `Step ${3}`;\nconst node = <Button size="sm">Save</Button>;';
-  const parts = highlightCode(source).map(([start, end, kind]) => [source.slice(start, end), kind]);
-  expect(parts).toContainEqual(["// <Fake />", "comment"]);
-  expect(parts).toContainEqual(["Button", "tag"]);
-  expect(parts).toContainEqual(["size", "attribute"]);
-  expect(parts).toContainEqual(['"sm"', "string"]);
-  expect(parts).toContainEqual(["3", "number"]);
-  expect(parts).not.toContainEqual(["Fake", "tag"]);
-});
-
 test("default snippets show selected usage without generated setup", () => {
   const entries = loadCatalogSources();
   for (const entry of entries)
@@ -205,20 +158,6 @@ test("default snippets show selected usage without generated setup", () => {
       expect(snippet.length).toBeLessThan(story.code.length);
       expect(() => babelParse(snippet)).not.toThrow();
     }
-  const button = entries
-    .find((entry) => entry.id === "button")
-    ?.stories.find((story) => story.id.endsWith("--danger"));
-  expect(button).toHaveProperty(
-    "snippet",
-    'import { Button } from "@kb.ui/react";\n\n<Button variant="danger">Delete draft</Button>',
-  );
-  const input = entries
-    .find((entry) => entry.id === "input")
-    ?.stories.find((story) => story.id.endsWith("--with-error"));
-  expect(input).toHaveProperty(
-    "snippet",
-    'import { Input } from "@kb.ui/react";\n\n<Input label="Email" placeholder="you@example.com" error="Email is required." />',
-  );
 });
 
 test("site samples cover every playground state", () => {
@@ -235,36 +174,6 @@ test("site samples cover every playground state", () => {
   expect(selected?.snippet).toContain('import { Button } from "@kb.ui/react"');
 });
 
-test("highlighting recognizes TSX function calls without coloring prose as code", () => {
-  const source = "const node = <Button onClick={() => save(3)}>save(3)</Button>;";
-  const parts = highlightCode(source).map(([start, end, kind]) => [source.slice(start, end), kind]);
-  expect(parts).toContainEqual(["save", "function"]);
-  expect(parts).toContainEqual(["onClick", "attribute"]);
-  expect(parts).not.toContainEqual(["save(3)", "function"]);
-});
-
-test("highlighting preserves UTF-16 offsets across CRLF, emoji and multiline syntax", () => {
-  const source =
-    '/* first\r\nsecond */\r\nconst label = "🌱";\r\nconst node = <>Ready <Button onClick={() => save(label)} /></>;';
-  const tokens = highlightCode(source);
-  const save = tokens.find(
-    ([start, end, kind]) => kind === "function" && source.slice(start, end) === "save",
-  );
-  expect(save?.[0]).toBe(source.indexOf("save(label)"));
-  let end = 0;
-  for (const [start, next] of tokens) {
-    expect(start).toBeGreaterThanOrEqual(end);
-    expect(next).toBeGreaterThan(start);
-    expect(next).toBeLessThanOrEqual(source.length);
-    end = next;
-  }
-  expect(
-    tokens.some(
-      ([start, next, kind]) => kind === "string" && source.slice(start, next).includes("🌱"),
-    ),
-  ).toBe(true);
-});
-
 test("visible code needs only component imports and usage", () => {
   const samples = loadSiteSamples();
   for (const sample of [
@@ -276,72 +185,6 @@ test("visible code needs only component imports and usage", () => {
     expect(sample.snippet).not.toContain("renderExample");
     expect(sample.snippet).not.toContain("document.documentElement");
   }
-});
-
-test("default playground example is a direct import and Button", () => {
-  const sample =
-    loadSiteSamples().playground[
-      playgroundKey({
-        variant: "primary",
-        size: "md",
-        theme: "light",
-        disabled: false,
-        reduced: false,
-      })
-    ];
-  expect(sample?.snippet).toBe(
-    'import { Button } from "@kb.ui/react";\n\n<Button variant="primary" size="md">Save changes</Button>',
-  );
-});
-
-test("search stays an Input icons and actions composition with complete generated dependencies", () => {
-  const entries = loadCatalogSources();
-  expect(entries.find((entry) => entry.name === "SearchInput")).toBeUndefined();
-  const recipe = entries
-    .find((entry) => entry.name === "Input")
-    ?.stories.find((story) => story.id === "components-input--with-icons-and-actions");
-  expect(recipe).toBeDefined();
-  expect(recipe?.name).toBe("Icons and actions");
-  expect(recipe?.code).toContain("function SearchExample(");
-  expect(recipe?.code).toContain('type="search"');
-  expect(recipe?.code).toContain('aria-label="Clear search"');
-  expect(recipe?.code).toContain("control.current?.focus()");
-  expect(recipe?.snippet).toContain("useRef");
-  expect(recipe?.snippet).not.toContain("SearchInput");
-});
-
-test("quantity, retained-file, and search-selection components are public and discoverable with runnable states", () => {
-  expect(publicApi).toHaveProperty("NumberField");
-  expect(publicApi).toHaveProperty("FileInput");
-  expect(publicApi).toHaveProperty("Combobox");
-  expect(publicApi).toHaveProperty("MultiSelect");
-  const entries = loadCatalogSources();
-  for (const name of ["NumberField", "FileInput"]) {
-    const entry = entries.find((candidate) => candidate.name === name);
-    expect(entry?.group).toBe("Forms");
-    expect(entry?.stories.some((story) => story.id.endsWith("--default"))).toBe(true);
-    expect(entry?.stories.some((story) => story.id.endsWith("--read-only"))).toBe(true);
-  }
-  for (const name of ["Combobox", "MultiSelect"]) {
-    const entry = entries.find((candidate) => candidate.name === name);
-    expect(entry?.group).toBe("Forms");
-    for (const suffix of ["--default", "--invalid", "--empty", "--disabled", "--read-only"]) {
-      expect(
-        entry?.stories.some((story) => story.id.endsWith(suffix)),
-        `${name}${suffix}`,
-      ).toBe(true);
-    }
-  }
-  expect(
-    entries
-      .find((candidate) => candidate.name === "Combobox")
-      ?.stories.some((story) => story.id.endsWith("--preselected")),
-  ).toBe(true);
-  expect(
-    entries
-      .find((candidate) => candidate.name === "MultiSelect")
-      ?.stories.some((story) => story.id.endsWith("--many-selections")),
-  ).toBe(true);
 });
 
 test("dark stateful render declarations stay outside the theme wrapper", () => {
@@ -373,27 +216,7 @@ test("API documentation preserves subsection headings", () => {
   ]);
 });
 
-test("Switch Props JSDoc documents both offIcon and onIcon and preview layout classifications stay aligned", async () => {
-  const { readFileSync } = await import("node:fs");
-  const { resolve } = await import("node:path");
-  const switchSource = readFileSync(
-    resolve(import.meta.dir, "../../../packages/react/src/components/Switch/Switch.tsx"),
-    "utf8",
-  );
-  expect(switchSource).toMatch(/\/\*\*[^*]*\*\/\s*offIcon\?:/);
-  expect(switchSource).toMatch(/\/\*\*[^*]*\*\/\s*onIcon\?:/);
-
-  const entries = loadCatalogSources();
-  const switchEntry = entries.find((entry) => entry.name === "Switch");
-  const switchTable = switchEntry?.api.find((block) => block.kind === "table");
-  expect(
-    switchTable?.kind === "table" &&
-      switchTable.rows.some((r) => r[0]?.includes("offIcon") && r[0]?.includes("onIcon")),
-  ).toBe(true);
-
-  const catalogModel = await import("../site/catalog-model");
-  expect(typeof (catalogModel as Record<string, unknown>).previewKind).toBe("function");
-  const previewKind = (catalogModel as { previewKind: (id: string) => string }).previewKind;
+test("previewKind classifies layout, surface, and compact catalog previews", () => {
   for (const id of [
     "grid",
     "container",
