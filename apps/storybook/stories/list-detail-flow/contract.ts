@@ -700,6 +700,62 @@ const definitions = {
       await expect(canvas.getByRole("button", { name: fixture.draft.begin })).toBeVisible();
     },
   },
+  "refetch-row": {
+    harness: true,
+    width: 1280,
+    check: async ({ fixture, canvas, user }) => {
+      const { live } = fixture;
+      const search = () => canvas.getByRole("searchbox", { name: fixture.names.search });
+      await open(canvas, user, fixture.first);
+      canvas.getByRole("button", { name: fixture.second.row }).focus();
+      controls.setLoading(true);
+      controls.setRecords(live.remove(live.records, fixture.second.id));
+      await frames();
+      await expect(search(), "focused row removed").toHaveFocus();
+      controls.setRecords([]);
+      await frames();
+      controls.setRecords(live.records);
+      controls.setLoading(false);
+      await frames();
+      await expect(search(), "focus moved once loaded").toHaveFocus();
+      await expect(heading(canvas, fixture.first)).toBeVisible();
+    },
+  },
+  "refetch-count": {
+    harness: true,
+    check: async ({ fixture, root }) => {
+      const { live } = fixture;
+      const counted = /\d+ of \d+/;
+      await frames();
+      const region = Array.from(root.querySelectorAll<HTMLElement>("[aria-live]")).find((element) =>
+        counted.test(element.textContent ?? ""),
+      );
+      if (!region) throw new Error(`${fixture.recipe} shows no live record count`);
+      const said: string[] = [];
+      const observer = new MutationObserver(() => said.push(region.textContent ?? ""));
+      observer.observe(region, { childList: true, characterData: true, subtree: true });
+      try {
+        controls.setLoading(true);
+        controls.setRecords([]);
+        await frames();
+        controls.setRecords(live.remove(live.records, fixture.first.id));
+        await frames();
+        controls.setRecords(live.add(live.records));
+        await frames();
+        expect(
+          said.filter((text) => counted.test(text)),
+          "count said while loading",
+        ).toEqual([]);
+        controls.setLoading(false);
+        await frames();
+      } finally {
+        observer.disconnect();
+      }
+      const counts = said.filter((text) => counted.test(text));
+      expect(counts, "count said more than once").toHaveLength(1);
+      expect(counts[0]).toBe(region.textContent);
+    },
+  },
   "form-error": {
     deferredCommit: true,
     check: async ({ fixture, root, canvas, user, commit }) => {
