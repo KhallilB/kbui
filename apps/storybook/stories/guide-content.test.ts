@@ -5,7 +5,6 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { type FlowFamily, recipeDefinitions } from "../catalog/content";
 import { GuideContent } from "../site/GuideContent";
-import { releaseNotes } from "../site/release-notes";
 
 test("shared guides render Markdown and let embedded docs navigate the top-level site", () => {
   const html = renderToStaticMarkup(
@@ -168,15 +167,9 @@ test("flow recipe guides list every prop the recipe takes", () => {
   }
 });
 
-test("a recipe the release notes name carries no unreleased marker", () => {
-  const released = Object.values(releaseNotes)
-    .flatMap((entry) => entry.highlights)
-    .join(" ");
-  const named = recipeDefinitions.filter((recipe) =>
-    new RegExp(`\\b${recipe.name}\\b`).test(released),
-  );
-  expect(named.length).toBeGreaterThan(0);
-  for (const recipe of named) {
+// Registered recipes ship with the next release, so none may call itself unreleased.
+test("no registered recipe guide carries an unreleased marker", () => {
+  for (const recipe of recipeDefinitions) {
     const markdown = readFileSync(new URL(`../../../${recipe.guide}`, import.meta.url), "utf8");
     expect(markdown, recipe.guide).not.toMatch(/\bunreleased\b|not released yet/i);
   }
