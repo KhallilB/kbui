@@ -187,7 +187,7 @@ export function Inbox({
     validateProp ?? ((draft: ReplyDraft): Errors => (draft.body ? {} : { body: text.required }));
   const [fallbackRouter] = useState(() => searchParamRouter("message"));
   const router = routerProp ?? fallbackRouter;
-  const [selectedId, setSelectedId] = useState(() => router.read() ?? initialThreadId);
+  const [selectedId, setSelectedId] = useState(() => router.read() ?? (initialThreadId || null));
   const [query, setQuery] = useState("");
   const [drafts, setDrafts] = useState<Record<string, string | undefined>>({});
   const [overlays, setOverlays] = useState<Record<string, Overlay | undefined>>({});
