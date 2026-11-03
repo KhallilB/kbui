@@ -241,6 +241,38 @@
       "measured": [],
       "evidence": [],
       "commit": "a1bde87"
+    },
+    {
+      "id": "2026-10-27-m1-first-product-screen",
+      "subject": "m1-first-product-screen",
+      "date": "2026-10-27",
+      "kind": "milestone",
+      "title": "A first product screen",
+      "passMark": "One real product screen built on kbui is merged in its own repository with its checks passing, by 2026-11-02",
+      "result": "pass",
+      "summary": "A real product screen built on kbui 0.4.0 was merged on 2026-10-23 with its checks passing, ahead of the deadline.",
+      "measured": [
+        { "label": "Merged", "value": "2026-10-23, ten days before the deadline" },
+        {
+          "label": "Product checks",
+          "value": "bun run check exit 0; 53 unit and 74 Chromium tests passed, run locally and reported in the pull request"
+        },
+        {
+          "label": "kbui components used",
+          "value": "Panel, Progress, Stat, Badge, ScrollArea, Button and Dialog from 0.4.0"
+        }
+      ],
+      "evidence": [
+        {
+          "label": "Product pull request",
+          "url": "https://github.com/KhallilB/bezl-archive/pull/3"
+        },
+        {
+          "label": "Merge commit",
+          "url": "https://github.com/KhallilB/bezl-archive/commit/20f28ca0ff6016637a64ea052df55fb218654624"
+        }
+      ],
+      "commit": "828a06c"
     }
   ]
 }
