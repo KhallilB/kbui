@@ -62,6 +62,8 @@ const fixture: FlowFixture = {
     invalid: "Enter a request title.",
     failed: "Changes could not be saved. Your draft is safe; try again.",
     needsChanges: /needs changes/,
+    marker: /Unsaved draft/,
+    discarded: /draft discarded/i,
   },
   commitOnce: async (canvas, user) => {
     await user.click(canvas.getByRole("button", { name: "Edit request" }));
@@ -125,5 +127,8 @@ export const RefetchRow = story("refetch-row");
 export const RefetchCount = story("refetch-count");
 export const FormError = story("form-error");
 export const Embedded = story("embedded");
+export const DraftFocus = story("draft-focus");
+export const DraftReopenFocus = story("draft-reopen-focus");
+export const DraftMarker = story("draft-marker");
 
 complete();

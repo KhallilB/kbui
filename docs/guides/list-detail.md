@@ -174,6 +174,7 @@ The [flow contract stories](https://github.com/KhallilB/kbui/blob/main/apps/stor
 - Reselecting the open record focuses its heading without a history entry
 - Back returns focus to the row that opened the record
 - Back focuses search when the opening row is filtered out
+- Reopening a record with a draft focuses its heading, not the draft, and the field keeps its text
 
 ### Navigation and history
 
@@ -193,12 +194,14 @@ The [flow contract stories](https://github.com/KhallilB/kbui/blob/main/apps/stor
 - A repeated identical outcome is announced again
 - A validation error describes the field and makes no commit; a commit failure shows visibly and never in the field's description
 - A commit error no field owns keeps the draft, shows beside the submit control and focuses it, and is not announced as needing changes
+- Beginning a draft focuses its first field; discarding announces the discard and focuses the begin control
 
 ### Lists
 
 - Only the open record's row carries aria-current
 - Filters persist, keep the open record open, and Clear focuses search
 - The current-row cue stays distinct from focus in forced colors
+- Only the row of a record with an unsaved draft marks it, until the draft closes
 
 ### Pending commits
 

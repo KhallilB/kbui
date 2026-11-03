@@ -58,6 +58,8 @@ const fixture: FlowFixture = {
     invalid: "Write a reply before sending.",
     failed: "Reply could not be sent. Your draft is safe; try again.",
     needsChanges: /needs changes/,
+    marker: /Draft/,
+    discarded: /draft discarded/i,
   },
   commitOnce: async (canvas, user) => {
     await user.click(canvas.getByRole("button", { name: /^Reply$/ }));
@@ -120,5 +122,8 @@ export const RefetchRow = story("refetch-row");
 export const RefetchCount = story("refetch-count");
 export const FormError = story("form-error");
 export const Embedded = story("embedded");
+export const DraftFocus = story("draft-focus");
+export const DraftReopenFocus = story("draft-reopen-focus");
+export const DraftMarker = story("draft-marker");
 
 complete();
