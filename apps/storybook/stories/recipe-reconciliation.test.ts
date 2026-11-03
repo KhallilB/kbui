@@ -64,6 +64,7 @@ const preservedRecipes = [
     files: [
       "apps/storybook/recipes/ListDetail.tsx",
       "apps/storybook/recipes/flow-router.ts",
+      "apps/storybook/recipes/list-detail-controller.ts",
       "apps/storybook/recipes/list-detail.css",
     ],
   },
