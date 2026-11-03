@@ -13,19 +13,10 @@ import {
   Text,
   Textarea,
 } from "@kb.ui/react";
-import { useEffect, useId, useRef, useState } from "react";
-import {
-  type CommitResult,
-  errorFocusTarget,
-  type FlowRouter,
-  isFocusDisconnected,
-  observeHiddenFocus,
-  searchParamRouter,
-  takeFocusTarget,
-  useAnnounce,
-  without,
-} from "./flow-router";
+import { useId, useState } from "react";
+import { type CommitResult, type FlowRouter, searchParamRouter } from "./flow-router";
 import "./inbox.css";
+import { useListDetailFlow } from "./list-detail-controller";
 
 export type { CommitResult } from "./flow-router";
 
@@ -151,10 +142,8 @@ const sampleThreads: InboxThread[] = [
   },
 ];
 
-// Replies hold a local send until the prop sends a new object for that thread.
-type Overlay = { base: InboxThread; replies: InboxReply[] };
-type Target = "heading" | "list" | "reply" | "input" | "submit";
 const fields = ["body"] as const;
+type Field = (typeof fields)[number];
 
 /** Application-owned correspondence; routing and reply delivery go through its seams. */
 export function Inbox({
@@ -181,204 +170,52 @@ export function Inbox({
   /** False inside an app shell that already has the page `<h1>`. */
   header?: boolean | undefined;
 }) {
-  const commit = commitProp ?? (async () => {});
   const text = { ...inboxCopy, ...(commitProp ? {} : sessionCopy), ...copy };
-  const validate =
-    validateProp ?? ((draft: ReplyDraft): Errors => (draft.body ? {} : { body: text.required }));
   const [fallbackRouter] = useState(() => searchParamRouter("message"));
-  const router = routerProp ?? fallbackRouter;
-  const [selectedId, setSelectedId] = useState(() => router.read() ?? (initialThreadId || null));
-  const [query, setQuery] = useState("");
-  const [drafts, setDrafts] = useState<Record<string, string | undefined>>({});
-  const [overlays, setOverlays] = useState<Record<string, Overlay | undefined>>({});
-  const [errors, setErrors] = useState<Record<string, Errors | undefined>>({});
-  const [failures, setFailures] = useState<Record<string, true | undefined>>({});
-  const [sendingIds, setSendingIds] = useState<Record<string, true | undefined>>({});
   const [showSender, setShowSender] = useState(false);
-  const [notice, announce] = useAnnounce();
-  const root = useRef<HTMLElement>(null);
-  const focused = useRef<HTMLElement | null>(null);
-  const search = useRef<HTMLInputElement>(null);
-  const heading = useRef<HTMLHeadingElement>(null);
-  const replyButton = useRef<HTMLButtonElement>(null);
-  const replyInput = useRef<HTMLTextAreaElement>(null);
-  const submit = useRef<HTMLButtonElement>(null);
-  const rows = useRef(new Map<string, HTMLButtonElement>());
-  const lastSelected = useRef(selectedId);
-  const currentId = useRef(selectedId);
-  const latest = useRef(threads);
-  latest.current = threads;
-  const shown = useRef<string | null>(null);
-  const mounted = useRef(false);
-  const pending = useRef(new Set<string>());
-  // Read before commit: a removed element may never fire blur, so `focused` can be stale.
-  const activeBefore = useRef<Element | null>(null);
-  activeBefore.current = root.current?.contains(document.activeElement)
-    ? document.activeElement
-    : null;
-  // A refetch can remove the focused row before it blurs.
-  const rowBefore = useRef<HTMLButtonElement | null>(null);
-  rowBefore.current =
-    Array.from(rows.current.values()).find((row) => row === activeBefore.current) ?? null;
-  const focusTarget = useRef<Target | null>(selectedId !== null ? "heading" : null);
   const id = useId();
-  // A refetch may omit the open thread while loading; it is removed only once loading ends.
-  const held = useRef<InboxThread | undefined>(undefined);
-  const selected =
-    threads.find((thread) => thread.id === selectedId) ??
-    (loading && held.current?.id === selectedId ? held.current : undefined);
-  held.current = selected;
-  const draft = selected ? drafts[selected.id] : undefined;
-  const sending = selected ? Boolean(sendingIds[selected.id]) : false;
-  const fieldErrors = (selected && errors[selected.id]) || {};
-  const error = fieldErrors.body;
-  const unrendered = Object.entries(fieldErrors)
-    .filter(([key]) => key !== "body")
-    .map(([, message]) => message);
-  const overlay = selected ? overlays[selected.id] : undefined;
-  const replies = [
-    ...(selected?.replies ?? []),
-    ...(overlay && overlay.base === selected ? overlay.replies : []),
-  ];
-  const normalizedQuery = query.trim().toLowerCase();
-  const filtered = threads.filter((thread) =>
-    `${thread.sender} ${thread.subject} ${thread.excerpt}`.toLowerCase().includes(normalizedQuery),
-  );
-
-  useEffect(() => {
-    mounted.current = true;
-    const unsubscribe = router.subscribe(() => {
-      const next = router.read();
-      if (next === currentId.current) return;
-      if (currentId.current !== null) lastSelected.current = currentId.current;
-      focusTarget.current = next !== null ? "heading" : "list";
-      currentId.current = next;
-      setSelectedId(next);
-    });
-    return () => {
-      mounted.current = false;
-      unsubscribe();
-    };
-  }, [router]);
-
-  useEffect(() => {
-    currentId.current = selectedId;
-    const target = takeFocusTarget(
-      focusTarget,
-      Boolean(loading && selectedId !== null && !selected),
-    );
-    if (!target) return;
-    if (target === "heading") heading.current?.focus();
-    if (target === "list")
-      (rows.current.get(lastSelected.current ?? "") ?? search.current)?.focus();
-    if (target === "reply") replyButton.current?.focus();
-    if (target === "input") replyInput.current?.focus();
-    if (target === "submit") submit.current?.focus();
+  const flow = useListDetailFlow<InboxThread, ReplyDraft, Field, null>({
+    records: threads,
+    initialId: initialThreadId,
+    loading,
+    router: routerProp ?? fallbackRouter,
+    fields,
+    begin: () => ({ body: "" }),
+    normalize: (draft) => ({ body: draft.body.trim() }),
+    validate: validateProp ?? ((draft): Errors => (draft.body ? {} : { body: text.required })),
+    commit: commitProp ?? (async () => {}),
+    // Sent replies show until the prop sends a new object for that thread.
+    view: (thread, committed) => ({
+      ...thread,
+      replies: [
+        ...(thread.replies ?? []),
+        ...committed.map((draft, index) => ({ id: `local-${index}`, body: draft.body })),
+      ],
+    }),
+    matches: (thread, query) =>
+      `${thread.sender} ${thread.subject} ${thread.excerpt}`
+        .toLowerCase()
+        .includes(query.trim().toLowerCase()),
+    defaultFilter: null,
+    notices: {
+      saving: (thread) => text.sendingNotice(thread.sender),
+      saved: (thread) => text.sentNotice(thread.subject),
+      failed: (thread) => text.failedNotice(thread.sender),
+      invalid: (thread, errors) => text.invalidNotice(thread.sender, errors),
+      discarded: () => text.discardedNotice,
+    },
   });
-
-  // The focused row left the list: search keeps focus in it, as Back does for a filtered row.
-  useEffect(() => {
-    if (isFocusDisconnected(rowBefore.current) && !root.current?.contains(document.activeElement))
-      search.current?.focus();
-  });
-
-  // The open thread left the prop: drop its draft, and refocus only if focus went with it.
-  useEffect(() => {
-    if (shown.current !== null && shown.current === selectedId && !selected) {
-      const gone = shown.current;
-      setDrafts((current) => without(current, gone));
-      setErrors((current) => without(current, gone));
-      setFailures((current) => without(current, gone));
-      if (isFocusDisconnected(activeBefore.current, focused.current)) heading.current?.focus();
-    }
-    shown.current = selected?.id ?? null;
-  }, [selected, selectedId]);
-
-  useEffect(() => observeHiddenFocus(root.current, focused, currentId, heading, search), []);
-
-  function navigate(next: string | null) {
-    if (next === selectedId) {
-      heading.current?.focus();
-      return;
-    }
-    if (selectedId !== null) lastSelected.current = selectedId;
-    router.write(next);
-    focusTarget.current = next !== null ? "heading" : "list";
-    currentId.current = next;
-    setSelectedId(next);
-  }
-
-  /** Records field errors; false when there are none. Server errors are always announced. */
-  function reject(thread: InboxThread, found: Errors, server = false) {
-    const threadId = thread.id;
-    const entries = Object.entries(found).filter(([, message]) => message);
-    if (!entries.length) return false;
-    setErrors((current) => ({ ...current, [threadId]: Object.fromEntries(entries) }));
-    const others = entries.filter(([key]) => key !== "body").map(([, message]) => message);
-    if (server || others.length)
-      announce(
-        [...(server ? [text.invalidNotice(thread.sender, found)] : []), ...others].join(" "),
-      );
-    if (currentId.current === threadId)
-      focusTarget.current = errorFocusTarget(found, fields) === "body" ? "input" : "submit";
-    return true;
-  }
-
-  async function submitReply() {
-    if (!selected || pending.current.has(selected.id)) return;
-    const thread = selected;
-    const body = (drafts[thread.id] ?? "").trim();
-    setFailures((current) => without(current, thread.id));
-    if (reject(thread, validate({ body }))) return;
-    setErrors((current) => without(current, thread.id));
-    // An echo that lands while pending is a new object, so the prop wins over this send.
-    const base = latest.current.find((entry) => entry.id === thread.id);
-    pending.current.add(thread.id);
-    // Sending disables the focused submit; keep focus in the letter.
-    focusTarget.current = "heading";
-    setSendingIds((current) => ({ ...current, [thread.id]: true }));
-    announce(text.sendingNotice(thread.sender));
-    try {
-      const result = await commit(thread.id, { body });
-      if (!mounted.current) return;
-      if (result && reject(thread, result.errors, true)) return;
-      if (base) {
-        const reply = { id: crypto.randomUUID(), body };
-        setOverlays((current) => {
-          const previous = current[thread.id];
-          const kept = previous?.base === base ? previous.replies : [];
-          return { ...current, [thread.id]: { base, replies: [...kept, reply] } };
-        });
-      }
-      setDrafts((current) => without(current, thread.id));
-      announce(text.sentNotice(thread.subject));
-      if (currentId.current === thread.id) focusTarget.current = "reply";
-    } catch {
-      if (!mounted.current) return;
-      setFailures((current) => ({ ...current, [thread.id]: true }));
-      announce(text.failedNotice(thread.sender));
-      if (currentId.current === thread.id) focusTarget.current = "input";
-    } finally {
-      pending.current.delete(thread.id);
-      if (mounted.current) setSendingIds((current) => without(current, thread.id));
-    }
-  }
+  const { selected, draft } = flow;
+  const error = flow.errors.body;
 
   return (
     <Container
-      ref={root}
+      {...flow.root}
       // Container types `as` per element; main and div share every prop used here.
       as={(landmark ? "main" : "div") as "main"}
       size="full"
       gutter={false}
       className="inbox-flow"
-      onFocusCapture={(event) => {
-        focused.current = event.target;
-      }}
-      onBlurCapture={(event) => {
-        // Hidden controls can blur to body before ResizeObserver runs.
-        if (event.target.getClientRects().length) focused.current = null;
-      }}
     >
       {header ? (
         <PageHeader
@@ -393,7 +230,7 @@ export function Inbox({
       ) : null}
       <div
         className="inbox-layout"
-        data-selected={selectedId !== null}
+        data-selected={flow.selectedId !== null}
         aria-busy={loading || undefined}
       >
         <Panel className="inbox-list" tone="quiet" aria-labelledby={`${id}-inbox`}>
@@ -405,36 +242,33 @@ export function Inbox({
           <Panel.Body>
             <Grid layout="stack">
               <Input
-                ref={search}
+                ref={flow.refs.search}
                 type="search"
                 label={text.search}
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
+                value={flow.query}
+                onChange={(event) => flow.setQuery(event.target.value)}
               />
               <Text size="sm" tone="muted" aria-live="polite">
                 {/* Counts that change while loading would each be announced. */}
-                {loading ? text.loading : text.count(filtered.length, threads.length)}
+                {loading ? text.loading : text.count(flow.visible.length, threads.length)}
               </Text>
-              {loading && !threads.length ? null : filtered.length ? (
+              {loading && !threads.length ? null : flow.visible.length ? (
                 <ul className="inbox-rows" aria-label={text.list}>
-                  {filtered.map((thread) => (
+                  {flow.visible.map((thread) => (
                     <li key={thread.id}>
                       <Button
                         variant="ghost"
                         className="inbox-row"
-                        aria-current={selectedId === thread.id ? "true" : undefined}
-                        ref={(element) => {
-                          if (element) rows.current.set(thread.id, element);
-                          else rows.current.delete(thread.id);
-                        }}
-                        onClick={() => navigate(thread.id)}
+                        aria-current={flow.selectedId === thread.id ? "true" : undefined}
+                        ref={flow.refs.row(thread.id)}
+                        onClick={() => flow.open(thread.id)}
                       >
                         <span className="inbox-sender">{thread.sender}</span>
                         <span className="inbox-subject">{thread.subject}</span>
                         <span className="inbox-excerpt">{thread.excerpt}</span>
                         <span className="inbox-date">
                           {thread.date}
-                          {drafts[thread.id] !== undefined ? text.draft : ""}
+                          {flow.hasDraft(thread.id) ? text.draft : ""}
                         </span>
                       </Button>
                     </li>
@@ -446,14 +280,8 @@ export function Inbox({
                   <Text tone="muted">{threads.length ? text.noMatchesHint : text.emptyHint}</Text>
                 </div>
               )}
-              {query ? (
-                <Button
-                  variant="secondary"
-                  onClick={() => {
-                    setQuery("");
-                    search.current?.focus();
-                  }}
-                >
+              {flow.filtersActive ? (
+                <Button variant="secondary" onClick={flow.clearFilters}>
                   {text.clear}
                 </Button>
               ) : null}
@@ -461,16 +289,16 @@ export function Inbox({
           </Panel.Body>
         </Panel>
         <div className="inbox-workspace">
-          {selectedId !== null && loading && !selected ? (
+          {flow.waiting ? (
             <Panel className="inbox-placeholder" tone="quiet">
               <Panel.Body>
                 <Text tone="muted">{text.loading}</Text>
               </Panel.Body>
             </Panel>
-          ) : selectedId !== null ? (
+          ) : flow.selectedId !== null ? (
             <Grid layout="stack">
               <Inline justify="between">
-                <Button variant="secondary" onClick={() => navigate(null)}>
+                <Button variant="secondary" onClick={flow.back}>
                   {text.back}
                 </Button>
                 {selected ? (
@@ -491,7 +319,7 @@ export function Inbox({
                       <Text size="sm" tone="muted">
                         {selected ? `${selected.sender} · ${selected.date}` : text.unavailableMeta}
                       </Text>
-                      <Heading ref={heading} tabIndex={-1} id={`${id}-subject`} level={2}>
+                      <Heading ref={flow.refs.heading} tabIndex={-1} id={`${id}-subject`} level={2}>
                         {selected?.subject ?? text.unavailable}
                       </Heading>
                     </Grid>
@@ -505,7 +333,7 @@ export function Inbox({
                             <p key={`${selected.id}-${index}`}>{paragraph}</p>
                           ))}
                         </article>
-                        {replies.map((reply, index) => (
+                        {(selected.replies ?? []).map((reply, index) => (
                           <article
                             key={reply.id}
                             aria-label={text.sentReply(index + 1, reply.author)}
@@ -519,13 +347,7 @@ export function Inbox({
                         ))}
                         {draft === undefined ? (
                           <div>
-                            <Button
-                              ref={replyButton}
-                              onClick={() => {
-                                setDrafts((current) => ({ ...current, [selected.id]: "" }));
-                                focusTarget.current = "input";
-                              }}
-                            >
+                            <Button ref={flow.refs.begin} onClick={flow.begin}>
                               {text.reply}
                             </Button>
                           </div>
@@ -536,12 +358,12 @@ export function Inbox({
                             aria-label={text.form}
                             onSubmit={(event) => {
                               event.preventDefault();
-                              void submitReply();
+                              flow.submit();
                             }}
                           >
                             <Grid layout="stack">
                               <Textarea
-                                ref={replyInput}
+                                ref={flow.refs.field("body")}
                                 id={`${id}-reply`}
                                 label={text.field}
                                 className="inbox-reply-field"
@@ -552,37 +374,30 @@ export function Inbox({
                                 }}
                                 rows={5}
                                 required
-                                value={draft}
-                                disabled={sending}
+                                value={draft.body}
+                                disabled={flow.pending}
                                 error={error}
                                 aria-invalid={Boolean(error)}
-                                onChange={(event) =>
-                                  setDrafts((current) => ({
-                                    ...current,
-                                    [selected.id]: event.target.value,
-                                  }))
-                                }
+                                onChange={(event) => flow.change({ body: event.target.value })}
                               />
-                              {failures[selected.id] || unrendered.length ? (
+                              {flow.failed || flow.unrendered.length ? (
                                 <Callout tone="danger" className="inbox-status">
-                                  {failures[selected.id] ? text.failed : unrendered.join(" ")}
+                                  {flow.failed ? text.failed : flow.unrendered.join(" ")}
                                 </Callout>
                               ) : null}
                               <Inline>
-                                <Button ref={submit} type="submit" disabled={sending}>
-                                  {sending ? text.sending : text.send}
+                                <Button
+                                  ref={flow.refs.submit}
+                                  type="submit"
+                                  disabled={flow.pending}
+                                >
+                                  {flow.pending ? text.sending : text.send}
                                 </Button>
                                 <Button
                                   type="button"
                                   variant="secondary"
-                                  disabled={sending}
-                                  onClick={() => {
-                                    setDrafts((current) => without(current, selected.id));
-                                    setErrors((current) => without(current, selected.id));
-                                    setFailures((current) => without(current, selected.id));
-                                    announce(text.discardedNotice);
-                                    focusTarget.current = "reply";
-                                  }}
+                                  disabled={flow.pending}
+                                  onClick={flow.discard}
                                 >
                                   {text.discard}
                                 </Button>
@@ -634,7 +449,7 @@ export function Inbox({
         </div>
       </div>
       <div role="status" className="kb-sr-only">
-        <span key={notice.id}>{notice.text}</span>
+        <span key={flow.notice.id}>{flow.notice.text}</span>
       </div>
     </Container>
   );

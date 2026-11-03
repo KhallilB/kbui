@@ -96,6 +96,7 @@ export const recipeDefinitions: RecipeDefinition[] = [
     files: [
       "apps/storybook/recipes/Inbox.tsx",
       "apps/storybook/recipes/flow-router.ts",
+      "apps/storybook/recipes/list-detail-controller.ts",
       "apps/storybook/recipes/inbox.css",
     ],
     flow: "list-detail",

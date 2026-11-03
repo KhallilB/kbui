@@ -1,4 +1,4 @@
-// kbui recipe ListDetail · needs @kb.ui/react ≥ 0.12.0 · https://kbui.kcb.pro/recipes/?recipe=listdetail
+// kbui recipe ListDetail, Inbox · needs @kb.ui/react ≥ 0.12.0 · https://kbui.kcb.pro/recipes/
 // Configure through options; replace this file whole to take upstream fixes.
 import { type RefCallback, useEffect, useReducer, useRef } from "react";
 import {

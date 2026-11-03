@@ -21,7 +21,7 @@ Copy it into your app; it is not a package export.
 
 ## Copy the files
 
-Put these files in one folder. Inbox uses the same `flow-router.ts`; copy it once.
+Put these files in one folder. Inbox uses the same `flow-router.ts` and `list-detail-controller.ts`; copy each once.
 
 <!-- generated:files -->
 

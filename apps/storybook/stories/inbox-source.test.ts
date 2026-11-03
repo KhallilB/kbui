@@ -7,6 +7,7 @@ test("Inbox provides complete public-component source and reply recovery example
   expect(recipe?.files.map((file) => file.name)).toEqual([
     "Inbox.tsx",
     "flow-router.ts",
+    "list-detail-controller.ts",
     "inbox.css",
   ]);
   expect(recipe?.stories.map((story) => story.exportName)).toEqual(
@@ -23,8 +24,5 @@ test("Inbox provides complete public-component source and reply recovery example
   const source = recipe?.files.find((file) => file.name === "Inbox.tsx")?.sample.code ?? "";
   expect(source).not.toContain("export type CommitResult<");
   expect(source).not.toContain("function without<");
-  expect(source).toContain("useAnnounce");
-  expect(source).toContain("errorFocusTarget");
-  expect(source).toContain("takeFocusTarget");
-  expect(source).toContain("observeHiddenFocus");
+  expect(source).toContain("useListDetailFlow");
 });

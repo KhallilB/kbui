@@ -21,12 +21,13 @@ Copy it into your app; it is not a package export.
 
 ## Copy the files
 
-Put these files in one folder. ListDetail uses the same `flow-router.ts`; copy it once.
+Put these files in one folder. ListDetail uses the same `flow-router.ts` and `list-detail-controller.ts`; copy each once.
 
 <!-- generated:files -->
 
 - [`Inbox.tsx`](https://kbui.kcb.pro/recipes/?recipe=inbox#recipe-source)
 - [`flow-router.ts`](https://kbui.kcb.pro/recipes/?recipe=inbox#recipe-source)
+- [`list-detail-controller.ts`](https://kbui.kcb.pro/recipes/?recipe=inbox#recipe-source)
 - [`inbox.css`](https://kbui.kcb.pro/recipes/?recipe=inbox#recipe-source)
 
 <!-- /generated -->
