@@ -710,12 +710,14 @@ const definitions = {
       canvas.getByRole("button", { name: fixture.second.row }).focus();
       controls.setLoading(true);
       controls.setRecords(live.remove(live.records, fixture.second.id));
-      await frames();
-      await expect(search(), "focused row removed").toHaveFocus();
+      // Focus moves in an effect after commit; under load that is past any fixed frame count.
+      await waitFor(() => expect(search(), "focused row removed").toHaveFocus());
       controls.setRecords([]);
       await frames();
       controls.setRecords(live.records);
       controls.setLoading(false);
+      // Wait for the rows to return, so focus staying put is checked after they render.
+      await waitFor(() => canvas.getByRole("button", { name: fixture.second.row }));
       await frames();
       await expect(search(), "focus moved once loaded").toHaveFocus();
       await expect(heading(canvas, fixture.first)).toBeVisible();
