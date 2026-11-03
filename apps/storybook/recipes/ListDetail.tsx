@@ -16,19 +16,10 @@ import {
   type StatusTone,
   Text,
 } from "@kb.ui/react";
-import { type RefObject, useEffect, useId, useMemo, useRef, useState } from "react";
-import {
-  type CommitResult,
-  errorFocusTarget,
-  type FlowRouter,
-  isFocusDisconnected,
-  observeHiddenFocus,
-  searchParamRouter,
-  takeFocusTarget,
-  useAnnounce,
-  without,
-} from "./flow-router";
+import { type RefCallback, type RefObject, useId, useState } from "react";
+import { type CommitResult, type FlowRouter, searchParamRouter } from "./flow-router";
 import "./list-detail.css";
+import { useListDetailFlow } from "./list-detail-controller";
 
 export type { CommitResult } from "./flow-router";
 
@@ -162,20 +153,15 @@ const sampleRequests: RequestRecord[] = [
   },
 ];
 
-type FieldRefs = {
-  title: RefObject<HTMLInputElement | null>;
-  owner: RefObject<HTMLInputElement | null>;
-  status: RefObject<HTMLDivElement | null>;
-  submit: RefObject<HTMLButtonElement | null>;
-};
-
 function RequestEditor({
   text,
   draft,
   errors,
+  unrendered,
   failed,
   saving,
-  refs,
+  field,
+  submit,
   onChange,
   onSave,
   onCancel,
@@ -183,17 +169,15 @@ function RequestEditor({
   text: Copy;
   draft: RequestDraft;
   errors: Errors;
+  unrendered: string[];
   failed: boolean;
   saving: boolean;
-  refs: FieldRefs;
+  field: (name: Field) => RefCallback<HTMLElement>;
+  submit: RefObject<HTMLButtonElement | null>;
   onChange: (draft: RequestDraft) => void;
   onSave: () => void;
   onCancel: () => void;
 }) {
-  const unrendered = Object.entries(errors).filter(([key]) => !fields.includes(key as Field));
-  useEffect(() => {
-    refs.title.current?.focus();
-  }, [refs]);
   return (
     <form
       className="list-detail-composer"
@@ -210,14 +194,14 @@ function RequestEditor({
           description={text.editorHint}
           error={
             unrendered.length
-              ? unrendered.map(([, message]) => message).join(" ")
+              ? unrendered.join(" ")
               : Object.keys(errors).length
                 ? text.review
                 : undefined
           }
         >
           <Input
-            ref={refs.title}
+            ref={field("title")}
             label={text.titleLabel}
             name="title"
             required
@@ -227,7 +211,7 @@ function RequestEditor({
             {...(errors.title ? { error: errors.title } : {})}
           />
           <Input
-            ref={refs.owner}
+            ref={field("owner")}
             label={text.ownerLabel}
             name="owner"
             required
@@ -237,7 +221,7 @@ function RequestEditor({
             {...(errors.owner ? { error: errors.owner } : {})}
           />
           <Select
-            ref={refs.status}
+            ref={field("status")}
             label={text.statusLabel}
             value={draft.status}
             options={statusOptions}
@@ -255,7 +239,7 @@ function RequestEditor({
           </Callout>
         ) : null}
         <Inline gap="sm" className="list-detail-form-actions">
-          <Button ref={refs.submit} type="submit" disabled={saving}>
+          <Button ref={submit} type="submit" disabled={saving}>
             {saving ? text.saving : text.save}
           </Button>
           <Button type="button" variant="secondary" disabled={saving} onClick={onCancel}>
@@ -266,9 +250,6 @@ function RequestEditor({
     </form>
   );
 }
-
-type Overlay = { base: RequestRecord; value: RequestDraft };
-type Target = "heading" | "list" | "edit" | Field | "submit";
 
 /** Application-owned queue; copy with its local recipe dependencies. */
 export function ListDetail({
@@ -295,216 +276,56 @@ export function ListDetail({
   /** False inside an app shell that already has the page `<h1>`; status stays for screen readers. */
   header?: boolean | undefined;
 }) {
-  const commit = commitProp ?? (async () => {});
   const text = { ...listDetailCopy, ...(commitProp ? {} : sessionCopy), ...copy };
-  const validate =
-    validateProp ??
-    ((draft: RequestDraft): Errors => ({
-      ...(draft.title ? {} : { title: text.titleRequired }),
-      ...(draft.owner ? {} : { owner: text.ownerRequired }),
-    }));
   const [fallbackRouter] = useState(() => searchParamRouter("request"));
-  const router = routerProp ?? fallbackRouter;
-  const [selectedId, setSelectedId] = useState(() => router.read() ?? initialRequestId);
-  const [query, setQuery] = useState("");
-  const [filter, setFilter] = useState<string | null>("all");
-  const [drafts, setDrafts] = useState<Record<string, RequestDraft | undefined>>({});
-  const [errors, setErrors] = useState<Record<string, Errors | undefined>>({});
-  const [failures, setFailures] = useState<Record<string, true | undefined>>({});
-  const [saving, setSaving] = useState<Record<string, true | undefined>>({});
-  const [overlays, setOverlays] = useState<Record<string, Overlay | undefined>>({});
   const [showContext, setShowContext] = useState(true);
-  const [notice, announce] = useAnnounce();
-  const root = useRef<HTMLElement>(null);
-  const focused = useRef<HTMLElement | null>(null);
-  const currentId = useRef(selectedId);
-  const latest = useRef(requests);
-  latest.current = requests;
-  const mounted = useRef(false);
-  const pending = useRef(new Set<string>());
-  // Read before commit: a removed element may never fire blur, so `focused` can be stale.
-  const activeBefore = useRef<Element | null>(null);
-  activeBefore.current = root.current?.contains(document.activeElement)
-    ? document.activeElement
-    : null;
-  const search = useRef<HTMLInputElement>(null);
-  const heading = useRef<HTMLHeadingElement>(null);
-  const edit = useRef<HTMLButtonElement>(null);
-  const title = useRef<HTMLInputElement>(null);
-  const owner = useRef<HTMLInputElement>(null);
-  const status = useRef<HTMLDivElement>(null);
-  const submit = useRef<HTMLButtonElement>(null);
-  const refs = useMemo(() => ({ title, owner, status, submit }), []);
-  const rows = useRef(new Map<string, HTMLButtonElement>());
-  // A refetch can remove the focused row before it blurs.
-  const rowBefore = useRef<HTMLButtonElement | null>(null);
-  rowBefore.current =
-    Array.from(rows.current.values()).find((row) => row === activeBefore.current) ?? null;
-  const lastSelected = useRef(selectedId);
-  const shown = useRef<string | null>(null);
-  const focusTarget = useRef<Target | null>(selectedId ? "heading" : null);
   const id = useId();
-  // An overlay holds a local save until the prop sends a new object for that id.
-  const records = useMemo(
-    () =>
-      requests.map((record) => {
-        const overlay = overlays[record.id];
-        return overlay?.base === record ? { ...record, ...overlay.value } : record;
-      }),
-    [requests, overlays],
-  );
-  // A refetch may omit the open record while loading; it is removed only once loading ends.
-  const held = useRef<RequestRecord | undefined>(undefined);
-  const selected =
-    records.find((record) => record.id === selectedId) ??
-    (loading && held.current?.id === selectedId ? held.current : undefined);
-  held.current = selected;
-  const draft = selected ? drafts[selected.id] : undefined;
-  const filtered = records.filter(
-    (record) =>
+  const flow = useListDetailFlow<RequestRecord, RequestDraft, Field, string>({
+    records: requests,
+    initialId: initialRequestId,
+    loading,
+    router: routerProp ?? fallbackRouter,
+    fields,
+    begin: (record) => ({ title: record.title, owner: record.owner, status: record.status }),
+    normalize: (draft) => ({ ...draft, title: draft.title.trim(), owner: draft.owner.trim() }),
+    validate:
+      validateProp ??
+      ((draft): Errors => ({
+        ...(draft.title ? {} : { title: text.titleRequired }),
+        ...(draft.owner ? {} : { owner: text.ownerRequired }),
+      })),
+    commit: commitProp ?? (async () => {}),
+    view: (record, committed) => ({ ...record, ...committed[committed.length - 1] }),
+    matches: (record, query, filter) =>
       (filter === "all" || record.status === filter) &&
       `${record.id} ${record.title} ${record.owner} ${record.site}`
         .toLowerCase()
         .includes(query.trim().toLowerCase()),
-  );
-
-  useEffect(() => {
-    mounted.current = true;
-    const unsubscribe = router.subscribe(() => {
-      const next = router.read();
-      if (next === currentId.current) return;
-      if (currentId.current) lastSelected.current = currentId.current;
-      focusTarget.current = next ? "heading" : "list";
-      currentId.current = next;
-      setSelectedId(next);
-    });
-    return () => {
-      mounted.current = false;
-      unsubscribe();
-    };
-  }, [router]);
-
-  useEffect(() => {
-    currentId.current = selectedId;
-    const target = takeFocusTarget(focusTarget, Boolean(loading && selectedId && !selected));
-    if (!target) return;
-    if (target === "heading") heading.current?.focus();
-    if (target === "edit") edit.current?.focus();
-    if (target === "title" || target === "owner" || target === "submit")
-      refs[target].current?.focus();
-    if (target === "status")
-      status.current?.querySelector<HTMLElement>("[role='combobox'], button")?.focus();
-    if (target === "list")
-      (rows.current.get(lastSelected.current ?? "") ?? search.current)?.focus();
+    defaultFilter: "all",
+    notices: {
+      saving: (record) => text.savingNotice(record.id),
+      saved: (record) => text.savedNotice(record.id),
+      failed: (record) => text.failedNotice(record.id),
+      invalid: (record, errors) => text.invalidNotice(record.id, errors),
+      discarded: (record) => text.discardedNotice(record.id),
+    },
   });
-
-  // The focused row left the list: search keeps focus in it, as Back does for a filtered row.
-  useEffect(() => {
-    if (isFocusDisconnected(rowBefore.current) && !root.current?.contains(document.activeElement))
-      search.current?.focus();
-  });
-
-  // The open record left the prop: drop its draft, and refocus only if focus went with it.
-  useEffect(() => {
-    if (shown.current !== null && shown.current === selectedId && !selected) {
-      const gone = shown.current;
-      setDrafts((current) => without(current, gone));
-      setErrors((current) => without(current, gone));
-      setFailures((current) => without(current, gone));
-      if (isFocusDisconnected(activeBefore.current, focused.current)) heading.current?.focus();
-    }
-    shown.current = selected?.id ?? null;
-  }, [selected, selectedId]);
-
-  useEffect(() => observeHiddenFocus(root.current, focused, currentId, heading, search), []);
-
-  function navigate(next: string | null) {
-    if (next === selectedId) {
-      heading.current?.focus();
-      return;
-    }
-    if (selectedId) lastSelected.current = selectedId;
-    router.write(next);
-    focusTarget.current = next ? "heading" : "list";
-    currentId.current = next;
-    setSelectedId(next);
-  }
-
-  /** Records field errors; false when there are none. Server errors are always announced. */
-  function reject(recordId: string, found: Errors, server = false) {
-    const entries = Object.entries(found).filter(([, message]) => message);
-    if (!entries.length) return false;
-    setErrors((current) => ({ ...current, [recordId]: Object.fromEntries(entries) }));
-    const unrendered = entries
-      .filter(([key]) => !fields.includes(key as Field))
-      .map(([, message]) => message);
-    if (server || unrendered.length)
-      announce([...(server ? [text.invalidNotice(recordId, found)] : []), ...unrendered].join(" "));
-    if (currentId.current === recordId) focusTarget.current = errorFocusTarget(found, fields);
-    return true;
-  }
-
-  async function save(record: RequestRecord, current: RequestDraft) {
-    const recordId = record.id;
-    if (pending.current.has(recordId)) return;
-    const next = { ...current, title: current.title.trim(), owner: current.owner.trim() };
-    setFailures((map) => without(map, recordId));
-    if (reject(recordId, validate(next))) return;
-    setErrors((map) => without(map, recordId));
-    // An echo that lands while pending is a new object, so the prop wins over this save.
-    const base = latest.current.find((entry) => entry.id === recordId);
-    pending.current.add(recordId);
-    // Saving disables the focused submit; keep focus in the record.
-    focusTarget.current = "heading";
-    setSaving((map) => ({ ...map, [recordId]: true }));
-    announce(text.savingNotice(recordId));
-    try {
-      const result = await commit(recordId, next);
-      if (!mounted.current) return;
-      if (result && reject(recordId, result.errors, true)) return;
-      if (base) setOverlays((map) => ({ ...map, [recordId]: { base, value: next } }));
-      setDrafts((map) => without(map, recordId));
-      announce(text.savedNotice(recordId));
-      if (currentId.current === recordId) focusTarget.current = "edit";
-    } catch {
-      if (!mounted.current) return;
-      setFailures((map) => ({ ...map, [recordId]: true }));
-      announce(text.failedNotice(recordId));
-      if (currentId.current === recordId) focusTarget.current = "title";
-    } finally {
-      pending.current.delete(recordId);
-      if (mounted.current) setSaving((map) => without(map, recordId));
-    }
-  }
-
-  function closeEditor(recordId: string) {
-    setDrafts((current) => without(current, recordId));
-    setErrors((current) => without(current, recordId));
-    setFailures((current) => without(current, recordId));
-    focusTarget.current = "edit";
-  }
+  const { selected, draft } = flow;
 
   const notices = (
     <Text role="status" size="sm" tone="muted" className="list-detail-notice">
-      <span key={notice.id}>{notice.text || text.idle}</span>
+      <span key={flow.notice.id}>{flow.notice.text || text.idle}</span>
     </Text>
   );
 
   return (
     <Container
-      ref={root}
+      {...flow.root}
       // Container types `as` per element; main and div share every prop used here.
       as={(landmark ? "main" : "div") as "main"}
       size="full"
       gutter={false}
       className="list-detail"
-      onFocusCapture={(event) => {
-        focused.current = event.target;
-      }}
-      onBlurCapture={(event) => {
-        // Hidden controls may blur before ResizeObserver runs.
-        if (event.target.getClientRects().length) focused.current = null;
-      }}
     >
       {header ? (
         <PageHeader
@@ -519,7 +340,7 @@ export function ListDetail({
       )}
       <div
         className="list-detail-layout"
-        data-selected={selectedId ? "true" : "false"}
+        data-selected={flow.selectedId !== null ? "true" : "false"}
         aria-busy={loading || undefined}
       >
         <Panel className="list-detail-list" aria-labelledby={`${id}-queue`}>
@@ -531,36 +352,33 @@ export function ListDetail({
           <Panel.Body>
             <Grid layout="stack">
               <Input
-                ref={search}
+                ref={flow.refs.search}
                 label={text.search}
                 type="search"
-                value={query}
+                value={flow.query}
                 placeholder={text.searchPlaceholder}
-                onChange={(event) => setQuery(event.target.value)}
+                onChange={(event) => flow.setQuery(event.target.value)}
               />
               <Select
                 label={text.filter}
-                value={filter}
-                onValueChange={(value) => setFilter(value ?? "all")}
+                value={flow.filter}
+                onValueChange={flow.setFilter}
                 options={[{ value: "all", label: text.allStatuses }, ...statusOptions]}
               />
               <Text size="sm" tone="muted" aria-live="polite">
                 {/* Counts that change while loading would each be announced. */}
-                {loading ? text.loading : text.count(filtered.length, records.length)}
+                {loading ? text.loading : text.count(flow.visible.length, flow.records.length)}
               </Text>
-              {loading && !records.length ? null : filtered.length ? (
+              {loading && !flow.records.length ? null : flow.visible.length ? (
                 <ul className="list-detail-items" aria-label={text.list}>
-                  {filtered.map((record) => (
+                  {flow.visible.map((record) => (
                     <li key={record.id}>
                       <Button
                         variant="ghost"
                         className="list-detail-row"
-                        aria-current={selectedId === record.id ? "true" : undefined}
-                        ref={(element) => {
-                          if (element) rows.current.set(record.id, element);
-                          else rows.current.delete(record.id);
-                        }}
-                        onClick={() => navigate(record.id)}
+                        aria-current={flow.selectedId === record.id ? "true" : undefined}
+                        ref={flow.refs.row(record.id)}
+                        onClick={() => flow.open(record.id)}
                       >
                         <Text as="span" size="sm" tone="muted" className="list-detail-id">
                           {record.id}
@@ -576,7 +394,7 @@ export function ListDetail({
                             {record.owner}
                           </Text>
                         </span>
-                        {drafts[record.id] && (
+                        {flow.hasDraft(record.id) && (
                           <Text as="span" size="sm" tone="muted">
                             {text.unsaved}
                           </Text>
@@ -588,20 +406,15 @@ export function ListDetail({
               ) : (
                 <div className="list-detail-empty">
                   <Heading level={3} size="md">
-                    {records.length ? text.noMatches : text.empty}
+                    {flow.records.length ? text.noMatches : text.empty}
                   </Heading>
-                  <Text tone="muted">{records.length ? text.noMatchesHint : text.emptyHint}</Text>
+                  <Text tone="muted">
+                    {flow.records.length ? text.noMatchesHint : text.emptyHint}
+                  </Text>
                 </div>
               )}
-              {(query || filter !== "all") && (
-                <Button
-                  variant="secondary"
-                  onClick={() => {
-                    setQuery("");
-                    setFilter("all");
-                    search.current?.focus();
-                  }}
-                >
+              {flow.filtersActive && (
+                <Button variant="secondary" onClick={flow.clearFilters}>
                   {text.clear}
                 </Button>
               )}
@@ -609,13 +422,13 @@ export function ListDetail({
           </Panel.Body>
         </Panel>
         <div className="list-detail-workspace">
-          {selectedId && loading && !selected ? (
+          {flow.waiting ? (
             <Panel tone="sunken" className="list-detail-empty">
               <Panel.Body>
                 <Text tone="muted">{text.loading}</Text>
               </Panel.Body>
             </Panel>
-          ) : selectedId ? (
+          ) : flow.selectedId !== null ? (
             <Grid layout="stack">
               {selected ? (
                 <Panel className="list-detail-detail" aria-labelledby={`${id}-detail`}>
@@ -631,7 +444,7 @@ export function ListDetail({
                           </Status>
                         </Inline>
                         <Inline gap="sm" className="list-detail-navigation">
-                          <Button size="sm" variant="ghost" onClick={() => navigate(null)}>
+                          <Button size="sm" variant="ghost" onClick={flow.back}>
                             {text.back}
                           </Button>
                           <Button
@@ -648,7 +461,7 @@ export function ListDetail({
                       <Inline justify="between" align="start" gap="sm">
                         <Heading
                           className="list-detail-title"
-                          ref={heading}
+                          ref={flow.refs.heading}
                           tabIndex={-1}
                           level={2}
                           id={`${id}-detail`}
@@ -656,20 +469,7 @@ export function ListDetail({
                           {selected.title}
                         </Heading>
                         {!draft && (
-                          <Button
-                            ref={edit}
-                            variant="secondary"
-                            onClick={() =>
-                              setDrafts((current) => ({
-                                ...current,
-                                [selected.id]: {
-                                  title: selected.title,
-                                  owner: selected.owner,
-                                  status: selected.status,
-                                },
-                              }))
-                            }
-                          >
+                          <Button ref={flow.refs.begin} variant="secondary" onClick={flow.begin}>
                             {text.edit}
                           </Button>
                         )}
@@ -690,18 +490,15 @@ export function ListDetail({
                             key={selected.id}
                             text={text}
                             draft={draft}
-                            errors={errors[selected.id] ?? {}}
-                            failed={Boolean(failures[selected.id])}
-                            saving={Boolean(saving[selected.id])}
-                            refs={refs}
-                            onChange={(next) =>
-                              setDrafts((current) => ({ ...current, [selected.id]: next }))
-                            }
-                            onCancel={() => {
-                              closeEditor(selected.id);
-                              announce(text.discardedNotice(selected.id));
-                            }}
-                            onSave={() => void save(selected, draft)}
+                            errors={flow.errors}
+                            unrendered={flow.unrendered}
+                            failed={flow.failed}
+                            saving={flow.pending}
+                            field={flow.refs.field}
+                            submit={flow.refs.submit}
+                            onChange={flow.change}
+                            onCancel={flow.discard}
+                            onSave={flow.submit}
                           />
                         ) : (
                           <div className="list-detail-copy">
@@ -754,10 +551,10 @@ export function ListDetail({
               ) : (
                 <Panel>
                   <Panel.Body>
-                    <Button variant="ghost" onClick={() => navigate(null)}>
+                    <Button variant="ghost" onClick={flow.back}>
                       {text.back}
                     </Button>
-                    <Heading ref={heading} tabIndex={-1} level={2}>
+                    <Heading ref={flow.refs.heading} tabIndex={-1} level={2}>
                       {text.unavailable}
                     </Heading>
                     <Text>{text.unavailableHint}</Text>

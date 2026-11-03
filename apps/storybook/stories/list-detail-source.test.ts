@@ -15,16 +15,20 @@ test("ListDetail exposes a runnable public-component composition with every loca
   expect(recipe?.files.map((file) => file.name)).toEqual([
     "ListDetail.tsx",
     "flow-router.ts",
+    "list-detail-controller.ts",
     "list-detail.css",
   ]);
   expect(recipe?.stories.map((story) => story.exportName)).toContain("EditAndValidate");
   const source = recipe?.files.find((file) => file.name === "ListDetail.tsx")?.sample.code ?? "";
   expect(source).not.toContain("export type CommitResult<");
   expect(source).not.toContain("function without<");
-  expect(source).toContain("useAnnounce");
-  expect(source).toContain("errorFocusTarget");
-  expect(source).toContain("takeFocusTarget");
-  expect(source).toContain("observeHiddenFocus");
+  expect(source).toContain("useListDetailFlow");
+  const controller =
+    recipe?.files.find((file) => file.name === "list-detail-controller.ts")?.sample.code ?? "";
+  expect(controller).toContain("useAnnounce");
+  expect(controller).toContain("errorFocusTarget");
+  expect(controller).toContain("takeFocusTarget");
+  expect(controller).toContain("observeHiddenFocus");
 });
 
 test("flow-router helpers advance announcements and resolve focus targets deterministically", () => {

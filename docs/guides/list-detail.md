@@ -27,6 +27,7 @@ Put these files in one folder. Inbox uses the same `flow-router.ts`; copy it onc
 
 - [`ListDetail.tsx`](https://kbui.kcb.pro/recipes/?recipe=listdetail#recipe-source)
 - [`flow-router.ts`](https://kbui.kcb.pro/recipes/?recipe=listdetail#recipe-source)
+- [`list-detail-controller.ts`](https://kbui.kcb.pro/recipes/?recipe=listdetail#recipe-source)
 - [`list-detail.css`](https://kbui.kcb.pro/recipes/?recipe=listdetail#recipe-source)
 
 <!-- /generated -->
