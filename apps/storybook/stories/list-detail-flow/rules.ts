@@ -130,6 +130,20 @@ export const ruleMeta = {
     summary: "Embedded in an app shell, the recipe adds no main landmark or page heading",
     group: "navigation",
   },
+  "draft-focus": {
+    summary:
+      "Beginning a draft focuses its first field; discarding announces the discard and focuses the begin control",
+    group: "editing",
+  },
+  "draft-reopen-focus": {
+    summary:
+      "Reopening a record with a draft focuses its heading, not the draft, and the field keeps its text",
+    group: "focus",
+  },
+  "draft-marker": {
+    summary: "Only the row of a record with an unsaved draft marks it, until the draft closes",
+    group: "lists",
+  },
 } as const satisfies Record<string, RuleMeta>;
 
 export type RuleId = keyof typeof ruleMeta;

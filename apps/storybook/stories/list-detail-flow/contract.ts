@@ -99,6 +99,10 @@ export type FlowFixture = {
     failed: string;
     /** Matches the announcement that a field needs changes. */
     needsChanges: RegExp;
+    /** Matches a list row whose record has an unsaved draft. */
+    marker: RegExp;
+    /** Matches the announcement that a draft was discarded. */
+    discarded: RegExp;
   };
   /** One complete successful commit on the open record. */
   commitOnce: (canvas: Canvas, user: User) => Promise<void>;
@@ -232,6 +236,14 @@ function accessibleDescription(element: Element) {
     .split(/\s+/)
     .map((id) => (id ? (document.getElementById(id)?.textContent ?? "") : ""))
     .join(" ");
+}
+
+/** Rows of the record list whose text shows an unsaved draft. */
+function marked(canvas: Canvas, fixture: FlowFixture) {
+  const list = canvas.getByRole("button", { name: fixture.first.row }).closest("ul");
+  return [...(list?.querySelectorAll("button") ?? [])].filter((row) =>
+    fixture.draft.marker.test(row.textContent ?? ""),
+  );
 }
 
 function pending(fixture: FlowFixture) {
@@ -789,6 +801,56 @@ const definitions = {
       expect(root.querySelector("main"), "nested main landmark").toBeNull();
       expect(canvas.queryByRole("heading", { level: 1 }), "second page heading").toBeNull();
       await open(canvas, user, fixture.first);
+    },
+  },
+  "draft-focus": {
+    check: async ({ fixture, root, canvas, user }) => {
+      await open(canvas, user, fixture.first);
+      await user.click(canvas.getByRole("button", { name: fixture.draft.begin }));
+      await waitFor(() =>
+        expect(canvas.getByRole("textbox", { name: fixture.draft.field })).toHaveFocus(),
+      );
+      await user.click(canvas.getByRole("button", { name: fixture.draft.discard }));
+      await waitFor(() =>
+        expect(canvas.getByRole("button", { name: fixture.draft.begin })).toHaveFocus(),
+      );
+      await waitFor(() =>
+        expect(fixture.status(root).textContent).toMatch(fixture.draft.discarded),
+      );
+    },
+  },
+  "draft-reopen-focus": {
+    check: async ({ fixture, canvas, user }) => {
+      await open(canvas, user, fixture.first);
+      await user.click(canvas.getByRole("button", { name: fixture.draft.begin }));
+      const field = canvas.getByRole("textbox", { name: fixture.draft.field });
+      await user.clear(field);
+      await user.type(field, "Reopened draft");
+      await back(canvas, user, fixture);
+      await user.click(canvas.getByRole("button", { name: fixture.first.row }));
+      await waitFor(() => expect(heading(canvas, fixture.first), "reopened").toHaveFocus());
+      await expect(canvas.getByRole("textbox", { name: fixture.draft.field })).toHaveValue(
+        "Reopened draft",
+      );
+    },
+  },
+  "draft-marker": {
+    check: async ({ fixture, canvas, user }) => {
+      await open(canvas, user, fixture.first);
+      await user.click(canvas.getByRole("button", { name: fixture.draft.begin }));
+      await back(canvas, user, fixture);
+      await waitFor(() =>
+        expect(marked(canvas, fixture)).toEqual([
+          canvas.getByRole("button", { name: fixture.first.row }),
+        ]),
+      );
+      await open(canvas, user, fixture.first);
+      await user.click(canvas.getByRole("button", { name: fixture.draft.discard }));
+      await waitFor(() =>
+        expect(canvas.getByRole("button", { name: fixture.draft.begin })).toBeVisible(),
+      );
+      await back(canvas, user, fixture);
+      await waitFor(() => expect(marked(canvas, fixture), "marker after discard").toEqual([]));
     },
   },
 } satisfies Record<RuleId, Check>;
