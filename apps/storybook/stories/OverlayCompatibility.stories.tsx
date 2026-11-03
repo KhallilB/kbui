@@ -9,6 +9,12 @@ const meta = { title: "Validation/Overlay compatibility" } satisfies Meta;
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// Closed state is immediate; unmount waits out the exit transition, which loaded WebKit runners stretch past 1s.
+async function popoverClosed(page: ReturnType<typeof within>, trigger: HTMLElement) {
+  await waitFor(() => expect(trigger).toHaveAttribute("aria-expanded", "false"));
+  await waitFor(() => expect(page.queryByRole("dialog")).toBeNull(), { timeout: 5000 });
+}
+
 export const CompactPopoverOnMobile: Story = {
   render: () => (
     <Popover>
@@ -53,7 +59,7 @@ export const CompactPopoverOnMobile: Story = {
       await browserUserEvent.tab();
       await expect(done).toHaveFocus();
       await browserUserEvent.keyboard("{Enter}");
-      await waitFor(() => expect(page.queryByRole("dialog")).toBeNull());
+      await popoverClosed(page, trigger);
       await waitFor(() => expect(trigger).toHaveFocus());
     } finally {
       await browserPage.viewport(innerWidth, innerHeight);
@@ -132,7 +138,7 @@ export const PopoverBodyAndActions: Story = {
       done.focus();
       await expect(done).toHaveFocus();
       await browserUserEvent.keyboard("{Enter}");
-      await waitFor(() => expect(page.queryByRole("dialog")).toBeNull());
+      await popoverClosed(page, trigger);
       await waitFor(() => expect(trigger).toHaveFocus());
     } finally {
       await browserPage.viewport(innerWidth, innerHeight);
@@ -357,13 +363,13 @@ export const NonModalPopoverBoundaries: Story = {
     await waitFor(() =>
       expect(page.getByRole("button", { name: "Next page action" })).toHaveFocus(),
     );
-    await waitFor(() => expect(page.queryByRole("dialog")).toBeNull());
+    await popoverClosed(page, trigger);
     await userEvent.click(trigger);
     await waitFor(() => expect(first()).toHaveFocus());
     await browserUserEvent.tab({ shift: true });
     await waitFor(() => expect(trigger).toHaveFocus());
     await browserUserEvent.keyboard("{Escape}");
-    await waitFor(() => expect(page.queryByRole("dialog")).toBeNull());
+    await popoverClosed(page, trigger);
   },
 };
 
