@@ -34,7 +34,11 @@ Put these files in one folder. ListDetail uses the same `flow-router.ts` and `li
 
 Import `@kb.ui/react/styles.css` once at your app entry and render `<Inbox />` in a browser. With no props it shows sample messages, keeps the open message in the `message` URL parameter and adds replies to memory for the session.
 
-Each source file starts with a comment naming the recipe, the oldest `@kb.ui/react` it works with and this guide; `needs @kb.ui/react ≥ 0.12.0` means install 0.12.0 or later. Keep it. The version is the oldest npm release that has every package export the recipe uses. It is a requirement, not a record of when you copied the file: copies taken at different times can name the same version. To compare your copy with upstream, diff it against the same file at a release's Git tag, such as `v0.12.0`, or on `main`.
+Each source file starts with a comment naming the recipe, or every recipe that shares it, the oldest `@kb.ui/react` it works with and this guide; `needs @kb.ui/react ≥ 0.12.0` means install 0.12.0 or later. Keep it. The version is the oldest npm release that has every package export the recipe uses. It is a requirement, not a record of when you copied the file: copies taken at different times can name the same version. To compare your copy with upstream, diff it against the same file at a release's Git tag, such as `v0.12.0`, or on `main`.
+
+`list-detail-controller.ts` holds the flow that Inbox and ListDetail share: selection, history, drafts, sending and focus. `Inbox.tsx` configures it through options and keeps the messages, reply field, wording and markup. Leave the controller unedited and you can take an upstream fix by replacing the file whole; only `Inbox.tsx` then needs comparing by hand.
+
+**Copied before 0.12.2?** Your copy keeps working; nothing changes it. From 0.12.2 the flow lives in `list-detail-controller.ts` and `Inbox.tsx` holds your messages, fields and markup. Props are unchanged, with one fix: `initialThreadId=""` now reads as no selection and shows the list, where earlier copies showed Message unavailable. To move over, copy `list-detail-controller.ts`, then reapply your domain edits to the new `Inbox.tsx`. Flow code you changed in the old file has no direct equivalent, so check focus, history and error recovery afterwards with the list under Check your changes. To stay on the single-file shape, compare your copy against the `v0.12.1` tag.
 
 ## What you supply
 
@@ -124,6 +128,21 @@ function stateRouter(initial: string | null = null): FlowRouter {
 `copy` is merged over `inboxCopy`, so pass only the strings you change; functions such as `failedNotice(sender)` build announcements.
 
 Without `commit`, the defaults describe the in-memory demo: a note that replies stay in this session, "for this session" in the sent announcement and a "Session reply" label. Once you pass `commit` they are neutral, and `sessionNote` is empty, which hides it. `invalidNotice(sender, errors)` receives the errors: by default it says the reply needs changes when `body` has an error, and that it was not sent otherwise. `loading` labels the list and a waiting message.
+
+### Reusing the flow for another record type (preview)
+
+To build a list-and-detail screen for another record type, write a new component that calls `useListDetailFlow` from `list-detail-controller.ts`, and configure the controller rather than edit it. `Inbox.tsx` is the worked example for a task that appends to the record. The options and what the hook returns are preview: their names or shape may change before 1.0, and release notes name each change.
+
+The options describe your records and task:
+
+- `records`, `loading`, `initialId` and `router` take the same data and routing as the props above. Records are matched by `id`, and an empty `initialId` reads as no selection.
+- `fields` lists the draft fields your form renders, in focus order. The first takes focus when a draft begins and after a failed send.
+- `begin` starts a draft from a record, `normalize` tidies it, `validate` checks it and `commit` sends it, with the same outcomes as Business logic below.
+- `view` shows sends your records have not echoed yet; Inbox uses it to append the reply after the message.
+- `matches` and `defaultFilter` decide which rows search and any filter show. Inbox has search only.
+- `notices` builds the announcements, keyed `saving`, `saved`, `failed`, `invalid` and `discarded`.
+
+The hook returns the records with sends applied, the visible rows, the open record with its draft, errors and pending state, whether a deep link is still waiting for its record, and the announcement to show. Its actions open a record, go back, begin, change, discard and submit a draft, and set the search and filter. Spread `root` on the outer element, and attach `refs` to search, the record heading, the begin and submit controls, each field and each row, so the controller can move focus after every step. Your component keeps markup, wording and domain rules, with no history, focus or send code of its own.
 
 ## Business logic
 
@@ -276,6 +295,8 @@ export function CorrespondenceRegions() {
 ```
 
 ## Check your changes
+
+Changing only `Inbox.tsx`, such as its messages, reply field, wording or markup, leaves flow behaviour with the controller. If you edit `list-detail-controller.ts`, run the list below again, and merge later upstream fixes into it by hand.
 
 In your app, check these by hand after you change flow code, with keyboard alone:
 

@@ -34,7 +34,11 @@ Put these files in one folder. Inbox uses the same `flow-router.ts` and `list-de
 
 Import `@kb.ui/react/styles.css` once at your app entry and render `<ListDetail />` in a browser. With no props it shows sample requests, keeps the open request in the `request` URL parameter and saves to memory for the session.
 
-Each source file starts with a comment naming the recipe, the oldest `@kb.ui/react` it works with and this guide; `needs @kb.ui/react ≥ 0.12.0` means install 0.12.0 or later. Keep it. The version is the oldest npm release that has every package export the recipe uses. It is a requirement, not a record of when you copied the file: copies taken at different times can name the same version. To compare your copy with upstream, diff it against the same file at a release's Git tag, such as `v0.12.0`, or on `main`.
+Each source file starts with a comment naming the recipe, or every recipe that shares it, the oldest `@kb.ui/react` it works with and this guide; `needs @kb.ui/react ≥ 0.12.0` means install 0.12.0 or later. Keep it. The version is the oldest npm release that has every package export the recipe uses. It is a requirement, not a record of when you copied the file: copies taken at different times can name the same version. To compare your copy with upstream, diff it against the same file at a release's Git tag, such as `v0.12.0`, or on `main`.
+
+`list-detail-controller.ts` holds the flow that ListDetail and Inbox share: selection, history, drafts, saving and focus. `ListDetail.tsx` configures it through options and keeps the records, fields, wording and markup. Leave the controller unedited and you can take an upstream fix by replacing the file whole; only `ListDetail.tsx` then needs comparing by hand.
+
+**Copied before 0.12.2?** Your copy keeps working; nothing changes it. From 0.12.2 the flow lives in `list-detail-controller.ts` and `ListDetail.tsx` holds your records, fields and markup. Props are unchanged. To move over, copy `list-detail-controller.ts`, then reapply your domain edits to the new `ListDetail.tsx`. Flow code you changed in the old file has no direct equivalent, so check focus, history and error recovery afterwards with the list under Check your changes. To stay on the single-file shape, compare your copy against the `v0.12.1` tag.
 
 ## What you supply
 
@@ -121,6 +125,21 @@ function stateRouter(initial: string | null = null): FlowRouter {
 `copy` is merged over `listDetailCopy`, so pass only the strings you change; functions such as `savedNotice(id)` build announcements.
 
 Without `commit`, the defaults describe the in-memory demo: a "Local demo · Session only" status, a form hint that changes stay in this browser session and "for this session" in the saved announcement. Once you pass `commit` they are neutral, and `idle` is empty, so no status shows before the first outcome. `invalidNotice(id, errors)` receives the errors: by default it says the request needs changes when a field has an error, and that it was not saved otherwise. `loading` labels the list and a waiting record.
+
+### Reusing the flow for another record type (preview)
+
+To build a list-and-detail screen for another record type, write a new component that calls `useListDetailFlow` from `list-detail-controller.ts`, and configure the controller rather than edit it. `ListDetail.tsx` is the worked example. The options and what the hook returns are preview: their names or shape may change before 1.0, and release notes name each change.
+
+The options describe your records and task:
+
+- `records`, `loading`, `initialId` and `router` take the same data and routing as the props above. Records are matched by `id`, and an empty `initialId` reads as no selection.
+- `fields` lists the draft fields your form renders, in focus order. The first takes focus when a draft begins and after a failed save.
+- `begin` starts a draft from a record, `normalize` tidies it, `validate` checks it and `commit` saves it, with the same outcomes as Business logic below.
+- `view` shows saves your records have not echoed yet, so a save can replace fields or append to the record.
+- `matches` and `defaultFilter` decide which rows search and your filter show.
+- `notices` builds the announcements, keyed `saving`, `saved`, `failed`, `invalid` and `discarded`.
+
+The hook returns the records with saves applied, the visible rows, the open record with its draft, errors and pending state, whether a deep link is still waiting for its record, and the announcement to show. Its actions open a record, go back, begin, change, discard and submit a draft, and set the search and filter. Spread `root` on the outer element, and attach `refs` to search, the record heading, the begin and submit controls, each field and each row, so the controller can move focus after every step. Your component keeps markup, wording and domain rules, with no history, focus or save code of its own.
 
 ## Business logic
 
@@ -265,6 +284,8 @@ export function RequestRegions() {
 ```
 
 ## Check your changes
+
+Changing only `ListDetail.tsx`, such as its records, fields, wording or markup, leaves flow behaviour with the controller. If you edit `list-detail-controller.ts`, run the list below again, and merge later upstream fixes into it by hand.
 
 In your app, check these by hand after you change flow code, with keyboard alone:
 

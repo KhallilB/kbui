@@ -37,6 +37,8 @@ New recipes cover a whole task over time. In a list-and-detail recipe, that mean
 
 The recipe's files become part of your app. Change its records, fields, wording and styling as you need. kbui keeps working on its own copy but never changes yours. Compare with the recipe's page when you want a later fix.
 
+List-and-detail recipes keep their flow in a shared controller file, `list-detail-controller.ts`, that each recipe in the family lists and you copy once. The recipe file configures it through options and holds your record types, fields and markup. Leave the controller unedited and you can replace it whole for a later fix; only the recipe file then needs comparing by hand. The controller is still copied source, not a package export.
+
 ### What you supply
 
 A flow recipe runs on its own with sample records and local defaults, so you can try it before connecting anything. To use it for real, pass your records and replace the defaults through a few documented props, its seams: how the open record maps to your router, how a change is saved, how a draft is validated, and the text it shows and announces. Further props show a loading state while records arrive and fit the recipe inside an app shell that already has its own `<main>` and page heading. Its guide lists each one.
