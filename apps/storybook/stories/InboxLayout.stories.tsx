@@ -20,11 +20,11 @@ type Story = StoryObj<typeof meta>;
 
 export const EmptySelection: Story = {
   args: { initialThreadId: "" },
-  play: async ({ canvasElement, userEvent }) => {
+  play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByRole("heading", { name: "Message unavailable" })).toHaveFocus();
-    await userEvent.click(canvas.getByRole("button", { name: "Back to inbox" }));
-    await expect(canvas.getByRole("searchbox", { name: "Search correspondence" })).toHaveFocus();
+    await expect(canvas.getByRole("searchbox", { name: "Search correspondence" })).toBeVisible();
+    await expect(canvas.getByRole("heading", { name: "Choose a message" })).toBeVisible();
+    expect(canvas.queryByRole("heading", { name: "Message unavailable" })).toBeNull();
   },
 };
 
