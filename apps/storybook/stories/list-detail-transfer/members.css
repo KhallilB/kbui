@@ -1,0 +1,91 @@
+/* Anatomy: .members > .members-notice; .members-layout [data-selected=true|false] > .members-list > .members-items > .members-row [aria-current=true] > .members-name, .members-meta; .members-workspace > .members-detail > .members-facts, .members-context */
+/* Same boundary as recipe CSS: no package token overrides, no `.kb-*` selectors. */
+.members {
+  display: grid;
+  gap: var(--kb-space-6);
+  container-type: inline-size;
+  overflow-wrap: anywhere;
+}
+
+.members-layout {
+  display: grid;
+  grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr);
+  gap: var(--kb-space-6);
+  align-items: start;
+}
+
+.members-layout > * {
+  min-inline-size: 0;
+}
+
+.members-items {
+  display: grid;
+  gap: var(--kb-space-1);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.members-row {
+  display: grid;
+  justify-items: start;
+  justify-content: stretch;
+  gap: var(--kb-space-1);
+  inline-size: 100%;
+  block-size: auto;
+  padding: var(--kb-space-3);
+  font-weight: var(--kb-font-weight-regular);
+  text-align: start;
+  white-space: normal;
+  border: 1px solid transparent;
+  box-shadow: none;
+}
+
+.members-row[aria-current="true"] {
+  border-color: var(--kb-color-accent);
+  background: var(--kb-panel-background-active);
+  box-shadow: inset 3px 0 var(--kb-color-accent);
+}
+
+.members-name {
+  font-weight: var(--kb-font-weight-strong);
+}
+
+.members-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kb-space-2);
+}
+
+.members-facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--kb-space-1) var(--kb-space-3);
+  margin: 0;
+}
+
+.members-facts dd {
+  margin: 0;
+}
+
+.members-context {
+  padding-block-start: var(--kb-space-4);
+  border-block-start: 1px solid var(--kb-color-border);
+}
+
+@container (max-width: 39.99rem) {
+  .members-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .members-layout[data-selected="true"] > .members-list,
+  .members-layout[data-selected="false"] > .members-workspace {
+    display: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .members-row[aria-current="true"] {
+    border: 2px solid Highlight;
+  }
+}

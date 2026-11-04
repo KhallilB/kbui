@@ -14,6 +14,8 @@ import {
 
 const root = resolve(import.meta.dir, "../../..");
 const controllerPath = "apps/storybook/recipes/list-detail-controller.ts";
+// Unregistered third record type on the controller.
+const transferPath = "apps/storybook/stories/list-detail-transfer/Members.tsx";
 const read = (path: string) => readFileSync(resolve(root, path), "utf8");
 const componentOf = (recipe: (typeof recipeDefinitions)[number]) =>
   recipe.files.find((path) => path.endsWith(".tsx")) ?? "";
@@ -362,6 +364,7 @@ describe("controller guards", () => {
     expect(owners.map((recipe) => recipe.name)).toContain("ListDetail");
     for (const recipe of owners)
       expect(mechanicsIn(read(componentOf(recipe))), recipe.name).toEqual([]);
+    expect(mechanicsIn(read(transferPath)), "Members").toEqual([]);
   });
 
   test("the main-era ListDetail fails the composition guard", () => {
