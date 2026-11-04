@@ -140,6 +140,8 @@ To add a rule, add it to `contract.ts`, and show it failing on one recipe, or on
 
 Move code into a shared support file only when two recipes need it unchanged.
 
+List-and-detail flow mechanics live in `apps/storybook/recipes/list-detail-controller.ts`, which every recipe in the family lists in its `files`. A recipe file passes values to it through options and never branches on which recipe it is; a guard in `apps/storybook/stories/list-detail-controller.test.ts` rejects recipe names in the controller and flow mechanics in the recipe files. Fix flow behaviour in the controller, so one change reaches every recipe and each contract proves it. The recipe guides tell copy owners to replace the controller whole for a fix, so name any change to its options in the release notes.
+
 #### Retire a recipe
 
 Propose an explicit retirement decision when a package component or pattern covers a recipe's whole job, or when it no longer meets the bar for adding one. PageHeader and FormSection remain maintained under the composition exception above; package overlap alone does not retire them. Once a retirement is accepted, follow these steps. Remove its entry from `recipeDefinitions`, and delete its source, stories, docs wrapper and guide, plus any CSS nothing else uses. Switch anything that imported or named it to the replacement. Keep `/recipes/?recipe=<id>` resolving, hash included, to the replacement's page. Its story IDs are removed with it unless an example page keeps them. Record the retirement in `docs/features.md`, and say in the release notes what to use instead. Copies already in apps are theirs and keep working.
