@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.12.2](https://github.com/KhallilB/kbui/compare/v0.12.1...v0.12.2) (2026-11-04)
+
+
+### Bug Fixes
+
+* **recipes:** treat an empty initial thread id as no selection in Inbox ([2846e92](https://github.com/KhallilB/kbui/commit/2846e9250195c53d2ed8306d68d32c3c3e4a139e))
+
+
+### Documentation
+
+* explain the list-and-detail controller and how to move a copy onto it ([080b29d](https://github.com/KhallilB/kbui/commit/080b29d1cb8d254d59648ac42c6e3fd02d9be838))
+* list the new list-and-detail flow guarantees ([3801107](https://github.com/KhallilB/kbui/commit/380110770b33f471844d3da745e623efcff99cde))
+* **progress:** record the first product screen as passed ([c9e3a11](https://github.com/KhallilB/kbui/commit/c9e3a113ed503d2239956889e11bd170f3b58e53))
+
 ## [0.12.1](https://github.com/KhallilB/kbui/compare/v0.12.0...v0.12.1) (2026-11-02)
 
 

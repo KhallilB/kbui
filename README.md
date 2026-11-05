@@ -14,7 +14,7 @@ Add `@kb.ui/react` to an existing React app. It includes every component, the co
 
 <!-- x-release-please-start-version -->
 ```bash
-npm install @kb.ui/react@0.12.1
+npm install @kb.ui/react@0.12.2
 ```
 <!-- x-release-please-end -->
 
