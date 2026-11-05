@@ -10,10 +10,8 @@
 
 ### Documentation
 
-* explain the list-and-detail controller and how to move a copy onto it ([e39de3f](https://github.com/KhallilB/kbui/commit/e39de3f393269cfb5a1a4834ec55ece9783173bc))
 * explain the list-and-detail controller and how to move a copy onto it ([080b29d](https://github.com/KhallilB/kbui/commit/080b29d1cb8d254d59648ac42c6e3fd02d9be838))
 * list the new list-and-detail flow guarantees ([3801107](https://github.com/KhallilB/kbui/commit/380110770b33f471844d3da745e623efcff99cde))
-* **progress:** record the first product screen as passed ([eb94798](https://github.com/KhallilB/kbui/commit/eb94798bcbd980e6c3a33e6876426cae365b6dad))
 * **progress:** record the first product screen as passed ([c9e3a11](https://github.com/KhallilB/kbui/commit/c9e3a113ed503d2239956889e11bd170f3b58e53))
 
 ## [0.12.1](https://github.com/KhallilB/kbui/compare/v0.12.0...v0.12.1) (2026-11-02)
