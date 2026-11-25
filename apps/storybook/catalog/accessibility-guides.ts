@@ -40,6 +40,20 @@ export const accessibilityGuides = {
     ],
     standards: ["1.4.1", "1.4.11", "2.1.1", "2.4.3", "2.4.7", "2.5.8", "4.1.2"],
   },
+  TreeList: {
+    provides: [
+      "Nested lists preserve hierarchy. Native disclosure buttons expose expansion, and collapsed descendants leave the Tab order. Visual indentation stops at the configured depth.",
+    ],
+    authoring: [
+      "Name the list when its purpose needs clarification. Keep branch labels noninteractive. If controlled state hides a focused descendant, move focus to its branch trigger or another visible control.",
+    ],
+    verify: [
+      "Open and close a branch with Enter or Space. Tab through open branches and leaf controls and verify that collapsed descendants are skipped.",
+      "At narrow widths, check wrapping and the depth cap in both themes and forced colors.",
+      "With reduced motion enabled, expand and collapse a branch and verify it changes instantly. In either setting, Tab should skip descendants as soon as their branch closes.",
+    ],
+    standards: ["1.3.1", "1.4.10", "2.1.1", "2.4.3", "2.4.7", "4.1.2"],
+  },
   Tabs: {
     provides: [
       "Base UI links tab, tablist and tabpanel roles, selection and disabled state. One tab stop enters the list; arrow keys move focus, including disabled tabs for discovery; disabled tabs cannot be selected.",
@@ -600,6 +614,7 @@ export const accessibilityGuides = {
     provides: [
       "Base UI supplies modal semantics, focus containment, Escape dismissal, and trigger focus restoration.",
       "Content title/description props or composed Title/Description parts supply naming relationships; `initialFocus`/`finalFocus` accept custom entry and return targets.",
+      "The drawer becomes a bottom sheet at 550 CSS pixels and below, keeping the same modal and focused control through resize.",
     ],
     authoring: [
       "Provide a descriptive title and a visible Close or Cancel action. Use Content `initialFocus`/`finalFocus` when the default targets do not fit the workflow, and test those targets.",
@@ -608,6 +623,7 @@ export const accessibilityGuides = {
     verify: [
       "Open by keyboard, cycle Tab and Shift+Tab, then Escape; confirm focus stays in the open modal and returns to the trigger or intended next control.",
       "With a screen reader, verify title, description, errors, and the close action. Check a short/zoomed viewport and nested popups for visible focus and reachable actions.",
+      "Resize an open drawer across 550 CSS pixels. Confirm focus stays put, the Body scrolls, and the Close action stays above the bottom safe area.",
     ],
     standards: ["2.1.1", "2.1.2", "2.4.3", "2.4.11", "3.3.1", "4.1.2"],
     pattern: {

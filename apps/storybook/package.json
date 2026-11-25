@@ -27,7 +27,7 @@
     "verify:depth": "playwright test --config playwright.config.ts e2e/depth.spec.ts",
     "dev:internal": "KBUI_STORYBOOK_INTERNAL=1 storybook dev -p 6008 --no-open --disable-telemetry",
     "build:internal": "KBUI_STORYBOOK_INTERNAL=1 storybook build --quiet --disable-telemetry",
-    "test:overlays": "KBUI_STORYBOOK_INTERNAL=1 vitest run --config vitest.overlays.config.ts ../../packages/react/src/components/Accordion/Accordion.stories.tsx ../../packages/react/src/components/Disclosure/Disclosure.stories.tsx ../../packages/react/src/components/Dialog/Dialog.stories.tsx ../../packages/react/src/components/Popover/Popover.stories.tsx stories/OverlayCompatibility.stories.tsx",
+    "test:overlays": "KBUI_STORYBOOK_INTERNAL=1 vitest run --config vitest.overlays.config.ts ../../packages/react/src/components/Accordion/Accordion.stories.tsx ../../packages/react/src/components/Disclosure/Disclosure.stories.tsx ../../packages/react/src/components/Dialog/Dialog.stories.tsx ../../packages/react/src/components/Popover/Popover.stories.tsx stories/OverlayCompatibility.stories.tsx stories/DialogResponsive.stories.tsx stories/TreeListFocus.stories.tsx",
     "verify:recipes": "playwright test --config playwright.config.ts e2e/recipes.spec.ts",
     "verify:landing": "playwright test --config playwright.config.ts e2e/landing.spec.ts",
     "verify:runtime": "playwright test --config playwright.config.ts e2e/runtime",

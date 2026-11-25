@@ -382,6 +382,7 @@ export {
   type ToolbarSeparatorProps,
 } from "./components/Toolbar/Toolbar";
 export { Tooltip, type TooltipProps } from "./components/Tooltip/Tooltip";
+export { TreeList, type TreeListItem, type TreeListProps } from "./components/TreeList/TreeList";
 export { type ClassNames, kb } from "./utils/kb";
 export type { LayoutAlign, LayoutGap } from "./utils/layout";
 export type { CopyFeedbackProps, CopyState } from "./utils/useClipboard";

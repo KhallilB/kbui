@@ -138,7 +138,7 @@ function ProjectDrawer() {
           <Dialog.Title ref={title} tabIndex={-1}>
             Project details
           </Dialog.Title>
-          <Dialog.Description>Supporting details in a side sheet.</Dialog.Description>
+          <Dialog.Description>Supporting details for the current project.</Dialog.Description>
         </Dialog.Header>
         <Dialog.Body role="region" aria-label="Project review" tabIndex={0}>
           <p>
@@ -177,7 +177,13 @@ export const Drawer: Story = {
     await waitFor(() => expect(title).toHaveFocus());
     await waitFor(() => {
       const bounds = popup.getBoundingClientRect();
-      expect(bounds.top).toBe(0);
+      if (window.innerWidth <= 550) {
+        expect(bounds.top).toBeGreaterThan(0);
+        expect(bounds.left).toBeCloseTo(0);
+        expect(bounds.bottom).toBeCloseTo(window.innerHeight);
+      } else {
+        expect(bounds.top).toBe(0);
+      }
       expect(bounds.right).toBeLessThanOrEqual(window.innerWidth + 1);
       expect(bounds.left).toBeGreaterThanOrEqual(-1);
       expect(bounds.bottom).toBeLessThanOrEqual(window.innerHeight + 1);

@@ -47,6 +47,7 @@ import {
   Textarea,
   Thumbnail,
   Toast,
+  TreeList,
 } from "./index";
 
 // Every key resolves to `slot-<key>`, so any rendered part can be checked without listing slots.
@@ -65,6 +66,16 @@ const cases: [string, () => ReactElement][] = [
         selected
         onSelectedChange={() => {}}
         onRemove={() => {}}
+        classNames={every}
+      />
+    ),
+  ],
+  [
+    "treelist",
+    () => (
+      <TreeList
+        items={[{ id: "parent", label: "Parent", children: [{ id: "leaf", label: "Leaf" }] }]}
+        defaultExpandedIds={["parent"]}
         classNames={every}
       />
     ),

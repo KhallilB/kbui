@@ -639,9 +639,15 @@ export const StructuredData: Story = {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole("radio", { name: "Structured data" }));
     expect(canvas.getByRole("status", { name: "Catalog results" })).toHaveTextContent(
-      `4 of ${entries.length}`,
+      `5 of ${entries.length}`,
     );
-    for (const name of ["Table", "DescriptionList", "CollectionList", "CollectionRow"]) {
+    for (const name of [
+      "Table",
+      "DescriptionList",
+      "CollectionList",
+      "CollectionRow",
+      "TreeList",
+    ]) {
       expect(canvas.getByRole("link", { name })).toHaveAttribute(
         "href",
         `./?component=${name.toLowerCase()}`,

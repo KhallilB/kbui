@@ -72,6 +72,7 @@ const anatomy: Record<string, ComponentStyleAnatomy> = {
   ToggleGroup: { selector: ".kb-togglegroup" },
   Toolbar: { selector: ".kb-toolbar" },
   Tooltip: { selector: ".kb-tooltip" },
+  TreeList: { selector: ".kb-treelist" },
 };
 
 export function componentStyleAnatomy(name: string): ComponentStyleAnatomy {

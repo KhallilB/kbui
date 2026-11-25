@@ -60,6 +60,7 @@ bun run check            # build, lint, types, examples, unit and package checks
 | [Tokens](docs/tokens.md) | Token kinds, naming, aliases and dark mode |
 | [Toggle controls](packages/react/docs/components/ToggleGroup.md) | Persistent single toggles and groups of independent options |
 | [Filter chips](packages/react/docs/components/FilterChip.md) | Standalone selectable and removable filters |
+| [Tree lists](packages/react/docs/components/TreeList.md) | Hierarchical lists with expandable branches |
 | [Structured data](docs/guides/structured-data.md) | Compare records with `Table`; scan key/value details and `CollectionList`/`CollectionRow` records |
 | [Copyable content](docs/guides/copyable-content.md) | Copy identifiers, commands and references with feedback and recovery |
 | [Layout composition](docs/guides/layout.md) | Shared page widths, gutters, wrapping rows, alignment and column collapse |

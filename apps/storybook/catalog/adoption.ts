@@ -180,4 +180,5 @@ export const adoptionRelationships: Record<string, AdoptionRelationship> = {
     "WindowControls",
     "Names for compact preview actions",
   ),
+  TreeList: pending("A nested workspace help index with collapsible branches and leaf links"),
 };

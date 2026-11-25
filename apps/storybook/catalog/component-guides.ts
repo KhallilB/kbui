@@ -43,6 +43,19 @@ export const componentGuides: Record<string, ComponentGuide> = {
     ],
     accessibility: accessibilityGuides.FilterChip,
   },
+  TreeList: {
+    use: "Present nested items that people can explore by opening one branch at a time.",
+    example: {
+      title: "Browse a resource hierarchy",
+      description:
+        "Open a branch, follow its connector rail, and use leaf links to open a resource.",
+    },
+    tips: [
+      "Give each item a stable ID. Use noninteractive labels for branches and put navigational links on leaves. Use `maxVisualDepth` to cap indentation.",
+      "Use `<mark>` for a relevant phrase within a label. The highlight follows the current theme and wraps with the surrounding text.",
+    ],
+    accessibility: accessibilityGuides.TreeList,
+  },
   Avatar: {
     use: "Identify a person or organization consistently when a photo is loading, absent or broken.",
     example: {
