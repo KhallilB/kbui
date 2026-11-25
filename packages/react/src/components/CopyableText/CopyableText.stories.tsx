@@ -38,6 +38,15 @@ export const Inline: Story = {
     </p>
   ),
 };
+export const CopySizes: Story = {
+  render: () => (
+    <div style={{ display: "grid", gap: 8, justifyItems: "start" }}>
+      <CopyableText appearance="plain" copySize="sm" value="kb_sm_4821" copyLabel="Copy small" />
+      <CopyableText appearance="plain" value="kb_md_4821" copyLabel="Copy medium" />
+      <CopyableText appearance="plain" copySize="lg" value="kb_lg_4821" copyLabel="Copy large" />
+    </div>
+  ),
+};
 export const LongValue: Story = {
   args: {
     label: "Artifact digest",

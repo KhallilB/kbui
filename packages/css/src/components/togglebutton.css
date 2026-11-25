@@ -1,20 +1,21 @@
-/* Anatomy: .kb-togglebutton [aria-pressed=true|false] [data-disabled] [hidden] > .kb-togglebutton-indicator, .kb-togglebutton-label */
+/* Anatomy: .kb-togglebutton [data-size=sm|md|lg] [aria-pressed=true|false] [data-disabled] [hidden] > .kb-togglebutton-indicator, .kb-togglebutton-label */
 .kb-togglebutton {
+  --_togglebutton-height: var(--kb-togglebutton-min-size);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--kb-space-1);
-  min-inline-size: min(var(--kb-togglebutton-min-size), 100%);
+  min-inline-size: min(var(--_togglebutton-height), 100%);
   max-inline-size: 100%;
-  min-block-size: var(--kb-togglebutton-min-size);
-  padding: var(--kb-space-1) var(--kb-togglebutton-padding-inline);
+  min-block-size: var(--_togglebutton-height);
+  padding: calc(var(--kb-space-1) / 2) var(--kb-togglebutton-padding-inline);
   border: 1px solid var(--kb-color-muted);
   border-radius: var(--kb-togglebutton-radius);
   background-color: var(--kb-material-raised-top);
   box-shadow: var(--kb-material-raised-shadow);
   color: var(--kb-color-fg);
   font-family: inherit;
-  font-size: var(--kb-text-control-size);
+  font-size: var(--kb-control-text-md);
   font-weight: var(--kb-font-weight-strong);
   line-height: var(--kb-text-leading-control);
   cursor: pointer;
@@ -26,6 +27,20 @@
 
 .kb-togglebutton[hidden] {
   display: none;
+}
+
+.kb-togglebutton[data-size="sm"] {
+  --kb-togglebutton-indicator-size: var(--kb-control-icon-sm);
+  --_togglebutton-height: var(--kb-control-height-sm);
+  padding-inline: var(--kb-control-padding-sm);
+  font-size: var(--kb-control-text-sm);
+}
+
+.kb-togglebutton[data-size="lg"] {
+  --kb-togglebutton-indicator-size: var(--kb-control-icon-lg);
+  --_togglebutton-height: var(--kb-control-height-lg);
+  padding-inline: var(--kb-control-padding-lg);
+  font-size: var(--kb-control-text-lg);
 }
 
 .kb-togglebutton-label {
@@ -91,10 +106,11 @@
   cursor: not-allowed;
 }
 
-@media (pointer: coarse) {
+@media (pointer: coarse), (max-width: 580px) {
   .kb-togglebutton {
-    min-inline-size: min(var(--kb-button-touch-min), 100%);
-    min-block-size: var(--kb-button-touch-min);
+    --_togglebutton-touch-size: max(var(--_togglebutton-height), var(--kb-button-touch-min));
+    min-inline-size: min(var(--_togglebutton-touch-size), 100%);
+    min-block-size: var(--_togglebutton-touch-size);
   }
 }
 

@@ -1,4 +1,4 @@
-/* Anatomy: .kb-copyabletext [data-appearance=field|plain] [data-size=sm|md] [data-mono] [data-format=text|code] [data-tone=neutral|accent|info|success|warning|danger] [data-expandable] [data-expanded] [data-truncate] [data-disabled] [data-copy-state=idle|pending|copied|failed] > .kb-copyabletext-label, .kb-copyabletext-value, .kb-copyabletext-actions > .kb-copyabletext-toggle, .kb-copyabletext-copy; .kb-copyabletext-feedback; .kb-copyabletext-link uses link.css; .kb-copyabletext-highlight; .kb-copyabletext-code uses code.css; .kb-sr-only hides non-error feedback */
+/* Anatomy: .kb-copyabletext [data-appearance=field|plain] [data-size=sm|md] [data-mono] [data-format=text|code] [data-tone=neutral|accent|info|success|warning|danger] [data-expandable] [data-expanded] [data-truncate] [data-disabled] [data-copy-state=idle|pending|copied|failed] > .kb-copyabletext-label, .kb-copyabletext-value, .kb-copyabletext-actions > .kb-copyabletext-toggle, .kb-copyabletext-copy [data-size=sm|md|lg]; .kb-copyabletext-feedback; .kb-copyabletext-link uses link.css; .kb-copyabletext-highlight; .kb-copyabletext-code uses code.css; .kb-sr-only hides non-error feedback */
 .kb-copyabletext {
   --_copyabletext-ink: var(--kb-copyabletext-value-color);
   display: inline-grid;
@@ -105,21 +105,22 @@
   background: color-mix(in srgb, var(--_copyabletext-ink) 4%, var(--kb-copyabletext-background));
 }
 .kb-copyabletext-copy {
+  --_copyabletext-copy-height: var(--kb-copyabletext-target-size);
   margin-inline-start: auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-inline-size: var(--kb-copyabletext-copy-min-width);
-  min-block-size: var(--kb-copyabletext-target-size);
+  min-block-size: var(--_copyabletext-copy-height);
   max-inline-size: 100%;
-  padding: var(--kb-space-1) var(--kb-space-3);
+  padding: calc(var(--kb-space-1) / 2) var(--kb-control-padding-md);
   border: 1px solid var(--kb-material-control-border);
   border-radius: var(--kb-radius-md);
   background: var(--kb-material-raised-face);
   box-shadow: var(--kb-material-raised-shadow);
   color: var(--kb-color-fg);
   font-family: var(--kb-font-sans);
-  font-size: var(--kb-text-caption-size);
+  font-size: var(--kb-control-text-md);
   font-weight: var(--kb-font-weight-medium);
   line-height: var(--kb-text-leading-control);
   white-space: normal;
@@ -160,8 +161,26 @@
   padding: var(--kb-space-2);
   font-size: var(--kb-text-caption-size);
 }
-.kb-copyabletext[data-size="sm"] .kb-copyabletext-copy {
-  min-block-size: var(--kb-button-height-sm);
+.kb-copyabletext[data-size="sm"] .kb-copyabletext-copy:where(:not([data-size])),
+.kb-copyabletext-copy[data-size="sm"] {
+  --_copyabletext-copy-height: var(--kb-control-height-sm);
+  padding-inline: var(--kb-control-padding-sm);
+  font-size: var(--kb-control-text-sm);
+}
+.kb-copyabletext-copy[data-size="lg"] {
+  --_copyabletext-copy-height: var(--kb-control-height-lg);
+  padding-inline: var(--kb-control-padding-lg);
+  font-size: var(--kb-control-text-lg);
+}
+@media (pointer: coarse), (max-width: 580px) {
+  .kb-copyabletext-copy {
+    min-inline-size: max(var(--kb-copyabletext-copy-min-width), var(--kb-control-touch-min));
+    min-block-size: max(var(--_copyabletext-copy-height), var(--kb-control-touch-min));
+  }
+  .kb-copyabletext-toggle {
+    min-inline-size: var(--kb-control-touch-min);
+    min-block-size: max(var(--kb-button-height-sm), var(--kb-control-touch-min));
+  }
 }
 .kb-copyabletext[data-appearance="plain"] {
   inline-size: auto;

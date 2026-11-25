@@ -60,7 +60,7 @@ function RadioExample({
           {
             ...(roomy && {
               "--kb-radiogroup-gap": "var(--kb-space-4)",
-              "--kb-input-height-md": "calc(var(--kb-input-height-lg) + var(--kb-space-2))",
+              "--kb-input-height-md": "calc(var(--kb-control-touch-min) + var(--kb-space-3))",
             }),
             ...style,
           } as CSSProperties

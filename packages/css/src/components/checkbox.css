@@ -1,6 +1,7 @@
 /* Anatomy: .kb-checkbox [data-disabled] [data-invalid] > .kb-checkbox-control (native input), .kb-checkbox-mark > svg > .kb-checkbox-tick, .kb-checkbox-mixed; .kb-checkbox-label, .kb-checkbox-description, .kb-checkbox-error */
 .kb-checkbox {
-  --kb-checkbox-inset: calc((var(--kb-input-height-md) - var(--kb-checkbox-size)) / 2);
+  --_checkbox-row-height: max(var(--kb-input-height-md), var(--kb-control-touch-min));
+  --kb-checkbox-inset: calc((var(--_checkbox-row-height) - var(--kb-checkbox-size)) / 2);
   position: relative;
   display: grid;
   min-inline-size: 0;
@@ -66,7 +67,7 @@
 }
 .kb-checkbox-label {
   overflow-wrap: anywhere;
-  min-block-size: var(--kb-input-height-md);
+  min-block-size: var(--_checkbox-row-height);
   padding-block: var(--kb-space-3);
   color: var(--kb-color-fg);
   font-size: var(--kb-text-control-size);

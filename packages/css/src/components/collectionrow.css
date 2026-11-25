@@ -94,15 +94,16 @@
   overflow-wrap: anywhere;
 }
 .kb-collectionrow-actions > .kb-button {
+  --_collectionrow-action-height: var(--kb-button-height-md);
   height: auto;
-  min-block-size: var(--kb-button-height-md);
+  min-block-size: var(--_collectionrow-action-height);
   padding-block: var(--kb-space-2);
 }
 .kb-collectionrow-actions > .kb-button[data-size="sm"] {
-  min-block-size: var(--kb-button-height-sm);
+  --_collectionrow-action-height: var(--kb-button-height-sm);
 }
 .kb-collectionrow-actions > .kb-button[data-size="lg"] {
-  min-block-size: var(--kb-button-height-lg);
+  --_collectionrow-action-height: var(--kb-button-height-lg);
 }
 .kb-collectionrow[data-selected] {
   background: var(--kb-color-surface);
@@ -119,6 +120,12 @@
     padding-inline-start: 0;
   }
 }
+@media (pointer: coarse), (max-width: 580px) {
+  .kb-collectionrow-actions > .kb-button {
+    min-block-size: max(var(--_collectionrow-action-height), var(--kb-button-touch-min));
+  }
+}
+
 @media (forced-colors: active) {
   .kb-collectionrow[data-selected] {
     outline: 1px solid Highlight;

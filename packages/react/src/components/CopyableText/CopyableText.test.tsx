@@ -186,6 +186,19 @@ describe("CopyableText", () => {
     expect(container.querySelector(".kb-copyabletext")).not.toHaveAttribute("data-truncate");
   });
 
+  test("sizes the copy action from size unless copySize overrides it", () => {
+    render(
+      <>
+        <CopyableText value="a" copyLabel="Copy a" />
+        <CopyableText value="b" copyLabel="Copy b" size="sm" />
+        <CopyableText value="c" copyLabel="Copy c" size="sm" copySize="lg" />
+      </>,
+    );
+    expect(screen.getByRole("button", { name: "Copy a" })).toHaveAttribute("data-size", "md");
+    expect(screen.getByRole("button", { name: "Copy b" })).toHaveAttribute("data-size", "sm");
+    expect(screen.getByRole("button", { name: "Copy c" })).toHaveAttribute("data-size", "lg");
+  });
+
   test("late rejection cannot replace feedback for a newer successful value", async () => {
     let reject!: (reason: Error) => void;
     const write = clipboard(

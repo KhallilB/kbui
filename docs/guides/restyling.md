@@ -102,7 +102,7 @@ Values that cannot be written with `light-dark()`, such as a shadow list that di
 | Typeface | `--kb-font-sans`, `--kb-font-mono`, `--kb-font-weight-regular`, `--kb-font-weight-medium`, `--kb-font-weight-strong` |
 | Type sizes | `--kb-text-body-size`, `--kb-text-control-size`, `--kb-text-small-size`, `--kb-text-caption-size`, `--kb-text-h1-size` to `--kb-text-h4-size` |
 | Shape | `--kb-radius-sm`, `--kb-radius-md`, `--kb-radius-lg`; component radii such as `--kb-callout-radius` and `--kb-toolbar-radius` |
-| Density | `--kb-space-1` to `--kb-space-8`, `--kb-button-height-*`, `--kb-button-padding-*`, `--kb-input-height-*` |
+| Density | `--kb-space-1` to `--kb-space-8`, `--kb-control-height-*`, `--kb-control-padding-*`, `--kb-control-text-*`; component aliases such as `--kb-button-height-*` and `--kb-input-height-*` |
 | Motion | `--kb-motion-duration-*`, `--kb-motion-easing-*`, `--kb-button-motion-duration`, `--kb-dialog-motion-duration`, `--kb-popup-motion-duration`, `--kb-switch-duration` |
 | Depth and material | `--kb-material-*` for shared shadows and faces; `--kb-panel-*` and `--kb-status-*` for panels and status chips |
 
@@ -122,11 +122,11 @@ Use `Button` variants when they fit. Local classes may change colors as well as 
 
 Global scale tokens move every component that aliases them. Component tokens, such as `--kb-button-height-md`, adjust one component and take precedence for it. `packages/tokens/tokens.json` lists every token with its default.
 
-Hairline borders and focus-ring widths have no tokens because they protect legibility and accessibility. A class can still change them; keep focus rings visible. `--kb-button-touch-min` sets the minimum button size on narrow screens; keep it at 44px or more.
+Hairline borders and focus-ring widths have no tokens because they protect legibility and accessibility. A class can still change them; keep focus rings visible. `--kb-control-touch-min` sets the minimum control size on coarse pointers and narrow screens, and `--kb-button-touch-min` aliases it; keep it at 44px or more. See [Control sizes](../tokens.md#control-sizes).
 
 ### Restyle part of a page
 
-To retheme a section with tokens, put `data-theme` on the wrapper together with the restyle class. The attribute makes the wrapper rebind aliases, so component tokens resolve against the wrapper's values:
+To retheme a section with tokens, put `data-theme` on the wrapper together with the restyle class. The attribute makes the wrapper rebind theme-dependent aliases against the wrapper's values:
 
 ```html
 <section class="brand-b" data-theme="light">…</section>
@@ -143,7 +143,7 @@ To retheme a section with tokens, put `data-theme` on the wrapper together with 
 }
 ```
 
-Without `data-theme`, an alias such as `--kb-panel-background` keeps the value resolved at `:root`. `Dialog`, `Menu` and `Tooltip` render into `<body>`, outside the wrapper, so they use the page's restyle by default. Pass a stable themed wrapper as `container` to keep a nested theme; see [forms and overlays](forms-and-overlays.md#theme-hosts-and-portals).
+Without `data-theme`, an alias such as `--kb-panel-background` keeps the value resolved at `:root`. To set a control height on a wrapper, override its component token such as `--kb-button-height-md`. Set the shared height scale on `:root` to update all components that alias it. `Dialog`, `Menu` and `Tooltip` render into `<body>`, outside the wrapper, so they use the page's restyle by default. Pass a stable themed wrapper as `container` to keep a nested theme; see [forms and overlays](forms-and-overlays.md#theme-hosts-and-portals).
 
 Set `--kb-color-bg` for the page canvas and `--kb-material-surface-bg` for elevated content such as Cards, Panels, Dialogs and popups. The default light theme separates white content surfaces from the chalk canvas; a theme that wants one shared fill can set both roles.
 

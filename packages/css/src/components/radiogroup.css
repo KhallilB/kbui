@@ -1,5 +1,6 @@
 /* Anatomy: .kb-radiogroup [data-appearance="segmented"] [data-selection-motion=slide|none] [data-selection-tone=primary|neutral] [data-disabled] [data-invalid] > .kb-radiogroup-label, .kb-radiogroup-options [data-selection] > .kb-radiogroup-selection, .kb-radiogroup-item > .kb-radiogroup-control [data-checked] [data-disabled] > .kb-radiogroup-indicator; .kb-radiogroup-content, .kb-radiogroup-description, .kb-radiogroup-error */
 .kb-radiogroup {
+  --_radiogroup-item-height: max(var(--kb-input-height-md), var(--kb-control-touch-min));
   color: var(--kb-color-fg);
   display: flex;
   min-inline-size: 0;
@@ -16,7 +17,7 @@
   display: flex;
   align-items: center;
   gap: var(--kb-space-2);
-  min-block-size: var(--kb-input-height-md);
+  min-block-size: var(--_radiogroup-item-height);
   padding-block: var(--kb-space-2);
   cursor: pointer;
 }
@@ -105,7 +106,7 @@
   gap: var(--kb-space-1);
   padding: var(--kb-space-1);
   border: 1px solid var(--kb-color-border);
-  border-radius: calc(var(--kb-input-height-md) / 2 + var(--kb-space-1) + 1px);
+  border-radius: calc(var(--_radiogroup-item-height) / 2 + var(--kb-space-1) + 1px);
   background: var(--kb-material-recessed-face);
 }
 .kb-radiogroup[data-appearance="segmented"][data-invalid] .kb-radiogroup-options {

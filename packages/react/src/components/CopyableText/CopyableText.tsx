@@ -27,6 +27,8 @@ export type CopyableTextProps = Omit<ComponentProps<"span">, "onCopy"> &
     appearance?: "field" | "plain" | undefined;
     /** Content and copy target density. */
     size?: "sm" | "md" | undefined;
+    /** Copy action height; defaults to `size`. */
+    copySize?: "sm" | "md" | "lg" | undefined;
     /** Monospace display for identifiers, paths, and commands. */
     mono?: boolean | undefined;
     /** Value color and subtle field tint; independent of clipboard state. */
@@ -54,6 +56,7 @@ export function CopyableText({
   label,
   appearance = "field",
   size = "md",
+  copySize = size,
   mono = true,
   tone = "neutral",
   truncate = false,
@@ -152,6 +155,7 @@ export function CopyableText({
         <button
           type="button"
           className={clsx("kb-copyabletext-copy", classNames?.copy)}
+          data-size={copySize}
           disabled={clipboard.disabled}
           aria-disabled={clipboard.state === "pending" || undefined}
           onClick={() => void clipboard.copy()}

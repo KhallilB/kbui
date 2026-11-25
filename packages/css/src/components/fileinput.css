@@ -77,6 +77,15 @@
 .kb-fileinput[data-disabled] .kb-fileinput-label {
   color: var(--kb-color-muted);
 }
+@media (pointer: coarse), (max-width: 580px) {
+  .kb-fileinput .kb-fileinput-trigger {
+    min-height: max(var(--kb-fileinput-action-height), var(--kb-control-touch-min));
+  }
+  .kb-fileinput .kb-fileinput-remove {
+    min-width: max(var(--kb-fileinput-action-height), var(--kb-control-touch-min));
+    min-height: max(var(--kb-fileinput-action-height), var(--kb-control-touch-min));
+  }
+}
 @media (forced-colors: active) {
   .kb-fileinput[data-invalid] .kb-fileinput-trigger {
     border-color: Highlight;

@@ -2,6 +2,8 @@ import { Toggle as Base } from "@base-ui/react/toggle";
 import type { Ref } from "react";
 import { kb } from "../../utils/kb";
 
+export type ToggleButtonSize = "sm" | "md" | "lg";
+
 type ManagedProp = "aria-pressed" | "form" | "nativeButton" | "render" | "role" | "type";
 
 export type ToggleButtonProps<Value extends string = string> = Omit<
@@ -9,6 +11,8 @@ export type ToggleButtonProps<Value extends string = string> = Omit<
   "className" | ManagedProp
 > &
   Partial<Record<ManagedProp, never>> & {
+    /** Control height on the shared sm, md and lg scale. */
+    size?: ToggleButtonSize | undefined;
     /** Extra class on the button. */
     className?: string | undefined;
     /** Ref to the underlying button. */
@@ -21,6 +25,7 @@ export function ToggleButton<Value extends string = string>({
   className,
   disabled,
   hidden,
+  size = "md",
   "aria-pressed": _ariaPressed,
   form: _form,
   nativeButton: _nativeButton,
@@ -34,7 +39,7 @@ export function ToggleButton<Value extends string = string>({
       {...props}
       hidden={hidden}
       disabled={disabled || hidden}
-      {...kb("togglebutton", {}, className)}
+      {...kb("togglebutton", { size }, className)}
     >
       <span className="kb-togglebutton-indicator">
         <svg

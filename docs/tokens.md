@@ -12,10 +12,35 @@ Published defaults use chalk and graphite surfaces with persimmon accents. `colo
 | Layout | `--kb-container-size-lg`, `--kb-container-gutter`, `--kb-layout-gap-md`, `--kb-split-collapse-md`, `--kb-separator-color` | Shared page widths, gutters, wrapping and column collapse; see [Layout composition](guides/layout.md#tokens-and-overrides). |
 | Typography | `--kb-heading-size-xl`, `--kb-text-measure`, `--kb-link-color`, `--kb-code-size` | Shared hierarchy and inline content; see [Typography](guides/typography.md#theme-and-scale). |
 | Scale | `--kb-space-4`, `--kb-radius-md`, `--kb-size-sm`, `--kb-font-sans`, `--kb-font-weight-strong`, `--kb-text-h1-size` | Components and apps, directly |
+| Control size | `--kb-control-height-md`, `--kb-control-padding-sm`, `--kb-control-text-lg`, `--kb-control-icon-md`, `--kb-control-touch-min` | Shared sizes for buttons, fields and related actions. See [Control sizes](#control-sizes). |
 | Semantic color | `--kb-color-bg`, `--kb-color-fg`, `--kb-color-accent`, `--kb-color-danger`, `--kb-color-info`, `--kb-color-success`, `--kb-color-warning` | Components and apps. These are the values that change in dark mode. Each status color has a matching `-fg` for text placed on it. |
 | Visualization | `--kb-viz-current`, `--kb-viz-current-bg`, `--kb-viz-current-fg`, `--kb-viz-visited`, `--kb-viz-changed` | Apps that draw data structures or algorithm state. See [Visualization roles](#visualization-roles). |
 | Motion | `--kb-motion-duration-fast`, `--kb-motion-duration-base`, `--kb-motion-duration-slow`, `--kb-motion-duration-theme`, `--kb-motion-easing-standard`, `--kb-motion-easing-enter`, `--kb-motion-easing-exit`, `--kb-motion-easing-smooth` | Transitions that respond to a user action. Nothing in kbui animates on its own, and every transition is disabled under `prefers-reduced-motion`. |
 | Component | `--kb-button-height-md`, `--kb-input-height-md`, `--kb-dialog-width`, `--kb-panel-radius`, `--kb-status-running` | One component each. Override one to adjust that component without affecting others. [Restyling kbui](guides/restyling.md) lists the groups a restyle usually sets. |
+
+## Control sizes
+
+Buttons, fields and other controls share one size scale, so a row of controls lines up when they use the same `size`. Override a `--kb-control-*` token on `:root` to change every control at once. Component tokens such as `--kb-button-height-md` and `--kb-input-height-md` alias the shared scale and still adjust one component.
+
+| Size | Height | Inline padding | Text | Icon |
+| --- | --- | --- | --- | --- |
+| `sm` | `--kb-control-height-sm` (28px) | `--kb-control-padding-sm` (10px) | `--kb-control-text-sm` (13px) | `--kb-control-icon-sm` (14px) |
+| `md` (default) | `--kb-control-height-md` (32px) | `--kb-control-padding-md` (12px) | `--kb-control-text-md` (14px) | `--kb-control-icon-md` (16px) |
+| `lg` | `--kb-control-height-lg` (40px) | `--kb-control-padding-lg` (16px) | `--kb-control-text-lg` (15px) | `--kb-control-icon-lg` (18px) |
+
+These components read the scale: `Button`, `ToggleButton`, the `CopyableText` copy action, `FilterChip` (`sm`), `Input`, `Select` (`md`), `Tabs`, `Combobox`, `MultiSelect`, `NumberField` and `FileInput`.
+
+Coarse pointers and viewports at or below 580px use `--kb-control-touch-min` (44px) as a size floor. `Checkbox`, `RadioGroup` rows and `Select` options keep a 44px row height on every pointer. Check both target dimensions in your layout, including when controls wrap or use custom dimensions.
+
+For a roomier shared scale, set the heights on `:root`:
+
+```css
+:root {
+  --kb-control-height-sm: 34px;
+  --kb-control-height-md: 40px;
+  --kb-control-height-lg: 46px;
+}
+```
 
 ## Visualization roles
 

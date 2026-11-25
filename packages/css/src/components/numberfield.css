@@ -97,6 +97,20 @@
 .kb-numberfield[data-size="lg"] .kb-numberfield-increment {
   height: calc(var(--kb-numberfield-height-lg) - 2 * var(--kb-numberfield-border-width));
 }
+@media (pointer: coarse), (max-width: 580px) {
+  .kb-numberfield-group {
+    grid-template-columns:
+      max(var(--kb-numberfield-step-width), var(--kb-control-touch-min))
+      minmax(0, 1fr)
+      max(var(--kb-numberfield-step-width), var(--kb-control-touch-min));
+  }
+  .kb-numberfield-input,
+  .kb-numberfield-decrement,
+  .kb-numberfield-increment {
+    min-block-size: var(--kb-control-touch-min);
+  }
+}
+
 @media (forced-colors: active) {
   .kb-numberfield-group {
     background: Canvas;

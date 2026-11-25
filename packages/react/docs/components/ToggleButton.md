@@ -26,6 +26,7 @@ export function Example() {
 
 - [Standalone toggle](https://kbui.kcb.pro/storybook/?path=/story/components-togglebutton--default) demonstrates native keyboard activation.
 - [Controlled state](https://kbui.kcb.pro/storybook/?path=/story/components-togglebutton--controlled) keeps the pressed state with the surrounding interface.
+- [Sizes](https://kbui.kcb.pro/storybook/?path=/story/components-togglebutton--sizes) compares the `sm`, `md` and `lg` heights shared with `Button` and `Input`.
 - [Disabled and pressed](https://kbui.kcb.pro/storybook/?path=/story/components-togglebutton--disabled) shows a current state while preventing edits.
 
 ## Reference
@@ -37,6 +38,7 @@ export function Example() {
 | `defaultPressed` | `boolean` | `false` | Initial uncontrolled pressed state |
 | `onPressedChange` | `(pressed, eventDetails) => void` | | Receives the proposed state and Base UI change details |
 | `disabled` | `boolean` | `false` | Prevents interaction |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` | Height, padding, text and checkmark size from the shared control scale |
 | `value` | `string` | | Unique nonempty identifier within a `ToggleGroup` |
 | `aria-label` / `aria-labelledby` | `string` | | Accessible name when the button has no visible text |
 | `className` | `string` | | Extra class on the button |
