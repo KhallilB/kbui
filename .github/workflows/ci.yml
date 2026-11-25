@@ -80,14 +80,18 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - suite: stories
+          - suite: stories-default
             name: "Test: stories"
+          - suite: stories-reduced-motion
+            name: "Test: stories (reduced motion)"
           - suite: overlays
             name: "Test: overlays"
           - suite: themes
             name: "Test: themes"
-          - suite: responsive
-            name: "Test: layouts"
+          - suite: responsive-desktop
+            name: "Test: layouts (desktop)"
+          - suite: responsive-mobile
+            name: "Test: layouts (mobile)"
           - suite: built-docs
             shard: 1/2
             name: "Test: docs 1/2"
@@ -95,11 +99,14 @@ jobs:
             shard: 2/2
             name: "Test: docs 2/2"
           - suite: built-journeys
-            shard: 1/2
-            name: "Test: journeys 1/2"
+            shard: 1/3
+            name: "Test: journeys 1/3"
           - suite: built-journeys
-            shard: 2/2
-            name: "Test: journeys 2/2"
+            shard: 2/3
+            name: "Test: journeys 2/3"
+          - suite: built-journeys
+            shard: 3/3
+            name: "Test: journeys 3/3"
     container:
       image: mcr.microsoft.com/playwright:v1.64.1-noble
       options: --ipc=host

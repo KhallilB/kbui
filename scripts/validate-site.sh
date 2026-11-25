@@ -2,8 +2,8 @@
 set -euo pipefail
 
 stage=${1:-all}
-if [[ $# -gt 1 ]] || [[ ! "$stage" =~ ^(all|stories|overlays|themes|responsive|built|built-site|built-docs|built-journeys)$ ]]; then
-  echo "Usage: validate-site.sh [all|stories|overlays|themes|responsive|built|built-site|built-docs|built-journeys]" >&2
+if [[ $# -gt 1 ]] || [[ ! "$stage" =~ ^(all|stories|stories-default|stories-reduced-motion|overlays|themes|responsive|responsive-desktop|responsive-mobile|built|built-site|built-docs|built-journeys)$ ]]; then
+  echo "Usage: validate-site.sh [all|stories|stories-default|stories-reduced-motion|overlays|themes|responsive|responsive-desktop|responsive-mobile|built|built-site|built-docs|built-journeys]" >&2
   exit 2
 fi
 # SITE_SHARD=i/n splits the docs and journey specs across CI jobs.
@@ -32,6 +32,11 @@ validate_stories() {
   run_check "Test: stories" bun run test:stories
 }
 
+# CI splits stories and layouts by Vitest project; each list must cover its config.
+validate_stories_project() {
+  run_check "Test: stories ($1)" bun run --cwd apps/storybook test --project "$1"
+}
+
 validate_overlays() {
   run_check "Test: overlay compatibility" bun run test:overlays
 }
@@ -43,6 +48,14 @@ validate_themes() {
 validate_responsive() {
   run_check "Test: layouts" bun run --cwd apps/storybook test:site
   run_check "Test: accessibility" bun run --cwd apps/storybook test:a11y
+}
+
+validate_layouts() {
+  local label=$1
+  shift
+  local projects=()
+  for project in "$@"; do projects+=(--project "$project"); done
+  run_check "Test: layouts ($label)" bun run --cwd apps/storybook test:site "${projects[@]}"
 }
 
 # built = built-site + built-docs + built-journeys, sharing one site build.
@@ -123,8 +136,15 @@ case "$stage" in
     validate_built built
     ;;
   stories) validate_stories ;;
+  stories-default) validate_stories_project chromium ;;
+  stories-reduced-motion) validate_stories_project chromium-reduced-motion ;;
   overlays) validate_overlays ;;
   themes) validate_themes ;;
   responsive) validate_responsive ;;
+  responsive-desktop) validate_layouts desktop small-laptop small-desktop desktop forced-colors ;;
+  responsive-mobile)
+    validate_layouts mobile narrow-mobile mobile tablet
+    run_check "Test: accessibility" bun run --cwd apps/storybook test:a11y
+    ;;
   built | built-site | built-docs | built-journeys) validate_built "$stage" ;;
 esac

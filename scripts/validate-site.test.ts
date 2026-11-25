@@ -68,10 +68,39 @@ if [[ "$command" == "\${FAIL_COMMAND:-}" ]]; then exit 23; fi
 
 const suites: Record<string, string[]> = {
   stories: ["bun run test:stories"],
+  "stories-default": ["bun run --cwd apps/storybook test --project chromium"],
+  "stories-reduced-motion": ["bun run --cwd apps/storybook test --project chromium-reduced-motion"],
   overlays: ["bun run test:overlays"],
   themes: ["bun run --cwd apps/storybook test:themes --maxWorkers=2"],
   responsive: ["bun run --cwd apps/storybook test:site", "bun run --cwd apps/storybook test:a11y"],
+  "responsive-desktop": [
+    "bun run --cwd apps/storybook test:site --project small-laptop --project small-desktop --project desktop --project forced-colors",
+  ],
+  "responsive-mobile": [
+    "bun run --cwd apps/storybook test:site --project narrow-mobile --project mobile --project tablet",
+    "bun run --cwd apps/storybook test:a11y",
+  ],
 };
+
+const projectsOf = (stages: string[]) =>
+  stages
+    .flatMap((stage) => suites[stage] ?? [])
+    .flatMap((command) => [...command.matchAll(/--project (\S+)/g)].map((match) => match[1]))
+    .sort();
+
+test("split story and layout stages together run every Vitest project once", () => {
+  const read = (file: string) => readFileSync(join(root, "apps/storybook", file), "utf8");
+  const instances = [
+    ...read("vitest.config.ts").matchAll(/browser: "chromium",\s+name: "([^"]+)"/g),
+  ];
+  expect(projectsOf(["stories-default", "stories-reduced-motion"])).toEqual(
+    instances.map((match) => match[1]).sort(),
+  );
+  const viewports = read("vitest.site.config.ts").match(/const viewports = \[([^\]]*)\]/)?.[1];
+  expect(projectsOf(["responsive-desktop", "responsive-mobile"])).toEqual(
+    [...(viewports ?? "").matchAll(/"([^"]+)"/g)].map((match) => match[1]).sort(),
+  );
+});
 
 for (const [suite, commands] of Object.entries(suites)) {
   test(`${suite} stage runs only its assigned browser checks`, () => {

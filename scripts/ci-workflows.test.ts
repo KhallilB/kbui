@@ -135,14 +135,17 @@ test("independent browser suites and built-site checks run on separate standard 
   const suites = job("ci", "browser-tests");
   expect(suites.strategy?.["fail-fast"]).toBe(false);
   expect(suites.strategy?.matrix.include).toEqual([
-    { suite: "stories", name: "Test: stories" },
+    { suite: "stories-default", name: "Test: stories" },
+    { suite: "stories-reduced-motion", name: "Test: stories (reduced motion)" },
     { suite: "overlays", name: "Test: overlays" },
     { suite: "themes", name: "Test: themes" },
-    { suite: "responsive", name: "Test: layouts" },
+    { suite: "responsive-desktop", name: "Test: layouts (desktop)" },
+    { suite: "responsive-mobile", name: "Test: layouts (mobile)" },
     { suite: "built-docs", shard: "1/2", name: "Test: docs 1/2" },
     { suite: "built-docs", shard: "2/2", name: "Test: docs 2/2" },
-    { suite: "built-journeys", shard: "1/2", name: "Test: journeys 1/2" },
-    { suite: "built-journeys", shard: "2/2", name: "Test: journeys 2/2" },
+    { suite: "built-journeys", shard: "1/3", name: "Test: journeys 1/3" },
+    { suite: "built-journeys", shard: "2/3", name: "Test: journeys 2/3" },
+    { suite: "built-journeys", shard: "3/3", name: "Test: journeys 3/3" },
   ]);
   const run = suites.steps.find(
     (step) => step.run === `bun run validate:site \${{ matrix.suite }}`,
@@ -350,11 +353,12 @@ test("PR browser validation retains staged WebKit journeys and deployment dry-ru
   const steps = JSON.stringify(job("ci", "browser-built").steps);
   expect(steps).toContain("bun run validate:site built-site");
   const legs = job("ci", "browser-tests").strategy?.matrix.include ?? [];
-  for (const suite of ["built-docs", "built-journeys"])
-    expect(legs.filter((leg) => leg.suite === suite).map((leg) => leg.shard)).toEqual([
-      "1/2",
-      "2/2",
-    ]);
+  // A missing shard silently drops part of the spec.
+  for (const suite of ["built-docs", "built-journeys"]) {
+    const shards = legs.filter((leg) => leg.suite === suite).map((leg) => leg.shard);
+    expect(shards.length).toBeGreaterThan(1);
+    expect(shards).toEqual(shards.map((_, index) => `${index + 1}/${shards.length}`));
+  }
   const validation = readFileSync(`${root}/scripts/validate-site.sh`, "utf8");
   for (const command of [
     "npm test --prefix deployment/site",
