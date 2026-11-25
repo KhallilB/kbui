@@ -372,7 +372,11 @@ export {
   type ToastViewportProps,
   useToastManager,
 } from "./components/Toast/Toast";
-export { ToggleButton, type ToggleButtonProps } from "./components/ToggleButton/ToggleButton";
+export {
+  ToggleButton,
+  type ToggleButtonProps,
+  type ToggleButtonSize,
+} from "./components/ToggleButton/ToggleButton";
 export { ToggleGroup, type ToggleGroupProps } from "./components/ToggleGroup/ToggleGroup";
 export {
   Toolbar,

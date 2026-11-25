@@ -135,14 +135,15 @@
   cursor: not-allowed;
 }
 
-@media (pointer: coarse) {
+@media (pointer: coarse), (max-width: 580px) {
   .kb-filterchip-select,
   .kb-filterchip-remove {
-    min-block-size: max(var(--kb-filterchip-height), var(--kb-space-8));
+    min-block-size: max(var(--kb-filterchip-height), var(--kb-control-touch-min));
   }
 
+  .kb-filterchip-select,
   .kb-filterchip-remove {
-    inline-size: max(var(--kb-filterchip-height), var(--kb-space-8));
+    min-inline-size: max(var(--kb-filterchip-height), var(--kb-control-touch-min));
   }
 }
 

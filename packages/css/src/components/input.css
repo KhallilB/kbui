@@ -16,12 +16,12 @@
 .kb-input-control {
   width: 100%;
   height: var(--kb-input-height-md);
-  padding: 0 var(--kb-space-3);
+  padding: 0 var(--kb-control-padding-md);
   border: 1px solid var(--kb-color-border);
   border-radius: var(--kb-input-radius);
   background: var(--kb-material-recessed-face);
   color: var(--kb-color-fg);
-  font-size: var(--kb-text-control-size);
+  font-size: var(--kb-control-text-md);
 
   font-weight: var(--kb-font-weight-regular);
 
@@ -38,12 +38,14 @@
 
 .kb-input[data-size="sm"] .kb-input-control {
   height: var(--kb-input-height-sm);
-  font-size: var(--kb-size-sm);
+  padding-inline: var(--kb-control-padding-sm);
+  font-size: var(--kb-control-text-sm);
 }
 
 .kb-input[data-size="lg"] .kb-input-control {
   height: var(--kb-input-height-lg);
-  font-size: var(--kb-size-lg);
+  padding-inline: var(--kb-control-padding-lg);
+  font-size: var(--kb-control-text-lg);
 }
 
 .kb-input[data-invalid] .kb-input-control {
@@ -120,6 +122,12 @@
 }
 .kb-input[data-end-adornment] .kb-input-control[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;
+}
+
+@media (pointer: coarse), (max-width: 580px) {
+  .kb-input-control {
+    min-block-size: var(--kb-control-touch-min);
+  }
 }
 
 @media (forced-colors: active) {

@@ -50,6 +50,22 @@ function PinActivity() {
 
 export const Controlled: Story = { render: () => <PinActivity /> };
 
+export const Sizes: Story = {
+  render: (args) => (
+    <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+      <ToggleButton {...args} size="sm">
+        Small
+      </ToggleButton>
+      <ToggleButton {...args} size="md" defaultPressed>
+        Medium
+      </ToggleButton>
+      <ToggleButton {...args} size="lg">
+        Large
+      </ToggleButton>
+    </div>
+  ),
+};
+
 export const Disabled: Story = {
   args: { children: "Snap to grid", disabled: true, defaultPressed: true },
 };

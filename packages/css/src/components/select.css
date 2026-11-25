@@ -19,13 +19,13 @@
   gap: var(--kb-space-2);
   width: 100%;
   min-height: var(--kb-input-height-md);
-  padding: var(--kb-space-2) var(--kb-space-3);
+  padding: var(--kb-space-1) var(--kb-control-padding-md);
   border: 1px solid var(--kb-color-border);
   border-radius: var(--kb-input-radius);
   background: var(--kb-material-recessed-face);
   color: var(--kb-color-fg);
   font: inherit;
-  font-size: var(--kb-text-control-size);
+  font-size: var(--kb-control-text-md);
   line-height: var(--kb-text-leading-control);
   box-shadow: var(--kb-material-field-shadow);
   border-color: var(--kb-material-control-border);
@@ -84,7 +84,7 @@
   align-items: center;
   gap: var(--kb-space-3);
   padding: var(--kb-space-2) var(--kb-space-3);
-  min-height: var(--kb-input-height-md);
+  min-height: max(var(--kb-input-height-md), var(--kb-control-touch-min));
   border-radius: var(--kb-radius-sm);
   font-size: var(--kb-text-control-size);
   outline: none;
@@ -119,6 +119,12 @@
   color: var(--kb-color-danger);
   font-size: var(--kb-text-small-size);
 }
+@media (pointer: coarse), (max-width: 580px) {
+  .kb-select-control {
+    min-height: max(var(--kb-input-height-md), var(--kb-control-touch-min));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .kb-select-control,
   .kb-select-popup {

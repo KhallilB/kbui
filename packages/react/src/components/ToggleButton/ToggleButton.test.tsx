@@ -34,6 +34,19 @@ describe("ToggleButton", () => {
     expect(submit).not.toHaveBeenCalled();
   });
 
+  test("exposes its control size, defaulting to md", () => {
+    render(
+      <>
+        <ToggleButton>Default</ToggleButton>
+        <ToggleButton size="sm">Small</ToggleButton>
+        <ToggleButton size="lg">Large</ToggleButton>
+      </>,
+    );
+    expect(screen.getByRole("button", { name: "Default" })).toHaveAttribute("data-size", "md");
+    expect(screen.getByRole("button", { name: "Small" })).toHaveAttribute("data-size", "sm");
+    expect(screen.getByRole("button", { name: "Large" })).toHaveAttribute("data-size", "lg");
+  });
+
   test("leaves controlled pressed state to the parent", async () => {
     const pressedChange = vi.fn();
     const { rerender } = render(

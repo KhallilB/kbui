@@ -47,6 +47,7 @@ In truncated previews, detected links become interactive only after expansion. T
 - [Text and links](https://kbui.kcb.pro/storybook/?path=/story/components-copyabletext--rich-content): prose with literal highlights and native web links.
 - [References](https://kbui.kcb.pro/storybook/?path=/story/components-copyabletext--references): identifiers, URLs and invitation text.
 - [Inline](https://kbui.kcb.pro/storybook/?path=/story/components-copyabletext--inline): compact reference beside prose.
+- [Copy sizes](https://kbui.kcb.pro/storybook/?path=/story/components-copyabletext--copy-sizes): `sm`, `md` and `lg` copy actions on the shared control scale.
 - [Long values](https://kbui.kcb.pro/storybook/?path=/story/components-copyabletext--long-value): expand and collapse a full-width wrapped value.
 - [Colors](https://kbui.kcb.pro/storybook/?path=/story/components-copyabletext--colors): six value tones with matching field tints.
 - [Copy feedback](https://kbui.kcb.pro/storybook/?path=/story/components-copyabletext--copy-feedback): pending, focus retention and success.
@@ -61,7 +62,8 @@ In truncated previews, detected links become interactive only after expansion. T
 | `children` | `ReactNode` | `value` | Optional display; exact value is shown on failure |
 | `label` | `string` | unset | Visible context above value; does not name the button |
 | `appearance` | `"field" \| "plain"` | `"field"` | Bordered field or inline treatment |
-| `size` | `"sm" \| "md"` | `"md"` | Density; default copy target follows button height token |
+| `size` | `"sm" \| "md"` | `"md"` | Density of the field and the default copy action size |
+| `copySize` | `"sm" \| "md" \| "lg"` | `size` | Copy action height on the shared control scale, so it lines up with a `Button` of the same size |
 | `mono` | `boolean` | `true` | Monospace value display |
 | `tone` | `CopyableTextTone` | `"neutral"` | `neutral`, `accent`, `info`, `success`, `warning` or `danger`; independent of copy state |
 | `truncate` | `boolean` | `false` | Single-line preview with explicit full-value disclosure |
@@ -85,6 +87,8 @@ In truncated previews, detected links become interactive only after expansion. T
 | `className`, `ref`, other props | Native `span` props | unset | Root element; native `onCopy` replaced by success callback |
 
 The root exposes `data-copy-state="idle|pending|copied|failed"`, appearance, size, tone, mono, expandable, expanded, truncate and disabled attributes. Pending sets `aria-disabled` on the button while preserving focus. The status region exists before interaction and is empty initially. Failure is both visible and announced; success has a visible button label and polite announcement.
+
+The small copy action uses `--kb-button-height-sm`. The medium action uses `--kb-copyabletext-target-size`, which aliases `--kb-button-height-md` by default.
 
 Use `--kb-copyabletext-highlight-background` for marked text and `Link` tokens for navigation styling. Standalone CSS users also load `link.css` and `code.css` for detected links and syntax styling. Use `--kb-copyabletext-*` tokens for gap, padding, radius, border, background, neutral value color, target size and minimum copy width. `className` styles the root; `classNames` styles individual parts. Verify contrast and target sizes after overrides. Automated tests cover component behavior, browser keyboard activation and accessibility scans; screen-reader announcement quality remains a human verification task.
 

@@ -13,7 +13,7 @@
   gap: var(--kb-space-2);
   height: var(--kb-button-height-md);
   padding: 0 var(--kb-button-padding-md);
-  font-size: var(--kb-text-control-size);
+  font-size: var(--kb-control-text-md);
   border: 1px solid transparent;
   border-radius: var(--kb-button-radius);
   font-weight: var(--kb-font-weight-strong);
@@ -39,7 +39,7 @@
 .kb-button[data-size="sm"] {
   height: var(--kb-button-height-sm);
   padding: 0 var(--kb-button-padding-sm);
-  font-size: var(--kb-text-small-size);
+  font-size: var(--kb-control-text-sm);
 }
 
 /* Square for a lone icon; the name comes from aria-label. */
@@ -57,7 +57,7 @@
 .kb-button[data-size="lg"] {
   height: var(--kb-button-height-lg);
   padding: 0 var(--kb-button-padding-lg);
-  font-size: var(--kb-text-body-size);
+  font-size: var(--kb-control-text-lg);
 }
 
 .kb-button[data-variant="primary"] {
@@ -150,15 +150,10 @@
   }
 }
 
-@media (max-width: 580px) {
+@media (pointer: coarse), (max-width: 580px) {
   .kb-button {
-    min-height: var(--kb-button-touch-min);
-  }
-}
-
-@media (max-width: 580px) {
-  .kb-button[data-size="icon"] {
     min-width: var(--kb-button-touch-min);
+    min-height: var(--kb-button-touch-min);
   }
 }
 
