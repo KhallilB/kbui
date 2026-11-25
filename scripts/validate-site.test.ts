@@ -65,7 +65,8 @@ if [[ "$command" == "\${FAIL_COMMAND:-}" ]]; then exit 23; fi
 }
 
 const suites: Record<string, string[]> = {
-  stories: ["bun run test:stories", "bun run test:overlays"],
+  stories: ["bun run test:stories"],
+  overlays: ["bun run test:overlays"],
   themes: ["bun run --cwd apps/storybook test:themes --maxWorkers=2"],
   responsive: ["bun run --cwd apps/storybook test:site", "bun run --cwd apps/storybook test:a11y"],
 };
@@ -95,14 +96,47 @@ const builtCommands = [
   "npm run check --prefix deployment/site",
 ];
 
-test("built stage preserves staging, both browser engines and deployment dry-run", () => {
-  const validation = validate("built");
-  expect(validation.result.exitCode).toBe(0);
-  const commands = validation.commands.filter((command) => /^(bun|npm) /.test(command));
-  expect(commands).toHaveLength(builtCommands.length);
-  for (const [index, command] of builtCommands.entries())
-    expect(commands[index]).toStartWith(command);
-  expect(validation.temporary).toEqual([]);
+const builtParts: Record<string, { commands: string[]; ports: string }> = {
+  built: { commands: builtCommands, ports: "python3 - 4175 4176" },
+  "built-site": {
+    commands: builtCommands.filter(
+      (command) => !/build:internal|verify:release|verify:controls/.test(command),
+    ),
+    ports: "python3 - 4175",
+  },
+  "built-journeys": {
+    commands: builtCommands.filter(
+      (command) =>
+        !/npm test|verify:overrides|verify:storybook|verify:recipes|verify:component-docs|npm run (build|check)/.test(
+          command,
+        ),
+    ),
+    ports: "python3 - 4175 4176",
+  },
+};
+
+for (const [stage, { commands: expected, ports }] of Object.entries(builtParts)) {
+  test(`${stage} stage runs its staged-site checks in order`, () => {
+    const validation = validate(stage);
+    expect(validation.result.exitCode).toBe(0);
+    expect(validation.commands[0]).toBe(ports);
+    const commands = validation.commands.filter((command) => /^(bun|npm) /.test(command));
+    expect(commands).toHaveLength(expected.length);
+    for (const [index, command] of expected.entries()) expect(commands[index]).toStartWith(command);
+    expect(validation.temporary).toEqual([]);
+  });
+}
+
+test("built parts together cover the full built stage exactly once", () => {
+  const site = builtParts["built-site"]?.commands ?? [];
+  const journeys = builtParts["built-journeys"]?.commands ?? [];
+  const shared = journeys.filter((command) => site.includes(command));
+  expect(shared).toEqual([
+    "npm ci --prefix deployment/site",
+    "bun run --cwd apps/storybook build:site",
+    "bun scripts/site-stage.ts",
+  ]);
+  expect(new Set([...site, ...journeys])).toEqual(new Set(builtCommands));
 });
 
 test("default local validation retains every stage exactly once", () => {
@@ -124,6 +158,13 @@ test("failed browser checks stop the selected stage and preserve failure", () =>
   const validation = validate("responsive", suites.responsive?.[0]);
   expect(validation.result.exitCode).toBe(23);
   expect(validation.commands).toEqual(["bun run --cwd apps/storybook test:site"]);
+});
+
+test("journey failures stop later checks and clean temporary files", () => {
+  const validation = validate("built-journeys", "bun run --cwd apps/storybook verify:release");
+  expect(validation.result.exitCode).toBe(23);
+  expect(validation.commands).not.toContain("bun run --cwd apps/storybook verify:controls");
+  expect(validation.temporary).toEqual([]);
 });
 
 test("built verification failures prevent deployment checks and clean temporary files", () => {
