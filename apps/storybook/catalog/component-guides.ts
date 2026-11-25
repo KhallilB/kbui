@@ -9,6 +9,40 @@ export type ComponentGuide = {
 };
 
 export const componentGuides: Record<string, ComponentGuide> = {
+  ToggleButton: {
+    use: "Turn a persistent setting on or off using one labeled action.",
+    example: {
+      title: "Pin a view",
+      description: "Activate the same control again to clear its pressed state.",
+    },
+    tips: [
+      "Keep the action name stable as its state changes. Use `pressed` and `onPressedChange` when the state is shared elsewhere.",
+    ],
+    accessibility: accessibilityGuides.ToggleButton,
+  },
+  ToggleGroup: {
+    use: "Let people turn on multiple related options within one named group.",
+    example: {
+      title: "Set formatting options",
+      description: "Move between options with the arrow keys and toggle each independently.",
+    },
+    tips: [
+      "Use distinct `value` strings on the child `ToggleButton` controls. Supply `aria-label` or `aria-labelledby` on the group.",
+    ],
+    accessibility: accessibilityGuides.ToggleGroup,
+  },
+  FilterChip: {
+    use: "Keep a filter visible and let people change its selection or remove it.",
+    example: {
+      title: "Refine a list",
+      description:
+        "Toggle a filter with its label button, or remove it with the named adjacent button.",
+    },
+    tips: [
+      "Update `selected` in `onSelectedChange`. If removal unmounts a focused chip, move focus to a nearby filter or the add-filter control.",
+    ],
+    accessibility: accessibilityGuides.FilterChip,
+  },
   Avatar: {
     use: "Identify a person or organization consistently when a photo is loading, absent or broken.",
     example: {

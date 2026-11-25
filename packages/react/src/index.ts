@@ -135,6 +135,11 @@ export {
   type FileInputItem,
   type FileInputProps,
 } from "./components/FileInput/FileInput";
+export {
+  FilterChip,
+  type FilterChipProps,
+  type FilterChipSlot,
+} from "./components/FilterChip/FilterChip";
 export { Form, type FormPart, type FormProps, type FormWidth } from "./components/Form/Form";
 export {
   FormActions,
@@ -367,6 +372,8 @@ export {
   type ToastViewportProps,
   useToastManager,
 } from "./components/Toast/Toast";
+export { ToggleButton, type ToggleButtonProps } from "./components/ToggleButton/ToggleButton";
+export { ToggleGroup, type ToggleGroupProps } from "./components/ToggleGroup/ToggleGroup";
 export {
   Toolbar,
   type ToolbarButtonProps,

@@ -87,6 +87,7 @@ export const adoptionRelationships: Record<string, AdoptionRelationship> = {
     "Accepted original files survive mixed rejection, edit and reset; repeated names remove by stable ID with focus repair",
     "AttachmentRecovery",
   ),
+  FilterChip: pending("Applied request filters with selection, removal and focus recovery"),
   Form: intake(
     "Native request submission retains draft and focuses linked validation before correction",
     "ValidationRecovery",
@@ -165,6 +166,8 @@ export const adoptionRelationships: Record<string, AdoptionRelationship> = {
   ),
   Thumbnail: pending("Discoverable product and collection media"),
   Toast: pending("Local action outcome with persistent error recovery"),
+  ToggleButton: pending("A persistent workspace display option with a visible pressed state"),
+  ToggleGroup: pending("Independent display options in a named workspace control group"),
   Toolbar: composed(
     "recipes/PageHeader.stories.tsx",
     "recipes/PageHeader.stories.tsx",

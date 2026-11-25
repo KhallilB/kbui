@@ -271,6 +271,26 @@ export const definitions: Record<string, Definition> = {
       Secondary: "Secondary",
       Ghost: "Ghost",
       Danger: "Danger",
+      Loading: "Loading",
+    },
+  },
+  ToggleButton: {
+    group: "Actions",
+    description: "Turn an independent setting on or off with a persistent pressed state.",
+    examples: { Default: "Default", Controlled: "Controlled", Disabled: "Disabled" },
+  },
+  ToggleGroup: {
+    group: "Actions",
+    description: "Toggle several related options with one keyboard entry point.",
+    examples: { Default: "Default", Vertical: "Vertical" },
+  },
+  FilterChip: {
+    group: "Forms",
+    description: "Show a named filter that can be toggled, removed, or both.",
+    examples: {
+      Default: "Default",
+      Removable: "Removable",
+      SelectableAndRemovable: "Selectable and Removable",
       Disabled: "Disabled",
     },
   },

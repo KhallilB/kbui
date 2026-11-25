@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import type { CSSProperties } from "react";
-import { expect, within } from "storybook/test";
+import { type CSSProperties, useState } from "react";
+import { expect, waitFor, within } from "storybook/test";
 import { Button } from "./Button";
 
 const meta = {
@@ -51,6 +51,37 @@ export const Sizes: Story = {
   ),
 };
 export const Disabled: Story = { args: { disabled: true } };
+export const Loading: Story = { args: { loading: true } };
+
+export const LoadingInteraction: Story = {
+  tags: ["!dev", "!autodocs"],
+  render: function Example() {
+    const [loading, setLoading] = useState(false);
+    return (
+      <Button loading={loading} onClick={() => setLoading(true)}>
+        Save changes
+      </Button>
+    );
+  },
+  play: async ({ canvasElement, userEvent }) => {
+    const button = within(canvasElement).getByRole("button", { name: "Save changes" });
+    const width = button.getBoundingClientRect().width;
+    button.focus();
+    await userEvent.keyboard("{Enter}");
+    await expect(button).toHaveFocus();
+    await expect(button).toHaveAttribute("aria-busy", "true");
+    expect(button.getBoundingClientRect().width).toBe(width);
+    const spinner = button.querySelector(".kb-button-spinner");
+    await waitFor(() => expect(spinner).toBeVisible());
+    expect(spinner?.getAttribute("aria-hidden")).toBe("true");
+    const buttonBounds = button.getBoundingClientRect();
+    const spinnerBounds = spinner?.getBoundingClientRect();
+    expect(spinnerBounds && spinnerBounds.left + spinnerBounds.width / 2).toBeCloseTo(
+      buttonBounds.left + width / 2,
+    );
+  },
+};
+
 export const AsLink: Story = {
   // biome-ignore lint/a11y/useAnchorContent: Base UI render injects children
   args: { render: <a href="#docs" />, nativeButton: false, role: "link", children: "View project" },

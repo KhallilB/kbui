@@ -1,0 +1,37 @@
+/* Anatomy: .kb-togglegroup [data-orientation=horizontal|vertical] [data-disabled] [hidden] */
+.kb-togglegroup {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: start;
+  gap: var(--kb-togglegroup-gap);
+  max-inline-size: 100%;
+  padding: var(--kb-space-1);
+  border: 1px solid var(--kb-color-border);
+  border-radius: var(--kb-radius-lg);
+  background: var(--kb-material-recessed-face);
+}
+
+.kb-togglegroup[hidden] {
+  display: none;
+}
+
+.kb-togglegroup[data-orientation="vertical"] {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+}
+
+@media (forced-colors: none) {
+  :where(.kb-togglegroup) > .kb-togglebutton:where(:not([aria-pressed="true"])) {
+    border-color: transparent;
+    background-color: transparent;
+    box-shadow: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .kb-togglegroup {
+    border-color: CanvasText;
+    background: Canvas;
+  }
+}
