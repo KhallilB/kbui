@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.14.0](https://github.com/KhallilB/kbui/compare/v0.13.0...v0.14.0) (2026-11-25)
+
+
+### Features
+
+* **controls:** add a compact shared size scale ([c61e588](https://github.com/KhallilB/kbui/commit/c61e588402e909740002c90c56ad92529d7d2d93))
+* **controls:** add a compact shared size scale ([56796c7](https://github.com/KhallilB/kbui/commit/56796c769c6ca805db819648d9a81f4eddbc58bb))
+* **controls:** add a compact shared size scale ([#233](https://github.com/KhallilB/kbui/issues/233)) ([c61e588](https://github.com/KhallilB/kbui/commit/c61e588402e909740002c90c56ad92529d7d2d93))
+
+
+### Bug Fixes
+
+* **controls:** preserve shared height overrides ([ab9ca98](https://github.com/KhallilB/kbui/commit/ab9ca9814f68057e83115b8b8b1ae25029b8c72b))
+
 ## [0.13.0](https://github.com/KhallilB/kbui/compare/v0.12.2...v0.13.0) (2026-11-25)
 
 
