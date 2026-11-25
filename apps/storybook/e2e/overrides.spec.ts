@@ -60,7 +60,7 @@ const cases: Case[] = [
     consumer: "@layer base { button { padding: 0; border-radius: 0; } }",
     probe: button(),
     read: "padding-left",
-    expected: "15px",
+    expected: "12px",
   },
   {
     name: "token override in an app layer after kbui beats kbui tokens",
