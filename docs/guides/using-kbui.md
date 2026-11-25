@@ -34,7 +34,7 @@ If TypeScript rejects the `.css` import, add this declaration to the project. Vi
 declare module "*.css";
 ```
 
-Commit your app's package manifest and lockfile so CI and deployments install the same versions. The release workflow checks consumer installation on Windows, macOS and Linux before publishing to npm.
+Commit your app's package manifest and lockfile so CI and deployments install the same versions. The release workflow checks consumer installation on Windows and Linux before publishing to npm, and on macOS alongside publishing.
 
 ### Choosing packages
 

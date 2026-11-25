@@ -19,7 +19,7 @@ type Workflow = {
       "runs-on"?: string;
       strategy?: {
         "fail-fast": boolean;
-        matrix: { include: { suite: string; name: string; shard?: string }[] };
+        matrix: { include?: { suite: string; name: string; shard?: string }[]; os?: string[] };
       };
       container?: { image: string };
       if?: string;
@@ -396,7 +396,7 @@ test("release notes clean npm mentions before assets run without changing real c
   expect(job("release", "assets").needs).toBe("release-please");
 });
 
-test("npm publish trusts GitHub OIDC only after every OS installs the release", () => {
+test("npm publish trusts GitHub OIDC only after Linux and Windows install the release", () => {
   const publish = job("release", "publish");
   expect(publish.needs).toEqual(["release-please", "install"]);
   expect(publish.if).toContain("needs.install.result == 'success'");
@@ -405,6 +405,17 @@ test("npm publish trusts GitHub OIDC only after every OS installs the release", 
   expect(steps).toContain("actions/download-artifact");
   expect(steps).toContain("npm publish");
   expect(steps).not.toMatch(/NPM_TOKEN|NODE_AUTH_TOKEN|secrets\./);
+});
+
+test("queued macOS runners check the same install without delaying npm publishing", () => {
+  const install = job("release", "install");
+  const macos = job("release", "install-macos");
+  expect(install.strategy?.matrix.os).toEqual(["ubuntu-latest", "windows-latest"]);
+  expect(macos["runs-on"]).toBe("macos-latest");
+  expect(macos.needs).toEqual(install.needs);
+  expect(macos.if).toBe(install.if);
+  expect(macos.steps).toEqual(install.steps);
+  expect(JSON.stringify(job("release", "publish"))).not.toContain("install-macos");
 });
 
 test("manual publishing retries validate the tag and require a published release", async () => {
