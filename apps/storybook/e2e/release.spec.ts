@@ -7,6 +7,9 @@ import { loadCatalogSources } from "../catalog/source.ts";
 import type { releaseProfiles } from "./profiles.ts";
 import { siteURL as origin } from "./urls.ts";
 
+// Independent tests, so CI can shard them across jobs.
+test.describe.configure({ mode: "parallel" });
+
 const check = (
   name: string,
   run: (page: Page, profile: (typeof releaseProfiles)[number]) => Promise<void>,

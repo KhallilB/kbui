@@ -17,7 +17,10 @@ type Workflow = {
     {
       name?: string;
       "runs-on"?: string;
-      strategy?: { "fail-fast": boolean; matrix: { include: { suite: string; name: string }[] } };
+      strategy?: {
+        "fail-fast": boolean;
+        matrix: { include: { suite: string; name: string; shard?: string }[] };
+      };
       container?: { image: string };
       if?: string;
       needs?: string | string[];
@@ -136,14 +139,28 @@ test("independent browser suites and built-site checks run on separate standard 
     { suite: "overlays", name: "Test: overlays" },
     { suite: "themes", name: "Test: themes" },
     { suite: "responsive", name: "Test: layouts" },
-    { suite: "built-journeys", name: "Test: journeys" },
+    { suite: "built-docs", shard: "1/2", name: "Test: docs 1/2" },
+    { suite: "built-docs", shard: "2/2", name: "Test: docs 2/2" },
+    { suite: "built-journeys", shard: "1/2", name: "Test: journeys 1/2" },
+    { suite: "built-journeys", shard: "2/2", name: "Test: journeys 2/2" },
   ]);
-  expect(JSON.stringify(suites.steps)).toContain(`bun run validate:site \${{ matrix.suite }}`);
+  const run = suites.steps.find(
+    (step) => step.run === `bun run validate:site \${{ matrix.suite }}`,
+  );
+  expect(run?.env).toEqual({ SITE_SHARD: `\${{ matrix.shard }}` });
   expect(job("ci", "browser-built").name).toBe("Test: site");
   expect(suites.steps.some((step) => step.uses?.includes("upload-artifact"))).toBe(false);
   expect(jobs.browser?.name).toBe("Gate: validation");
   expect(jobs.browser?.needs).toEqual(["scope", "check", "browser-tests", "browser-built"]);
   expect(jobs.browser?.if).toBe("always() && needs.scope.outputs.browser == 'true'");
+});
+
+test("sharded specs let Playwright split tests within the file", () => {
+  // Without parallel mode, Playwright shards whole files and one job gets nothing.
+  for (const spec of ["component-docs", "release"])
+    expect(readFileSync(`${root}/apps/storybook/e2e/${spec}.spec.ts`, "utf8")).toContain(
+      'test.describe.configure({ mode: "parallel" });',
+    );
 });
 
 test("final validation gate rejects failed, skipped and cancelled prerequisites", () => {
@@ -332,10 +349,12 @@ test("production consumes only the same-run validated immutable artifact", () =>
 test("PR browser validation retains staged WebKit journeys and deployment dry-run", () => {
   const steps = JSON.stringify(job("ci", "browser-built").steps);
   expect(steps).toContain("bun run validate:site built-site");
-  expect(job("ci", "browser-tests").strategy?.matrix.include).toContainEqual({
-    suite: "built-journeys",
-    name: "Test: journeys",
-  });
+  const legs = job("ci", "browser-tests").strategy?.matrix.include ?? [];
+  for (const suite of ["built-docs", "built-journeys"])
+    expect(legs.filter((leg) => leg.suite === suite).map((leg) => leg.shard)).toEqual([
+      "1/2",
+      "2/2",
+    ]);
   const validation = readFileSync(`${root}/scripts/validate-site.sh`, "utf8");
   for (const command of [
     "npm test --prefix deployment/site",
