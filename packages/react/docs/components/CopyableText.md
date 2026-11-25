@@ -88,6 +88,8 @@ In truncated previews, detected links become interactive only after expansion. T
 
 The root exposes `data-copy-state="idle|pending|copied|failed"`, appearance, size, tone, mono, expandable, expanded, truncate and disabled attributes. Pending sets `aria-disabled` on the button while preserving focus. The status region exists before interaction and is empty initially. Failure is both visible and announced; success has a visible button label and polite announcement.
 
+The small copy action uses `--kb-button-height-sm`. The medium action uses `--kb-copyabletext-target-size`, which aliases `--kb-button-height-md` by default.
+
 Use `--kb-copyabletext-highlight-background` for marked text and `Link` tokens for navigation styling. Standalone CSS users also load `link.css` and `code.css` for detected links and syntax styling. Use `--kb-copyabletext-*` tokens for gap, padding, radius, border, background, neutral value color, target size and minimum copy width. `className` styles the root; `classNames` styles individual parts. Verify contrast and target sizes after overrides. Automated tests cover component behavior, browser keyboard activation and accessibility scans; screen-reader announcement quality remains a human verification task.
 
 ## Related components

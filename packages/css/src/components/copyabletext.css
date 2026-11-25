@@ -163,7 +163,7 @@
 }
 .kb-copyabletext[data-size="sm"] .kb-copyabletext-copy:where(:not([data-size])),
 .kb-copyabletext-copy[data-size="sm"] {
-  --_copyabletext-copy-height: var(--kb-control-height-sm);
+  --_copyabletext-copy-height: var(--kb-button-height-sm);
   padding-inline: var(--kb-control-padding-sm);
   font-size: var(--kb-control-text-sm);
 }

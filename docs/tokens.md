@@ -20,7 +20,7 @@ Published defaults use chalk and graphite surfaces with persimmon accents. `colo
 
 ## Control sizes
 
-Buttons, fields and other controls share one size scale, so a row of controls lines up when they use the same `size`. Override a `--kb-control-*` token on `:root` to change every control at once. Component tokens such as `--kb-button-height-md` and `--kb-input-height-md` alias the shared scale and still adjust one component.
+Buttons, fields and other controls share one size scale, so a row of controls lines up when they use the same `size`. Override a `--kb-control-*` token on `:root` to change every control at once. The `--kb-button-height-*` and `--kb-input-height-*` tokens alias the shared scale. Existing Button height overrides still reach CopyableText and Tabs. A default ToggleButton now follows the medium Button height. Set `--kb-togglebutton-min-size` for its own default height.
 
 | Size | Height | Inline padding | Text | Icon |
 | --- | --- | --- | --- | --- |

@@ -31,7 +31,7 @@
 
 .kb-togglebutton[data-size="sm"] {
   --kb-togglebutton-indicator-size: var(--kb-control-icon-sm);
-  --_togglebutton-height: var(--kb-control-height-sm);
+  --_togglebutton-height: var(--kb-button-height-sm);
   padding-inline: var(--kb-control-padding-sm);
   font-size: var(--kb-control-text-sm);
 }

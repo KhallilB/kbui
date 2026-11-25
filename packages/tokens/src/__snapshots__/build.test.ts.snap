@@ -391,8 +391,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-filterchip-hover-background: var(--kb-color-surface);
   --kb-filterchip-selected-hover-background: color-mix(in srgb, var(--kb-color-action) 15%, var(--kb-color-surface));
   --kb-togglebutton-radius: var(--kb-button-radius);
-  --kb-togglebutton-min-size: var(--kb-control-height-md);
-  --kb-togglebutton-padding-inline: var(--kb-control-padding-md);
+  --kb-togglebutton-min-size: var(--kb-button-height-md);
+  --kb-togglebutton-padding-inline: var(--kb-button-padding-md);
   --kb-togglebutton-indicator-size: var(--kb-control-icon-md);
   --kb-togglebutton-pressed-bg: color-mix(in srgb, var(--kb-color-action) 9%, var(--kb-color-surface));
   --kb-togglebutton-pressed-fg: var(--kb-color-fg);
@@ -622,7 +622,7 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-copyabletext-radius: var(--kb-radius-lg);
   --kb-copyabletext-border: var(--kb-color-border);
   --kb-copyabletext-background: var(--kb-color-surface);
-  --kb-copyabletext-target-size: var(--kb-control-height-md);
+  --kb-copyabletext-target-size: var(--kb-button-height-md);
   --kb-copyabletext-copy-min-width: 5.5rem;
   --kb-copyabletext-value-color: var(--kb-color-fg);
   --kb-copyabletext-highlight-background: color-mix(in srgb, var(--kb-color-warning) 16%, var(--kb-color-surface));
@@ -655,8 +655,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-popover-enter-offset: var(--kb-space-1);
   --kb-tabs-radius: var(--kb-radius-md);
   --kb-tabs-list-padding: 3px;
-  --kb-tabs-tab-height-sm: var(--kb-control-height-sm);
-  --kb-tabs-tab-height-md: var(--kb-control-height-md);
+  --kb-tabs-tab-height-sm: var(--kb-button-height-sm);
+  --kb-tabs-tab-height-md: var(--kb-button-height-md);
   --kb-tabs-indicator-thickness: 2px;
   --kb-tabs-panel-padding: var(--kb-space-4);
   --kb-table-background: var(--kb-color-bg);

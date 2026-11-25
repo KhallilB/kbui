@@ -120,7 +120,7 @@ Keep action text at least 4.5:1 against both rendered fills, including any sheen
 
 Use `Button` variants when they fit. Local classes may change colors as well as layout and shape; check intentional overrides in both themes, including hover, focus and disabled states. For component contributions, follow [Theme and state support](adding-a-component.md#theme-and-state-support).
 
-Global scale tokens move every component that aliases them. Component tokens, such as `--kb-button-height-md`, adjust one component and take precedence for it. `packages/tokens/tokens.json` lists every token with its default.
+Global scale tokens move every component that aliases them. Component tokens take precedence for the controls that read them. For example, `--kb-button-height-md` also reaches the components that alias the medium Button height. `packages/tokens/tokens.json` lists every token with its default.
 
 Hairline borders and focus-ring widths have no tokens because they protect legibility and accessibility. A class can still change them; keep focus rings visible. `--kb-control-touch-min` sets the minimum control size on coarse pointers and narrow screens, and `--kb-button-touch-min` aliases it; keep it at 44px or more. See [Control sizes](../tokens.md#control-sizes).
 

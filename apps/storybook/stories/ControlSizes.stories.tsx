@@ -68,7 +68,7 @@ export const SharedHeights: Story = {
         control: control.className.split(" ")[0],
         height: Math.round(control.getBoundingClientRect().height),
       }));
-      expect(measured.length).toBeGreaterThanOrEqual(4);
+      expect(measured).toHaveLength(size === "lg" ? 4 : 7);
       expect(measured).toEqual(measured.map(({ control }) => ({ control, height: expected })));
     }
   },
