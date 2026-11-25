@@ -70,6 +70,7 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | `togglebutton.css` | Native button with `.kb-togglebutton`, `aria-pressed` and an indicator slot |
 | `togglegroup.css` | `.kb-togglegroup` with named group semantics, orientation and toggle buttons |
 | `filterchip.css` | `.kb-filterchip` with a label and separate selection and removal controls |
+| `treelist.css` | `.kb-treelist` using nested lists, disclosure buttons and connector rails |
 | `numberfield.css` | `.kb-numberfield` with size/state attributes, label, grouped input/step controls and full-width help/error |
 | `fileinput.css` | `.kb-fileinput` with labeled picker, retained list and named removal controls; also load `Button` CSS when importing parts |
 | `combobox.css` | `.kb-combobox` with labeled search input, clear/trigger actions, portaled listbox popup and polite empty status |

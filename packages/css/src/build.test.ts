@@ -347,6 +347,7 @@ describe("buildCss", () => {
       "skeleton.css",
       "emptystate.css",
       "toast.css",
+      "treelist.css",
       "filterchip.css",
       "togglebutton.css",
     ]) {

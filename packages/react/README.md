@@ -156,6 +156,7 @@ See [Media and identity](../../docs/guides/media-and-identity.md) for responsive
 |---|---|
 | <a id="table"></a>[`Table`](docs/components/Table.md) | Compare fields across records with sorting, selection, actions and sticky layouts. |
 | <a id="descriptionlist"></a>[`DescriptionList`](docs/components/DescriptionList.md) | Scan labeled facts with aligned, responsive key/value presentation. |
+| <a id="treelist"></a>[`TreeList`](docs/components/TreeList.md) | Browse a hierarchy with collapsible branches. |
 | <a id="collectionlist"></a>[`CollectionList`](docs/components/CollectionList.md) | Group unordered or ordered records with shared alignment and spacing. |
 | <a id="collectionrow"></a>[`CollectionRow`](docs/components/CollectionRow.md) | Summarize a record with details, metadata, selection and independent actions. |
 

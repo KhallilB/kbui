@@ -415,6 +415,8 @@ function CatalogDetail({
       [selected.id]: { source, version: (current[selected.id]?.version ?? 0) + 1 },
     }));
   const layout = previewLayout(entry.id, selected.id);
+  const overlayInFlow =
+    entry.id === "popover" || (!paneResize.split && selected.id === "components-dialog--drawer");
   return (
     <>
       <div className="catalog-topline">
@@ -460,6 +462,7 @@ function CatalogDetail({
         <div
           className="catalog-styling-workspace"
           data-component={entry.id}
+          data-overlay-in-flow={overlayInFlow || undefined}
           ref={paneResize.root}
           data-compare={compare || undefined}
           data-focused={focused || undefined}
@@ -669,7 +672,7 @@ function CatalogDetail({
                 <StoryPreview
                   code={code}
                   onCodeResult={setCodeResult}
-                  fill={entry.id !== "popover" && !compare && paneResize.split}
+                  fill={!overlayInFlow && !compare && paneResize.split}
                   fullWidth={compare}
                   active={active}
                   appearance={{ ...appearance, theme: compare ? "light" : appearance.theme, skin }}

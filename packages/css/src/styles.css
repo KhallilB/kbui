@@ -68,3 +68,4 @@
 @import "./components/togglegroup.css" layer(kbui.components);
 @import "./components/toolbar.css" layer(kbui.components);
 @import "./components/tooltip.css" layer(kbui.components);
+@import "./components/treelist.css" layer(kbui.components);

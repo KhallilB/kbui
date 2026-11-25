@@ -384,6 +384,12 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-togglebutton-pressed-bg: color-mix(in srgb, var(--kb-color-action) 9%, var(--kb-color-surface));
   --kb-togglebutton-pressed-fg: var(--kb-color-fg);
   --kb-togglegroup-gap: var(--kb-space-1);
+  --kb-treelist-motion-duration: var(--kb-motion-duration-base);
+  --kb-treelist-motion-easing: var(--kb-motion-easing-standard);
+  --kb-treelist-indent: var(--kb-space-5);
+  --kb-treelist-rail: var(--kb-color-muted);
+  --kb-treelist-row-height: var(--kb-space-8);
+  --kb-treelist-hover-background: var(--kb-color-surface);
   --kb-toolbar-radius: 12px;
   --kb-toolbar-padding: 6px;
   --kb-tooltip-padding-block: var(--kb-space-2);
@@ -821,6 +827,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-filterchip-selected-hover-background: color-mix(in srgb, var(--kb-color-action) 15%, var(--kb-color-surface));
   --kb-togglebutton-pressed-bg: color-mix(in srgb, var(--kb-color-action) 9%, var(--kb-color-surface));
   --kb-togglebutton-pressed-fg: var(--kb-color-fg);
+  --kb-treelist-rail: var(--kb-color-muted);
+  --kb-treelist-hover-background: var(--kb-color-surface);
   --kb-link-color: var(--kb-color-accent-ink);
   --kb-link-hover: var(--kb-color-fg);
   --kb-code-background: var(--kb-color-surface);
@@ -1023,6 +1031,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-filterchip-selected-hover-background: color-mix(in srgb, var(--kb-color-action) 15%, var(--kb-color-surface));
   --kb-togglebutton-pressed-bg: color-mix(in srgb, var(--kb-color-action) 9%, var(--kb-color-surface));
   --kb-togglebutton-pressed-fg: var(--kb-color-fg);
+  --kb-treelist-rail: var(--kb-color-muted);
+  --kb-treelist-hover-background: var(--kb-color-surface);
   --kb-link-color: var(--kb-color-accent-ink);
   --kb-link-hover: var(--kb-color-fg);
   --kb-code-background: var(--kb-color-surface);
@@ -1226,6 +1236,8 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
     --kb-filterchip-selected-hover-background: color-mix(in srgb, var(--kb-color-action) 15%, var(--kb-color-surface));
     --kb-togglebutton-pressed-bg: color-mix(in srgb, var(--kb-color-action) 9%, var(--kb-color-surface));
     --kb-togglebutton-pressed-fg: var(--kb-color-fg);
+    --kb-treelist-rail: var(--kb-color-muted);
+    --kb-treelist-hover-background: var(--kb-color-surface);
     --kb-link-color: var(--kb-color-accent-ink);
     --kb-link-hover: var(--kb-color-fg);
     --kb-code-background: var(--kb-color-surface);

@@ -276,6 +276,7 @@ for (const width of [320, 1280]) {
               table: ".kb-table-scroll, .kb-table",
               descriptionlist: ".kb-descriptionlist",
               collectionlist: ".kb-collectionlist",
+              treelist: ".kb-treelist",
               collectionrow: ".kb-collectionlist",
             };
             const selector = fluidSelectors[entry.id];
@@ -529,6 +530,10 @@ for (const width of [320, 1280]) {
                   { timeout: 5000, message: "Overlay clipped by preview viewport" },
                 )
                 .toBe(true);
+              if (story.id === "components-dialog--drawer") {
+                await popup.getByRole("button", { name: "Close details" }).click();
+                await expect(popup).toBeHidden();
+              }
               if (entry.id === "menu") {
                 const balance = await popup.evaluate((element) => {
                   const trigger = document.querySelector('[aria-haspopup="menu"]');

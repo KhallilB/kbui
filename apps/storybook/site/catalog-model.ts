@@ -45,6 +45,7 @@ export const layoutPreviewComponents = [
   "table",
   "descriptionlist",
   "collectionlist",
+  "treelist",
   "collectionrow",
 ] as const;
 
@@ -107,6 +108,7 @@ export function previewLayout(component: string, _story: string) {
       "table",
       "descriptionlist",
       "collectionlist",
+      "treelist",
       "collectionrow",
     ].includes(component)
   )

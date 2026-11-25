@@ -56,7 +56,7 @@ Use `Dialog.Content` `title` and `description` for simple prompts. For a structu
 
 ## Surface tokens
 
-[Surface theming](../tokens.md#surface-theming) lists the `Dialog`, `Button` and popup tokens. Defaults reproduce the shipped design: `Button` transitions take 140ms with a 1px press offset, `Dialog` 150ms with a 0.96 entry scale, `Menu`, `Select` and `Tooltip` use `--kb-motion-duration-fast`. `Popover` uses a 160ms anchored scale/offset transition; `Disclosure` and `Accordion` expand to their measured content height over 240ms. Drawer slides from the logical inline end over 240ms. These durations and easing curves have component tokens. Set duration and easing on the theme host; a popup-only inline style cannot reach the sibling `Dialog` backdrop.
+[Surface theming](../tokens.md#surface-theming) lists the `Dialog`, `Button` and popup tokens. Defaults reproduce the shipped design: `Button` transitions take 140ms with a 1px press offset, `Dialog` 150ms with a 0.96 entry scale, `Menu`, `Select` and `Tooltip` use `--kb-motion-duration-fast`. `Popover` uses a 160ms anchored scale/offset transition; `Disclosure` and `Accordion` expand to their measured content height over 240ms. The drawer slides over 240ms. These durations and easing curves have component tokens. Set duration and easing on the theme host; a popup-only inline style cannot reach the sibling `Dialog` backdrop.
 
 Reduced motion removes component transitions, drawer/popover movement and the `Button` press offset. Consumer animations must honor the same preference. Transitions use Base UI’s [interruptible lifecycle states](https://base-ui.com/react/handbook/animation), so reversing a reveal follows the latest action. `Panel` content returns to automatic height after expansion, allowing async content and text reflow to grow naturally. Keep positioning wrappers free of movement transitions: scroll and resize updates must track the anchor immediately.
 
@@ -81,7 +81,7 @@ The component references own APIs and complete modules: [`Disclosure`](../../pac
 
 ## Drawer pattern
 
-A side sheet uses `Dialog.Content layout="drawer"` with direct Header, Body and Footer children. It retains modal semantics, focus containment, page scroll locking, Escape dismissal and trigger focus return. Content title/description props also generate a persistent Header. The sheet slides from the logical inline end, fills the dynamic viewport and respects device safe areas. Header and Footer stay visible while Body scrolls; overscroll stays inside the sheet. Reduced motion removes the slide. This pattern provides no swipe gesture or snap points.
+A responsive drawer uses `Dialog.Content layout="drawer"` with direct Header, Body and Footer children. It retains modal semantics, focus containment, page scroll locking, Escape dismissal and trigger focus return. Content title/description props also generate a persistent Header. Above 550 CSS pixels the drawer slides from the logical inline end and fills the viewport height. At 550 CSS pixels and below it slides from the bottom, spans the viewport width and leaves room for device safe areas. Header and Footer stay visible while Body scrolls; overscroll stays inside the sheet. Reduced motion removes the slide. This pattern provides no swipe gesture or snap points.
 
 ```tsx
 import "@kb.ui/react/styles.css";
@@ -96,7 +96,7 @@ export function ProjectDrawer() {
       <Dialog.Content layout="drawer" initialFocus={title}>
         <Dialog.Header>
           <Dialog.Title ref={title} tabIndex={-1}>Project details</Dialog.Title>
-          <Dialog.Description>Supporting details in a side sheet.</Dialog.Description>
+          <Dialog.Description>Supporting details for the current project.</Dialog.Description>
         </Dialog.Header>
         <Dialog.Body role="region" aria-label="Project review" tabIndex={0}>
           <p>Review the current project details.</p>

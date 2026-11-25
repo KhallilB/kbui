@@ -294,6 +294,16 @@ export const definitions: Record<string, Definition> = {
       Disabled: "Disabled",
     },
   },
+  TreeList: {
+    group: "Structured data",
+    description: "Browse a hierarchy using collapsible branches and connector rails.",
+    examples: {
+      Default: "Default",
+      Controlled: "Controlled",
+      DepthCap: "Depth Cap",
+      FormattedLabels: "Formatted Labels",
+    },
+  },
   Toast: {
     group: "Feedback",
     description: "Manage temporary notifications with announcements and timed dismissal.",

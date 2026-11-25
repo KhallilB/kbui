@@ -41,7 +41,7 @@ export function Example() {
 | `Dialog`                                        | Root. Accepts `open`, `defaultOpen` and `onOpenChange` for controlled use.                                                    |
 | `Dialog.Trigger`                                | Opens the dialog. Use `render={<Button />}` to style it as a button.                                                          |
 | `Dialog.Content`                                | The dialog. `title` and `description` set its accessible name and description; `container` changes where it mounts.           |
-| `Content.layout` | `"center"` (default) or `"drawer"`; drawer slides from inline end, uses `--kb-dialog-width` and scrolls direct Body independently. |
+| `Content.layout` | `"center"` (default) or `"drawer"`; drawer slides from inline end above 550 CSS pixels and opens as a bottom sheet at narrower widths, including 550 pixels. The direct Body scrolls independently. |
 | `Dialog.Title`, `Dialog.Description`            | For custom layouts. Use these or the `Dialog.Content` props in a given dialog, not both, or it gets two titles.               |
 | `Dialog.Header`, `Dialog.Body`, `Dialog.Footer` | Optional structured sections; accept native `div` props and refs. Centered padding follows `--kb-dialog-{header,body,footer}-padding`; drawer sections use `--kb-dialog-padding`. |
 | `Dialog.Actions`                                | Aligns buttons along the bottom right.                                                                                        |
@@ -76,7 +76,9 @@ Use [`ConfirmAction`](ConfirmAction.md) for a destructive action behind a confir
 
 ## Drawer and confirmation patterns
 
-The [overlay guide](../../../../docs/guides/forms-and-overlays.md#drawer-pattern) supplies complete drawer and asynchronous confirmation modules. Drawers use `Content layout="drawer"` with direct Header, Body and Footer sections. Header/actions remain visible while Body scrolls; the drawer follows logical direction and dynamic viewport height. Content title/description props automatically form a drawer Header. Focus a composed title initially for long content. Confirmations focus Cancel first, reject duplicate/pending dismissal, retain errors for retry and close only after success.
+The [overlay guide](../../../../docs/guides/forms-and-overlays.md#drawer-pattern) supplies complete drawer and asynchronous confirmation modules. Use `Content layout="drawer"` for plain content or add direct `Dialog.Header`, `Dialog.Body` and `Dialog.Footer` sections. Header and footer stay visible while the body scrolls. On wide screens the drawer follows logical direction and fills the dynamic viewport height. The narrow layout spans the full width and respects the safe area while remaining open through viewport changes. Content title/description props automatically form a drawer Header. Focus a composed title initially for long content. Confirmations focus Cancel first, reject duplicate/pending dismissal, retain errors for retry and close only after success.
+
+The drawer fades and moves a short distance from the viewport edge. On narrow screens, the drawer keeps plain content and section contents inside the device’s safe area. The structured sections span the drawer width and use up to one rem of base padding.
 
 - [Drawer](https://kbui.kcb.pro/storybook/?path=/story/components-dialog--drawer)
 - [Failure and retry](https://kbui.kcb.pro/storybook/?path=/story/components-dialog--confirmation-recovery)

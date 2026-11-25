@@ -18,7 +18,7 @@ export type DialogActionsProps = ComponentProps<"div">;
 export type DialogSectionProps = ComponentProps<"div">;
 
 export type DialogContentProps = Omit<Base.Popup.Props, "className" | "title"> & {
-  /** Centered dialog or inline-end drawer with independently scrolling Body. */
+  /** Centered dialog or responsive drawer that becomes a bottom sheet at 550px and below. */
   layout?: "center" | "drawer";
   /** Accessible name; mutually exclusive with a composed Dialog.Title. */
   title?: ReactNode;

@@ -1,0 +1,201 @@
+/* Anatomy: .kb-treelist > .kb-treelist-item > .kb-treelist-trigger [aria-expanded] > .kb-treelist-label, .kb-treelist-label, .kb-treelist-branch [data-capped] [data-open] [data-starting-style] [data-ending-style] [hidden] */
+.kb-treelist,
+.kb-treelist-branch {
+  inline-size: 100%;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kb-treelist {
+  color: var(--kb-color-fg);
+  font-size: var(--kb-text-control-size);
+  line-height: var(--kb-text-leading-body);
+}
+
+.kb-treelist-item {
+  position: relative;
+  min-inline-size: 0;
+  margin: 0;
+}
+
+.kb-treelist > .kb-treelist-item + .kb-treelist-item {
+  margin-block-start: var(--kb-space-2);
+}
+
+.kb-treelist-trigger,
+.kb-treelist-item > .kb-treelist-label {
+  min-inline-size: 0;
+  min-block-size: var(--kb-treelist-row-height);
+  padding: var(--kb-space-1) var(--kb-space-2);
+  overflow-wrap: anywhere;
+}
+
+.kb-treelist-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--kb-space-2);
+  inline-size: 100%;
+  border: 0;
+  border-radius: var(--kb-radius-sm);
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: var(--kb-font-weight-strong);
+  text-align: start;
+  cursor: pointer;
+  transition:
+    background-color var(--kb-motion-duration-fast) var(--kb-treelist-motion-easing),
+    color var(--kb-motion-duration-fast) var(--kb-treelist-motion-easing);
+}
+
+.kb-treelist-trigger[aria-expanded="true"] {
+  background-color: color-mix(in oklab, var(--kb-treelist-hover-background) 65%, transparent);
+  color: var(--kb-color-accent-ink);
+}
+
+.kb-treelist-trigger:hover {
+  background-color: var(--kb-treelist-hover-background);
+}
+
+.kb-treelist-trigger:focus-visible {
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: -2px;
+}
+
+.kb-treelist-trigger::before {
+  content: "";
+  align-self: flex-start;
+  flex: none;
+  inline-size: var(--kb-space-2);
+  block-size: var(--kb-space-2);
+  margin-block-start: calc(
+    (var(--kb-treelist-row-height) - var(--kb-space-2)) /
+    2 -
+    var(--kb-space-1)
+  );
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform var(--kb-treelist-motion-duration) var(--kb-treelist-motion-easing);
+}
+
+.kb-treelist-trigger:dir(rtl)::before {
+  transform: rotate(135deg);
+}
+
+.kb-treelist-trigger[aria-expanded="true"]::before {
+  transform: rotate(45deg);
+}
+
+.kb-treelist-item > .kb-treelist-label {
+  display: flow-root;
+  align-content: center;
+  padding-inline-start: calc(var(--kb-space-2) * 3);
+  color: var(--kb-color-muted);
+}
+
+.kb-treelist-item > .kb-treelist-label :where(a:any-link) {
+  color: var(--kb-color-fg);
+  text-decoration-line: underline;
+  text-decoration-color: var(--kb-color-muted);
+  text-underline-offset: var(--kb-link-underline-offset);
+}
+
+.kb-treelist-item > .kb-treelist-label :where(a:any-link:is(:hover, :focus-visible)) {
+  color: var(--kb-color-accent-ink);
+  text-decoration-color: currentColor;
+}
+
+.kb-treelist-label :where(mark) {
+  padding-inline: calc(var(--kb-space-1) / 2);
+  border-radius: var(--kb-radius-sm);
+  background: color-mix(in srgb, var(--kb-color-warning) 16%, var(--kb-color-surface));
+  color: var(--kb-color-fg);
+  font-weight: var(--kb-font-weight-strong);
+  box-decoration-break: clone;
+}
+
+.kb-treelist-branch {
+  height: var(--collapsible-panel-height, auto);
+  overflow: clip;
+  transition: height var(--kb-treelist-motion-duration) var(--kb-treelist-motion-easing);
+}
+
+.kb-treelist-branch[data-starting-style],
+.kb-treelist-branch[data-ending-style] {
+  height: 0;
+}
+
+.kb-treelist-branch[data-open]:focus-within {
+  height: auto;
+  transition: none;
+}
+
+.kb-treelist-branch[hidden] {
+  display: none;
+}
+
+.kb-treelist-branch:not([data-capped]) {
+  --kb-treelist-rail-offset: min(var(--kb-space-3), var(--kb-treelist-indent));
+  --kb-treelist-elbow: calc(var(--kb-treelist-indent) - var(--kb-treelist-rail-offset));
+
+  padding-inline-start: var(--kb-treelist-indent);
+}
+
+.kb-treelist-branch:not([data-capped]) > .kb-treelist-item::before,
+.kb-treelist-branch:not([data-capped]) > .kb-treelist-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  inset-inline-end: 100%;
+  inline-size: var(--kb-treelist-elbow);
+  border-inline-start: 1px solid currentColor;
+  color: var(--kb-treelist-rail);
+  pointer-events: none;
+}
+
+.kb-treelist-branch:not([data-capped]) > .kb-treelist-item::before {
+  inset-block-start: 0;
+  block-size: calc(var(--kb-treelist-row-height) / 2);
+  border-block-end: 1px solid currentColor;
+}
+
+.kb-treelist-branch:not([data-capped]) > .kb-treelist-item:last-child::before {
+  border-end-start-radius: var(--kb-radius-sm);
+}
+
+.kb-treelist-branch:not([data-capped]) > .kb-treelist-item:not(:last-child)::after {
+  inset-block-start: calc(var(--kb-treelist-row-height) / 2);
+  inset-block-end: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-treelist-trigger,
+  .kb-treelist-trigger::before,
+  .kb-treelist-branch {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .kb-treelist-item > .kb-treelist-label :where(a:any-link) {
+    color: LinkText;
+    text-decoration-color: currentColor;
+  }
+
+  .kb-treelist-label :where(mark) {
+    forced-color-adjust: none;
+    background: Mark;
+    color: MarkText;
+  }
+
+  .kb-treelist-trigger:focus-visible {
+    outline-color: Highlight;
+  }
+
+  .kb-treelist-branch:not([data-capped]) > .kb-treelist-item::before,
+  .kb-treelist-branch:not([data-capped]) > .kb-treelist-item:not(:last-child)::after {
+    color: CanvasText;
+  }
+}
