@@ -30,6 +30,7 @@ const anatomy: Record<string, ComponentStyleAnatomy> = {
   ErrorSummary: { selector: ".kb-errorsummary" },
   Fieldset: { selector: ".kb-fieldset" },
   FileInput: { selector: ".kb-fileinput-trigger", slot: "trigger" },
+  FilterChip: { selector: ".kb-filterchip" },
   Form: { selector: ".kb-form" },
   FormActions: { selector: ".kb-formactions" },
   FormSection: { selector: ".kb-formsection" },
@@ -67,6 +68,8 @@ const anatomy: Record<string, ComponentStyleAnatomy> = {
   Textarea: { selector: ".kb-textarea-control", slot: "control" },
   Thumbnail: { selector: ".kb-thumbnail" },
   Toast: { selector: ".kb-toast" },
+  ToggleButton: { selector: ".kb-togglebutton" },
+  ToggleGroup: { selector: ".kb-togglegroup" },
   Toolbar: { selector: ".kb-toolbar" },
   Tooltip: { selector: ".kb-tooltip" },
 };

@@ -1,6 +1,45 @@
 import type { AccessibilityGuide } from "./accessibility-standards";
 
 export const accessibilityGuides = {
+  ToggleButton: {
+    provides: [
+      "A native button exposes its persistent state with `aria-pressed`. Enter and Space toggle it, and disabled buttons ignore activation.",
+    ],
+    authoring: [
+      "Supply a descriptive text label or `aria-label` for icon-only controls. Reuse the same label across both states.",
+    ],
+    verify: [
+      "Tab to the button and press Space twice. Confirm visible focus, the pressed indicator and the same accessible name.",
+      "In forced colors, check that the pressed cue stays visible with and without a focus outline.",
+    ],
+    standards: ["1.4.1", "1.4.11", "2.1.1", "2.4.7", "4.1.2"],
+  },
+  ToggleGroup: {
+    provides: [
+      "The group uses a roving tab stop. Arrow keys move focus and Enter or Space toggle focused options independently.",
+    ],
+    authoring: [
+      "Name the group, use a unique value per option, and match `orientation` to the visual arrangement. Give each option a stable name.",
+    ],
+    verify: [
+      "Tab into the group, use arrows to move focus, and select multiple options with Enter or Space. Tab out.",
+      "With a screen reader, confirm the group name and the pressed state of each option as you move focus.",
+    ],
+    standards: ["1.3.1", "2.1.1", "2.4.3", "2.4.7", "4.1.2"],
+  },
+  FilterChip: {
+    provides: [
+      "Native selection and removal buttons have separate names and focus stops. The selection button exposes `aria-pressed`; the visual marker distinguishes selection without relying on color.",
+    ],
+    authoring: [
+      "Use a visible filter name and localize `removeLabel` as needed. When removing a focused chip, send focus to a useful nearby control.",
+    ],
+    verify: [
+      "Tab through selection and removal. Use Space to toggle and Enter to remove, then verify where focus goes.",
+      "In forced colors, verify the selection indicator is visible and that focus distinguishes the selection and removal targets.",
+    ],
+    standards: ["1.4.1", "1.4.11", "2.1.1", "2.4.3", "2.4.7", "2.5.8", "4.1.2"],
+  },
   Tabs: {
     provides: [
       "Base UI links tab, tablist and tabpanel roles, selection and disabled state. One tab stop enters the list; arrow keys move focus, including disabled tabs for discovery; disabled tabs cannot be selected.",
@@ -390,14 +429,17 @@ export const accessibilityGuides = {
     provides: [
       "The Base UI button primitive supplies native `button` interaction and disabled behavior.",
       "Native naming props and refs pass through; the render API can produce a real link.",
+      "`loading` keeps the action name and focus, sets busy state, blocks activation, and hides the decorative spinner from assistive technology.",
     ],
     authoring: [
       "Use meaningful visible action text. Give icon-only actions an `aria-label` and hide decorative icons; an overriding name must contain the visible label.",
       "Set `type=submit` for submission. For navigation via `render`, use an anchor with `href`, `nativeButton=false`, and `role=link`.",
+      "Keep the action name stable. Announce progress and outcomes in a separate status region when they need to be heard without moving focus.",
     ],
     verify: [
       "Tab to the action and activate a button with Enter and Space; a rendered link must announce as a link and follow its destination with Enter.",
       "Check the computed accessible name, visible focus, disabled state, and actual clickable target after custom styling.",
+      "Start an action by keyboard. During loading, verify focus and width stay stable and activation is blocked. With a screen reader, confirm the action remains named and any separate status updates are heard.",
     ],
     standards: ["2.1.1", "2.4.7", "2.5.3", "2.5.8", "4.1.2"],
     pattern: {

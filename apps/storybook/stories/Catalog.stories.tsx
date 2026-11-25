@@ -213,18 +213,18 @@ export const ButtonStates: Story = {
     await userEvent.keyboard("{ArrowRight}");
     expect(examples.getByRole("radio", { name: "Secondary" })).toBeChecked();
     expect(examples.getByRole("radio", { name: "Secondary" })).toHaveFocus();
-    await userEvent.click(canvas.getByRole("radio", { name: "Disabled" }));
-    expect(canvas.getByRole("radio", { name: "Disabled" })).toBeChecked();
+    await userEvent.click(canvas.getByRole("radio", { name: "Loading" }));
+    expect(canvas.getByRole("radio", { name: "Loading" })).toBeChecked();
     expect(canvas.queryByRole("combobox", { name: "Example state" })).toBeNull();
     expect(canvas.queryByRole("navigation", { name: "Browse components" })).toBeNull();
     expect(canvas.getByRole("link", { name: "All components" })).toHaveAttribute("href", "./");
-    expect(canvas.getByTitle("Button — Disabled live example")).toHaveAttribute(
+    expect(canvas.getByTitle("Button — Loading live example")).toHaveAttribute(
       "data-preview-src",
-      "./iframe.html?id=components-button--disabled&viewMode=story&globals=previewTheme:light&embed=true",
+      "./iframe.html?id=components-button--loading&viewMode=story&globals=previewTheme:light&embed=true",
     );
     expect(canvas.getByRole("link", { name: "Open example in Storybook" })).toHaveAttribute(
       "href",
-      "./?path=/story/components-button--disabled&globals=theme:light",
+      "./?path=/story/components-button--loading&globals=theme:light",
     );
   },
 };

@@ -19,6 +19,7 @@ import {
   ErrorSummary,
   Fieldset,
   FileInput,
+  FilterChip,
   Form,
   FormSection,
   Gallery,
@@ -56,6 +57,18 @@ const every = new Proxy({} as Record<string, string>, {
 const camel = (part: string) => part.replace(/-(\w)/g, (_, c: string) => c.toUpperCase());
 
 const cases: [string, () => ReactElement][] = [
+  [
+    "filterchip",
+    () => (
+      <FilterChip
+        label="Active"
+        selected
+        onSelectedChange={() => {}}
+        onRemove={() => {}}
+        classNames={every}
+      />
+    ),
+  ],
   [
     "gallery",
     () => (

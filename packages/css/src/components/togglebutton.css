@@ -1,0 +1,140 @@
+/* Anatomy: .kb-togglebutton [aria-pressed=true|false] [data-disabled] [hidden] > .kb-togglebutton-indicator, .kb-togglebutton-label */
+.kb-togglebutton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--kb-space-1);
+  min-inline-size: min(var(--kb-togglebutton-min-size), 100%);
+  max-inline-size: 100%;
+  min-block-size: var(--kb-togglebutton-min-size);
+  padding: var(--kb-space-1) var(--kb-togglebutton-padding-inline);
+  border: 1px solid var(--kb-color-muted);
+  border-radius: var(--kb-togglebutton-radius);
+  background-color: var(--kb-material-raised-top);
+  box-shadow: var(--kb-material-raised-shadow);
+  color: var(--kb-color-fg);
+  font-family: inherit;
+  font-size: var(--kb-text-control-size);
+  font-weight: var(--kb-font-weight-strong);
+  line-height: var(--kb-text-leading-control);
+  cursor: pointer;
+  transition:
+    background-color var(--kb-motion-duration-base) var(--kb-motion-easing-standard),
+    border-color var(--kb-motion-duration-fast) var(--kb-motion-easing-standard),
+    box-shadow var(--kb-motion-duration-base) var(--kb-motion-easing-standard);
+}
+
+.kb-togglebutton[hidden] {
+  display: none;
+}
+
+.kb-togglebutton-label {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+.kb-togglebutton-indicator {
+  display: inline-flex;
+  flex: none;
+  inline-size: var(--kb-togglebutton-indicator-size);
+  block-size: var(--kb-togglebutton-indicator-size);
+  visibility: hidden;
+}
+
+.kb-togglebutton-indicator > svg {
+  inline-size: 100%;
+  block-size: 100%;
+  opacity: 0;
+  transform: scale(0.75);
+  transition:
+    opacity var(--kb-motion-duration-fast) var(--kb-motion-easing-standard),
+    transform var(--kb-motion-duration-base) var(--kb-motion-easing-standard);
+}
+
+.kb-togglebutton:hover:not(:disabled, [data-disabled]) {
+  background-color: var(--kb-color-surface);
+}
+
+.kb-togglebutton[aria-pressed="true"],
+.kb-togglebutton[aria-pressed="true"]:hover:not(:disabled, [data-disabled]) {
+  background-color: var(--kb-togglebutton-pressed-bg);
+  color: var(--kb-togglebutton-pressed-fg);
+  border-color: var(--kb-color-accent-ink);
+  box-shadow: var(--kb-material-pressed-shadow);
+}
+
+.kb-togglebutton[aria-pressed="true"]:hover:not(:disabled, [data-disabled]) {
+  background-color: color-mix(
+    in srgb,
+    var(--kb-color-action) 6%,
+    var(--kb-togglebutton-pressed-bg)
+  );
+}
+
+.kb-togglebutton[aria-pressed="true"] > .kb-togglebutton-indicator {
+  color: var(--kb-color-accent-ink);
+  visibility: visible;
+}
+
+.kb-togglebutton[aria-pressed="true"] > .kb-togglebutton-indicator svg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.kb-togglebutton:focus-visible {
+  outline: 2px solid var(--kb-color-ring);
+  outline-offset: 2px;
+}
+
+.kb-togglebutton:is(:disabled, [data-disabled]) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (pointer: coarse) {
+  .kb-togglebutton {
+    min-inline-size: min(var(--kb-button-touch-min), 100%);
+    min-block-size: var(--kb-button-touch-min);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kb-togglebutton,
+  .kb-togglebutton-indicator > svg {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .kb-togglebutton,
+  .kb-togglebutton:hover:not(:disabled, [data-disabled]) {
+    background: ButtonFace;
+    color: ButtonText;
+    border-color: currentColor;
+  }
+
+  .kb-togglebutton[aria-pressed="true"],
+  .kb-togglebutton[aria-pressed="true"]:hover:not(:disabled, [data-disabled]) {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
+    border-color: Highlight;
+    box-shadow: none;
+  }
+
+  .kb-togglebutton[aria-pressed="true"] > .kb-togglebutton-indicator {
+    color: inherit;
+  }
+
+  .kb-togglebutton:focus-visible {
+    outline-color: Highlight;
+  }
+
+  .kb-togglebutton:is(:disabled, [data-disabled]) {
+    forced-color-adjust: none;
+    background: ButtonFace;
+    color: GrayText;
+    border-color: GrayText;
+    opacity: 1;
+  }
+}

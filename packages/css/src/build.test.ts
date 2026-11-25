@@ -329,7 +329,13 @@ describe("buildCss", () => {
       /@media \(forced-colors: active\)[\s\S]*\.kb-switch \.kb-switch-control:disabled \+ \.kb-switch-track/,
     );
 
-    for (const file of ["dialog.css", "scrollarea.css", "tooltip.css", "callout.css"]) {
+    for (const file of [
+      "dialog.css",
+      "scrollarea.css",
+      "tooltip.css",
+      "callout.css",
+      "togglegroup.css",
+    ]) {
       expect(await read(file), file).toContain("@media (forced-colors: active)");
     }
 
@@ -341,6 +347,8 @@ describe("buildCss", () => {
       "skeleton.css",
       "emptystate.css",
       "toast.css",
+      "filterchip.css",
+      "togglebutton.css",
     ]) {
       const css = await read(file);
       expect(css, file).toContain("@media (prefers-reduced-motion: reduce)");

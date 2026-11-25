@@ -1,4 +1,11 @@
-/* Anatomy: .kb-button [data-variant=primary|secondary|ghost|danger] [data-size=sm|md|lg|icon] [data-disabled] */
+/* Anatomy: .kb-button [data-variant=primary|secondary|ghost|danger] [data-size=sm|md|lg|icon] [data-disabled] [data-loading] > .kb-button-spinner */
+@keyframes kb-button-spinner-enter {
+  from {
+    opacity: 0;
+    scale: 0.8;
+  }
+}
+
 .kb-button {
   display: inline-flex;
   align-items: center;
@@ -155,11 +162,36 @@
   }
 }
 
-.kb-button[data-disabled] {
+.kb-button[data-disabled]:not([data-loading]) {
   opacity: 0.5;
   cursor: not-allowed;
   background-image: none;
   box-shadow: none;
+}
+
+.kb-button[data-loading] {
+  position: relative;
+  cursor: progress;
+  -webkit-text-fill-color: transparent;
+}
+
+.kb-button[data-loading] > :not(.kb-button-spinner) {
+  opacity: 0;
+}
+
+.kb-button-spinner {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  inline-size: max-content;
+  block-size: max-content;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .kb-button-spinner {
+    animation: kb-button-spinner-enter var(--kb-motion-duration-base) var(--kb-motion-easing-enter);
+  }
 }
 
 @media (forced-colors: active) {
@@ -179,7 +211,7 @@
   .kb-button[data-variant]:focus-visible {
     outline-color: Highlight;
   }
-  .kb-button[data-variant][data-disabled] {
+  .kb-button[data-variant][data-disabled]:not([data-loading]) {
     color: GrayText;
     border-color: GrayText;
     opacity: 1;

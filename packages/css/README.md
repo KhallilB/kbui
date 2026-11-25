@@ -66,7 +66,10 @@ The first line of each stylesheet describes the markup it expects. The table sho
 | `code.css` | Inline `code.kb-code` or `.kb-code[data-block]` wrapping `-header`, `-viewport`, `-pre`, `-content`, `-line` (`[data-highlighted]`), `-line-number`, `-line-text` and `[data-syntax]` spans |
 | `copyabletext.css` | `.kb-copyabletext` with field/plain appearance, size, copy state, content tones, expandable full-value view and label/value/actions/toggle/copy/feedback/link/highlight/code slots; also load `link.css` and `code.css` for automatic recognition |
 | `codeblock.css` | `.kb-codeblock` block toolbar; also import `code.css` for shared listing anatomy and tokens |
-| `button.css` | `.kb-button` with `data-variant` (`primary`, `secondary`, `ghost`, `danger`), `data-size` (`sm`, `md`, `lg`, `icon`) and `data-disabled` |
+| `button.css` | `.kb-button` with `data-variant` (`primary`, `secondary`, `ghost`, `danger`), `data-size` (`sm`, `md`, `lg`, `icon`) and `data-disabled`; loading uses `data-loading` and the `.kb-button-spinner` child with `spinner.css` |
+| `togglebutton.css` | Native button with `.kb-togglebutton`, `aria-pressed` and an indicator slot |
+| `togglegroup.css` | `.kb-togglegroup` with named group semantics, orientation and toggle buttons |
+| `filterchip.css` | `.kb-filterchip` with a label and separate selection and removal controls |
 | `numberfield.css` | `.kb-numberfield` with size/state attributes, label, grouped input/step controls and full-width help/error |
 | `fileinput.css` | `.kb-fileinput` with labeled picker, retained list and named removal controls; also load `Button` CSS when importing parts |
 | `combobox.css` | `.kb-combobox` with labeled search input, clear/trigger actions, portaled listbox popup and polite empty status |

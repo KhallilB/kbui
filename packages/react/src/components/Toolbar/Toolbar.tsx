@@ -1,6 +1,9 @@
 import { Toolbar as Base } from "@base-ui/react/toolbar";
 import { clsx } from "clsx";
+import { createContext } from "react";
 import { Button, type ButtonVariant } from "../Button/Button";
+
+export const ToolbarFocusContext = createContext(false);
 
 /** One tab stop for a row of actions; arrow keys move between them. Name it with aria-label. */
 export type ToolbarProps = Omit<Base.Root.Props, "className"> & {
@@ -23,7 +26,11 @@ export type ToolbarSeparatorProps = Omit<Base.Separator.Props, "className"> & {
 };
 
 function ToolbarRoot({ className, ...props }: ToolbarProps) {
-  return <Base.Root {...props} className={clsx("kb-toolbar", className)} />;
+  return (
+    <ToolbarFocusContext.Provider value={true}>
+      <Base.Root {...props} className={clsx("kb-toolbar", className)} />
+    </ToolbarFocusContext.Provider>
+  );
 }
 
 function ToolbarGroup({ className, ...props }: ToolbarGroupProps) {

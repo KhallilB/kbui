@@ -88,6 +88,8 @@ See [Media and identity](../../docs/guides/media-and-identity.md) for responsive
 | <a id="dialog"></a>[`Dialog`](docs/components/Dialog.md) | Keep a focused task in a dialog while the page waits behind it. |
 | <a id="confirmaction"></a>[`ConfirmAction`](docs/components/ConfirmAction.md) | Put a destructive action behind one confirmation that closes only after success. |
 | <a id="menu"></a>[`Menu`](docs/components/Menu.md) | Keep related actions in a compact popup menu. |
+| <a id="togglebutton"></a>[`ToggleButton`](docs/components/ToggleButton.md) | Turn a persistent option on or off. |
+| <a id="togglegroup"></a>[`ToggleGroup`](docs/components/ToggleGroup.md) | Toggle multiple related options with arrow-key navigation. |
 | <a id="toolbar"></a>[`Toolbar`](docs/components/Toolbar.md) | Group related actions with arrow-key navigation. |
 
 ### Forms
@@ -102,6 +104,7 @@ See [Media and identity](../../docs/guides/media-and-identity.md) for responsive
 | <a id="formactions"></a>[`FormActions`](docs/components/FormActions.md) | Align submit, reset, and secondary actions at the end of a form. |
 | <a id="formsection"></a>[`FormSection`](docs/components/FormSection.md) | A headed group of related fields with its error and actions. |
 | <a id="input"></a>[`Input`](docs/components/Input.md) | Collect text with a clear label, help text, and error feedback. |
+| <a id="filterchip"></a>[`FilterChip`](docs/components/FilterChip.md) | Toggle or remove a visible filter. |
 | <a id="multiselect"></a>[`MultiSelect`](docs/components/MultiSelect.md) | Search a list and keep multiple selections visible as removable chips. |
 | <a id="numberfield"></a>[`NumberField`](docs/components/NumberField.md) | Enter a number by typing or using step buttons. |
 | <a id="radiogroup"></a>[`RadioGroup`](docs/components/RadioGroup.md) | Choose one option from a visible group. |
