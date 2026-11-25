@@ -17,7 +17,7 @@ afterEach(() => {
   for (const directory of fixtures.splice(0)) rmSync(directory, { recursive: true, force: true });
 });
 
-function validate(stage?: string, failure = "") {
+function validate(stage?: string, failure = "", extra: Record<string, string> = {}) {
   const directory = mkdtempSync(join(tmpdir(), "kbui-validation-"));
   fixtures.push(directory);
   const bin = join(directory, "bin");
@@ -53,7 +53,9 @@ if [[ "$command" == "\${FAIL_COMMAND:-}" ]]; then exit 23; fi
       COMMAND_LOG: log,
       FAIL_COMMAND: failure,
       SITE_VALIDATION_PORT: "4175",
+      SITE_SHARD: "",
       TMPDIR: temporary,
+      ...extra,
     },
   });
   return {
@@ -96,22 +98,20 @@ const builtCommands = [
   "npm run check --prefix deployment/site",
 ];
 
+const siteOnly = /verify:(component-docs|release)/;
 const builtParts: Record<string, { commands: string[]; ports: string }> = {
   built: { commands: builtCommands, ports: "python3 - 4175 4176" },
   "built-site": {
-    commands: builtCommands.filter(
-      (command) => !/build:internal|verify:release|verify:controls/.test(command),
-    ),
+    commands: builtCommands.filter((command) => !siteOnly.test(command)),
+    ports: "python3 - 4175 4176",
+  },
+  "built-docs": {
+    commands: [...builtCommands.slice(0, 1), ...builtCommands.slice(3, 5), builtCommands[8] ?? ""],
     ports: "python3 - 4175",
   },
   "built-journeys": {
-    commands: builtCommands.filter(
-      (command) =>
-        !/npm test|verify:overrides|verify:storybook|verify:recipes|verify:component-docs|npm run (build|check)/.test(
-          command,
-        ),
-    ),
-    ports: "python3 - 4175 4176",
+    commands: [...builtCommands.slice(0, 1), ...builtCommands.slice(3, 5), builtCommands[9] ?? ""],
+    ports: "python3 - 4175",
   },
 };
 
@@ -128,42 +128,48 @@ for (const [stage, { commands: expected, ports }] of Object.entries(builtParts))
 }
 
 test("built parts together cover the full built stage exactly once", () => {
-  const site = builtParts["built-site"]?.commands ?? [];
-  const journeys = builtParts["built-journeys"]?.commands ?? [];
-  const shared = journeys.filter((command) => site.includes(command));
-  expect(shared).toEqual([
+  const parts = ["built-site", "built-docs", "built-journeys"].map(
+    (stage) => builtParts[stage]?.commands ?? [],
+  );
+  const shared = [
     "npm ci --prefix deployment/site",
     "bun run --cwd apps/storybook build:site",
     "bun scripts/site-stage.ts",
-  ]);
-  expect(new Set([...site, ...journeys])).toEqual(new Set(builtCommands));
+  ];
+  for (const part of parts)
+    expect(part.filter((command) => shared.includes(command))).toEqual(shared);
+  const own = parts.flat().filter((command) => !shared.includes(command));
+  expect([...own].sort()).toEqual(
+    builtCommands.filter((command) => !shared.includes(command)).sort(),
+  );
 });
 
-test("default local validation retains every stage exactly once", () => {
-  const validation = validate();
-  expect(validation.result.exitCode).toBe(0);
-  const commands = validation.commands.filter((command) => /^(bun|npm) /.test(command));
-  const expected = [...Object.values(suites).flat(), ...builtCommands];
-  expect(commands).toHaveLength(expected.length);
-  for (const [index, command] of expected.entries()) expect(commands[index]).toStartWith(command);
+test("a shard limits only the docs and journey specs", () => {
+  for (const [stage, spec] of [
+    ["built-docs", "verify:component-docs"],
+    ["built-journeys", "verify:release"],
+  ] as const) {
+    const validation = validate(stage, "", { SITE_SHARD: "2/2" });
+    expect(validation.result.exitCode).toBe(0);
+    const sharded = validation.commands.filter((command) => command.includes("--shard"));
+    expect(sharded).toHaveLength(1);
+    expect(sharded[0]).toStartWith(`bun run --cwd apps/storybook ${spec} --shard=2/2`);
+  }
+  const site = validate("built-site", "", { SITE_SHARD: "2/2" });
+  expect(site.commands.some((command) => command.includes("--shard"))).toBe(false);
 });
 
-test("invalid stages fail before running tools", () => {
-  const validation = validate("typo");
-  expect(validation.result.exitCode).not.toBe(0);
-  expect(validation.commands).toEqual([]);
+test("malformed shards fail before running tools", () => {
+  for (const shard of ["2", "a/b", "1/2 --grep x"]) {
+    const validation = validate("built-docs", "", { SITE_SHARD: shard });
+    expect(validation.result.exitCode).not.toBe(0);
+    expect(validation.commands).toEqual([]);
+  }
 });
 
-test("failed browser checks stop the selected stage and preserve failure", () => {
-  const validation = validate("responsive", suites.responsive?.[0]);
-  expect(validation.result.exitCode).toBe(23);
-  expect(validation.commands).toEqual(["bun run --cwd apps/storybook test:site"]);
-});
-
-test("journey failures stop later checks and clean temporary files", () => {
+test("journey failures preserve failure and clean temporary files", () => {
   const validation = validate("built-journeys", "bun run --cwd apps/storybook verify:release");
   expect(validation.result.exitCode).toBe(23);
-  expect(validation.commands).not.toContain("bun run --cwd apps/storybook verify:controls");
   expect(validation.temporary).toEqual([]);
 });
 

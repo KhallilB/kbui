@@ -88,8 +88,18 @@ jobs:
             name: "Test: themes"
           - suite: responsive
             name: "Test: layouts"
+          - suite: built-docs
+            shard: 1/2
+            name: "Test: docs 1/2"
+          - suite: built-docs
+            shard: 2/2
+            name: "Test: docs 2/2"
           - suite: built-journeys
-            name: "Test: journeys"
+            shard: 1/2
+            name: "Test: journeys 1/2"
+          - suite: built-journeys
+            shard: 2/2
+            name: "Test: journeys 2/2"
     container:
       image: mcr.microsoft.com/playwright:v1.64.1-noble
       options: --ipc=host
@@ -111,6 +121,8 @@ jobs:
         run: bun run build
       - name: ${{ matrix.name }}
         run: bun run validate:site ${{ matrix.suite }}
+        env:
+          SITE_SHARD: ${{ matrix.shard }}
 
   browser-built:
     name: "Test: site"
