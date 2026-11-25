@@ -13,8 +13,9 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
-  check:
-    name: "Check: code"
+  # Own job so browser jobs start beside code checks, not after them.
+  scope:
+    name: "Check: scope"
     runs-on: ubuntu-latest
     outputs:
       browser: ${{ steps.scope.outputs.browser }}
@@ -33,6 +34,16 @@ jobs:
           else
             bun scripts/ci-scope.ts "$BASE_SHA" "$HEAD_SHA"
           fi
+
+  check:
+    name: "Check: code"
+    needs: [scope]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: jdx/mise-action@v2
+      - run: bun install --frozen-lockfile
       - name: Build packages
         run: bun run build
       - name: Lint
@@ -48,10 +59,10 @@ jobs:
       - name: Test consumer
         run: bun run test:consumer
       - name: Build Storybook
-        if: steps.scope.outputs.browser != 'true'
+        if: needs.scope.outputs.browser != 'true'
         run: bun run --cwd apps/storybook build-storybook --output-dir dist/storybook
       - name: Save preview
-        if: steps.scope.outputs.browser != 'true' && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        if: needs.scope.outputs.browser != 'true' && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         uses: actions/upload-artifact@v4
         with:
           name: storybook-${{ github.sha }}
@@ -61,8 +72,8 @@ jobs:
 
   browser-tests:
     name: ${{ matrix.name }}
-    needs: [check]
-    if: needs.check.outputs.browser == 'true'
+    needs: [scope]
+    if: needs.scope.outputs.browser == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
@@ -71,10 +82,14 @@ jobs:
         include:
           - suite: stories
             name: "Test: stories"
+          - suite: overlays
+            name: "Test: overlays"
           - suite: themes
             name: "Test: themes"
           - suite: responsive
             name: "Test: layouts"
+          - suite: built-journeys
+            name: "Test: journeys"
     container:
       image: mcr.microsoft.com/playwright:v1.64.1-noble
       options: --ipc=host
@@ -99,8 +114,8 @@ jobs:
 
   browser-built:
     name: "Test: site"
-    needs: [check]
-    if: needs.check.outputs.browser == 'true'
+    needs: [scope]
+    if: needs.scope.outputs.browser == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     outputs:
@@ -125,7 +140,7 @@ jobs:
       - name: Build packages
         run: bun run build
       - name: Check site
-        run: bun run validate:site built
+        run: bun run validate:site built-site
       - name: Save production artifact
         id: production_artifact
         if: github.ref == 'refs/heads/main'
@@ -147,15 +162,17 @@ jobs:
 
   browser:
     name: "Gate: validation"
-    needs: [check, browser-tests, browser-built]
-    if: always() && needs.check.outputs.browser == 'true'
+    needs: [scope, check, browser-tests, browser-built]
+    if: always() && needs.scope.outputs.browser == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Check results
         env:
+          CHECK_RESULT: ${{ needs.check.result }}
           SUITES_RESULT: ${{ needs.browser-tests.result }}
           BUILT_RESULT: ${{ needs.browser-built.result }}
         run: |
+          test "$CHECK_RESULT" = success
           test "$SUITES_RESULT" = success
           test "$BUILT_RESULT" = success
 
