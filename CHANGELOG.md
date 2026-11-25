@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.13.0](https://github.com/KhallilB/kbui/compare/v0.12.2...v0.13.0) (2026-11-25)
+
+
+### Features
+
+* **react:** add interactive control primitives ([754f2c3](https://github.com/KhallilB/kbui/commit/754f2c3c0a6e9150b35c1d96eb60a4dabbe3d1d9))
+* **react:** add interactive control primitives ([e65d80e](https://github.com/KhallilB/kbui/commit/e65d80e4a8a4f19bd508473a2cc689f130014586))
+* **react:** add TreeList and responsive Dialog drawers ([a08f7e4](https://github.com/KhallilB/kbui/commit/a08f7e4d8151b2c9e6557b94e8992be9981bbf71))
+* **react:** add TreeList and responsive Dialog drawers ([3a9c167](https://github.com/KhallilB/kbui/commit/3a9c1678e5ffc590bd0cfe5d75ef1d00f941998d))
+
 ## [0.12.2](https://github.com/KhallilB/kbui/compare/v0.12.1...v0.12.2) (2026-11-04)
 
 
