@@ -55,7 +55,7 @@
   flex-shrink: 0;
   min-block-size: var(--_tabs-tab-height);
   padding-inline: var(--kb-control-padding-md);
-  padding-block: var(--kb-space-1);
+  padding-block: calc(var(--kb-space-1) / 2);
   border: 1px solid transparent;
   border-radius: var(--kb-radius-sm) var(--kb-radius-sm) 0 0;
   background: transparent;
