@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.14.1](https://github.com/KhallilB/kbui/compare/v0.14.0...v0.14.1) (2026-11-28)
+
+
+### Bug Fixes
+
+* **controls:** reduce shared button sizes ([ce14fb0](https://github.com/KhallilB/kbui/commit/ce14fb01561b2024149b9dcdd9cc9ffabdc7f10f))
+* **controls:** reduce shared button sizes ([1005e3c](https://github.com/KhallilB/kbui/commit/1005e3ced3fc28e833de57c2802f8b19d2739f32))
+* **controls:** reduce shared button sizes ([#235](https://github.com/KhallilB/kbui/issues/235)) ([ce14fb0](https://github.com/KhallilB/kbui/commit/ce14fb01561b2024149b9dcdd9cc9ffabdc7f10f))
+
 ## [0.14.0](https://github.com/KhallilB/kbui/compare/v0.13.0...v0.14.0) (2026-11-25)
 
 
