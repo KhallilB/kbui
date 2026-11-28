@@ -54,7 +54,7 @@
 
 .kb-filterchip > .kb-filterchip-label {
   align-self: center;
-  padding: var(--kb-space-1) var(--kb-filterchip-label-padding);
+  padding: calc(var(--kb-space-1) / 2) var(--kb-filterchip-label-padding);
 }
 
 .kb-filterchip-select,
@@ -75,7 +75,7 @@
 .kb-filterchip-select {
   gap: var(--kb-space-1);
   min-inline-size: var(--kb-filterchip-height);
-  padding: var(--kb-space-1) var(--kb-filterchip-label-padding);
+  padding: calc(var(--kb-space-1) / 2) var(--kb-filterchip-label-padding);
   text-align: start;
 }
 

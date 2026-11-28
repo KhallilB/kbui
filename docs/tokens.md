@@ -24,9 +24,9 @@ Buttons, fields and other controls share one size scale, so a row of controls li
 
 | Size | Height | Inline padding | Text | Icon |
 | --- | --- | --- | --- | --- |
-| `sm` | `--kb-control-height-sm` (28px) | `--kb-control-padding-sm` (10px) | `--kb-control-text-sm` (13px) | `--kb-control-icon-sm` (14px) |
-| `md` (default) | `--kb-control-height-md` (32px) | `--kb-control-padding-md` (12px) | `--kb-control-text-md` (14px) | `--kb-control-icon-md` (16px) |
-| `lg` | `--kb-control-height-lg` (40px) | `--kb-control-padding-lg` (16px) | `--kb-control-text-lg` (15px) | `--kb-control-icon-lg` (18px) |
+| `sm` | `--kb-control-height-sm` (24px) | `--kb-control-padding-sm` (8px) | `--kb-control-text-sm` (13px) | `--kb-control-icon-sm` (14px) |
+| `md` (default) | `--kb-control-height-md` (28px) | `--kb-control-padding-md` (10px) | `--kb-control-text-md` (14px) | `--kb-control-icon-md` (16px) |
+| `lg` | `--kb-control-height-lg` (36px) | `--kb-control-padding-lg` (14px) | `--kb-control-text-lg` (15px) | `--kb-control-icon-lg` (18px) |
 
 These components read the scale: `Button`, `ToggleButton`, the `CopyableText` copy action, `FilterChip` (`sm`), `Input`, `Select` (`md`), `Tabs`, `Combobox`, `MultiSelect`, `NumberField` and `FileInput`.
 

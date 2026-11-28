@@ -19,7 +19,7 @@
   gap: var(--kb-space-2);
   width: 100%;
   min-height: var(--kb-input-height-md);
-  padding: var(--kb-space-1) var(--kb-control-padding-md);
+  padding: calc(var(--kb-space-1) / 2) var(--kb-control-padding-md);
   border: 1px solid var(--kb-color-border);
   border-radius: var(--kb-input-radius);
   background: var(--kb-material-recessed-face);

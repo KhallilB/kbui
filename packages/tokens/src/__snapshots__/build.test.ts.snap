@@ -159,12 +159,12 @@ exports[`tokens.json snapshot of the shipped css 1`] = `
   --kb-grid-min-item-width-sm: 14rem;
   --kb-grid-min-item-width-md: var(--kb-grid-min-item-width);
   --kb-grid-min-item-width-lg: 24rem;
-  --kb-control-height-sm: 28px;
-  --kb-control-height-md: 32px;
-  --kb-control-height-lg: 40px;
-  --kb-control-padding-sm: 10px;
-  --kb-control-padding-md: 12px;
-  --kb-control-padding-lg: 16px;
+  --kb-control-height-sm: 24px;
+  --kb-control-height-md: 28px;
+  --kb-control-height-lg: 36px;
+  --kb-control-padding-sm: 8px;
+  --kb-control-padding-md: 10px;
+  --kb-control-padding-lg: 14px;
   --kb-control-text-sm: var(--kb-text-small-size);
   --kb-control-text-md: var(--kb-text-control-size);
   --kb-control-text-lg: var(--kb-text-body-size);
